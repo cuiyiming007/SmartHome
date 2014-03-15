@@ -1,6 +1,7 @@
 package com.gdgl.adapter;
 
-import com.example.smarthome.R;
+
+import com.gdgl.smarthome.R;
 
 import android.content.Context;
 import android.view.View;
@@ -46,8 +47,6 @@ public class ImageForGridViewAdapter extends BaseAdapter {
 	}
 
 	// references to our images
-	private Integer[] mThumbIds = { R.drawable.scene, R.drawable.area,R.drawable.function,
-			R.drawable.monitor, R.drawable.system, R.drawable.more
-	// R.drawable.sample_6, R.drawable.sample_7
-	};
+	private Integer[] mThumbIds={R.drawable.scene,R.drawable.area,R.drawable.function,
+			R.drawable.monitor, R.drawable.system, R.drawable.more};
 }

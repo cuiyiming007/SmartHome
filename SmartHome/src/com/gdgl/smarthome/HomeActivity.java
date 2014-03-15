@@ -1,4 +1,4 @@
-package com.example.smarthome;
+package com.gdgl.smarthome;
 
 //import com.gdgl.adapter.ImageForGridViewAdapter;
 
