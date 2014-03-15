@@ -3,9 +3,11 @@ package com.gdgl.smarthome;
 //import com.gdgl.adapter.ImageForGridViewAdapter;
 
 import com.gdgl.adapter.ImageForGridViewAdapter;
+import com.gdgl.util.MyVolley;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
@@ -29,6 +31,8 @@ public class HomeActivity extends Activity {
 					long arg3) {
 				// TODO Auto-generated method stub
 				Toast.makeText(HomeActivity.this, "" + arg2, Toast.LENGTH_SHORT).show();
+				Intent intent=new Intent(HomeActivity.this,MyVolley.class);
+				startActivity(intent);
 			}
 		});
 	}
