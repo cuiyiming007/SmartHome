@@ -37,6 +37,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:text="账号:"
+                    android:textColor="#6E6E6E"
                     android:textSize="18sp" />
 
                 <EditText
@@ -67,6 +68,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:text="密码:"
+                    android:textColor="#6E6E6E"
                     android:textSize="18sp" />
 
                 <EditText
@@ -78,8 +80,6 @@
                     android:layout_weight="1"
                     android:background="@drawable/edittext_bg"
                     android:inputType="textPassword" >
-
-                    <requestFocus />
                 </EditText>
             </LinearLayout>
         </LinearLayout>
@@ -99,8 +99,36 @@
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:background="@drawable/corners_login_dlg_bottom"
-            android:text="登录"
+            android:text="登      录"
             android:textSize="25sp" />
     </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp" >
+
+        <CheckBox
+            android:id="@+id/checkBox1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="15dp"
+            android:text="记住密码"
+            android:textSize="18sp"
+            android:textColor="#6E6E6E" />
+
+        <CheckBox
+            android:id="@+id/checkBox2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:text="自动登录"
+            android:textSize="18sp"
+            android:textColor="#6E6E6E" />
+    </RelativeLayout>
 
 </LinearLayout>
