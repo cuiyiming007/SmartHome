@@ -4,5 +4,12 @@
     <string name="app_name">SmartHome</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="strInputAccHint">输入帐号</string>
+    <string name="strAccInputLabel">帐号</string>
+    <string name="strPswInputLabel">密码</string>
+    <string name="opt_remember">记住密码</string>
+    <string name="out_login">自动登录</string>
+    <string name="login">登 录</string>
+    <string name="cancle">取消</string>
 
 </resources>
