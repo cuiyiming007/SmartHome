@@ -38,6 +38,7 @@ public class LoginActivity extends Activity {
 				Intent intent=new Intent();
 				intent.setClass(LoginActivity.this, SmartHome.class);
 				startActivity(intent);
+				finish();
 			}
 		});
 	}
