@@ -4,11 +4,10 @@ import java.util.ArrayList;
 
 import com.gdgl.mylistener.OnViewChangeListener;
 
-
-
 import android.os.Bundle;
 import android.app.Activity;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -30,15 +29,13 @@ public class SmartHome extends Activity implements OnViewChangeListener,
 	private TextView gongneng;
 	private TextView quyu;
 	private TextView changjin;
+	private TextView changyong;
+	private TextView shebei;
 
 	private boolean isOpen = false;
 
-	private ListView listview1;
-	private ListView listview2;
-
-	// �Զ���ĵ�������
-	SelectPicPopupWindow menuWindow; // ������
-	SelectAddPopupWindow menuWindow2; // ������
+	SelectPicPopupWindow menuWindow;
+	SelectAddPopupWindow menuWindow2;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,17 +48,18 @@ public class SmartHome extends Activity implements OnViewChangeListener,
 		gongneng = (TextView) findViewById(R.id.gongneng);
 		quyu = (TextView) findViewById(R.id.quyu);
 		changjin = (TextView) findViewById(R.id.changjin);
-
-//		listview1 = (ListView) findViewById(R.id.listView1);
-//		listview2 = (ListView) findViewById(R.id.listView2);
-//
-//		HuihuaAdapter ha = new HuihuaAdapter(this, getHuahui());
-//		listview1.setAdapter(ha);
-//		listview1.setCacheColorHint(0);
-//
-//		ContactAdapter hc = new ContactAdapter(this, getContact());
-//		listview2.setAdapter(hc);
-//		listview2.setCacheColorHint(0);
+		changyong = (TextView) findViewById(R.id.changyong);
+		shebei = (TextView) findViewById(R.id.shebei);
+		// listview1 = (ListView) findViewById(R.id.listView1);
+		// listview2 = (ListView) findViewById(R.id.listView2);
+		//
+		// HuihuaAdapter ha = new HuihuaAdapter(this, getHuahui());
+		// listview1.setAdapter(ha);
+		// listview1.setCacheColorHint(0);
+		//
+		// ContactAdapter hc = new ContactAdapter(this, getContact());
+		// listview2.setAdapter(hc);
+		// listview2.setCacheColorHint(0);
 
 		mScrollLayout = (MyScrollLayout) findViewById(R.id.ScrollLayout);
 		LinearLayout linearLayout = (LinearLayout) findViewById(R.id.lllayout);
@@ -94,22 +92,18 @@ public class SmartHome extends Activity implements OnViewChangeListener,
 		});
 	}
 
-	
 	public void uploadImage(final Activity context) {
 		menuWindow = new SelectPicPopupWindow(SmartHome.this, itemsOnClick);
-		// ��ʾ����
 		menuWindow.showAtLocation(SmartHome.this.findViewById(R.id.set),
-				Gravity.TOP | Gravity.RIGHT, 10, 230); // ����layout��PopupWindow����ʾ��λ��
+				Gravity.TOP | Gravity.RIGHT, 10, 240);
 	}
 
 	public void uploadImage2(final Activity context) {
 		menuWindow2 = new SelectAddPopupWindow(SmartHome.this, itemsOnClick2);
-		// ��ʾ����
 		menuWindow2.showAtLocation(SmartHome.this.findViewById(R.id.add),
-				Gravity.TOP | Gravity.RIGHT, 10, 230); // ����layout��PopupWindow����ʾ��λ��
+				Gravity.TOP | Gravity.RIGHT, 10, 240); 
 	}
 
-	// Ϊ��������ʵ�ּ�����
 	private OnClickListener itemsOnClick = new OnClickListener() {
 
 		public void onClick(View v) {
@@ -117,7 +111,6 @@ public class SmartHome extends Activity implements OnViewChangeListener,
 		}
 	};
 
-	// Ϊ��������ʵ�ּ�����
 	private OnClickListener itemsOnClick2 = new OnClickListener() {
 
 		public void onClick(View v) {
@@ -132,19 +125,37 @@ public class SmartHome extends Activity implements OnViewChangeListener,
 		mImageViews[mCurSel].setEnabled(true);
 		mImageViews[index].setEnabled(false);
 		mCurSel = index;
-
+		Log.i("zgs", "zgs->setCurPoint index="+index);
 		if (index == 0) {
-			gongneng.setTextColor(0xff228B22);
-			quyu.setTextColor(Color.BLACK);
-			changjin.setTextColor(Color.BLACK);
-		} else if (index == 1) {
-			gongneng.setTextColor(Color.BLACK);
 			quyu.setTextColor(0xff228B22);
-			changjin.setTextColor(Color.BLACK);
-		} else {
 			gongneng.setTextColor(Color.BLACK);
+			changjin.setTextColor(Color.BLACK);
+			changyong.setTextColor(Color.BLACK);
+			shebei.setTextColor(Color.BLACK);
+		} else if (index == 1) {
 			quyu.setTextColor(Color.BLACK);
+			gongneng.setTextColor(0xff228B22);
+			changjin.setTextColor(Color.BLACK);
+			changyong.setTextColor(Color.BLACK);
+			shebei.setTextColor(Color.BLACK);
+		} else if (index == 2) {
+			quyu.setTextColor(Color.BLACK);
+			gongneng.setTextColor(Color.BLACK);
 			changjin.setTextColor(0xff228B22);
+			changyong.setTextColor(Color.BLACK);
+			shebei.setTextColor(Color.BLACK);
+		} else if (index == 3) {
+			quyu.setTextColor(Color.BLACK);
+			gongneng.setTextColor(Color.BLACK);
+			changjin.setTextColor(Color.BLACK);
+			changyong.setTextColor(0xff228B22);
+			shebei.setTextColor(Color.BLACK);
+		} else {
+			quyu.setTextColor(Color.BLACK);
+			gongneng.setTextColor(Color.BLACK);
+			changjin.setTextColor(Color.BLACK);
+			changyong.setTextColor(Color.BLACK);
+			shebei.setTextColor(0xff228B22);
 		}
 	}
 

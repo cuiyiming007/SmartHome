@@ -26,7 +26,7 @@
                 android:gravity="center"
                 android:padding="10dip"
                 android:text="区域"
-                android:textColor="@color/black"
+                android:textColor="@color/green"
                 android:textSize="15dip" />
         </LinearLayout>
 
@@ -47,7 +47,7 @@
                 android:gravity="center"
                 android:padding="10dip"
                 android:text="功能"
-                android:textColor="@color/green"
+                android:textColor="@color/black"
                 android:textSize="15dip" />
         </LinearLayout>
 
@@ -70,6 +70,47 @@
                 android:textColor="@color/black"
                 android:textSize="15dip" />
         </LinearLayout>
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/guide_round"
+            android:focusable="false"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/changyong"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dip"
+                android:text="常用"
+                android:textColor="@color/black"
+                android:textSize="15dip" />
+        </LinearLayout>
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/guide_round"
+            android:focusable="false"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/shebei"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dip"
+                android:text="设备"
+                android:textColor="@color/black"
+                android:textSize="15dip" />
+        </LinearLayout>
+        
     </LinearLayout>
 
 </LinearLayout>

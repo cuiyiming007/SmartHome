@@ -1,12 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 左上角扩大-->
-  <scale   xmlns:android="http://schemas.android.com/apk/res/android"
-        android:interpolator="@android:anim/accelerate_decelerate_interpolator"  
-        android:fromXScale="0.001" 
-        android:toXScale="1.0"   
-        android:fromYScale="0.001"   
-        android:toYScale="1.0"   
-        android:pivotX="100%"  
-        android:pivotY="10%"  
-        android:duration="200" />  
-   
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:duration="200"
+    android:interpolator="@android:anim/linear_interpolator"
+    android:shareInterpolator="true" >
+
+    <translate
+        android:fromXDelta="40%"
+        android:fromYDelta="60%"
+        android:toXDelta="0"
+        android:toYDelta="0" />
+
+    <scale
+        android:fromXScale="0.75"
+        android:fromYScale="0.75"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:toXScale="1.0"
+        android:toYScale="1.0" />
+
+    <alpha
+        android:fromAlpha="0.0"
+        android:toAlpha="1.0" />
+
+</set>
