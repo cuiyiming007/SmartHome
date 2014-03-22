@@ -1,41 +1,52 @@
 package com.gdgl.smarthome;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import com.gdgl.mylistener.OnViewChangeListener;
-
+import com.gdgl.adapter.ViewPagerAdapter;
+import com.gdgl.model.TabInfo;
+import com.gdgl.util.SelectAddPopupWindow;
+import com.gdgl.util.SelectPicPopupWindow;
+import com.gdgl.util.ViewPagerCompat;
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
-import android.util.Log;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
-public class SmartHome extends Activity implements OnViewChangeListener,
-		OnClickListener {
-	private MyScrollLayout mScrollLayout;
-	private LinearLayout[] mImageViews;
-	private int mViewCount;
-	private int mCurSel;
+public class SmartHome extends FragmentActivity implements OnPageChangeListener {
+
 	private ImageView set;
 	private ImageView add;
 
-	private TextView gongneng;
-	private TextView quyu;
-	private TextView changjin;
-	private TextView changyong;
-	private TextView shebei;
+	public static final String EXTRA_TAB = "tab";
+	public static final String EXTRA_QUIT = "extra.quit";
+	
+	private ViewPagerCompat mViewPager;
 
-	private boolean isOpen = false;
+	int mCurrentTab = 0;
+	int mLastTab = -1;
 
-	SelectPicPopupWindow menuWindow;
-	SelectAddPopupWindow menuWindow2;
+	SelectPicPopupWindow mSetWindow;
+	SelectAddPopupWindow mAddWindow;
+
+	TextView gongneng;
+	TextView quyu;
+	TextView changjin;
+	TextView changyong;
+	TextView shebei;
+	List<TextView> mTextViewList = new ArrayList<TextView>();
+
+	int mSelectedColor = 0xff228B22;
+	int mUnSelectedColor = Color.BLACK;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,35 +56,27 @@ public class SmartHome extends Activity implements OnViewChangeListener,
 	}
 
 	private void init() {
-		gongneng = (TextView) findViewById(R.id.gongneng);
-		quyu = (TextView) findViewById(R.id.quyu);
-		changjin = (TextView) findViewById(R.id.changjin);
-		changyong = (TextView) findViewById(R.id.changyong);
-		shebei = (TextView) findViewById(R.id.shebei);
-		// listview1 = (ListView) findViewById(R.id.listView1);
-		// listview2 = (ListView) findViewById(R.id.listView2);
-		//
-		// HuihuaAdapter ha = new HuihuaAdapter(this, getHuahui());
-		// listview1.setAdapter(ha);
-		// listview1.setCacheColorHint(0);
-		//
-		// ContactAdapter hc = new ContactAdapter(this, getContact());
-		// listview2.setAdapter(hc);
-		// listview2.setCacheColorHint(0);
 
-		mScrollLayout = (MyScrollLayout) findViewById(R.id.ScrollLayout);
-		LinearLayout linearLayout = (LinearLayout) findViewById(R.id.lllayout);
-		mViewCount = mScrollLayout.getChildCount();
-		mImageViews = new LinearLayout[mViewCount];
-		for (int i = 0; i < mViewCount; i++) {
-			mImageViews[i] = (LinearLayout) linearLayout.getChildAt(i);
-			mImageViews[i].setEnabled(true);
-			mImageViews[i].setOnClickListener(this);
-			mImageViews[i].setTag(i);
+		Intent intent = getIntent();
+		if (intent != null) {
+			mCurrentTab = intent.getIntExtra(EXTRA_TAB, mCurrentTab);
 		}
-		mCurSel = 0;
-		mImageViews[mCurSel].setEnabled(false);
-		mScrollLayout.SetOnViewChangeListener(this);
+		mViewPager = (ViewPagerCompat) findViewById(R.id.mViewPager);
+
+		ArrayList<TabInfo> mList = new ArrayList<TabInfo>();
+		mList.add(new TabInfo(new regionFragment()));
+		mList.add(new TabInfo(new functionFragment()));
+		mList.add(new TabInfo(new sceneFragment()));
+		mList.add(new TabInfo(new Commonly_used_Fragment()));
+		mList.add(new TabInfo(new devicesFragment()));
+
+		ViewPagerAdapter mViewPagerAdapter = new ViewPagerAdapter(
+				getSupportFragmentManager(), SmartHome.this, mList);
+
+		mViewPager.setAdapter(mViewPagerAdapter);
+		mViewPager.setOnPageChangeListener(this);
+		mViewPager.setCurrentItem(mCurrentTab);
+		mLastTab = mCurrentTab;
 
 		set = (ImageView) findViewById(R.id.set);
 		add = (ImageView) findViewById(R.id.add);
@@ -81,97 +84,100 @@ public class SmartHome extends Activity implements OnViewChangeListener,
 		set.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				uploadImage(SmartHome.this);
+				showSetWindow(SmartHome.this);
 			}
 		});
 		add.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				uploadImage2(SmartHome.this);
+				showAddWindow(SmartHome.this);
 			}
 		});
+
+		gongneng = (TextView) findViewById(R.id.gongneng);
+		quyu = (TextView) findViewById(R.id.quyu);
+		changjin = (TextView) findViewById(R.id.changjin);
+		changyong = (TextView) findViewById(R.id.changyong);
+		shebei = (TextView) findViewById(R.id.shebei);
+
+		mTextViewList.add(quyu);
+		mTextViewList.add(gongneng);
+		mTextViewList.add(changjin);
+		mTextViewList.add(changyong);
+		mTextViewList.add(shebei);
+		setMyTextColor(mCurrentTab);
+
+		TitleClickLister mTitleClickLister = new TitleClickLister();
+		for (int m = 0; m < mTextViewList.size(); m++) {
+			mTextViewList.get(m).setOnClickListener(mTitleClickLister);
+		}
+
 	}
 
-	public void uploadImage(final Activity context) {
-		menuWindow = new SelectPicPopupWindow(SmartHome.this, itemsOnClick);
-		menuWindow.showAtLocation(SmartHome.this.findViewById(R.id.set),
+	class TitleClickLister implements OnClickListener {
+
+		int index;
+
+		public TitleClickLister() {
+
+		}
+
+		@Override
+		public void onClick(View v) {
+			// TODO Auto-generated method stub
+
+			if (mTextViewList.contains(v)) {
+				index = getMId(v);
+				;
+			}
+			mViewPager.setCurrentItem(index);
+
+			mTextViewList.get(index).setTextColor(mSelectedColor);
+		}
+	}
+
+	public void setMyTextColor(int m) {
+		getMId(null);
+		mTextViewList.get(m).setTextColor(mSelectedColor);
+	}
+
+	public int getMId(View v) {
+		// TODO Auto-generated method stub
+		int m;
+		for (m = 0; m < mTextViewList.size(); m++) {
+			if (mTextViewList.get(m).equals(v)) {
+				return m;
+			}
+			mTextViewList.get(m).setTextColor(mUnSelectedColor);
+		}
+		return m;
+	}
+
+	public void showSetWindow(final Activity context) {
+		mSetWindow = new SelectPicPopupWindow(SmartHome.this, mSetOnClick);
+		mSetWindow.showAtLocation(SmartHome.this.findViewById(R.id.set),
 				Gravity.TOP | Gravity.RIGHT, 10, 240);
 	}
 
-	public void uploadImage2(final Activity context) {
-		menuWindow2 = new SelectAddPopupWindow(SmartHome.this, itemsOnClick2);
-		menuWindow2.showAtLocation(SmartHome.this.findViewById(R.id.add),
-				Gravity.TOP | Gravity.RIGHT, 10, 240); 
+	public void showAddWindow(final Activity context) {
+		mAddWindow = new SelectAddPopupWindow(SmartHome.this, mAddOnClick);
+		mAddWindow.showAtLocation(SmartHome.this.findViewById(R.id.add),
+				Gravity.TOP | Gravity.RIGHT, 10, 240);
 	}
 
-	private OnClickListener itemsOnClick = new OnClickListener() {
+	private OnClickListener mSetOnClick = new OnClickListener() {
 
 		public void onClick(View v) {
-			menuWindow.dismiss();
+			mSetWindow.dismiss();
 		}
 	};
 
-	private OnClickListener itemsOnClick2 = new OnClickListener() {
+	private OnClickListener mAddOnClick = new OnClickListener() {
 
 		public void onClick(View v) {
-			menuWindow2.dismiss();
+			mAddWindow.dismiss();
 		}
 	};
-
-	private void setCurPoint(int index) {
-		if (index < 0 || index > mViewCount - 1 || mCurSel == index) {
-			return;
-		}
-		mImageViews[mCurSel].setEnabled(true);
-		mImageViews[index].setEnabled(false);
-		mCurSel = index;
-		Log.i("zgs", "zgs->setCurPoint index="+index);
-		if (index == 0) {
-			quyu.setTextColor(0xff228B22);
-			gongneng.setTextColor(Color.BLACK);
-			changjin.setTextColor(Color.BLACK);
-			changyong.setTextColor(Color.BLACK);
-			shebei.setTextColor(Color.BLACK);
-		} else if (index == 1) {
-			quyu.setTextColor(Color.BLACK);
-			gongneng.setTextColor(0xff228B22);
-			changjin.setTextColor(Color.BLACK);
-			changyong.setTextColor(Color.BLACK);
-			shebei.setTextColor(Color.BLACK);
-		} else if (index == 2) {
-			quyu.setTextColor(Color.BLACK);
-			gongneng.setTextColor(Color.BLACK);
-			changjin.setTextColor(0xff228B22);
-			changyong.setTextColor(Color.BLACK);
-			shebei.setTextColor(Color.BLACK);
-		} else if (index == 3) {
-			quyu.setTextColor(Color.BLACK);
-			gongneng.setTextColor(Color.BLACK);
-			changjin.setTextColor(Color.BLACK);
-			changyong.setTextColor(0xff228B22);
-			shebei.setTextColor(Color.BLACK);
-		} else {
-			quyu.setTextColor(Color.BLACK);
-			gongneng.setTextColor(Color.BLACK);
-			changjin.setTextColor(Color.BLACK);
-			changyong.setTextColor(Color.BLACK);
-			shebei.setTextColor(0xff228B22);
-		}
-	}
-
-	@Override
-	public void OnViewChange(int view) {
-		// TODO Auto-generated method stub
-		setCurPoint(view);
-	}
-
-	@Override
-	public void onClick(View v) {
-		// TODO Auto-generated method stub
-		int pos = (Integer) (v.getTag());
-		setCurPoint(pos);
-		mScrollLayout.snapToScreen(pos);
-	}
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -179,5 +185,26 @@ public class SmartHome extends Activity implements OnViewChangeListener,
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);
+	}
+
+	@Override
+	public void onPageScrollStateChanged(int arg0) {
+		// TODO Auto-generated method stub
+		if (arg0 == ViewPager.SCROLL_STATE_IDLE) {
+			mLastTab = mCurrentTab;
+		}
+	}
+
+	@Override
+	public void onPageScrolled(int arg0, float arg1, int arg2) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onPageSelected(int arg0) {
+		// TODO Auto-generated method stub
+		mCurrentTab = arg0;
+		setMyTextColor(arg0);
 	}
 }

@@ -16,81 +16,12 @@
         <include layout="@layout/top2" />
     </LinearLayout>
 
-    <com.gdgl.smarthome.MyScrollLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/ScrollLayout"
+    <com.gdgl.util.ViewPagerCompat
+        android:id="@+id/mViewPager"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_alignParentBottom="true"
         android:layout_below="@id/llayout" >
-
-        <com.gdgl.smarthome.MyFrame
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white" >
-
-            <ListView
-                android:id="@+id/listView1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:cacheColorHint="@android:color/transparent"
-                android:divider="@drawable/reader_item_divider"
-                android:listSelector="@android:color/transparent" >
-            </ListView>
-        </com.gdgl.smarthome.MyFrame>
-
-        <FrameLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white" >
-
-            <include layout="@layout/faxian" />
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white" >
-
-            <ListView
-                android:id="@+id/listView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:cacheColorHint="@android:color/transparent"
-                android:divider="@drawable/reader_item_divider"
-                android:listSelector="@android:color/transparent" >
-            </ListView>
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white" >
-
-            <ListView
-                android:id="@+id/listView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:cacheColorHint="@android:color/transparent"
-                android:divider="@drawable/reader_item_divider"
-                android:listSelector="@android:color/transparent" >
-            </ListView>
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white" >
-
-            <ListView
-                android:id="@+id/listView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:cacheColorHint="@android:color/transparent"
-                android:divider="@drawable/reader_item_divider"
-                android:listSelector="@android:color/transparent" >
-            </ListView>
-        </FrameLayout>
-    </com.gdgl.smarthome.MyScrollLayout>
+    </com.gdgl.util.ViewPagerCompat>
 
 </RelativeLayout>

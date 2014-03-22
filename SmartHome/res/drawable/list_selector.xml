@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 去掉gridview的条目被点击的默认效果 -->
+    <item android:state_selected="true"><color android:color="#E0EEEE" />
+    </item>
+    <item android:state_pressed="true"><color android:color="#EBEBEB" />
+    </item>
+
+</selector>

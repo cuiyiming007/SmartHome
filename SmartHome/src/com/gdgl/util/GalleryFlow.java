@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Camera;
 import android.graphics.Matrix;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Transformation;
 import android.widget.Gallery;
@@ -17,7 +18,7 @@ public class GalleryFlow extends Gallery {
 
 	public GalleryFlow(Context context) {
 		super(context);
-		// ֧��ת�� ,ִ��getChildStaticTransformation����
+		
 		init();
 	}
 
@@ -48,7 +49,9 @@ public class GalleryFlow extends Gallery {
 	public int getMaxZoom() {
 		return mMaxZoom;
 	}
-
+	
+	
+	
 	public void setMaxZoom(int maxZoom) {
 		mMaxZoom = maxZoom;
 	}
@@ -62,9 +65,9 @@ public class GalleryFlow extends Gallery {
 		return view.getLeft() + view.getWidth() / 2;
 	}
 
-	// ����gallery��ÿ��ͼƬ����ת(��д��gallery�з���)
+  
 	protected boolean getChildStaticTransformation(View child, Transformation t) {
-		// ȡ�õ�ǰ��view�İ뾶ֵ
+		// ȡ�õ�ǰ��view�İ뾶//ֵ
 		final int childCenter = getCenterOfView(child);
 		final int childWidth = child.getWidth();
 		// ��ת�Ƕ�
@@ -93,7 +96,10 @@ public class GalleryFlow extends Gallery {
 		mCoveflowCenter = getCenterOfCoverflow();
 		super.onSizeChanged(w, h, oldw, oldh);
 	}
+	
 
+	
+	
 	private void transformImageBitmap(ImageView child, Transformation t,
 			int rotationAngle) {
 		// ��Ч����б���

@@ -3,7 +3,7 @@
     android:id="@+id/dialog_view" 
     android:layout_gravity="center"  
     android:orientation="horizontal"  
-    android:layout_width="300dp"   
+    android:layout_width="400dp"   
     android:layout_height="100dp"  
     android:gravity="center"  
     android:padding="10dp"  

@@ -11,5 +11,14 @@
     <string name="out_login">自动登录</string>
     <string name="login">登 录</string>
     <string name="cancle">取消</string>
+     
+    <string-array name="gongneng_name">
+        <item >照明管理</item>
+        <item >电器控制</item>
+        <item >安全防护</item>
+        <item >环境监测</item>
+        <item >节能</item>
+        <item >其它</item>
+    </string-array>
 
 </resources>

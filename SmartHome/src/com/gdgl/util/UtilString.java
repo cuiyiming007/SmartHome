@@ -1,5 +1,9 @@
 package com.gdgl.util;
 
+import com.gdgl.smarthome.R;
+
+
+
 public class UtilString {
 	
 	public static final String SharedPreferences_SETTING_INFOS = "SmartHome";
@@ -19,4 +23,10 @@ public class UtilString {
 	
 	
 	public static int ILLEGAI_UID=-1;
+	
+	public static int[] GONENG_ICON={R.drawable.find_more_friend_photograph_icon,R.drawable.find_more_friend_scan,R.drawable.find_more_friend_shake,
+		R.drawable.find_more_friend_near_icon,R.drawable.find_more_friend_bottle,R.drawable.more_game
+	};
+	
+	
 }

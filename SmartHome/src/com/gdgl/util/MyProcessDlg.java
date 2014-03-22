@@ -26,24 +26,25 @@ public class MyProcessDlg {
 		public static Dialog createLoadingDialog(Context context, String msg) {
 			Log.i("MyProcessDlg", "zgs->createLoadingDialog");
 			LayoutInflater inflater = LayoutInflater.from(context);
-			View v = inflater.inflate(R.layout.process_dlg, null);// �õ�����view
-			LinearLayout layout = (LinearLayout) v.findViewById(R.id.dialog_view);// ���ز���
-			// main.xml�е�ImageView
+			View v = inflater.inflate(R.layout.process_dlg, null);
+			LinearLayout layout = (LinearLayout) v.findViewById(R.id.dialog_view);
+			
 			ImageView spaceshipImage = (ImageView) v.findViewById(R.id.img);
-			TextView tipTextView = (TextView) v.findViewById(R.id.txt_wait);// ��ʾ����
-			// ���ض���
+			TextView tipTextView = (TextView) v.findViewById(R.id.txt_wait);
+			
 			Animation hyperspaceJumpAnimation = AnimationUtils.loadAnimation(
 					context, R.anim.loading_animation);
-			// ʹ��ImageView��ʾ����
+			
 			spaceshipImage.startAnimation(hyperspaceJumpAnimation);
-			//tipTextView.setText(msg);// ���ü�����Ϣ
+			tipTextView.setText(msg);
+			v.setAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_left_in));
+			Dialog loadingDialog = new Dialog(context, R.style.loading_dialog);
 
-			Dialog loadingDialog = new Dialog(context, R.style.loading_dialog);// �����Զ�����ʽdialog
-
-			loadingDialog.setCancelable(false);// �������á����ؼ�ȡ��
+			//loadingDialog.setCancelable(false);
 			loadingDialog.setContentView(layout, new LinearLayout.LayoutParams(
-					LinearLayout.LayoutParams.FILL_PARENT,
-					LinearLayout.LayoutParams.FILL_PARENT));// ���ò���
+					LinearLayout.LayoutParams.MATCH_PARENT,
+					LinearLayout.LayoutParams.MATCH_PARENT));
+			
 			return loadingDialog;
 
 		}
