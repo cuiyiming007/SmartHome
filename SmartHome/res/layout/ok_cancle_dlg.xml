@@ -14,7 +14,7 @@
         android:background="@drawable/title"
         android:gravity="center"
         android:textColor="#000000"
-        android:textSize="16dp" />
+        android:textSize="18dp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -29,8 +29,9 @@
             android:layout_marginLeft="10dp"
             android:background="@drawable/white"
             android:text="确   定"
+            android:textStyle="bold"
             android:textColor="#000000"
-            android:textSize="16dp" />
+            android:textSize="18dp" />
 
         <Button
             android:id="@+id/btn_cancle"
@@ -40,8 +41,9 @@
             android:layout_marginRight="10dp"
             android:background="@drawable/white"
             android:text="取   消"
+            android:textStyle="bold"
             android:textColor="#000000"
-            android:textSize="16dp" />
+            android:textSize="18dp" />
     </RelativeLayout>
 
 </LinearLayout>

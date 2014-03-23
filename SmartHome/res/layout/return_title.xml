@@ -34,6 +34,7 @@
         android:layout_gravity="center"
         android:layout_marginLeft="8dp"
         android:text="照明管理"
+        android:textStyle="bold"
         android:textColor="#999999"
         android:textSize="18dp" />
 

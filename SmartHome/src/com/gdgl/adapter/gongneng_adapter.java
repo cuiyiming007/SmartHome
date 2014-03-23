@@ -65,12 +65,11 @@ public class gongneng_adapter extends BaseAdapter {
 		if (null == arg1) {
 			mView = LayoutInflater.from(mContext).inflate(
 					R.layout.gongneng_item, null);
-			img = (ImageView) mView.findViewById(R.id.goneng_imag);
-			text = (TextView) mView.findViewById(R.id.goneng_text);
-			img.setImageResource(UtilString.GONENG_ICON[arg0]);
-			text.setText(mString[arg0]);
 		}
-	
+		img = (ImageView) mView.findViewById(R.id.goneng_imag);
+		text = (TextView) mView.findViewById(R.id.goneng_text);
+		img.setImageResource(UtilString.GONENG_ICON[arg0]);
+		text.setText(mString[arg0]);
 		return mView;
 	}
 

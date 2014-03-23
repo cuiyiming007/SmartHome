@@ -32,20 +32,26 @@ public class lights_adapter extends BaseAdapter {
 
 	private static final String TAG = "lights_adapter";
 
+	// 灯状态改变成功
 	private static final int STATE_CHANGE_SUCESS = 1;
+
+	// 灯状态改变失败
 	private static final int STATE_CHANGE_FAILED = 2;
-	private Context mContext;
+
 	double mLevel = -1.0;
-	MyOkCancleDlg mDialog;
-	ImageView mImag;
 	int mCurrentId = 0;
-	CheckBox light_on_off;
-	List<lights> mList = new ArrayList<lights>();
-	
-	SeekBar mSeekBar;
-	
 	int viewType = 0;
 
+	private Context mContext;
+
+	MyOkCancleDlg mDialog;
+	ImageView mImag;
+	CheckBox light_on_off;
+	SeekBar mSeekBar;
+
+	List<lights> mList = new ArrayList<lights>();
+
+	// 两种item view
 	static final int NORMAL = 0;
 	static final int SEEK = 1;
 
@@ -109,6 +115,7 @@ public class lights_adapter extends BaseAdapter {
 			mHolder = new ViewHolder();
 			switch (viewType) {
 			case SEEK:
+				// 可调节亮度
 				mView = LayoutInflater.from(mContext).inflate(
 						R.layout.seek_light_item, null);
 				mHolder.text_level = (TextView) mView
@@ -118,10 +125,11 @@ public class lights_adapter extends BaseAdapter {
 						.findViewById(R.id.light_name);
 				mHolder.light_region = (TextView) mView
 						.findViewById(R.id.light_region);
-				mHolder.seekB=(SeekBar)mView
-						.findViewById(R.id.light_level);
+				mHolder.seekB = (SeekBar) mView.findViewById(R.id.light_level);
 				break;
 			case NORMAL:
+
+				// 不可调节亮度
 				mView = LayoutInflater.from(mContext).inflate(
 						R.layout.light_manager_item, null);
 				mHolder.light_on_off = (CheckBox) mView
@@ -158,6 +166,7 @@ public class lights_adapter extends BaseAdapter {
 		});
 		mHolder.light_name.setText(mLights.getName());
 		mHolder.light_region.setText(mLights.getRegion());
+
 		switch (viewType) {
 		case NORMAL:
 			mHolder.light_on_off.setChecked(mList.get(arg0).getState());
@@ -165,9 +174,10 @@ public class lights_adapter extends BaseAdapter {
 					mImag, arg0));
 			break;
 		case SEEK:
-			mHolder.seekB.setProgress((int)(mLevel*100));
-			mHolder.text_level.setText((int)(mLevel*100)+"%");
-			myOnSeekBarChangeListener mSeekBarListener=new myOnSeekBarChangeListener(mHolder.text_level);
+			mHolder.seekB.setProgress((int) (mLevel * 100));
+			mHolder.text_level.setText((int) (mLevel * 100) + "%");
+			myOnSeekBarChangeListener mSeekBarListener = new myOnSeekBarChangeListener(
+					mHolder.text_level);
 			mHolder.seekB.setOnSeekBarChangeListener(mSeekBarListener);
 		default:
 			break;
@@ -178,7 +188,6 @@ public class lights_adapter extends BaseAdapter {
 
 	public class myCheckBoxListener implements OnClickListener {
 		private ImageView mImagView;
-
 		private int mId;
 
 		public myCheckBoxListener(ImageView mImag, int arg0) {
@@ -199,35 +208,34 @@ public class lights_adapter extends BaseAdapter {
 			myHandler.sendMessageDelayed(msg, 1000);
 		}
 	}
-	
-	class myOnSeekBarChangeListener implements OnSeekBarChangeListener
-	{
+
+	class myOnSeekBarChangeListener implements OnSeekBarChangeListener {
 		TextView mtextView;
-		public myOnSeekBarChangeListener(TextView textView)
-		{
-			mtextView=textView;
+
+		public myOnSeekBarChangeListener(TextView textView) {
+			mtextView = textView;
 		}
-		
+
 		@Override
 		public void onProgressChanged(SeekBar arg0, int arg1, boolean arg2) {
 			// TODO Auto-generated method stub
-			mtextView.setText(arg1+"%");
+			mtextView.setText(arg1 + "%");
 		}
 
 		@Override
 		public void onStartTrackingTouch(SeekBar arg0) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void onStopTrackingTouch(SeekBar arg0) {
 			// TODO Auto-generated method stub
-			
+
 		}
-		
+
 	}
-	
+
 	Handler myHandler = new Handler() {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
@@ -251,6 +259,7 @@ public class lights_adapter extends BaseAdapter {
 		}
 	};
 
+	//
 	class ViewHolder {
 		CheckBox light_on_off;
 		Button delete;
