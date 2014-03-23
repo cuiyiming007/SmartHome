@@ -16,10 +16,10 @@
             android:id="@+id/light_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:divider="@drawable/divider"
             android:clickable="false"
             android:listSelector="@android:color/transparent"
-            android:paddingLeft="15dip"
+            android:paddingLeft="5dip"
+            android:divider="@drawable/divider"
             android:scrollbars="none" >
         </ListView>
     </LinearLayout>
