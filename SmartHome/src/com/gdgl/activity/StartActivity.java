@@ -1,8 +1,9 @@
-package com.gdgl.smarthome;
+package com.gdgl.activity;
 
 
 
 import com.gdgl.mydata.getFromSharedPreferences;
+import com.gdgl.smarthome.R;
 import com.gdgl.util.UtilString;
 
 import android.app.Activity;

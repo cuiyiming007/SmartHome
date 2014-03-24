@@ -7,7 +7,11 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.Volley;
-
+/***
+ * initial volley RequestQueue while app start
+ * @author justek
+ *
+ */
 public class ApplicationController extends Application {
 
     /**

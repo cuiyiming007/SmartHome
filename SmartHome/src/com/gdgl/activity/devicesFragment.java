@@ -1,4 +1,6 @@
-package com.gdgl.smarthome;
+package com.gdgl.activity;
+
+import com.gdgl.smarthome.R;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

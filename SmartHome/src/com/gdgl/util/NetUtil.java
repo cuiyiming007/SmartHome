@@ -16,8 +16,15 @@ import com.android.volley.toolbox.StringRequest;
 import com.gdgl.app.ApplicationController;
 import com.gdgl.mydata.Constants;
 
-
+/***
+ *Netwrok common function 
+ * @author justek
+ *
+ */
 public class NetUtil {
+	/***
+	 * request a Json object from server 
+	 */
 	private void requestJsonObject() {
 
 		JsonObjectRequest req = new JsonObjectRequest(Constants.jasonURLforWeather, null,
@@ -39,7 +46,9 @@ public class NetUtil {
 		// add the request object to the queue to be executed
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
-
+/***
+ * request a JsonString object from server
+ */
 	public void addStringRequest() {
 
 		StringRequest req = new StringRequest(Constants.jasonURLforWeather,
@@ -62,10 +71,14 @@ public class NetUtil {
 		ApplicationController.getInstance().addToRequestQueue(req);
 
 	}
+	/***
+	 * convert json String to json object and get it on the main thread
+	 * @param response
+	 */
 	private void handleString(String response) {
-		
+		//format response string to json string
 		response=formatResponseString(response);
-		
+		//convert string to json object
 		stringToJSON(response);
          
          Message m = Message.obtain();  
@@ -99,6 +112,7 @@ public class NetUtil {
 		}
 		return jsonObject;
 	}
+	//to get the json object from network thread
 	class JsonHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {

@@ -1,8 +1,9 @@
-package com.gdgl.smarthome;
+package com.gdgl.activity;
 
 //import com.gdgl.adapter.ImageForGridViewAdapter;
 
 import com.gdgl.adapter.ImageForGridViewAdapter;
+import com.gdgl.smarthome.R;
 import com.gdgl.util.MyVolley;
 
 import android.os.Bundle;

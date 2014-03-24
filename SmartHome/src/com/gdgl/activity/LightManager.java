@@ -1,10 +1,11 @@
-package com.gdgl.smarthome;
+package com.gdgl.activity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.gdgl.adapter.lights_adapter;
 import com.gdgl.model.lights;
+import com.gdgl.smarthome.R;
 
 import android.app.Activity;
 import android.os.Bundle;

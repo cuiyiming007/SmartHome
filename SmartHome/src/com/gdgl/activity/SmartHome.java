@@ -1,10 +1,11 @@
-package com.gdgl.smarthome;
+package com.gdgl.activity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.gdgl.adapter.ViewPagerAdapter;
 import com.gdgl.model.TabInfo;
+import com.gdgl.smarthome.R;
 import com.gdgl.util.SelectAddPopupWindow;
 import com.gdgl.util.SelectPicPopupWindow;
 import com.gdgl.util.ViewPagerCompat;

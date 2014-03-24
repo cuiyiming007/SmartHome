@@ -2,8 +2,8 @@ package com.gdgl.adapter;
 
 import java.util.ArrayList;
 
+import com.gdgl.activity.notifyFrgmentUpdate;
 import com.gdgl.model.TabInfo;
-import com.gdgl.smarthome.notifyFrgmentUpdate;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;

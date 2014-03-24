@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.gdgl.smarthome.LoginActivity"
+            android:name="com.gdgl.activity.LoginActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar" >
             <intent-filter>
@@ -28,12 +28,12 @@
             android:label="@string/app_name" >
         </activity>
          <activity
-            android:name="com.gdgl.smarthome.LightManager"
+            android:name="com.gdgl.activity.LightManager"
             android:theme="@android:style/Theme.NoTitleBar"
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="com.gdgl.smarthome.SmartHome"
+            android:name="com.gdgl.activity.SmartHome"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>

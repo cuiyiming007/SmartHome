@@ -1,6 +1,7 @@
-package com.gdgl.smarthome;
+package com.gdgl.activity;
 
 import com.gdgl.adapter.gongneng_adapter;
+import com.gdgl.smarthome.R;
 
 
 import android.annotation.SuppressLint;
