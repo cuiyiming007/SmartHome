@@ -1,7 +1,9 @@
 package com.gdgl.app;
 
 import android.app.Application;
+import android.os.Looper;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -96,5 +98,15 @@ public class ApplicationController extends Application {
         if (mRequestQueue != null) {
             mRequestQueue.cancelAll(tag);
         }
+    }
+    public static Boolean isOnMainThread()
+    {
+    	if (Looper.myLooper()!=Looper.getMainLooper()) {
+			Log.i("Thread test", "not the Main thread!");
+			return false;
+		}else {
+			Log.i("Thread test", "is the Main thread!");
+			return true;
+		}
     }
 }
