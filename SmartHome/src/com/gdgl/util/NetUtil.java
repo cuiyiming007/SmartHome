@@ -55,7 +55,7 @@ public class NetUtil {
 	/***
 	 * request a JsonString object from server
 	 */
-	public void addStringRequest() {
+	public static void addStringRequest() {
 		
 		// callbakc listener
 		Listener<String> responseListener = new Listener<String>() {
@@ -89,7 +89,7 @@ public class NetUtil {
 	 * 
 	 * @param response
 	 */
-	private void handleString(String response) {
+	private static void handleString(String response) {
 		// format response string to json string
 		response = formatResponseString(response);
 		// convert string to json object
