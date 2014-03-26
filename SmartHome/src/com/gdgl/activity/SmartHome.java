@@ -5,17 +5,22 @@ import java.util.List;
 
 import com.gdgl.adapter.ViewPagerAdapter;
 import com.gdgl.model.TabInfo;
+import com.gdgl.service.SmartService;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.SelectAddPopupWindow;
 import com.gdgl.util.SelectPicPopupWindow;
 import com.gdgl.util.ViewPagerCompat;
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -24,6 +29,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class SmartHome extends FragmentActivity implements OnPageChangeListener {
+	
+	private final static String TAG="SmartHome";
 
 	private ImageView set;
 	private ImageView add;
@@ -48,12 +55,21 @@ public class SmartHome extends FragmentActivity implements OnPageChangeListener 
 
 	int mSelectedColor = 0xff228B22;
 	int mUnSelectedColor = Color.BLACK;
+	
+	Intent serviceIntent;
+	private MsgReceiver msgReceiver;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		init();
+		
+		 //动态注册广播接收器  
+        msgReceiver = new MsgReceiver();  
+        IntentFilter intentFilter = new IntentFilter();  
+        intentFilter.addAction("com.gdgl.activity.RECIEVER");  
+        registerReceiver(msgReceiver, intentFilter);  
 	}
 
 	private void init() {
@@ -208,4 +224,27 @@ public class SmartHome extends FragmentActivity implements OnPageChangeListener 
 		mCurrentTab = arg0;
 		setMyTextColor(arg0);
 	}
+	@Override
+	protected void onStart() {
+		super.onStart();
+		 serviceIntent = new Intent(this, SmartService.class);
+	     startService(serviceIntent);
+	}
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		stopService(serviceIntent);
+		unregisterReceiver(msgReceiver);
+		
+	}
+	 public class MsgReceiver extends BroadcastReceiver{  
+		  
+	        @Override  
+	        public void onReceive(Context context, Intent intent) {  
+//	            int progress = intent.getIntExtra("progress", 0);  
+	        	
+	        	Log.i(TAG, "MsgReceiver has recieved");
+	        }  
+	          
+	    }  
 }
