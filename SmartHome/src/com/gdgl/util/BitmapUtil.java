@@ -14,13 +14,13 @@ import android.graphics.RectF;
 
 public class BitmapUtil {
 
-	public static Bitmap getBitmap(Resources res, int resId) {
-		if (null == res || resId <= 0) {
+	public static Bitmap getBitmap(Resources res, long id) {
+		if (null == res || id <= 0) {
 			return null;
 		}
 		Bitmap newbmp = null;
 		try {
-			newbmp = BitmapFactory.decodeResource(res, resId);
+			newbmp = BitmapFactory.decodeResource(res, (int) id);
 			if (null == newbmp) {
 				return null;
 			}

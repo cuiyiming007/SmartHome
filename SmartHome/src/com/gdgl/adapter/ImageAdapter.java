@@ -3,8 +3,8 @@ package com.gdgl.adapter;
 
 
 
+import com.gdgl.GalleryFlow.FancyCoverFlow;
 import com.gdgl.util.BitmapUtil;
-import com.gdgl.util.GalleryFlow;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -58,7 +58,7 @@ public class ImageAdapter extends BaseAdapter {
 			}
 			ImageView imageView = new ImageView(mContext);
 			imageView.setImageBitmap(originalImage);
-			imageView.setLayoutParams(new GalleryFlow.LayoutParams(newWidth,
+			imageView.setLayoutParams(new FancyCoverFlow.LayoutParams(newWidth,
 					newHeight));
 			mImages[index++] = imageView;
 		}

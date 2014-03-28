@@ -9,7 +9,7 @@
         android:id="@+id/goback"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:orientation="vertical" >
+        android:orientation="horizontal" >
 
         <ImageView
             android:id="@+id/imageView1"
@@ -17,25 +17,24 @@
             android:layout_height="wrap_content"
             android:src="@drawable/back_re" />
 
+        <View
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="3dp"
+            android:background="#999999" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="8dp"
+            android:text="照明管理"
+            android:textColor="#999999"
+            android:textSize="18dp"
+            android:textStyle="bold" />
     </LinearLayout>
-
-    <View
-        android:layout_width="2dp"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="3dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="3dp"
-        android:background="#999999" />
-
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginLeft="8dp"
-        android:text="照明管理"
-        android:textStyle="bold"
-        android:textColor="#999999"
-        android:textSize="18dp" />
 
 </LinearLayout>

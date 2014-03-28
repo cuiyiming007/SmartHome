@@ -108,6 +108,6 @@
         android:layout_gravity="center"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:background="@drawable/delete" />
+        android:background="@drawable/delete_btn_style" />
 
 </LinearLayout>

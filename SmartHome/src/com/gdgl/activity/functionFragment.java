@@ -32,7 +32,14 @@ public class functionFragment extends ListFragment {
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		// TODO Auto-generated method stub
 		Intent intent=new Intent();
-		intent.setClass((Context) getActivity(), LightManager.class);
+		if(position%2==0)
+		{
+			intent.setClass((Context) getActivity(), LightManager.class);
+		}
+		else
+		{
+			intent.setClass((Context) getActivity(), ElectricalControl.class);
+		}
 		startActivity(intent);
 		//super.onListItemClick(l, v, position, id);
 	}

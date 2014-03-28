@@ -7,21 +7,20 @@
 
     <include layout="@layout/return_title" />
 
-    <LinearLayout
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        xmlns:ptr="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/light_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal" >
-
-        <ListView
-            android:id="@+id/light_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clickable="false"
-            android:listSelector="@android:color/transparent"
-            android:paddingLeft="5dip"
-            android:divider="@drawable/divider"
-            android:scrollbars="none" >
-        </ListView>
-    </LinearLayout>
+        android:cacheColorHint="#00000000"
+        android:divider="@drawable/divider"
+        android:fadingEdge="none"
+        android:fastScrollEnabled="false"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false"
+        android:scrollbars="none"
+        android:smoothScrollbar="true"
+        ptr:ptrHeaderBackground="#D3D3D3"
+        ptr:ptrHeaderTextColor="#000000" />
 
 </LinearLayout>
