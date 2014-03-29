@@ -23,11 +23,11 @@ import com.gdgl.mydata.Constants;
  * Netwrok common function
  * 
  * @author justek
- * 
+ * http://www.it165.net/pro/html/201310/7419.html
  */
 public class NetUtil {
 	/***
-	 * request a Json object from server
+	 * request a Json object from server,if need to parse JsonArray, transfer JSONObject to JSONArray
 	 */
 	private void requestJsonObject() {
 

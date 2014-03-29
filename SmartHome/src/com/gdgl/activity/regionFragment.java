@@ -1,6 +1,7 @@
 package com.gdgl.activity;
 
 
+import com.gdgl.manager.NodeManager;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.NetUtil;
 
@@ -32,7 +33,8 @@ public class regionFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				
-				NetUtil.addStringRequest();
+//				NetUtil.addStringRequest();
+				NodeManager.getInstance().getNodeFromValley();
 			}
 		});
 		// TODO Auto-generated method stub

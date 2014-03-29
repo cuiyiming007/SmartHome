@@ -7,7 +7,7 @@ package com.gdgl.mydata;
 public class Weather {
 
 	private String city;
-	private String cityId;
+	private String cityid;
 	private String temp1;
 	private String temp2;
 	private String weather;
@@ -22,10 +22,10 @@ public class Weather {
 		this.city = city;
 	}
 	public String getCityId() {
-		return cityId;
+		return cityid;
 	}
 	public void setCityId(String cityId) {
-		this.cityId = cityId;
+		this.cityid = cityId;
 	}
 	public String getTemp1() {
 		return temp1;

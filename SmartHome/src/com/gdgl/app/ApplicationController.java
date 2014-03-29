@@ -99,6 +99,10 @@ public class ApplicationController extends Application {
             mRequestQueue.cancelAll(tag);
         }
     }
+    /***
+     * check whether the operation is on the main thread!
+     * @return
+     */
     public static Boolean isOnMainThread()
     {
     	if (Looper.myLooper()!=Looper.getMainLooper()) {
