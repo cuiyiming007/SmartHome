@@ -38,7 +38,9 @@ public class ElectricalControl extends FragmentActivity implements GetDataTask,
     TextView mTitle;
 
     int itemPostion;
-
+    
+    int mCurrentGalleryPostion=1;
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -77,11 +79,7 @@ public class ElectricalControl extends FragmentActivity implements GetDataTask,
             public void onItemSelected(AdapterView<?> parent, View view,
                     int position, long id) {
                 // TODO Auto-generated method stub
-                if (fragmentManager.getBackStackEntryCount() > 0) {
-                    fragmentManager.popBackStack();
-                }
-                mElectricalControlFragment.setAdapter(position);
-                setFragmentTitle(position);
+                reset(position);
             }
 
             @Override
@@ -97,11 +95,7 @@ public class ElectricalControl extends FragmentActivity implements GetDataTask,
             public void onItemClick(AdapterView<?> parent, View view,
                     int position, long id) {
                 // TODO Auto-generated method stub
-                if (fragmentManager.getBackStackEntryCount() > 0) {
-                    fragmentManager.popBackStack();
-                }
-                mElectricalControlFragment.setAdapter(position);
-                setFragmentTitle(position);
+                reset(position);
             }
         });
     }
@@ -109,6 +103,7 @@ public class ElectricalControl extends FragmentActivity implements GetDataTask,
     private void initBack() {
         // TODO Auto-generated method stub
         LinearLayout mBack = (LinearLayout) findViewById(R.id.goback);
+        mTitle = (TextView) findViewById(R.id.title);
         mBack.setOnClickListener(new OnClickListener() {
 
             @SuppressLint("NewApi")
@@ -118,14 +113,14 @@ public class ElectricalControl extends FragmentActivity implements GetDataTask,
 
                 if (fragmentManager.getBackStackEntryCount() > 0) {
                     fragmentManager.popBackStack();
-
+                    fancyCoverFlow.setSelection(mCurrentGalleryPostion);
+                    mElectricalControlFragment.setAdapter(mCurrentGalleryPostion);
                 } else {
                     finish();
                 }
             }
         });
-        mTitle = (TextView) findViewById(R.id.title);
-        mTitle.setText("电气控制");
+        
     }
 
     @Override
@@ -177,7 +172,7 @@ public class ElectricalControl extends FragmentActivity implements GetDataTask,
                 .beginTransaction();
         fragmentTransaction.replace(R.id.electrical_control_fragment, fragment,
                 "SwitchControlFragment");
-        fragmentTransaction.addToBackStack("ElectricalControlFragment");
+        fragmentTransaction.addToBackStack("SwitchToElectricalControlFragment");
         fragmentTransaction.commit();
 
     }
@@ -191,6 +186,8 @@ public class ElectricalControl extends FragmentActivity implements GetDataTask,
         fragmentTransaction.detach(fg);
         fragmentTransaction.commit();
         fragmentManager.popBackStack();
+        fancyCoverFlow.setSelection(mCurrentGalleryPostion);
+        mElectricalControlFragment.setAdapter(mCurrentGalleryPostion);
         mElectricalControlFragment.setListSelectedIndex(itemPostion);
     }
 
@@ -199,15 +196,8 @@ public class ElectricalControl extends FragmentActivity implements GetDataTask,
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         // TODO Auto-generated method stub
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (fragmentManager.getBackStackEntryCount() > 0) {
-                fragmentManager.popBackStack();
-                return true;
-            } else {
-                this.finish();
-                return true;
-            }
+            return back(mCurrentGalleryPostion);
         }
-
         return super.onKeyDown(keyCode, event);
     }
 
@@ -225,8 +215,31 @@ public class ElectricalControl extends FragmentActivity implements GetDataTask,
                 .beginTransaction();
         fragmentTransaction.replace(R.id.electrical_control_fragment, fragment,
                 "CurtainsControlFragment");
-        fragmentTransaction.addToBackStack("ElectricalControlFragment");
+        fragmentTransaction.addToBackStack("CurtainsToElectricalControlFragment");
         fragmentTransaction.commit();
     }
-
+    
+    
+    @SuppressLint("NewApi")
+    public void reset(int resetPostion)
+    {
+         if (fragmentManager.getBackStackEntryCount() > 0) {
+             fragmentManager.popBackStack();
+         }
+         mCurrentGalleryPostion=resetPostion;
+         mElectricalControlFragment.setAdapter(resetPostion);
+         setFragmentTitle(resetPostion);
+    }
+    
+    @SuppressLint("NewApi")
+    public boolean back(int backPostion) {
+        if (fragmentManager.getBackStackEntryCount() > 0) {
+            reset(backPostion);
+        }
+        else
+        {
+            this.finish();
+        }
+        return true;
+    }
 }

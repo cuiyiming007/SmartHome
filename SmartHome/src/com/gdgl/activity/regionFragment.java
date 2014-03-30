@@ -13,7 +13,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-public class regionFragment extends Fragment {
+public class RegionFragment extends Fragment {
 	
 	Button testButton;
 

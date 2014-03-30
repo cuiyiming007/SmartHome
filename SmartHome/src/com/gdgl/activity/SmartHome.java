@@ -80,7 +80,7 @@ public class SmartHome extends FragmentActivity implements OnPageChangeListener 
         mViewPager = (ViewPagerCompat) findViewById(R.id.mViewPager);
 
         ArrayList<TabInfo> mList = new ArrayList<TabInfo>();
-        mList.add(new TabInfo(new regionFragment()));
+        mList.add(new TabInfo(new RegionFragment()));
         mList.add(new TabInfo(new DevicesFragment()));
         mList.add(new TabInfo(new SceneFragment()));
         mList.add(new TabInfo(new Commonly_used_Fragment()));
