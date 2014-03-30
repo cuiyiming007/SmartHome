@@ -63,15 +63,15 @@ public class ElectricalControlFragment extends Fragment implements
     private void initSCurtainModellList() {
         // TODO Auto-generated method stub
         mCurtainModellList
-                .add(new CurtainModel(1, "CurtainModel_1", "卧室", true));
+                .add(new CurtainModel(1, "CurtainModel_1", "卧室", 0.4));
         mCurtainModellList
-                .add(new CurtainModel(2, "CurtainModel_2", "卧室", true));
+                .add(new CurtainModel(2, "CurtainModel_2", "卧室", 0.0));
         mCurtainModellList.add(new CurtainModel(3, "CurtainModel_3", "客厅",
-                false));
+               1.0));
         mCurtainModellList
-                .add(new CurtainModel(4, "CurtainModel_4", "餐厅", true));
+                .add(new CurtainModel(4, "CurtainModel_4", "餐厅", 0.5));
         mCurtainModellList
-                .add(new CurtainModel(5, "CurtainModel_5", "客房", true));
+                .add(new CurtainModel(5, "CurtainModel_5", "客房", 0.33));
 
         
     }

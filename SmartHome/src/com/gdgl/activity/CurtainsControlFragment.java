@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 @SuppressLint("NewApi")
 public class CurtainsControlFragment extends Fragment {
@@ -24,7 +25,8 @@ public class CurtainsControlFragment extends Fragment {
 
     View mView;
     CircleProgressBar mCircleProgressBar;
-    Button mOpen, mStop, mClose;
+    Button mOpen, mClose;
+    TextView txtOpen, txtClose;
 
     public static final String CURTAIN_ID = "curtain_id";
     public static final String CURTAIN_STATE = "curtain_state";
@@ -39,6 +41,8 @@ public class CurtainsControlFragment extends Fragment {
     private int closeThreadState = 0;
 
     private static final int CHANGE_PROGRESSBAR = 1;
+    private static final int OPENFULLY = 2;
+    private static final int CLOSEFULLY = 3;
 
     @SuppressLint("NewApi")
     @Override
@@ -78,8 +82,9 @@ public class CurtainsControlFragment extends Fragment {
     private void initView() {
         // TODO Auto-generated method stub
         mOpen = (Button) mView.findViewById(R.id.btn_open);
-        mStop = (Button) mView.findViewById(R.id.btn_stop);
         mClose = (Button) mView.findViewById(R.id.btn_close);
+        txtOpen = (TextView) mView.findViewById(R.id.txt_open);
+        txtClose = (TextView) mView.findViewById(R.id.txt_close);
 
         mCircleProgressBar = (CircleProgressBar) mView
                 .findViewById(R.id.circleProgressbar);
@@ -87,13 +92,17 @@ public class CurtainsControlFragment extends Fragment {
         Log.i("zgs", "zz->mCircleProgressBar==null"
                 + (mCircleProgressBar == null));
 
-        mCircleProgressBar.setProgress(0);
+        mCircleProgressBar.setProgress(mProgress);
 
         mOpen.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-
+                
+                if(mProgress==0){
+                    txtClose.setText("关闭窗帘");
+                }
+                
                 if (STOP == mState) {
                     mState = OPENING;
                     if (1 == openThreadState) {
@@ -102,31 +111,36 @@ public class CurtainsControlFragment extends Fragment {
                         mOpenThread.start();
                         openThreadState = 1;
                     }
+                    if (mProgress <= 100) {
+                        txtOpen.setText("正在打开...");
+                        v.setBackgroundResource(R.drawable.ongoing);
+                    } else {
+                        txtOpen.setText("已经完全打开");
+                    }
 
                 } else if (CLOSING == mState) {
                     mState = OPENING;
                     mCloseThread.onPause();
+                    txtClose.setText("关闭窗帘");
                     if (1 == openThreadState) {
                         mOpenThread.onResume();
                     } else {
                         mOpenThread.start();
                         openThreadState = 1;
                     }
-                }
-            }
-        });
-
-        mStop.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                if (OPENING == mState) {
+                    mClose.setBackgroundResource(R.drawable.close_off);
+                    if (mProgress <= 100) {
+                        txtOpen.setText("正在打开...");
+                        v.setBackgroundResource(R.drawable.ongoing);
+                    } else {
+                        txtOpen.setText("已经完全打开");
+                    }
+                } else {
+                    mState = STOP;
+                    txtOpen.setText("打开窗帘");
                     mOpenThread.onPause();
-                } else if (CLOSING == mState) {
-                    mCloseThread.onPause();
+                    v.setBackgroundResource(R.drawable.open_off);
                 }
-                mState = STOP;
             }
         });
 
@@ -134,7 +148,9 @@ public class CurtainsControlFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-
+                if(mProgress==100){
+                    txtOpen.setText("打开窗帘");
+                }
                 if (STOP == mState) {
                     mState = CLOSING;
                     if (1 == closeThreadState) {
@@ -143,15 +159,34 @@ public class CurtainsControlFragment extends Fragment {
                         mCloseThread.start();
                         closeThreadState = 1;
                     }
+                    if (mProgress >= 0) {
+                        txtClose.setText("正在关闭...");
+                        v.setBackgroundResource(R.drawable.ongoing);
+                    } else {
+                        txtClose.setText("已经完全关闭");
+                    }
                 } else if (OPENING == mState) {
                     mState = CLOSING;
                     mOpenThread.onPause();
+                    txtOpen.setText("打开窗帘");
                     if (1 == closeThreadState) {
                         mCloseThread.onResume();
                     } else {
                         mCloseThread.start();
                         closeThreadState = 1;
                     }
+                    mOpen.setBackgroundResource(R.drawable.open_off);
+                    if (mProgress >= 0) {
+                        txtClose.setText("正在关闭...");
+                        v.setBackgroundResource(R.drawable.ongoing);
+                    } else {
+                        txtClose.setText("已经完全关闭");
+                    }
+                } else {
+                    mState = STOP;
+                    txtClose.setText("关闭窗帘");
+                    mCloseThread.onPause();
+                    v.setBackgroundResource(R.drawable.close_off);
                 }
 
             }
@@ -199,21 +234,27 @@ public class CurtainsControlFragment extends Fragment {
         public void run() {
             while (mProgress <= 100) {
                 pauseThread();
+                inc();
                 Message msg = Message.obtain();
                 msg.what = CHANGE_PROGRESSBAR;
                 msg.arg1 = mProgress;
                 myHandler.sendMessage(msg);
-                inc();
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     // TODO 自动生成的 catch 块
                     e.printStackTrace();
                 }
+                if (100 == mProgress) {
+                    this.onPause();
+                    Message msg1 = Message.obtain();
+                    msg1.what = OPENFULLY;
+                    myHandler.sendMessage(msg1);
+                }
             }
         }
     }
-
+    
     class CloseThread extends Thread implements Runnable {
         private Object mPauseLock;
         private boolean mPauseFlag;
@@ -251,18 +292,25 @@ public class CurtainsControlFragment extends Fragment {
         public void run() {
             while (mProgress >= 0) {
                 pauseThread();
+                dec();
                 Message msg = Message.obtain();
                 msg.what = CHANGE_PROGRESSBAR;
                 msg.arg1 = mProgress;
                 myHandler.sendMessage(msg);
-                dec();
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     // TODO 自动生成的 catch 块
                     e.printStackTrace();
                 }
+                if (0 == mProgress) {
+                    this.onPause();
+                    Message msg1 = Message.obtain();
+                    msg1.what = CLOSEFULLY;
+                    myHandler.sendMessage(msg1);
+                }
             }
+
         }
     }
 
@@ -277,12 +325,23 @@ public class CurtainsControlFragment extends Fragment {
             mProgress--;
         }
     }
+
     Handler myHandler = new Handler() {
         public void handleMessage(Message msg) {
             Log.i("zgs", "zz->handleMessage() msg.arg1=" + msg.arg1);
             switch (msg.what) {
             case CHANGE_PROGRESSBAR:
                 mCircleProgressBar.setProgress(msg.arg1);
+                break;
+            case OPENFULLY:
+                txtOpen.setText("已经完全打开");
+                mOpen.setBackgroundResource(R.drawable.open_off);
+                mState = STOP;
+                break;
+            case CLOSEFULLY:
+                txtClose.setText("已经完全关闭");
+                mState = STOP;
+                mClose.setBackgroundResource(R.drawable.close_off);
                 break;
             default:
                 break;
@@ -294,6 +353,14 @@ public class CurtainsControlFragment extends Fragment {
     @Override
     public void onDestroy() {
         // TODO Auto-generated method stub
+        if(null!=mOpenThread){
+            mOpenThread.onPause();
+            mOpenThread.interrupt();
+        }
+        if(null!=mCloseThread){
+            mCloseThread.onPause();
+            mCloseThread.interrupt();
+        }
         super.onDestroy();
     }
 

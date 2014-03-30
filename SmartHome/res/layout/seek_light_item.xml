@@ -9,16 +9,21 @@
     <CheckBox
         android:id="@+id/light_on_off"
         style="@style/light_checkbox_style"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="55dp"
+        android:layout_height="53dp"
         android:layout_gravity="center"
-        android:checked="true" />
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:checked="true"
+        android:gravity="center" />
 
     <ImageView
         android:id="@+id/img"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="55dp"
+        android:layout_height="53dp"
         android:layout_gravity="center"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:background="@drawable/load"
         android:visibility="gone" />
 
@@ -80,8 +85,8 @@
                     android:layout_height="match_parent"
                     android:layout_marginBottom="3dp"
                     android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
                     android:layout_marginTop="5dp"
+                    android:layout_weight="1"
                     android:orientation="horizontal" >
 
                     <TextView
@@ -117,8 +122,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:gravity="center"
                     android:layout_weight="1"
+                    android:gravity="center"
                     android:text="10%"
                     android:textColor="#000000"
                     android:textSize="15dp"

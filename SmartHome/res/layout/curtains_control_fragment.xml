@@ -12,9 +12,9 @@
 
         <ImageView
             android:id="@+id/imageView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentLeft="true"
             android:src="@drawable/back_fg" />
     </RelativeLayout>
 
@@ -37,37 +37,50 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="-20dp"
         android:layout_weight="1" >
-      
-        <Button
-            android:id="@+id/btn_stop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerInParent="true"
-            android:background="@drawable/curtains_btn"
-            android:text="暂停" />
 
         <Button
             android:id="@+id/btn_open"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginRight="25dp"
-            android:layout_alignBaseline="@+id/btn_stop"
-            android:layout_toLeftOf="@+id/btn_stop"
-            android:background="@drawable/curtains_btn"
-            android:text="打开" />
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="55dp"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/open_btn_style" />
 
         <Button
             android:id="@+id/btn_close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="25dp"
-            android:layout_alignBaseline="@+id/btn_stop"
-            android:layout_toRightOf="@+id/btn_stop"
-            android:background="@drawable/curtains_btn"
-            android:text="关闭" />
+            android:layout_alignBaseline="@+id/btn_open"
+            android:layout_alignBottom="@+id/btn_open"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="55dp"
+            android:background="@drawable/close_btn_style" />
+
+        <TextView
+            android:id="@+id/txt_open"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/btn_open"
+            android:layout_below="@+id/btn_open"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:text="打开窗帘"
+            android:textColor="#0000FF"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/txt_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/txt_open"
+            android:layout_alignBottom="@+id/txt_open"
+            android:layout_alignLeft="@+id/btn_close"
+            android:gravity="center"
+            android:text="关闭窗帘"
+            android:textColor="#0000FF"
+            android:textSize="16dp" />
     </RelativeLayout>
 
 </LinearLayout>
