@@ -17,69 +17,69 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class ViewGroupAdapter extends FancyCoverFlowAdapter {
-	
-	private Context mContext;
-	private int[] mImageIds;
-	private ImageView[] mImages;
+    
+    private Context mContext;
+    private int[] mImageIds;
+    private ImageView[] mImages;
+    private String[] mTags;
+    private int newHeight = 0;
+    private int newWidth = 0;
 
-	private int newHeight = 0;
-	private int newWidth = 0;
+    private final int DEFAULT_HEIGHT = 300;
+    private final int DEFAULT_WIDTH = 200;
 
-	private final int DEFAULT_HEIGHT = 300;
-	private final int DEFAULT_WIDTH = 200;
+    private final float DEFAULT_ROUND = 16;
+    
+    public ViewGroupAdapter(Context c, int[] ImageIds,String[] tags, int Height, int Width)
+    {
+        mContext = c;
+        mImageIds = ImageIds;
+        mImages = new ImageView[mImageIds.length];
+        mTags=tags;
+        newHeight = Height;
+        newWidth = Width;
 
-	private final float DEFAULT_ROUND = 16;
-	
-	public ViewGroupAdapter(Context c, int[] ImageIds, int Height, int Width)
-	{
-		mContext = c;
-		mImageIds = ImageIds;
-		mImages = new ImageView[mImageIds.length];
+        //initImages();
+    }
+    
+    private Bitmap getBitmap(long id)
+    {
+        Bitmap originalImage = null;
 
-		newHeight = Height;
-		newWidth = Width;
+        Resources res = mContext.getResources();
+        originalImage = BitmapUtil.getBitmap(res, id);
+        newWidth = newWidth <= 0 ? DEFAULT_WIDTH : newWidth;
+        newHeight = newHeight <= 0 ? DEFAULT_HEIGHT : newHeight;
+        originalImage = BitmapUtil.zoomBitmap(originalImage, newWidth,
+                newHeight);
+        originalImage = BitmapUtil.getRoundedCornerBitmap(originalImage,
+                DEFAULT_ROUND);
+        return originalImage;
+    }
+    
+    @Override
+    public int getCount() {
+        // TODO Auto-generated method stub
+        return mImageIds.length;
+    }
 
-		//initImages();
-	}
-	
-	private Bitmap getBitmap(long id)
-	{
-		Bitmap originalImage = null;
+    @Override
+    public Integer getItem(int arg0) {
+        // TODO Auto-generated method stub
+        return mImageIds[arg0];
+    }
 
-		Resources res = mContext.getResources();
-		originalImage = BitmapUtil.getBitmap(res, id);
-		newWidth = newWidth <= 0 ? DEFAULT_WIDTH : newWidth;
-		newHeight = newHeight <= 0 ? DEFAULT_HEIGHT : newHeight;
-		originalImage = BitmapUtil.zoomBitmap(originalImage, newWidth,
-				newHeight);
-		originalImage = BitmapUtil.getRoundedCornerBitmap(originalImage,
-				DEFAULT_ROUND);
-		return originalImage;
-	}
-	
-	@Override
-	public int getCount() {
-		// TODO Auto-generated method stub
-		return mImageIds.length;
-	}
+    @Override
+    public long getItemId(int arg0) {
+        // TODO Auto-generated method stub
+        return arg0;
+    }
 
-	@Override
-	public Integer getItem(int arg0) {
-		// TODO Auto-generated method stub
-		return mImageIds[arg0];
-	}
-
-	@Override
-	public long getItemId(int arg0) {
-		// TODO Auto-generated method stub
-		return arg0;
-	}
-
-	@Override
-	public View getCoverFlowItem(int position, View reusableView,
-			ViewGroup parent) {
-		// TODO Auto-generated method stub
-		CustomViewGroup customViewGroup = null;
+    @Override
+    public View getCoverFlowItem(int position, View reusableView,
+            ViewGroup parent) {
+        // TODO Auto-generated method stub
+        CustomViewGroup customViewGroup = null;
 
         if (reusableView != null) {
             customViewGroup = (CustomViewGroup) reusableView;
@@ -89,68 +89,68 @@ public class ViewGroupAdapter extends FancyCoverFlowAdapter {
         }
 
         customViewGroup.getImageView().setImageBitmap(getBitmap(this.getItem(position)));
-        customViewGroup.getTextView().setText(String.format("Item %d", position));
+        customViewGroup.getTextView().setText(mTags[position]);
 
         return customViewGroup;
-	}
+    }
 
 }
 
 class CustomViewGroup extends LinearLayout {
 
-	// =============================================================================
-	// Child views
-	// =============================================================================
+    // =============================================================================
+    // Child views
+    // =============================================================================
 
-	private TextView textView;
+    private TextView textView;
 
-	private ImageView imageView;
+    private ImageView imageView;
 
-	// =============================================================================
-	// Constructor
-	// =============================================================================
+    // =============================================================================
+    // Constructor
+    // =============================================================================
 
-	CustomViewGroup(Context context) {
-		super(context);
+    CustomViewGroup(Context context) {
+        super(context);
 
-		this.setOrientation(VERTICAL);
+        this.setOrientation(VERTICAL);
 
-		this.textView = new TextView(context);
-		this.imageView = new ImageView(context);
+        this.textView = new TextView(context);
+        this.imageView = new ImageView(context);
 
-		LinearLayout.LayoutParams layoutParams = new LayoutParams(
-				ViewGroup.LayoutParams.MATCH_PARENT,
-				ViewGroup.LayoutParams.MATCH_PARENT);
-		this.setLayoutParams(layoutParams);
-		
-		
-//		this.textView.setLayoutParams(layoutParams);
-//		this.imageView.setLayoutParams(layoutParams);
-		
-//		LinearLayout.LayoutParams layoutParams = new LayoutParams(
-//				ViewGroup.LayoutParams.MATCH_PARENT,
-//				ViewGroup.LayoutParams.MATCH_PARENT);
-		
-		this.textView.setGravity(Gravity.CENTER);
-		this.textView.setTextSize(18);
-		this.textView.setTextColor(color.blue);
-		this.imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-		this.imageView.setAdjustViewBounds(true);
-		
-		this.addView(this.imageView);
-		this.addView(this.textView);
-		
-	}
+        LinearLayout.LayoutParams layoutParams = new LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT);
+        this.setLayoutParams(layoutParams);
+        
+        
+//        this.textView.setLayoutParams(layoutParams);
+//        this.imageView.setLayoutParams(layoutParams);
+        
+//        LinearLayout.LayoutParams layoutParams = new LayoutParams(
+//                ViewGroup.LayoutParams.MATCH_PARENT,
+//                ViewGroup.LayoutParams.MATCH_PARENT);
+        
+        this.textView.setGravity(Gravity.CENTER);
+        this.textView.setTextSize(18);
+        this.textView.setTextColor(color.blue);
+        this.imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+        this.imageView.setAdjustViewBounds(true);
+        
+        this.addView(this.imageView);
+        this.addView(this.textView);
+        
+    }
 
-	// =============================================================================
-	// Getters
-	// =============================================================================
+    // =============================================================================
+    // Getters
+    // =============================================================================
 
-	TextView getTextView() {
-		return textView;
-	}
+    TextView getTextView() {
+        return textView;
+    }
 
-	ImageView getImageView() {
-		return imageView;
-	}
+    ImageView getImageView() {
+        return imageView;
+    }
 }

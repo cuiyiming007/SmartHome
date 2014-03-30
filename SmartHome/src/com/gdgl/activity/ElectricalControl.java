@@ -1,166 +1,232 @@
 package com.gdgl.activity;
 
-
-import java.util.ArrayList;
-import java.util.List;
-
 import com.gdgl.GalleryFlow.FancyCoverFlow;
+import com.gdgl.activity.ElectricalControlFragment.GetDataTask;
+import com.gdgl.activity.SwitchControlFragment.removeSwitchControlFragment;
+import com.gdgl.adapter.CurtainsAdapter.gotoCurtainsControlFragment;
+import com.gdgl.adapter.SwitchAdapter.gotoSwitchControlFragment;
 import com.gdgl.adapter.ViewGroupAdapter;
-import com.gdgl.adapter.lights_adapter;
-import com.gdgl.model.lights;
 import com.gdgl.smarthome.R;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 
-import android.app.Activity;
-import android.os.AsyncTask;
+import android.annotation.SuppressLint;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.text.format.DateUtils;
+import android.app.FragmentManager;
+import android.support.v4.app.FragmentActivity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.TextView;
 
-public class ElectricalControl extends Activity {
-	
-	private int[] images={R.drawable.img0001,R.drawable.img0030,R.drawable.img0100,R.drawable.img0130,R.drawable.img0200};
-	
-	PullToRefreshListView equipment_list ;
-	List<lights> mList = new ArrayList<lights>();
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.electrical_control);
-		initBack();
-		lights mLights;
-		for (int m = 0; m < 25; m++) {
-			if (m % 2 == 0) {
-				mLights = new lights(m, "light_" + m, "厨房_" + m, false);
-			} else {
-				mLights = new lights(m, "light_" + m, "厨房_" + m, false, 0.2);
-			}
+public class ElectricalControl extends FragmentActivity implements GetDataTask,
+        gotoSwitchControlFragment, removeSwitchControlFragment,gotoCurtainsControlFragment{
 
-			mList.add(mLights);
-		}
-		
-		FancyCoverFlow fancyCoverFlow=(FancyCoverFlow)findViewById(R.id.equipment_CoverFlow);
-		fancyCoverFlow.setAdapter(new ViewGroupAdapter(getApplicationContext(),images,250,200));
-		fancyCoverFlow.setCallbackDuringFling(false);
-		
-		fancyCoverFlow.setOnItemSelectedListener(new OnItemSelectedListener() {
+    private int[] images = { R.drawable.img0001, R.drawable.img0030,
+            R.drawable.img0100 };
+    private String[] tags = { "墙面开关", "窗帘", "红外转发器" };
 
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view,
-					int position, long id) {
-				// TODO Auto-generated method stub
-				
-			}
+    ElectricalControlFragment mElectricalControlFragment;
+    FancyCoverFlow fancyCoverFlow;
 
-			@Override
-			public void onNothingSelected(AdapterView<?> parent) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-		fancyCoverFlow.setOnItemClickListener(new OnItemClickListener() {
+    FragmentManager fragmentManager;
 
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-		
-		
-		equipment_list=(PullToRefreshListView) findViewById(R.id.equipment_list);
+    TextView mTitle;
 
-		equipment_list.setOnRefreshListener(new OnRefreshListener<ListView>() {
+    int itemPostion;
 
-			@Override
-			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-				// TODO Auto-generated method stub
-				String label = DateUtils.formatDateTime(
-						getApplicationContext(), System.currentTimeMillis(),
-						DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE
-								| DateUtils.FORMAT_ABBREV_ALL);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.electrical_control);
+        initBack();
+        initFancyCoverFlow();
+        initElectricalControlFragment();
 
-				// Update the LastUpdatedLabel
-				refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
+    }
 
-				// Do work to refresh the list here.
-				new GetDataTask().execute();
-			}
-		});
+    @SuppressLint("NewApi")
+    private void initElectricalControlFragment() {
+        // TODO Auto-generated method stub
+        fragmentManager = this.getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager
+                .beginTransaction();
+        mElectricalControlFragment = new ElectricalControlFragment();
+        fragmentTransaction.add(R.id.electrical_control_fragment,
+                mElectricalControlFragment, "ElectricalControlFragment");
+        fragmentTransaction.commit();
 
-		// Add an end-of-list listener
-		equipment_list.setOnLastItemVisibleListener(new OnLastItemVisibleListener() {
+    }
 
-			@Override
-			public void onLastItemVisible() {
+    private void initFancyCoverFlow() {
+        // TODO Auto-generated method stub
+        fancyCoverFlow = (FancyCoverFlow) findViewById(R.id.equipment_CoverFlow);
+        fancyCoverFlow.setAdapter(new ViewGroupAdapter(getApplicationContext(),
+                images, tags, 250, 200));
+        fancyCoverFlow.setCallbackDuringFling(false);
+        fancyCoverFlow.setSelection(1);
+        fancyCoverFlow.setOnItemSelectedListener(new OnItemSelectedListener() {
 
-			}
-		});
+            @SuppressLint("NewApi")
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                    int position, long id) {
+                // TODO Auto-generated method stub
+                if (fragmentManager.getBackStackEntryCount() > 0) {
+                    fragmentManager.popBackStack();
+                }
+                mElectricalControlFragment.setAdapter(position);
+                setFragmentTitle(position);
+            }
 
-		// You can also just use setListAdapter(mAdapter) or
-		// mPullRefreshListView.setAdapter(mAdapter)
-		equipment_list.setAdapter(new lights_adapter(ElectricalControl.this, mList));
-		
-		
-		
-		
-	}
-	
-	private void initBack() {
-		// TODO Auto-generated method stub
-		LinearLayout mBack = (LinearLayout) findViewById(R.id.goback);
-		mBack.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
 
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				finish();
-			}
-		});
-		TextView mTitle=(TextView)findViewById(R.id.title);
-		mTitle.setText("电气控制");
-	}
+            }
+        });
+        fancyCoverFlow.setOnItemClickListener(new OnItemClickListener() {
 
-	private class GetDataTask extends AsyncTask<Void, Void, List<lights>> {
+            @SuppressLint("NewApi")
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                    int position, long id) {
+                // TODO Auto-generated method stub
+                if (fragmentManager.getBackStackEntryCount() > 0) {
+                    fragmentManager.popBackStack();
+                }
+                mElectricalControlFragment.setAdapter(position);
+                setFragmentTitle(position);
+            }
+        });
+    }
 
-		@Override
-		protected List<lights> doInBackground(Void... params) {
-			// Simulates a background job.
-			try {
-				Thread.sleep(4000);
-			} catch (InterruptedException e) {
-			}
-			return mList;
-		}
+    private void initBack() {
+        // TODO Auto-generated method stub
+        LinearLayout mBack = (LinearLayout) findViewById(R.id.goback);
+        mBack.setOnClickListener(new OnClickListener() {
 
-		@Override
-		protected void onPostExecute(List<lights> result) {
-			// mListItems.addFirst("Added after refresh...");
-			// mAdapter.notifyDataSetChanged();
+            @SuppressLint("NewApi")
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
 
-			// Call onRefreshComplete when the list has been refreshed.
-			equipment_list.onRefreshComplete();
+                if (fragmentManager.getBackStackEntryCount() > 0) {
+                    fragmentManager.popBackStack();
 
-			super.onPostExecute(result);
-		}
-	}
-	
-	@Override
-	protected void onDestroy() {
-		// TODO Auto-generated method stub
-		super.onDestroy();
-	}
+                } else {
+                    finish();
+                }
+            }
+        });
+        mTitle = (TextView) findViewById(R.id.title);
+        mTitle.setText("电气控制");
+    }
+
+    @Override
+    protected void onDestroy() {
+        // TODO Auto-generated method stub
+        super.onDestroy();
+    }
+
+    public interface MyAdapterUpdater {
+        public void setAdapter(int index);
+
+        public void setListSelectedIndex(int postion);
+    }
+
+    @Override
+    public void getDataTask() {
+        // TODO Auto-generated method stub
+        // new MyGetDataTask().execute();
+    }
+
+    private void setFragmentTitle(int index) {
+        switch (index) {
+        case 0:
+            mTitle.setText("墙面开关");
+            break;
+        case 1:
+            mTitle.setText("窗    帘");
+            break;
+        case 2:
+            mTitle.setText("红外转发器");
+            break;
+        default:
+            break;
+        }
+
+    }
+
+    @SuppressLint("NewApi")
+    @Override
+    public void gotoSwitchControlFragment(int id, String mdata, int postion) {
+        // TODO Auto-generated method stub
+        itemPostion = postion;
+        Bundle extras = new Bundle();
+        extras.putInt(SwitchControlFragment.SWITCH_ID, id);
+        extras.putString(SwitchControlFragment.BOLLEAN_ARRARY, mdata);
+        SwitchControlFragment fragment = new SwitchControlFragment();
+        fragment.setArguments(extras);
+        FragmentTransaction fragmentTransaction = fragmentManager
+                .beginTransaction();
+        fragmentTransaction.replace(R.id.electrical_control_fragment, fragment,
+                "SwitchControlFragment");
+        fragmentTransaction.addToBackStack("ElectricalControlFragment");
+        fragmentTransaction.commit();
+
+    }
+
+    @SuppressLint("NewApi")
+    @Override
+    public void removeFragment(Fragment fg) {
+        // TODO Auto-generated method stub
+        FragmentTransaction fragmentTransaction = fragmentManager
+                .beginTransaction();
+        fragmentTransaction.detach(fg);
+        fragmentTransaction.commit();
+        fragmentManager.popBackStack();
+        mElectricalControlFragment.setListSelectedIndex(itemPostion);
+    }
+
+    @SuppressLint("NewApi")
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        // TODO Auto-generated method stub
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (fragmentManager.getBackStackEntryCount() > 0) {
+                fragmentManager.popBackStack();
+                return true;
+            } else {
+                this.finish();
+                return true;
+            }
+        }
+
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @SuppressLint("NewApi")
+    @Override
+    public void gotoCurtainsControlFragment(int id, double mProgress) {
+        // TODO Auto-generated method stub
+        Bundle extras = new Bundle();
+        extras.putInt(CurtainsControlFragment.CURTAIN_ID, id);
+        extras.putDouble(CurtainsControlFragment.CURTAIN_STATE, mProgress);
+        CurtainsControlFragment fragment = new CurtainsControlFragment();
+        fragment.setArguments(extras);
+        
+        FragmentTransaction fragmentTransaction = fragmentManager
+                .beginTransaction();
+        fragmentTransaction.replace(R.id.electrical_control_fragment, fragment,
+                "CurtainsControlFragment");
+        fragmentTransaction.addToBackStack("ElectricalControlFragment");
+        fragmentTransaction.commit();
+    }
 
 }

@@ -2,8 +2,7 @@
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
-    -->
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.    -->
     <style name="AppBaseTheme" parent="android:Theme.Light">
         <!--
             Theme customizations available in newer API levels can go in
@@ -31,9 +30,17 @@
     <style name="CustomCheckboxTheme" parent="@android:style/Widget.CompoundButton.CheckBox">
         <item name="android:button">@drawable/checkbox_bg</item>
     </style>
-    
-     <style name="light_checkbox_style" parent="@android:style/Widget.CompoundButton.CheckBox">
+
+    <style name="light_checkbox_style" parent="@android:style/Widget.CompoundButton.CheckBox">
         <item name="android:button">@drawable/light_style</item>
+    </style>
+
+    <style name="switch_checkbox_style" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/switch_frg_style</item>
+    </style>
+
+    <style name="curtain_checkbox_style" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/curtain_style</item>
     </style>
 
     <style name="MyDialog" parent="@android:style/Theme.Dialog">
@@ -45,4 +52,5 @@
         <item name="android:backgroundDimEnabled">true</item>
     </style>
 
+    
 </resources>
