@@ -15,16 +15,16 @@ package com.gdgl.mydata;
 	 */
 public class ResponseParams {
 
-	private String totalconunt;
+	private String totalcount;
 	private String curcount;
 	private Node node;
 	
 	
 	public String getTotalconunt() {
-		return totalconunt;
+		return totalcount;
 	}
 	public void setTotalconunt(String totalconunt) {
-		this.totalconunt = totalconunt;
+		this.totalcount = totalconunt;
 	}
 	public String getCurcount() {
 		return curcount;

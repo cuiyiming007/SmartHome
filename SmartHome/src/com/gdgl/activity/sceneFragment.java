@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class SceneFragment extends Fragment {
+public class sceneFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

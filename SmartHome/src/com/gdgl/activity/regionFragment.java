@@ -2,6 +2,7 @@ package com.gdgl.activity;
 
 
 import com.gdgl.manager.NodeManager;
+import com.gdgl.mydata.Constants;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.NetUtil;
 
@@ -13,7 +14,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-public class RegionFragment extends Fragment {
+public class regionFragment extends Fragment {
 	
 	Button testButton;
 
@@ -34,7 +35,8 @@ public class RegionFragment extends Fragment {
 			public void onClick(View v) {
 				
 //				NetUtil.addStringRequest();
-				NodeManager.getInstance().getNodeFromValley();
+//				NodeManager.getInstance().getNodeFromValley();
+				NetUtil.parseJSON(NetUtil.formatResponseString(Constants.jsonStringforNode));
 			}
 		});
 		// TODO Auto-generated method stub

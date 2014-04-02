@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-public class DevicesFragment extends ListFragment {
+public class devicesFragment extends ListFragment {
 
     @SuppressLint("NewApi")
     @Override
