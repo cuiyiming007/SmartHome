@@ -105,8 +105,8 @@ public class NetUtil {
 		response = formatResponseString(response);
 		
 		// convert string to json object
-//		stringToJSON(response);
-		parseMeituanJSON(response);
+		stringToJSON(response);
+//		parseMeituanJSON(response);
 
 	}
 
