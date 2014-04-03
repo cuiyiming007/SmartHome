@@ -21,10 +21,10 @@ import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.Node;
 import com.gdgl.mydata.RespondDataEntity;
 import com.gdgl.mydata.ResponseParams;
-import com.gdgl.mydata.meituan.FenleiEntity;
-import com.gdgl.mydata.meituan.LocationData;
-import com.gdgl.mydata.meituan.Page;
-import com.gdgl.mydata.meituan.meituan;
+//import com.gdgl.mydata.meituan.FenleiEntity;
+//import com.gdgl.mydata.meituan.LocationData;
+//import com.gdgl.mydata.meituan.Page;
+//import com.gdgl.mydata.meituan.meituan;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -171,7 +171,7 @@ public class NetUtil {
 /*		jsonObject.remove("response_params");
 		jsonObject
 				.add("response_params", parser.parse(gson.toJson(list)).getAsJsonArray());
-//		ÊÔÊÔÕâÖÖ
+//		ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		Type dataEntitytype = new TypeToken<RespondDataEntity>() {
 		}.getType();
 		RespondDataEntity dataEntity=gson.fromJson(jsonObject, dataEntitytype);
@@ -184,10 +184,10 @@ public class NetUtil {
 "data":{
    "morepage":
     [
-         {"id":-1,"count":18209,"onRed":false,"iconUrl":"http://ms0.meituan.net/group/deal/cate/android/4.0/-1-small.png","name":"È«²¿·ÖÀà"},
-         {"id":1,"count":8466,"onRed":false,"iconUrl":"http://ms0.meituan.net/group/deal/cate/android/4.0/1-small.png","name":"ÃÀÊ³",
+         {"id":-1,"count":18209,"onRed":false,"iconUrl":"http://ms0.meituan.net/group/deal/cate/android/4.0/-1-small.png","name":"È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"},
+         {"id":1,"count":8466,"onRed":false,"iconUrl":"http://ms0.meituan.net/group/deal/cate/android/4.0/1-small.png","name":"ï¿½ï¿½Ê³",
              "list":[
-                  {"id":1,"onRed":false,"name":"È«²¿"},
+                  {"id":1,"onRed":false,"name":"È«ï¿½ï¿½"},
 	 * 
 	 * @param s
 	 */
@@ -222,7 +222,7 @@ public class NetUtil {
 
 		//		Type addrListtype = new TypeToken<LocationData>() {
 //		}.getType();
-		meituan dataEntity=gson.fromJson(jsonObject, type);
+//		meituan dataEntity=gson.fromJson(jsonObject, type);
 //		RespondDataEntity dataEntity=new RespondDataEntity();
 //		dataEntity.setRequest_id(jsonObject.get);
 		System.out.println(gson.toJson(jsonObject));
