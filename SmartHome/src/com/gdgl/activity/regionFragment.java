@@ -34,9 +34,9 @@ public class regionFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				
-//				NetUtil.addStringRequest();
+				NetUtil.addStringRequest();
 //				NodeManager.getInstance().getNodeFromValley();
-				NetUtil.parseJSON(NetUtil.formatResponseString(Constants.jsonStringforNode));
+//				NetUtil.parseJSON(NetUtil.formatResponseString(Constants.jsonStringforNode));
 			}
 		});
 		// TODO Auto-generated method stub

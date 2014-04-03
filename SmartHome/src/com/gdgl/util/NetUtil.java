@@ -102,7 +102,7 @@ public class NetUtil {
 	 */
 	private static void handleString(String response) {
 		// format response string to json string
-//		response = formatResponseString(response);
+		response = formatResponseString(response);
 		
 		// convert string to json object
 //		stringToJSON(response);
@@ -167,7 +167,7 @@ public class NetUtil {
 		}
 //		 dataEntity=new RespondDataEntity();
 		dataEntity.setResponseparamList(list);
-		dataEntity.setRequest_id(jsonObject.get("request_id").getAsString());
+//		dataEntity.setRequest_id(jsonObject.get("request_id").getAsString());
 /*		jsonObject.remove("response_params");
 		jsonObject
 				.add("response_params", parser.parse(gson.toJson(list)).getAsJsonArray());
