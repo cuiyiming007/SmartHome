@@ -28,5 +28,21 @@ public class UtilString {
 		R.drawable.find_more_friend_near_icon,R.drawable.find_more_friend_bottle,R.drawable.more_game
 	};
 	
-	
+	/***
+	 * take out \t\n
+	 * 
+	 * @param response
+	 * @return
+	 */
+	public static String formatResponseString(String response) {
+		response = response.replaceAll("\n", "");
+		response = response.replaceAll("\t", "");
+		response = customString(response);
+		return response;
+	}
+
+	public static String customString(String s) {
+		s = s.substring(s.indexOf("{"), s.length() - 1);
+		return s;
+	}
 }

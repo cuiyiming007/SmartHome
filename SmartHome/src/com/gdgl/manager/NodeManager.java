@@ -5,11 +5,13 @@ import android.util.Log;
 import com.android.volley.VolleyError;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
+import com.android.volley.toolbox.StringRequest;
 import com.gdgl.app.ApplicationController;
 import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.Node;
 import com.gdgl.mydata.Weather;
 import com.gdgl.network.CustomRequest;
+import com.gdgl.network.VolleyOperation;
 
 public class NodeManager {
 	private static NodeManager instance = new NodeManager();
@@ -17,26 +19,34 @@ public class NodeManager {
 	public static NodeManager getInstance() {
 		return instance;
 	}
-	
-	public Weather getNodeFromValley()
+	/***
+	 * url=http://192.168.1.184/cgi-bin/rest/network/getZBNode.cgi?user_name=aaaa&callback=1234&enco demethod=NONE&sign=AAA
+	 */
+	public void getZBNode()
 	{
-	//	 
-		Listener<Weather> respondListener=new Listener<Weather>() {
-			@Override
-			public void onResponse(Weather arg0) {
-				weather=arg0;
-			}
-		};
-		ErrorListener errorListener=new ErrorListener() {
+		// callbakc listener
+		Listener<String> responseListener = new Listener<String>() {
+					@Override
+					public void onResponse(String response) {
+				VolleyOperation.handleResponseString(response);
+					}
+				};
 
-			@Override
-			public void onErrorResponse(VolleyError error) {
-				Log.e("Error: ", error.getMessage());
-			}
-		};
-		CustomRequest<Weather> request=new CustomRequest<Weather>(Constants.jasonURLforWeather,"weatherinfo", Weather.class, respondListener, errorListener);
-		ApplicationController.getInstance().addToRequestQueue(request);
-		return weather;
+				ErrorListener errorListener = new ErrorListener() {
+
+					@Override
+					public void onErrorResponse(VolleyError error) {
+						Log.e("Error: ", error.getMessage());
+					}
+				};
+
+				StringRequest req = new StringRequest(Constants.getZBNodeURL,
+						responseListener, errorListener);
+
+				// add the request object to the queue to be executed
+				ApplicationController.getInstance().addToRequestQueue(req);
 	}
+	
+	
 
 }

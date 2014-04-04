@@ -3,6 +3,8 @@ package com.gdgl.activity;
 
 import com.gdgl.manager.NodeManager;
 import com.gdgl.mydata.Constants;
+import com.gdgl.mydata.Weather;
+import com.gdgl.network.VolleyOperation;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.NetUtil;
 
@@ -34,9 +36,9 @@ public class regionFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				
-				NetUtil.addStringRequest();
-//				NodeManager.getInstance().getNodeFromValley();
-//				NetUtil.parseJSON(NetUtil.formatResponseString(Constants.jsonStringforNode));
+//				NetUtil.addStringRequest();
+			//	VolleyOperation.getInstance().getSimpleJsonByVolley(Constants.jasonURLforWeather, Weather.class, null);
+				NetUtil.parseJSON(NetUtil.formatResponseString(Constants.jsonStringforNode));
 			}
 		});
 		// TODO Auto-generated method stub
