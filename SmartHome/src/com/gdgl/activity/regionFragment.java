@@ -38,7 +38,7 @@ public class regionFragment extends Fragment {
 				
 //				NetUtil.addStringRequest();
 			//	VolleyOperation.getInstance().getSimpleJsonByVolley(Constants.jasonURLforWeather, Weather.class, null);
-				NetUtil.parseJSON(NetUtil.formatResponseString(Constants.jsonStringforNode));
+				VolleyOperation.getInstance().handleResponseString(Constants.jsonStringforEndpoint);
 			}
 		});
 		// TODO Auto-generated method stub

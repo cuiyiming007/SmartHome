@@ -16,19 +16,19 @@ import java.util.ArrayList;
 	 * @author justek
 	 *
 	 */
-public class RespondDataEntity {
+public class RespondDataEntity<T> {
 
 	private String request_id;
-	private ArrayList<ResponseParams> responseparamList;
+	private ArrayList<T> responseparamList;
 	
 	
 	public String getRequest_id() {
 		return request_id;
 	}
-	public ArrayList<ResponseParams> getResponseparamList() {
+	public ArrayList<T> getResponseparamList() {
 		return responseparamList;
 	}
-	public void setResponseparamList(ArrayList<ResponseParams> responseparamList) {
+	public void setResponseparamList(ArrayList<T> responseparamList) {
 		this.responseparamList = responseparamList;
 	}
 	public void setRequest_id(String request_id) {

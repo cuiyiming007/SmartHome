@@ -38,5 +38,21 @@ import com.google.gson.reflect.TypeToken;
  * @author justek http://www.it165.net/pro/html/201310/7419.html
  */
 public class NetUtil {
+	
+	
+	
+	public static String URLDir="/cgi-bin/rest/network/";
+	public static String HTTPHeadStr="http://";
+	public static String encodeStr="&encodemethod=NONE&sign=AAA";
+//	private String IP;
+	private NetUtil instance=new NetUtil();
+	
+	public NetUtil getInstance() {
+		return instance;
+	}
+	public String getCumstomURL(String IP,String resource,String param)
+	{
+		return HTTPHeadStr+IP+URLDir+resource+"?"+param+encodeStr;
+	}
 
 }
