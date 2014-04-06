@@ -287,4 +287,7 @@
     <color name="navy">#000080</color><!--海军色 -->
 
     <color name="black">#4F4F4F</color><!--黑色 -->
+    
+    <color name="default_background_end">#0068b7</color><!--黑色 -->
+    <color name="default_background_begin">#00b0ec</color><!--黑色 -->
 </resources>

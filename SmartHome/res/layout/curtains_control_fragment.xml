@@ -4,20 +4,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/switch_bg"
     android:orientation="vertical" >
-
-    <RelativeLayout
-        android:id="@+id/back"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <ImageView
-            android:id="@+id/imageView1"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_alignParentLeft="true"
-            android:src="@drawable/back_fg" />
-    </RelativeLayout>
-
     <RelativeLayout
         android:id="@+id/switch_group1"
         android:layout_width="match_parent"

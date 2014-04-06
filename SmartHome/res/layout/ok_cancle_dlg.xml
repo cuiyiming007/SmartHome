@@ -24,7 +24,7 @@
         <Button
             android:id="@+id/btn_ok"
             android:layout_width="110dp"
-            android:layout_height="45dp"
+            android:layout_height="50dp"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="10dp"
             android:background="@drawable/white"
@@ -35,7 +35,7 @@
         <Button
             android:id="@+id/btn_cancle"
             android:layout_width="110dp"
-            android:layout_height="45dp"
+            android:layout_height="50dp"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
             android:background="@drawable/white"

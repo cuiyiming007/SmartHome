@@ -17,67 +17,67 @@ import android.widget.TextView;
 
 public class MyDlg {
 
-	/**
-	 * �õ��Զ����progressDialog
-	 * 
-	 * @param context
-	 * @param msg
-	 * @return
-	 */
-	public static Dialog createLoadingDialog(Context context, String msg) {
-		Log.i("MyProcessDlg", "zgs->createLoadingDialog");
-		LayoutInflater inflater = LayoutInflater.from(context);
-		View v = inflater.inflate(R.layout.process_dlg, null);
-		LinearLayout layout = (LinearLayout) v.findViewById(R.id.dialog_view);
+    /**
+     * �õ��Զ����progressDialog
+     * 
+     * @param context
+     * @param msg
+     * @return
+     */
+    public static Dialog createLoadingDialog(Context context, String msg) {
+        Log.i("MyProcessDlg", "zgs->createLoadingDialog");
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View v = inflater.inflate(R.layout.process_dlg, null);
+        LinearLayout layout = (LinearLayout) v.findViewById(R.id.dialog_view);
 
-		ImageView spaceshipImage = (ImageView) v.findViewById(R.id.img);
-		TextView tipTextView = (TextView) v.findViewById(R.id.txt_wait);
+        ImageView spaceshipImage = (ImageView) v.findViewById(R.id.img);
+        TextView tipTextView = (TextView) v.findViewById(R.id.txt_wait);
 
-		Animation hyperspaceJumpAnimation = AnimationUtils.loadAnimation(
-				context, R.anim.loading_animation);
+        Animation hyperspaceJumpAnimation = AnimationUtils.loadAnimation(
+                context, R.anim.loading_animation);
 
-		spaceshipImage.startAnimation(hyperspaceJumpAnimation);
-		tipTextView.setText(msg);
-		v.setAnimation(AnimationUtils.loadAnimation(context,
-				R.anim.slide_left_in));
-		Dialog loadingDialog = new Dialog(context, R.style.loading_dialog);
+        spaceshipImage.startAnimation(hyperspaceJumpAnimation);
+        tipTextView.setText(msg);
+        v.setAnimation(AnimationUtils.loadAnimation(context,
+                R.anim.slide_left_in));
+        Dialog loadingDialog = new Dialog(context, R.style.loading_dialog);
 
-		// loadingDialog.setCancelable(false);
-		loadingDialog.setContentView(layout, new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.WRAP_CONTENT,
-				LinearLayout.LayoutParams.WRAP_CONTENT));
+        // loadingDialog.setCancelable(false);
+        loadingDialog.setContentView(layout, new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
 
-		return loadingDialog;
+        return loadingDialog;
 
-	}
+    }
 
-	public static Dialog createOkDialog(Context context, String msg,
-			OnClickListener okListener, OnClickListener cancleListener) {
+    public static Dialog createOkDialog(Context context, String msg,
+            OnClickListener okListener, OnClickListener cancleListener) {
 
-		LayoutInflater inflater = LayoutInflater.from(context);
-		View v = inflater.inflate(R.layout.ok_cancle_dlg, null);
-		LinearLayout layout = (LinearLayout) v.findViewById(R.id.okdialog_view);
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View v = inflater.inflate(R.layout.ok_cancle_dlg, null);
+        LinearLayout layout = (LinearLayout) v.findViewById(R.id.okdialog_view);
 
-		TextView tipTextView = (TextView) v.findViewById(R.id.txt_title);
-		tipTextView.setText(msg);
+        TextView tipTextView = (TextView) v.findViewById(R.id.txt_title);
+        tipTextView.setText(msg);
 
-		Button btn_ok = (Button) v.findViewById(R.id.btn_ok);
-		btn_ok.setOnClickListener(okListener);
+        Button btn_ok = (Button) v.findViewById(R.id.btn_ok);
+        btn_ok.setOnClickListener(okListener);
 
-		Button btn_cancle = (Button) v.findViewById(R.id.btn_cancle);
-		btn_cancle.setOnClickListener(cancleListener);
+        Button btn_cancle = (Button) v.findViewById(R.id.btn_cancle);
+        btn_cancle.setOnClickListener(cancleListener);
 
-		// v.setAnimation(AnimationUtils.loadAnimation(context,
-		// R.anim.slide_left_in));
-		Dialog loadingDialog = new Dialog(context);
-		loadingDialog.setCancelable(false);
-		loadingDialog.setContentView(layout, new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.MATCH_PARENT,
-				LinearLayout.LayoutParams.MATCH_PARENT));
+        // v.setAnimation(AnimationUtils.loadAnimation(context,
+        // R.anim.slide_left_in));
+        Dialog loadingDialog = new Dialog(context);
+        loadingDialog.setCancelable(false);
+        loadingDialog.setContentView(layout, new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT));
 
-		return loadingDialog;
+        return loadingDialog;
 
-	}
+    }
 
-	// }
+    // }
 }

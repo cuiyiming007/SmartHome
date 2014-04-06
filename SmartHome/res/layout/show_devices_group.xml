@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/blue_background"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/devices_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <include
+            android:id="@+id/include1"
+            layout="@layout/return_title" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/devices_control_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_weight="1"
+        android:background="@drawable/white"
+        android:orientation="vertical" >
+    </LinearLayout>
+
+    <com.gdgl.GalleryFlow.FancyCoverFlow
+        xmlns:fcf="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/devices_gallery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="-6dp"
+        android:background="@drawable/white"
+        android:spacing="100dp"
+        fcf:maxRotation="45"
+        fcf:scaleDownGravity="0.5"
+        fcf:unselectedAlpha="0.3"
+        fcf:unselectedSaturation="0.0"
+        fcf:unselectedScale="0.4" />
+
+</LinearLayout>

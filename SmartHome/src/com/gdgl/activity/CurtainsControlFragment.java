@@ -1,11 +1,14 @@
 package com.gdgl.activity;
 
+import com.gdgl.adapter.DevicesBaseAdapter;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.CircleProgressBar;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,21 +18,21 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 @SuppressLint("NewApi")
 public class CurtainsControlFragment extends Fragment {
 
-    int mCurtainsId;
+    String mCurtainsId;
     double mCurtainState;
 
     View mView;
     CircleProgressBar mCircleProgressBar;
     Button mOpen, mClose;
     TextView txtOpen, txtClose;
+    RelativeLayout back;
 
-    public static final String CURTAIN_ID = "curtain_id";
-    public static final String CURTAIN_STATE = "curtain_state";
 
     int mState = 0;
     int mProgress = 0;
@@ -50,10 +53,6 @@ public class CurtainsControlFragment extends Fragment {
         // TODO Auto-generated method stub
         super.onAttach(activity);
 
-        // mOpen = (Button) mView.findViewById(R.id.btn_open);
-        // mStop = (Button) mView.findViewById(R.id.btn_stop);
-        // mClose = (Button) mView.findViewById(R.id.btn_close);
-
     }
 
     @Override
@@ -63,8 +62,8 @@ public class CurtainsControlFragment extends Fragment {
 
         Bundle extras = getArguments();
         if (null != extras) {
-            mCurtainsId = extras.getInt(CURTAIN_ID, -1);
-            mCurtainState = extras.getDouble(CURTAIN_STATE, 0.0);
+            mCurtainsId = extras.getString(DevicesBaseAdapter.DEVICES_ID, "");
+            mCurtainState = extras.getFloat(DevicesBaseAdapter.DEVIVES_VALUE, -2.0f);
         }
         mProgress = (int) (mCurtainState * 100);
     }
@@ -98,11 +97,11 @@ public class CurtainsControlFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                
-                if(mProgress==0){
+
+                if (mProgress == 0) {
                     txtClose.setText("关闭窗帘");
                 }
-                
+
                 if (STOP == mState) {
                     mState = OPENING;
                     if (1 == openThreadState) {
@@ -148,7 +147,7 @@ public class CurtainsControlFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                if(mProgress==100){
+                if (mProgress == 100) {
                     txtOpen.setText("打开窗帘");
                 }
                 if (STOP == mState) {
@@ -191,6 +190,7 @@ public class CurtainsControlFragment extends Fragment {
 
             }
         });
+
     }
 
     CloseThread mCloseThread = new CloseThread();
@@ -254,7 +254,7 @@ public class CurtainsControlFragment extends Fragment {
             }
         }
     }
-    
+
     class CloseThread extends Thread implements Runnable {
         private Object mPauseLock;
         private boolean mPauseFlag;
@@ -353,11 +353,11 @@ public class CurtainsControlFragment extends Fragment {
     @Override
     public void onDestroy() {
         // TODO Auto-generated method stub
-        if(null!=mOpenThread){
+        if (null != mOpenThread) {
             mOpenThread.onPause();
             mOpenThread.interrupt();
         }
-        if(null!=mCloseThread){
+        if (null != mCloseThread) {
             mCloseThread.onPause();
             mCloseThread.interrupt();
         }

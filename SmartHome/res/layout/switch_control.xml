@@ -5,18 +5,42 @@
     android:background="@drawable/switch_bg"
     android:orientation="vertical" >
 
-    <RelativeLayout
-        android:id="@+id/back"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal" >
 
-        <ImageView
-            android:id="@+id/imageView1"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_alignParentLeft="true"
-            android:src="@drawable/back_fg" />
-    </RelativeLayout>
+        <TextView
+            android:id="@+id/txt_devices_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:textColor="#000000"
+            android:textSize="20dp"
+            android:text="Switch_1" />
+
+        <EditText
+            android:id="@+id/edit_name"
+            android:layout_width="100dp"
+            android:visibility="gone"
+            android:layout_height="match_parent"
+            android:background="@drawable/corners">
+            <requestFocus />
+        </EditText>
+
+        <TextView
+            android:gravity="right"
+            android:layout_weight="1"
+            android:id="@+id/txt_devices_region"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+             android:textColor="#000000"
+            android:textSize="15dp"
+            android:text="厨房" />
+        
+    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/switch_group1"
@@ -40,10 +64,9 @@
             android:layout_below="@+id/switch_state1"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp"
+            android:text="开关1"
             android:textColor="#000000"
-            android:textSize="15dp"
-            android:text="开关1" />
-        
+            android:textSize="15dp" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -57,67 +80,60 @@
             android:layout_width="1dp"
             android:layout_height="1dp"
             android:layout_centerInParent="true" />
-        
-        <LinearLayout 
-            android:layout_height="wrap_content"
+
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:orientation="vertical"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginRight="25dp"
             android:layout_toLeftOf="@+id/divder"
-            >
-            
+            android:orientation="vertical" >
+
             <CheckBox
-            android:id="@+id/switch_state2"
-            style="@style/switch_checkbox_style"
-            android:layout_width="110dp"
-            android:layout_height="50dp"
-			android:layout_gravity="center"
-            android:checked="true" />
-            
-             <TextView
-            android:id="@+id/switch_name2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_gravity="center"
-            android:text="开关2"
-            android:textColor="#000000"
-            android:textSize="15dp" />
+                android:id="@+id/switch_state2"
+                style="@style/switch_checkbox_style"
+                android:layout_width="110dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:checked="true" />
+
+            <TextView
+                android:id="@+id/switch_name2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:text="开关2"
+                android:textColor="#000000"
+                android:textSize="15dp" />
         </LinearLayout>
-        
-	
-        
-        <LinearLayout 
-            android:layout_height="wrap_content"
+
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:orientation="vertical"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="25dp"
             android:layout_toRightOf="@+id/divder"
-            >
-            
-            <CheckBox
-            android:id="@+id/switch_state3"
-            style="@style/switch_checkbox_style"
-            android:layout_width="110dp"
-            android:layout_height="50dp"
-			android:layout_gravity="center"
-            android:checked="true" />
-            
-             <TextView
-            android:id="@+id/switch_name3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_gravity="center"
-            android:text="开关3"
-            android:textColor="#000000"
-            android:textSize="15dp" />
-        </LinearLayout>
-        
-        
+            android:orientation="vertical" >
 
+            <CheckBox
+                android:id="@+id/switch_state3"
+                style="@style/switch_checkbox_style"
+                android:layout_width="110dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:checked="true" />
+
+            <TextView
+                android:id="@+id/switch_name3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:text="开关3"
+                android:textColor="#000000"
+                android:textSize="15dp" />
+        </LinearLayout>
     </RelativeLayout>
 
 </LinearLayout>

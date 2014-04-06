@@ -20,7 +20,7 @@ import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.RespondDataEntity;
 import com.gdgl.mydata.ResponseParams;
 import com.gdgl.mydata.ResponseParamsEndPoint;
-import com.gdgl.util.UtilString;
+import com.gdgl.util.UiUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -136,7 +136,7 @@ public class VolleyOperation {
 	 */
 	public static RespondDataEntity handleResponseString(String response) {
 		// format response string to standard json string
-		response = UtilString.formatResponseString(response);
+		response = UiUtils.formatResponseString(response);
 
 		// convert string to json object
 		//return parseJSON2EndPoint(response);

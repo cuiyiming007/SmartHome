@@ -2,28 +2,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:background="@drawable/white"
     android:orientation="horizontal" >
 
     <LinearLayout
         android:id="@+id/goback"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_gravity="center"
         android:orientation="horizontal" >
 
         <ImageView
             android:id="@+id/imageView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/back_re" />
-
-        <View
-            android:layout_width="2dp"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="3dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginLeft="5dp"
-            android:layout_marginTop="3dp"
-            android:background="#999999" />
+            android:layout_gravity="center"
+            android:src="@drawable/home" />
 
         <TextView
             android:id="@+id/title"
@@ -32,9 +27,67 @@
             android:layout_gravity="center"
             android:layout_marginLeft="8dp"
             android:text="照明管理"
-            android:textColor="#999999"
+            android:textColor="#ffffff"
             android:textSize="18dp"
             android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/parents_need"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="center"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/alarm"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="@drawable/alarm_btn_style"
+            android:gravity="center" />
+
+        <LinearLayout
+            android:id="@+id/parent_need"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center" >
+			
+            <Button
+                android:id="@+id/add"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="5dip"
+                android:gravity="center"
+                android:background="@drawable/add_btn_style" />
+
+            <Button
+                android:id="@+id/set"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="10dip"
+                android:layout_marginLeft="5dip"
+                android:gravity="center"
+                android:background="@drawable/more_btn_style" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/devices_need"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:visibility="gone" >
+
+            <Button
+                android:id="@+id/delete"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="10dip"
+                android:layout_marginLeft="5dip"
+                android:background="@drawable/delete_btn_style"
+                android:gravity="center" />
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>
