@@ -13,10 +13,12 @@ import com.gdgl.mydata.Weather;
 import com.gdgl.network.CustomRequest;
 import com.gdgl.network.VolleyOperation;
 
-public class NodeManager {
-	private static NodeManager instance = new NodeManager();
-	Weather weather=null;
+public class NodeManager extends Manger{
+	private static NodeManager instance ;
 	public static NodeManager getInstance() {
+		if (instance==null) {
+			instance= new NodeManager();
+		}
 		return instance;
 	}
 	/***
@@ -29,6 +31,7 @@ public class NodeManager {
 					@Override
 					public void onResponse(String response) {
 				VolleyOperation.handleResponseString(response);
+				notifyObservers();
 					}
 				};
 

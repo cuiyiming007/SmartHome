@@ -17,6 +17,7 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.gdgl.app.ApplicationController;
+import com.gdgl.manager.NodeManager;
 import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.Node;
 import com.gdgl.mydata.RespondDataEntity;
@@ -44,13 +45,16 @@ public class NetUtil {
 	public static String URLDir="/cgi-bin/rest/network/";
 	public static String HTTPHeadStr="http://";
 	public static String encodeStr="&encodemethod=NONE&sign=AAA";
-//	private String IP;
-	private NetUtil instance=new NetUtil();
+	private String IP="192.168.1.239";
+	private static NetUtil instance;
 	
-	public NetUtil getInstance() {
+	public static NetUtil getInstance() {
+		if (instance==null) {
+			instance= new NetUtil();
+		}
 		return instance;
 	}
-	public String getCumstomURL(String IP,String resource,String param)
+	public String getCumstomURL(String resource,String param)
 	{
 		return HTTPHeadStr+IP+URLDir+resource+"?"+param+encodeStr;
 	}
