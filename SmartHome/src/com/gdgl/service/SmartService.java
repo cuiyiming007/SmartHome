@@ -19,7 +19,7 @@ public class SmartService extends Service {
 	}
 
 	public void initial() {
-		// [todo] initial some network status and opreation while app start!
+		
 	}
 
 	public class MsgBinder extends Binder {

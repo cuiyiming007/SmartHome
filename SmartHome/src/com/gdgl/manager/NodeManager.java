@@ -1,5 +1,6 @@
 package com.gdgl.manager;
 
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.android.volley.VolleyError;
@@ -9,6 +10,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.gdgl.app.ApplicationController;
 import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.Node;
+import com.gdgl.mydata.RespondDataEntity;
 import com.gdgl.mydata.Weather;
 import com.gdgl.network.CustomRequest;
 import com.gdgl.network.VolleyOperation;
@@ -49,6 +51,23 @@ public class NodeManager extends Manger{
                 // add the request object to the queue to be executed
                 ApplicationController.getInstance().addToRequestQueue(req);
     }
+    
+    class InitialDataTask extends AsyncTask<String, Object, Object>
+    {
+		@Override
+		protected Object doInBackground(String... params) {
+			RespondDataEntity deviceData=	VolleyOperation.handleResponseString(params[0]);
+			//writeDataBase(deviceData);
+			//readDataBase();
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Object result) {
+			notifyObservers();
+		}
+    	
+    } 
     
     
 
