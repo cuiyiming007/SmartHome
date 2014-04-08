@@ -3,6 +3,7 @@ package com.gdgl.activity;
 import java.util.ArrayList;
 
 import com.gdgl.adapter.ViewPagerAdapter;
+import com.gdgl.manager.DeviceManager;
 import com.gdgl.model.TabInfo;
 import com.gdgl.service.SmartService;
 import com.gdgl.smarthome.R;
@@ -64,7 +65,8 @@ public class SmartHome extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                showSetWindow();
+//                showSetWindow();
+            	DeviceManager.getInstance().getDeviceListFromLocalString();
             }
         });
 

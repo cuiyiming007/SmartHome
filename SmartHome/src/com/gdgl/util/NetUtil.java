@@ -17,7 +17,7 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.gdgl.app.ApplicationController;
-import com.gdgl.manager.NodeManager;
+import com.gdgl.manager.DeviceManager;
 import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.Node;
 import com.gdgl.mydata.RespondDataEntity;
