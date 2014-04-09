@@ -16,31 +16,37 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:text="Switch_1"
             android:textColor="#000000"
-            android:textSize="20dp"
-            android:text="Switch_1" />
+            android:textSize="20dp" />
 
         <EditText
             android:id="@+id/edit_name"
             android:layout_width="100dp"
-            android:visibility="gone"
             android:layout_height="match_parent"
-            android:background="@drawable/corners">
+            android:background="@drawable/corners"
+            android:visibility="gone" >
+
             <requestFocus />
         </EditText>
 
         <TextView
-            android:gravity="right"
-            android:layout_weight="1"
             android:id="@+id/txt_devices_region"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="15dp"
-             android:textColor="#000000"
-            android:textSize="15dp"
-            android:text="厨房" />
-        
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="厨房"
+            android:textColor="#000000"
+            android:textSize="15dp" />
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/divider_color" />
 
     <RelativeLayout
         android:id="@+id/switch_group1"

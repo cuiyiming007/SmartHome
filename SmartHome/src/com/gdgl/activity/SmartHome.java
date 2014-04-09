@@ -1,10 +1,15 @@
 package com.gdgl.activity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.gdgl.adapter.ViewPagerAdapter;
 import com.gdgl.manager.DeviceManager;
+import com.gdgl.model.DevicesModel;
 import com.gdgl.model.TabInfo;
+import com.gdgl.mydata.DataHelper;
+import com.gdgl.mydata.DevParam;
+import com.gdgl.mydata.ResponseParamsEndPoint;
 import com.gdgl.service.SmartService;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.SelectPicPopupWindow;
@@ -16,6 +21,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Gravity;
@@ -33,6 +39,8 @@ public class SmartHome extends FragmentActivity {
 
     Intent serviceIntent;
     private MsgReceiver msgReceiver;
+    
+    DataHelper mDateHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +74,18 @@ public class SmartHome extends FragmentActivity {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
 //                showSetWindow();
-            	DeviceManager.getInstance().getDeviceListFromLocalString();
+            	ArrayList<ResponseParamsEndPoint> devDataList=DeviceManager.getInstance().getDeviceListFromLocalString();
+            	mDateHelper=new DataHelper(SmartHome.this);
+            	SQLiteDatabase mSQLiteDatabase=mDateHelper.getSQLiteDatabase();
+//            	mDateHelper.insertList(mSQLiteDatabase,DataHelper.DEVICES_TABLE, null,devDataList);
+            	Log.i(TAG, "tag-> begin query"+System.currentTimeMillis());
+            	
+            	List<DevicesModel> mList=mDateHelper.queryForList(mSQLiteDatabase,DataHelper.DEVICES_TABLE, null, null, null, null, null, null, null);
+            	for (DevicesModel devicesModel : mList) {
+            		Log.i(TAG, "tag->"+devicesModel.getID());
+				}
+            	mDateHelper.close(mSQLiteDatabase);
+            	Log.i(TAG, "tag-> begin query"+System.currentTimeMillis());
             }
         });
 

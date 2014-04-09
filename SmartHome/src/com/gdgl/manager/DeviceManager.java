@@ -13,6 +13,7 @@ import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.DevParam;
 import com.gdgl.mydata.Node;
 import com.gdgl.mydata.RespondDataEntity;
+import com.gdgl.mydata.ResponseParamsEndPoint;
 import com.gdgl.mydata.Weather;
 import com.gdgl.network.CustomRequest;
 import com.gdgl.network.VolleyOperation;
@@ -30,10 +31,10 @@ public class DeviceManager extends Manger {
 	/***
 	 * local device data for test
 	 */
-	public ArrayList<DevParam> getDeviceListFromLocalString() {
+	public ArrayList<ResponseParamsEndPoint> getDeviceListFromLocalString() {
 		RespondDataEntity data = VolleyOperation
 				.handleResponseString(Constants.jsonStringforEndpoint);
-		ArrayList<DevParam> devDataList = data.getResponseparamList();
+		ArrayList<ResponseParamsEndPoint> devDataList = data.getResponseparamList();
 		
            return devDataList;
 	}
