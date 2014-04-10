@@ -6,6 +6,7 @@ import java.util.List;
 import android.app.Fragment;
 
 import com.gdgl.activity.CurtainsControlFragment;
+import com.gdgl.activity.LightsControlFragment;
 import com.gdgl.activity.SwitchControlFragment;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.DataHelper;
@@ -178,8 +179,8 @@ public class UiUtils {
 		case DataHelper.ON_OFF_SWITCH:
 			mFragment = new SwitchControlFragment();
 			break;
-		case CURTAINS:
-			mFragment = new CurtainsControlFragment();
+		case DataHelper.LIGHT_SENSOR:
+			mFragment = new LightsControlFragment();
 			break;
 		default:
 			break;

@@ -110,9 +110,8 @@ public class DevicesBaseAdapter extends BaseAdapter {
 		mHolder.devices_img.setImageResource(UiUtils
 				.getDevicesSmallIcon(mDevices.getmDeviceId()));
 
-
 		if (mDevices.getmDeviceId() == DataHelper.ON_OFF_SWITCH) {
-			String state ="";
+			String state = "";
 			String s = mDevices.getmOnOffStatus();
 			Log.i("tag", "tag->" + s);
 			String[] result = s.split(",");
@@ -123,12 +122,12 @@ public class DevicesBaseAdapter extends BaseAdapter {
 					state += "¹Ø ";
 				}
 			}
-			Log.i("tag", "tag->"+state);
+			Log.i("tag", "tag->" + state);
 			mHolder.devices_state.setText(state);
-		}else{
-			if(mDevices.getmOnOffStatus().trim().equals("1")){
+		} else {
+			if (mDevices.getmOnOffStatus().trim().equals("1")) {
 				mHolder.devices_state.setText("¿ª");
-			}else{
+			} else {
 				mHolder.devices_state.setText("¹Ø");
 			}
 		}
@@ -149,14 +148,19 @@ public class DevicesBaseAdapter extends BaseAdapter {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				mDevicesObserver.setDevicesId(mPostion);
-				Log.i("tag", "tag->mDevices.getmName()="+mDevices.getmName()+";mDevices.getmIeee()="+mDevices.getmIeee()+";mDevices.getmNodeENNAme()="+mDevices.getmNodeENNAme());
-				 Fragment mFragment=UiUtils.getFragment(mDevices.getmDeviceId());
-				 if(null!=mFragment){
-					 Bundle extras=new Bundle();//PASS_OBKECT
-					 extras.putParcelable(PASS_OBJECT, mDevices);
-					 mFragment.setArguments(extras);
-					 mDevicesObserver.setFragment(mFragment,mPostion);
-				 }
+				Log.i("tag",
+						"tag->mDevices.getmName()=" + mDevices.getmName()
+								+ ";mDevices.getmIeee()=" + mDevices.getmIeee()
+								+ ";mDevices.getmNodeENNAme()="
+								+ mDevices.getmNodeENNAme());
+				Fragment mFragment = UiUtils.getFragment(mDevices
+						.getmDeviceId());
+				if (null != mFragment) {
+					Bundle extras = new Bundle();// PASS_OBKECT
+					extras.putParcelable(PASS_OBJECT, mDevices);
+					mFragment.setArguments(extras);
+					mDevicesObserver.setFragment(mFragment, mPostion);
+				}
 			}
 		});
 		return mView;

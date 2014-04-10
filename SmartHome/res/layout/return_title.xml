@@ -83,7 +83,7 @@
                 android:id="@+id/edit"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginLeft="5dip"
+                android:layout_marginLeft="15dip"
                 android:background="@drawable/edit_btn_style"
                 android:gravity="center" />
             
@@ -92,7 +92,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginRight="10dip"
-                android:layout_marginLeft="5dip"
+                android:layout_marginLeft="15dip"
                 android:background="@drawable/delete_btn_style"
                 android:gravity="center" />
         </LinearLayout>
