@@ -1,7 +1,9 @@
 package com.gdgl.manager;
 
+import com.gdgl.mydata.Event;
+
 public interface UIListener {
 	
-	void update();
+	void update(Manger observer,Object object);
 
 }

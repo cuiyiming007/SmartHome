@@ -7,9 +7,11 @@ import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.gdgl.app.ApplicationController;
+import com.gdgl.mydata.SimpleResponseData;
 import com.gdgl.network.VolleyErrorHelper;
 import com.gdgl.network.VolleyOperation;
 import com.gdgl.util.NetUtil;
+import com.gdgl.util.UiUtils;
 
 
 public class LightManager extends Manger{
@@ -29,14 +31,15 @@ public class LightManager extends Manger{
 	 */
 	public void OnOffLightSwitchOperation(String ieee,String ep,String operatortype)
 	{
-		String param="ieee=00137A00000031 1B&ep=01&operatortype=0&param1=1&param2=2&param3=3";
+		String param="ieee=00137A0000010AB5&ep=0A&operatortype=2&param1=1&param2=2&param3=3";
 		String url=NetUtil.getInstance().getCumstomURL( "onOffLightSwitchOperation.cgi", param);
 		
 		Listener<String> responseListener = new Listener<String>() {
 			@Override
 			public void onResponse(String response) {
-		   VolleyOperation.handleResponseString(response);
-		    notifyObservers();
+
+				Class<SimpleResponseData> data=	VolleyOperation.getInstance().getSimpleJsonByVolley(UiUtils.formatResponseString(response),SimpleResponseData.class,"response_params")	;
+				notifyObservers();
 			}
 		};
 
@@ -57,7 +60,7 @@ public class LightManager extends Manger{
 	}
 	/***2.11
 	 * Function Describe:Features provided to the OnOffOutput device: ON or OFF and toggle features; provides information update feature of the current state.
-     * Toggling: if a device is in its ¡®Off¡¯ state it shall enter its ¡®On¡¯ state. Otherwise, if it is in its ¡®On¡¯ state it shall enter its ¡®Off¡¯ state
+     * Toggling: if a device is in its ï¿½ï¿½Offï¿½ï¿½ state it shall enter its ï¿½ï¿½Onï¿½ï¿½ state. Otherwise, if it is in its ï¿½ï¿½Onï¿½ï¿½ state it shall enter its ï¿½ï¿½Offï¿½ï¿½ state
      * http://192.168.1.184/cgi-bin/rest/network/onOffOutputOperation.cgi?
      * ieee=1234&ep=12&operator type=1&param1=1&param2=2&param3=3&callback=1234&encodemethod=NONE&sign=AAA
 	 */

@@ -77,7 +77,7 @@ public class SmartHome extends FragmentActivity {
             	ArrayList<ResponseParamsEndPoint> devDataList=DeviceManager.getInstance().getDeviceListFromLocalString();
             	mDateHelper=new DataHelper(SmartHome.this);
             	SQLiteDatabase mSQLiteDatabase=mDateHelper.getSQLiteDatabase();
-//            	mDateHelper.insertList(mSQLiteDatabase,DataHelper.DEVICES_TABLE, null,devDataList);
+            	mDateHelper.insertList(mSQLiteDatabase,DataHelper.DEVICES_TABLE, null,devDataList);
             	Log.i(TAG, "tag-> begin query"+System.currentTimeMillis());
             	
             	List<DevicesModel> mList=mDateHelper.queryForList(mSQLiteDatabase,DataHelper.DEVICES_TABLE, null, null, null, null, null, null, null);

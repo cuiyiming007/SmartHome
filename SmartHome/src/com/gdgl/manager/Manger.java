@@ -61,7 +61,7 @@ public class Manger {
         {
             try
             {
-                ((UIListener) observers.elementAt(i)).update();
+                ((UIListener) observers.elementAt(i)).update(this,data);
             }
             catch (Exception e)
             {
