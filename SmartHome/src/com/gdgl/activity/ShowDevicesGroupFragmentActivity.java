@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.gdgl.GalleryFlow.FancyCoverFlow;
-import com.gdgl.activity.BaseControlFragment.SaveDevicesName;
+import com.gdgl.activity.BaseControlFragment.UpdateDevice;
 import com.gdgl.activity.DevicesListFragment.refreshData;
 import com.gdgl.adapter.DevicesBaseAdapter;
 import com.gdgl.adapter.ViewGroupAdapter;
@@ -21,15 +21,16 @@ import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 import com.gdgl.util.UiUtils;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.util.LruCache;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -42,13 +43,14 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.TextView;
 
 public class ShowDevicesGroupFragmentActivity extends FragmentActivity
-		implements refreshData, DevicesObserver, SaveDevicesName,
-		Dialogcallback {
+		implements refreshData, DevicesObserver, UpdateDevice, Dialogcallback {
 
 	private static final String TAG = "ShowDevicesGroupFragmentActivity";
 	LinearLayout mBack;
 	List<List<SimpleDevicesModel>> mList;
 	List<SimpleDevicesModel> mCurrentList;
+	
+	LruCache<String,List<SimpleDevicesModel>> mCache;
 	private int mListIndex = 0;
 
 	private int[] images;
@@ -61,9 +63,8 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 	DevicesListFragment mDevicesListFragment;
 
 	DevicesBaseAdapter mDevicesBaseAdapter;
-	
+
 	SelectPicPopupWindow mSetWindow;
-	
 
 	private int type;
 	private int devicesId = 0;
@@ -400,9 +401,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		// TODO Auto-generated method stub
 
 	}
-	
-	
-	
+
 	@Override
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
@@ -417,5 +416,20 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		fragmentManager.popBackStack();
 		refreshAdapter(mListIndex);
 		initTitleByTag(mListIndex);
+	}
+	
+	@Override
+	public boolean updateDevices(String Ieee, ContentValues c) {
+		// TODO Auto-generated method stub
+		String where = " ieee = ? ";
+		String[] args = { Ieee };
+		SQLiteDatabase mSQLiteDatabase = mDataHelper.getSQLiteDatabase();
+		int result = mDataHelper.update(mSQLiteDatabase,
+				DataHelper.DEVICES_TABLE, c, where, args);
+		// mDataHelper
+		if (result >= 0) {
+			return true;
+		}
+		return false;
 	}
 }

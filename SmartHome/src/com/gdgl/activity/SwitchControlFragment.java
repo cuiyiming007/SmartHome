@@ -135,10 +135,10 @@ public class SwitchControlFragment extends BaseControlFragment {
     @Override
     public void onAttach(Activity activity) {
         // TODO Auto-generated method stub
-        if (!(activity instanceof SaveDevicesName)) {
+        if (!(activity instanceof UpdateDevice)) {
             throw new IllegalStateException("Activity必须实现SaveDevicesName接口");
         }
-        mSaveDevicesName = (SaveDevicesName) activity;
+        mUpdateDevice = (UpdateDevice) activity;
         super.onAttach(activity);
     }
 
@@ -154,5 +154,10 @@ public class SwitchControlFragment extends BaseControlFragment {
 
     }
 
-    // public interface
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

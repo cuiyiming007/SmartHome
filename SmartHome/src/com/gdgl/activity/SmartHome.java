@@ -88,7 +88,7 @@ public class SmartHome extends FragmentActivity {
             	Log.i(TAG, "tag-> begin query"+System.currentTimeMillis());
             }
         });
-
+        
     }
 
     public void showSetWindow() {

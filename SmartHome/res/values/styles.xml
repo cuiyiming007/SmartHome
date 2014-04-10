@@ -35,6 +35,12 @@
         <item name="android:button">@drawable/light_style</item>
     </style>
 
+    <style name="light_control_style" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/lights_control_checkbox</item>
+        <item name="android:layout_gravity">center</item>
+         <item name="android:gravity">center</item>
+    </style>
+
     <style name="switch_checkbox_style" parent="@android:style/Widget.CompoundButton.CheckBox">
         <item name="android:button">@drawable/switch_frg_style</item>
     </style>
@@ -52,5 +58,4 @@
         <item name="android:backgroundDimEnabled">true</item>
     </style>
 
-    
 </resources>
