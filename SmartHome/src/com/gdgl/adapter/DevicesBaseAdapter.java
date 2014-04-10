@@ -3,6 +3,8 @@ package com.gdgl.adapter;
 import java.util.List;
 
 import com.gdgl.model.DevicesModel;
+import com.gdgl.model.SimpleDevicesModel;
+import com.gdgl.mydata.DataHelper;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.UiUtils;
 
@@ -23,26 +25,37 @@ import android.widget.TextView;
 public class DevicesBaseAdapter extends BaseAdapter {
 
 	protected Context mContext;
-	protected List<DevicesModel> mDevicesList;
+	protected List<SimpleDevicesModel> mDevicesList;
 	protected DevicesObserver mDevicesObserver;
-	
+
 	public static final String DEVICES_ID = "devices_id";
 	public static final String BOLLEAN_ARRARY = "devices_state";
 	public static final String DEVIVES_VALUE = "devices_value";
-	
-	public static final String PASS_OBJECT="pass_object"; 
-	
-	public DevicesBaseAdapter(Context c, List<DevicesModel> list,DevicesObserver mObserver) {
+
+	public static final String PASS_OBJECT = "pass_object";
+
+	public class SwitchModel {
+		public String modelId;
+		public String name;
+		public String[] anotherName;
+		public String[] ieee;
+		public boolean[] state;
+
+	}
+
+	public DevicesBaseAdapter(Context c, List<SimpleDevicesModel> list,
+			DevicesObserver mObserver) {
 		mContext = c;
 		mDevicesList = list;
-		mDevicesObserver=mObserver;
+		mDevicesObserver = mObserver;
 	}
 
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
 		if (null != mDevicesList) {
-			Log.i(DEVICES_ID, "zzzgs->mDevicesList.size()="+mDevicesList.size());
+			Log.i(DEVICES_ID,
+					"zzzgs->mDevicesList.size()=" + mDevicesList.size());
 			return mDevicesList.size();
 		}
 		return 0;
@@ -61,7 +74,7 @@ public class DevicesBaseAdapter extends BaseAdapter {
 	public long getItemId(int position) {
 		// TODO Auto-generated method stub
 		if (null != mDevicesList) {
-			return mDevicesList.get(position).getModelId();
+			return (long) mDevicesList.get(position).getID();
 		}
 		return position;
 	}
@@ -71,9 +84,9 @@ public class DevicesBaseAdapter extends BaseAdapter {
 		// TODO Auto-generated method stub
 		View mView = convertView;
 		ViewHolder mHolder;
-		final int mPostion=position;
-		final DevicesModel mDevices = mDevicesList.get(position);
-		float mValue = mDevices.getDevicesValue();
+		final int mPostion = position;
+		final SimpleDevicesModel mDevices = mDevicesList.get(position);
+		// float mValue = mDevices.getDevicesValue();
 		if (null == mView) {
 			Log.i(DEVICES_ID, "zzzzzzz->getView() null == mView");
 			mHolder = new ViewHolder();
@@ -91,67 +104,80 @@ public class DevicesBaseAdapter extends BaseAdapter {
 		} else {
 			mHolder = (ViewHolder) mView.getTag();
 		}
-		mHolder.devices_name.setText(mDevices.getDevicesName());
-		mHolder.devices_region.setText(mDevices.getDevicesRegion());
+		mHolder.devices_name.setText(mDevices.getmName());
+		mHolder.devices_region.setText(mDevices.getmDeviceRegion());
 
-		// if the devices has value
-		if (Math.abs(mValue - 1) > 2) {
-			mHolder.devices_state.setText(mDevices.toString());
-		} else {
-			mHolder.devices_state.setText(mDevices.toString() + (int) (mValue
-					* 100) + "%");
+		mHolder.devices_img.setImageResource(UiUtils
+				.getDevicesSmallIcon(mDevices.getmDeviceId()));
+
+
+		if (mDevices.getmDeviceId() == DataHelper.ON_OFF_SWITCH) {
+			String state ="";
+			String s = mDevices.getmOnOffStatus();
+			Log.i("tag", "tag->" + s);
+			String[] result = s.split(",");
+			for (String string : result) {
+				if (string.trim().equals("1")) {
+					state += "开 ";
+				} else {
+					state += "关 ";
+				}
+			}
+			Log.i("tag", "tag->"+state);
+			mHolder.devices_state.setText(state);
+		}else{
+			if(mDevices.getmOnOffStatus().trim().equals("1")){
+				mHolder.devices_state.setText("开");
+			}else{
+				mHolder.devices_state.setText("关");
+			}
 		}
-
-		if (UiUtils.LIGHTS == mDevices.getDevicesType()) {
-			mHolder.devices_img.setImageResource(UiUtils
-					.getLightsSmallIcon(mDevices.getDevicesState()[0]));
+		if (DataHelper.LIGHT_SENSOR == mDevices.getmDeviceId()) {
+			boolean b = false;
+			if (null != mDevices.getmOnOffStatus()) {
+				if (mDevices.getmOnOffStatus().trim().equals("1")) {
+					b = true;
+				}
+			}
+			mHolder.devices_img.setImageResource(UiUtils.getLightsSmallIcon(b));
 		} else {
 			mHolder.devices_img.setImageResource(UiUtils
-					.getDevicesSmallIcon(mDevices.getDevicesType()));
+					.getDevicesSmallIcon(mDevices.getmDeviceId()));
 		}
 		mView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				mDevicesObserver.setDevicesId(mPostion);
-				Fragment mFragment=UiUtils.getFragment(mDevices.getDevicesType());
-				if(null!=mFragment){
-					boolean[] state=mDevices.getDevicesState();
-					String res="";
-					for(int m=0;m<state.length;m++){
-						if(state[m]){
-							res+="1";
-						}
-						else{
-							res+="0";
-						}
-					}
-					Bundle extras=new Bundle();//PASS_OBKECT
-					extras.putParcelable(PASS_OBJECT, mDevices);
-					mFragment.setArguments(extras);
-					mDevicesObserver.setFragment(mFragment,mPostion);
-				}
-				Log.i(DEVICES_ID, "zzz->setOnClickListener DevicesID="+mDevices.getDevicesID());
+				Log.i("tag", "tag->mDevices.getmName()="+mDevices.getmName()+";mDevices.getmIeee()="+mDevices.getmIeee()+";mDevices.getmNodeENNAme()="+mDevices.getmNodeENNAme());
+				 Fragment mFragment=UiUtils.getFragment(mDevices.getmDeviceId());
+				 if(null!=mFragment){
+					 Bundle extras=new Bundle();//PASS_OBKECT
+					 extras.putParcelable(PASS_OBJECT, mDevices);
+					 mFragment.setArguments(extras);
+					 mDevicesObserver.setFragment(mFragment,mPostion);
+				 }
 			}
 		});
 		return mView;
 	}
-	
-	public void setList(List<DevicesModel> list){
-		mDevicesList=null;
-		mDevicesList=list;
+
+	public void setList(List<SimpleDevicesModel> list) {
+		mDevicesList = null;
+		mDevicesList = list;
 	}
-	
+
 	class ViewHolder {
 		ImageView devices_img;
 		TextView devices_name;
 		TextView devices_region;
 		TextView devices_state;
 	}
-	
-	public interface DevicesObserver{
+
+	public interface DevicesObserver {
 		public void setDevicesId(int id);
-		public void setFragment(Fragment mFragment,int postion);
+
+		public void setFragment(Fragment mFragment, int postion);
 	}
-	
+
 }

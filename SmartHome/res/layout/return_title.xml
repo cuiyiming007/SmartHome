@@ -80,6 +80,14 @@
             android:visibility="gone" >
 
             <Button
+                android:id="@+id/edit"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="5dip"
+                android:background="@drawable/edit_btn_style"
+                android:gravity="center" />
+            
+            <Button
                 android:id="@+id/delete"
                 android:layout_width="40dp"
                 android:layout_height="40dp"

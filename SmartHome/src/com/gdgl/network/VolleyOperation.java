@@ -37,11 +37,11 @@ public class VolleyOperation {
 	}
 
 	/***
-	 * Suitable for the Json data is very simple£¬cant't parse data conclude
+	 * Suitable for the Json data is very simpleï¿½ï¿½cant't parse data conclude
 	 * child object.
-	 * eg:Json={"weatherinfo":{"city":"¹ãÖÝ","cityid":"101280101","temp1"
-	 * :"27¡æ","temp2"
-	 * :"17¡æ","weather":"¶àÔÆ","img1":"d1.gif","img2":"n1.gif","ptime":"11:00"}}
+	 * eg:Json={"weatherinfo":{"city":"ï¿½ï¿½ï¿½ï¿½","cityid":"101280101","temp1"
+	 * :"27ï¿½ï¿½","temp2"
+	 * :"17ï¿½ï¿½","weather":"ï¿½ï¿½ï¿½ï¿½","img1":"d1.gif","img2":"n1.gif","ptime":"11:00"}}
 	 * 1.successful key = weatherinfo 2.failed key=null
 	 * 
 	 * @param URL
@@ -140,7 +140,7 @@ public class VolleyOperation {
 
 		// convert string to json object
 		//return parseJSON2EndPoint(response);
-		return parseJSONGeneric(response,ResponseParamsEndPoint.class);
+		return parseJSON2EndPoint(response);
 
 	}
 

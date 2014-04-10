@@ -1,11 +1,11 @@
 package com.gdgl.manager;
 
 public class ShadeManager {
-	private static NodeManager instance;
+	private static ShadeManager instance;
 
-	public static NodeManager getInstance() {
+	public static ShadeManager getInstance() {
 		if (instance == null) {
-			instance = new NodeManager();
+			instance = new ShadeManager();
 		}
 		return instance;
 	}

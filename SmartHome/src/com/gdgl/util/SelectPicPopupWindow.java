@@ -37,7 +37,7 @@ public class SelectPicPopupWindow extends PopupWindow {
 			}
 		});
 		this.setContentView(mMenuView);
-		this.setWidth(w / 2 + 50);
+		this.setWidth(LayoutParams.WRAP_CONTENT);
 		this.setHeight(LayoutParams.WRAP_CONTENT);
 		this.setFocusable(true);
 		this.setAnimationStyle(R.style.mystyle);
