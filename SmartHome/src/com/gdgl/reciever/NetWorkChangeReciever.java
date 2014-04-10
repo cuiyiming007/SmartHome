@@ -15,7 +15,6 @@ public class NetWorkChangeReciever extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {  
         // TODO Auto-generated method stub  
         if (ACTION.equals(intent.getAction())) {  
-            //»ñÈ¡ÊÖ»úµÄÁ¬½Ó·şÎñ¹ÜÀíÆ÷£¬ÕâÀïÊÇÁ¬½Ó¹ÜÀíÆ÷Àà  
             ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);    
             wifiState = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState();      
             mobileState = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState();  
@@ -23,13 +22,13 @@ public class NetWorkChangeReciever extends BroadcastReceiver {
            // Intent intent2 = new Intent(context , BroadCastActivity2_SMS.class);  
             if (wifiState != null && mobileState != null && State.CONNECTED != wifiState && State.CONNECTED == mobileState) {  
                // context.startService(intent2);  
-                Toast.makeText(context, "ÊÖ»úÍøÂçÁ¬½Ó³É¹¦£¡", Toast.LENGTH_SHORT).show();  
+                Toast.makeText(context, "ç½‘ç»œè¿æ¥æˆåŠŸï¼", Toast.LENGTH_SHORT).show();  
             } else if (wifiState != null && mobileState != null && State.CONNECTED == wifiState && State.CONNECTED != mobileState) {  
               //  context.startService(intent2);  
-                Toast.makeText(context, "ÎŞÏßÍøÂçÁ¬½Ó³É¹¦£¡", Toast.LENGTH_SHORT).show();  
+                Toast.makeText(context, "wifiè¿æ¥æˆåŠŸï¼", Toast.LENGTH_SHORT).show();  
             } else if (wifiState != null && mobileState != null && State.CONNECTED != wifiState && State.CONNECTED != mobileState) {  
                // context.startService(intent2);  
-                Toast.makeText(context, "ÊÖ»úÃ»ÓĞÈÎºÎÍøÂç...", Toast.LENGTH_SHORT).show();  
+                Toast.makeText(context, "æ²¡æœ‰è¿æ¥ä¸Šä»»ä½•ç½‘ç»œ...", Toast.LENGTH_SHORT).show();  
             }  
         }  
     }  
