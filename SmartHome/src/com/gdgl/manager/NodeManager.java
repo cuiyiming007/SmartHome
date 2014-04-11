@@ -52,22 +52,7 @@ public class NodeManager extends Manger{
                 ApplicationController.getInstance().addToRequestQueue(req);
     }
     
-    class InitialDataTask extends AsyncTask<String, Object, Object>
-    {
-		@Override
-		protected Object doInBackground(String... params) {
-			RespondDataEntity deviceData=	VolleyOperation.handleResponseString(params[0]);
-			//writeDataBase(deviceData);
-			//readDataBase();
-			return null;
-		}
-		
-		@Override
-		protected void onPostExecute(Object result) {
-			notifyObservers();
-		}
-    	
-    } 
+  
     
     
 

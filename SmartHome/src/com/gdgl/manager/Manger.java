@@ -47,15 +47,15 @@ public class Manger {
     public void notifyObservers(Object data)
     {
         
-        synchronized (this)
-        {
-            
-            if (!changed)
-            {
-                return;
-            }
-            clearChanged();
-        }
+//        synchronized (this)
+//        {
+//            
+//            if (!changed)
+//            {
+//                return;
+//            }
+//            clearChanged();
+//        }
         
         for (int i = 0; i < observers.size(); i++)
         {

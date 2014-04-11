@@ -2,15 +2,21 @@ package com.gdgl.manager;
 
 import java.util.ArrayList;
 
+import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.android.volley.VolleyError;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.StringRequest;
+import com.gdgl.activity.SmartHome;
 import com.gdgl.app.ApplicationController;
 import com.gdgl.mydata.Constants;
+import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DevParam;
+import com.gdgl.mydata.Event;
+import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.Node;
 import com.gdgl.mydata.RespondDataEntity;
 import com.gdgl.mydata.ResponseParamsEndPoint;
@@ -34,9 +40,10 @@ public class DeviceManager extends Manger {
 	public ArrayList<ResponseParamsEndPoint> getDeviceListFromLocalString() {
 		RespondDataEntity data = VolleyOperation
 				.handleResponseString(Constants.jsonStringforEndpoint);
-		ArrayList<ResponseParamsEndPoint> devDataList = data.getResponseparamList();
-		
-           return devDataList;
+		ArrayList<ResponseParamsEndPoint> devDataList = data
+				.getResponseparamList();
+
+		return devDataList;
 	}
 
 	/***
@@ -48,10 +55,8 @@ public class DeviceManager extends Manger {
 		Listener<String> responseListener = new Listener<String>() {
 			@Override
 			public void onResponse(String response) {
-				RespondDataEntity data = VolleyOperation
-						.handleResponseString(response);
-				ArrayList<DevParam> devDataList = data.getResponseparamList();
-				notifyObservers();
+				// Time-consuming operation need to use AsyncTask
+				new InitialDataTask().execute(response);
 			}
 		};
 
@@ -63,11 +68,37 @@ public class DeviceManager extends Manger {
 			}
 		};
 
-		StringRequest req = new StringRequest(Constants.getZBNodeURL,
+		StringRequest req = new StringRequest(Constants.getEndPointURl,
 				responseListener, errorListener);
 
 		// add the request object to the queue to be executed
 		ApplicationController.getInstance().addToRequestQueue(req);
+	}
+
+	class InitialDataTask extends AsyncTask<String, Object, Object> {
+		@Override
+		protected Object doInBackground(String... params) {
+			RespondDataEntity data = VolleyOperation
+					.handleResponseString(params[0]);
+			ArrayList<ResponseParamsEndPoint> devDataList = data
+					.getResponseparamList();
+
+			DataHelper mDateHelper = new DataHelper(
+					ApplicationController.getInstance());
+			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
+			mDateHelper.insertList(mSQLiteDatabase, DataHelper.DEVICES_TABLE,
+					null, devDataList);
+			//[TODO]transfer to SimpleDevicesModel
+			return devDataList;
+		}
+
+		@Override
+		protected void onPostExecute(Object result) {
+			Event event = new Event(EventType.INTITIALDVIVCEDATA, true);
+			event.setData(result);
+			notifyObservers(event);
+		}
+
 	}
 
 }

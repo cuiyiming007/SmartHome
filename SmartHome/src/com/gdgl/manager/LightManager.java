@@ -1,5 +1,6 @@
 package com.gdgl.manager;
 
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.android.volley.Response.ErrorListener;
@@ -7,6 +8,9 @@ import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.gdgl.app.ApplicationController;
+import com.gdgl.mydata.Event;
+import com.gdgl.mydata.EventType;
+import com.gdgl.mydata.RespondDataEntity;
 import com.gdgl.mydata.SimpleResponseData;
 import com.gdgl.network.VolleyErrorHelper;
 import com.gdgl.network.VolleyOperation;
@@ -33,13 +37,15 @@ public class LightManager extends Manger{
 	{
 		String param="ieee=00137A0000010AB5&ep=0A&operatortype=2&param1=1&param2=2&param3=3";
 		String url=NetUtil.getInstance().getCumstomURL( "onOffLightSwitchOperation.cgi", param);
-		
 		Listener<String> responseListener = new Listener<String>() {
 			@Override
 			public void onResponse(String response) {
 
+				
 				Class<SimpleResponseData> data=	VolleyOperation.getInstance().getSimpleJsonByVolley(UiUtils.formatResponseString(response),SimpleResponseData.class,"response_params")	;
-				notifyObservers();
+				Event event=new Event(EventType.ONOFFLIGHTSWITCHOPERATION,true);
+				event.setData(data);
+				notifyObservers(event);
 			}
 		};
 
@@ -49,6 +55,8 @@ public class LightManager extends Manger{
 			public void onErrorResponse(VolleyError error) {
 				Log.e("Error: ", error.getMessage());
 				VolleyErrorHelper.getMessage(error, null);
+				Event event=new Event(EventType.ONOFFLIGHTSWITCHOPERATION,false);
+				notifyObservers(event);
 			}
 		};
 
@@ -102,4 +110,5 @@ public class LightManager extends Manger{
 	{
 		
 	}
+	 
 }
