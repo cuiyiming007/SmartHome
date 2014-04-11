@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gdgl.adapter.DevicesBaseAdapter;
+import com.gdgl.manager.Manger;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.smarthome.R;
@@ -128,8 +129,9 @@ public class LightsControlFragment extends BaseControlFragment {
 		return result;
 	}
 
+
 	@Override
-	public void update() {
+	public void update(Manger observer, Object object) {
 		// TODO Auto-generated method stub
 		
 	}

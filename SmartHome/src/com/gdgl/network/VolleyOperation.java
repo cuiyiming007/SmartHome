@@ -196,13 +196,14 @@ public class VolleyOperation {
 		JsonObject jsonObject = parser.parse(s).getAsJsonObject();
 		RespondDataEntity dataEntity = new RespondDataEntity();
 		JsonElement idElement=jsonObject.get("request_id");
+		dataEntity.setRequest_id(idElement.toString());
 //		dataEntity = gson.fromJson(jsonObject, RespondDataEntity.class);
 		JsonArray jsonArray = jsonObject.getAsJsonArray("response_params");
-		Type type = new TypeToken<ResponseParamsEndPoint>() {
-		}.getType();
+//		Type type = new TypeToken<ResponseParamsEndPoint>() {
+//		}.getType();
 		for (int i = 0; i < jsonArray.size(); i++) {
 			JsonElement el = jsonArray.get(i);
-			ResponseParamsEndPoint tmp = gson.fromJson(el, type);
+			ResponseParamsEndPoint tmp = gson.fromJson(el, ResponseParamsEndPoint.class);
 			list.add(tmp);
 		}
 		dataEntity.setResponseparamList(list);

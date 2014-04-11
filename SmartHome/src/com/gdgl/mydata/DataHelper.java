@@ -50,6 +50,13 @@ public class DataHelper extends SQLiteOpenHelper {
 		mStringBuilder.append("CREATE TABLE " + DEVICES_TABLE + " (");
 		mStringBuilder.append(DevicesModel._ID
 				+ " INTEGER PRIMARY KEY AUTOINCREMENT,");
+		mStringBuilder.append(DevicesModel.IEEE + " VARCHAR(16),");
+		mStringBuilder.append(DevicesModel.EP + " VARCHAR(2),");
+		mStringBuilder.append(DevicesModel.NAME + " VARCHAR,");
+		mStringBuilder.append(DevicesModel.NODE_EN_NAME + " VARCHAR,");
+		mStringBuilder.append(DevicesModel.MODEL_ID + " VARCHAR,");
+		mStringBuilder.append(DevicesModel.DEVICE_ID + " VARCHAR(4),");
+		mStringBuilder.append(DevicesModel.DEVICE_REGION + " VARCHAR,");
 		mStringBuilder.append(DevicesModel.ALL_COUNT + " VARCHAR,");
 		mStringBuilder.append(DevicesModel.APP_VERSTION + " VARCHAR,");
 		mStringBuilder.append(DevicesModel.CUR_POWER_RESOURCE + " VARCHAR,");
@@ -58,20 +65,18 @@ public class DataHelper extends SQLiteOpenHelper {
 		mStringBuilder.append(DevicesModel.CURRENT_MAX + " VARCHAR,");
 		mStringBuilder.append(DevicesModel.CURRENT_MIN + " VARCHAR,");
 		mStringBuilder.append(DevicesModel.DATE_CODE + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.DEVICE_ID + " VARCHAR(4),");
-		mStringBuilder.append(DevicesModel.DEVICE_REGION + " VARCHAR,");
+		
 		mStringBuilder.append(DevicesModel.ENERGY + " VARCHAR,");
 		mStringBuilder.append(DevicesModel.ENERGY_MAX + " VARCHAR,");
 		mStringBuilder.append(DevicesModel.ENERGY_MIN + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.EP + " VARCHAR(2),");
+		
 		mStringBuilder.append(DevicesModel.EP_MODEL_ID + " VARCHAR(6),");
 		mStringBuilder.append(DevicesModel.HW_VERSTION + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.IEEE + " VARCHAR(16),");
+		
 		mStringBuilder.append(DevicesModel.LAST_UPDATE_TIME + " INTEGER,");
 		mStringBuilder.append(DevicesModel.MANUFACTORY + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.MODEL_ID + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.NAME + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.NODE_EN_NAME + " VARCHAR,");
+		
+		
 		mStringBuilder.append(DevicesModel.NODE_TYPE + " VARCHAR,");
 		mStringBuilder.append(DevicesModel.NWK_ADDR + " VARCHAR,");
 		mStringBuilder.append(DevicesModel.ON_OFF_LINE + " INTEGER,");
