@@ -1,7 +1,10 @@
 package com.gdgl.network;
 
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Response;
@@ -24,6 +27,7 @@ public class CustomRequest<T> extends JsonRequest<T> {
 	private Gson gson;
 	private Class<T> clazz;
 	private String mKey;
+	private Map<String, String> paraMap; 
 
 	/**
 	 * GET����ʽ,ֱ�ӽ�json�ַ����Ϊ ��Ӧ��clazz����
@@ -108,5 +112,16 @@ public class CustomRequest<T> extends JsonRequest<T> {
 		} catch (JsonSyntaxException e) {
 			return Response.error(new ParseError(e));
 		}
+	}
+	@Override
+	protected Map<String, String> getParams() throws AuthFailureError {
+//		Map<String, String> map = new HashMap<String, String>();  
+//        map.put("params1", "value1");  
+//        map.put("params2", "value2");  
+        return paraMap; 
+	}
+	public void setParamMap(HashMap<String, String> map)
+	{
+		paraMap=map;
 	}
 }

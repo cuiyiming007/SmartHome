@@ -1,6 +1,10 @@
 package com.gdgl.manager;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Vector;
+import java.util.Map.Entry;
 
 import android.util.Log;
 
@@ -124,6 +128,7 @@ public class Manger {
         return observers.size();
     }
     public void simpleVolleyRequset(String url,final EventType type) {
+    	
 		Listener<SimpleResponseData> respondListener = new Listener<SimpleResponseData>() {
 			@Override
 			public void onResponse(SimpleResponseData arg0) {
@@ -133,6 +138,7 @@ public class Manger {
 				event.setData(data);
 				notifyObservers(event);
 			}
+			
 		};
 		ErrorListener errorListener = new ErrorListener() {
 
@@ -145,11 +151,30 @@ public class Manger {
 			}
 		};
 		
+		
 		Log.i("request url", url);
 		CustomRequest<SimpleResponseData> request = new CustomRequest<SimpleResponseData>(
 				url, "response_params", SimpleResponseData.class,
 				respondListener, errorListener);
 		ApplicationController.getInstance().addToRequestQueue(request);
+	}
+    public String hashMap2ParamString(HashMap<String, String> map)
+	{
+		if (map==null||map.isEmpty()) {
+			return "";
+		}
+		StringBuilder para = new StringBuilder();
+		Iterator<Entry<String, String>> iterator= map.entrySet().iterator();
+		while (iterator.hasNext()) {
+			Map.Entry<java.lang.String, java.lang.String> entry = (Map.Entry<java.lang.String, java.lang.String>) iterator
+					.next();
+			para.append(entry.getKey());
+			para.append("=");
+			para.append(entry.getValue());
+			para.append("&");
+		}
+		para.deleteCharAt(para.length()-1);
+		return para.toString();
 	}
     
 }

@@ -1,5 +1,11 @@
 package com.gdgl.manager;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
 import com.gdgl.mydata.EventType;
 import com.gdgl.util.NetUtil;
 
@@ -26,7 +32,7 @@ public class LightManager extends Manger {
 		String url = NetUtil.getInstance().getCumstomURL(
 				"onOffLightSwitchOperation.cgi", param);
 		
-		simpleVolleyRequset(url, EventType.ONOFFLIGHTSWITCHOPERATION);
+		simpleVolleyRequset(url,EventType.ONOFFLIGHTSWITCHOPERATION);
 //		Listener<String> responseListener = new Listener<String>() {
 //			@Override
 //			public void onResponse(String response) {
@@ -72,13 +78,25 @@ public class LightManager extends Manger {
 	 * =NONE&sign=AAA
 	 */
 	public void OnOffOutputOperation() {
-		String param = "ieee=00137A0000010AB5&ep=0A&operatortype=0&param1=1&param2=2&param3=3";
+//		String param = "ieee=00137A0000010AB5&ep=0A&operatortype=0&param1=1&param2=2&param3=3";
+		HashMap<String, String> paraMap=new HashMap<String, String>();
+		paraMap.put("ieee", "00137A0000010AB5");
+		paraMap.put("ep", "0A");
+		paraMap.put("operatortype", "0");
+		paraMap.put("param1", "1");
+		paraMap.put("param2", "2");
+		paraMap.put("param3", "3");
+		String param=hashMap2ParamString(paraMap);
+		
 		String url = NetUtil.getInstance().getCumstomURL(
 				"onOffOutputOperation.cgi", param);
 		
 		simpleVolleyRequset(url, EventType.ONOFFOUTPUTOPERATION);
 
 	}
+	
+	
+	
 
 	/***
 	 * 2.13 LightSensor Operation Function Describe:Features provided to the
