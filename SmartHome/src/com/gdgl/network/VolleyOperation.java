@@ -159,6 +159,8 @@ public class VolleyOperation {
 		}
 		return jsonObject;
 	}
+	
+//	public static 
 
 	/***
 	 * http://blog.sina.com.cn/s/blog_a2f078300101hbe3.html

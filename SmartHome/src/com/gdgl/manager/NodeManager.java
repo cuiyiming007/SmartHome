@@ -9,8 +9,11 @@ import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.StringRequest;
 import com.gdgl.app.ApplicationController;
 import com.gdgl.mydata.Constants;
+import com.gdgl.mydata.Event;
+import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.Node;
 import com.gdgl.mydata.RespondDataEntity;
+import com.gdgl.mydata.SimpleResponseData;
 import com.gdgl.mydata.Weather;
 import com.gdgl.network.CustomRequest;
 import com.gdgl.network.VolleyOperation;
@@ -53,7 +56,6 @@ public class NodeManager extends Manger{
     }
     
   
-    
-    
+   
 
 }

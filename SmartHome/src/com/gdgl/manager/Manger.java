@@ -2,6 +2,17 @@ package com.gdgl.manager;
 
 import java.util.Vector;
 
+import android.util.Log;
+
+import com.android.volley.VolleyError;
+import com.android.volley.Response.ErrorListener;
+import com.android.volley.Response.Listener;
+import com.gdgl.app.ApplicationController;
+import com.gdgl.mydata.Event;
+import com.gdgl.mydata.EventType;
+import com.gdgl.mydata.SimpleResponseData;
+import com.gdgl.network.CustomRequest;
+
 
 public class Manger {
 	
@@ -112,5 +123,33 @@ public class Manger {
     {
         return observers.size();
     }
+    public void simpleVolleyRequset(String url,final EventType type) {
+		Listener<SimpleResponseData> respondListener = new Listener<SimpleResponseData>() {
+			@Override
+			public void onResponse(SimpleResponseData arg0) {
+				SimpleResponseData data = arg0;
+				Log.i("onResponse", data.toString());
+				Event event = new Event(type, true);
+				event.setData(data);
+				notifyObservers(event);
+			}
+		};
+		ErrorListener errorListener = new ErrorListener() {
 
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				Log.e("Error: ", error.getMessage());
+				Event event = new Event(type, false);
+				event.setData(error);
+				notifyObservers(event);
+			}
+		};
+		
+		Log.i("request url", url);
+		CustomRequest<SimpleResponseData> request = new CustomRequest<SimpleResponseData>(
+				url, "response_params", SimpleResponseData.class,
+				respondListener, errorListener);
+		ApplicationController.getInstance().addToRequestQueue(request);
+	}
+    
 }

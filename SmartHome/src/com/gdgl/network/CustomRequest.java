@@ -9,6 +9,7 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonRequest;
+import com.gdgl.util.UiUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
@@ -25,16 +26,16 @@ public class CustomRequest<T> extends JsonRequest<T> {
 	private String mKey;
 
 	/**
-	 * GETÇëÇó·½Ê½,Ö±½Ó½«json×Ö·û´®½âÎöÎª ¶ÔÓ¦µÄclazz¶ÔÏó
+	 * GETï¿½ï¿½ï¿½ï¿½Ê½,Ö±ï¿½Ó½ï¿½jsonï¿½Ö·ï¿½ï¿½ï¿½ï¿½Îª ï¿½ï¿½Ó¦ï¿½ï¿½clazzï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param url
-	 *            ÇëÇóurl
+	 *            ï¿½ï¿½ï¿½ï¿½url
 	 * @param clazz
-	 *            ½âÎöµÄclass×Ö½ÚÂë
+	 *            ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½classï¿½Ö½ï¿½ï¿½ï¿½
 	 * @param listener
-	 *            ÇëÇó³É¹¦¼àÌýÆ÷
+	 *            ï¿½ï¿½ï¿½ï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param errorListener
-	 *            ÇëÇóÊ§°Ü¼àÌýÆ÷
+	 *            ï¿½ï¿½ï¿½ï¿½Ê§ï¿½Ü¼ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	public CustomRequest(String url, Class<T> clazz, Listener<T> listener,
 			ErrorListener errorListener) {
@@ -42,18 +43,18 @@ public class CustomRequest<T> extends JsonRequest<T> {
 	}
 
 	/**
-	 * GETÇëÇó·½Ê½,½«jsonÖÐµÄkey¶ÔÓ¦µÄvalue½âÎöÎª ¶ÔÓ¦µÄclazz¶ÔÏó
+	 * GETï¿½ï¿½ï¿½ï¿½Ê½,ï¿½ï¿½jsonï¿½Ðµï¿½keyï¿½ï¿½Ó¦ï¿½ï¿½valueï¿½ï¿½ï¿½ï¿½Îª ï¿½ï¿½Ó¦ï¿½ï¿½clazzï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param url
-	 *            ÇëÇóurl
+	 *            ï¿½ï¿½ï¿½ï¿½url
 	 * @param key
-	 *            È¡µÃÖ¸¶¨µÄkey,<b>NOTE:</b>Ö»Ö§³Ö root-key£¬ËùÓÐ×Ókey¾ù´íÎó
+	 *            È¡ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½key,<b>NOTE:</b>Ö»Ö§ï¿½ï¿½ root-keyï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½keyï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param clazz
-	 *            ½âÎöµÄclass×Ö½ÚÂë
+	 *            ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½classï¿½Ö½ï¿½ï¿½ï¿½
 	 * @param listener
-	 *            ÇëÇó³É¹¦¼àÌýÆ÷
+	 *            ï¿½ï¿½ï¿½ï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param errorListener
-	 *            ÇëÇóÊ§°Ü¼àÌýÆ÷
+	 *            ï¿½ï¿½ï¿½ï¿½Ê§ï¿½Ü¼ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	public CustomRequest(String url, String key, Class<T> clazz,
 			Listener<T> listener, ErrorListener errorListener) {
@@ -63,18 +64,18 @@ public class CustomRequest<T> extends JsonRequest<T> {
 	/**
 	 * 
 	 * @param method
-	 *            ÇëÇó·½·¨ Use {@link com.android.volley.Request.Method}.
+	 *            ï¿½ï¿½ï¿½ó·½·ï¿½ Use {@link com.android.volley.Request.Method}.
 	 * @param url
 	 * @param requestBody
-	 *            Èç¹ûÊÇPOSTÇëÇó£¬¿ÉÒÔÌá½»form±íµ¥×Ö·û´®£¬±ÈÈç name=zhangsan&age=20
+	 *            ï¿½ï¿½ï¿½ï¿½ï¿½POSTï¿½ï¿½ï¿½ó£¬¿ï¿½ï¿½ï¿½ï¿½á½»formï¿½?ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ name=zhangsan&age=20
 	 * @param key
-	 *            È¡µÃÖ¸¶¨µÄkey,<b>NOTE:</b>Ö»Ö§³Ö root-key£¬ËùÓÐ×Ókey¾ù´íÎó
+	 *            È¡ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½key,<b>NOTE:</b>Ö»Ö§ï¿½ï¿½ root-keyï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½keyï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param clazz
-	 *            ½âÎöµÄclass×Ö½ÚÂë
+	 *            ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½classï¿½Ö½ï¿½ï¿½ï¿½
 	 * @param listener
-	 *            ÇëÇó³É¹¦¼àÌýÆ÷
+	 *            ï¿½ï¿½ï¿½ï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param errorListener
-	 *            ÇëÇóÊ§°Ü¼àÌýÆ÷
+	 *            ï¿½ï¿½ï¿½ï¿½Ê§ï¿½Ü¼ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	public CustomRequest(int method, String url, String requestBody,
 			String key, Class<T> clazz, Listener<T> listener,
@@ -90,8 +91,9 @@ public class CustomRequest<T> extends JsonRequest<T> {
 	@Override
 	protected Response<T> parseNetworkResponse(NetworkResponse response) {
 		try {
-			String json = new String(response.data,
+			String data = new String(response.data,
 					HttpHeaderParser.parseCharset(response.headers));
+			String json=UiUtils.formatResponseString(data);
 			T t = null;
 			if(mKey == null){
 				t = gson.fromJson(json, clazz);
