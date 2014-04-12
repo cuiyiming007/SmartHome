@@ -15,6 +15,7 @@ import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
 import com.gdgl.smarthome.R;
+import com.gdgl.util.EditDevicesDlg.EditDialogcallback;
 import com.gdgl.util.MyOkCancleDlg;
 import com.gdgl.util.SelectPicPopupWindow;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
@@ -43,14 +44,15 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.TextView;
 
 public class ShowDevicesGroupFragmentActivity extends FragmentActivity
-		implements refreshData, DevicesObserver, UpdateDevice, Dialogcallback {
+		implements refreshData, DevicesObserver, UpdateDevice, Dialogcallback,
+		EditDialogcallback {
 
 	private static final String TAG = "ShowDevicesGroupFragmentActivity";
 	LinearLayout mBack;
-	List<List<SimpleDevicesModel>> mList;
+
 	List<SimpleDevicesModel> mCurrentList;
-	
-	LruCache<String,List<SimpleDevicesModel>> mCache;
+	HashMap<Integer, List<SimpleDevicesModel>> mDevicesListCache;
+
 	private int mListIndex = 0;
 
 	private int[] images;
@@ -67,11 +69,11 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 	SelectPicPopupWindow mSetWindow;
 
 	private int type;
-	private int devicesId = 0;
+	private String  devicesIeee = "";
 	private int mCurrentListItemPostion;
 
 	public static final String ACTIVITY_SHOW_DEVICES_TYPE = "activity_show_devices_type";
-
+	public static final int cacheSize = 512 * 1024;
 	boolean isDelete = false;
 
 	TextView title;
@@ -122,7 +124,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				mMyOkCancleDlg.setContent("确定要删除"
-						+ mList.get(mListIndex).get(devicesId).getmNodeENNAme()
+						+getCurrentDeviceByIeee(devicesIeee).getmNodeENNAme()
 						+ "吗?");
 				mMyOkCancleDlg.show();
 			}
@@ -137,7 +139,18 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 			}
 		});
 	}
-
+	
+	public SimpleDevicesModel getCurrentDeviceByIeee(String iee){
+		if(null!=mCurrentList){
+			for (SimpleDevicesModel mSimpleDevicesModel : mCurrentList) {
+				if(iee==mSimpleDevicesModel.getmIeee()){
+					return mSimpleDevicesModel;
+				}
+			}
+		}
+		return null;
+	}
+	
 	public void showSetWindow() {
 		mSetWindow = new SelectPicPopupWindow(
 				ShowDevicesGroupFragmentActivity.this, mSetOnClick);
@@ -155,101 +168,18 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 
 	private void initData() {
 		// TODO Auto-generated method stub
-		String[] args;
-		HashMap<String, Integer> mMap = new HashMap<String, Integer>();
-		List<String> sList = new ArrayList<String>();
-		String where = "device_id=? or device_id=? or device_id=? or device_id=? or device_id=? or device_id=?";
-		SimpleDevicesModel mSimpleDevicesModel;
+
 		mDataHelper = new DataHelper(ShowDevicesGroupFragmentActivity.this);
-		List<DevicesModel> listDevicesModel = new ArrayList<DevicesModel>();
-		List<SimpleDevicesModel> list = new ArrayList<SimpleDevicesModel>();
-		args = DataUtil.getArgs(type);
-		images = UiUtils.getDevicesManagerImage(type);
-		tags = UiUtils.getDevicesManagerTag(type);
-		SQLiteDatabase db = mDataHelper.getSQLiteDatabase();
-		listDevicesModel = mDataHelper.queryForList(db,
-				DataHelper.DEVICES_TABLE, null, where, args, null, null, null,
-				null);
-		int n = 0;
-		for (int m = 0; m < listDevicesModel.size(); m++) {
-			DevicesModel mDevicesModel = listDevicesModel.get(m);
-			// sList.add(object)
-			if (Integer.parseInt(mDevicesModel.getmDeviceId()) == DataHelper.ON_OFF_SWITCH) {
-				if (mMap.containsKey(mDevicesModel.getmModelId())) {
-					Log.i(TAG, "tag->m=" + m);
-					Log.i(TAG, "tag->Map.get(mDevicesModel.getmModelId())="
-							+ mMap.get(mDevicesModel.getmModelId()));
-					SimpleDevicesModel aSimpleDevicesModel = list.get(mMap
-							.get(mDevicesModel.getmModelId()));
-					String Ieee = aSimpleDevicesModel.getmIeee();
-					String OnOffStatus = aSimpleDevicesModel.getmOnOffStatus();
-					String NodeENNAme = aSimpleDevicesModel.getmNodeENNAme();
-					aSimpleDevicesModel.setmNodeENNAme(NodeENNAme + ","
-							+ mDevicesModel.getmNodeENNAme());
-					aSimpleDevicesModel.setmOnOffStatus(OnOffStatus + ","
-							+ mDevicesModel.getmOnOffStatus());
-					aSimpleDevicesModel.setmIeee(Ieee + ","
-							+ mDevicesModel.getmIeee());
-				} else {
-					Log.i(TAG, "tag->m=" + m);
-					mSimpleDevicesModel = new SimpleDevicesModel();
-					mSimpleDevicesModel.setID(mDevicesModel.getID());
-					mSimpleDevicesModel.setmDeviceId(Integer
-							.parseInt(mDevicesModel.getmDeviceId()));
-					mSimpleDevicesModel.setmDeviceRegion(mDevicesModel
-							.getmDeviceRegion());
-					mSimpleDevicesModel.setmEP(mDevicesModel.getmEP());
-					mSimpleDevicesModel.setmIeee(mDevicesModel.getmIeee());
-					mSimpleDevicesModel.setmLastDateTime(mDevicesModel
-							.getmLastDateTime());
-					mSimpleDevicesModel
-							.setmModelId(mDevicesModel.getmModelId());
-					mSimpleDevicesModel.setmName(mDevicesModel.getmName());
-					mSimpleDevicesModel.setmNodeENNAme(mDevicesModel
-							.getmNodeENNAme());
-					mSimpleDevicesModel.setmOnOffLine(mDevicesModel
-							.getmOnOffLine());
-					mSimpleDevicesModel.setmOnOffStatus(mDevicesModel
-							.getmOnOffStatus());
-					list.add(mSimpleDevicesModel);
-					mMap.put(mDevicesModel.getmModelId(), n);
-					n++;
-				}
-			} else {
-				mSimpleDevicesModel = new SimpleDevicesModel();
-				mSimpleDevicesModel.setID(mDevicesModel.getID());
-				mSimpleDevicesModel.setmDeviceId(Integer.parseInt(mDevicesModel
-						.getmDeviceId()));
-				mSimpleDevicesModel.setmDeviceRegion(mDevicesModel
-						.getmDeviceRegion());
-				mSimpleDevicesModel.setmEP(mDevicesModel.getmEP());
-				mSimpleDevicesModel.setmIeee(mDevicesModel.getmIeee());
-				mSimpleDevicesModel.setmLastDateTime(mDevicesModel
-						.getmLastDateTime());
-				mSimpleDevicesModel.setmModelId(mDevicesModel.getmModelId());
-				mSimpleDevicesModel.setmName(mDevicesModel.getmName());
-				mSimpleDevicesModel.setmNodeENNAme(mDevicesModel
-						.getmNodeENNAme());
-				mSimpleDevicesModel
-						.setmOnOffLine(mDevicesModel.getmOnOffLine());
-				mSimpleDevicesModel.setmOnOffStatus(mDevicesModel
-						.getmOnOffStatus());
-				n++;
-				list.add(mSimpleDevicesModel);
-			}
-		}
+		List<SimpleDevicesModel> list = DataUtil
+				.getLightingManagementDevices(mDataHelper);
 
-		mList = new ArrayList<List<SimpleDevicesModel>>();
-		mList.add(list);
-		mList.add(list);
-		mList.add(list);
-		mList.add(list);
-		mList.add(list);
-		mList.add(list);
+		images = UiUtils.DEVICES_MANAGER_IMAGES;
+		tags = UiUtils.DEVICES_MANAGER_TAGS;
 
+		mCurrentList = list;
+		mDevicesListCache=new HashMap<>();
+		mDevicesListCache.put(UiUtils.LIGHTS_MANAGER, list);
 		fragmentManager = this.getFragmentManager();
-
-		mCurrentList = mList.get(mListIndex);
 	}
 
 	private void initDevicesListFragment() {
@@ -280,7 +210,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		fancyCoverFlow.setAdapter(new ViewGroupAdapter(getApplicationContext(),
 				images, tags, 250, 200));
 		fancyCoverFlow.setCallbackDuringFling(false);
-		fancyCoverFlow.setSelection(1);
+		fancyCoverFlow.setSelection(0);
 		fancyCoverFlow.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@SuppressLint("NewApi")
@@ -308,13 +238,36 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		});
 	}
 
+	private int translateId(int m) {
+		int type = 0;
+		switch (m) {
+		case 0:
+			type = UiUtils.LIGHTS_MANAGER;
+			break;
+		case 1:
+			type = UiUtils.ELECTRICAL_MANAGER;
+			break;
+		case 2:
+			type = UiUtils.SECURITY_CONTROL;
+			break;
+		case 3:
+			type = UiUtils.ENVIRONMENTAL_CONTROL;
+			break;
+		default:
+			type = UiUtils.ENVIRONMENTAL_CONTROL;
+			break;
+
+		}
+		return type;
+	}
+
 	public void changeForCoverFlow(int p) {
 		if (fragmentManager.getBackStackEntryCount() > 0) {
 			fragmentManager.popBackStack();
 		}
 		if (mListIndex != p) {
 			mListIndex = p;
-			devicesId = 0;
+			devicesIeee ="";
 			refreshAdapter(mListIndex);
 		}
 		initTitleByTag(mListIndex);
@@ -322,7 +275,14 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 
 	public void refreshAdapter(int postion) {
 		mCurrentList = null;
-		mCurrentList = mList.get(mListIndex);
+		int type=translateId(postion);
+		if(null!=mDevicesListCache.get(type)){
+			mCurrentList=mDevicesListCache.get(type);
+		}
+		else{
+			mCurrentList=DataUtil.getOtherManagementDevices(mDataHelper, type);
+			mDevicesListCache.put(type, mCurrentList);
+		}
 		mDevicesBaseAdapter.setList(mCurrentList);
 		mDevicesBaseAdapter.notifyDataSetChanged();
 		mDevicesListFragment.setLayout();
@@ -338,7 +298,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 			}
-			return mList.get(mListIndex);
+			return mCurrentList;
 		}
 
 		@Override
@@ -362,9 +322,9 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 	}
 
 	@Override
-	public void setDevicesId(int id) {
+	public void setDevicesId(String id) {
 		// TODO Auto-generated method stub
-		devicesId = id;
+		devicesIeee = id;
 	}
 
 	@Override
@@ -377,7 +337,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		fragmentTransaction.replace(R.id.devices_control_fragment, mFragment);
 		fragmentTransaction.addToBackStack(null);
 		fragmentTransaction.commit();
-		initTitleByDevices(devicesId);
+		initTitleByDevices(devicesIeee);
 	}
 
 	public void initTitleByTag(int postion) {
@@ -386,8 +346,9 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		devices_need.setVisibility(View.GONE);
 	}
 
-	public void initTitleByDevices(int devicesId) {
-		title.setText(mList.get(mListIndex).get(devicesId).getmName());
+	public void initTitleByDevices(String devicesId) {
+		title.setText(getCurrentDeviceByIeee(devicesIeee).getmName()
+				.replace(" ", ""));
 		parents_need.setVisibility(View.GONE);
 		devices_need.setVisibility(View.VISIBLE);
 	}
@@ -411,13 +372,13 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 	@Override
 	public void dialogdo() {
 		// TODO Auto-generated method stub
-		mList.get(mListIndex).remove(devicesId);
-		mCurrentList = null;
+		mDataHelper.delete(mDataHelper.getSQLiteDatabase(), DataHelper.DEVICES_TABLE, " ieee=? ", new String[]{devicesIeee});
+		mDevicesListCache.remove(translateId(mListIndex));
 		fragmentManager.popBackStack();
 		refreshAdapter(mListIndex);
 		initTitleByTag(mListIndex);
 	}
-	
+
 	@Override
 	public boolean updateDevices(String Ieee, ContentValues c) {
 		// TODO Auto-generated method stub
@@ -431,5 +392,26 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public void setLayout() {
+		// TODO Auto-generated method stub
+		mDevicesListFragment.setLayout();
+	}
+
+	@Override
+	public void saveedit(String name, String region) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void deleteDevices(String id) {
+		// TODO Auto-generated method stub
+		Log.i(TAG, "tagzgs->delete id="+id);
+		mDataHelper.delete(mDataHelper.getSQLiteDatabase(), DataHelper.DEVICES_TABLE, " ieee=? ", new String[]{id});
+		mDevicesListCache.clear();
+		refreshAdapter(mListIndex);
 	}
 }
