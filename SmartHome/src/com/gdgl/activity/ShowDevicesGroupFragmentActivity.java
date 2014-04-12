@@ -177,7 +177,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		tags = UiUtils.DEVICES_MANAGER_TAGS;
 
 		mCurrentList = list;
-		mDevicesListCache=new HashMap<>();
+		mDevicesListCache=new HashMap<Integer, List<SimpleDevicesModel>>();
 		mDevicesListCache.put(UiUtils.LIGHTS_MANAGER, list);
 		fragmentManager = this.getFragmentManager();
 	}
