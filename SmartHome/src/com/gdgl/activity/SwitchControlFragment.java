@@ -9,6 +9,8 @@ import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
+import com.gdgl.mydata.Event;
+import com.gdgl.mydata.EventType;
 import com.gdgl.smarthome.R;
 
 import android.annotation.SuppressLint;
@@ -168,7 +170,7 @@ public class SwitchControlFragment extends BaseControlFragment implements
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
-			//mLightManager.OnOffLightSwitchOperation();
+			mLightManager.onOffSwitchOperation();
 		}
 		
 	}
@@ -198,7 +200,12 @@ public class SwitchControlFragment extends BaseControlFragment implements
 
 	@Override
 	public void update(Manger observer, Object object) {
-		// TODO Auto-generated method stub
+		final Event event=(Event) object;
+		if (EventType.ONOFFSWITCHOPERATION==event.getType()) {
+			//data maybe null
+			SimpleDevicesModel data=(SimpleDevicesModel) event.getData();
+			// TODO refresh UI data
+		}
 		
 	}
 
