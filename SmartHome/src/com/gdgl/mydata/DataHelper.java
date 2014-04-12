@@ -15,19 +15,46 @@ import android.util.Log;
 
 public class DataHelper extends SQLiteOpenHelper {
 
-	public static final int ON_OFF_SWITCH = 0;
-	public static final int ON_OFF_OUTPUT = 2;
-	public static final int REMOTE_CONTROL = 6;
-	public static final int COMBINED_INTERFACE = 7;
-	public static final int RANGE_EXTENDER = 8;
-	public static final int MAINS_POWER_OUTLET = 9;
-	public static final int DIMEN_LIGHTS = 257;
-	public static final int DIMEN_SWITCH = 260;
-	public static final int LIGHT_SENSOR = 262;
-	public static final int SHADE = 512;
-	public static final int IAS_ACE = 1025;
-	public static final int IAS_ZONE = 1026;
-	public static final int IAS_WARNNING_DEVICE = 1027;
+	public static final int ON_OFF_SWITCH_DEVICETYPE = 0;
+	public static final int ON_OFF_OUTPUT_DEVICETYPE = 2;
+	public static final int REMOTE_CONTROL_DEVICETYPE = 6;
+	public static final int COMBINED_INTERFACE_DEVICETYPE = 7;
+	public static final int RANGE_EXTENDER_DEVICETYPE = 8;
+	public static final int MAINS_POWER_OUTLET_DEVICETYPE = 9;
+	public static final int DIMEN_LIGHTS_DEVICETYPE = 257;
+	public static final int DIMEN_SWITCH_DEVICETYPE = 260;
+	public static final int LIGHT_SENSOR_DEVICETYPE = 262;
+	public static final int SHADE_DEVICETYPE = 512;
+	public static final int IAS_ACE_DEVICETYPE = 1025;
+	public static final int IAS_ZONE_DEVICETYPE = 1026;
+	public static final int IAS_WARNNING_DEVICE_DEVICETYPE = 1027;
+
+	public static final String Motion_Sensor = "ZB11A"; // ZigBee动作感应器
+	public static final String Magnetic_Window = "Z311A"; // ZigBee窗磁
+	public static final String Emergency_Button = "Z302D"; // ZigBee紧急按钮
+	public static final String Doors_and_windows_sensor_switch = "Z311J"; // 门窗感应开关
+	public static final String Smoke_Detectors = "ZA01A"; // 烟雾感应器
+	public static final String Combustible_Gas_Detector_Gas = "ZA01B"; // 可燃气体探测器（煤气)
+	public static final String Combustible_Gas_Detector_CO = "ZA01C"; // 可燃气体探测器（一氧化碳)
+	public static final String Combustible_Gas_Detector_Natural_gas = "ZA01D"; // 可燃气体探测器（天然气)
+	public static final String Wireless_Intelligent_valve_switch = "ZA10"; // 无线智能阀门开关
+	public static final String Siren = "Z602A"; // ZigBee警报器
+	public static final String Wall_switch_touch = "ZB02A"; // ZigBee墙面开关（单键）
+	public static final String Wall_switch_double = "ZB02B"; // 墙面开关（双键)
+	public static final String Wall_switch_triple = "ZB02C"; // ZigBee动墙面开关（三键）
+	public static final String Dimmer_Switch = "ZB02F"; // ZigBee调光开关
+	public static final String Power_detect_wall = "Z816H"; // 中规电能检测墙面插座
+	public static final String Curtain_control_switch = "Z815N"; // ZigBee幕帘控制开关
+	public static final String Infrared_controller = "Z211"; // ZigBee红外控制器
+	public static final String Indoor_temperature_sensor = "Z711"; // ZigBee室内型温湿度感应器
+	public static final String Light_Sensor = "Z311G"; // ZigBee光线感应器
+	public static final String Multi_key_remote_control = "Z503"; // ZigBee多键遥控器
+	public static final String Doorbell_button = "Z312"; // ZigBee门铃按键
+	public static final String Switch_Module_Single = "Z805B"; // ZigBee开关模块（单路）
+	public static final String Energy_detection_dimming_module = "Z817B"; // 吸顶电能检测调光模块
+	public static final String Pro_RF = "Z100BI"; // ZigBee Pro RF 模块
+	public static final String RS232_adapter = "ZL01A"; // 工业级ZigBee RS232适配器
+	public static final String Power_detect_socket = "Z809A"; // ZigBee 电能检测插座
 
 	public static final String DATABASE_NAME = "smarthome";
 	public static final String DEVICES_TABLE = "devices";

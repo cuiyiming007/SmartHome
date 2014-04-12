@@ -33,7 +33,7 @@ public class firstFragment extends Fragment {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent intent=new Intent();
-				intent.putExtra(ShowDevicesGroupFragmentActivity.ACTIVITY_SHOW_DEVICES_TYPE, UiUtils.DEVICES_MANAGER);
+				intent.putExtra(ShowDevicesGroupFragmentActivity.ACTIVITY_SHOW_DEVICES_TYPE, UiUtils.SECURITY_CONTROL);
 				intent.setClass(getActivity(), ShowDevicesGroupFragmentActivity.class);
 				startActivity(intent);
 			}

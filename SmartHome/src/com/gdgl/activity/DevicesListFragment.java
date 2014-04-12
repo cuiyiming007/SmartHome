@@ -2,6 +2,8 @@ package com.gdgl.activity;
 
 import com.gdgl.activity.ShowDevicesGroupFragmentActivity.adapterSeter;
 import com.gdgl.smarthome.R;
+import com.gdgl.util.ActionSlideExpandableListView;
+import com.gdgl.util.SlideExpandableListAdapter;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
@@ -13,14 +15,13 @@ import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 
-public class DevicesListFragment extends Fragment implements adapterSeter {
+public class DevicesListFragment extends Fragment implements adapterSeter,OnRefreshListener<ListView>  {
 
 	private static final String TAG = "DevicesListFragment";
 	private View mView;
@@ -82,7 +83,8 @@ public class DevicesListFragment extends Fragment implements adapterSeter {
 			}
 		});
 
-		devices_list.setAdapter(mBaseAdapter);
+		devices_list.setAdapter(new SlideExpandableListAdapter(mBaseAdapter,
+				R.id.expandable_toggle_button, R.id.expandable));
 	}
 
 	public void setLayout() {
@@ -140,4 +142,9 @@ public class DevicesListFragment extends Fragment implements adapterSeter {
 		refreshTag = 0;
 	}
 
+	@Override
+	public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+		// TODO Auto-generated method stub
+		
+	}
 }

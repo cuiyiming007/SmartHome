@@ -2,9 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:paddingBottom="10dip"
-    android:paddingTop="10dip" >
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="10dip"
+        android:paddingTop="10dip" >
 
     <ImageView
         android:id="@+id/devices_img"
@@ -78,6 +83,54 @@
                 android:textColor="#6CA6CD"
                 android:textSize="15dp" />
         </LinearLayout>
+    </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/expandable_toggle_button"
+            style="@style/ExpandCheckboxTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="2dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:checked="true"
+            android:layout_marginTop="2dp" />
+"
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/expandable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:alpha="0.65"
+        android:orientation="horizontal"
+        android:visibility="gone" >
+
+        <Button
+            android:id="@+id/btn_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/function_btn_style"
+            android:text="编辑"
+            android:textSize="15dp" />
+
+        <Button
+            android:id="@+id/btn_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/function_btn_style"
+            android:text="删除"
+            android:textSize="15dp" />
     </LinearLayout>
 
 </LinearLayout>
