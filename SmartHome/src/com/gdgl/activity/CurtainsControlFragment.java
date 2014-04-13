@@ -363,5 +363,20 @@ public class CurtainsControlFragment extends Fragment {
         }
         super.onDestroy();
     }
-
+    class operatortype {
+		
+		public static final int TurnOn = 0;
+		public static final int TurnOff = 1;
+		
+		public static final int Toggle = 2;
+		public static final int GetLevel = 3;
+		public static final int GetOnOffStatus = 4;
+		public static final int MoveToLevel = 8;
+		public static final int LevelStepUp = 9;
+		public static final int LevelStepDown = 10;
+		public static final int Move = 11;
+		public static final int Stop=13;
+			
+		
+	}
 }

@@ -133,5 +133,17 @@ public class SeekLightsControlFragment extends BaseControlFragment {
 		// TODO Auto-generated method stub
 
 	}
-
+	class operatortype {
+		public static final int TurnOff = 0;
+		
+		public static final int TurnOn = 1;
+		
+		public static final int Toggle = 2;
+		public static final int GetOnOffStatus = 3;
+		public static final int GetLevel = 4;
+		public static final int MoveToLevel = 7;
+		public static final int LevelStepUp = 8;
+		public static final int LevelStepDown = 9;
+		public static final int Move = 13;
+	}
 }

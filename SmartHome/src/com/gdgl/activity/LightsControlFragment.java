@@ -134,4 +134,19 @@ public class LightsControlFragment extends BaseControlFragment {
 		// TODO Auto-generated method stub
 
 	}
+	class operatortype {
+		/***
+		 * 获取设备类型
+		 */
+		public static final int GetOnOffSwitchType = 0;
+		/***
+		 * 获取状态
+		 */
+		public static final int GetOnOffSwitchActions = 1;
+		/***
+		 * 当操作类型是2时，para1有以下意义 Param1: switchaction: 0x00: Off 0x01: On 0x02:
+		 * Toggle
+		 */
+		public static final int ChangeOnOffSwitchActions = 2;
+	}
 }

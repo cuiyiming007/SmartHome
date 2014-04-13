@@ -113,8 +113,6 @@ public class SwitchControlFragment extends BaseControlFragment implements
 		mSwitch1 = (CheckBox) mView.findViewById(R.id.switch_state1);
 		mSwitch2 = (CheckBox) mView.findViewById(R.id.switch_state2);
 		mSwitch3 = (CheckBox) mView.findViewById(R.id.switch_state3);
-		
-		
 
 		mSwichName1 = (TextView) mView.findViewById(R.id.switch_name1);
 		mSwichName2 = (TextView) mView.findViewById(R.id.switch_name2);
@@ -173,23 +171,25 @@ public class SwitchControlFragment extends BaseControlFragment implements
 			break;
 		}
 	}
-	
-	public class SwitchClickListener implements OnCheckedChangeListener{
+
+	public class SwitchClickListener implements OnCheckedChangeListener {
 		String CIeee;
 		boolean CB;
-		public SwitchClickListener(String ieee,boolean b){
-			CIeee=ieee;
-			CB=b;
+
+		public SwitchClickListener(String ieee, boolean b) {
+			CIeee = ieee;
+			CB = b;
 		}
+
 		@Override
 		public void onCheckedChanged(CompoundButton buttonView,
 				boolean isChecked) {
 			// TODO Auto-generated method stub
-			
+
 		}
-		
+
 	}
-	
+
 	@Override
 	public void onAttach(Activity activity) {
 		// TODO Auto-generated method stub
@@ -224,4 +224,19 @@ public class SwitchControlFragment extends BaseControlFragment implements
 
 	}
 
+	class operatortype {
+		/***
+		 * 获取设备类型
+		 */
+		public static final int GetOnOffSwitchType = 0;
+		/***
+		 * 获取状态
+		 */
+		public static final int GetOnOffSwitchActions = 1;
+		/***
+		 * 当操作类型是2时，para1有以下意义 Param1: switchaction: 0x00: Off 0x01: On 0x02:
+		 * Toggle
+		 */
+		public static final int ChangeOnOffSwitchActions = 2;
+	}
 }
