@@ -22,6 +22,15 @@ public class EventType {
 	public static final EventType DOORLOCKOPERATION;
 	public static final EventType  INTITIALDVIVCEDATA;
 	public static final EventType  LIGHTSENSOROPERATION;
+	public static final EventType IASWARNINGDEVICOPERATION;
+	public static final EventType SHADEcONTROLLEROPERATION;
+	public static final EventType SHADEOPERATION;
+	public static final EventType IASZONEOPERATION;
+	public static final EventType TEMPERATURESENSOROPERATION;
+	public static final EventType RANGEEXTENDER;
+	public static final EventType IASACE;
+	public static final EventType REMOTECONTROL;
+	
 
 	
 	static
@@ -34,6 +43,15 @@ public class EventType {
 		INTITIALDVIVCEDATA=new EventType("initialDiviceData",nextId());
 		LIGHTSENSOROPERATION=new EventType("lightSensorOperation",nextId());
 		DOORLOCKOPERATION=new EventType("doorLockOperation", nextId());
+		IASWARNINGDEVICOPERATION=new EventType("iasWarningDeviceOperation", nextId());
+		SHADEcONTROLLEROPERATION=new EventType("shadeControllerOperation", nextId());
+
+		SHADEOPERATION=new EventType("shadeOperation", nextId());
+		IASZONEOPERATION=new EventType("iasZoneOperation", nextId());
+		TEMPERATURESENSOROPERATION=new EventType("temperatureSensorOperation", nextId());
+		RANGEEXTENDER=new EventType("RangeExtender", nextId());
+		IASACE=new EventType("IASACE", nextId());
+		REMOTECONTROL=new EventType("RemoteControl", nextId());
 
 	}
 	
