@@ -19,7 +19,9 @@ public class EventType {
 	public static final EventType ONOFFOUTPUTOPERATION;
 	public static final EventType ONOFFSWITCHOPERATION;
 	public static final EventType  INTITIALDVIVCEDATA;
-	
+	public static final EventType  LIGHTSENSOROPERATION;
+	public static final EventType  DOORLOCKOPERATION;
+
 	
 	static
 	{
@@ -29,6 +31,9 @@ public class EventType {
 		ONOFFOUTPUTOPERATION=new EventType("onOffOutputOperation", nextId());
 		ONOFFSWITCHOPERATION=new EventType("onOffSwitchOperation", nextId());
 		INTITIALDVIVCEDATA=new EventType("initialDiviceData",nextId());
+		LIGHTSENSOROPERATION=new EventType("lightSensorOperation",nextId());
+		DOORLOCKOPERATION=new EventType("doorLockOperation", nextId());
+
 	}
 	
 	private static int nextId()
