@@ -32,7 +32,6 @@ public class LightManager extends Manger {
 		String param = "ieee=00137A0000010AB5&ep=0A&operatortype=2&param1=1&param2=2&param3=3";
 		String url = NetUtil.getInstance().getCumstomURL(
 				"onOffLightSwitchOperation.cgi", param);
-		
 		simpleVolleyRequset(url,EventType.ONOFFLIGHTSWITCHOPERATION);
 	}
 
@@ -48,25 +47,23 @@ public class LightManager extends Manger {
 	 * =NONE&sign=AAA
 	 */
 	public void OnOffOutputOperation() {
-//		String param = "ieee=00137A0000010AB5&ep=0A&operatortype=0&param1=1&param2=2&param3=3";
-		HashMap<String, String> paraMap=new HashMap<String, String>();
+		// String param =
+		// "ieee=00137A0000010AB5&ep=0A&operatortype=0&param1=1&param2=2&param3=3";
+		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", "00137A0000010AB5");
 		paraMap.put("ep", "0A");
 		paraMap.put("operatortype", "0");
 		paraMap.put("param1", "1");
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
-		String param=hashMap2ParamString(paraMap);
-		
+		String param = hashMap2ParamString(paraMap);
+
 		String url = NetUtil.getInstance().getCumstomURL(
 				"onOffOutputOperation.cgi", param);
-		
+
 		simpleVolleyRequset(url, EventType.ONOFFOUTPUTOPERATION);
 
 	}
-	
-	
-	
 
 	/***
 	 * 2.13 LightSensor Operation Function Describe:Features provided to the
@@ -75,19 +72,19 @@ public class LightManager extends Manger {
 	 * 
 	 */
 	public void lightSensorOperation() {
-		HashMap<String, String> paraMap=new HashMap<String, String>();
+		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", "00137A000001181F");
-		paraMap.put("ep", "01");
+		paraMap.put("ep", "0A");
 		paraMap.put("operatortype", "0");
 		paraMap.put("param1", "1");
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
-		String param=hashMap2ParamString(paraMap);
-		
+		String param = hashMap2ParamString(paraMap);
+
 		String url = NetUtil.getInstance().getCumstomURL(
-				"lightSensorOperation.cgi", param);
-		
-		simpleVolleyRequset(url, EventType.LIGHTSENSOROPERATION);
+				"onOffOutputOperation.cgi", param);
+
+		simpleVolleyRequset(url, EventType.ONOFFOUTPUTOPERATION);
 
 	}
 
@@ -133,50 +130,69 @@ public class LightManager extends Manger {
 		String param = "ieee=00137A0000010AB5&ep=0A&operatortype=2&param1=1&param2=2&param3=3";
 		String url = NetUtil.getInstance().getCumstomURL(
 				"onOffLightSwitchOperation.cgi", param);
-		EventType type=EventType.ONOFFLIGHTOPERATION;
-		simpleVolleyRequset(url,type);
+		EventType type = EventType.ONOFFLIGHTOPERATION;
+		simpleVolleyRequset(url, type);
 
 	}
+
+
 	/***
-	 * 2.7.1DoorLockOperationCommon
+	 * 2.7.1DoorLockOperationCommon 暂定为门窗感应开关的接口
 	 */
-	public void doorLockOperationCommon(SimpleDevicesModel model)
-	{
-		HashMap<String, String> paraMap=new HashMap<String, String>();
+	public void doorLockOperationCommon() {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", "00137A0000011598");
 		paraMap.put("ep", "01");
-		paraMap.put("operatortype", "1");
+		paraMap.put("operatortype", "7");//7为锁门，8为解锁
 		paraMap.put("param1", "1");
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
-		String param=hashMap2ParamString(paraMap);
-		
+		String param = hashMap2ParamString(paraMap);
+
 		String url = NetUtil.getInstance().getCumstomURL(
 				"doorLockOperation.cgi", param);
-		
+
+		simpleVolleyRequset(url, EventType.DOORLOCKOPERATION);
+
+	}
+	/***
+
+	/***
+	 * 2.8.1IASWarningDeviceOperationCommon 暂定为开始和结束警报
+	 * 
+	 */
+	public void IASWarningDeviceOperationCommon()
+	{
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("ieee", "00137A0000011949");
+		paraMap.put("ep", "01");
+		paraMap.put("operatortype", "7");//7为锁门，8为解锁
+		paraMap.put("param1", "1");
+		paraMap.put("param2", "2");
+		paraMap.put("operatortype", "1");
+		String param = hashMap2ParamString(paraMap);
+
+		String url = NetUtil.getInstance().getCumstomURL(
+				"doorLockOperation.cgi", param);
+
 		simpleVolleyRequset(url, EventType.DOORLOCKOPERATION);
 	}
-
 	/***
 	 * 2.12OnOffSwitch Operation
 	 */
-   public void 	onOffSwitchOperation()
-   {
-	   HashMap<String, String> paraMap=new HashMap<String, String>();
+	public void onOffSwitchOperation() {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", "00137A0000010AB5");
 		paraMap.put("ep", "01");
 		paraMap.put("operatortype", "1");
 		paraMap.put("param1", "1");
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
-		String param=hashMap2ParamString(paraMap);
+		String param = hashMap2ParamString(paraMap);
 		
 		String url = NetUtil.getInstance().getCumstomURL(
 				"onOffSwitchOperation.cgi", param);
 		
 		simpleVolleyRequset(url, EventType.ONOFFSWITCHOPERATION);
-   }
-	
-	
-
+	}
 }

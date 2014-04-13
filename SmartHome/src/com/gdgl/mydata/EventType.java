@@ -18,9 +18,10 @@ public class EventType {
 	public static final  EventType ONOFFLIGHTSWITCHOPERATION;
 	public static final EventType ONOFFOUTPUTOPERATION;
 	public static final EventType ONOFFSWITCHOPERATION;
+	
+	public static final EventType DOORLOCKOPERATION;
 	public static final EventType  INTITIALDVIVCEDATA;
 	public static final EventType  LIGHTSENSOROPERATION;
-	public static final EventType  DOORLOCKOPERATION;
 
 	
 	static
