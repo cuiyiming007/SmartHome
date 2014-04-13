@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.EventType;
 import com.gdgl.util.NetUtil;
 
@@ -33,37 +34,6 @@ public class LightManager extends Manger {
 				"onOffLightSwitchOperation.cgi", param);
 		
 		simpleVolleyRequset(url,EventType.ONOFFLIGHTSWITCHOPERATION);
-//		Listener<String> responseListener = new Listener<String>() {
-//			@Override
-//			public void onResponse(String response) {
-//
-//				// Class<SimpleResponseData> data=
-//				// VolleyOperation.getInstance().getSimpleJsonByVolley(UiUtils.formatResponseString(response),SimpleResponseData.class,"response_params")
-//				// ;
-//				Event event = new Event(EventType.ONOFFLIGHTSWITCHOPERATION,
-//						true);
-//				// event.setData(data);
-//				notifyObservers(event);
-//			}
-//		};
-//
-//		ErrorListener errorListener = new ErrorListener() {
-//
-//			@Override
-//			public void onErrorResponse(VolleyError error) {
-//				Log.e("Error: ", error.getMessage());
-//				VolleyErrorHelper.getMessage(error, null);
-//				Event event = new Event(EventType.ONOFFLIGHTSWITCHOPERATION,
-//						false);
-//				notifyObservers(event);
-//			}
-//		};
-//
-//		StringRequest req = new StringRequest(url, responseListener,
-//				errorListener);
-
-		// add the request object to the queue to be executed
-//		ApplicationController.getInstance().addToRequestQueue(req);
 	}
 
 	/***
@@ -105,6 +75,19 @@ public class LightManager extends Manger {
 	 * 
 	 */
 	public void lightSensorOperation() {
+		HashMap<String, String> paraMap=new HashMap<String, String>();
+		paraMap.put("ieee", "00137A000001181F");
+		paraMap.put("ep", "01");
+		paraMap.put("operatortype", "0");
+		paraMap.put("param1", "1");
+		paraMap.put("param2", "2");
+		paraMap.put("param3", "3");
+		String param=hashMap2ParamString(paraMap);
+		
+		String url = NetUtil.getInstance().getCumstomURL(
+				"lightSensorOperation.cgi", param);
+		
+		simpleVolleyRequset(url, EventType.LIGHTSENSOROPERATION);
 
 	}
 
@@ -119,7 +102,19 @@ public class LightManager extends Manger {
 	 * level.
 	 */
 	public void dimmableLightOperation() {
-
+		HashMap<String, String> paraMap=new HashMap<String, String>();
+		paraMap.put("ieee", "00137A000001181F");
+		paraMap.put("ep", "01");
+		paraMap.put("operatortype", "0");
+		paraMap.put("param1", "1");
+		paraMap.put("param2", "2");
+		paraMap.put("param3", "3");
+		String param=hashMap2ParamString(paraMap);
+		
+		String url = NetUtil.getInstance().getCumstomURL(
+				"lightSensorOperation.cgi", param);
+		
+		simpleVolleyRequset(url, EventType.ONOFFOUTPUTOPERATION);
 	}
 
 	/***
@@ -143,7 +138,27 @@ public class LightManager extends Manger {
 
 	}
 	/***
-	 * OnOffSwitch Operation
+	 * 2.7.1DoorLockOperationCommon
+	 */
+	public void doorLockOperationCommon(SimpleDevicesModel model)
+	{
+		HashMap<String, String> paraMap=new HashMap<String, String>();
+		paraMap.put("ieee", "00137A0000011598");
+		paraMap.put("ep", "01");
+		paraMap.put("operatortype", "1");
+		paraMap.put("param1", "1");
+		paraMap.put("param2", "2");
+		paraMap.put("param3", "3");
+		String param=hashMap2ParamString(paraMap);
+		
+		String url = NetUtil.getInstance().getCumstomURL(
+				"doorLockOperation.cgi", param);
+		
+		simpleVolleyRequset(url, EventType.DOORLOCKOPERATION);
+	}
+
+	/***
+	 * 2.12OnOffSwitch Operation
 	 */
    public void 	onOffSwitchOperation()
    {
