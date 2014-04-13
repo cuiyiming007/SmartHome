@@ -7,7 +7,6 @@ import com.gdgl.adapter.DevicesBaseAdapter;
 import com.gdgl.manager.LightManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
-import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
@@ -15,29 +14,29 @@ import com.gdgl.smarthome.R;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.database.CursorJoiner.Result;
 import android.os.Bundle;
-import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 @SuppressLint("NewApi")
-public class SwitchControlFragment extends BaseControlFragment implements 
+public class SwitchControlFragment extends BaseControlFragment implements
 		UIListener {
 	boolean[] mBoolean = { false, false, false };
 	List<String> mName = new ArrayList<String>();
 	List<String> mIeee = new ArrayList<String>();
+	List<String> EP = new ArrayList<String>();
 	View mView;
 	int mCount;
 	SimpleDevicesModel mDevices;
-    
+
 	LightManager mLightManager;
-	
+
 	TextView txt_devices_name, txt_devices_region;
 
 	CheckBox mSwitch1, mSwitch2, mSwitch3;
@@ -53,22 +52,26 @@ public class SwitchControlFragment extends BaseControlFragment implements
 		Bundle extras = getArguments();
 		if (null != extras) {
 			mDevices = (SimpleDevicesModel) extras
-					.getParcelable(DevicesBaseAdapter.PASS_OBJECT);
+					.getParcelable(DevicesListFragment.PASS_OBJECT);
 		}
 		initstate();
 	}
 
 	private void initstate() {
 		// TODO Auto-generated method stub
-		mLightManager=LightManager.getInstance();
+		mLightManager = LightManager.getInstance();
 		mLightManager.addObserver(SwitchControlFragment.this);
 		if (null != mDevices) {
 			String s = mDevices.getmOnOffStatus();
 			String name = mDevices.getmNodeENNAme();
 			String ieee = mDevices.getmNodeENNAme();
+			String ep = mDevices.getmEP();
+
 			String[] result = s.split(",");
 			String[] nameR = name.split(",");
 			String[] Ieee = ieee.split(",");
+			String[] mEp = ep.split(",");
+
 			for (int n = 0; n < nameR.length; n++) {
 				if (nameR[n].trim().equals("")) {
 					mName.add("Switch_" + n);
@@ -84,6 +87,12 @@ public class SwitchControlFragment extends BaseControlFragment implements
 			for (int i = 0; i < Ieee.length; i++) {
 				if (!Ieee[i].trim().equals("")) {
 					mIeee.add(Ieee[i]);
+				}
+			}
+
+			for (int i = 0; i < mEp.length; i++) {
+				if (!mEp[i].trim().equals("")) {
+					EP.add(mEp[i]);
 				}
 			}
 			mCount = result.length;
@@ -127,17 +136,20 @@ public class SwitchControlFragment extends BaseControlFragment implements
 			viewGroup2.setVisibility(View.GONE);
 			mSwitch1.setChecked(mBoolean[0]);
 			mSwichName1.setText(mName.get(0));
-			mSwitch1.setOnClickListener(new SwitchClickListener( mIeee.get(0), mBoolean[0]));
+			mSwitch1.setOnCheckedChangeListener(new SwitchClickListener(mIeee
+					.get(0), mBoolean[0]));
 			break;
 		case 2:
 			viewGroup1.setVisibility(View.GONE);
 			viewGroup2.setVisibility(View.VISIBLE);
 			mSwitch2.setChecked(mBoolean[0]);
 			mSwitch3.setChecked(mBoolean[1]);
-			
-			mSwitch2.setOnClickListener(new SwitchClickListener( mIeee.get(0), mBoolean[0]));
-			mSwitch3.setOnClickListener(new SwitchClickListener( mIeee.get(1), mBoolean[1]));
-			
+
+			mSwitch2.setOnCheckedChangeListener(new SwitchClickListener(mIeee
+					.get(0), mBoolean[0]));
+			mSwitch3.setOnCheckedChangeListener(new SwitchClickListener(mIeee
+					.get(1), mBoolean[1]));
+
 			mSwichName2.setText(mName.get(0));
 			mSwichName3.setText(mName.get(1));
 			break;
@@ -145,11 +157,14 @@ public class SwitchControlFragment extends BaseControlFragment implements
 			mSwitch1.setChecked(mBoolean[0]);
 			mSwitch2.setChecked(mBoolean[1]);
 			mSwitch3.setChecked(mBoolean[2]);
-			
-			mSwitch1.setOnClickListener(new SwitchClickListener( mIeee.get(0), mBoolean[0]));
-			mSwitch2.setOnClickListener(new SwitchClickListener( mIeee.get(1), mBoolean[1]));
-			mSwitch3.setOnClickListener(new SwitchClickListener( mIeee.get(2), mBoolean[2]));
-			
+
+			mSwitch1.setOnCheckedChangeListener(new SwitchClickListener(mIeee
+					.get(0), mBoolean[0]));
+			mSwitch2.setOnCheckedChangeListener(new SwitchClickListener(mIeee
+					.get(1), mBoolean[1]));
+			mSwitch3.setOnCheckedChangeListener(new SwitchClickListener(mIeee
+					.get(2), mBoolean[2]));
+
 			mSwichName1.setText(mName.get(0));
 			mSwichName2.setText(mName.get(1));
 			mSwichName3.setText(mName.get(2));
@@ -159,18 +174,18 @@ public class SwitchControlFragment extends BaseControlFragment implements
 		}
 	}
 	
-	public class SwitchClickListener implements OnClickListener{
+	public class SwitchClickListener implements OnCheckedChangeListener{
 		String CIeee;
 		boolean CB;
 		public SwitchClickListener(String ieee,boolean b){
 			CIeee=ieee;
 			CB=b;
 		}
-		
 		@Override
-		public void onClick(View v) {
+		public void onCheckedChanged(CompoundButton buttonView,
+				boolean isChecked) {
 			// TODO Auto-generated method stub
-			mLightManager.onOffSwitchOperation();
+			
 		}
 		
 	}
@@ -200,13 +215,13 @@ public class SwitchControlFragment extends BaseControlFragment implements
 
 	@Override
 	public void update(Manger observer, Object object) {
-		final Event event=(Event) object;
-		if (EventType.ONOFFSWITCHOPERATION==event.getType()) {
-			//data maybe null
-			SimpleDevicesModel data=(SimpleDevicesModel) event.getData();
+		final Event event = (Event) object;
+		if (EventType.ONOFFSWITCHOPERATION == event.getType()) {
+			// data maybe null
+			SimpleDevicesModel data = (SimpleDevicesModel) event.getData();
 			// TODO refresh UI data
 		}
-		
+
 	}
 
 }

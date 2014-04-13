@@ -106,7 +106,7 @@
                 android:layout_marginLeft="15dip"
                 android:background="@drawable/edit_btn_style"
                 android:gravity="center" />
-            
+
             <Button
                 android:id="@+id/delete"
                 android:layout_width="40dp"

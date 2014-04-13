@@ -18,14 +18,15 @@ public class DataUtil {
 		String[] args = null;
 		switch (type) {
 		case UiUtils.LIGHTS_MANAGER:
-			args = new String[7];
+			args = new String[8];
 			args[0] = DataHelper.Wall_switch_touch + "%";
 			args[1] = DataHelper.Wall_switch_double + "%";
 			args[2] = DataHelper.Wall_switch_triple + "%";
 			args[3] = DataHelper.Dimmer_Switch + "%";
 			args[4] = DataHelper.Switch_Module_Single + "%";
 			args[5] = DataHelper.Power_detect_socket + "%";
-			args[6] = "1";
+			args[6] = DataHelper.Energy_detection_dimming_module + "%";
+			args[7] = "1";
 			break;
 		case UiUtils.ELECTRICAL_MANAGER:
 			args = new String[5];
@@ -53,10 +54,17 @@ public class DataUtil {
 			args[2] = "1";
 			break;
 		default:
-			args = new String[3];
+			args = new String[10];
 			args[0] = DataHelper.Indoor_temperature_sensor + "%";
 			args[1] = DataHelper.Infrared_controller + "%";
-			args[2] = "1";
+			args[2] = DataHelper.RS232_adapter + "%";
+			args[3] = DataHelper.Pro_RF + "%";
+			args[4] = DataHelper.Doorbell_button + "%";
+			args[5] = DataHelper.Multi_key_remote_control + "%";
+			args[6] = DataHelper.Light_Sensor + "%";
+			args[7] = DataHelper.Wireless_Intelligent_valve_switch + "%";
+			args[8] = DataHelper.Motion_Sensor + "%";
+			args[9] = "1";
 			break;
 
 		}
@@ -67,7 +75,7 @@ public class DataUtil {
 		String where = "";
 		switch (type) {
 		case UiUtils.LIGHTS_MANAGER:
-			where = " ( model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? ) and on_off_line=?";
+			where = " ( model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? ) and on_off_line=?";
 			break;
 		case UiUtils.ELECTRICAL_MANAGER:
 			where = " ( model_id like ? or model_id like ? or model_id like ? or model_id like ? ) and on_off_line=?";
@@ -79,7 +87,8 @@ public class DataUtil {
 			where = " (model_id like ? or model_id like ? ) and on_off_line=?";
 			break;
 		default:
-			where = "( model_id like ? or model_id like ? ) and on_off_line=?";
+			where = "( model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? "+
+		       " or model_id like ?  or model_id like ? ) and on_off_line=?";
 			break;
 		}
 		return where;
@@ -117,7 +126,7 @@ public class DataUtil {
 		int n = 0;
 		for (int m = 0; m < listDevicesModel.size(); m++) {
 			DevicesModel mDevicesModel = listDevicesModel.get(m);
-			// sList.add(object)
+			
 			if (Integer.parseInt(mDevicesModel.getmDeviceId()) == DataHelper.ON_OFF_SWITCH_DEVICETYPE) {
 				if (mMap.containsKey(mDevicesModel.getmModelId())) {
 
@@ -126,12 +135,15 @@ public class DataUtil {
 					String Ieee = aSimpleDevicesModel.getmIeee();
 					String OnOffStatus = aSimpleDevicesModel.getmOnOffStatus();
 					String NodeENNAme = aSimpleDevicesModel.getmNodeENNAme();
+					String EP = aSimpleDevicesModel.getmEP();
 					aSimpleDevicesModel.setmNodeENNAme(NodeENNAme + ","
 							+ mDevicesModel.getmNodeENNAme());
 					aSimpleDevicesModel.setmOnOffStatus(OnOffStatus + ","
 							+ mDevicesModel.getmOnOffStatus());
 					aSimpleDevicesModel.setmIeee(Ieee + ","
 							+ mDevicesModel.getmIeee());
+					aSimpleDevicesModel.setmEP(EP + ","
+							+ mDevicesModel.getmEP());
 				} else {
 					mSimpleDevicesModel = new SimpleDevicesModel();
 					mSimpleDevicesModel.setID(mDevicesModel.getID());

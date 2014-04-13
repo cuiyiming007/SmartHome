@@ -38,7 +38,7 @@ public class LightsControlFragment extends BaseControlFragment {
 		Bundle extras = getArguments();
 		if (null != extras) {
 			mDevices = (SimpleDevicesModel) extras
-					.getParcelable(DevicesBaseAdapter.PASS_OBJECT);
+					.getParcelable(DevicesListFragment.PASS_OBJECT);
 		}
 		initstate();
 	}
@@ -129,10 +129,9 @@ public class LightsControlFragment extends BaseControlFragment {
 		return result;
 	}
 
-
 	@Override
 	public void update(Manger observer, Object object) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

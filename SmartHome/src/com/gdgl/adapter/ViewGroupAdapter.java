@@ -9,11 +9,13 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 public class ViewGroupAdapter extends FancyCoverFlowAdapter {
@@ -25,55 +27,54 @@ public class ViewGroupAdapter extends FancyCoverFlowAdapter {
     private int newHeight = 0;
     private int newWidth = 0;
 
-    private final int DEFAULT_HEIGHT = 300;
-    private final int DEFAULT_WIDTH = 200;
+	private final int DEFAULT_HEIGHT = 300;
+	private final int DEFAULT_WIDTH = 200;
 
-    private final float DEFAULT_ROUND = 16;
-    
-    public ViewGroupAdapter(Context c, int[] ImageIds,String[] tags, int Height, int Width)
-    {
-        mContext = c;
-        mImageIds = ImageIds;
-        mImages = new ImageView[mImageIds.length];
-        mTags=tags;
-        newHeight = Height;
-        newWidth = Width;
+	private final float DEFAULT_ROUND = 16;
 
-        //initImages();
-    }
-    
-    private Bitmap getBitmap(long id)
-    {
-        Bitmap originalImage = null;
+	public ViewGroupAdapter(Context c, int[] ImageIds, String[] tags,
+			int Height, int Width) {
+		mContext = c;
+		mImageIds = ImageIds;
+		mImages = new ImageView[mImageIds.length];
+		mTags = tags;
+		newHeight = Height;
+		newWidth = Width;
 
-        Resources res = mContext.getResources();
-        originalImage = BitmapUtil.getBitmap(res, id);
-        newWidth = newWidth <= 0 ? DEFAULT_WIDTH : newWidth;
-        newHeight = newHeight <= 0 ? DEFAULT_HEIGHT : newHeight;
-        originalImage = BitmapUtil.zoomBitmap(originalImage, newWidth,
-                newHeight);
-        originalImage = BitmapUtil.getRoundedCornerBitmap(originalImage,
-                DEFAULT_ROUND);
-        return originalImage;
-    }
-    
-    @Override
-    public int getCount() {
-        // TODO Auto-generated method stub
-        return mImageIds.length;
-    }
+		// initImages();
+	}
 
-    @Override
-    public Integer getItem(int arg0) {
-        // TODO Auto-generated method stub
-        return mImageIds[arg0];
-    }
+	private Bitmap getBitmap(long id) {
+		Bitmap originalImage = null;
 
-    @Override
-    public long getItemId(int arg0) {
-        // TODO Auto-generated method stub
-        return arg0;
-    }
+		Resources res = mContext.getResources();
+		originalImage = BitmapUtil.getBitmap(res, id);
+		newWidth = newWidth <= 0 ? DEFAULT_WIDTH : newWidth;
+		newHeight = newHeight <= 0 ? DEFAULT_HEIGHT : newHeight;
+		// originalImage = BitmapUtil.zoomBitmap(originalImage, newWidth,
+		// newHeight);
+		originalImage = BitmapUtil.getRoundedCornerBitmap(originalImage,
+				DEFAULT_ROUND);
+		return originalImage;
+	}
+
+	@Override
+	public int getCount() {
+		// TODO Auto-generated method stub
+		return mImageIds.length;
+	}
+
+	@Override
+	public Integer getItem(int arg0) {
+		// TODO Auto-generated method stub
+		return mImageIds[arg0];
+	}
+
+	@Override
+	public long getItemId(int arg0) {
+		// TODO Auto-generated method stub
+		return arg0;
+	}
 
     @Override
     public View getCoverFlowItem(int position, View reusableView,
@@ -81,26 +82,37 @@ public class ViewGroupAdapter extends FancyCoverFlowAdapter {
         // TODO Auto-generated method stub
         CustomViewGroup customViewGroup = null;
 
-        if (reusableView != null) {
-            customViewGroup = (CustomViewGroup) reusableView;
-        } else {
-            customViewGroup = new CustomViewGroup(mContext);
-            customViewGroup.setLayoutParams(new FancyCoverFlow.LayoutParams(newWidth, newHeight+50));
-        }
+		if (reusableView != null) {
+			customViewGroup = (CustomViewGroup) reusableView;
+		} else {
+			customViewGroup = new CustomViewGroup(mContext);
+			customViewGroup.setLayoutParams(new FancyCoverFlow.LayoutParams(
+					newWidth, newHeight + 50));
+		}
 
-        customViewGroup.getImageView().setImageBitmap(getBitmap(this.getItem(position)));
-        customViewGroup.getTextView().setText(mTags[position]);
+		LayoutParams mLayoutParams = new LayoutParams(
+				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		mLayoutParams.setMargins(5, 5, 5, 5);
 
-        return customViewGroup;
-    }
+		customViewGroup.getImageView().setImageBitmap(
+				getBitmap(this.getItem(position)));
+		customViewGroup.getImageView().setLayoutParams(mLayoutParams);
+
+		customViewGroup.getTextView().setText(mTags[position]);
+		customViewGroup.getTextView().setTextColor(Color.BLUE);
+
+		customViewGroup.setBackgroundResource(R.drawable.corners);
+
+		return customViewGroup;
+	}
 
 }
 
 class CustomViewGroup extends LinearLayout {
 
-    // =============================================================================
-    // Child views
-    // =============================================================================
+	// =============================================================================
+	// Child views
+	// =============================================================================
 
     private TextView textView;
 

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/switch_bg"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/txt_devices_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Switch_1"
+            android:textColor="#000000"
+            android:textSize="20dp" />
+
+        <EditText
+            android:id="@+id/edit_name"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/corners"
+            android:visibility="gone" >
+
+            <requestFocus />
+        </EditText>
+
+        <TextView
+            android:id="@+id/txt_devices_region"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="厨房"
+            android:textColor="#000000"
+            android:textSize="15dp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/divider_color" />
+
+    <RelativeLayout
+        android:id="@+id/switch_group1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" >
+
+        <ImageView
+            android:id="@+id/devices_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/devices_seek"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="35dp"
+            android:src="@drawable/light_on_big" />
+
+        <SeekBar
+            android:id="@+id/devices_seek"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="30dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:maxHeight="8dp"
+            android:minHeight="8dp"
+            android:progressDrawable="@drawable/seekbar_progress"
+            android:thumb="@drawable/tuodong_btn"
+            android:thumbOffset="0dp" />
+
+        <TextView
+            android:id="@+id/text_process"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_above="@+id/devices_seek"
+            android:background="@drawable/circle_text"
+            android:layout_marginBottom="10dp"
+             android:layout_marginRight="10dp"
+            android:gravity="center"
+            android:textSize="16dp"
+            android:textColor="#000000"
+            android:alpha="0.80"
+            android:text="20%" />
+
+    </RelativeLayout>
+
+</LinearLayout>

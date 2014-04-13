@@ -38,9 +38,7 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 	public static final String BOLLEAN_ARRARY = "devices_state";
 	public static final String DEVIVES_VALUE = "devices_value";
 
-	public static final String PASS_OBJECT = "pass_object";
-
-	private boolean mExpanded = false;
+	
 
 	ViewHolder lay;
 
@@ -112,12 +110,12 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 					.findViewById(R.id.devices_region);
 			mHolder.devices_state = (TextView) mView
 					.findViewById(R.id.devices_state);
-			mHolder.edit = (Button) mView.findViewById(R.id.btn_edit);
-			mHolder.delete = (Button) mView.findViewById(R.id.btn_delete);
-			mHolder.expand = (LinearLayout) mView.findViewById(R.id.expandable);
-			mHolder.expandable_toggle_button = (CheckBox) mView
-					.findViewById(R.id.expandable_toggle_button);
-			mHolder.delete.setTag(mHolder);
+//			mHolder.edit = (Button) mView.findViewById(R.id.btn_edit);
+//			mHolder.delete = (Button) mView.findViewById(R.id.btn_delete);
+//			mHolder.expand = (LinearLayout) mView.findViewById(R.id.expandable);
+//			mHolder.expandable_toggle_button = (CheckBox) mView
+//					.findViewById(R.id.expandable_toggle_button);
+//			mHolder.delete.setTag(mHolder);
 			mView.setTag(mHolder);
 		} else {
 			mHolder = (ViewHolder) mView.getTag();
@@ -136,34 +134,34 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 		mHolder.devices_img.setImageResource(UiUtils
 				.getDevicesSmallIcon(mDevices.getmDeviceId()));
 
-		mHolder.edit.setOnClickListener(new OnClickListener() {
-			EditDevicesDlg mEditDevicesDlg;
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				mEditDevicesDlg = new EditDevicesDlg(mContext, mDevices);
-				mEditDevicesDlg
-						.setDialogCallback((EditDialogcallback) mDevicesObserver);
-				mEditDevicesDlg.setContent("编辑" + mDevices.getmName());
-				mEditDevicesDlg.show();
-			}
-		});
-
-		mHolder.delete.setOnClickListener(new OnClickListener() {
-			MyOkCancleDlg mMyOkCancleDlg;
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				index = mDevices.getmIeee();
-				lay = (ViewHolder) v.getTag();
-				mMyOkCancleDlg = new MyOkCancleDlg(mContext);
-				mMyOkCancleDlg.setDialogCallback(DevicesBaseAdapter.this);
-				mMyOkCancleDlg.setContent("确定要删除" + mDevices.getmName() + "吗?");
-				mMyOkCancleDlg.show();
-			}
-		});
+//		mHolder.edit.setOnClickListener(new OnClickListener() {
+//			EditDevicesDlg mEditDevicesDlg;
+//
+//			@Override
+//			public void onClick(View v) {
+//				// TODO Auto-generated method stub
+//				mEditDevicesDlg = new EditDevicesDlg(mContext, mDevices);
+//				mEditDevicesDlg
+//						.setDialogCallback((EditDialogcallback) mDevicesObserver);
+//				mEditDevicesDlg.setContent("编辑" + mDevices.getmName());
+//				mEditDevicesDlg.show();
+//			}
+//		});
+//
+//		mHolder.delete.setOnClickListener(new OnClickListener() {
+//			MyOkCancleDlg mMyOkCancleDlg;
+//
+//			@Override
+//			public void onClick(View v) {
+//				// TODO Auto-generated method stub
+//				index = mDevices.getmIeee();
+//				lay = (ViewHolder) v.getTag();
+//				mMyOkCancleDlg = new MyOkCancleDlg(mContext);
+//				mMyOkCancleDlg.setDialogCallback(DevicesBaseAdapter.this);
+//				mMyOkCancleDlg.setContent("确定要删除" + mDevices.getmName() + "吗?");
+//				mMyOkCancleDlg.show();
+//			}
+//		});
 
 		if (mDevices.getmDeviceId() == DataHelper.ON_OFF_SWITCH_DEVICETYPE) {
 			String state = "";
@@ -198,26 +196,26 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 			mHolder.devices_img.setImageResource(UiUtils
 					.getDevicesSmallIcon(mDevices.getmDeviceId()));
 		}
-		mView.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				mDevicesObserver.setDevicesId(mDevices.getmIeee());
-				Log.i("tag",
-						"tag->mDevices.getmName()=" + mDevices.getmName()
-								+ ";mDevices.getmIeee()=" + mDevices.getmIeee()
-								+ ";mDevices.getmNodeENNAme()="
-								+ mDevices.getmNodeENNAme());
-				Fragment mFragment = UiUtils.getFragment(mDevices
-						.getmDeviceId());
-				if (null != mFragment) {
-					Bundle extras = new Bundle();// PASS_OBKECT
-					extras.putParcelable(PASS_OBJECT, mDevices);
-					mFragment.setArguments(extras);
-					mDevicesObserver.setFragment(mFragment, mPostion);
-				}
-			}
-		});
+//		mView.setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				// TODO Auto-generated method stub
+//				mDevicesObserver.setDevicesId(mDevices.getmIeee());
+//				Log.i("tag",
+//						"tag->mDevices.getmName()=" + mDevices.getmName()
+//								+ ";mDevices.getmIeee()=" + mDevices.getmIeee()
+//								+ ";mDevices.getmNodeENNAme()="
+//								+ mDevices.getmNodeENNAme());
+//				Fragment mFragment = UiUtils.getFragment(mDevices
+//						.getmDeviceId());
+//				if (null != mFragment) {
+//					Bundle extras = new Bundle();// PASS_OBKECT
+//					extras.putParcelable(PASS_OBJECT, mDevices);
+//					mFragment.setArguments(extras);
+//					mDevicesObserver.setFragment(mFragment, mPostion);
+//				}
+//			}
+//		});
 		return mView;
 	}
 
@@ -226,36 +224,35 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 		mDevicesList = list;
 	}
 
-	class ViewHolder {
+	public class ViewHolder {
 		ImageView devices_img;
 		TextView devices_name;
 		TextView devices_region;
 		TextView devices_state;
-		Button edit;
-		Button delete;
-		LinearLayout expand;
-		CheckBox expandable_toggle_button;
+//		Button edit;
+//		Button delete;
+//		LinearLayout expand;
+//		CheckBox expandable_toggle_button;
 	}
 
 	public interface DevicesObserver {
-		public void setDevicesId(String id);
 
 		public void setLayout();
 
 		public void deleteDevices(String id);
 
-		public void setFragment(Fragment mFragment, int postion);
+		
 	}
 
 	@Override
 	public void dialogdo() {
 		// TODO Auto-generated method stub
-		lay.expandable_toggle_button.setChecked(true);
-		Animation anim = new ExpandCollapseAnimation(lay.expand,
-				ExpandCollapseAnimation.COLLAPSE);
-		anim.setDuration(300);
-		lay.expand.startAnimation(anim);
-		mDevicesObserver.deleteDevices(index);
+		//lay.expandable_toggle_button.setChecked(true);
+//		Animation anim = new ExpandCollapseAnimation(lay.expand,
+//				ExpandCollapseAnimation.COLLAPSE);
+//		anim.setDuration(300);
+//		//lay.expand.startAnimation(anim);
+//		mDevicesObserver.deleteDevices(index);
 	}
 
 }

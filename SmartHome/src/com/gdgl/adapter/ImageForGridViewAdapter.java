@@ -47,6 +47,7 @@ public class ImageForGridViewAdapter extends BaseAdapter {
 	}
 
 	// references to our images
-	private Integer[] mThumbIds={R.drawable.scene,R.drawable.area,R.drawable.function,
-			R.drawable.monitor, R.drawable.system, R.drawable.more};
+	private Integer[] mThumbIds;
+//	private Integer[] mThumbIds={R.drawable.scene,R.drawable.area,R.drawable.function,
+//			R.drawable.monitor, R.drawable.system, R.drawable.more};
 }

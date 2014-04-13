@@ -180,9 +180,18 @@ public class DataHelper extends SQLiteOpenHelper {
 
 	public int delete(SQLiteDatabase db, String table, String whereClause,
 			String[] whereArgs) {
-		ContentValues c = new ContentValues();
-		c.put(DevicesModel.ON_OFF_LINE, DevicesModel.DEVICE_OFF_LINE);
-		return db.update(table, c, whereClause, whereArgs);
+		String[] iees = null;
+		if(whereArgs[0].contains(",")){
+			iees=whereArgs[0].split(",");
+		}else{
+			iees=whereArgs;
+		}
+	    for (String string : iees) {
+	    	ContentValues c = new ContentValues();
+			c.put(DevicesModel.ON_OFF_LINE, DevicesModel.DEVICE_OFF_LINE);
+			db.update(table, c, " ieee=? ", new String[]{string});
+		}
+		return 0;
 	}
 
 	public int update(SQLiteDatabase db, String table, ContentValues values,

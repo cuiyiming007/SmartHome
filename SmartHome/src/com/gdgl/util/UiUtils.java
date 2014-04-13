@@ -1,9 +1,9 @@
 package com.gdgl.util;
 
-
 import android.app.Fragment;
 
 import com.gdgl.activity.LightsControlFragment;
+import com.gdgl.activity.SeekLightsControlFragment;
 import com.gdgl.activity.SwitchControlFragment;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.smarthome.R;
@@ -27,11 +27,7 @@ public class UiUtils {
 
 	public static int ILLEGAI_UID = -1;
 
-	public static int[] GONENG_ICON = { R.drawable.lights, R.drawable.outlet,
-			R.drawable.emerge, R.drawable.co, R.drawable.huanbao,
-			R.drawable.more };
 
-	// region
 
 	public static final int PARLOR = 0; // 客厅
 	public static final int MASTER_BEDROOM = 1; // 主卧
@@ -49,7 +45,8 @@ public class UiUtils {
 	public static final int LIGHTS_MANAGER = 0;
 	public static final int ELECTRICAL_MANAGER = 1;
 	public static final int SECURITY_CONTROL = 2;
-	public static final int ENVIRONMENTAL_CONTROL=4;
+	public static final int ENVIRONMENTAL_CONTROL = 4;
+	public static final int ENERGY_CONSERVATION= 8;
 
 	public static int getDevicesSmallIcon(int type) {
 		int result = 0;
@@ -73,9 +70,10 @@ public class UiUtils {
 			result = R.drawable.wall_socket;
 			break;
 		case DataHelper.IAS_ZONE_DEVICETYPE:
-			result = R.drawable.co;
+			result = R.drawable.detector;
 			break;
 		default:
+			result = R.drawable.tempture;
 			break;
 		}
 		return result;
@@ -115,9 +113,9 @@ public class UiUtils {
 		return result;
 	}
 
-	public static int[] DEVICES_MANAGER_IMAGES = { R.drawable.img0001,
-			R.drawable.img0030, R.drawable.img0100, R.drawable.img0200,
-			R.drawable.img0330 };
+	public static int[] DEVICES_MANAGER_IMAGES = { R.drawable.light_manage,
+			R.drawable.electrical_control, R.drawable.safe_control, R.drawable.huanjing_jiance,
+			R.drawable.jieneng };
 	public static String[] DEVICES_MANAGER_TAGS = { "照明管理", "电器控制", "安全防护",
 			"环境监测", "节能" };
 
@@ -130,6 +128,11 @@ public class UiUtils {
 			break;
 		case DataHelper.LIGHT_SENSOR_DEVICETYPE:
 			mFragment = new LightsControlFragment();
+			break;
+		case DataHelper.DIMEN_SWITCH_DEVICETYPE:
+			
+		case DataHelper.DIMEN_LIGHTS_DEVICETYPE:
+			mFragment = new SeekLightsControlFragment();
 			break;
 		default:
 			break;

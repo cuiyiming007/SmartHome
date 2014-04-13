@@ -210,6 +210,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		fancyCoverFlow.setAdapter(new ViewGroupAdapter(getApplicationContext(),
 				images, tags, 250, 200));
 		fancyCoverFlow.setCallbackDuringFling(false);
+		fancyCoverFlow.setSpacing(50);
 		fancyCoverFlow.setSelection(0);
 		fancyCoverFlow.setOnItemSelectedListener(new OnItemSelectedListener() {
 
@@ -280,7 +281,11 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 			mCurrentList=mDevicesListCache.get(type);
 		}
 		else{
-			mCurrentList=DataUtil.getOtherManagementDevices(mDataHelper, type);
+			if(type==UiUtils.LIGHTS_MANAGER){
+				mCurrentList=DataUtil.getLightingManagementDevices(mDataHelper);
+			}else{
+				mCurrentList=DataUtil.getOtherManagementDevices(mDataHelper, type);
+			}
 			mDevicesListCache.put(type, mCurrentList);
 		}
 		mDevicesBaseAdapter.setList(mCurrentList);
@@ -413,5 +418,14 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		mDataHelper.delete(mDataHelper.getSQLiteDatabase(), DataHelper.DEVICES_TABLE, " ieee=? ", new String[]{id});
 		mDevicesListCache.clear();
 		refreshAdapter(mListIndex);
+	}
+
+	@Override
+	public SimpleDevicesModel getDeviceModle(int postion) {
+		// TODO Auto-generated method stub
+		if(null!=mCurrentList){
+			return mCurrentList.get(postion);
+		}
+		return null;
 	}
 }

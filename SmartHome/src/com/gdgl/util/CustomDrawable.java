@@ -26,7 +26,7 @@ public class CustomDrawable extends ShapeDrawable {
 	int BOTTOM_RIGHT=TOP_LEFT+6;
 	
 	public CustomDrawable(Context c){
-		mBitmap=BitmapFactory.decodeResource(c.getResources(), R.drawable.my_bc);
+		//mBitmap=BitmapFactory.decodeResource(c.getResources(), R.drawable.my_bc);
 		mDrawable=new ShapeDrawable(new CustomSharp(new BitmapShader(mBitmap, Shader.TileMode.REPEAT, Shader.TileMode.CLAMP)));
 	}
 	

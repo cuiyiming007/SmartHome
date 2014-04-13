@@ -72,7 +72,7 @@ public class SmartHome extends FragmentActivity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				// showSetWindow();
+				showSetWindow();
 //				ArrayList<ResponseParamsEndPoint> devDataList = DeviceManager
 //						.getInstance().getDeviceListFromLocalString();
 //				mDateHelper = new DataHelper(SmartHome.this);
@@ -90,8 +90,8 @@ public class SmartHome extends FragmentActivity {
 //				}
 //				mDateHelper.close(mSQLiteDatabase);
 //				Log.i(TAG, "tag-> begin query" + System.currentTimeMillis());
-				
-				LightManager.getInstance().OnOffOutputOperation();
+//				
+//				LightManager.getInstance().OnOffOutputOperation();
 			}
 		});
 

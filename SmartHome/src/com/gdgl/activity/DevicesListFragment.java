@@ -1,38 +1,56 @@
 package com.gdgl.activity;
 
 import com.gdgl.activity.ShowDevicesGroupFragmentActivity.adapterSeter;
+import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.smarthome.R;
-import com.gdgl.util.ActionSlideExpandableListView;
-import com.gdgl.util.SlideExpandableListAdapter;
+import com.gdgl.util.EditDevicesDlg;
+import com.gdgl.util.EditDevicesDlg.EditDialogcallback;
+import com.gdgl.util.MyOkCancleDlg;
+import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
+import com.gdgl.util.UiUtils;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 
-public class DevicesListFragment extends Fragment implements adapterSeter,OnRefreshListener<ListView>  {
+public class DevicesListFragment extends Fragment implements adapterSeter {
 
 	private static final String TAG = "DevicesListFragment";
 	private View mView;
 	PullToRefreshListView devices_list;
 
+	SimpleDevicesModel mSimpleDevicesModel;
 	int refreshTag = 0;
 
 	BaseAdapter mBaseAdapter;
 	private refreshData mRefreshData;
 
 	LinearLayout list_root;
+
+	public static final String PASS_OBJECT = "pass_object";
+
+	Context mContext;
+
+	AdapterContextMenuInfo selectedMenuInfo = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -83,14 +101,72 @@ public class DevicesListFragment extends Fragment implements adapterSeter,OnRefr
 			}
 		});
 
-		devices_list.setAdapter(new SlideExpandableListAdapter(mBaseAdapter,
-				R.id.expandable_toggle_button, R.id.expandable));
+		devices_list.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				// TODO Auto-generated method stub
+				Log.i(TAG, "tagzgs->position=" + position);
+				mSimpleDevicesModel = mRefreshData.getDeviceModle(position - 1);
+				mRefreshData.setDevicesId(mSimpleDevicesModel.getmIeee());
+				Fragment mFragment = UiUtils.getFragment(mSimpleDevicesModel
+						.getmDeviceId());
+				if (null != mFragment) {
+					Bundle extras = new Bundle();// PASS_OBKECT
+					extras.putParcelable(PASS_OBJECT, mSimpleDevicesModel);
+					mFragment.setArguments(extras);
+					mRefreshData.setFragment(mFragment, position - 1);
+				}
+			}
+		});
+
+		registerForContextMenu(devices_list.getRefreshableView());
+		devices_list.setAdapter(mBaseAdapter);
+	}
+
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
+		// TODO Auto-generated method stub
+		menu.setHeaderTitle("编辑&删除");
+		menu.add(0, 1, 0, "编辑");
+		menu.add(0, 2, 0, "删除");
+		Log.i(TAG, "tagzgs->menuInfo==null =" + (menuInfo == null));
+		super.onCreateContextMenu(menu, v, menuInfo);
 	}
 
 	public void setLayout() {
 		LayoutParams mLayoutParams = new LayoutParams(
 				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		list_root.setLayoutParams(mLayoutParams);
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
+				.getMenuInfo();
+		int position = info.position;
+		mSimpleDevicesModel = mRefreshData.getDeviceModle(position - 1);
+		int menuIndex = item.getItemId();
+		Log.i(TAG, "tagzgs-> menuInfo.position=" + position
+				+ " item.getItemId()" + item.getItemId());
+		if (1 == menuIndex) {
+			EditDevicesDlg mEditDevicesDlg = new EditDevicesDlg(
+					(Context) getActivity(), mSimpleDevicesModel);
+			mEditDevicesDlg
+					.setDialogCallback((EditDialogcallback) mRefreshData);
+			mEditDevicesDlg.setContent("编辑" + mSimpleDevicesModel.getmName());
+			mEditDevicesDlg.show();
+		}
+		if(2 == menuIndex){
+			mRefreshData.setDevicesId(mSimpleDevicesModel.getmIeee());
+			MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg((Context) getActivity());
+			mMyOkCancleDlg.setDialogCallback((Dialogcallback) mRefreshData);
+			mMyOkCancleDlg.setContent("确定要删除" + mSimpleDevicesModel.getmName() + "吗?");
+			mMyOkCancleDlg.show();
+		}
+		return super.onContextItemSelected(item);
 	}
 
 	public void onAttach(Activity activity) {
@@ -105,6 +181,12 @@ public class DevicesListFragment extends Fragment implements adapterSeter,OnRefr
 
 	public interface refreshData {
 		public void refreshListData();
+
+		public SimpleDevicesModel getDeviceModle(int postion);
+
+		public void setFragment(Fragment mFragment, int postion);
+
+		public void setDevicesId(String id);
 	}
 
 	@Override
@@ -140,11 +222,5 @@ public class DevicesListFragment extends Fragment implements adapterSeter,OnRefr
 		// TODO Auto-generated method stub
 		devices_list.onRefreshComplete();
 		refreshTag = 0;
-	}
-
-	@Override
-	public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-		// TODO Auto-generated method stub
-		
 	}
 }
