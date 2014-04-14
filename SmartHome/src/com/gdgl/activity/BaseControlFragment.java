@@ -13,7 +13,8 @@ public abstract class BaseControlFragment extends Fragment implements
 	
 	public interface UpdateDevice {
 		public void saveDevicesName(String name);
-		public boolean updateDevices(String Ieee,ContentValues c);
+		public boolean updateDevices(String Ieee, String ep,ContentValues c);
 	}
+	
 	
 }

@@ -114,10 +114,36 @@ public class UiUtils {
 	}
 
 	public static int[] DEVICES_MANAGER_IMAGES = { R.drawable.light_manage,
-			R.drawable.electrical_control, R.drawable.safe_control, R.drawable.huanjing_jiance,
-			R.drawable.jieneng };
+			R.drawable.electrical_control, R.drawable.safe_control,
+			R.drawable.huanjing_jiance, R.drawable.jieneng };
 	public static String[] DEVICES_MANAGER_TAGS = { "照明管理", "电器控制", "安全防护",
 			"环境监测", "节能" };
+
+	public static int[] getImagResource(int type) {
+		int[] mresult = null;
+		switch (type) {
+		case 0:
+		case 1:
+			mresult = DEVICES_MANAGER_IMAGES;
+			break;
+		default:
+			break;
+		}
+		return mresult;
+	}
+	
+	public static String[] getTagResource(int type) {
+		String[] mresult = null;
+		switch (type) {
+		case 0:
+		case 1:
+			mresult = DEVICES_MANAGER_TAGS;
+			break;
+		default:
+			break;
+		}
+		return mresult;
+	}
 
 	public static Fragment getFragment(int type) {
 

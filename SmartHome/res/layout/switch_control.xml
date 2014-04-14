@@ -54,14 +54,13 @@
         android:layout_height="wrap_content"
         android:layout_weight="1" >
 
-        <CheckBox
+        <ImageView
             android:id="@+id/switch_state1"
-            style="@style/switch_checkbox_style"
-            android:layout_width="110dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:checked="true"
-            android:gravity="center_horizontal" />
+            android:gravity="center_horizontal"
+            android:src="@drawable/light_on_small" />
 
         <TextView
             android:id="@+id/switch_name1"
@@ -95,13 +94,13 @@
             android:layout_toLeftOf="@+id/divder"
             android:orientation="vertical" >
 
-            <CheckBox
+            <ImageView
                 android:id="@+id/switch_state2"
-                style="@style/switch_checkbox_style"
-                android:layout_width="110dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:checked="true" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center_horizontal"
+                android:src="@drawable/light_on_small" />
 
             <TextView
                 android:id="@+id/switch_name2"
@@ -122,13 +121,13 @@
             android:layout_toRightOf="@+id/divder"
             android:orientation="vertical" >
 
-            <CheckBox
+            <ImageView
                 android:id="@+id/switch_state3"
-                style="@style/switch_checkbox_style"
-                android:layout_width="110dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:checked="true" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center_horizontal"
+                android:src="@drawable/light_on_small" />
 
             <TextView
                 android:id="@+id/switch_name3"

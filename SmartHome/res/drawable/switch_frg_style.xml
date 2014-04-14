@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item android:drawable="@drawable/s_frg_on" android:state_checked="true"/>
-    <item android:drawable="@drawable/s_frg_off" android:state_checked="false"/>
-    <item android:drawable="@drawable/s_frg_off"/>
+    <item android:drawable="@drawable/light_on_small" android:state_checked="true"/>
+    <item android:drawable="@drawable/light_off_small" android:state_checked="false"/>
+    <item android:drawable="@drawable/light_off_small"/>
 
 </selector>

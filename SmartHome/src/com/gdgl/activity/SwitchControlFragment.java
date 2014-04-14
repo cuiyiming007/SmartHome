@@ -3,10 +3,10 @@ package com.gdgl.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gdgl.adapter.DevicesBaseAdapter;
 import com.gdgl.manager.LightManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
+import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
@@ -14,13 +14,13 @@ import com.gdgl.smarthome.R;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ContentValues;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -39,9 +39,13 @@ public class SwitchControlFragment extends BaseControlFragment implements
 
 	TextView txt_devices_name, txt_devices_region;
 
-	CheckBox mSwitch1, mSwitch2, mSwitch3;
+	ImageView mSwitch1, mSwitch2, mSwitch3;
 	TextView mSwichName1, mSwichName2, mSwichName3;
 	RelativeLayout viewGroup1, viewGroup2;
+
+	List<SimpleDevicesModel> mSimpleDevicesModel;
+
+	private int mCurrent = 0;
 
 	@SuppressLint("NewApi")
 	@Override
@@ -97,6 +101,28 @@ public class SwitchControlFragment extends BaseControlFragment implements
 			}
 			mCount = result.length;
 		}
+
+		mSimpleDevicesModel = new ArrayList<SimpleDevicesModel>();
+
+		SimpleDevicesModel mdev;
+		for (int i = 0; i < mCount; i++) {
+			mdev = new SimpleDevicesModel();
+
+			mdev.setmDeviceId(mDevices.getmDeviceId());
+			mdev.setmDeviceRegion(mDevices.getmDeviceRegion());
+			mdev.setmEP(EP.get(i));
+			mdev.setmIeee(mIeee.get(i));
+			mdev.setmLastDateTime(System.currentTimeMillis());
+			mdev.setmModelId(mDevices.getmModelId());
+			mdev.setmName(mDevices.getmName());
+			mdev.setmNodeENNAme(mName.get(i));
+			mdev.setmNWKAddr(mDevices.getmNWKAddr());
+			mdev.setmOnOffLine(mBoolean[i] ? 1 : 0);
+			mdev.setmOnOffStatus(mBoolean[i] ? "1" : "0");
+
+			mSimpleDevicesModel.add(mDevices);
+		}
+
 	}
 
 	@Override
@@ -110,9 +136,9 @@ public class SwitchControlFragment extends BaseControlFragment implements
 
 	private void initView() {
 		// TODO Auto-generated method stub
-		mSwitch1 = (CheckBox) mView.findViewById(R.id.switch_state1);
-		mSwitch2 = (CheckBox) mView.findViewById(R.id.switch_state2);
-		mSwitch3 = (CheckBox) mView.findViewById(R.id.switch_state3);
+		mSwitch1 = (ImageView) mView.findViewById(R.id.switch_state1);
+		mSwitch2 = (ImageView) mView.findViewById(R.id.switch_state2);
+		mSwitch3 = (ImageView) mView.findViewById(R.id.switch_state3);
 
 		mSwichName1 = (TextView) mView.findViewById(R.id.switch_name1);
 		mSwichName2 = (TextView) mView.findViewById(R.id.switch_name2);
@@ -132,62 +158,91 @@ public class SwitchControlFragment extends BaseControlFragment implements
 		case 1:
 			viewGroup1.setVisibility(View.VISIBLE);
 			viewGroup2.setVisibility(View.GONE);
-			mSwitch1.setChecked(mBoolean[0]);
+			setImagRes(mSwitch1, mBoolean[0]);
 			mSwichName1.setText(mName.get(0));
-			mSwitch1.setOnCheckedChangeListener(new SwitchClickListener(mIeee
-					.get(0), mBoolean[0]));
+
+			mSwitch1.setOnClickListener(new SwitchClickListener(1));
+
 			break;
 		case 2:
 			viewGroup1.setVisibility(View.GONE);
 			viewGroup2.setVisibility(View.VISIBLE);
-			mSwitch2.setChecked(mBoolean[0]);
-			mSwitch3.setChecked(mBoolean[1]);
 
-			mSwitch2.setOnCheckedChangeListener(new SwitchClickListener(mIeee
-					.get(0), mBoolean[0]));
-			mSwitch3.setOnCheckedChangeListener(new SwitchClickListener(mIeee
-					.get(1), mBoolean[1]));
+			setImagRes(mSwitch2, mBoolean[0]);
+			setImagRes(mSwitch3, mBoolean[1]);
 
 			mSwichName2.setText(mName.get(0));
 			mSwichName3.setText(mName.get(1));
+
+			mSwitch2.setOnClickListener(new SwitchClickListener(1));
+			mSwitch3.setOnClickListener(new SwitchClickListener(2));
+
 			break;
 		case 3:
-			mSwitch1.setChecked(mBoolean[0]);
-			mSwitch2.setChecked(mBoolean[1]);
-			mSwitch3.setChecked(mBoolean[2]);
 
-			mSwitch1.setOnCheckedChangeListener(new SwitchClickListener(mIeee
-					.get(0), mBoolean[0]));
-			mSwitch2.setOnCheckedChangeListener(new SwitchClickListener(mIeee
-					.get(1), mBoolean[1]));
-			mSwitch3.setOnCheckedChangeListener(new SwitchClickListener(mIeee
-					.get(2), mBoolean[2]));
+			setImagRes(mSwitch1, mBoolean[0]);
+			setImagRes(mSwitch2, mBoolean[1]);
+			setImagRes(mSwitch3, mBoolean[2]);
 
 			mSwichName1.setText(mName.get(0));
 			mSwichName2.setText(mName.get(1));
 			mSwichName3.setText(mName.get(2));
+
+			mSwitch1.setOnClickListener(new SwitchClickListener(1));
+			mSwitch2.setOnClickListener(new SwitchClickListener(2));
+			mSwitch3.setOnClickListener(new SwitchClickListener(3));
+
 			break;
 		default:
 			break;
 		}
 	}
 
-	public class SwitchClickListener implements OnCheckedChangeListener {
-		String CIeee;
-		boolean CB;
+	private void setImagRes(ImageView mSwitch, boolean b) {
+		// TODO Auto-generated method stub
+		if (b) {
+			mSwitch.setImageResource(R.drawable.light_on_small);
+		} else {
+			mSwitch.setImageResource(R.drawable.light_off_small);
+		}
+	}
 
-		public SwitchClickListener(String ieee, boolean b) {
-			CIeee = ieee;
-			CB = b;
+	public class SwitchClickListener implements OnClickListener {
+		int postion;
+
+		public SwitchClickListener(int index) {
+			postion = index;
 		}
 
 		@Override
-		public void onCheckedChanged(CompoundButton buttonView,
-				boolean isChecked) {
+		public void onClick(View v) {
 			// TODO Auto-generated method stub
-
+			onoffswitch(postion);
 		}
 
+		private void onoffswitch(int postion2) {
+			// TODO Auto-generated method stub
+			switch (postion2) {
+			case 1:
+				mCurrent = 0;
+				//// 操作switch1
+				mLightManager.OnOffLightSwitchOperation();
+				break;
+			case 2:
+				if (2 == mCount) {
+					mCurrent = 0;
+					mLightManager.OnOffLightSwitchOperation();
+				} else {
+					mCurrent = 1;
+					mLightManager.OnOffLightSwitchOperation();
+				}
+				break;
+			case 3:
+				mCurrent = 2;
+				mLightManager.OnOffLightSwitchOperation();
+				break;
+			}
+		}
 	}
 
 	@Override
@@ -220,23 +275,43 @@ public class SwitchControlFragment extends BaseControlFragment implements
 			// data maybe null
 			SimpleDevicesModel data = (SimpleDevicesModel) event.getData();
 			// TODO refresh UI data
+
+		}
+		ContentValues c;
+		SimpleDevicesModel s;
+		
+		mBoolean[mCurrent] = !mBoolean[mCurrent];
+		
+		switch (mCurrent) {
+		case 0:
+			if (2 == mCount) {
+				// 操作switch2
+				setImagRes(mSwitch2, mBoolean[mCurrent]);
+			} else {
+				// 操作switch1
+				setImagRes(mSwitch1, mBoolean[mCurrent]);
+			}
+			break;
+		case 1:
+			if (2 == mCount) {
+				// 操作switch1
+				setImagRes(mSwitch3, mBoolean[mCurrent]);
+			} else {
+				// 操作switch2
+				setImagRes(mSwitch2, mBoolean[mCurrent]);
+			}
+			break;
+		case 2:
+			setImagRes(mSwitch3,mBoolean[mCurrent]);
+			break;
+		default:
+			break;
 		}
 
+		s = mSimpleDevicesModel.get(mCurrent);
+		c = new ContentValues();
+		c.put(DevicesModel.ON_OFF_STATUS, mBoolean[mCurrent] ? "1" : "o");
+		mUpdateDevice.updateDevices(s.getmIeee(), s.getmEP(), c);
 	}
 
-	class operatortype {
-		/***
-		 * 获取设备类型
-		 */
-		public static final int GetOnOffSwitchType = 0;
-		/***
-		 * 获取状态
-		 */
-		public static final int GetOnOffSwitchActions = 1;
-		/***
-		 * 当操作类型是2时，para1有以下意义 Param1: switchaction: 0x00: Off 0x01: On 0x02:
-		 * Toggle
-		 */
-		public static final int ChangeOnOffSwitchActions = 2;
-	}
 }

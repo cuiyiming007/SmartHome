@@ -28,6 +28,8 @@ public class LightsControlFragment extends BaseControlFragment {
 	boolean status = false;
 
 	String Ieee = "";
+	
+	String ep="";
 
 	@SuppressLint("NewApi")
 	@Override
@@ -50,6 +52,7 @@ public class LightsControlFragment extends BaseControlFragment {
 				status = true;
 			}
 			Ieee = mDevices.getmIeee().trim();
+			ep = mDevices.getmEP().trim();
 		}
 	}
 
@@ -125,7 +128,7 @@ public class LightsControlFragment extends BaseControlFragment {
 		} else {
 			c.put(DevicesModel.ON_OFF_STATUS, "1");
 		}
-		result = mUpdateDevice.updateDevices(Ieee, c);
+		result = mUpdateDevice.updateDevices(Ieee,ep, c);
 		return result;
 	}
 

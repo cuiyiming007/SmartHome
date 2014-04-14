@@ -384,20 +384,6 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		initTitleByTag(mListIndex);
 	}
 
-	@Override
-	public boolean updateDevices(String Ieee, ContentValues c) {
-		// TODO Auto-generated method stub
-		String where = " ieee = ? ";
-		String[] args = { Ieee };
-		SQLiteDatabase mSQLiteDatabase = mDataHelper.getSQLiteDatabase();
-		int result = mDataHelper.update(mSQLiteDatabase,
-				DataHelper.DEVICES_TABLE, c, where, args);
-		// mDataHelper
-		if (result >= 0) {
-			return true;
-		}
-		return false;
-	}
 
 	@Override
 	public void setLayout() {
@@ -427,5 +413,20 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 			return mCurrentList.get(postion);
 		}
 		return null;
+	}
+
+	@Override
+	public boolean updateDevices(String Ieee, String ep, ContentValues c) {
+		// TODO Auto-generated method stub
+		String where = " ieee = ? and ep = ?";
+		String[] args = { Ieee ,ep };
+		SQLiteDatabase mSQLiteDatabase = mDataHelper.getSQLiteDatabase();
+		int result = mDataHelper.update(mSQLiteDatabase,
+				DataHelper.DEVICES_TABLE, c, where, args);
+		// mDataHelper
+		if (result >= 0) {
+			return true;
+		}
+		return false;
 	}
 }
