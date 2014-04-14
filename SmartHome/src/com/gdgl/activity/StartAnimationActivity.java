@@ -37,8 +37,7 @@ public class StartAnimationActivity extends Activity {
 		if (animationDrawable!=null) {
 			animationDrawable.start();
 		}
-//		animationDrawable=null;
-//		System.gc();
+		
 		super.onWindowFocusChanged(hasFocus);
 	}
 	@Override
