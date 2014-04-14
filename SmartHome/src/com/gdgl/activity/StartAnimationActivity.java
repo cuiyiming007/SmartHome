@@ -28,12 +28,21 @@ public class StartAnimationActivity extends Activity {
 	private void goHome() {
 		Intent intent = new Intent(StartAnimationActivity.this, SmartHome.class);
 		StartAnimationActivity.this.startActivity(intent);
+		
 		StartAnimationActivity.this.finish();
 	}
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
-		animationDrawable.start();
+		if (animationDrawable!=null) {
+			animationDrawable.start();
+		}
+		
 		super.onWindowFocusChanged(hasFocus);
+	}
+	@Override
+	public void finish() {
+		animationDrawable=null;
+		super.finish();
 	}
 
 }
