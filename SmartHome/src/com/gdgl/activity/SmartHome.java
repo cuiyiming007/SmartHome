@@ -47,12 +47,12 @@ public class SmartHome extends FragmentActivity implements OnRefreshListener<Vie
 	SelectPicPopupWindow mSetWindow;
 	Button set;
 
-	Intent serviceIntent;
-	private MsgReceiver msgReceiver;
+	
+//	private MsgReceiver msgReceiver;
 	private NetWorkChangeReciever networkreChangeReciever;
 
 	PullToRefreshViewPager pull_refresh_viewpager;
-	DataHelper mDateHelper;
+//	DataHelper mDateHelper;
 	
 	TextView mTitle;
 	
@@ -214,23 +214,18 @@ public class SmartHome extends FragmentActivity implements OnRefreshListener<Vie
 
 	@Override
 	protected void onStart() {
-		super.onStart();
-		msgReceiver = new MsgReceiver();
-		IntentFilter intentFilter = new IntentFilter();
-		intentFilter.addAction("com.gdgl.activity.RECIEVER");
-		registerReceiver(msgReceiver, intentFilter);
-
-		serviceIntent = new Intent(this, SmartService.class);
-		startService(serviceIntent);
-	}
-
-	@Override
-	protected void onResume() {
 		networkreChangeReciever = new NetWorkChangeReciever();
 		IntentFilter networkintentFilter = new IntentFilter();
 		networkintentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
 		registerReceiver(networkreChangeReciever, networkintentFilter);
 
+		super.onStart();
+		
+	}
+
+	@Override
+	protected void onResume() {
+		
 		super.onResume();
 	}
 
@@ -243,21 +238,21 @@ public class SmartHome extends FragmentActivity implements OnRefreshListener<Vie
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		stopService(serviceIntent);
-		unregisterReceiver(msgReceiver);
+//		stopService(serviceIntent);
+//		unregisterReceiver(msgReceiver);
 
 	}
 
-	public class MsgReceiver extends BroadcastReceiver {
-
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			// int progress = intent.getIntExtra("progress", 0);
-
-			Log.i(TAG, "MsgReceiver has recieved");
-		}
-
-	}
+//	public class MsgReceiver extends BroadcastReceiver {
+//
+//		@Override
+//		public void onReceive(Context context, Intent intent) {
+//			// int progress = intent.getIntExtra("progress", 0);
+//
+//			Log.i(TAG, "MsgReceiver has recieved");
+//		}
+//
+//	}
 
 
 	private class GetDataTask extends AsyncTask<Void, Void, Void> {
