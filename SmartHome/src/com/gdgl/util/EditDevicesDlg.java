@@ -1,6 +1,7 @@
 package com.gdgl.util;
 
 import com.gdgl.model.SimpleDevicesModel;
+import com.gdgl.mydata.DataHelper;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 
@@ -10,6 +11,7 @@ import android.text.Editable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class EditDevicesDlg {
@@ -23,6 +25,7 @@ public class EditDevicesDlg {
 	TextView textView;
 
 	EditText mName, mRegion;
+	LinearLayout devices_region;
 
 	public EditDevicesDlg(Context c, SimpleDevicesModel s) {
 		mContext = c;
@@ -32,10 +35,22 @@ public class EditDevicesDlg {
 		dialog.setContentView(R.layout.edit_devices_dlg);
 		textView = (TextView) dialog.findViewById(R.id.txt_title);
 
+		devices_region = (LinearLayout) dialog
+				.findViewById(R.id.devices_region);
+
 		mName = (EditText) dialog.findViewById(R.id.edit_name);
 		mRegion = (EditText) dialog.findViewById(R.id.edit_region);
 
-		final String name = mSimpleDevicesModel.getmNodeENNAme();
+		final String name;
+		if (mSimpleDevicesModel.getmModelId().contains(
+				DataHelper.Wall_switch_double)
+				|| mSimpleDevicesModel.getmModelId().contains(
+						DataHelper.Wall_switch_triple)) {
+			name = mSimpleDevicesModel.getmName();
+			devices_region.setVisibility(View.GONE);
+		} else {
+			name = mSimpleDevicesModel.getmNodeENNAme();
+		}
 		final String region = mSimpleDevicesModel.getmDeviceRegion();
 
 		mName.setText(name);

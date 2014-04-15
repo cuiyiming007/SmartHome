@@ -425,6 +425,10 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 				DataHelper.DEVICES_TABLE, c, where, args);
 		// mDataHelper
 		if (result >= 0) {
+			
+			mDevicesListCache.clear();
+			refreshAdapter(mListIndex);
+			
 			return true;
 		}
 		return false;

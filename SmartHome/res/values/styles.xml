@@ -59,4 +59,9 @@
         <item name="android:backgroundDimEnabled">true</item>
     </style>
 
+    <style name="dialogWindowAnim" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/slide_left_in</item>
+        <item name="android:windowExitAnimation">@anim/slide_right_out</item>
+    </style>
+
 </resources>

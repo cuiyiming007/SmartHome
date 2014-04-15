@@ -11,10 +11,12 @@ import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.smarthome.R;
+import com.gdgl.util.MyDlg;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +26,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-@SuppressLint("NewApi")
+
 public class SwitchControlFragment extends BaseControlFragment implements
 		UIListener {
 	boolean[] mBoolean = { false, false, false };
@@ -46,8 +48,8 @@ public class SwitchControlFragment extends BaseControlFragment implements
 	List<SimpleDevicesModel> mSimpleDevicesModel;
 
 	private int mCurrent = 0;
+	private int mPostion = 1;
 
-	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -68,7 +70,7 @@ public class SwitchControlFragment extends BaseControlFragment implements
 		if (null != mDevices) {
 			String s = mDevices.getmOnOffStatus();
 			String name = mDevices.getmNodeENNAme();
-			String ieee = mDevices.getmNodeENNAme();
+			String ieee = mDevices.getmIeee();
 			String ep = mDevices.getmEP();
 
 			String[] result = s.split(",");
@@ -120,7 +122,7 @@ public class SwitchControlFragment extends BaseControlFragment implements
 			mdev.setmOnOffLine(mBoolean[i] ? 1 : 0);
 			mdev.setmOnOffStatus(mBoolean[i] ? "1" : "0");
 
-			mSimpleDevicesModel.add(mDevices);
+			mSimpleDevicesModel.add(mdev);
 		}
 
 	}
@@ -161,7 +163,7 @@ public class SwitchControlFragment extends BaseControlFragment implements
 			setImagRes(mSwitch1, mBoolean[0]);
 			mSwichName1.setText(mName.get(0));
 
-			mSwitch1.setOnClickListener(new SwitchClickListener(1));
+			mSwitch1.setOnClickListener(new SwitchClickListener(1,0));
 
 			break;
 		case 2:
@@ -174,8 +176,8 @@ public class SwitchControlFragment extends BaseControlFragment implements
 			mSwichName2.setText(mName.get(0));
 			mSwichName3.setText(mName.get(1));
 
-			mSwitch2.setOnClickListener(new SwitchClickListener(1));
-			mSwitch3.setOnClickListener(new SwitchClickListener(2));
+			mSwitch2.setOnClickListener(new SwitchClickListener(2,0));
+			mSwitch3.setOnClickListener(new SwitchClickListener(3,1));
 
 			break;
 		case 3:
@@ -188,9 +190,9 @@ public class SwitchControlFragment extends BaseControlFragment implements
 			mSwichName2.setText(mName.get(1));
 			mSwichName3.setText(mName.get(2));
 
-			mSwitch1.setOnClickListener(new SwitchClickListener(1));
-			mSwitch2.setOnClickListener(new SwitchClickListener(2));
-			mSwitch3.setOnClickListener(new SwitchClickListener(3));
+			mSwitch1.setOnClickListener(new SwitchClickListener(1,0));
+			mSwitch2.setOnClickListener(new SwitchClickListener(2,1));
+			mSwitch3.setOnClickListener(new SwitchClickListener(3,2));
 
 			break;
 		default:
@@ -209,39 +211,30 @@ public class SwitchControlFragment extends BaseControlFragment implements
 
 	public class SwitchClickListener implements OnClickListener {
 		int postion;
-
-		public SwitchClickListener(int index) {
+		int current;
+		public SwitchClickListener(int index,int c) {
 			postion = index;
+			current=c;
 		}
 
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
-			onoffswitch(postion);
+			onoffswitch(postion,current);
 		}
 
-		private void onoffswitch(int postion2) {
+		private void onoffswitch(int postion2,int c) {
 			// TODO Auto-generated method stub
-			switch (postion2) {
-			case 1:
-				mCurrent = 0;
-				//// 操作switch1
-				mLightManager.OnOffLightSwitchOperation();
-				break;
-			case 2:
-				if (2 == mCount) {
-					mCurrent = 0;
-					mLightManager.OnOffLightSwitchOperation();
-				} else {
-					mCurrent = 1;
-					mLightManager.OnOffLightSwitchOperation();
-				}
-				break;
-			case 3:
-				mCurrent = 2;
-				mLightManager.OnOffLightSwitchOperation();
-				break;
+			if(null==mDialog){
+				mDialog=MyDlg.createLoadingDialog((Context)getActivity(),"操作正在进行...");
+				mDialog.show();
+			}else{
+				mDialog.show();
 			}
+			
+			mCurrent=c;
+			mPostion=postion2;
+			mLightManager.OnOffLightSwitchOperation();
 		}
 	}
 
@@ -270,6 +263,10 @@ public class SwitchControlFragment extends BaseControlFragment implements
 
 	@Override
 	public void update(Manger observer, Object object) {
+		if(null!=mDialog){
+			mDialog.dismiss();
+			mDialog=null;
+		}
 		final Event event = (Event) object;
 		if (EventType.ONOFFSWITCHOPERATION == event.getType()) {
 			// data maybe null
@@ -282,26 +279,14 @@ public class SwitchControlFragment extends BaseControlFragment implements
 		
 		mBoolean[mCurrent] = !mBoolean[mCurrent];
 		
-		switch (mCurrent) {
-		case 0:
-			if (2 == mCount) {
-				// 操作switch2
-				setImagRes(mSwitch2, mBoolean[mCurrent]);
-			} else {
-				// 操作switch1
-				setImagRes(mSwitch1, mBoolean[mCurrent]);
-			}
-			break;
+		switch (mPostion) {
 		case 1:
-			if (2 == mCount) {
-				// 操作switch1
-				setImagRes(mSwitch3, mBoolean[mCurrent]);
-			} else {
-				// 操作switch2
-				setImagRes(mSwitch2, mBoolean[mCurrent]);
-			}
+			setImagRes(mSwitch1, mBoolean[mCurrent]);
 			break;
 		case 2:
+			setImagRes(mSwitch2, mBoolean[mCurrent]);
+			break;
+		case 3:
 			setImagRes(mSwitch3,mBoolean[mCurrent]);
 			break;
 		default:

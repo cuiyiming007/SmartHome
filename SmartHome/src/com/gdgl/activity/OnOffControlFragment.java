@@ -1,18 +1,17 @@
 package com.gdgl.activity;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.gdgl.adapter.DevicesBaseAdapter;
+import com.gdgl.activity.BaseControlFragment.UpdateDevice;
 import com.gdgl.manager.LightManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.model.DevicesModel;
@@ -20,34 +19,36 @@ import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyDlg;
 
-public class LightsControlFragment extends BaseControlFragment {
+public class OnOffControlFragment extends BaseControlFragment {
+
+	int OnOffImg[];
+
+	public static final int ON = 0;
+	public static final int OFF = 0;
+
 	View mView;
 	SimpleDevicesModel mDevices;
 
 	TextView txt_devices_name, txt_devices_region;
 
-	ImageView light_on_off;
+	ImageView on_off;
 
 	boolean status = false;
 
 	String Ieee = "";
-	
-	String ep="";
-	
+
+	String ep = "";
+
 	LightManager mLightManager;
 
-	@SuppressLint("NewApi")
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	public void onAttach(Activity activity) {
 		// TODO Auto-generated method stub
-		super.onCreate(savedInstanceState);
-
-		Bundle extras = getArguments();
-		if (null != extras) {
-			mDevices = (SimpleDevicesModel) extras
-					.getParcelable(DevicesListFragment.PASS_OBJECT);
+		if (!(activity instanceof UpdateDevice)) {
+			throw new IllegalStateException("Activity必须实现SaveDevicesName接口");
 		}
-		initstate();
+		mUpdateDevice = (UpdateDevice) activity;
+		super.onAttach(activity);
 	}
 
 	private void initstate() {
@@ -61,18 +62,43 @@ public class LightsControlFragment extends BaseControlFragment {
 		}
 	}
 
+	private void setImagRes(ImageView mSwitch, boolean b) {
+		// TODO Auto-generated method stub
+		if (b) {
+			mSwitch.setImageResource(OnOffImg[ON]);
+		} else {
+			mSwitch.setImageResource(OnOffImg[OFF]);
+		}
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		Bundle extras = getArguments();
+		if (null != extras) {
+			mDevices = (SimpleDevicesModel) extras
+					.getParcelable(DevicesListFragment.PASS_OBJECT);
+			OnOffImg = extras.getIntArray(DevicesListFragment.PASS_ONOFFIMG);
+		}
+
+		mLightManager = LightManager.getInstance();
+		mLightManager.addObserver(OnOffControlFragment.this);
+		initstate();
+	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		mView = inflater.inflate(R.layout.lights_control, null);
+		mView = inflater.inflate(R.layout.on_off_control, null);
 		initView();
 		return mView;
 	}
 
 	private void initView() {
 		// TODO Auto-generated method stub
-		light_on_off = (ImageView) mView.findViewById(R.id.lights_on_off);
+		on_off = (ImageView) mView.findViewById(R.id.devices_on_off);
 
 		txt_devices_name = (TextView) mView.findViewById(R.id.txt_devices_name);
 		txt_devices_region = (TextView) mView
@@ -81,44 +107,30 @@ public class LightsControlFragment extends BaseControlFragment {
 		txt_devices_name.setText(mDevices.getmName());
 		txt_devices_region.setText(mDevices.getmDeviceRegion());
 
-		if (status) {
-			light_on_off.setImageResource(R.drawable.light_on_big);
-		} else {
-			light_on_off.setImageResource(R.drawable.light_off_big);
-		}
+		setImagRes(on_off, status);
 
-		light_on_off.setOnClickListener(new OnClickListener() {
+		on_off.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if(null==mDialog){
-					mDialog=MyDlg.createLoadingDialog((Context)getActivity(),"操作正在进行...");
+				if (null == mDialog) {
+					mDialog = MyDlg.createLoadingDialog(
+							(Context) getActivity(), "操作正在进行...");
 					mDialog.show();
-				}else{
+				} else {
 					mDialog.show();
 				}
 				mLightManager.onOffLightOperation();
 			}
 		});
-		
-		
-	}
-
-	@Override
-	public void onAttach(Activity activity) {
-		// TODO Auto-generated method stub
-		if (!(activity instanceof UpdateDevice)) {
-			throw new IllegalStateException("Activity必须实现SaveDevicesName接口");
-		}
-		mUpdateDevice = (UpdateDevice) activity;
-		super.onAttach(activity);
 	}
 
 	@Override
 	public void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
+		mLightManager.deleteObserver(OnOffControlFragment.this);
 	}
 
 	@Override
@@ -127,34 +139,23 @@ public class LightsControlFragment extends BaseControlFragment {
 
 	}
 
-	public boolean updateDevice(boolean b) {
-		ContentValues c = new ContentValues();
-		boolean result;
-		if (b) {
-			c.put(DevicesModel.ON_OFF_STATUS, "0");
-		} else {
-			c.put(DevicesModel.ON_OFF_STATUS, "1");
-		}
-		result = mUpdateDevice.updateDevices(Ieee,ep, c);
-		return result;
-	}
-
 	@Override
 	public void update(Manger observer, Object object) {
 		// TODO Auto-generated method stub
-		if(null!=mDialog){
+		if (null != mDialog) {
 			mDialog.dismiss();
-			mDialog=null;
+			mDialog = null;
 		}
-		boolean result = updateDevice(status);
-		if (status && result) {
-			light_on_off.setImageResource(R.drawable.light_off_big);
-		} else {
-			light_on_off.setImageResource(R.drawable.light_on_big);
-		}
+
 		status = !status;
 
+		setImagRes(on_off, status);
+
+		ContentValues c = new ContentValues();
+		c.put(DevicesModel.ON_OFF_STATUS, status ? "1" : "o");
+		mUpdateDevice.updateDevices(Ieee, ep, c);
 	}
+
 	class operatortype {
 		/***
 		 * 获取设备类型
@@ -170,4 +171,5 @@ public class LightsControlFragment extends BaseControlFragment {
 		 */
 		public static final int ChangeOnOffSwitchActions = 2;
 	}
+
 }

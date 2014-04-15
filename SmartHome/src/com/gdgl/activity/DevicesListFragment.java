@@ -2,6 +2,7 @@ package com.gdgl.activity;
 
 import com.gdgl.activity.ShowDevicesGroupFragmentActivity.adapterSeter;
 import com.gdgl.model.SimpleDevicesModel;
+import com.gdgl.mydata.DataHelper;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.EditDevicesDlg;
 import com.gdgl.util.EditDevicesDlg.EditDialogcallback;
@@ -47,6 +48,8 @@ public class DevicesListFragment extends Fragment implements adapterSeter {
 	LinearLayout list_root;
 
 	public static final String PASS_OBJECT = "pass_object";
+	
+	public static final String PASS_ONOFFIMG = "pass_on_off_img";
 
 	Context mContext;
 
@@ -156,7 +159,15 @@ public class DevicesListFragment extends Fragment implements adapterSeter {
 					(Context) getActivity(), mSimpleDevicesModel);
 			mEditDevicesDlg
 					.setDialogCallback((EditDialogcallback) mRefreshData);
-			mEditDevicesDlg.setContent("编辑" + mSimpleDevicesModel.getmName());
+			
+			if (mSimpleDevicesModel.getmModelId().contains(DataHelper.Wall_switch_double)
+					|| mSimpleDevicesModel.getmModelId().contains(
+							DataHelper.Wall_switch_triple)) {
+				mEditDevicesDlg.setContent("编辑" + mSimpleDevicesModel.getmName());
+				}
+			else{
+				mEditDevicesDlg.setContent("编辑" + mSimpleDevicesModel.getmNodeENNAme());
+			}
 			mEditDevicesDlg.show();
 		}
 		if(2 == menuIndex){

@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -38,10 +40,12 @@ public class MyDlg {
 
         spaceshipImage.startAnimation(hyperspaceJumpAnimation);
         tipTextView.setText(msg);
-        v.setAnimation(AnimationUtils.loadAnimation(context,
-                R.anim.slide_left_in));
         Dialog loadingDialog = new Dialog(context, R.style.loading_dialog);
-
+        Window window = loadingDialog.getWindow();
+        window.setWindowAnimations(R.style.dialogWindowAnim);
+        //window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND) ;
+        
+        
         // loadingDialog.setCancelable(false);
         loadingDialog.setContentView(layout, new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -67,9 +71,11 @@ public class MyDlg {
         Button btn_cancle = (Button) v.findViewById(R.id.btn_cancle);
         btn_cancle.setOnClickListener(cancleListener);
 
-        // v.setAnimation(AnimationUtils.loadAnimation(context,
-        // R.anim.slide_left_in));
         Dialog loadingDialog = new Dialog(context);
+        
+        Window window = loadingDialog.getWindow();
+        window.setWindowAnimations(R.style.dialogWindowAnim);
+        
         loadingDialog.setCancelable(false);
         loadingDialog.setContentView(layout, new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,

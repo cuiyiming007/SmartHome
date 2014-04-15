@@ -27,8 +27,6 @@ public class UiUtils {
 
 	public static int ILLEGAI_UID = -1;
 
-
-
 	public static final int PARLOR = 0; // 客厅
 	public static final int MASTER_BEDROOM = 1; // 主卧
 	public static final int STUDY = 2; // 书房
@@ -69,8 +67,8 @@ public class UiUtils {
 		case DataHelper.MAINS_POWER_OUTLET_DEVICETYPE:
 			result = R.drawable.wall_socket;
 			break;
-		case DataHelper.IAS_ZONE_DEVICETYPE:
-			result = R.drawable.detector;
+		case DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE:
+			result = R.drawable.warn;
 			break;
 		default:
 			result = R.drawable.tempture;
@@ -79,6 +77,35 @@ public class UiUtils {
 		return result;
 	}
 
+	
+	public static int getDevicesSmallIconByModelId(String modelId) {
+		
+		int imgId=R.drawable.detector;
+		
+		if(modelId.indexOf(DataHelper.Motion_Sensor)==0){  // ZigBee动作感应器
+			imgId=R.drawable.motion_sensor;
+		}
+		if(modelId.indexOf(DataHelper.Magnetic_Window)==0){  //ZigBee窗磁
+			imgId=R.drawable.motion_sensor;
+		}
+		if(modelId.indexOf(DataHelper.Emergency_Button)==0){  //ZigBee紧急按钮
+			imgId=R.drawable.urgent;
+		}
+		if(modelId.indexOf(DataHelper.Smoke_Detectors)==0){  // 烟雾感应器
+			imgId=R.drawable.smoke;
+		}
+		if(modelId.indexOf(DataHelper.Combustible_Gas_Detector_Gas)==0){  // 可燃气体探测器（煤气)器
+			imgId=R.drawable.detector;
+		}
+		if(modelId.indexOf(DataHelper.Combustible_Gas_Detector_CO)==0){  // 可燃气体探测器（一氧化碳)
+			imgId=R.drawable.detector;
+		}
+		if(modelId.indexOf(DataHelper.Combustible_Gas_Detector_Natural_gas)==0){  //可燃气体探测器（天然气)
+			imgId=R.drawable.detector;
+		}
+		return imgId;
+	}
+	
 	public static int getLightsSmallIcon(boolean state) {
 		if (state) {
 			return R.drawable.l_on_forreg;
