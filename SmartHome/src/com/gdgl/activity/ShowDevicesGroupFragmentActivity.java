@@ -1,6 +1,5 @@
 package com.gdgl.activity;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -254,8 +253,10 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		case 3:
 			type = UiUtils.ENVIRONMENTAL_CONTROL;
 			break;
+		case 4:
+			type = UiUtils.ENERGY_CONSERVATION;
+			break;
 		default:
-			type = UiUtils.ENVIRONMENTAL_CONTROL;
 			break;
 
 		}
@@ -276,15 +277,16 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 
 	public void refreshAdapter(int postion) {
 		mCurrentList = null;
-		int type=translateId(postion);
-		if(null!=mDevicesListCache.get(type)){
-			mCurrentList=mDevicesListCache.get(type);
-		}
-		else{
-			if(type==UiUtils.LIGHTS_MANAGER){
-				mCurrentList=DataUtil.getLightingManagementDevices(mDataHelper);
-			}else{
-				mCurrentList=DataUtil.getOtherManagementDevices(mDataHelper, type);
+		int type = translateId(postion);
+		if (null != mDevicesListCache.get(type)) {
+			mCurrentList = mDevicesListCache.get(type);
+		} else {
+			if (type == UiUtils.LIGHTS_MANAGER) {
+				mCurrentList = DataUtil
+						.getLightingManagementDevices(mDataHelper);
+			} else {
+				mCurrentList = DataUtil.getOtherManagementDevices(mDataHelper,
+						type);
 			}
 			mDevicesListCache.put(type, mCurrentList);
 		}
@@ -352,8 +354,8 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 	}
 
 	public void initTitleByDevices(String devicesId) {
-		title.setText(getCurrentDeviceByIeee(devicesIeee).getmName()
-				.replace(" ", ""));
+		title.setText(getCurrentDeviceByIeee(devicesIeee).getmName().replace(
+				" ", ""));
 		parents_need.setVisibility(View.GONE);
 		devices_need.setVisibility(View.VISIBLE);
 	}
@@ -377,7 +379,9 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 	@Override
 	public void dialogdo() {
 		// TODO Auto-generated method stub
-		mDataHelper.delete(mDataHelper.getSQLiteDatabase(), DataHelper.DEVICES_TABLE, " ieee=? ", new String[]{devicesIeee});
+		mDataHelper.delete(mDataHelper.getSQLiteDatabase(),
+				DataHelper.DEVICES_TABLE, " ieee=? ",
+				new String[] { devicesIeee });
 		mDevicesListCache.remove(translateId(mListIndex));
 		fragmentManager.popBackStack();
 		refreshAdapter(mListIndex);
@@ -392,16 +396,32 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 	}
 
 	@Override
-	public void saveedit(String name, String region) {
+	public void saveedit(String ieee,String ep,String name, String region) {
 		// TODO Auto-generated method stub
+		String where = " ieee = ? and ep = ?";
+		String[] args = { ieee, ep };
+		
+		ContentValues c=new ContentValues();
+		c.put(DevicesModel.NODE_EN_NAME, name);
+		c.put(DevicesModel.DEVICE_REGION, region);
+		
+		SQLiteDatabase mSQLiteDatabase = mDataHelper.getSQLiteDatabase();
+		int result = mDataHelper.update(mSQLiteDatabase,
+				DataHelper.DEVICES_TABLE, c, where, args);
+		if (result >= 0) {
 
+			mDevicesListCache.clear();
+			refreshAdapter(mListIndex);
+		}
+		
 	}
 
 	@Override
 	public void deleteDevices(String id) {
 		// TODO Auto-generated method stub
-		Log.i(TAG, "tagzgs->delete id="+id);
-		mDataHelper.delete(mDataHelper.getSQLiteDatabase(), DataHelper.DEVICES_TABLE, " ieee=? ", new String[]{id});
+		Log.i(TAG, "tagzgs->delete id=" + id);
+		mDataHelper.delete(mDataHelper.getSQLiteDatabase(),
+				DataHelper.DEVICES_TABLE, " ieee=? ", new String[] { id });
 		mDevicesListCache.clear();
 		refreshAdapter(mListIndex);
 	}

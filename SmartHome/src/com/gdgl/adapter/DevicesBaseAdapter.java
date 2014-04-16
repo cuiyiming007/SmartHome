@@ -119,19 +119,22 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 		} else {
 			mHolder.devices_name.setText(mDevices.getmNodeENNAme().replace(" ",
 					""));
-			
+
 		}
-		mHolder.devices_region.setText(mDevices.getmDeviceRegion().replace(
-				" ", ""));
-		
+		mHolder.devices_region.setText(mDevices.getmDeviceRegion().replace(" ",
+				""));
+
 		if (DataHelper.IAS_ZONE_DEVICETYPE == mDevices.getmDeviceId()) {
-			
-			mHolder.devices_img.setImageResource(UiUtils.getDevicesSmallIconByModelId(mDevices.getmModelId().trim()));
+
+			mHolder.devices_img
+					.setImageResource(UiUtils
+							.getDevicesSmallIconByModelId(mDevices
+									.getmModelId().trim()));
 		} else {
-			mHolder.devices_img.setImageResource(UiUtils.getDevicesSmallIcon(mDevices.getmDeviceId()));
+			mHolder.devices_img.setImageResource(UiUtils
+					.getDevicesSmallIcon(mDevices.getmDeviceId()));
 		}
-		
-		
+
 		if (mDevices.getmDeviceId() == DataHelper.ON_OFF_SWITCH_DEVICETYPE) {
 			String state = "";
 			String s = mDevices.getmOnOffStatus();
@@ -147,23 +150,22 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 			Log.i("tag", "tag->" + state);
 			mHolder.devices_state.setText(state);
 		} else {
-			if (mDevices.getmOnOffStatus().trim().equals("1")) {
-				mHolder.devices_state.setText("开");
-			} else {
-				mHolder.devices_state.setText("关");
-			}
-		}
-		
-		if (DataHelper.LIGHT_SENSOR_DEVICETYPE == mDevices.getmDeviceId()) {
-			boolean b = false;
-			if (null != mDevices.getmOnOffStatus()) {
+
+			if (mDevices.getmDeviceId() == DataHelper.IAS_ZONE_DEVICETYPE) {
 				if (mDevices.getmOnOffStatus().trim().equals("1")) {
-					b = true;
+					mHolder.devices_state.setText("布防");
+				} else {
+					mHolder.devices_state.setText("撤防");
+				}
+			} else {
+				if (mDevices.getmOnOffStatus().trim().equals("1")) {
+					mHolder.devices_state.setText("开");
+				} else {
+					mHolder.devices_state.setText("关");
 				}
 			}
-			mHolder.devices_img.setImageResource(UiUtils.getLightsSmallIcon(b));
-		} 
-		
+		}
+
 		return mView;
 	}
 

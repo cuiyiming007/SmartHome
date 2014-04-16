@@ -24,7 +24,7 @@ public class OnOffControlFragment extends BaseControlFragment {
 	int OnOffImg[];
 
 	public static final int ON = 0;
-	public static final int OFF = 0;
+	public static final int OFF = 1;
 
 	View mView;
 	SimpleDevicesModel mDevices;

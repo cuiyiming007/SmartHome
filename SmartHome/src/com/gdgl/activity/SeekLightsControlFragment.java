@@ -21,6 +21,8 @@ public class SeekLightsControlFragment extends BaseControlFragment {
 	TextView text_process;
 	View mView;
 	
+	TextView txt_devices_region,txt_devices_name;
+	
 	SimpleDevicesModel mDevices;
 	
 	@Override
@@ -99,6 +101,13 @@ public class SeekLightsControlFragment extends BaseControlFragment {
 		text_process.setText("0%");
 		devices_seek.setProgress(0);
 		setDevicesImg(0);
+		
+		
+		txt_devices_region=(TextView)mView.findViewById(R.id.txt_devices_region);
+		txt_devices_name=(TextView)mView.findViewById(R.id.txt_devices_name);
+		
+		txt_devices_region.setText(mDevices.getmDeviceRegion().trim());
+		txt_devices_name.setText(mDevices.getmNodeENNAme().trim());
 		
 		devices_seek.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 			

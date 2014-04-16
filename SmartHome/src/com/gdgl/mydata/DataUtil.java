@@ -29,12 +29,11 @@ public class DataUtil {
 			args[7] = "1";
 			break;
 		case UiUtils.ELECTRICAL_MANAGER:
-			args = new String[5];
+			args = new String[4];
 			args[0] = DataHelper.Power_detect_wall + "%";
 			args[1] = DataHelper.Curtain_control_switch + "%";
-			args[2] = DataHelper.Infrared_controller + "%";
-			args[3] = DataHelper.Magnetic_Window + "%";
-			args[4] = "1";
+			args[2] = DataHelper.Magnetic_Window + "%";
+			args[3] = "1";
 			break;
 		case UiUtils.SECURITY_CONTROL:
 			args = new String[8];
@@ -48,23 +47,24 @@ public class DataUtil {
 			args[7] = "1";
 			break;
 		case UiUtils.ENVIRONMENTAL_CONTROL:
-			args = new String[3];
+			args = new String[4];
 			args[0] = DataHelper.Indoor_temperature_sensor + "%";
 			args[1] = DataHelper.Infrared_controller + "%";
-			args[2] = "1";
+			args[2] = DataHelper.Multi_key_remote_control + "%";
+			args[3] = "1";
+			break;
+		case UiUtils.ENERGY_CONSERVATION:
+			args = new String[8];
+			args[0] = DataHelper.RS232_adapter + "%";
+			args[1] = DataHelper.Pro_RF + "%";
+			args[2] = DataHelper.Doorbell_button + "%";
+			args[3] = DataHelper.Indoor_temperature_sensor + "%";
+			args[4] = DataHelper.Light_Sensor + "%";
+			args[5] = DataHelper.Wireless_Intelligent_valve_switch + "%";
+			args[6] = DataHelper.Motion_Sensor + "%";
+			args[7] = "1";
 			break;
 		default:
-			args = new String[10];
-			args[0] = DataHelper.Indoor_temperature_sensor + "%";
-			args[1] = DataHelper.Infrared_controller + "%";
-			args[2] = DataHelper.RS232_adapter + "%";
-			args[3] = DataHelper.Pro_RF + "%";
-			args[4] = DataHelper.Doorbell_button + "%";
-			args[5] = DataHelper.Multi_key_remote_control + "%";
-			args[6] = DataHelper.Light_Sensor + "%";
-			args[7] = DataHelper.Wireless_Intelligent_valve_switch + "%";
-			args[8] = DataHelper.Motion_Sensor + "%";
-			args[9] = "1";
 			break;
 
 		}
@@ -78,17 +78,19 @@ public class DataUtil {
 			where = " ( model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? ) and on_off_line=?";
 			break;
 		case UiUtils.ELECTRICAL_MANAGER:
-			where = " ( model_id like ? or model_id like ? or model_id like ? or model_id like ? ) and on_off_line=?";
+			where = " ( model_id like ? or model_id like ? or model_id like ? ) and on_off_line=?";
 			break;
 		case UiUtils.SECURITY_CONTROL:
-			where = "(model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? ) and on_off_line=?";
+			where = "( model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? ) and on_off_line=?";
 			break;
 		case UiUtils.ENVIRONMENTAL_CONTROL:
-			where = " (model_id like ? or model_id like ? ) and on_off_line=?";
+			where = " ( model_id like ? or model_id like ? or model_id like ? ) and on_off_line=?";
+			break;
+		case UiUtils.ENERGY_CONSERVATION:
+			where = "( model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? "
+					+ "  ) and on_off_line=?";
 			break;
 		default:
-			where = "( model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? "+
-		       " or model_id like ?  or model_id like ? ) and on_off_line=?";
 			break;
 		}
 		return where;
@@ -192,7 +194,8 @@ public class DataUtil {
 			}
 		}
 		for (SimpleDevicesModel simpleDevicesModel : list) {
-			Log.i("", "tagzgs->"+simpleDevicesModel.getmOnOffLine()+" "+simpleDevicesModel.getmModelId());
+			Log.i("", "tagzgs->" + simpleDevicesModel.getmOnOffLine() + " "
+					+ simpleDevicesModel.getmModelId());
 		}
 		return list;
 	}

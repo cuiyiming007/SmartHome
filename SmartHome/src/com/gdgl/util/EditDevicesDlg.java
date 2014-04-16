@@ -64,7 +64,7 @@ public class EditDevicesDlg {
 				String mN = mName.getText().toString();
 				String mR = mRegion.getText().toString();
 				if ((!name.equals(mN)) || (!mRegion.equals(mR))) {
-					dialogcallback.saveedit(mN, mR);
+					dialogcallback.saveedit(mSimpleDevicesModel.getmIeee(),mSimpleDevicesModel.getmEP(),mN, mR);
 				}
 				dismiss();
 
@@ -83,7 +83,7 @@ public class EditDevicesDlg {
 	}
 
 	public interface EditDialogcallback {
-		public void saveedit(String name, String region);
+		public void saveedit(String ieee,String ep,String name, String region);
 	}
 
 	public void setDialogCallback(EditDialogcallback dialogcallback) {

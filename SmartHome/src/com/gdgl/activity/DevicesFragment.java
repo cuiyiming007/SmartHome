@@ -1,6 +1,7 @@
 package com.gdgl.activity;
 
 import com.gdgl.adapter.GridviewAdapter;
+import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.UiUtils;
 
@@ -15,15 +16,17 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 
-public class MainFragment extends Fragment {
+public class DevicesFragment extends Fragment {
 	
 	GridView content_view;
 	View mView;
+
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+
 	}
 
 	@Override

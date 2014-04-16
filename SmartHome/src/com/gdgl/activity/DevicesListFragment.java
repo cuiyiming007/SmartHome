@@ -115,7 +115,16 @@ public class DevicesListFragment extends Fragment implements adapterSeter {
 				Fragment mFragment = UiUtils.getFragment(mSimpleDevicesModel
 						.getmDeviceId());
 				if (null != mFragment) {
-					Bundle extras = new Bundle();// PASS_OBKECT
+					Bundle extras = new Bundle();
+					if (DataHelper.IAS_ZONE_DEVICETYPE == mSimpleDevicesModel
+							.getmDeviceId()
+							|| DataHelper.LIGHT_SENSOR_DEVICETYPE == mSimpleDevicesModel
+									.getmDeviceId()) {
+						int[] OnOffImg = { R.drawable.bufang_on,
+								R.drawable.chefang_off };
+						extras.putIntArray(PASS_ONOFFIMG, OnOffImg);
+					}
+					// PASS_OBKECT
 					extras.putParcelable(PASS_OBJECT, mSimpleDevicesModel);
 					mFragment.setArguments(extras);
 					mRefreshData.setFragment(mFragment, position - 1);
@@ -159,22 +168,26 @@ public class DevicesListFragment extends Fragment implements adapterSeter {
 					(Context) getActivity(), mSimpleDevicesModel);
 			mEditDevicesDlg
 					.setDialogCallback((EditDialogcallback) mRefreshData);
-			
-			if (mSimpleDevicesModel.getmModelId().contains(DataHelper.Wall_switch_double)
+
+			if (mSimpleDevicesModel.getmModelId().contains(
+					DataHelper.Wall_switch_double)
 					|| mSimpleDevicesModel.getmModelId().contains(
 							DataHelper.Wall_switch_triple)) {
-				mEditDevicesDlg.setContent("编辑" + mSimpleDevicesModel.getmName());
-				}
-			else{
-				mEditDevicesDlg.setContent("编辑" + mSimpleDevicesModel.getmNodeENNAme());
+				mEditDevicesDlg.setContent("编辑"
+						+ mSimpleDevicesModel.getmName());
+			} else {
+				mEditDevicesDlg.setContent("编辑"
+						+ mSimpleDevicesModel.getmNodeENNAme());
 			}
 			mEditDevicesDlg.show();
 		}
-		if(2 == menuIndex){
+		if (2 == menuIndex) {
 			mRefreshData.setDevicesId(mSimpleDevicesModel.getmIeee());
-			MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg((Context) getActivity());
+			MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
+					(Context) getActivity());
 			mMyOkCancleDlg.setDialogCallback((Dialogcallback) mRefreshData);
-			mMyOkCancleDlg.setContent("确定要删除" + mSimpleDevicesModel.getmName() + "吗?");
+			mMyOkCancleDlg.setContent("确定要删除" + mSimpleDevicesModel.getmName()
+					+ "吗?");
 			mMyOkCancleDlg.show();
 		}
 		return super.onContextItemSelected(item);

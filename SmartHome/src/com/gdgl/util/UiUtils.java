@@ -2,7 +2,7 @@ package com.gdgl.util;
 
 import android.app.Fragment;
 
-import com.gdgl.activity.LightsControlFragment;
+import com.gdgl.activity.OnOffControlFragment;
 import com.gdgl.activity.SeekLightsControlFragment;
 import com.gdgl.activity.SwitchControlFragment;
 import com.gdgl.mydata.DataHelper;
@@ -44,7 +44,7 @@ public class UiUtils {
 	public static final int ELECTRICAL_MANAGER = 1;
 	public static final int SECURITY_CONTROL = 2;
 	public static final int ENVIRONMENTAL_CONTROL = 4;
-	public static final int ENERGY_CONSERVATION= 8;
+	public static final int ENERGY_CONSERVATION = 8;
 
 	public static int getDevicesSmallIcon(int type) {
 		int result = 0;
@@ -53,13 +53,13 @@ public class UiUtils {
 			result = R.drawable.seek_light;
 			break;
 		case DataHelper.ON_OFF_SWITCH_DEVICETYPE:
-			result = R.drawable.resize_switch;
+			result = R.drawable.switch_small;
 			break;
 		case DataHelper.DIMEN_SWITCH_DEVICETYPE:
 			result = R.drawable.dimmable_switch;
 			break;
 		case DataHelper.LIGHT_SENSOR_DEVICETYPE:
-			result = R.drawable.l_on_forreg;
+			result = R.drawable.light_sensor;
 			break;
 		case DataHelper.SHADE_DEVICETYPE:
 			result = R.drawable.curtain;
@@ -68,7 +68,22 @@ public class UiUtils {
 			result = R.drawable.wall_socket;
 			break;
 		case DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE:
-			result = R.drawable.warn;
+			result = R.drawable.alarm_small;
+			break;
+		case DataHelper.REMOTE_CONTROL_DEVICETYPE:
+			result = R.drawable.remote_control;
+			break;
+		case DataHelper.IAS_ACE_DEVICETYPE:
+			result = R.drawable.tv_control;
+			break;
+		case DataHelper.RANGE_EXTENDER_DEVICETYPE:
+			result = R.drawable.range_extender;
+			break;
+		case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:
+			result = R.drawable.on_off_output;
+			break;
+		case DataHelper.COMBINED_INTERFACE_DEVICETYPE:
+			result = R.drawable.the_adapter;
 			break;
 		default:
 			result = R.drawable.tempture;
@@ -85,27 +100,27 @@ public class UiUtils {
 		if(modelId.indexOf(DataHelper.Motion_Sensor)==0){  // ZigBee动作感应器
 			imgId=R.drawable.motion_sensor;
 		}
-		if(modelId.indexOf(DataHelper.Magnetic_Window)==0){  //ZigBee窗磁
-			imgId=R.drawable.motion_sensor;
+		if (modelId.indexOf(DataHelper.Magnetic_Window) == 0) { // ZigBee窗磁
+			imgId = R.drawable.motion_sensor;
 		}
 		if(modelId.indexOf(DataHelper.Emergency_Button)==0){  //ZigBee紧急按钮
 			imgId=R.drawable.urgent;
 		}
-		if(modelId.indexOf(DataHelper.Smoke_Detectors)==0){  // 烟雾感应器
-			imgId=R.drawable.smoke;
+		if (modelId.indexOf(DataHelper.Smoke_Detectors) == 0) { // 烟雾感应器
+			imgId = R.drawable.smoke;
 		}
 		if(modelId.indexOf(DataHelper.Combustible_Gas_Detector_Gas)==0){  // 可燃气体探测器（煤气)器
 			imgId=R.drawable.detector;
 		}
-		if(modelId.indexOf(DataHelper.Combustible_Gas_Detector_CO)==0){  // 可燃气体探测器（一氧化碳)
-			imgId=R.drawable.detector;
+		if (modelId.indexOf(DataHelper.Combustible_Gas_Detector_CO) == 0) { // 可燃气体探测器（一氧化碳)
+			imgId = R.drawable.detector_ano;
 		}
-		if(modelId.indexOf(DataHelper.Combustible_Gas_Detector_Natural_gas)==0){  //可燃气体探测器（天然气)
-			imgId=R.drawable.detector;
+		if (modelId.indexOf(DataHelper.Combustible_Gas_Detector_Natural_gas) == 0) { // 可燃气体探测器（天然气)
+			imgId = R.drawable.detector_ano;
 		}
 		return imgId;
 	}
-	
+
 	public static int getLightsSmallIcon(boolean state) {
 		if (state) {
 			return R.drawable.l_on_forreg;
@@ -141,7 +156,7 @@ public class UiUtils {
 	}
 
 	public static int[] DEVICES_MANAGER_IMAGES = { R.drawable.light_manage,
-			R.drawable.electrical_control, R.drawable.safe_control,
+			R.drawable.electrical_control, R.drawable.safe,
 			R.drawable.huanjing_jiance, R.drawable.jieneng };
 	public static String[] DEVICES_MANAGER_TAGS = { "照明管理", "电器控制", "安全防护",
 			"环境监测", "节能" };
@@ -180,7 +195,9 @@ public class UiUtils {
 			mFragment = new SwitchControlFragment();
 			break;
 		case DataHelper.LIGHT_SENSOR_DEVICETYPE:
-			mFragment = new LightsControlFragment();
+			
+		case DataHelper.IAS_ZONE_DEVICETYPE:
+			mFragment = new OnOffControlFragment();
 			break;
 		case DataHelper.DIMEN_SWITCH_DEVICETYPE:
 			
