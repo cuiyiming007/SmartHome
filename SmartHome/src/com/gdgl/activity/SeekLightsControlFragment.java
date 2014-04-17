@@ -10,6 +10,7 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
+import com.gdgl.manager.LightManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.smarthome.R;
@@ -118,7 +119,9 @@ public class SeekLightsControlFragment extends BaseControlFragment {
 					boolean fromUser) {
 				// TODO Auto-generated method stub
 				text_process.setText(progress+"%");
+				LightManager.getInstance().dimmableLightOperation(progress);
 				setDevicesImg(progress);
+				
 			}
 		});
 	}

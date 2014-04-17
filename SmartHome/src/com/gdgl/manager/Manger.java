@@ -133,7 +133,7 @@ public class Manger {
 			@Override
 			public void onResponse(SimpleResponseData arg0) {
 				SimpleResponseData data = arg0;
-				Log.i("onResponse", data.toString());
+//				Log.i("onResponse", data.toString());
 				Event event = new Event(type, true);
 				event.setData(data);
 				notifyObservers(event);
@@ -144,7 +144,7 @@ public class Manger {
 
 			@Override
 			public void onErrorResponse(VolleyError error) {
-				Log.e("Error: ", error.getMessage());
+//				Log.e("Error: ", error.getMessage());
 				Event event = new Event(type, false);
 				event.setData(error);
 				notifyObservers(event);

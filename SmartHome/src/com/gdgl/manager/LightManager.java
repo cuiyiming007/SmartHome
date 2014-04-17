@@ -92,18 +92,18 @@ public class LightManager extends Manger {
 	 * control features; provides information update feature of the brightness
 	 * level.
 	 */
-	public void dimmableLightOperation() {
+	public void dimmableLightOperation(int level) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", "00137A000000BF13");
 		paraMap.put("ep", "01");
-		paraMap.put("operatortype", "0");
-		paraMap.put("param1", "1");
+		paraMap.put("operatortype", "9");
+		paraMap.put("param1", String.valueOf(level));
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
 		String param = hashMap2ParamString(paraMap);
 
 		String url = NetUtil.getInstance().getCumstomURL(
-				"lightSensorOperation.cgi", param);
+				"dimmableLightOperation.cgi", param);
 
 		simpleVolleyRequset(url, EventType.ONOFFOUTPUTOPERATION);
 	}

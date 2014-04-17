@@ -4,6 +4,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.util.Log;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
@@ -97,6 +99,7 @@ public class CustomRequest<T> extends JsonRequest<T> {
 		try {
 			String data = new String(response.data,
 					HttpHeaderParser.parseCharset(response.headers));
+			Log.i("CustomRequest response", data);
 			String json=UiUtils.formatResponseString(data);
 			T t = null;
 			if(mKey == null){

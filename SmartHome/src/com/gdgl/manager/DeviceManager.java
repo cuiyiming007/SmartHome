@@ -38,7 +38,7 @@ public class DeviceManager extends Manger {
 	 * local device data for test
 	 */
 	public ArrayList<ResponseParamsEndPoint> getDeviceListFromLocalString() {
-		RespondDataEntity data = VolleyOperation
+		RespondDataEntity<ResponseParamsEndPoint> data = VolleyOperation
 				.handleResponseString(Constants.jsonStringforEndpoint);
 		ArrayList<ResponseParamsEndPoint> devDataList = data
 				.getResponseparamList();
