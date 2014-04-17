@@ -7,9 +7,13 @@
     <GridView
         android:id="@+id/content_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:gravity="center"
-        android:numColumns="2" >
+        android:horizontalSpacing="10dp"
+        android:listSelector="@drawable/gridview_style"
+        android:numColumns="2"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="10dp" >
     </GridView>
 
 </LinearLayout>

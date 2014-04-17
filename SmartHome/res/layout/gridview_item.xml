@@ -3,7 +3,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:alpha="0.80"
+    android:alpha="0.65"
     android:background="@drawable/circle_btn"
     android:orientation="vertical" >
 
@@ -23,7 +23,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:layout_marginBottom="5dp"
-        android:textColor="#ffffff"
+        android:textColor="#7FFFD4"
         android:textSize="16dp"
         android:text="TextView" />
 

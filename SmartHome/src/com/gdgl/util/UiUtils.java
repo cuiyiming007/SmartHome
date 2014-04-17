@@ -2,7 +2,9 @@ package com.gdgl.util;
 
 import android.app.Fragment;
 
+import com.gdgl.activity.CurtainsControlFragment;
 import com.gdgl.activity.OnOffControlFragment;
+import com.gdgl.activity.OnlyShowFragment;
 import com.gdgl.activity.SeekLightsControlFragment;
 import com.gdgl.activity.SwitchControlFragment;
 import com.gdgl.mydata.DataHelper;
@@ -118,9 +120,28 @@ public class UiUtils {
 		if (modelId.indexOf(DataHelper.Combustible_Gas_Detector_Natural_gas) == 0) { // 可燃气体探测器（天然气)
 			imgId = R.drawable.detector_ano;
 		}
+		if (modelId.indexOf(DataHelper.Doorbell_button) == 0) { // 可燃气体探测器（天然气)
+			imgId = R.drawable.doorbell;
+		}
+		
 		return imgId;
 	}
+	
+	public static int getDevicesSmallIconForRemote(int type) {
 
+		int imgId = R.drawable.detector;
+		
+		switch(type){
+		case DataHelper.REMOTE_CONTROL_DEVICETYPE:
+			imgId=R.drawable.tv_control;
+			break;
+		case DataHelper.IAS_ACE_DEVICETYPE:
+			imgId=R.drawable.remote_control;
+			break;
+		}
+		return imgId;
+	}
+	
 	public static int getLightsSmallIcon(boolean state) {
 		if (state) {
 			return R.drawable.l_on_forreg;
@@ -128,32 +149,6 @@ public class UiUtils {
 		return R.drawable.l_off_forreg;
 	}
 
-	public static String getDevicesRegion(int type) {
-		String result = "";
-		switch (type) {
-		case PARLOR:
-			result = "客厅";
-			break;
-		case MASTER_BEDROOM:
-			result = "主卧";
-			break;
-		case STUDY:
-			result = "书房";
-			break;
-		case KITCHEN:
-			result = "厨房";
-			break;
-		case CORRIDOR:
-			result = "走廊";
-			break;
-		case BATHROOM:
-			result = "洗手间";
-			break;
-		default:
-			break;
-		}
-		return result;
-	}
 
 	public static int[] DEVICES_MANAGER_IMAGES = { R.drawable.light_manage,
 			R.drawable.electrical_control, R.drawable.safe,
@@ -194,8 +189,13 @@ public class UiUtils {
 		case DataHelper.ON_OFF_SWITCH_DEVICETYPE:
 			mFragment = new SwitchControlFragment();
 			break;
+		case DataHelper.TEMPTURE_SENSOR_DEVICETYPE:
 		case DataHelper.LIGHT_SENSOR_DEVICETYPE:
-			
+			mFragment = new OnlyShowFragment();
+			break;
+		case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:
+		case DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE:
+		case DataHelper.MAINS_POWER_OUTLET_DEVICETYPE:
 		case DataHelper.IAS_ZONE_DEVICETYPE:
 			mFragment = new OnOffControlFragment();
 			break;
@@ -204,6 +204,10 @@ public class UiUtils {
 		case DataHelper.DIMEN_LIGHTS_DEVICETYPE:
 			mFragment = new SeekLightsControlFragment();
 			break;
+		case DataHelper.SHADE_DEVICETYPE:
+			mFragment = new CurtainsControlFragment();
+			break;
+	
 		default:
 			break;
 		}

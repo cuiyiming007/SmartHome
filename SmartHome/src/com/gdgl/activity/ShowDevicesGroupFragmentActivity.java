@@ -354,10 +354,18 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 	}
 
 	public void initTitleByDevices(String devicesId) {
-		title.setText(getCurrentDeviceByIeee(devicesIeee).getmName().replace(
-				" ", ""));
-		parents_need.setVisibility(View.GONE);
-		devices_need.setVisibility(View.VISIBLE);
+		SimpleDevicesModel ms = getCurrentDeviceByIeee(devicesIeee);
+		if (null != ms) {
+			if (ms.getmModelId().contains(DataHelper.Wall_switch_double)
+					|| ms.getmModelId().contains(DataHelper.Wall_switch_triple)) {
+				title.setText(ms.getmName().replace(" ", ""));
+			} else {
+				title.setText(ms.getmNodeENNAme().replace(" ", ""));
+			}
+			parents_need.setVisibility(View.GONE);
+			devices_need.setVisibility(View.VISIBLE);
+		}
+
 	}
 
 	public interface EditDevicesName {

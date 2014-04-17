@@ -104,7 +104,7 @@ public class OnOffControlFragment extends BaseControlFragment {
 		txt_devices_region = (TextView) mView
 				.findViewById(R.id.txt_devices_region);
 
-		txt_devices_name.setText(mDevices.getmName());
+		txt_devices_name.setText(mDevices.getmNodeENNAme());
 		txt_devices_region.setText(mDevices.getmDeviceRegion());
 
 		setImagRes(on_off, status);

@@ -112,13 +112,24 @@ public class DevicesListFragment extends Fragment implements adapterSeter {
 				Log.i(TAG, "tagzgs->position=" + position);
 				mSimpleDevicesModel = mRefreshData.getDeviceModle(position - 1);
 				mRefreshData.setDevicesId(mSimpleDevicesModel.getmIeee());
-				Fragment mFragment = UiUtils.getFragment(mSimpleDevicesModel
-						.getmDeviceId());
+				Fragment mFragment;
+
+				if (mSimpleDevicesModel.getmModelId().indexOf(
+						DataHelper.Doorbell_button) == 0) {
+					mFragment = new DoorBellFragment();
+				} else {
+					mFragment = UiUtils.getFragment(mSimpleDevicesModel
+							.getmDeviceId());
+				}
 				if (null != mFragment) {
 					Bundle extras = new Bundle();
 					if (DataHelper.IAS_ZONE_DEVICETYPE == mSimpleDevicesModel
 							.getmDeviceId()
-							|| DataHelper.LIGHT_SENSOR_DEVICETYPE == mSimpleDevicesModel
+							|| DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE == mSimpleDevicesModel
+									.getmDeviceId()
+							|| DataHelper.ON_OFF_OUTPUT_DEVICETYPE == mSimpleDevicesModel
+									.getmDeviceId()
+							|| DataHelper.MAINS_POWER_OUTLET_DEVICETYPE == mSimpleDevicesModel
 									.getmDeviceId()) {
 						int[] OnOffImg = { R.drawable.bufang_on,
 								R.drawable.chefang_off };

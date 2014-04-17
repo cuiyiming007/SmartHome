@@ -124,13 +124,18 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 		mHolder.devices_region.setText(mDevices.getmDeviceRegion().replace(" ",
 				""));
 
-		if (DataHelper.IAS_ZONE_DEVICETYPE == mDevices.getmDeviceId()) {
+		if (DataHelper.IAS_ZONE_DEVICETYPE == mDevices.getmDeviceId()
+				|| DataHelper.IAS_ACE_DEVICETYPE == mDevices.getmDeviceId()) {
 
 			mHolder.devices_img
 					.setImageResource(UiUtils
 							.getDevicesSmallIconByModelId(mDevices
 									.getmModelId().trim()));
-		} else {
+		} else if (mDevices.getmModelId().indexOf(
+				DataHelper.Multi_key_remote_control) == 0) {
+			mHolder.devices_img.setImageResource(UiUtils
+					.getDevicesSmallIconForRemote(mDevices.getmDeviceId()));
+		}else {
 			mHolder.devices_img.setImageResource(UiUtils
 					.getDevicesSmallIcon(mDevices.getmDeviceId()));
 		}
@@ -149,20 +154,21 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 			}
 			Log.i("tag", "tag->" + state);
 			mHolder.devices_state.setText(state);
-		} else {
-
-			if (mDevices.getmDeviceId() == DataHelper.IAS_ZONE_DEVICETYPE) {
-				if (mDevices.getmOnOffStatus().trim().equals("1")) {
-					mHolder.devices_state.setText("布防");
-				} else {
-					mHolder.devices_state.setText("撤防");
-				}
+		} else if (mDevices.getmDeviceId() == DataHelper.IAS_ZONE_DEVICETYPE) {
+			if (mDevices.getmOnOffStatus().trim().equals("1")) {
+				mHolder.devices_state.setText("布防");
 			} else {
-				if (mDevices.getmOnOffStatus().trim().equals("1")) {
-					mHolder.devices_state.setText("开");
-				} else {
-					mHolder.devices_state.setText("关");
-				}
+				mHolder.devices_state.setText("撤防");
+			}
+		} else if (mDevices.getmDeviceId() == DataHelper.LIGHT_SENSOR_DEVICETYPE) {
+			mHolder.devices_state.setText("当前室内亮度为: 30");
+		} else if (mDevices.getmDeviceId() == DataHelper.TEMPTURE_SENSOR_DEVICETYPE) {
+			mHolder.devices_state.setText("当前室内温度为: 30°C");
+		} else {
+			if (mDevices.getmOnOffStatus().trim().equals("1")) {
+				mHolder.devices_state.setText("开");
+			} else {
+				mHolder.devices_state.setText("关");
 			}
 		}
 

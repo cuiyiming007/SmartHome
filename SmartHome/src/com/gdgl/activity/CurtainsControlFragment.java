@@ -1,14 +1,12 @@
 package com.gdgl.activity;
 
-import com.gdgl.adapter.DevicesBaseAdapter;
+import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.CircleProgressBar;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -47,36 +45,38 @@ public class CurtainsControlFragment extends Fragment {
     private static final int OPENFULLY = 2;
     private static final int CLOSEFULLY = 3;
 
-    @SuppressLint("NewApi")
-    @Override
-    public void onAttach(Activity activity) {
-        // TODO Auto-generated method stub
-        super.onAttach(activity);
+	SimpleDevicesModel mDevices;
 
-    }
+	@SuppressLint("NewApi")
+	@Override
+	public void onAttach(Activity activity) {
+		// TODO Auto-generated method stub
+		super.onAttach(activity);
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
-        super.onCreate(savedInstanceState);
+	}
 
-        Bundle extras = getArguments();
-        if (null != extras) {
-            mCurtainsId = extras.getString(DevicesBaseAdapter.DEVICES_ID, "");
-            mCurtainState = extras.getFloat(DevicesBaseAdapter.DEVIVES_VALUE, -2.0f);
-        }
-        mProgress = (int) (mCurtainState * 100);
-    }
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
 
-    @SuppressLint("NewApi")
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
-        mView = inflater.inflate(R.layout.curtains_control_fragment, null);
-        initView();
-        return mView;
-    }
+		Bundle extras = getArguments();
+		if (null != extras) {
+			mDevices = (SimpleDevicesModel) extras
+					.getParcelable(DevicesListFragment.PASS_OBJECT);
+		}
+		mProgress = 30;
+	}
+
+	@SuppressLint("NewApi")
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		mView = inflater.inflate(R.layout.curtains_control_fragment, null);
+		initView();
+		return mView;
+	}
 
     private void initView() {
         // TODO Auto-generated method stub
