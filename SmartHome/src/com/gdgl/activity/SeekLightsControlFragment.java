@@ -151,7 +151,7 @@ public class SeekLightsControlFragment extends BaseControlFragment {
 	@Override
 	public void update(Manger observer, Object object) {
 		final Event event = (Event) object;
-		if (EventType.ONOFFOUTPUTOPERATION == event.getType()&&event.isSuccess()==true) {
+		if (EventType.ONOFFOUTPUTOPERATION == event.getType()) {
 			
 			if (event.isSuccess()==true) {
 				// data maybe null

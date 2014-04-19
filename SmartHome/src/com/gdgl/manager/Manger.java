@@ -16,6 +16,7 @@ import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.SimpleResponseData;
 import com.gdgl.network.CustomRequest;
+import com.gdgl.network.VolleyErrorHelper;
 
 
 public class Manger {
@@ -133,7 +134,6 @@ public class Manger {
 			@Override
 			public void onResponse(SimpleResponseData arg0) {
 				SimpleResponseData data = arg0;
-//				Log.i("onResponse", data.toString());
 				Event event = new Event(type, true);
 				event.setData(data);
 				notifyObservers(event);
@@ -144,7 +144,10 @@ public class Manger {
 
 			@Override
 			public void onErrorResponse(VolleyError error) {
-//				Log.e("Error: ", error.getMessage());
+				if (error!=null&&error.getMessage()!=null) {
+				Log.e("ResponseError: ", error.getMessage());
+				VolleyErrorHelper.getMessage(error, ApplicationController.getInstance());
+				}
 				Event event = new Event(type, false);
 				event.setData(error);
 				notifyObservers(event);

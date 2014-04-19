@@ -16,6 +16,9 @@ import com.gdgl.manager.LightManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
+import com.gdgl.mydata.Event;
+import com.gdgl.mydata.EventType;
+import com.gdgl.mydata.SimpleResponseData;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyDlg;
 
@@ -121,11 +124,20 @@ public class OnOffControlFragment extends BaseControlFragment {
 				} else {
 					mDialog.show();
 				}
-				mLightManager.onOffLightOperation();
+				mLightManager.MainsOutLetOperation(mDevices,operatortype.ChangeOnOffSwitchActions,getChangeValue());
+//				mLightManager.iASZoneOperationCommon(mDevices);
 			}
+
+			
 		});
 	}
-
+	private int getChangeValue() {
+		if (status) {
+			return 0x00;
+		}else {
+			return 0x01;
+		}
+	}
 	@Override
 	public void onDestroy() {
 		// TODO Auto-generated method stub
@@ -146,14 +158,25 @@ public class OnOffControlFragment extends BaseControlFragment {
 			mDialog.dismiss();
 			mDialog = null;
 		}
-
-		status = !status;
-
-		setImagRes(on_off, status);
-
-		ContentValues c = new ContentValues();
-		c.put(DevicesModel.ON_OFF_STATUS, status ? "1" : "o");
-		mUpdateDevice.updateDevices(Ieee, ep, c);
+		final Event event = (Event) object;
+		if (EventType.MAINSOUTLETOPERATION == event.getType()) {
+			
+			if (event.isSuccess()==true) {
+				// data maybe null
+				SimpleResponseData data = (SimpleResponseData) event.getData();
+				//  refresh UI data
+				
+				status = !status;
+				
+				setImagRes(on_off, status);
+				
+				ContentValues c = new ContentValues();
+				c.put(DevicesModel.ON_OFF_STATUS, status ? "1" : "o");
+				mUpdateDevice.updateDevices(Ieee, ep, c);
+			}else {
+				//if failed,prompt a Toast
+			}
+		}
 	}
 
 	class operatortype {

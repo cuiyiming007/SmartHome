@@ -30,6 +30,7 @@ public class EventType {
 	public static final EventType RANGEEXTENDER;
 	public static final EventType IASACE;
 	public static final EventType REMOTECONTROL;
+	public static final EventType MAINSOUTLETOPERATION;
 	
 
 	
@@ -52,6 +53,7 @@ public class EventType {
 		RANGEEXTENDER=new EventType("RangeExtender", nextId());
 		IASACE=new EventType("IASACE", nextId());
 		REMOTECONTROL=new EventType("RemoteControl", nextId());
+		MAINSOUTLETOPERATION=new EventType("MainsOutLetOperation", nextId());
 
 	}
 	
