@@ -11,7 +11,17 @@
     <string name="out_login">自动登录</string>
     <string name="login">登 录</string>
     <string name="cancle">取消</string>
-     
+     <string name="app_name">IPC_video</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="ip_addr">IP地址</string>
+    <string name="sure">消息提示</string>
+    <string name="close">关闭</string>
+    <string name="noNetwork">请打开网络连接</string>
+    <string name="back">返回</string>
+    <string name="title_activity_videolist">VideolistActivity</string>
+    <string name="faile">连接服务器失败</string>
+    <string name="ipc_offline">摄像机不在线</string>
     <string-array name="gongneng_name">
         <item >照明管理</item>
         <item >电器控制</item>
