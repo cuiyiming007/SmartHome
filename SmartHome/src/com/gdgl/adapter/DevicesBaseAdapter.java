@@ -62,8 +62,6 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 	public int getCount() {
 		// TODO Auto-generated method stub
 		if (null != mDevicesList) {
-			Log.i(DEVICES_ID,
-					"zzzgs->mDevicesList.size()=" + mDevicesList.size());
 			return mDevicesList.size();
 		}
 		return 0;

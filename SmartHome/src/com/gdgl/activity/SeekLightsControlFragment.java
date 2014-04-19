@@ -1,5 +1,6 @@
 package com.gdgl.activity;
 
+import android.R.integer;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,6 +14,9 @@ import android.widget.TextView;
 import com.gdgl.manager.LightManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.model.SimpleDevicesModel;
+import com.gdgl.mydata.Event;
+import com.gdgl.mydata.EventType;
+import com.gdgl.mydata.SimpleResponseData;
 import com.gdgl.smarthome.R;
 
 public class SeekLightsControlFragment extends BaseControlFragment {
@@ -24,6 +28,8 @@ public class SeekLightsControlFragment extends BaseControlFragment {
 	TextView txt_devices_region,txt_devices_name;
 	
 	SimpleDevicesModel mDevices;
+	
+	int currentProgress=0;
 	
 	@Override
 	public void onAttach(Activity activity) {
@@ -80,6 +86,7 @@ public class SeekLightsControlFragment extends BaseControlFragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		LightManager.getInstance().addObserver(this);
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 	}
@@ -127,9 +134,10 @@ public class SeekLightsControlFragment extends BaseControlFragment {
 			public void onProgressChanged(SeekBar seekBar, int progress,
 					boolean fromUser) {
 				// TODO Auto-generated method stub
+				currentProgress=progress;
 				text_process.setText(progress+"%");
-				LightManager.getInstance().dimmableLightOperation(progress);
-				setDevicesImg(progress);
+				LightManager.getInstance().dimmableLightOperation(mDevices,progress/10);
+				
 				
 			}
 		});
@@ -142,8 +150,24 @@ public class SeekLightsControlFragment extends BaseControlFragment {
 
 	@Override
 	public void update(Manger observer, Object object) {
-		// TODO Auto-generated method stub
+		final Event event = (Event) object;
+		if (EventType.ONOFFOUTPUTOPERATION == event.getType()&&event.isSuccess()==true) {
+			
+			if (event.isSuccess()==true) {
+				// data maybe null
+				SimpleResponseData data = (SimpleResponseData) event.getData();
+				//  refresh UI data
+				setDevicesImg(currentProgress);
+			}else {
+				//if failed,prompt a Toast
+			}
+		}
 
+	}
+	@Override
+	public void onDestroy() {
+		LightManager.getInstance().deleteObserver(this);
+		super.onDestroy();
 	}
 	class operatortype {
 		public static final int TurnOff = 0;

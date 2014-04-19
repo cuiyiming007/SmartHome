@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import com.gdgl.activity.SeekLightsControlFragment;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.EventType;
 import com.gdgl.util.NetUtil;
@@ -92,12 +93,12 @@ public class LightManager extends Manger {
 	 * control features; provides information update feature of the brightness
 	 * level.
 	 */
-	public void dimmableLightOperation(int level) {
+	public void dimmableLightOperation(SimpleDevicesModel model,int operationType) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", "00137A000000BF13");
 		paraMap.put("ep", "01");
-		paraMap.put("operatortype", "9");
-		paraMap.put("param1", String.valueOf(level));
+		paraMap.put("operatortype", String.valueOf(operationType));
+		paraMap.put("param1", "1");
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
 		String param = hashMap2ParamString(paraMap);
