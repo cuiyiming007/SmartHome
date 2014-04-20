@@ -39,7 +39,7 @@ public class DeviceManager extends Manger {
 	 */
 	public ArrayList<ResponseParamsEndPoint> getDeviceListFromLocalString() {
 		RespondDataEntity<ResponseParamsEndPoint> data = VolleyOperation
-				.handleResponseString(Constants.jsonStringforEndpoint);
+				.handleResponseString(Constants.jsonStringforEndpointNew);
 		ArrayList<ResponseParamsEndPoint> devDataList = data
 				.getResponseparamList();
 
@@ -64,7 +64,7 @@ public class DeviceManager extends Manger {
 
 			@Override
 			public void onErrorResponse(VolleyError error) {
-				Log.e("Error: ", error.getMessage());
+//				Log.e("Error: ", error.getMessage());
 			}
 		};
 
