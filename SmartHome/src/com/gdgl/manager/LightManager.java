@@ -6,6 +6,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import android.R.integer;
+
+import com.gdgl.activity.SeekLightsControlFragment;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.EventType;
 import com.gdgl.util.NetUtil;
@@ -81,7 +84,25 @@ public class LightManager extends Manger {
 		}
 		return instance;
 	}
+	/***
+	 * 2.3 插座
+	 */
+	public void MainsOutLetOperation(SimpleDevicesModel model,int operationType,int parem1)
+	{
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("ieee", model.getmIeee());
+		paraMap.put("ep", model.getmEP());
+		paraMap.put("operatortype", String.valueOf(operationType));
+		paraMap.put("param1", "1");
+		paraMap.put("param2", "2");
+		paraMap.put("param3", "3");
+		String param = hashMap2ParamString(paraMap);
 
+		String url = NetUtil.getInstance().getCumstomURL(
+				"mainsOutLetOperation.cgi", param);
+
+		simpleVolleyRequset(url, EventType.MAINSOUTLETOPERATION);
+	}
 	/***
 	 * 2.4 DimmableLightOperation ZigBee调光开关
 	 * http://192.168.1.184/cgi-bin/rest/network/dimmableLightOperation.cgi?
@@ -92,12 +113,12 @@ public class LightManager extends Manger {
 	 * control features; provides information update feature of the brightness
 	 * level.
 	 */
-	public void dimmableLightOperation(int level) {
+	public void dimmableLightOperation(SimpleDevicesModel model,int operationType) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
-		paraMap.put("ieee", "00137A000000BF13");
-		paraMap.put("ep", "01");
-		paraMap.put("operatortype", "9");
-		paraMap.put("param1", String.valueOf(level));
+		paraMap.put("ieee", model.getmIeee());
+		paraMap.put("ep", model.getmEP());
+		paraMap.put("operatortype", String.valueOf(operationType));
+		paraMap.put("param1", "1");
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
 		String param = hashMap2ParamString(paraMap);
@@ -217,8 +238,17 @@ GetZoneIASCIEAddress 13
 	 * 1B&ep=01&operatortype=0&param1=1&param2=2&param3=3&callback
 	 * =1234&encodemethod =NONE&sign=AAA
 	 */
-	public void OnOffLightSwitchOperation() {
-		String param = "ieee=00137A0000010AB5&ep=0A&operatortype=2&param1=1&param2=2&param3=3";
+	public void OnOffLightSwitchOperation(SimpleDevicesModel model,int operationType,int param1) {
+		
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("ieee", model.getmIeee());
+		paraMap.put("ep", model.getmEP());
+		paraMap.put("operatortype", String.valueOf(operationType));
+		paraMap.put("param1", String.valueOf(param1));
+		paraMap.put("param2", "2");
+		paraMap.put("param3", "3");
+		String param = hashMap2ParamString(paraMap);
+
 		String url = NetUtil.getInstance().getCumstomURL(
 				"onOffLightSwitchOperation.cgi", param);
 		simpleVolleyRequset(url, EventType.ONOFFLIGHTSWITCHOPERATION);

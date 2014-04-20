@@ -234,10 +234,17 @@ public class SwitchControlFragment extends BaseControlFragment implements
 			
 			mCurrent=c;
 			mPostion=postion2;
-			mLightManager.OnOffLightSwitchOperation();
+			mLightManager.OnOffLightSwitchOperation(mSimpleDevicesModel.get(mCurrent),2,getChangeValue());
 		}
 	}
-
+	private int getChangeValue() {
+//		SimpleDevicesModel	s = mSimpleDevicesModel.get(mCurrent);
+		if (mBoolean[mCurrent]==true) {
+			return 0x00;
+		}else {
+			return 0x01;
+		}
+	}
 	@Override
 	public void onAttach(Activity activity) {
 		// TODO Auto-generated method stub
