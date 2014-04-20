@@ -171,11 +171,11 @@ public class LightManager extends Manger {
 	 * 
 	 * UnLockDoor 8
 	 */
-	public void doorLockOperationCommon() {
+	public void doorLockOperationCommon(SimpleDevicesModel model,int operationType) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
-		paraMap.put("ieee", "00137A0000011598");
-		paraMap.put("ep", "01");
-		paraMap.put("operatortype", "7");// 7为锁门，8为解锁
+		paraMap.put("ieee", model.getmIeee());
+		paraMap.put("ep", model.getmEP());
+		paraMap.put("operatortype", String.valueOf(operationType));// 7为锁门，8为解锁
 		paraMap.put("param1", "1");
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
@@ -215,11 +215,11 @@ GetZoneStatus 12
 
 GetZoneIASCIEAddress 13
 	 */
-	public void IASWarningDeviceOperationCommon() {
+	public void IASWarningDeviceOperationCommon(SimpleDevicesModel model,int operationType) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
-		paraMap.put("ieee", "00137A0000011949");
-		paraMap.put("ep", "01");
-		paraMap.put("operatortype", "7");// 7为锁门，8为解锁
+		paraMap.put("ieee", model.getmIeee());
+		paraMap.put("ep", model.getmEP());
+		paraMap.put("operatortype", String.valueOf(operationType));
 		paraMap.put("param1", "1");
 		paraMap.put("param2", "2");
 		paraMap.put("operatortype", "1");
@@ -352,11 +352,11 @@ GetIlluminanceMeasuredValueR ptTime 7
 	/***
 	 * 2.14ShadeController Operation
 	 */
-	public void shadeControllerOperation(SimpleDevicesModel model) {
+	public void shadeControllerOperation(SimpleDevicesModel model,int operationType) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
-		paraMap.put("ieee", "00137A0000010516");
-		paraMap.put("ep", "1");
-		paraMap.put("operatortype", "1");
+		paraMap.put("ieee", model.getmIeee());
+		paraMap.put("ep", model.getmEP());
+		paraMap.put("operatortype", String.valueOf(operationType));
 		paraMap.put("param1", "1");
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
@@ -371,11 +371,11 @@ GetIlluminanceMeasuredValueR ptTime 7
 	/***
 	 * 2.15 ShadeOperation
 	 */
-	public void shadeOperation(SimpleDevicesModel model) {
+	public void shadeOperation(SimpleDevicesModel model,int operationType) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
-		paraMap.put("ieee", "00137A0000010516");
-		paraMap.put("ep", "1");
-		paraMap.put("operatortype", "1");
+		paraMap.put("ieee", model.getmIeee());
+		paraMap.put("ep", model.getmEP());
+		paraMap.put("operatortype", String.valueOf(operationType));
 		paraMap.put("param1", "1");
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
@@ -452,11 +452,11 @@ ChangeUltravioletRptTime 10
 
 GetTemperatureMeasuredValue11
 	 */
-	public void temperatureSensorOperation(SimpleDevicesModel model) {
+	public void temperatureSensorOperation(SimpleDevicesModel model,int operationType) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
-		paraMap.put("ieee", "00137A00000121C2");
-		paraMap.put("ep", "0A");
-		paraMap.put("operatortype", "01");
+		paraMap.put("ieee", model.getmIeee());
+		paraMap.put("ep", model.getmEP());
+		paraMap.put("operatortype", String.valueOf(operationType));
 		paraMap.put("param1", "1");
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
@@ -473,11 +473,11 @@ GetTemperatureMeasuredValue11
 	 * 
 GetHumidity 0
 	 */
-	public void rangeExtenderOperation(SimpleDevicesModel model) {
+	public void rangeExtenderOperation(SimpleDevicesModel model,int operationType) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
-		paraMap.put("ieee", "00137A0000010148");
-		paraMap.put("ep", "0A");
-		paraMap.put("operatortype", "01");
+		paraMap.put("ieee", model.getmIeee());
+		paraMap.put("ep", model.getmEP());
+		paraMap.put("operatortype", String.valueOf(operationType));
 		paraMap.put("param1", "1");
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
@@ -490,7 +490,7 @@ GetHumidity 0
 	}
 
 	/***
-	 * 2.25 IAS ACE 1 ZigBee门铃按键
+	 * 2.25 IAS ACE 1 心跳
 	 *
 WriteHeartBeatPeriod 0
 
@@ -500,11 +500,11 @@ GetDeviceHeartBeat 2
 
 RefreshDeviceCIEAddr 3
 	 */
-	public void iASACE(SimpleDevicesModel model) {
+	public void iASACE(SimpleDevicesModel model,int operationType) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
-		paraMap.put("ieee", "00137A0000011F8C");
-		paraMap.put("ep", "0A");
-		paraMap.put("operatortype", "01");
+		paraMap.put("ieee", model.getmIeee());
+		paraMap.put("ep", model.getmEP());
+		paraMap.put("operatortype", String.valueOf(operationType));
 		paraMap.put("param1", "1");
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
@@ -518,11 +518,11 @@ RefreshDeviceCIEAddr 3
 	/***
 	 * 2.26 RemoteControl ZigBee多键遥控器
 	 */
-	public void remoteControl(SimpleDevicesModel model) {
+	public void remoteControl(SimpleDevicesModel model,int operationType) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
-		paraMap.put("ieee", "00137A0000010264");
-		paraMap.put("ep", "0A");
-		paraMap.put("operatortype", "01");
+		paraMap.put("ieee", model.getmIeee());
+		paraMap.put("ep", model.getmEP());
+		paraMap.put("operatortype", String.valueOf(operationType));
 		paraMap.put("param1", "1");
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
