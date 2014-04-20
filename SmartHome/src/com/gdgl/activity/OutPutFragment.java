@@ -1,3 +1,4 @@
+
 package com.gdgl.activity;
 
 import android.app.Activity;
@@ -24,7 +25,7 @@ import com.gdgl.mydata.SimpleResponseData;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyDlg;
 
-public class DetectorOnOffControlFragment extends BaseControlFragment {
+public class OutPutFragment extends BaseControlFragment {
 
 	int OnOffImg[];
 
@@ -89,7 +90,7 @@ public class DetectorOnOffControlFragment extends BaseControlFragment {
 		}
 
 		mLightManager = LightManager.getInstance();
-		mLightManager.addObserver(DetectorOnOffControlFragment.this);
+		mLightManager.addObserver(OutPutFragment.this);
 		initstate();
 	}
 
@@ -110,8 +111,8 @@ public class DetectorOnOffControlFragment extends BaseControlFragment {
 		txt_devices_region = (TextView) mView
 				.findViewById(R.id.txt_devices_region);
 
-		txt_devices_name.setText(mDevices.getmUserDefineName().trim());
-		txt_devices_region.setText(mDevices.getmDeviceRegion().trim());
+		txt_devices_name.setText(mDevices.getmNodeENNAme());
+		txt_devices_region.setText(mDevices.getmDeviceRegion());
 
 		setImagRes(on_off, status);
 		
@@ -131,7 +132,7 @@ public class DetectorOnOffControlFragment extends BaseControlFragment {
 				} else {
 					mDialog.show();
 				}
-				mLightManager.iASZoneOperationCommon(mDevices,7,1);
+				mLightManager.OnOffOutputOperation(mDevices,getChangeValue());
 			}
 
 			
@@ -139,16 +140,16 @@ public class DetectorOnOffControlFragment extends BaseControlFragment {
 	}
 	private int getChangeValue() {
 		if (status) {
-			return 0x00;
+			return operatortype.TURNOFF;
 		}else {
-			return 0x01;
+			return operatortype.TURNON;
 		}
 	}
 	@Override
 	public void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
-		mLightManager.deleteObserver(DetectorOnOffControlFragment.this);
+		mLightManager.deleteObserver(OutPutFragment.this);
 	}
 
 	@Override
@@ -165,7 +166,7 @@ public class DetectorOnOffControlFragment extends BaseControlFragment {
 			mDialog = null;
 		}
 		final Event event = (Event) object;
-		if (EventType.IASZONEOPERATION == event.getType()) {
+		if (EventType.ONOFFOUTPUTOPERATION == event.getType()) {
 			
 			if (event.isSuccess()==true) {
 				// data maybe null
@@ -190,16 +191,17 @@ public class DetectorOnOffControlFragment extends BaseControlFragment {
 		/***
 		 * 获取设备类型
 		 */
-		public static final int GetOnOffSwitchType = 0;
+		public static final int TURNON = 0;
 		/***
 		 * 获取状态
 		 */
-		public static final int GetOnOffSwitchActions = 1;
+		public static final int TURNOFF = 1;
 		/***
 		 * 当操作类型是2时，para1有以下意义 Param1: switchaction: 0x00: Off 0x01: On 0x02:
 		 * Toggle
 		 */
-		public static final int ChangeOnOffSwitchActions = 2;
+		public static final int TOGGLE = 2;
+		public static final int GETSTATUS = 3;
 	}
 
 }

@@ -113,7 +113,7 @@ public class LightManager extends Manger {
 	 * control features; provides information update feature of the brightness
 	 * level.
 	 */
-	public void dimmableLightOperation(SimpleDevicesModel model,int operationType) {
+	public void dimmableLightOperation(SimpleDevicesModel model,int operationType,int param1) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", model.getmIeee());
 		paraMap.put("ep", model.getmEP());
@@ -144,7 +144,7 @@ public class LightManager extends Manger {
 
 		String param = "ieee=00137A0000010AB5&ep=0A&operatortype=2&param1=1&param2=2&param3=3";
 		String url = NetUtil.getInstance().getCumstomURL(
-				"onOffLightSwitchOperation.cgi", param);
+				"onOffLightOperation.cgi", param);
 		EventType type = EventType.ONOFFLIGHTOPERATION;
 		simpleVolleyRequset(url, type);
 
@@ -273,13 +273,13 @@ Toggle 2
 
 GetStatus 3
 	 */
-	public void OnOffOutputOperation() {
+	public void OnOffOutputOperation(SimpleDevicesModel model,int operationType) {
 		// String param =
 		// "ieee=00137A0000010AB5&ep=0A&operatortype=0&param1=1&param2=2&param3=3";
 		HashMap<String, String> paraMap = new HashMap<String, String>();
-		paraMap.put("ieee", "00137A0000010AB5");
-		paraMap.put("ep", "0A");
-		paraMap.put("operatortype", "0");
+		paraMap.put("ieee", model.getmIeee());
+		paraMap.put("ep", model.getmEP());
+		paraMap.put("operatortype", String.valueOf(operationType));
 		paraMap.put("param1", "1");
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
@@ -332,20 +332,20 @@ ChangeIlluminanceMeasuredVal ueRptTime 6
 
 GetIlluminanceMeasuredValueR ptTime 7
 	 */
-	public void lightSensorOperation() {
+	public void lightSensorOperation(SimpleDevicesModel model,int operationType) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
-		paraMap.put("ieee", "00137A000001181F");
-		paraMap.put("ep", "0A");
-		paraMap.put("operatortype", "0");
+		paraMap.put("ieee", model.getmIeee());
+		paraMap.put("ep", model.getmEP());
+		paraMap.put("operatortype", String.valueOf(operationType));
 		paraMap.put("param1", "1");
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
 		String param = hashMap2ParamString(paraMap);
 
 		String url = NetUtil.getInstance().getCumstomURL(
-				"onOffOutputOperation.cgi", param);
+				"lightSensorOperation.cgi", param);
 
-		simpleVolleyRequset(url, EventType.ONOFFOUTPUTOPERATION);
+		simpleVolleyRequset(url, EventType.LIGHTSENSOROPERATION);
 
 	}
 
@@ -409,12 +409,12 @@ SetIRDisableTimeAlarm 9
 
 GetIRDisableTime 10
 	 */
-	public void iASZoneOperationCommon(SimpleDevicesModel model) {
+	public void iASZoneOperationCommon(SimpleDevicesModel model,int operationType,int param1) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
-		paraMap.put("ieee", "00137A00000120E3");
-		paraMap.put("ep", "12");
-		paraMap.put("operatortype", "01");
-		paraMap.put("param1", "1");
+		paraMap.put("ieee", model.getmIeee());
+		paraMap.put("ep", model.getmEP());
+		paraMap.put("operatortype", String.valueOf(operationType));
+		paraMap.put("param1", String.valueOf(param1));
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
 		String param = hashMap2ParamString(paraMap);

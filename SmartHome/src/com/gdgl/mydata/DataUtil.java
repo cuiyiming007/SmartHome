@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.gdgl.activity.ShowDevicesGroupFragmentActivity;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
+import com.gdgl.smarthome.R;
 import com.gdgl.util.UiUtils;
 
 public class DataUtil {
@@ -29,14 +31,13 @@ public class DataUtil {
 			args[7] = "1";
 			break;
 		case UiUtils.ELECTRICAL_MANAGER:
-			args = new String[4];
+			args = new String[3];
 			args[0] = DataHelper.Power_detect_wall + "%";
 			args[1] = DataHelper.Curtain_control_switch + "%";
-			args[2] = DataHelper.Magnetic_Window + "%";
-			args[3] = "1";
+			args[2] = "1";
 			break;
 		case UiUtils.SECURITY_CONTROL:
-			args = new String[8];
+			args = new String[9];
 			args[0] = DataHelper.Emergency_Button + "%";
 			args[1] = DataHelper.Doors_and_windows_sensor_switch + "%";
 			args[2] = DataHelper.Smoke_Detectors + "%";
@@ -44,7 +45,8 @@ public class DataUtil {
 			args[4] = DataHelper.Combustible_Gas_Detector_CO + "%";
 			args[5] = DataHelper.Combustible_Gas_Detector_Natural_gas + "%";
 			args[6] = DataHelper.Siren + "%";
-			args[7] = "1";
+			args[7] = DataHelper.Magnetic_Window + "%";
+			args[8] = "1";
 			break;
 		case UiUtils.ENVIRONMENTAL_CONTROL:
 			args = new String[4];
@@ -78,10 +80,10 @@ public class DataUtil {
 			where = " ( model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? ) and on_off_line=?";
 			break;
 		case UiUtils.ELECTRICAL_MANAGER:
-			where = " ( model_id like ? or model_id like ? or model_id like ? ) and on_off_line=?";
+			where = " ( model_id like ? or model_id like ?  ) and on_off_line=?";
 			break;
 		case UiUtils.SECURITY_CONTROL:
-			where = "( model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? ) and on_off_line=?";
+			where = "( model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ?  ) and on_off_line=?";
 			break;
 		case UiUtils.ENVIRONMENTAL_CONTROL:
 			where = " ( model_id like ? or model_id like ? or model_id like ? ) and on_off_line=?";
@@ -111,7 +113,7 @@ public class DataUtil {
 	}
 
 	public static List<SimpleDevicesModel> getLightingManagementDevices(
-			DataHelper dh) {
+			Context c, DataHelper dh) {
 
 		String[] args;
 		HashMap<String, Integer> mMap = new HashMap<String, Integer>();
@@ -128,13 +130,12 @@ public class DataUtil {
 		int n = 0;
 		for (int m = 0; m < listDevicesModel.size(); m++) {
 			DevicesModel mDevicesModel = listDevicesModel.get(m);
-			
+
 			if (Integer.parseInt(mDevicesModel.getmDeviceId()) == DataHelper.ON_OFF_SWITCH_DEVICETYPE) {
-				if (mMap.containsKey(mDevicesModel.getmModelId())) {
+				if (mMap.containsKey(mDevicesModel.getmIeee())) {
 
 					SimpleDevicesModel aSimpleDevicesModel = list.get(mMap
-							.get(mDevicesModel.getmModelId()));
-					String Ieee = aSimpleDevicesModel.getmIeee();
+							.get(mDevicesModel.getmIeee()));
 					String OnOffStatus = aSimpleDevicesModel.getmOnOffStatus();
 					String NodeENNAme = aSimpleDevicesModel.getmNodeENNAme();
 					String EP = aSimpleDevicesModel.getmEP();
@@ -142,8 +143,6 @@ public class DataUtil {
 							+ mDevicesModel.getmNodeENNAme());
 					aSimpleDevicesModel.setmOnOffStatus(OnOffStatus + ","
 							+ mDevicesModel.getmOnOffStatus());
-					aSimpleDevicesModel.setmIeee(Ieee + ","
-							+ mDevicesModel.getmIeee());
 					aSimpleDevicesModel.setmEP(EP + ","
 							+ mDevicesModel.getmEP());
 				} else {
@@ -166,8 +165,17 @@ public class DataUtil {
 							.getmOnOffLine());
 					mSimpleDevicesModel.setmOnOffStatus(mDevicesModel
 							.getmOnOffStatus());
+					if (mDevicesModel.getmUserDefineName() == null
+							|| mDevicesModel.getmUserDefineName().trim().equals("")) {
+						mSimpleDevicesModel
+								.setmUserDefineName(getDefaultUserDefinname(c,
+										mSimpleDevicesModel.getmModelId()));
+					} else {
+						mSimpleDevicesModel.setmUserDefineName(mDevicesModel
+								.getmUserDefineName());
+					}
 					list.add(mSimpleDevicesModel);
-					mMap.put(mDevicesModel.getmModelId(), n);
+					mMap.put(mDevicesModel.getmIeee(), n);
 					n++;
 				}
 			} else {
@@ -189,6 +197,15 @@ public class DataUtil {
 						.setmOnOffLine(mDevicesModel.getmOnOffLine());
 				mSimpleDevicesModel.setmOnOffStatus(mDevicesModel
 						.getmOnOffStatus());
+				if (mDevicesModel.getmUserDefineName() == null
+						|| mDevicesModel.getmUserDefineName().trim().equals("")) {
+					mSimpleDevicesModel
+							.setmUserDefineName(getDefaultUserDefinname(c,
+									mSimpleDevicesModel.getmModelId()));
+				} else {
+					mSimpleDevicesModel.setmUserDefineName(mDevicesModel
+							.getmUserDefineName());
+				}
 				n++;
 				list.add(mSimpleDevicesModel);
 			}
@@ -200,9 +217,9 @@ public class DataUtil {
 		return list;
 	}
 
-	public static List<SimpleDevicesModel> getOtherManagementDevices(
+	public static List<SimpleDevicesModel> getOtherManagementDevices(Context c,
 			DataHelper dh, int type) {
-		
+
 		String[] args;
 		List<String> sList = new ArrayList<String>();
 		String where = DataUtil.getWhere(type);
@@ -233,9 +250,118 @@ public class DataUtil {
 			mSimpleDevicesModel.setmOnOffLine(mDevicesModel.getmOnOffLine());
 			mSimpleDevicesModel
 					.setmOnOffStatus(mDevicesModel.getmOnOffStatus());
+			if (mDevicesModel.getmUserDefineName() == null
+					|| mDevicesModel.getmUserDefineName().trim().equals("")) {
+				mSimpleDevicesModel.setmUserDefineName(getDefaultUserDefinname(
+						c, mSimpleDevicesModel.getmModelId()));
+			} else {
+				mSimpleDevicesModel.setmUserDefineName(mDevicesModel
+						.getmUserDefineName());
+			}
 			list.add(mSimpleDevicesModel);
 		}
 		return list;
 	}
 
+	public static String getDefaultUserDefinname(Context c, String modelID) {
+		String result = "";
+
+		if (modelID.indexOf(DataHelper.Motion_Sensor) == 0) {
+			result = c.getResources().getString(R.string.Motion_Sensor);
+		}
+		if (modelID.indexOf(DataHelper.Magnetic_Window) == 0) {
+			result = c.getResources().getString(R.string.Magnetic_Window);
+		}
+		if (modelID.indexOf(DataHelper.Emergency_Button) == 0) {
+			result = c.getResources().getString(R.string.Emergency_Button);
+		}
+		if (modelID.indexOf(DataHelper.Doors_and_windows_sensor_switch) == 0) {
+			result = c.getResources().getString(
+					R.string.Doors_and_windows_sensor_switch);
+		}
+		if (modelID.indexOf(DataHelper.Smoke_Detectors) == 0) {
+			result = c.getResources().getString(R.string.Smoke_Detectors);
+		}
+		if (modelID.indexOf(DataHelper.Combustible_Gas_Detector_Gas) == 0) {
+			result = c.getResources().getString(
+					R.string.Combustible_Gas_Detector_Gas);
+		}
+
+		if (modelID.indexOf(DataHelper.Combustible_Gas_Detector_CO) == 0) {
+			result = c.getResources().getString(
+					R.string.Combustible_Gas_Detector_CO);
+		}
+		if (modelID.indexOf(DataHelper.Combustible_Gas_Detector_Natural_gas) == 0) {
+			result = c.getResources().getString(
+					R.string.Combustible_Gas_Detector_Natural_gas);
+		}
+		if (modelID.indexOf(DataHelper.Wireless_Intelligent_valve_switch) == 0) {
+			result = c.getResources().getString(
+					R.string.Wireless_Intelligent_valve_switch);
+		}
+		if (modelID.indexOf(DataHelper.Siren) == 0) {
+			result = c.getResources().getString(R.string.Siren);
+		}
+		if (modelID.indexOf(DataHelper.Wall_switch_touch) == 0) {
+			result = c.getResources().getString(R.string.Wall_switch_touch);
+		}
+		if (modelID.indexOf(DataHelper.Wall_switch_double) == 0) {
+			result = c.getResources().getString(R.string.Wall_switch_double);
+		}
+		if (modelID.indexOf(DataHelper.Wall_switch_triple) == 0) {
+			result = c.getResources().getString(R.string.Wall_switch_triple);
+		}
+		if (modelID.indexOf(DataHelper.Dimmer_Switch) == 0) {
+			result = c.getResources().getString(R.string.Dimmer_Switch);
+		}
+		if (modelID.indexOf(DataHelper.Wall_switch_triple) == 0) {
+			result = c.getResources().getString(R.string.Wall_switch_triple);
+		}
+		if (modelID.indexOf(DataHelper.Wall_switch_triple) == 0) {
+			result = c.getResources().getString(R.string.Wall_switch_triple);
+		}
+		if (modelID.indexOf(DataHelper.Power_detect_wall) == 0) {
+			result = c.getResources().getString(R.string.Power_detect_wall);
+		}
+		if (modelID.indexOf(DataHelper.Curtain_control_switch) == 0) {
+			result = c.getResources()
+					.getString(R.string.Curtain_control_switch);
+		}
+
+		if (modelID.indexOf(DataHelper.Indoor_temperature_sensor) == 0) {
+			result = c.getResources().getString(
+					R.string.Indoor_temperature_sensor);
+		}
+		if (modelID.indexOf(DataHelper.Light_Sensor) == 0) {
+			result = c.getResources().getString(R.string.Light_Sensor);
+		}
+		if (modelID.indexOf(DataHelper.Multi_key_remote_control) == 0) {
+			result = c.getResources().getString(
+					R.string.Multi_key_remote_control);
+		}
+		if (modelID.indexOf(DataHelper.Doorbell_button) == 0) {
+			result = c.getResources().getString(R.string.Doorbell_button);
+		}
+		if (modelID.indexOf(DataHelper.Switch_Module_Single) == 0) {
+			result = c.getResources().getString(R.string.Switch_Module_Single);
+		}
+		if (modelID.indexOf(DataHelper.Energy_detection_dimming_module) == 0) {
+			result = c.getResources().getString(
+					R.string.Energy_detection_dimming_module);
+		}
+		if (modelID.indexOf(DataHelper.Pro_RF) == 0) {
+			result = c.getResources().getString(R.string.Pro_RF);
+		}
+		if (modelID.indexOf(DataHelper.RS232_adapter) == 0) {
+			result = c.getResources().getString(R.string.RS232_adapter);
+		}
+		if (modelID.indexOf(DataHelper.Power_detect_socket) == 0) {
+			result = c.getResources().getString(R.string.Power_detect_socket);
+		}
+		if (modelID.indexOf(DataHelper.Infrared_controller) == 0) {
+			result = c.getResources().getString(R.string.Infrared_controller);
+		}
+		return result;
+
+	}
 }

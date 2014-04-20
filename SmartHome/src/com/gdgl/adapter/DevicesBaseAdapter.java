@@ -109,16 +109,9 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 		} else {
 			mHolder = (ViewHolder) mView.getTag();
 		}
-		
-		if (mDevices.getmModelId().contains(DataHelper.Wall_switch_double)
-				|| mDevices.getmModelId().contains(
-						DataHelper.Wall_switch_triple)) {
-			mHolder.devices_name.setText(mDevices.getmName().replace(" ", ""));
-		} else {
-			mHolder.devices_name.setText(mDevices.getmNodeENNAme().replace(" ",
-					""));
 
-		}
+		mHolder.devices_name.setText(mDevices.getmUserDefineName().replace(" ",
+				""));
 		mHolder.devices_region.setText(mDevices.getmDeviceRegion().replace(" ",
 				""));
 

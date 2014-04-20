@@ -52,6 +52,7 @@ interface DevicesBaseColumns extends BaseColumns {
 	public static final String DEVICE_REGION = "device_region";
 	public static final String LAST_UPDATE_TIME = "last_update_time";
 	public static final String ON_OFF_LINE = "on_off_line";
+	public static final String USER_DEFINE_NAME = "user_define_name";
 }
 
 public class DevicesModel implements DevicesBaseColumns {
@@ -100,6 +101,7 @@ public class DevicesModel implements DevicesBaseColumns {
 	private String mDeviceRegion = "";
 	private long mLastDateTime;
 	private int mOnOffLine = DEVICE_ON_LINE;
+	private String mUserDefineName = "";
 
 	public int getID() {
 		return ID;
@@ -396,6 +398,14 @@ public class DevicesModel implements DevicesBaseColumns {
 	public void setmOnOffLine(int mOnOffLine) {
 		this.mOnOffLine = mOnOffLine;
 	}
+	
+	public String getmUserDefineName() {
+		return mUserDefineName;
+	}
+
+	public void setmUserDefineName(String mUserDefineName) {
+		this.mUserDefineName = mUserDefineName;
+	}
 
 	public ContentValues convertContentValues() {
 		ContentValues mContentValues = new ContentValues();
@@ -445,6 +455,7 @@ public class DevicesModel implements DevicesBaseColumns {
 		mContentValues.put(DevicesBaseColumns.VOLTAGE_MAX, getmVoltageMax());
 		mContentValues.put(DevicesBaseColumns.VOLTAGE_MIN, getmVoltageMin());
 		mContentValues.put(DevicesBaseColumns.ZCL_VERSTION, getmZCLVersion());
+		mContentValues.put(DevicesBaseColumns.USER_DEFINE_NAME, getmUserDefineName());
 
 		return mContentValues;
 	}

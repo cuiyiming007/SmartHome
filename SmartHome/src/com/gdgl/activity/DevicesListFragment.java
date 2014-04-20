@@ -120,6 +120,9 @@ public class DevicesListFragment extends Fragment implements adapterSeter {
 				}else if (mSimpleDevicesModel.getmModelId().indexOf(
 						DataHelper.Multi_key_remote_control) == 0) {
 					mFragment = new RemoteControlFragment();
+				}else if (mSimpleDevicesModel.getmModelId().indexOf(
+						DataHelper.Wireless_Intelligent_valve_switch) == 0) {
+					mFragment = new OutPutFragment();
 				} else {
 					mFragment = UiUtils.getFragment(mSimpleDevicesModel
 							.getmDeviceId());
@@ -183,16 +186,8 @@ public class DevicesListFragment extends Fragment implements adapterSeter {
 			mEditDevicesDlg
 					.setDialogCallback((EditDialogcallback) mRefreshData);
 
-			if (mSimpleDevicesModel.getmModelId().contains(
-					DataHelper.Wall_switch_double)
-					|| mSimpleDevicesModel.getmModelId().contains(
-							DataHelper.Wall_switch_triple)) {
-				mEditDevicesDlg.setContent("编辑"
-						+ mSimpleDevicesModel.getmName());
-			} else {
-				mEditDevicesDlg.setContent("编辑"
-						+ mSimpleDevicesModel.getmNodeENNAme());
-			}
+			mEditDevicesDlg.setContent("编辑"
+					+ mSimpleDevicesModel.getmUserDefineName().trim());
 			mEditDevicesDlg.show();
 		}
 		if (2 == menuIndex) {
@@ -200,8 +195,8 @@ public class DevicesListFragment extends Fragment implements adapterSeter {
 			MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
 					(Context) getActivity());
 			mMyOkCancleDlg.setDialogCallback((Dialogcallback) mRefreshData);
-			mMyOkCancleDlg.setContent("确定要删除" + mSimpleDevicesModel.getmName()
-					+ "吗?");
+			mMyOkCancleDlg.setContent("确定要删除"
+					+ mSimpleDevicesModel.getmUserDefineName().trim() + "吗?");
 			mMyOkCancleDlg.show();
 		}
 		return super.onContextItemSelected(item);
@@ -244,7 +239,6 @@ public class DevicesListFragment extends Fragment implements adapterSeter {
 	@Override
 	public void setAdapter(BaseAdapter mAdapter) {
 		// TODO Auto-generated method stub
-		Log.i("zzz", "zzz->DevicesListFragment setAdapter");
 		mBaseAdapter = null;
 		mBaseAdapter = mAdapter;
 	}

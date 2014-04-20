@@ -11,9 +11,6 @@
     <string name="out_login">自动登录</string>
     <string name="login">登 录</string>
     <string name="cancle">取消</string>
-     <string name="app_name">IPC_video</string>
-    <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
     <string name="ip_addr">IP地址</string>
     <string name="sure">消息提示</string>
     <string name="close">关闭</string>
@@ -30,5 +27,32 @@
         <item >节能</item>
         <item >其它</item>
     </string-array>
+
+    <string name="Motion_Sensor">"动作感应器"</string>
+	<string name="Magnetic_Window"> "窗磁"</string>
+	<string name="Emergency_Button"> "紧急按钮"</string>
+	<string name="Doors_and_windows_sensor_switch"> "门窗感应开关"</string>
+	<string name="Smoke_Detectors"> "烟雾感应器"</string>
+	<string name="Combustible_Gas_Detector_Gas"> "可燃气体探测器（煤气)"</string>
+	<string name="Combustible_Gas_Detector_CO"> "可燃气体探测器（一氧化碳)"</string> 
+	<string name="Combustible_Gas_Detector_Natural_gas"> "可燃气体探测器（天然气)"</string> 
+	<string name="Wireless_Intelligent_valve_switch"> "无线智能阀门开关"</string> 
+	<string name="Siren"> "警报器"</string> 
+	<string name="Wall_switch_touch"> "墙面开关（单键）"</string> 
+	<string name="Wall_switch_double"> "墙面开关（双键)"</string> 
+	<string name="Wall_switch_triple"> "墙面开关（三键）"</string> 
+	<string name="Dimmer_Switch"> "调光开关"</string> 
+	<string name="Power_detect_wall"> "中规电能检测墙面插座"</string> 
+	<string name="Curtain_control_switch"> "幕帘控制开关"</string> 
+	<string name="Infrared_controller"> "红外控制器"</string> 
+	<string name="Indoor_temperature_sensor"> "室内型温湿度感应器"</string> 
+	<string name="Light_Sensor"> "光线感应器"</string> 
+	<string name="Multi_key_remote_control"> "多键遥控器"</string> 
+	<string name="Doorbell_button"> "门铃按键"</string> 
+	<string name="Switch_Module_Single"> "开关模块（单路）"</string> 
+	<string name="Energy_detection_dimming_module"> "吸顶电能检测调光模块"</string> 
+	<string name="Pro_RF"> "Pro RF 模块"</string>  
+	<string name="RS232_adapter"> "工业级 RS232适配器"</string> 
+	<string name="Power_detect_socket"> "电能检测插座"</string>  
 
 </resources>

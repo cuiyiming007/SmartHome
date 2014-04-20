@@ -170,7 +170,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 
 		mDataHelper = new DataHelper(ShowDevicesGroupFragmentActivity.this);
 		List<SimpleDevicesModel> list = DataUtil
-				.getLightingManagementDevices(mDataHelper);
+				.getLightingManagementDevices(ShowDevicesGroupFragmentActivity.this,mDataHelper);
 
 		images = UiUtils.DEVICES_MANAGER_IMAGES;
 		tags = UiUtils.DEVICES_MANAGER_TAGS;
@@ -283,9 +283,9 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		} else {
 			if (type == UiUtils.LIGHTS_MANAGER) {
 				mCurrentList = DataUtil
-						.getLightingManagementDevices(mDataHelper);
+						.getLightingManagementDevices(ShowDevicesGroupFragmentActivity.this,mDataHelper);
 			} else {
-				mCurrentList = DataUtil.getOtherManagementDevices(mDataHelper,
+				mCurrentList = DataUtil.getOtherManagementDevices(ShowDevicesGroupFragmentActivity.this,mDataHelper,
 						type);
 			}
 			mDevicesListCache.put(type, mCurrentList);
@@ -356,12 +356,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 	public void initTitleByDevices(String devicesId) {
 		SimpleDevicesModel ms = getCurrentDeviceByIeee(devicesIeee);
 		if (null != ms) {
-			if (ms.getmModelId().contains(DataHelper.Wall_switch_double)
-					|| ms.getmModelId().contains(DataHelper.Wall_switch_triple)) {
-				title.setText(ms.getmName().replace(" ", ""));
-			} else {
-				title.setText(ms.getmNodeENNAme().replace(" ", ""));
-			}
+			title.setText(ms.getmUserDefineName().replace(" ", ""));
 			parents_need.setVisibility(View.GONE);
 			devices_need.setVisibility(View.VISIBLE);
 		}
@@ -406,11 +401,11 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 	@Override
 	public void saveedit(String ieee,String ep,String name, String region) {
 		// TODO Auto-generated method stub
-		String where = " ieee = ? and ep = ?";
-		String[] args = { ieee, ep };
+		String where = " ieee = ? ";
+		String[] args = { ieee };
 		
 		ContentValues c=new ContentValues();
-		c.put(DevicesModel.NODE_EN_NAME, name);
+		c.put(DevicesModel.USER_DEFINE_NAME, name);
 		c.put(DevicesModel.DEVICE_REGION, region);
 		
 		SQLiteDatabase mSQLiteDatabase = mDataHelper.getSQLiteDatabase();

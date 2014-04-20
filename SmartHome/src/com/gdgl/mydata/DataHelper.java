@@ -82,6 +82,7 @@ public class DataHelper extends SQLiteOpenHelper {
 		mStringBuilder.append(DevicesModel.EP + " VARCHAR(2),");
 		mStringBuilder.append(DevicesModel.NAME + " VARCHAR,");
 		mStringBuilder.append(DevicesModel.NODE_EN_NAME + " VARCHAR,");
+		mStringBuilder.append(DevicesModel.USER_DEFINE_NAME + " VARCHAR,");
 		mStringBuilder.append(DevicesModel.MODEL_ID + " VARCHAR,");
 		mStringBuilder.append(DevicesModel.DEVICE_ID + " VARCHAR(4),");
 		mStringBuilder.append(DevicesModel.DEVICE_REGION + " VARCHAR,");
@@ -294,6 +295,7 @@ public class DataHelper extends SQLiteOpenHelper {
 			mDevicesModel.setmOnOffLine(c.getShort(c
 					.getColumnIndex(DevicesModel.ON_OFF_LINE)));
 			mDevicesModel.setID(c.getInt(c.getColumnIndex(DevicesModel._ID)));
+			mDevicesModel.setmUserDefineName(c.getString(c.getColumnIndex(DevicesModel.USER_DEFINE_NAME)));
 			mList.add(mDevicesModel);
 		}
 		c.close();
@@ -330,7 +332,9 @@ public class DataHelper extends SQLiteOpenHelper {
 					.getColumnIndex(DevicesModel.ON_OFF_LINE)));
 			mSimpleDevicesModel.setmOnOffStatus(c.getString(c
 					.getColumnIndex(DevicesModel.ON_OFF_STATUS)));
-
+			mSimpleDevicesModel.setmUserDefineName(c.getString(c
+					.getColumnIndex(DevicesModel.USER_DEFINE_NAME)));
+			
 			mList.add(mSimpleDevicesModel);
 		}
 		c.close();

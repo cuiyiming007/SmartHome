@@ -16,6 +16,7 @@ public class SimpleDevicesModel implements Parcelable{
 	private String mEP = "";
 	private String mName = "";
 	private String mOnOffStatus = "";
+	private String mUserDefineName = "";
 
 	// 自定义
 	private String mDeviceRegion = "";
@@ -119,6 +120,14 @@ public class SimpleDevicesModel implements Parcelable{
 		this.mOnOffLine = mOnOffLine;
 	}
 	
+	public String getmUserDefineName() {
+		return mUserDefineName;
+	}
+
+	public void setmUserDefineName(String mUserDefineName) {
+		this.mUserDefineName = mUserDefineName;
+	}
+	
 	public SimpleDevicesModel(){}
 	
 	
@@ -138,7 +147,7 @@ public class SimpleDevicesModel implements Parcelable{
 			mDevicesModel.setmOnOffLine(source.readInt());
 			mDevicesModel.setmOnOffStatus(source.readString());
 			mDevicesModel.setmModelId(source.readString());
-
+			mDevicesModel.setmUserDefineName(source.readString());
 
 			return mDevicesModel;
 		}
@@ -163,6 +172,7 @@ public class SimpleDevicesModel implements Parcelable{
 		parcel.writeInt(mOnOffLine);
 		parcel.writeString(mOnOffStatus);
 		parcel.writeString(mModelId);
+		parcel.writeString(mUserDefineName);
 	}
 
 	@Override

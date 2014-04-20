@@ -8,9 +8,12 @@ import android.view.ViewGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.gdgl.manager.LightManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.DataHelper;
+import com.gdgl.mydata.Event;
+import com.gdgl.mydata.EventType;
 import com.gdgl.smarthome.R;
 
 public class OnlyShowFragment extends BaseControlFragment {
@@ -53,7 +56,7 @@ public class OnlyShowFragment extends BaseControlFragment {
 		// TODO Auto-generated method stub
 		mSeekBar = (SeekBar) mView.findViewById(R.id.devices_seek);
 		mSeekBar.setEnabled(false);
-
+        LightManager.getInstance().lightSensorOperation(mDevices,0);
 		// txt_devices_name, txt_devices_region,txt_title,txt_value
 		txt_devices_name = (TextView) mView.findViewById(R.id.txt_devices_name);
 		txt_devices_region = (TextView) mView
@@ -71,8 +74,8 @@ public class OnlyShowFragment extends BaseControlFragment {
 
 		txt_value.setText("30");
 
-		txt_devices_name.setText(mDevices.getmNodeENNAme());
-		txt_devices_region.setText(mDevices.getmDeviceRegion());
+		txt_devices_name.setText(mDevices.getmUserDefineName().trim());
+		txt_devices_region.setText(mDevices.getmDeviceRegion().trim());
 	}
 
 	@Override
@@ -90,6 +93,17 @@ public class OnlyShowFragment extends BaseControlFragment {
 	@Override
 	public void update(Manger observer, Object object) {
 		// TODO Auto-generated method stub
+		if(null!=mDialog){
+			mDialog.dismiss();
+			mDialog=null;
+		}
+		final Event event = (Event) object;
+		if (EventType.LIGHTSENSOROPERATION == event.getType()) {
+			// data maybe null
+			SimpleDevicesModel data = (SimpleDevicesModel) event.getData();
+			// TODO refresh UI data
+
+		}
 
 	}
 

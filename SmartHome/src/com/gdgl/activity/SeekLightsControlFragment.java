@@ -113,8 +113,8 @@ public class SeekLightsControlFragment extends BaseControlFragment {
 		txt_devices_region=(TextView)mView.findViewById(R.id.txt_devices_region);
 		txt_devices_name=(TextView)mView.findViewById(R.id.txt_devices_name);
 		
+		txt_devices_name.setText(mDevices.getmUserDefineName().trim());
 		txt_devices_region.setText(mDevices.getmDeviceRegion().trim());
-		txt_devices_name.setText(mDevices.getmNodeENNAme().trim());
 		
 		devices_seek.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 			
@@ -136,9 +136,10 @@ public class SeekLightsControlFragment extends BaseControlFragment {
 				// TODO Auto-generated method stub
 				currentProgress=progress;
 				text_process.setText(progress+"%");
-				LightManager.getInstance().dimmableLightOperation(mDevices,progress/10);
-				
-				
+				if (currentProgress==0) {
+					LightManager.getInstance().dimmableLightOperation(mDevices,operatortype.TurnOn,progress/10);
+				}
+				LightManager.getInstance().dimmableLightOperation(mDevices,operatortype.MoveToLevel,progress/10);
 			}
 		});
 	}

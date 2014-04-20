@@ -31,7 +31,7 @@ public class SwitchControlFragment extends BaseControlFragment implements
 		UIListener {
 	boolean[] mBoolean = { false, false, false };
 	List<String> mName = new ArrayList<String>();
-	List<String> mIeee = new ArrayList<String>();
+//	List<String> mIeee = new ArrayList<String>();
 	List<String> EP = new ArrayList<String>();
 	View mView;
 	int mCount;
@@ -90,11 +90,11 @@ public class SwitchControlFragment extends BaseControlFragment implements
 					mBoolean[m] = true;
 				}
 			}
-			for (int i = 0; i < Ieee.length; i++) {
-				if (!Ieee[i].trim().equals("")) {
-					mIeee.add(Ieee[i]);
-				}
-			}
+//			for (int i = 0; i < Ieee.length; i++) {
+//				if (!Ieee[i].trim().equals("")) {
+//					mIeee.add(Ieee[i]);
+//				}
+//			}
 
 			for (int i = 0; i < mEp.length; i++) {
 				if (!mEp[i].trim().equals("")) {
@@ -113,7 +113,7 @@ public class SwitchControlFragment extends BaseControlFragment implements
 			mdev.setmDeviceId(mDevices.getmDeviceId());
 			mdev.setmDeviceRegion(mDevices.getmDeviceRegion());
 			mdev.setmEP(EP.get(i));
-			mdev.setmIeee(mIeee.get(i));
+			mdev.setmIeee(mDevices.getmIeee());
 			mdev.setmLastDateTime(System.currentTimeMillis());
 			mdev.setmModelId(mDevices.getmModelId());
 			mdev.setmName(mDevices.getmName());
@@ -150,8 +150,8 @@ public class SwitchControlFragment extends BaseControlFragment implements
 		txt_devices_region = (TextView) mView
 				.findViewById(R.id.txt_devices_region);
 
-		txt_devices_name.setText(mDevices.getmName());
-		txt_devices_region.setText(mDevices.getmDeviceRegion());
+		txt_devices_name.setText(mDevices.getmUserDefineName().trim());
+		txt_devices_region.setText(mDevices.getmDeviceRegion().trim());
 
 		viewGroup1 = (RelativeLayout) mView.findViewById(R.id.switch_group1);
 		viewGroup2 = (RelativeLayout) mView.findViewById(R.id.switch_group2);
@@ -161,7 +161,7 @@ public class SwitchControlFragment extends BaseControlFragment implements
 			viewGroup1.setVisibility(View.VISIBLE);
 			viewGroup2.setVisibility(View.GONE);
 			setImagRes(mSwitch1, mBoolean[0]);
-			mSwichName1.setText(mName.get(0));
+			mSwichName1.setText("M");
 
 			mSwitch1.setOnClickListener(new SwitchClickListener(1,0));
 
@@ -173,8 +173,8 @@ public class SwitchControlFragment extends BaseControlFragment implements
 			setImagRes(mSwitch2, mBoolean[0]);
 			setImagRes(mSwitch3, mBoolean[1]);
 
-			mSwichName2.setText(mName.get(0));
-			mSwichName3.setText(mName.get(1));
+			mSwichName2.setText("L");
+			mSwichName3.setText("R");
 
 			mSwitch2.setOnClickListener(new SwitchClickListener(2,0));
 			mSwitch3.setOnClickListener(new SwitchClickListener(3,1));
@@ -186,9 +186,9 @@ public class SwitchControlFragment extends BaseControlFragment implements
 			setImagRes(mSwitch2, mBoolean[1]);
 			setImagRes(mSwitch3, mBoolean[2]);
 
-			mSwichName1.setText(mName.get(0));
-			mSwichName2.setText(mName.get(1));
-			mSwichName3.setText(mName.get(2));
+			mSwichName1.setText("M");
+			mSwichName2.setText("L");
+			mSwichName3.setText("R");
 
 			mSwitch1.setOnClickListener(new SwitchClickListener(1,0));
 			mSwitch2.setOnClickListener(new SwitchClickListener(2,1));
@@ -234,6 +234,7 @@ public class SwitchControlFragment extends BaseControlFragment implements
 			
 			mCurrent=c;
 			mPostion=postion2;
+			//多面开关
 			mLightManager.OnOffLightSwitchOperation(mSimpleDevicesModel.get(mCurrent),2,getChangeValue());
 		}
 	}
