@@ -92,11 +92,11 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		if (null != mBundle) {
 			type = mBundle.getInt(ACTIVITY_SHOW_DEVICES_TYPE, 0);
 		}
+		mListIndex = 2;
 		initData();
 		initFancyCoverFlow();
 		initDevicesListFragment();
 		initTitle();
-		mListIndex = 2;
 		initTitleByTag(mListIndex);
 	}
 
