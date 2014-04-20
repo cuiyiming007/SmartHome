@@ -32,7 +32,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginLeft="55dp"
             android:layout_marginTop="25dp"
-            android:background="@drawable/open_btn_style" />
+            android:background="@drawable/open_off" />
 
         <Button
             android:id="@+id/btn_close"
@@ -42,7 +42,7 @@
             android:layout_alignBottom="@+id/btn_open"
             android:layout_alignParentRight="true"
             android:layout_marginRight="55dp"
-            android:background="@drawable/close_btn_style" />
+            android:background="@drawable/close_off" />
 
         <TextView
             android:id="@+id/txt_open"

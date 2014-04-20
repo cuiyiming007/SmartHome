@@ -25,8 +25,8 @@ public class DataHelper extends SQLiteOpenHelper {
 	public static final int DIMEN_SWITCH_DEVICETYPE = 260;
 	public static final int LIGHT_SENSOR_DEVICETYPE = 262;
 	public static final int SHADE_DEVICETYPE = 512;
-	public static final int IAS_ACE_DEVICETYPE = 1025;
 	public static final int TEMPTURE_SENSOR_DEVICETYPE = 770;
+	public static final int IAS_ACE_DEVICETYPE = 1025;
 	public static final int IAS_ZONE_DEVICETYPE = 1026;
 	public static final int IAS_WARNNING_DEVICE_DEVICETYPE = 1027;
 

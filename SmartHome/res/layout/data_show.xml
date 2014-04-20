@@ -76,7 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="50dp"
             android:maxHeight="10dp"
             android:minHeight="10dp"
             android:progress="30"
@@ -101,7 +101,7 @@
                 android:text="低"
                 android:gravity="center"
                 android:textColor="#54FF9F"
-                android:textSize="14dp" />
+                android:textSize="18dp" />
 
             <TextView
                 android:id="@+id/textView2"
@@ -111,7 +111,7 @@
                 android:text="中"
                 android:gravity="center"
                 android:textColor="#C0FF3E"
-                android:textSize="14dp" />
+                android:textSize="18dp" />
 
             <TextView
                 android:id="@+id/textView3"
@@ -121,7 +121,7 @@
                 android:text="高"
                 android:gravity="center"
                 android:textColor="#FF3030"
-                android:textSize="14dp" />
+                android:textSize="18dp" />
         </LinearLayout>
     </RelativeLayout>
 
