@@ -131,7 +131,7 @@ public class WarnningControlFragment extends BaseControlFragment {
 				} else {
 					mDialog.show();
 				}
-				mLightManager.IASWarningDeviceOperationCommon();
+				mLightManager.IASWarningDeviceOperationCommon(mDevices,0);
 			}
 		});
 	}
