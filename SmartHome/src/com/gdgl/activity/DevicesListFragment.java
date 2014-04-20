@@ -117,6 +117,9 @@ public class DevicesListFragment extends Fragment implements adapterSeter {
 				if (mSimpleDevicesModel.getmModelId().indexOf(
 						DataHelper.Doorbell_button) == 0) {
 					mFragment = new DoorBellFragment();
+				}else if (mSimpleDevicesModel.getmModelId().indexOf(
+						DataHelper.Multi_key_remote_control) == 0) {
+					mFragment = new RemoteControlFragment();
 				} else {
 					mFragment = UiUtils.getFragment(mSimpleDevicesModel
 							.getmDeviceId());

@@ -29,10 +29,6 @@ public class DoorBellFragment extends BaseControlFragment {
 	AnimationDrawable animationDrawable;
 
 	public static final int UNDO = 0;
-	public static final int LEVEL1 = 1;
-	public static final int LEVEL2 = 2;
-	public static final int LEVEL3 = 3;
-
 	public static final int STOP = 4;
 
 	private static final int ON = 1;
@@ -163,15 +159,6 @@ public class DoorBellFragment extends BaseControlFragment {
 			case UNDO:
 				devices_on_off.setImageResource(R.drawable.bdundo);
 				break;
-			// case LEVEL1:
-			// devices_on_off.setImageResource(R.drawable.bd1);
-			// break;
-			// case LEVEL2:
-			// devices_on_off.setImageResource(R.drawable.bd2);
-			// break;
-			// case LEVEL3:
-			// devices_on_off.setImageResource(R.drawable.bd3);
-			// break;
 			case STOP:
 				if (null != animationDrawable) {
 					animationDrawable.stop();
