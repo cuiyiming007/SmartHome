@@ -280,8 +280,6 @@ public class SwitchControlFragment extends BaseControlFragment implements
 			mDialog=null;
 		}
 		
-		Toast toast=UiUtils.getToast((Context) getActivity());
-		toast.show();
 		
 		final Event event = (Event) object;
 		if (EventType.ONOFFLIGHTSWITCHOPERATION == event.getType()) {
@@ -316,6 +314,7 @@ public class SwitchControlFragment extends BaseControlFragment implements
 				mUpdateDevice.updateDevices(s.getmIeee(), s.getmEP(), c);
 			} else {
 				// if failed,prompt a Toast
+				Toast toast=UiUtils.getToast((Context) getActivity());
 				toast.show();
 			}
 
