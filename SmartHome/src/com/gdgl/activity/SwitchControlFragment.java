@@ -10,28 +10,31 @@ import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
+import com.gdgl.mydata.SimpleResponseData;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyDlg;
+import com.gdgl.util.UiUtils;
 
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
+import android.widget.Toast;
 
 public class SwitchControlFragment extends BaseControlFragment implements
 		UIListener {
 	boolean[] mBoolean = { false, false, false };
 	List<String> mName = new ArrayList<String>();
-//	List<String> mIeee = new ArrayList<String>();
 	List<String> EP = new ArrayList<String>();
 	View mView;
 	int mCount;
@@ -223,19 +226,20 @@ public class SwitchControlFragment extends BaseControlFragment implements
 			onoffswitch(postion,current);
 		}
 
-		private void onoffswitch(int postion2,int c) {
+		private void onoffswitch(int postion2, int c) {
 			// TODO Auto-generated method stub
-			if(null==mDialog){
-				mDialog=MyDlg.createLoadingDialog((Context)getActivity(),"操作正在进行...");
+			if (null == mDialog) {
+				mDialog = MyDlg.createLoadingDialog((Context) getActivity(),
+						"操作正在进行...");
 				mDialog.show();
 			}else{
 				mDialog.show();
 			}
-			
-			mCurrent=c;
-			mPostion=postion2;
-			//多面开关
-			mLightManager.OnOffLightSwitchOperation(mSimpleDevicesModel.get(mCurrent),2,getChangeValue());
+
+			mCurrent = c;
+			mPostion = postion2;
+			mLightManager.OnOffLightSwitchOperation(
+					mSimpleDevicesModel.get(mCurrent), 2, getChangeValue());
 		}
 	}
 	private int getChangeValue() {
@@ -275,36 +279,47 @@ public class SwitchControlFragment extends BaseControlFragment implements
 			mDialog.dismiss();
 			mDialog=null;
 		}
+		
+		Toast toast=UiUtils.getToast((Context) getActivity());
+		toast.show();
+		
 		final Event event = (Event) object;
 		if (EventType.ONOFFSWITCHOPERATION == event.getType()) {
-			// data maybe null
-			SimpleDevicesModel data = (SimpleDevicesModel) event.getData();
-			// TODO refresh UI data
+			if (event.isSuccess() == true) {
+				// data maybe null
+				SimpleResponseData data = (SimpleResponseData) event.getData();
+				// refresh UI data
+
+				ContentValues c;
+				SimpleDevicesModel s;
+
+				mBoolean[mCurrent] = !mBoolean[mCurrent];
+
+				switch (mPostion) {
+				case 1:
+					setImagRes(mSwitch1, mBoolean[mCurrent]);
+					break;
+				case 2:
+					setImagRes(mSwitch2, mBoolean[mCurrent]);
+					break;
+				case 3:
+					setImagRes(mSwitch3, mBoolean[mCurrent]);
+					break;
+				default:
+					break;
+				}
+
+				s = mSimpleDevicesModel.get(mCurrent);
+				c = new ContentValues();
+				c.put(DevicesModel.ON_OFF_STATUS, mBoolean[mCurrent] ? "1"
+						: "o");
+				mUpdateDevice.updateDevices(s.getmIeee(), s.getmEP(), c);
+			} else {
+				// if failed,prompt a Toast
+				toast.show();
+			}
 
 		}
-		ContentValues c;
-		SimpleDevicesModel s;
-		
-		mBoolean[mCurrent] = !mBoolean[mCurrent];
-		
-		switch (mPostion) {
-		case 1:
-			setImagRes(mSwitch1, mBoolean[mCurrent]);
-			break;
-		case 2:
-			setImagRes(mSwitch2, mBoolean[mCurrent]);
-			break;
-		case 3:
-			setImagRes(mSwitch3,mBoolean[mCurrent]);
-			break;
-		default:
-			break;
-		}
-
-		s = mSimpleDevicesModel.get(mCurrent);
-		c = new ContentValues();
-		c.put(DevicesModel.ON_OFF_STATUS, mBoolean[mCurrent] ? "1" : "o");
-		mUpdateDevice.updateDevices(s.getmIeee(), s.getmEP(), c);
 	}
 
 }

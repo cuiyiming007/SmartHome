@@ -120,10 +120,12 @@ public class DevicesListFragment extends Fragment implements adapterSeter {
 				}else if (mSimpleDevicesModel.getmModelId().indexOf(
 						DataHelper.Multi_key_remote_control) == 0) {
 					mFragment = new RemoteControlFragment();
-				}else if (mSimpleDevicesModel.getmModelId().indexOf(
+				}
+				else if (mSimpleDevicesModel.getmModelId().indexOf(
 						DataHelper.Wireless_Intelligent_valve_switch) == 0) {
 					mFragment = new OutPutFragment();
-				} else {
+				} 
+				else {
 					mFragment = UiUtils.getFragment(mSimpleDevicesModel
 							.getmDeviceId());
 				}

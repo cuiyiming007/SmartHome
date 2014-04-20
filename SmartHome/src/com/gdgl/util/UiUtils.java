@@ -1,6 +1,14 @@
 package com.gdgl.util;
 
+import android.app.ActionBar.LayoutParams;
 import android.app.Fragment;
+import android.content.Context;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.gdgl.activity.CurtainsControlFragment;
 import com.gdgl.activity.DetectorOnOffControlFragment;
@@ -95,7 +103,91 @@ public class UiUtils {
 		return result;
 	}
 
-	
+	public static String[] getTagsByType(int type) {
+		String[] tags = null;
+		switch (type) {
+		case LIGHTS_MANAGER:
+			tags = new String[] { "电器控制", "安全防护", "照明管理", "环境监测", "节能" };
+			break;
+		case ELECTRICAL_MANAGER:
+			tags = new String[] { "照明管理", "安全防护", "电器控制", "环境监测", "节能" };
+			break;
+		case SECURITY_CONTROL:
+			tags = new String[] { "照明管理", "电器控制", "安全防护", "环境监测", "节能" };
+			break;
+		case ENVIRONMENTAL_CONTROL:
+			tags = new String[] { "照明管理", "电器控制", "环境监测", "安全防护", "节能" };
+			break;
+		case ENERGY_CONSERVATION:
+			tags = new String[] { "照明管理", "电器控制", "节能", "安全防护", "环境监测" };
+			break;
+		}
+		return tags;
+	}
+
+	public static int[] getImgByType(int type) {
+		int[] imgs = null;
+		switch (type) {
+		case LIGHTS_MANAGER:
+			imgs = new int[] { R.drawable.electrical_control, R.drawable.safe,
+					R.drawable.light_manage, R.drawable.huanjing_jiance,
+					R.drawable.jieneng };
+			break;
+		case ELECTRICAL_MANAGER:
+			imgs = new int[] { R.drawable.light_manage, R.drawable.safe,
+					R.drawable.electrical_control, R.drawable.huanjing_jiance,
+					R.drawable.jieneng };
+			break;
+		case SECURITY_CONTROL:
+			imgs = new int[] { R.drawable.light_manage,
+					R.drawable.electrical_control, R.drawable.safe,
+					R.drawable.huanjing_jiance, R.drawable.jieneng };
+			break;
+		case ENVIRONMENTAL_CONTROL:
+			imgs = new int[] { R.drawable.light_manage,
+					R.drawable.electrical_control, R.drawable.huanjing_jiance,
+					R.drawable.safe, R.drawable.jieneng };
+			break;
+		case ENERGY_CONSERVATION:
+			imgs = new int[] { R.drawable.light_manage,
+					R.drawable.electrical_control, R.drawable.jieneng,
+					R.drawable.safe, R.drawable.huanjing_jiance };
+			break;
+		}
+		return imgs;
+	}
+
+	public static int[] getType(int type) {
+		int[] imgs = null;
+		switch (type) {
+		case LIGHTS_MANAGER:
+			imgs = new int[] { ELECTRICAL_MANAGER, SECURITY_CONTROL,
+					LIGHTS_MANAGER, ENVIRONMENTAL_CONTROL, ENERGY_CONSERVATION };
+			break;
+		case ELECTRICAL_MANAGER:
+			imgs = new int[] { LIGHTS_MANAGER, SECURITY_CONTROL,
+					ELECTRICAL_MANAGER, ENVIRONMENTAL_CONTROL,
+					ENERGY_CONSERVATION };
+			break;
+		case SECURITY_CONTROL:
+			imgs = new int[] { LIGHTS_MANAGER, ELECTRICAL_MANAGER,
+					SECURITY_CONTROL, ENVIRONMENTAL_CONTROL,
+					ENERGY_CONSERVATION };
+			break;
+		case ENVIRONMENTAL_CONTROL:
+			imgs = new int[] { LIGHTS_MANAGER, ELECTRICAL_MANAGER,
+					ENVIRONMENTAL_CONTROL, SECURITY_CONTROL,
+					ENERGY_CONSERVATION };
+			break;
+		case ENERGY_CONSERVATION:
+			imgs = new int[] { LIGHTS_MANAGER, ELECTRICAL_MANAGER,
+					ENERGY_CONSERVATION, SECURITY_CONTROL,
+					ENVIRONMENTAL_CONTROL };
+			break;
+		}
+		return imgs;
+	}
+
 	public static int getDevicesSmallIconByModelId(String modelId) {
 		
 		int imgId=R.drawable.detector;
@@ -228,6 +320,19 @@ public class UiUtils {
 	public static String customString(String s) {
 		s = s.substring(s.indexOf("{"), s.length() - 1);
 		return s;
+	}
+
+	public static Toast getToast(Context c) {
+		LayoutInflater inflater = LayoutInflater.from(c);
+		View layout = inflater.inflate(R.layout.custom_toast, null);
+		Toast toast = new Toast(c);
+		toast.setGravity(Gravity.BOTTOM, 0, 200);
+		toast.setDuration(Toast.LENGTH_LONG);
+		LinearLayout.LayoutParams mLayoutParams=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+		layout.setLayoutParams(mLayoutParams);
+		toast.setView(layout);
+		toast.show();
+		return toast;
 	}
 
 }

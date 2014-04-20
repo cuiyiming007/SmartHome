@@ -2,12 +2,14 @@ package com.gdgl.activity;
 
 import android.R.integer;
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.Toast;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
@@ -18,6 +20,7 @@ import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.SimpleResponseData;
 import com.gdgl.smarthome.R;
+import com.gdgl.util.UiUtils;
 
 public class SeekLightsControlFragment extends BaseControlFragment {
 	SeekBar devices_seek;
@@ -161,6 +164,8 @@ public class SeekLightsControlFragment extends BaseControlFragment {
 				setDevicesImg(currentProgress);
 			}else {
 				//if failed,prompt a Toast
+				Toast toast=UiUtils.getToast((Context) getActivity());
+				toast.show();
 			}
 		}
 

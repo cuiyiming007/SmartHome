@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dialog_view" 
+    android:layout_gravity="center"  
+    android:orientation="horizontal"  
+    android:layout_width="300dp"   
+    android:layout_height="100dp"  
+    android:gravity="center"  
+    android:padding="10dp"  
+    android:alpha="80"
+    android:background="@drawable/corners_remotr" >
+
+    <ImageView
+        android:id="@+id/img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:background="@drawable/warnning" />
+
+    <TextView
+        android:id="@+id/txt_wait"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:textColor="#000000"
+        android:text="操作失败" />
+
+</LinearLayout >

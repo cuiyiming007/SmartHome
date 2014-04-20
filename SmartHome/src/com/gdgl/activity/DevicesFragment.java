@@ -17,11 +17,12 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 
 public class DevicesFragment extends Fragment {
-	
+
 	GridView content_view;
 	View mView;
 
-	
+	int[] types;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -33,26 +34,33 @@ public class DevicesFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		mView=inflater.inflate(R.layout.main_fragment, null);
+		mView = inflater.inflate(R.layout.main_fragment, null);
 		initview();
 		return mView;
 	}
 
 	private void initview() {
 		// TODO Auto-generated method stub
-		content_view=(GridView)mView.findViewById(R.id.content_view);
-		GridviewAdapter mGridviewAdapter=new GridviewAdapter(1, (Context)getActivity());
+		types = new int[] { UiUtils.LIGHTS_MANAGER, UiUtils.ELECTRICAL_MANAGER,
+				UiUtils.SECURITY_CONTROL, UiUtils.ENVIRONMENTAL_CONTROL,
+				UiUtils.ENERGY_CONSERVATION };
+		content_view = (GridView) mView.findViewById(R.id.content_view);
+		GridviewAdapter mGridviewAdapter = new GridviewAdapter(1,
+				(Context) getActivity());
 		content_view.setAdapter(mGridviewAdapter);
-		
+
 		content_view.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				// TODO Auto-generated method stub
-				Intent intent=new Intent();
-				intent.putExtra(ShowDevicesGroupFragmentActivity.ACTIVITY_SHOW_DEVICES_TYPE, UiUtils.SECURITY_CONTROL);
-				intent.setClass(getActivity(), ShowDevicesGroupFragmentActivity.class);
+				Intent intent = new Intent();
+				intent.putExtra(
+						ShowDevicesGroupFragmentActivity.ACTIVITY_SHOW_DEVICES_TYPE,
+						types[position]);
+				intent.setClass(getActivity(),
+						ShowDevicesGroupFragmentActivity.class);
 				startActivity(intent);
 			}
 		});

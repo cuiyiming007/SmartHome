@@ -54,6 +54,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 
 	private int mListIndex = 0;
 
+	private int[] types;
 	private int[] images;
 	private String[] tags;
 
@@ -95,6 +96,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		initFancyCoverFlow();
 		initDevicesListFragment();
 		initTitle();
+		mListIndex = 2;
 		initTitleByTag(mListIndex);
 	}
 
@@ -123,7 +125,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				mMyOkCancleDlg.setContent("确定要删除"
-						+getCurrentDeviceByIeee(devicesIeee).getmNodeENNAme()
+						+ getCurrentDeviceByIeee(devicesIeee).getmNodeENNAme()
 						+ "吗?");
 				mMyOkCancleDlg.show();
 			}
@@ -138,18 +140,18 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 			}
 		});
 	}
-	
-	public SimpleDevicesModel getCurrentDeviceByIeee(String iee){
-		if(null!=mCurrentList){
+
+	public SimpleDevicesModel getCurrentDeviceByIeee(String iee) {
+		if (null != mCurrentList) {
 			for (SimpleDevicesModel mSimpleDevicesModel : mCurrentList) {
-				if(iee==mSimpleDevicesModel.getmIeee()){
+				if (iee == mSimpleDevicesModel.getmIeee()) {
 					return mSimpleDevicesModel;
 				}
 			}
 		}
 		return null;
 	}
-	
+
 	public void showSetWindow() {
 		mSetWindow = new SelectPicPopupWindow(
 				ShowDevicesGroupFragmentActivity.this, mSetOnClick);
@@ -169,15 +171,22 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		// TODO Auto-generated method stub
 
 		mDataHelper = new DataHelper(ShowDevicesGroupFragmentActivity.this);
-		List<SimpleDevicesModel> list = DataUtil
-				.getLightingManagementDevices(ShowDevicesGroupFragmentActivity.this,mDataHelper);
+		List<SimpleDevicesModel> list;
+		if (type == UiUtils.LIGHTS_MANAGER) {
+			list = DataUtil.getLightingManagementDevices(
+					ShowDevicesGroupFragmentActivity.this, mDataHelper);
+		} else {
+			list = DataUtil.getOtherManagementDevices(
+					ShowDevicesGroupFragmentActivity.this, mDataHelper, type);
+		}
 
-		images = UiUtils.DEVICES_MANAGER_IMAGES;
-		tags = UiUtils.DEVICES_MANAGER_TAGS;
+		images = UiUtils.getImgByType(type);
+		tags = UiUtils.getTagsByType(type);
+		types = UiUtils.getType(type);
 
 		mCurrentList = list;
-		mDevicesListCache=new HashMap<Integer, List<SimpleDevicesModel>>();
-		mDevicesListCache.put(UiUtils.LIGHTS_MANAGER, list);
+		mDevicesListCache = new HashMap<Integer, List<SimpleDevicesModel>>();
+		mDevicesListCache.put(type, list);
 		fragmentManager = this.getFragmentManager();
 	}
 
@@ -210,7 +219,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 				images, tags, 250, 200));
 		fancyCoverFlow.setCallbackDuringFling(false);
 		fancyCoverFlow.setSpacing(50);
-		fancyCoverFlow.setSelection(0);
+		fancyCoverFlow.setSelection(mListIndex);
 		fancyCoverFlow.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@SuppressLint("NewApi")
@@ -238,31 +247,6 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		});
 	}
 
-	private int translateId(int m) {
-		int type = 0;
-		switch (m) {
-		case 0:
-			type = UiUtils.LIGHTS_MANAGER;
-			break;
-		case 1:
-			type = UiUtils.ELECTRICAL_MANAGER;
-			break;
-		case 2:
-			type = UiUtils.SECURITY_CONTROL;
-			break;
-		case 3:
-			type = UiUtils.ENVIRONMENTAL_CONTROL;
-			break;
-		case 4:
-			type = UiUtils.ENERGY_CONSERVATION;
-			break;
-		default:
-			break;
-
-		}
-		return type;
-	}
-
 	public void changeForCoverFlow(int p) {
 		if (fragmentManager.getBackStackEntryCount() > 0) {
 			fragmentManager.popBackStack();
@@ -277,15 +261,16 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 
 	public void refreshAdapter(int postion) {
 		mCurrentList = null;
-		int type = translateId(postion);
+		int type = types[postion];
 		if (null != mDevicesListCache.get(type)) {
 			mCurrentList = mDevicesListCache.get(type);
 		} else {
 			if (type == UiUtils.LIGHTS_MANAGER) {
-				mCurrentList = DataUtil
-						.getLightingManagementDevices(ShowDevicesGroupFragmentActivity.this,mDataHelper);
+				mCurrentList = DataUtil.getLightingManagementDevices(
+						ShowDevicesGroupFragmentActivity.this, mDataHelper);
 			} else {
-				mCurrentList = DataUtil.getOtherManagementDevices(ShowDevicesGroupFragmentActivity.this,mDataHelper,
+				mCurrentList = DataUtil.getOtherManagementDevices(
+						ShowDevicesGroupFragmentActivity.this, mDataHelper,
 						type);
 			}
 			mDevicesListCache.put(type, mCurrentList);
@@ -385,12 +370,11 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		mDataHelper.delete(mDataHelper.getSQLiteDatabase(),
 				DataHelper.DEVICES_TABLE, " ieee=? ",
 				new String[] { devicesIeee });
-		mDevicesListCache.remove(translateId(mListIndex));
+		mDevicesListCache.remove(types[mListIndex]);
 		fragmentManager.popBackStack();
 		refreshAdapter(mListIndex);
 		initTitleByTag(mListIndex);
 	}
-
 
 	@Override
 	public void setLayout() {
@@ -399,12 +383,12 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 	}
 
 	@Override
-	public void saveedit(String ieee,String ep,String name, String region) {
+	public void saveedit(String ieee, String ep, String name, String region) {
 		// TODO Auto-generated method stub
 		String where = " ieee = ? ";
 		String[] args = { ieee };
-		
-		ContentValues c=new ContentValues();
+
+		ContentValues c = new ContentValues();
 		c.put(DevicesModel.USER_DEFINE_NAME, name);
 		c.put(DevicesModel.DEVICE_REGION, region);
 		
