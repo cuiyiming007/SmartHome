@@ -24,7 +24,7 @@ import com.gdgl.mydata.SimpleResponseData;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyDlg;
 
-public class OnOffControlFragment extends BaseControlFragment {
+public class DetectorOnOffControlFragment extends BaseControlFragment {
 
 	int OnOffImg[];
 
@@ -89,7 +89,7 @@ public class OnOffControlFragment extends BaseControlFragment {
 		}
 
 		mLightManager = LightManager.getInstance();
-		mLightManager.addObserver(OnOffControlFragment.this);
+		mLightManager.addObserver(DetectorOnOffControlFragment.this);
 		initstate();
 	}
 
@@ -149,7 +149,7 @@ public class OnOffControlFragment extends BaseControlFragment {
 	public void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
-		mLightManager.deleteObserver(OnOffControlFragment.this);
+		mLightManager.deleteObserver(DetectorOnOffControlFragment.this);
 	}
 
 	@Override

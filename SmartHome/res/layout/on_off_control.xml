@@ -49,6 +49,43 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:src="@drawable/light_on_big" />
+        
+        <RelativeLayout
+	        android:id="@+id/error_message"
+	        android:orientation="horizontal"
+	        android:visibility="gone"
+	        android:layout_below="@+id/devices_on_off"
+	        android:layout_marginTop="13dp"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content" >
+
+	        <ImageView
+	            android:id="@+id/imageView1"
+	            android:layout_toLeftOf="@+id/divider_view"
+	            android:layout_centerVertical="true"
+	            android:layout_marginRight="5dp"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:src="@drawable/warnning" />
+	        
+	        <View 
+	            android:id="@+id/divider_view"
+	            android:layout_height="match_parent"
+	            android:layout_centerInParent="true"
+	            android:layout_width="1px"/>
+	
+	        <TextView
+	            android:id="@+id/text_errormessage"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_toRightOf="@+id/divider_view"
+	            android:layout_centerVertical="true"
+	            android:layout_marginLeft="5dp"
+	            android:textColor="#000000"
+	            android:textSize="16dp"
+	            android:text="操作失败" />
+        
+    	</RelativeLayout>
     </RelativeLayout>
 
 </LinearLayout>

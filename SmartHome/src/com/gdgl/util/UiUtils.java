@@ -3,6 +3,7 @@ package com.gdgl.util;
 import android.app.Fragment;
 
 import com.gdgl.activity.CurtainsControlFragment;
+import com.gdgl.activity.DetectorOnOffControlFragment;
 import com.gdgl.activity.OnOffControlFragment;
 import com.gdgl.activity.OnlyShowFragment;
 import com.gdgl.activity.SeekLightsControlFragment;
@@ -196,8 +197,10 @@ public class UiUtils {
 		case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:
 		case DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE:
 		case DataHelper.MAINS_POWER_OUTLET_DEVICETYPE:
-		case DataHelper.IAS_ZONE_DEVICETYPE:
 			mFragment = new OnOffControlFragment();
+			break;
+		case DataHelper.IAS_ZONE_DEVICETYPE:
+			mFragment = new DetectorOnOffControlFragment();
 			break;
 		case DataHelper.DIMEN_SWITCH_DEVICETYPE:
 			

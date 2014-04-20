@@ -1,5 +1,8 @@
 package com.gdgl.activity;
 
+import com.gdgl.manager.LightManager;
+import com.gdgl.manager.Manger;
+import com.gdgl.manager.UIListener;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.CircleProgressBar;
@@ -20,7 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 @SuppressLint("NewApi")
-public class CurtainsControlFragment extends Fragment {
+public class CurtainsControlFragment extends Fragment implements UIListener{
 
     String mCurtainsId;
     double mCurtainState;
@@ -46,6 +49,8 @@ public class CurtainsControlFragment extends Fragment {
     private static final int CLOSEFULLY = 3;
 
 	SimpleDevicesModel mDevices;
+	
+	LightManager mLightManager;
 
 	@SuppressLint("NewApi")
 	@Override
@@ -80,6 +85,8 @@ public class CurtainsControlFragment extends Fragment {
 
     private void initView() {
         // TODO Auto-generated method stub
+    	mLightManager=LightManager.getInstance();
+    	mLightManager.addObserver(CurtainsControlFragment.this);
         mOpen = (Button) mView.findViewById(R.id.btn_open);
         mClose = (Button) mView.findViewById(R.id.btn_close);
         txtOpen = (TextView) mView.findViewById(R.id.txt_open);
@@ -361,6 +368,7 @@ public class CurtainsControlFragment extends Fragment {
             mCloseThread.onPause();
             mCloseThread.interrupt();
         }
+        mLightManager.deleteObserver(CurtainsControlFragment.this);
         super.onDestroy();
     }
     class operatortype {
@@ -377,6 +385,12 @@ public class CurtainsControlFragment extends Fragment {
 		public static final int Move = 11;
 		public static final int Stop=13;
 			
+		
+	}
+
+	@Override
+	public void update(Manger observer, Object object) {
+		// TODO Auto-generated method stub
 		
 	}
 }
