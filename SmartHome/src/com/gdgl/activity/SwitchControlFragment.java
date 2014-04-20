@@ -284,7 +284,7 @@ public class SwitchControlFragment extends BaseControlFragment implements
 		toast.show();
 		
 		final Event event = (Event) object;
-		if (EventType.ONOFFSWITCHOPERATION == event.getType()) {
+		if (EventType.ONOFFLIGHTSWITCHOPERATION == event.getType()) {
 			if (event.isSuccess() == true) {
 				// data maybe null
 				SimpleResponseData data = (SimpleResponseData) event.getData();
