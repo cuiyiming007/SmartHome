@@ -326,10 +326,8 @@ public class UiUtils {
 		LayoutInflater inflater = LayoutInflater.from(c);
 		View layout = inflater.inflate(R.layout.custom_toast, null);
 		Toast toast = new Toast(c);
-		toast.setGravity(Gravity.BOTTOM, 0, 200);
+		toast.setGravity(Gravity.BOTTOM, 0, 250);
 		toast.setDuration(Toast.LENGTH_LONG);
-		LinearLayout.LayoutParams mLayoutParams=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-		layout.setLayoutParams(mLayoutParams);
 		toast.setView(layout);
 		toast.show();
 		return toast;

@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends Activity implements OnClickListener {
 
 	private EditText mName;
 	private EditText mPwd;
@@ -33,11 +33,11 @@ public class LoginActivity extends Activity {
 	private void setLieners() {
 		// TODO Auto-generated method stub
 		mLogin.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				Intent intent=new Intent();
+				Intent intent = new Intent();
 				intent.setClass(LoginActivity.this, SmartHome.class);
 				startActivity(intent);
 				finish();
@@ -47,13 +47,23 @@ public class LoginActivity extends Activity {
 
 	private void initView() {
 		// TODO Auto-generated method stub
-//		mName = (EditText) findViewById(R.id.login_edit_account);
-//		mPwd = (EditText) findViewById(R.id.login_edit_pwd);
-//
-//		mRem = (CheckBox) findViewById(R.id.login_cb_savepwd);
-//		mRem = (CheckBox) findViewById(R.id.login_cb_savepwd);
-//
-		mLogin = (Button) findViewById(R.id.login_btn_login);
-//		mCancle = (Button) findViewById(R.id.login_btn_cancle);
+
+		mLogin = (Button) findViewById(R.id.login);
+		mLogin.setOnClickListener(this);
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		int id = v.getId();
+		switch (id) {
+		case R.id.login:
+			Intent intent = new Intent(LoginActivity.this, SmartHome.class);
+			startActivity(intent);
+			this.finish();
+			break;
+		default:
+			break;
+		}
 	}
 }
