@@ -98,7 +98,7 @@ public class LightManager extends Manger {
 		paraMap.put("param3", "3");
 		String param = hashMap2ParamString(paraMap);
 
-		String url = NetUtil.getInstance().getCumstomURL(
+		String url = NetUtil.getInstance().getCumstomURL(NetUtil.getInstance().IP,
 				"mainsOutLetOperation.cgi", param);
 
 		simpleVolleyRequset(url, EventType.MAINSOUTLETOPERATION);
@@ -123,7 +123,7 @@ public class LightManager extends Manger {
 		paraMap.put("param3", "3");
 		String param = hashMap2ParamString(paraMap);
 
-		String url = NetUtil.getInstance().getCumstomURL(
+		String url = NetUtil.getInstance().getCumstomURL(NetUtil.getInstance().IP,
 				"dimmableLightOperation.cgi", param);
 
 		simpleVolleyRequset(url, EventType.ONOFFOUTPUTOPERATION);
@@ -143,7 +143,7 @@ public class LightManager extends Manger {
 	public void onOffLightOperation() {
 
 		String param = "ieee=00137A0000010AB5&ep=0A&operatortype=2&param1=1&param2=2&param3=3";
-		String url = NetUtil.getInstance().getCumstomURL(
+		String url = NetUtil.getInstance().getCumstomURL(NetUtil.getInstance().IP,
 				"onOffLightOperation.cgi", param);
 		EventType type = EventType.ONOFFLIGHTOPERATION;
 		simpleVolleyRequset(url, type);
@@ -181,7 +181,7 @@ public class LightManager extends Manger {
 		paraMap.put("param3", "3");
 		String param = hashMap2ParamString(paraMap);
 
-		String url = NetUtil.getInstance().getCumstomURL(
+		String url = NetUtil.getInstance().getCumstomURL(NetUtil.getInstance().IP,
 				"doorLockOperation.cgi", param);
 
 		simpleVolleyRequset(url, EventType.DOORLOCKOPERATION);
@@ -225,7 +225,7 @@ GetZoneIASCIEAddress 13
 		paraMap.put("operatortype", "1");
 		String param = hashMap2ParamString(paraMap);
 
-		String url = NetUtil.getInstance().getCumstomURL(
+		String url = NetUtil.getInstance().getCumstomURL(NetUtil.getInstance().IP,
 				"iasWarningDeviceOperation.cgi", param);
 
 		simpleVolleyRequset(url, EventType.IASWARNINGDEVICOPERATION);
@@ -249,7 +249,7 @@ GetZoneIASCIEAddress 13
 		paraMap.put("param3", "3");
 		String param = hashMap2ParamString(paraMap);
 
-		String url = NetUtil.getInstance().getCumstomURL(
+		String url = NetUtil.getInstance().getCumstomURL(NetUtil.getInstance().IP,
 				"onOffLightSwitchOperation.cgi", param);
 		simpleVolleyRequset(url, EventType.ONOFFLIGHTSWITCHOPERATION);
 	}
@@ -285,7 +285,7 @@ GetStatus 3
 		paraMap.put("param3", "3");
 		String param = hashMap2ParamString(paraMap);
 
-		String url = NetUtil.getInstance().getCumstomURL(
+		String url = NetUtil.getInstance().getCumstomURL(NetUtil.getInstance().IP,
 				"onOffOutputOperation.cgi", param);
 
 		simpleVolleyRequset(url, EventType.ONOFFOUTPUTOPERATION);
@@ -305,7 +305,7 @@ GetStatus 3
 		paraMap.put("param3", "3");
 		String param = hashMap2ParamString(paraMap);
 
-		String url = NetUtil.getInstance().getCumstomURL(
+		String url = NetUtil.getInstance().getCumstomURL(NetUtil.getInstance().IP,
 				"onOffSwitchOperation.cgi", param);
 
 		simpleVolleyRequset(url, EventType.ONOFFSWITCHOPERATION);
@@ -342,7 +342,7 @@ GetIlluminanceMeasuredValueR ptTime 7
 		paraMap.put("param3", "3");
 		String param = hashMap2ParamString(paraMap);
 
-		String url = NetUtil.getInstance().getCumstomURL(
+		String url = NetUtil.getInstance().getCumstomURL(NetUtil.getInstance().IP,
 				"lightSensorOperation.cgi", param);
 
 		simpleVolleyRequset(url, EventType.LIGHTSENSOROPERATION);
@@ -362,7 +362,7 @@ GetIlluminanceMeasuredValueR ptTime 7
 		paraMap.put("param3", "3");
 		String param = hashMap2ParamString(paraMap);
 
-		String url = NetUtil.getInstance().getCumstomURL(
+		String url = NetUtil.getInstance().getCumstomURL(NetUtil.getInstance().IP,
 				"shadeControllerOperation.cgi", param);
 
 		simpleVolleyRequset(url, EventType.SHADEcONTROLLEROPERATION);
@@ -381,7 +381,7 @@ GetIlluminanceMeasuredValueR ptTime 7
 		paraMap.put("param3", "3");
 		String param = hashMap2ParamString(paraMap);
 
-		String url = NetUtil.getInstance().getCumstomURL("shadeOperation.cgi",
+		String url = NetUtil.getInstance().getCumstomURL(NetUtil.getInstance().IP,"shadeOperation.cgi",
 				param);
 
 		simpleVolleyRequset(url, EventType.SHADEOPERATION);
@@ -419,7 +419,7 @@ GetIRDisableTime 10
 		paraMap.put("param3", "3");
 		String param = hashMap2ParamString(paraMap);
 
-		String url = NetUtil.getInstance().getCumstomURL(
+		String url = NetUtil.getInstance().getCumstomURL(NetUtil.getInstance().IP,
 				"iasZoneOperation.cgi", param);
 
 		simpleVolleyRequset(url, EventType.IASZONEOPERATION);
@@ -462,7 +462,7 @@ GetTemperatureMeasuredValue11
 		paraMap.put("param3", "3");
 		String param = hashMap2ParamString(paraMap);
 
-		String url = NetUtil.getInstance().getCumstomURL(
+		String url = NetUtil.getInstance().getCumstomURL(NetUtil.getInstance().IP,
 				"temperatureSensorOperation.cgi", param);
 
 		simpleVolleyRequset(url, EventType.TEMPERATURESENSOROPERATION);
@@ -483,7 +483,7 @@ GetHumidity 0
 		paraMap.put("param3", "3");
 		String param = hashMap2ParamString(paraMap);
 
-		String url = NetUtil.getInstance().getCumstomURL("RangeExtender.cgi",
+		String url = NetUtil.getInstance().getCumstomURL(NetUtil.getInstance().IP,"RangeExtender.cgi",
 				param);
 
 		simpleVolleyRequset(url, EventType.RANGEEXTENDER);
@@ -510,7 +510,7 @@ RefreshDeviceCIEAddr 3
 		paraMap.put("param3", "3");
 		String param = hashMap2ParamString(paraMap);
 
-		String url = NetUtil.getInstance().getCumstomURL("IASACE.cgi", param);
+		String url = NetUtil.getInstance().getCumstomURL(NetUtil.getInstance().IP,"IASACE.cgi", param);
 
 		simpleVolleyRequset(url, EventType.IASACE);
 	}
@@ -528,7 +528,7 @@ RefreshDeviceCIEAddr 3
 		paraMap.put("param3", "3");
 		String param = hashMap2ParamString(paraMap);
 
-		String url = NetUtil.getInstance().getCumstomURL("RemoteControl.cgi",
+		String url = NetUtil.getInstance().getCumstomURL(NetUtil.getInstance().IP,"RemoteControl.cgi",
 				param);
 
 		simpleVolleyRequset(url, EventType.REMOTECONTROL);

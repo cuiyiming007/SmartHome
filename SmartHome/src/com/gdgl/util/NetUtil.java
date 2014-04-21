@@ -45,7 +45,8 @@ public class NetUtil {
 	public static String URLDir="/cgi-bin/rest/network/";
 	public static String HTTPHeadStr="http://";
 	public static String encodeStr="&callback=1234&encodemethod=NONE&sign=AAA";
-	private String IP="192.168.1.239";
+	public String IP="192.168.1.239";
+	public String loginIP="192.168.1.100";
 	private static NetUtil instance;
 	
 	public static NetUtil getInstance() {
@@ -54,9 +55,9 @@ public class NetUtil {
 		}
 		return instance;
 	}
-	public String getCumstomURL(String resource,String param)
+	public String getCumstomURL(String serverIP,String resource,String param)
 	{
-		return HTTPHeadStr+IP+URLDir+resource+"?"+param+encodeStr;
+		return HTTPHeadStr+serverIP+URLDir+resource+"?"+param+encodeStr;
 	}
 
 }
