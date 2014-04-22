@@ -23,9 +23,9 @@ public class LoginManager extends Manger {
 	// http://192.168.1.100/cgi-bin/rest/network/clientLogin.cgi?account=001122334455&password=334455
 	public final static String TAG = "LoginManager";
 
-	private LoginManager instance;
+	private static LoginManager instance;
 
-	public LoginManager getInstance() {
+	public static  LoginManager getInstance() {
 		if (instance == null) {
 			instance = new LoginManager();
 		}
@@ -58,8 +58,88 @@ public class LoginManager extends Manger {
 				}, new Response.ErrorListener() {
 					@Override
 					public void onErrorResponse(VolleyError error) {
-						VolleyLog.e("Error: ", error.getMessage());
+						if (error!=null&&error.getMessage()!=null) {
+							VolleyLog.e("Error: ", error.getMessage());
+						}
 						Event event = new Event(EventType.LOGIN, false);
+						event.setData(error);
+						notifyObservers(event);
+					}
+				});
+		// add the request object to the queue to be executed
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
+	public void ModifyPassword(AccountInfo accountInfo,String newPWD)
+	{
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("account", accountInfo.getAccount());
+		paraMap.put("old_password", accountInfo.getPassword());
+		paraMap.put("new_password", newPWD);
+		String param = hashMap2ParamString(paraMap);
+
+		String url = NetUtil.getInstance().getCumstomURL(
+				NetUtil.getInstance().loginIP, "modifyPassword.cgi", param);
+		JsonObjectRequest req = new JsonObjectRequest(url, null,
+				new Response.Listener<JSONObject>() {
+					@Override
+					public void onResponse(JSONObject response) {
+						try {
+							Log.i("LoginManager ModifyPassword Response:%n %s", response.toString(4));
+							Gson gson = new Gson();  
+							LoginResponse person = gson.fromJson(response.toString(), LoginResponse.class); 
+							Event event = new Event(EventType.MODIFYPASSWORD, true);
+							event.setData(person);
+							notifyObservers(event);
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+					}
+				}, new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+						if (error!=null&&error.getMessage()!=null) {
+							VolleyLog.e("Error: ", error.getMessage());
+						}
+						Event event = new Event(EventType.MODIFYPASSWORD, false);
+						event.setData(error);
+						notifyObservers(event);
+					}
+				});
+		// add the request object to the queue to be executed
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
+	public void modifyAlias(String id,String old_alias,String new_alias)
+	{
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("id", id);
+		paraMap.put("old_alias", old_alias);
+		paraMap.put("new_alias", new_alias);
+		String param = hashMap2ParamString(paraMap);
+
+		String url = NetUtil.getInstance().getCumstomURL(
+				NetUtil.getInstance().loginIP, "modifyAlias.cgi", param);
+		JsonObjectRequest req = new JsonObjectRequest(url, null,
+				new Response.Listener<JSONObject>() {
+					@Override
+					public void onResponse(JSONObject response) {
+						try {
+							Log.i("LoginManager modifyAlias Response:%n %s", response.toString(4));
+							Gson gson = new Gson();  
+							LoginResponse person = gson.fromJson(response.toString(), LoginResponse.class); 
+							Event event = new Event(EventType.MODIFYALIAS, true);
+							event.setData(person);
+							notifyObservers(event);
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+					}
+				}, new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+						if (error!=null&&error.getMessage()!=null) {
+							VolleyLog.e("Error: ", error.getMessage());
+						}
+						Event event = new Event(EventType.MODIFYALIAS, false);
 						event.setData(error);
 						notifyObservers(event);
 					}

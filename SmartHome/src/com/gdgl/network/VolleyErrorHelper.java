@@ -12,6 +12,7 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
+import com.gdgl.activity.DevicesListFragment.refreshData;
 import com.gdgl.smarthome.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -26,18 +27,20 @@ public class VolleyErrorHelper {
     * @return
     */
  public static String getMessage(Object error, Context context) {
-     if (error instanceof TimeoutError) {
-         return context.getResources().getString(R.string.generic_server_down);
+	 if(error==null)
+	 {
+		 return context.getResources().getString(R.string.errorisnull);
+	 }
+	 else if (error instanceof TimeoutError) {
+         return context.getResources().getString(R.string.timeout);
      }
      else if (isServerProblem(error)) {
          return handleServerError(error, context);
      }
      else if (isNetworkProblem(error)) {
-//         return context.getResources().getString(R.string.no_internet);
-    	 return null;
+         return context.getResources().getString(R.string.no_internet);
      }
-//     return context.getResources().getString(R.string.generic_error);
-     return null;
+     return context.getResources().getString(R.string.generic_error);
  }
  
  /**
@@ -92,11 +95,9 @@ public class VolleyErrorHelper {
                return error.getMessage();
 
            default:
-//               return context.getResources().getString(R.string.generic_server_down);
-        	   return null;
+               return context.getResources().getString(R.string.generic_server_down);
            }
      }
-//       return context.getResources().getString(R.string.generic_error);
-     return null;
+       return context.getResources().getString(R.string.generic_error);
  }
 }

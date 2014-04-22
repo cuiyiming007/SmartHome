@@ -1,5 +1,7 @@
 package com.gdgl.activity;
 
+import com.gdgl.manager.LoginManager;
+import com.gdgl.mydata.AccountInfo;
 import com.gdgl.smarthome.R;
 
 import android.app.Activity;
@@ -36,6 +38,10 @@ public class LoginActivity extends Activity implements OnClickListener {
 
 			@Override
 			public void onClick(View arg0) {
+				AccountInfo account=new AccountInfo();
+				account.setAccount(mName.getText().toString());
+				account.setPassword(mPwd.getText().toString());
+				LoginManager.getInstance().doLogin(null);
 				// TODO Auto-generated method stub
 				Intent intent = new Intent();
 				intent.setClass(LoginActivity.this, SmartHome.class);

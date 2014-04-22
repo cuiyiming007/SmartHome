@@ -14,6 +14,8 @@ public class EventType {
 	}
    
 	public static final  EventType LOGIN;
+	public static final  EventType MODIFYPASSWORD;
+	public static final  EventType	MODIFYALIAS;
 	public static final EventType ONOFFLIGHTOPERATION;
 	public static final  EventType ONOFFLIGHTSWITCHOPERATION;
 	public static final EventType ONOFFOUTPUTOPERATION;
@@ -37,6 +39,8 @@ public class EventType {
 	static
 	{
 		LOGIN=new EventType("login",id);
+		MODIFYPASSWORD =new EventType("ModifyPassword", nextId());
+	    MODIFYALIAS=new EventType("modifyAlias", nextId());
 		ONOFFLIGHTOPERATION=new EventType("onofflightoperation", nextId());
 		ONOFFLIGHTSWITCHOPERATION=new EventType("onofflightswitchoperation", nextId());
 		ONOFFOUTPUTOPERATION=new EventType("onOffOutputOperation", nextId());

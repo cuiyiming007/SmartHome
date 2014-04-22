@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="generic_server_down">服务器错误</string>
+    <string name="timeout">响应超时。。</string>
+      <string name="no_internet">网络异常。。</string>
+        <string name="generic_error">操作失败。。</string>
+          <string name="errorisnull">错误为空</string>
     <string name="app_name">SmartHome</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
