@@ -4,8 +4,8 @@
     android:layout_width="300dp"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:alpha="0.80"
-    android:background="@drawable/corners_left_bottom_press"
+    android:alpha="0.95"
+    android:background="@drawable/devices_bc"
     android:orientation="vertical" >
 
     <TextView

@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:alpha="0.65"
-    android:background="@drawable/circle_btn"
+    android:background="@drawable/devices_bc"
     android:orientation="vertical" >
 
     <ImageView

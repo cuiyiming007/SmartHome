@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/blue_background"
+    android:background="@drawable/new_bacg"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -25,6 +25,7 @@
         android:layout_marginRight="15dp"
         android:layout_marginTop="15dp"
         android:layout_weight="1"
+        android:alpha="0.65"
         android:background="@drawable/white"
         android:orientation="vertical" >
     </LinearLayout>

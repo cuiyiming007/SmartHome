@@ -4,7 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:alpha="0.85"
-    android:background="@drawable/login_bac" >
+    android:background="@drawable/new_bacg" >
 
     <ImageView
         android:id="@+id/imageView1"
@@ -49,6 +49,10 @@
 
                     <ImageView
                         android:id="@+id/imageView2"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginBottom="2dp"
+                        android:alpha="0.75"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/user" />
@@ -61,7 +65,7 @@
                         android:layout_marginLeft="5dp"
                         android:layout_weight="1"
                         android:background="@null"
-                        android:textColor="#000000" 
+                        android:textColor="#000000"
                         android:textSize="18dp" >
 
                         <requestFocus />
@@ -81,11 +85,14 @@
                         android:id="@+id/imageView2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginBottom="2dp"
+                        android:alpha="0.75"
                         android:src="@drawable/pwd" />
 
                     <EditText
                         android:id="@+id/pwd"
-                        android:textColor="#000000" 
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_gravity="center_vertical"
@@ -93,6 +100,7 @@
                         android:layout_weight="1"
                         android:background="@null"
                         android:password="true"
+                        android:textColor="#000000"
                         android:textSize="18dp" >
                     </EditText>
                 </LinearLayout>
@@ -100,26 +108,61 @@
         </LinearLayout>
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/check_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/login_lay"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="15dp" >
+
+        <CheckBox
+            android:id="@+id/checkBox1"
+            style="@style/CustomCheckboxTheme"
+            android:alpha="0.65"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/divider"
+            android:text="记住密码"
+            android:textColor="#000000"
+            android:textSize="14dp" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="1px"
+            android:layout_height="10dp"
+            android:layout_centerInParent="true" />
+
+        <CheckBox
+            android:id="@+id/checkBox2"
+            style="@style/CustomCheckboxTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/divider"
+            android:alpha="0.65"
+            android:text="自动登录"
+            android:textColor="#000000"
+            android:textSize="14dp" />
+    </RelativeLayout>
+
     <Button
         android:id="@+id/login"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_below="@+id/login_lay"
+        android:layout_below="@+id/check_layout"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="35dp"
-        android:textSize="20dp"
-        android:background="@drawable/login_btn"
+        android:alpha="0.55"
+        android:background="@drawable/login_btn_style"
         android:text="登录"
-        android:textColor="#ffffff" />
-
-    <ImageView
-        android:id="@+id/setting"
-        android:layout_width="120dp"
-        android:layout_height="80dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:src="@drawable/settings" />
+        android:textColor="#ffffff"
+        android:textSize="20dp" />
 
 </RelativeLayout>
