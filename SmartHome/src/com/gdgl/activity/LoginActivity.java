@@ -39,9 +39,12 @@ public class LoginActivity extends Activity implements OnClickListener {
 			@Override
 			public void onClick(View arg0) {
 				AccountInfo account=new AccountInfo();
-				account.setAccount(mName.getText().toString());
-				account.setPassword(mPwd.getText().toString());
-				LoginManager.getInstance().doLogin(null);
+//				account.setAccount(mName.getText().toString());
+//				account.setPassword(mPwd.getText().toString());
+				
+				account.setAccount("gdglsm");
+				account.setPassword("123456");
+				LoginManager.getInstance().doLogin(account);
 				// TODO Auto-generated method stub
 				Intent intent = new Intent();
 				intent.setClass(LoginActivity.this, SmartHome.class);
@@ -55,6 +58,8 @@ public class LoginActivity extends Activity implements OnClickListener {
 		// TODO Auto-generated method stub
 
 		mLogin = (Button) findViewById(R.id.login);
+		mName=(EditText) findViewById(R.id.name);
+		mPwd=(EditText) findViewById(R.id.pwd);
 		mLogin.setOnClickListener(this);
 	}
 
@@ -64,6 +69,10 @@ public class LoginActivity extends Activity implements OnClickListener {
 		int id = v.getId();
 		switch (id) {
 		case R.id.login:
+			AccountInfo account=new AccountInfo();
+			account.setAccount(mName.getText().toString());
+			account.setPassword(mPwd.getText().toString());
+			LoginManager.getInstance().doLogin(null);
 			Intent intent = new Intent(LoginActivity.this, SmartHome.class);
 			startActivity(intent);
 			this.finish();

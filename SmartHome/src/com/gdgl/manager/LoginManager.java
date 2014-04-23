@@ -39,7 +39,7 @@ public class LoginManager extends Manger {
 		String param = hashMap2ParamString(paraMap);
 
 		String url = NetUtil.getInstance().getCumstomURL(
-				NetUtil.getInstance().loginIP, "clientLogin.cgi", param);
+				NetUtil.getInstance().IP, "clientLogin.cgi", param);
 		JsonObjectRequest req = new JsonObjectRequest(url, null,
 				new Response.Listener<JSONObject>() {
 					@Override
@@ -47,9 +47,9 @@ public class LoginManager extends Manger {
 						try {
 							Log.i("LoginManager doLogin Response:%n %s", response.toString(4));
 							Gson gson = new Gson();  
-							LoginResponse person = gson.fromJson(response.toString(), LoginResponse.class); 
+							LoginResponse loginResponse = gson.fromJson(response.toString(), LoginResponse.class); 
 							Event event = new Event(EventType.LOGIN, true);
-							event.setData(person);
+							event.setData(loginResponse);
 							notifyObservers(event);
 						} catch (JSONException e) {
 							e.printStackTrace();
