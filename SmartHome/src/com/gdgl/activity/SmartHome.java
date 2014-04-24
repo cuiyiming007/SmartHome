@@ -91,7 +91,7 @@ public class SmartHome extends FragmentActivity implements OnRefreshListener<Vie
 		mList.add(new TabInfo(new DevicesFragment()));
 		mList.add(new TabInfo(new CommonUsedFragment()));
 		mList.add(new TabInfo(new CommonUsedFragment()));
-		mList.add(new TabInfo(new CommonUsedFragment()));
+		mList.add(new TabInfo(new VideoFragment()));
 
 		ViewPagerAdapter mViewPagerAdapter = new ViewPagerAdapter(
 				getSupportFragmentManager(), SmartHome.this, mList);

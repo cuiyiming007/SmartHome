@@ -23,7 +23,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:layout_marginBottom="5dp"
-        android:textColor="#7FFFD4"
+        android:textColor="#1C1C1C"
         android:textSize="16dp"
         android:text="TextView" />
 
