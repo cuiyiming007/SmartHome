@@ -2,7 +2,6 @@ package com.gdgl.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Handler;
 import android.widget.ImageView;
@@ -14,7 +13,7 @@ public class StartAnimationActivity extends Activity {
 	private AnimationDrawable animationDrawable;
 	ImageView image;
 	private Intent serviceIntent;
-    private final static long SPLASH_DELAY_MILLIS=4000;
+    private final static long SPLASH_DELAY_MILLIS=6000;
 	protected void onCreate(android.os.Bundle savedInstanceState) 
 	{
 		 super.onCreate(savedInstanceState); 
@@ -24,10 +23,14 @@ public class StartAnimationActivity extends Activity {
 		  image.setBackgroundResource(R.drawable.startanimation);  
 		  animationDrawable = (AnimationDrawable) image.getBackground(); 
 		  new Handler().postDelayed(new Runnable() {
-	            public void run() {
-	                goHome();
-	            }
-	        }, SPLASH_DELAY_MILLIS);
+		  @Override
+		  public void run() {
+			  animationDrawable.stop();
+			  animationDrawable =null; //key point of resolving  out of memory这句话为解决内存溢出的关键，开始没有添加
+			  goLogin();
+		  }
+		  }, SPLASH_DELAY_MILLIS);
+		  
 	}
 	@Override
 	protected void onStart() {
@@ -36,8 +39,8 @@ public class StartAnimationActivity extends Activity {
 		startService(serviceIntent);
 		
 	}
-	private void goHome() {
-		Intent intent = new Intent(StartAnimationActivity.this, SmartHome.class);
+	private void goLogin() {
+		Intent intent = new Intent(StartAnimationActivity.this, LoginActivity.class);
 		StartAnimationActivity.this.startActivity(intent);
 		StartAnimationActivity.this.finish();
 		overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
@@ -47,15 +50,7 @@ public class StartAnimationActivity extends Activity {
 		if (animationDrawable!=null) {
 			animationDrawable.start();
 		}
-		
 		super.onWindowFocusChanged(hasFocus);
-	}
-	@Override
-	public void finish() {
-		((AnimationDrawable)(image.getBackground())).stop();
-		image.setBackgroundDrawable(null);
-		animationDrawable=null;
-		super.finish();
 	}
 
 }
