@@ -16,38 +16,40 @@ import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.ResponseParamsEndPoint;
 
 public class SmartService extends Service {
-	
-	public final static String TAG="SmartService" ;
 
-//	private Intent brodcastIntent = new Intent("com.gdgl.activity.RECIEVER");
+	public final static String TAG = "SmartService";
+
+	// private Intent brodcastIntent = new Intent("com.gdgl.activity.RECIEVER");
 
 	public IBinder onBind(Intent intent) {
 		return null;
 	}
 
 	public void initial() {
-//		DeviceManager.getInstance().getDeviceList();
-		
-		new Thread(){
+		//=============================server======================
+		// DeviceManager.getInstance().getDeviceList();
+
+		// ===============================loacl=====================
+		new Thread() {
 			@Override
 			public void run() {
 				DataHelper mDateHelper = new DataHelper(SmartService.this);
-				 SQLiteDatabase mSQLiteDatabase = mDateHelper
-				 .getSQLiteDatabase();
-				 List<DevicesModel> mList = mDateHelper.queryForList(
-					 mSQLiteDatabase, DataHelper.DEVICES_TABLE, null, null,
-					 null, null, null, null, null);
-				 if (mList.size()<=0) {
-					 ArrayList<ResponseParamsEndPoint> devDataList = DeviceManager
-							 .getInstance().getDeviceListFromLocalString();
-					
-					 mDateHelper.insertList(mSQLiteDatabase,
-							 DataHelper.DEVICES_TABLE, null, devDataList);
+				SQLiteDatabase mSQLiteDatabase = mDateHelper
+						.getSQLiteDatabase();
+				List<DevicesModel> mList = mDateHelper.queryForList(
+						mSQLiteDatabase, DataHelper.DEVICES_TABLE, null, null,
+						null, null, null, null, null);
+				if (mList.size() <= 0) {
+					ArrayList<ResponseParamsEndPoint> devDataList = DeviceManager
+							.getInstance().getDeviceListFromLocalString();
+
+					mDateHelper.insertList(mSQLiteDatabase,
+							DataHelper.DEVICES_TABLE, null, devDataList);
 				}
-				 mDateHelper.close(mSQLiteDatabase);
+				mDateHelper.close(mSQLiteDatabase);
 			}
 		}.run();
-		
+
 	}
 
 	public class MsgBinder extends Binder {
@@ -63,10 +65,10 @@ public class SmartService extends Service {
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		
-		Log.i(TAG,"SmartHome service starts!");
+
+		Log.i(TAG, "SmartHome service starts!");
 		initial();
-//		sendBroadcast(brodcastIntent);
+		// sendBroadcast(brodcastIntent);
 		return super.onStartCommand(intent, flags, startId);
 	}
 

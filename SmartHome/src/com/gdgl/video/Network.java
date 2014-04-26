@@ -19,7 +19,7 @@ import android.util.Log;
 public class Network 
 {
 	private final static String TAG = "NetWorkUtil";
-	public static String IPserver = "192.168.1.230";
+	public static String IPserver = "192.168.1.239";
 	//private static int udpPort = 5000;
 	public static int tcpPort = 5012;
 	public static Socket socket; // tcpSocket
@@ -135,7 +135,7 @@ public class Network
 
 	
 	
-	public static boolean sendVideoTCPReq(int channelNum) 
+	public static boolean sendVideoReq(int channelNum) 
 	{
 		//������Ƶ
 		/*

@@ -1,4 +1,4 @@
-package com.gdgl.video;
+package com.gdgl.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -8,13 +8,13 @@ import android.os.Bundle;
 import android.view.Display;
 
 import com.gdgl.smarthome.R;
+import com.gdgl.video.DecodeH264;
 
-public class DisplayH264 extends Activity
+public class VideoViewActivity extends Activity
 {
 	public static int ipc_channel = -1;;
 	Display display;
 	DecodeH264 decodeh264;
-	public static int ret = 0;
 
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -35,11 +35,7 @@ public class DisplayH264 extends Activity
 		setContentView(decodeh264);//���ò���
 		
 		//decodeh264.PlayVideo(ipc_channel);
-		ret = decodeh264.PlayVideo(ipc_channel);
-		if(ret != 1)
-		{
-			showMessage(ret);
-		}
+		decodeh264.PlayVideo(ipc_channel);
 	}
 
 	/* (non-Javadoc)
@@ -56,7 +52,7 @@ public class DisplayH264 extends Activity
 	//��ʾ�������ӷ�����
     public void showMessage(int type)
 	{
-    	Builder dl = new AlertDialog.Builder(DisplayH264.this);
+    	Builder dl = new AlertDialog.Builder(VideoViewActivity.this);
     	dl.setTitle(R.string.sure);
     	if(type == 2)
     	{
@@ -78,7 +74,7 @@ public class DisplayH264 extends Activity
     	{
     		public void onClick(DialogInterface dialog, int whichButton) 
     		{
-    			DisplayH264.this.finish();//ȡ�����˳�����
+    			VideoViewActivity.this.finish();//ȡ�����˳�����
     		}
     	});
     	dl.show();

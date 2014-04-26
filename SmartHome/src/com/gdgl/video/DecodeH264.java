@@ -203,34 +203,6 @@ public class DecodeH264 extends View implements Runnable
 				// e.printStackTrace();
 			}
 			
-			/*
-			if ((buffFromSocket[0]==0x55)&&(buffFromSocket[1]==0x55)&&
-					(buffFromSocket[2]==0x55)&&(buffFromSocket[3]==0x55))
-			{
-				if(buffFromSocket[4]==1)
-				{
-					ret = true;
-					Log.d("DecodeH264 run", "recieved start flag");
-				}
-				else if(buffFromSocket[4]==2)
-				{
-					ret = false;
-					Log.d("DecodeH264 run", "ipc is not online");
-				}
-				break;
-			}
-			*/
-			
-			
-			//System.out.println("***read num from socket***");
-			//System.out.println(readNum);
-    		//for(int i =0;i<readNum;i++)
-    		//{
-    		//	System.out.println(buffFromSocket[i]);	
-    		//	//System.out.println(i);
-    		//}
-			
-			//String sendString=new String(  bytes ,"UTF-8"); 
 			String recstr=new String(buffFromSocket);
 			try
 			{
@@ -304,45 +276,53 @@ public class DecodeH264 extends View implements Runnable
 	}
 	
 	//public void PlayVideo(int channelNum) //ok
-	public int PlayVideo(int channelNum) 
+	public int PlayVideo(final int channelNum) 
 	{
 		initalThread();
 
 		// PathFileName = file;
 		// NetUtil.sendUdpMsg(null);
-		boolean isconnect;
-		isconnect = Network.connectServer(Network.IPserver, Network.tcpPort);
-		
-		if(isconnect == true)//�����Ϸ�����
-		{
-			Network.sendVideoTCPReq(channelNum);
-			try 
-			{
-				//����dataInputStream
-				dataInputStream = new DataInputStream(
-						Network.socket.getInputStream());
-			}
-			catch (IOException e1) 
-			{
-				e1.printStackTrace();
-			}
+		new Thread(new Runnable() {
 			
-			if(getStartFlag()==true)//�յ���ʼ��־�����߳�
-			{
-				decodethread = new Thread(this);
-				decodethread.start();
-				return 1;	
-			}
-			else //�յ��������Ĵ�����룬���߳�ʱû���յ���������ʼ��־,IPC������
-			{
-				return 2;
-			}
+			@Override
+			public void run() {
+				boolean isconnect;
+				isconnect = Network.connectServer(Network.IPserver, Network.tcpPort);
+				
+				if(isconnect == true)//�����Ϸ�����
+				{
+					Network.sendVideoReq(channelNum);
+					try 
+					{
+						//����dataInputStream
+						dataInputStream = new DataInputStream(
+								Network.socket.getInputStream());
+					}
+					catch (IOException e1) 
+					{
+						e1.printStackTrace();
+					}
+					
+					if(getStartFlag()==true)//�յ���ʼ��־�����߳�
+					{
+						decodethread = new Thread(this);
+						decodethread.start();
+//						return 1;	
+					}
+					else //�յ��������Ĵ�����룬���߳�ʱû���յ���������ʼ��־,IPC������
+					{
+//						return 2;
+					}
 
-		}
-		else//û�������Ϸ�����
-		{
-			return 3;
-		}
+				}
+				else//û�������Ϸ�����
+				{
+//					return 3;
+				}
+			}
+		}).start();
+		return 0;
+		
 	}
 
 	//��socket������ȡһ��NAL��Ƶ��Ԫ

@@ -12,6 +12,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
+import com.gdgl.activity.VideoViewActivity;
 import com.gdgl.smarthome.R;
 
 public class VideolistActivity extends Activity {
@@ -55,7 +56,7 @@ public class VideolistActivity extends Activity {
 					long arg3) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(VideolistActivity.this,
-						DisplayH264.class);
+						VideoViewActivity.class);
 				intent.putExtra("ipc_channel", arg2);
 				startActivity(intent);
 			}

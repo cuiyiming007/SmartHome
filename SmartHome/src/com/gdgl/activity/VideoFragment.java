@@ -18,7 +18,6 @@ import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.gdgl.smarthome.R;
-import com.gdgl.video.DisplayH264;
 
 public class VideoFragment extends Fragment {
 	GridView content_view;
@@ -57,7 +56,7 @@ public class VideoFragment extends Fragment {
 					long arg3) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent((Context)getActivity(),
-						DisplayH264.class);
+						VideoViewActivity.class);
 				intent.putExtra("ipc_channel", arg2);
 				startActivity(intent);
 			}
