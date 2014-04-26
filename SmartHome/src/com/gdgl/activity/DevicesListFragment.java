@@ -137,6 +137,8 @@ public class DevicesListFragment extends Fragment implements adapterSeter {
 									.getmDeviceId()
 							|| DataHelper.ON_OFF_OUTPUT_DEVICETYPE == mSimpleDevicesModel
 									.getmDeviceId()
+							|| DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE == mSimpleDevicesModel
+									.getmDeviceId()		
 							|| DataHelper.MAINS_POWER_OUTLET_DEVICETYPE == mSimpleDevicesModel
 									.getmDeviceId()) {
 						int[] OnOffImg = { R.drawable.bufang_on,

@@ -1,5 +1,7 @@
 package com.gdgl.activity;
-
+/***
+ *智能插座，墙面插座
+ */
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
@@ -23,7 +25,8 @@ import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.SimpleResponseData;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyDlg;
-public class DetectorOnOffControlFragment extends BaseControlFragment {
+
+public class OutLetControlFragment extends BaseControlFragment {
 
 	int OnOffImg[];
 
@@ -88,7 +91,7 @@ public class DetectorOnOffControlFragment extends BaseControlFragment {
 		}
 
 		mLightManager = LightManager.getInstance();
-		mLightManager.addObserver(DetectorOnOffControlFragment.this);
+		mLightManager.addObserver(OutLetControlFragment.this);
 		initstate();
 	}
 
@@ -130,7 +133,8 @@ public class DetectorOnOffControlFragment extends BaseControlFragment {
 				} else {
 					mDialog.show();
 				}
-				mLightManager.iASZoneOperationCommon(mDevices,7,1);
+				mLightManager.MainsOutLetOperation(mDevices,operatortype.ChangeOnOffSwitchActions,getChangeValue());
+//				mLightManager.iASZoneOperationCommon(mDevices);
 			}
 
 			
@@ -147,7 +151,7 @@ public class DetectorOnOffControlFragment extends BaseControlFragment {
 	public void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
-		mLightManager.deleteObserver(DetectorOnOffControlFragment.this);
+		mLightManager.deleteObserver(OutLetControlFragment.this);
 	}
 
 	@Override
@@ -164,7 +168,7 @@ public class DetectorOnOffControlFragment extends BaseControlFragment {
 			mDialog = null;
 		}
 		final Event event = (Event) object;
-		if (EventType.IASZONEOPERATION == event.getType()) {
+		if (EventType.MAINSOUTLETOPERATION == event.getType()) {
 			
 			if (event.isSuccess()==true) {
 				// data maybe null

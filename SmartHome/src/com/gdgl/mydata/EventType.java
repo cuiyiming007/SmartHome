@@ -33,6 +33,8 @@ public class EventType {
 	public static final EventType IASACE;
 	public static final EventType REMOTECONTROL;
 	public static final EventType MAINSOUTLETOPERATION;
+	public static final EventType LOCALIASCIEBYPASSZONE;
+	public static final EventType LOCALIASCIEUNBYPASSZONE;
 	
 
 	
@@ -58,7 +60,8 @@ public class EventType {
 		IASACE=new EventType("IASACE", nextId());
 		REMOTECONTROL=new EventType("RemoteControl", nextId());
 		MAINSOUTLETOPERATION=new EventType("MainsOutLetOperation", nextId());
-
+		LOCALIASCIEBYPASSZONE=new EventType("localIASCIEByPassZone", nextId());
+		LOCALIASCIEUNBYPASSZONE=new EventType("localIASCIEByPassZone", nextId());
 	}
 	
 	private static int nextId()

@@ -23,8 +23,12 @@ import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.SimpleResponseData;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyDlg;
-
-public class OnOffControlFragment extends BaseControlFragment {
+/***
+ * 窗磁布撤防
+ * @author justek
+ *
+ */
+public class LockFragment extends BaseControlFragment {
 
 	int OnOffImg[];
 
@@ -89,7 +93,7 @@ public class OnOffControlFragment extends BaseControlFragment {
 		}
 
 		mLightManager = LightManager.getInstance();
-		mLightManager.addObserver(OnOffControlFragment.this);
+		mLightManager.addObserver(LockFragment.this);
 		initstate();
 	}
 
@@ -103,6 +107,7 @@ public class OnOffControlFragment extends BaseControlFragment {
 	}
 
 	private void initView() {
+	   mLightManager.iASZoneOperationCommon(mDevices, 7, 1);
 		// TODO Auto-generated method stub
 		on_off = (ImageView) mView.findViewById(R.id.devices_on_off);
 
@@ -131,25 +136,19 @@ public class OnOffControlFragment extends BaseControlFragment {
 				} else {
 					mDialog.show();
 				}
-				mLightManager.MainsOutLetOperation(mDevices,operatortype.ChangeOnOffSwitchActions,getChangeValue());
-//				mLightManager.iASZoneOperationCommon(mDevices);
+				if (status) {
+					mLightManager.LocalIASCIEUnByPassZone(mDevices, -1);
+				}else {
+					mLightManager.LocalIASCIEByPassZone(mDevices,-1);
+				}
 			}
-
-			
 		});
-	}
-	private int getChangeValue() {
-		if (status) {
-			return 0x00;
-		}else {
-			return 0x01;
-		}
 	}
 	@Override
 	public void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
-		mLightManager.deleteObserver(OnOffControlFragment.this);
+		mLightManager.deleteObserver(LockFragment.this);
 	}
 
 	@Override
@@ -166,7 +165,7 @@ public class OnOffControlFragment extends BaseControlFragment {
 			mDialog = null;
 		}
 		final Event event = (Event) object;
-		if (EventType.MAINSOUTLETOPERATION == event.getType()) {
+		if (EventType.IASWARNINGDEVICOPERATION == event.getType()) {
 			
 			if (event.isSuccess()==true) {
 				// data maybe null
@@ -204,3 +203,4 @@ public class OnOffControlFragment extends BaseControlFragment {
 	}
 
 }
+

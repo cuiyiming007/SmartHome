@@ -23,7 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 @SuppressLint("NewApi")
-public class CurtainsControlFragment extends Fragment implements UIListener{
+public class ShadeControlFragment extends Fragment implements UIListener{
 
     String mCurtainsId;
     double mCurtainState;
@@ -86,7 +86,7 @@ public class CurtainsControlFragment extends Fragment implements UIListener{
     private void initView() {
         // TODO Auto-generated method stub
     	mLightManager=LightManager.getInstance();
-    	mLightManager.addObserver(CurtainsControlFragment.this);
+    	mLightManager.addObserver(ShadeControlFragment.this);
         mOpen = (Button) mView.findViewById(R.id.btn_open);
         mClose = (Button) mView.findViewById(R.id.btn_close);
         txtOpen = (TextView) mView.findViewById(R.id.txt_open);
@@ -104,7 +104,7 @@ public class CurtainsControlFragment extends Fragment implements UIListener{
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-
+            	LightManager.getInstance().shadeOperation(mDevices, operatortype.TurnOn);
                 if (mProgress == 0) {
                     txtClose.setText("关闭窗帘");
                 }
@@ -153,6 +153,9 @@ public class CurtainsControlFragment extends Fragment implements UIListener{
         mClose.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+            	
+            	LightManager.getInstance().shadeOperation(mDevices, operatortype.TurnOff);
+            	
                 // TODO Auto-generated method stub
                 if (mProgress == 100) {
                     txtOpen.setText("打开窗帘");
@@ -368,7 +371,7 @@ public class CurtainsControlFragment extends Fragment implements UIListener{
             mCloseThread.onPause();
             mCloseThread.interrupt();
         }
-        mLightManager.deleteObserver(CurtainsControlFragment.this);
+        mLightManager.deleteObserver(ShadeControlFragment.this);
         super.onDestroy();
     }
     class operatortype {

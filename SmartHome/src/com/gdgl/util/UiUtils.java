@@ -10,12 +10,14 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.gdgl.activity.CurtainsControlFragment;
+import com.gdgl.activity.LockFragment;
+import com.gdgl.activity.ShadeControlFragment;
 import com.gdgl.activity.DetectorOnOffControlFragment;
-import com.gdgl.activity.OnOffControlFragment;
+import com.gdgl.activity.OutLetControlFragment;
 import com.gdgl.activity.OnlyShowFragment;
 import com.gdgl.activity.SeekLightsControlFragment;
 import com.gdgl.activity.SwitchControlFragment;
+import com.gdgl.activity.WarnningControlFragment;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.smarthome.R;
 
@@ -288,11 +290,13 @@ public class UiUtils {
 			break;
 		case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:
 		case DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE:
+			mFragment=new WarnningControlFragment();
+			break;
 		case DataHelper.MAINS_POWER_OUTLET_DEVICETYPE:
-			mFragment = new OnOffControlFragment();
+			mFragment = new OutLetControlFragment();
 			break;
 		case DataHelper.IAS_ZONE_DEVICETYPE:
-			mFragment = new DetectorOnOffControlFragment();
+			mFragment = new LockFragment();
 			break;
 		case DataHelper.DIMEN_SWITCH_DEVICETYPE:
 			
@@ -300,7 +304,7 @@ public class UiUtils {
 			mFragment = new SeekLightsControlFragment();
 			break;
 		case DataHelper.SHADE_DEVICETYPE:
-			mFragment = new CurtainsControlFragment();
+			mFragment = new ShadeControlFragment();
 			break;
 	
 		default:

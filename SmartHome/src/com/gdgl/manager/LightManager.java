@@ -255,7 +255,7 @@ GetZoneIASCIEAddress 13
 	}
 
 	/***
-	 * 2.11 无线智能阀门开关 Function Describe:Features provided to the OnOffOutput
+	 * 2.11 无线智能阀门开关，开关模块 Function Describe:Features provided to the OnOffOutput
 	 * device: ON or OFF and toggle features; provides information update
 	 * feature of the current state. Toggling: if a device is in its ��Off��
 	 * state it shall enter its ��On�� state. Otherwise, if it is in its ��On��
@@ -369,7 +369,7 @@ GetIlluminanceMeasuredValueR ptTime 7
 	}
 
 	/***
-	 * 2.15 ShadeOperation
+	 * 2.15 ShadeOperation窗帘控制
 	 */
 	public void shadeOperation(SimpleDevicesModel model,int operationType) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
@@ -387,6 +387,48 @@ GetIlluminanceMeasuredValueR ptTime 7
 		simpleVolleyRequset(url, EventType.SHADEOPERATION);
 
 	}
+/***
+ * 2.17窗磁布防LocalIASCIE ByPassZone
+ * 
+ */
+	public void LocalIASCIEByPassZone(SimpleDevicesModel model,int operationType)
+	{
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("zone_ieee", model.getmIeee());
+		paraMap.put("zone_ep", model.getmEP());
+//		paraMap.put("operatortype", String.valueOf(operationType));
+//		paraMap.put("param1", "1");
+//		paraMap.put("param2", "2");
+//		paraMap.put("param3", "3");
+		String param = hashMap2ParamString(paraMap);
+
+		String url = NetUtil.getInstance().getCumstomURL(NetUtil.getInstance().IP,"localIASCIEByPassZone.cgi",
+				param);
+
+		simpleVolleyRequset(url, EventType.LOCALIASCIEBYPASSZONE);
+	}
+	/***
+	 * 2.17窗磁撤防LocalIASCIE ByPassZone
+	 * 
+	 */
+		public void LocalIASCIEUnByPassZone(SimpleDevicesModel model,int operationType)
+		{
+			HashMap<String, String> paraMap = new HashMap<String, String>();
+			paraMap.put("zone_ieee", model.getmIeee());
+			paraMap.put("zone_ep", model.getmEP());
+			if (operationType!=-1) {
+			paraMap.put("operatortype", String.valueOf(operationType));
+			}
+//			paraMap.put("param1", "1");
+//			paraMap.put("param2", "2");
+//			paraMap.put("param3", "3");
+			String param = hashMap2ParamString(paraMap);
+
+			String url = NetUtil.getInstance().getCumstomURL(NetUtil.getInstance().IP,"localIASCIEUnByPassZone.cgi",
+					param);
+
+			simpleVolleyRequset(url, EventType.LOCALIASCIEUNBYPASSZONE);
+		}
 
 	/***
 	 * 2.18 IASZone Operation Common ZigBee动作感应器
