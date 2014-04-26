@@ -6,12 +6,31 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import android.R.integer;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import android.R.integer;
+import android.util.Log;
+
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.Response.Listener;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.gdgl.activity.SeekLightsControlFragment;
+import com.gdgl.app.ApplicationController;
+import com.gdgl.manager.DeviceManager.InitialDataTask;
 import com.gdgl.model.SimpleDevicesModel;
+import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
+import com.gdgl.mydata.LoginResponse;
+import com.gdgl.mydata.ParamsForStatus;
+import com.gdgl.mydata.ResponseDataEntityForStatus;
+import com.gdgl.network.VolleyErrorHelper;
 import com.gdgl.util.NetUtil;
+import com.gdgl.util.UiUtils;
+import com.google.gson.Gson;
 
 /***
  * 
@@ -461,10 +480,52 @@ GetIRDisableTime 10
 		paraMap.put("param3", "3");
 		String param = hashMap2ParamString(paraMap);
 
+		Listener<String> responseListener = new Listener<String>() {
+			@Override
+			public void onResponse(String response) {
+				response = UiUtils.formatResponseString(response);
+				Log.i("LightManager iASZoneOperationCommon Response:%n %s", response);
+				Gson gson = new Gson();  
+				ResponseDataEntityForStatus statusData = gson.fromJson(response.toString(), ResponseDataEntityForStatus.class); 
+				Event event = new Event(EventType.IASZONEOPERATION, true);
+				event.setData(statusData);
+				notifyObservers(event);
+			}
+		};
 		String url = NetUtil.getInstance().getCumstomURL(NetUtil.getInstance().IP,
-				"iasZoneOperation.cgi", param);
-
-		simpleVolleyRequset(url, EventType.IASZONEOPERATION);
+				"iasZoneOperation.cgi", param);	
+		StringRequest req = new StringRequest(url, responseListener ,
+				new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+						String errorString = null;
+						if (error!=null&&error.getMessage()!=null) {
+							VolleyLog.e("Error: ", error.getMessage());
+							 errorString=VolleyErrorHelper.getMessage(error, ApplicationController.getInstance());
+						}
+						Event event = new Event(EventType.IASZONEOPERATION, false);
+						event.setData(errorString);
+						notifyObservers(event);
+					}
+				});
+		// add the request object to the queue to be executed
+		ApplicationController.getInstance().addToRequestQueue(req);
+		
+		
+		
+//		HashMap<String, String> paraMap = new HashMap<String, String>();
+//		paraMap.put("ieee", model.getmIeee());
+//		paraMap.put("ep", model.getmEP());
+//		paraMap.put("operatortype", String.valueOf(operationType));
+//		paraMap.put("param1", String.valueOf(param1));
+//		paraMap.put("param2", "2");
+//		paraMap.put("param3", "3");
+//		String param = hashMap2ParamString(paraMap);
+//
+//		String url = NetUtil.getInstance().getCumstomURL(NetUtil.getInstance().IP,
+//				"iasZoneOperation.cgi", param);
+//
+//		simpleVolleyRequset(url, EventType.IASZONEOPERATION);
 	}
 
 	/***
