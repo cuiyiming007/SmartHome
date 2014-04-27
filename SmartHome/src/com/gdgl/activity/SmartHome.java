@@ -38,11 +38,9 @@ public class SmartHome extends FragmentActivity implements OnRefreshListener<Vie
 	Button set;
 
 	
-//	private MsgReceiver msgReceiver;
-	private NetWorkChangeReciever networkreChangeReciever;
+//	private NetWorkChangeReciever networkreChangeReciever;
 
 	PullToRefreshViewPager pull_refresh_viewpager;
-//	DataHelper mDateHelper;
 	
 	TextView mTitle;
 	
@@ -206,10 +204,10 @@ public class SmartHome extends FragmentActivity implements OnRefreshListener<Vie
 
 	@Override
 	protected void onStart() {
-		networkreChangeReciever = new NetWorkChangeReciever();
-		IntentFilter networkintentFilter = new IntentFilter();
-		networkintentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
-		registerReceiver(networkreChangeReciever, networkintentFilter);
+//		networkreChangeReciever = new NetWorkChangeReciever();
+//		IntentFilter networkintentFilter = new IntentFilter();
+//		networkintentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+//		registerReceiver(networkreChangeReciever, networkintentFilter);
 
 		super.onStart();
 		
@@ -223,7 +221,7 @@ public class SmartHome extends FragmentActivity implements OnRefreshListener<Vie
 
 	@Override
 	protected void onStop() {
-		unregisterReceiver(networkreChangeReciever);
+//		unregisterReceiver(networkreChangeReciever);
 		super.onStop();
 	}
 

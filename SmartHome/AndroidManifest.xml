@@ -74,6 +74,12 @@
 
         <service android:name="com.gdgl.service.SmartService" >
         </service>
+
+        <receiver android:name="com.gdgl.reciever.NetWorkChangeReciever" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
