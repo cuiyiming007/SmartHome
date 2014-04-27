@@ -30,8 +30,12 @@
     <style name="CustomCheckboxTheme" parent="@android:style/Widget.CompoundButton.CheckBox">
         <item name="android:button">@drawable/checkbox_bg</item>
     </style>
-    
-       <style name="ExpandCheckboxTheme" parent="@android:style/Widget.CompoundButton.CheckBox">
+
+    <style name="AddCustomCheckboxTheme" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/add_checkbox_bg</item>
+    </style>
+
+    <style name="ExpandCheckboxTheme" parent="@android:style/Widget.CompoundButton.CheckBox">
         <item name="android:button">@drawable/expand_style</item>
     </style>
 

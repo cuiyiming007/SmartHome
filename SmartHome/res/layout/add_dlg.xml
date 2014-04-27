@@ -24,12 +24,12 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_marginTop="10dp"
             android:orientation="horizontal" >
 
             <TextView
-                android:id="@+id/textView1"
+                android:id="@+id/text_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
@@ -41,12 +41,13 @@
             <EditText
                 android:id="@+id/edit_name"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="35dp"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="5dp"
                 android:layout_weight="1"
+                android:background="@null"
                 android:ems="10"
                 android:gravity="center"
                 android:textColor="#000000"
@@ -56,38 +57,7 @@
             </EditText>
         </LinearLayout>
 
-        <!-- <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:id="@+id/devices_region"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:id="@+id/textView1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:gravity="center"
-                android:text="Region"
-                android:textColor="#000000"
-                android:textSize="16dp" />
-
-            <EditText
-                android:id="@+id/edit_region"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_weight="1"
-                android:ems="10"
-                android:gravity="center"
-                android:textColor="#000000"
-                android:textSize="16dp" >
-            </EditText>
-        </LinearLayout> -->
+        
     </LinearLayout>
 
     <RelativeLayout

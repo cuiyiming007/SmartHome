@@ -25,6 +25,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -382,26 +383,26 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		mDevicesListFragment.setLayout();
 	}
 
-	@Override
-	public void saveedit(String ieee, String ep, String name, String region) {
-		// TODO Auto-generated method stub
-		String where = " ieee = ? ";
-		String[] args = { ieee };
-
-		ContentValues c = new ContentValues();
-		c.put(DevicesModel.USER_DEFINE_NAME, name);
-		c.put(DevicesModel.DEVICE_REGION, region);
-		
-		SQLiteDatabase mSQLiteDatabase = mDataHelper.getSQLiteDatabase();
-		int result = mDataHelper.update(mSQLiteDatabase,
-				DataHelper.DEVICES_TABLE, c, where, args);
-		if (result >= 0) {
-
-			mDevicesListCache.clear();
-			refreshAdapter(mListIndex);
-		}
-		
-	}
+//	@Override
+//	public void saveedit(String ieee, String ep, String name, String region) {
+//		// TODO Auto-generated method stub
+//		String where = " ieee = ? ";
+//		String[] args = { ieee };
+//
+//		ContentValues c = new ContentValues();
+//		c.put(DevicesModel.USER_DEFINE_NAME, name);
+//		c.put(DevicesModel.DEVICE_REGION, region);
+//		
+//		SQLiteDatabase mSQLiteDatabase = mDataHelper.getSQLiteDatabase();
+//		int result = mDataHelper.update(mSQLiteDatabase,
+//				DataHelper.DEVICES_TABLE, c, where, args);
+//		if (result >= 0) {
+//
+//			mDevicesListCache.clear();
+//			refreshAdapter(mListIndex);
+//		}
+//		
+//	}
 
 	@Override
 	public void deleteDevices(String id) {
@@ -439,5 +440,25 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public void saveedit(String ieee, String ep, String name) {
+		// TODO Auto-generated method stub
+		String where = " ieee = ? ";
+		String[] args = { ieee };
+
+		ContentValues c = new ContentValues();
+		c.put(DevicesModel.USER_DEFINE_NAME, name);
+//		c.put(DevicesModel.DEVICE_REGION, region);
+		
+		SQLiteDatabase mSQLiteDatabase = mDataHelper.getSQLiteDatabase();
+		int result = mDataHelper.update(mSQLiteDatabase,
+				DataHelper.DEVICES_TABLE, c, where, args);
+		if (result >= 0) {
+
+			mDevicesListCache.clear();
+			refreshAdapter(mListIndex);
+		}
 	}
 }

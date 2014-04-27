@@ -24,7 +24,8 @@ public class EditDevicesDlg {
 	Button cancle;
 	TextView textView;
 
-	EditText mName, mRegion;
+	EditText mName;
+	// EditText mRegion;
 	LinearLayout devices_region;
 
 	public EditDevicesDlg(Context c, SimpleDevicesModel s) {
@@ -39,7 +40,7 @@ public class EditDevicesDlg {
 				.findViewById(R.id.devices_region);
 
 		mName = (EditText) dialog.findViewById(R.id.edit_name);
-		mRegion = (EditText) dialog.findViewById(R.id.edit_region);
+		// mRegion = (EditText) dialog.findViewById(R.id.edit_region);
 
 		final String name;
 		if (mSimpleDevicesModel.getmModelId().contains(
@@ -54,7 +55,7 @@ public class EditDevicesDlg {
 		final String region = mSimpleDevicesModel.getmDeviceRegion();
 
 		mName.setText(name);
-		mRegion.setText(region);
+		// mRegion.setText(region);
 
 		save = (Button) dialog.findViewById(R.id.btn_save);
 		save.setOnClickListener(new View.OnClickListener() {
@@ -62,9 +63,16 @@ public class EditDevicesDlg {
 			@Override
 			public void onClick(View v) {
 				String mN = mName.getText().toString();
-				String mR = mRegion.getText().toString();
-				if ((!name.equals(mN)) || (!mRegion.equals(mR))) {
-					dialogcallback.saveedit(mSimpleDevicesModel.getmIeee(),mSimpleDevicesModel.getmEP(),mN, mR);
+				// String mR = mRegion.getText().toString();
+				// if ((!name.equals(mN)) || (!mRegion.equals(mR))) {
+				// dialogcallback.saveedit(mSimpleDevicesModel.getmIeee(),mSimpleDevicesModel.getmEP(),mN,
+				// mR);
+				// }
+				if ((!name.equals(mN))) {
+//					dialogcallback.saveedit(mSimpleDevicesModel.getmIeee(),
+//							mSimpleDevicesModel.getmEP(), mN, mR);
+					dialogcallback.saveedit(mSimpleDevicesModel.getmIeee(),
+							mSimpleDevicesModel.getmEP(), mN);
 				}
 				dismiss();
 
@@ -83,7 +91,8 @@ public class EditDevicesDlg {
 	}
 
 	public interface EditDialogcallback {
-		public void saveedit(String ieee,String ep,String name, String region);
+//		public void saveedit(String ieee, String ep, String name, String region);
+		public void saveedit(String ieee, String ep, String name);
 	}
 
 	public void setDialogCallback(EditDialogcallback dialogcallback) {

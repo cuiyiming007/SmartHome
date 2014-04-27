@@ -22,7 +22,7 @@ import com.gdgl.smarthome.R;
 public class VideoFragment extends Fragment {
 	GridView content_view;
 	View mView;
-
+	ViewGroup nodevices;
 	ArrayList<HashMap<String, Object>> mylist = new ArrayList<HashMap<String, Object>>();
 
 	String[] listItemName = { "通道1", "通道2", "通道3", "通道4", "通道5" };
@@ -46,7 +46,8 @@ public class VideoFragment extends Fragment {
 
 	private void initview() {
 		// TODO Auto-generated method stub
-		
+		nodevices=(ViewGroup)mView.findViewById(R.id.nodevices);
+		nodevices.setVisibility(View.GONE);
 		content_view = (GridView) mView.findViewById(R.id.content_view);
 		content_view.setAdapter(new CustomeAdapter());
 		content_view.setOnItemClickListener(new OnItemClickListener() {

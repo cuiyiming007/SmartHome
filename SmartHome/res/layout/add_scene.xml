@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/new_bacg"
+    android:alpha="0.65"
+    android:orientation="vertical" >
+    
+    <LinearLayout
+        android:id="@+id/goback"
+        android:background="#ffffff"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/back" />
+
+        <View
+            android:layout_width="2px"
+            android:layout_marginLeft="2dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/divider_color" />
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="2dp"
+            android:layout_gravity="center"
+            android:src="@drawable/icon" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="8dp"
+            android:text="添加场景"
+            android:singleLine="true"
+            android:layout_weight="1"
+            android:textColor="#000000"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/devices_control_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_weight="1"
+        android:alpha="0.65"
+        android:background="@drawable/white"
+        android:orientation="vertical" >
+    </LinearLayout>
+    
+    <Button
+        android:id="@+id/add_devices"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="10dp"
+        android:layout_height="wrap_content"
+        android:text="添加设备" />
+
+</LinearLayout>

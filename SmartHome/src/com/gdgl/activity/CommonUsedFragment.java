@@ -32,15 +32,15 @@ public class CommonUsedFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		mView=inflater.inflate(R.layout.main_fragment, null);
+		mView=inflater.inflate(R.layout.no_devices, null);
 		initview();
 		return mView;
 	}
 
 	private void initview() {
 		// TODO Auto-generated method stub
-		content_view=(GridView)mView.findViewById(R.id.content_view);
-		content_view.setNumColumns(4);
+//		content_view=(GridView)mView.findViewById(R.id.content_view);
+//		content_view.setNumColumns(4);
 		
 	}
 

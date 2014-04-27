@@ -4,35 +4,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gdgl.adapter.ViewPagerAdapter;
-import com.gdgl.manager.DeviceManager;
-import com.gdgl.manager.LightManager;
-import com.gdgl.model.DevicesModel;
 import com.gdgl.model.TabInfo;
-import com.gdgl.mydata.DataHelper;
-import com.gdgl.mydata.DevParam;
-import com.gdgl.mydata.ResponseParamsEndPoint;
 import com.gdgl.reciever.NetWorkChangeReciever;
-import com.gdgl.service.SmartService;
 import com.gdgl.smarthome.R;
+import com.gdgl.util.AddDlg;
+import com.gdgl.util.AddDlg.AddDialogcallback;
+import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 import com.gdgl.util.PullToRefreshViewPager;
 import com.gdgl.util.SelectPicPopupWindow;
-import com.gdgl.util.ViewPagerCompat;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
 import android.content.IntentFilter;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -40,7 +30,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class SmartHome extends FragmentActivity implements OnRefreshListener<ViewPager>,OnPageChangeListener{
+public class SmartHome extends FragmentActivity implements OnRefreshListener<ViewPager>,OnPageChangeListener,AddDialogcallback{
 
 	private final static String TAG = "SmartHome";
 
@@ -68,6 +58,8 @@ public class SmartHome extends FragmentActivity implements OnRefreshListener<Vie
     
     int mCurrentTab = 0;
     int mLastTab = -1;
+    ArrayList<TabInfo> mList;
+    Button mAdd;
     
     ViewPager mViewPager;
 
@@ -86,10 +78,10 @@ public class SmartHome extends FragmentActivity implements OnRefreshListener<Vie
 		
 		mViewPager = pull_refresh_viewpager.getRefreshableView();
 
-		ArrayList<TabInfo> mList = new ArrayList<TabInfo>();
+		mList = new ArrayList<TabInfo>();
 		mList.add(new TabInfo(new CommonUsedFragment()));
 		mList.add(new TabInfo(new DevicesFragment()));
-		mList.add(new TabInfo(new CommonUsedFragment()));
+		mList.add(new TabInfo(new RegionsFragment()));
 		mList.add(new TabInfo(new CommonUsedFragment()));
 		mList.add(new TabInfo(new VideoFragment()));
 
@@ -129,9 +121,28 @@ public class SmartHome extends FragmentActivity implements OnRefreshListener<Vie
         for (int m = 0; m < mTextViewList.size(); m++) {
             mTextViewList.get(m).setOnClickListener(mTitleClickLister);
         }
-
+        initadd();
 	}
-
+	
+	private void initadd() {
+		// TODO Auto-generated method stub
+		mAdd=(Button)findViewById(R.id.add);
+		mAdd.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				if(2==mCurrentTab){
+					AddDlg mAddDlg=new AddDlg(SmartHome.this, AddDlg.REGION);
+					mAddDlg.setContent("添加区域");
+					mAddDlg.setType("区域名称");
+					mAddDlg.setDialogCallback(SmartHome.this);
+					mAddDlg.show();
+				}
+			}
+		});
+	}
+	
 	class TitleClickLister implements OnClickListener {
 
         int index;
@@ -281,5 +292,17 @@ public class SmartHome extends FragmentActivity implements OnRefreshListener<Vie
 		// TODO Auto-generated method stub
 		mCurrentTab = arg0;
         setMyTextColor(arg0);
+	}
+	
+	public interface refreshAdapter{
+		public void refreshFragment();
+	}
+
+	@Override
+	public void refreshdata() {
+		// TODO Auto-generated method stub
+		mList.get(2).refreshFragment();
+//		refreshAdapter mrefreshAdapter=(refreshAdapter)fragmentsList.get(2);
+//		mrefreshAdapter.refreshFragment();
 	}
 }

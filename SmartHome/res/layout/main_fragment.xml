@@ -3,6 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
+    
+    <include 
+        android:id="@+id/nodevices"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        layout="@layout/no_devices"/>
 
     <GridView
         android:id="@+id/content_view"
