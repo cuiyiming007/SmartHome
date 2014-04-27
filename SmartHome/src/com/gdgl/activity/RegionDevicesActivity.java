@@ -171,11 +171,6 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 					mDevicesBaseAdapter.setList(mList);
 					mDevicesBaseAdapter.notifyDataSetChanged();
 					fragmentManager.popBackStack();
-					mAdd.setText("添加设备");
-					mAdd.setTextColor(Color.BLACK);
-					if(mNoDevices.getVisibility()==View.VISIBLE){
-						mNoDevices.setVisibility(View.GONE);
-					}
 					initDevicesListFragment();
 				}
 			}
@@ -205,13 +200,20 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 
 	private void initDevicesListFragment() {
 		// TODO Auto-generated method stub
-		FragmentTransaction fragmentTransaction = fragmentManager
-				.beginTransaction();
-		mDevicesListFragment = new DevicesListFragment();
-		fragmentTransaction.replace(R.id.devices_control_fragment,
-				mDevicesListFragment, "LightsControlFragment");
-		mDevicesListFragment.setAdapter(mDevicesBaseAdapter);
-		fragmentTransaction.commit();
+		mAdd.setText("添加设备");
+		mAdd.setTextColor(Color.BLACK);
+		if(null==mList || mList.size()==0){
+			mNoDevices.setVisibility(View.VISIBLE);
+		}else{
+			mNoDevices.setVisibility(View.GONE);
+			FragmentTransaction fragmentTransaction = fragmentManager
+					.beginTransaction();
+			mDevicesListFragment = new DevicesListFragment();
+			fragmentTransaction.replace(R.id.devices_control_fragment,
+					mDevicesListFragment, "LightsControlFragment");
+			mDevicesListFragment.setAdapter(mDevicesBaseAdapter);
+			fragmentTransaction.commit();
+		}
 	}
 
 	@Override
@@ -374,4 +376,23 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 			}
 		}
 	}
+
+
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		if(isAdd){
+			isAdd=false;
+			fragmentManager.popBackStack();
+			initDevicesListFragment();
+		}else{
+			if(fragmentManager.getBackStackEntryCount()>0){
+				fragmentManager.popBackStack();
+			}else{
+				finish();
+			}
+		}
+	}
+	
+	
 }

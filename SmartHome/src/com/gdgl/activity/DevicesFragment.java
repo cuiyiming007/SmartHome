@@ -1,7 +1,6 @@
 package com.gdgl.activity;
 
 import com.gdgl.adapter.GridviewAdapter;
-import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.UiUtils;
 
@@ -16,11 +15,11 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 
-public class DevicesFragment extends Fragment {
+public class DevicesFragment extends Fragment{
 
 	GridView content_view;
 	View mView;
-
+	ViewGroup nodevices;
 	int[] types;
 
 	@Override
@@ -44,6 +43,9 @@ public class DevicesFragment extends Fragment {
 		types = new int[] { UiUtils.LIGHTS_MANAGER, UiUtils.ELECTRICAL_MANAGER,
 				UiUtils.SECURITY_CONTROL, UiUtils.ENVIRONMENTAL_CONTROL,
 				UiUtils.ENERGY_CONSERVATION };
+		
+		nodevices=(ViewGroup)mView.findViewById(R.id.nodevices);
+		nodevices.setVisibility(View.GONE);
 		content_view = (GridView) mView.findViewById(R.id.content_view);
 		GridviewAdapter mGridviewAdapter = new GridviewAdapter(1,
 				(Context) getActivity());
