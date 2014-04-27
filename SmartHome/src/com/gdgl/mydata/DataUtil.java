@@ -2,7 +2,9 @@ package com.gdgl.mydata;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -364,4 +366,123 @@ public class DataUtil {
 		return result;
 
 	}
+	public static Set<String> getRegions(
+			Context c, DataHelper dh) {
+		List<DevicesModel> listDevicesModel = new ArrayList<DevicesModel>();
+		Set<String> region = new HashSet<String>(); 
+		
+
+		SQLiteDatabase db = dh.getSQLiteDatabase();
+		listDevicesModel = dh.queryForList(db, DataHelper.DEVICES_TABLE, null,
+				null, null, null, null, null, null);
+		
+		for (int m = 0; m < listDevicesModel.size(); m++) {
+			String mRegion= listDevicesModel.get(m).getmDeviceRegion();
+			if(!region.contains(mRegion)){
+				region.add(mRegion);
+			}
+		}
+		return region;
+	}
+	
+	public static List<SimpleDevicesModel> getDevices(
+			Context c, DataHelper dh,String[] args,String where) {
+		HashMap<String, Integer> mMap = new HashMap<String, Integer>();
+		List<String> sList = new ArrayList<String>();
+		SimpleDevicesModel mSimpleDevicesModel;
+		List<DevicesModel> listDevicesModel = new ArrayList<DevicesModel>();
+		List<SimpleDevicesModel> list = new ArrayList<SimpleDevicesModel>();
+		
+
+		SQLiteDatabase db = dh.getSQLiteDatabase();
+		listDevicesModel = dh.queryForList(db, DataHelper.DEVICES_TABLE, null,
+				where, args, null, null, null, null);
+		int n = 0;
+		for (int m = 0; m < listDevicesModel.size(); m++) {
+			DevicesModel mDevicesModel = listDevicesModel.get(m);
+
+			if (Integer.parseInt(mDevicesModel.getmDeviceId()) == DataHelper.ON_OFF_SWITCH_DEVICETYPE) {
+				if (mMap.containsKey(mDevicesModel.getmIeee())) {
+
+					SimpleDevicesModel aSimpleDevicesModel = list.get(mMap
+							.get(mDevicesModel.getmIeee()));
+					String OnOffStatus = aSimpleDevicesModel.getmOnOffStatus();
+					String NodeENNAme = aSimpleDevicesModel.getmNodeENNAme();
+					String EP = aSimpleDevicesModel.getmEP();
+					aSimpleDevicesModel.setmNodeENNAme(NodeENNAme + ","
+							+ mDevicesModel.getmNodeENNAme());
+					aSimpleDevicesModel.setmOnOffStatus(OnOffStatus + ","
+							+ mDevicesModel.getmOnOffStatus());
+					aSimpleDevicesModel.setmEP(EP + ","
+							+ mDevicesModel.getmEP());
+				} else {
+					mSimpleDevicesModel = new SimpleDevicesModel();
+					mSimpleDevicesModel.setID(mDevicesModel.getID());
+					mSimpleDevicesModel.setmDeviceId(Integer
+							.parseInt(mDevicesModel.getmDeviceId()));
+					mSimpleDevicesModel.setmDeviceRegion(mDevicesModel
+							.getmDeviceRegion());
+					mSimpleDevicesModel.setmEP(mDevicesModel.getmEP());
+					mSimpleDevicesModel.setmIeee(mDevicesModel.getmIeee());
+					mSimpleDevicesModel.setmLastDateTime(mDevicesModel
+							.getmLastDateTime());
+					mSimpleDevicesModel
+							.setmModelId(mDevicesModel.getmModelId());
+					mSimpleDevicesModel.setmName(mDevicesModel.getmName());
+					mSimpleDevicesModel.setmNodeENNAme(mDevicesModel
+							.getmNodeENNAme());
+					mSimpleDevicesModel.setmOnOffLine(mDevicesModel
+							.getmOnOffLine());
+					mSimpleDevicesModel.setmOnOffStatus(mDevicesModel
+							.getmOnOffStatus());
+					if (mDevicesModel.getmUserDefineName() == null
+							|| mDevicesModel.getmUserDefineName().trim().equals("")) {
+						mSimpleDevicesModel
+								.setmUserDefineName(getDefaultUserDefinname(c,
+										mSimpleDevicesModel.getmModelId()));
+					} else {
+						mSimpleDevicesModel.setmUserDefineName(mDevicesModel
+								.getmUserDefineName());
+					}
+					list.add(mSimpleDevicesModel);
+					mMap.put(mDevicesModel.getmIeee(), n);
+					n++;
+				}
+			} else {
+				mSimpleDevicesModel = new SimpleDevicesModel();
+				mSimpleDevicesModel.setID(mDevicesModel.getID());
+				mSimpleDevicesModel.setmDeviceId(Integer.parseInt(mDevicesModel
+						.getmDeviceId()));
+				mSimpleDevicesModel.setmDeviceRegion(mDevicesModel
+						.getmDeviceRegion());
+				mSimpleDevicesModel.setmEP(mDevicesModel.getmEP());
+				mSimpleDevicesModel.setmIeee(mDevicesModel.getmIeee());
+				mSimpleDevicesModel.setmLastDateTime(mDevicesModel
+						.getmLastDateTime());
+				mSimpleDevicesModel.setmModelId(mDevicesModel.getmModelId());
+				mSimpleDevicesModel.setmName(mDevicesModel.getmName());
+				mSimpleDevicesModel.setmNodeENNAme(mDevicesModel
+						.getmNodeENNAme());
+				mSimpleDevicesModel
+						.setmOnOffLine(mDevicesModel.getmOnOffLine());
+				mSimpleDevicesModel.setmOnOffStatus(mDevicesModel
+						.getmOnOffStatus());
+				if (mDevicesModel.getmUserDefineName() == null
+						|| mDevicesModel.getmUserDefineName().trim().equals("")) {
+					mSimpleDevicesModel
+							.setmUserDefineName(getDefaultUserDefinname(c,
+									mSimpleDevicesModel.getmModelId()));
+				} else {
+					mSimpleDevicesModel.setmUserDefineName(mDevicesModel
+							.getmUserDefineName());
+				}
+				n++;
+				list.add(mSimpleDevicesModel);
+			}
+		}
+		return list;
+		
+	}
+	
+	
 }

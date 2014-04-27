@@ -54,12 +54,17 @@
             </intent-filter>
             -->
         </activity>
-        <!--
         <activity
-            android:name="com.gdgl.util.MyVolley"
-            android:label="@string/app_name" >
+            android:name="com.gdgl.activity.RegionDevicesActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        -->
+        <activity
+            android:name="com.gdgl.activity.VideoViewActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
         <activity
             android:name="com.gdgl.activity.ShowDevicesGroupFragmentActivity"
             android:label="@string/app_name"
@@ -67,11 +72,6 @@
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
 
-        <activity 
-            android:name="com.gdgl.activity.VideoViewActivity"
-            android:label="@string/app_name"
-            android:theme="@android:style/Theme.NoTitleBar" >
-        </activity>
         <service android:name="com.gdgl.service.SmartService" >
         </service>
     </application>

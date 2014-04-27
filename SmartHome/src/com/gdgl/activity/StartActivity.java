@@ -17,7 +17,6 @@ public class StartActivity extends Activity {
 //	private String mPwd="";
     private boolean mIsRem=false;
     private boolean mIsAuto=false;
-    private getFromSharedPreferences mGetFromSharedPreferences=null;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +31,10 @@ public class StartActivity extends Activity {
 
     private void initParem() {
         // TODO Auto-generated method stub
-        mGetFromSharedPreferences=new getFromSharedPreferences(getApplicationContext());
+    	getFromSharedPreferences.setharedPreferences(StartActivity.this);
         
-        mIsRem=mGetFromSharedPreferences.getIsRemerber();
-        mIsAuto=mGetFromSharedPreferences.getIsAutoLoging();
+        mIsRem=getFromSharedPreferences.getIsRemerber();
+        mIsAuto=getFromSharedPreferences.getIsAutoLoging();
     }
     
     private Intent getNextIntent()

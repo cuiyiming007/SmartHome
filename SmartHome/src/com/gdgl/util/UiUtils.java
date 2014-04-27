@@ -31,6 +31,9 @@ public class UiUtils {
 	public static final String UID = "UserID";
 	public static final String IS_REMERBER_PWD = "RemerberPwd";
 	public static final String IS_AUTO_LOGIN = "AutoLogin";
+	
+	public static final String REGION = "RegionName";
+	
 
 	public static final String EMPTY_STR = "";
 

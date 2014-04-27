@@ -13,8 +13,9 @@
 
         <ImageView
             android:id="@+id/devices_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
             android:layout_marginBottom="2dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
@@ -33,13 +34,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="horizontal" >
+            android:orientation="vertical" >
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="10dp"
+                android:layout_weight="1"
                 android:orientation="vertical" >
 
                 <TextView
@@ -51,6 +53,15 @@
                     android:text="Light1"
                     android:textColor="#000000"
                     android:textSize="15dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:orientation="horizontal" >
 
                 <TextView
                     android:id="@+id/devices_state"
@@ -62,29 +73,22 @@
                     android:text="开"
                     android:textColor="#1E90FF"
                     android:textSize="15dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="5dp"
-                android:layout_weight="1"
-                android:orientation="horizontal" >
 
                 <TextView
                     android:id="@+id/devices_region"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="20dp"
-                    android:layout_weight="1"
+                    android:layout_marginTop="15dp"
                     android:gravity="right"
                     android:text="厨房"
-                    android:textColor="#6CA6CD"
+                    android:textColor="#27408B"
                     android:textSize="15dp" />
             </LinearLayout>
         </LinearLayout>
 
-       <!--  <CheckBox
+        <!--
+             <CheckBox
             android:id="@+id/expandable_toggle_button"
             style="@style/ExpandCheckboxTheme"
             android:layout_width="wrap_content"
@@ -94,11 +98,13 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:checked="true"
-            android:layout_marginTop="2dp" />  -->
+            android:layout_marginTop="2dp" />
+        -->
 
     </LinearLayout>
 
-   <!-- <LinearLayout
+    <!--
+    <LinearLayout
         android:id="@+id/expandable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -130,6 +136,7 @@
             android:background="@drawable/function_btn_style"
             android:text="删除"
             android:textSize="15dp" />
-    </LinearLayout>   -->
+    </LinearLayout>
+    -->
 
 </LinearLayout>
