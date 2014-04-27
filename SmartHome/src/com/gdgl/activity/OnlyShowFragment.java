@@ -2,11 +2,13 @@ package com.gdgl.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.InputFilter.LengthFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gdgl.manager.LightManager;
 import com.gdgl.manager.Manger;
@@ -14,6 +16,7 @@ import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
+import com.gdgl.mydata.SimpleResponseData;
 import com.gdgl.smarthome.R;
 
 public class OnlyShowFragment extends BaseControlFragment {
@@ -54,6 +57,7 @@ public class OnlyShowFragment extends BaseControlFragment {
 
 	private void initView() {
 		// TODO Auto-generated method stub
+		LightManager.getInstance().addObserver(this);
 		mSeekBar = (SeekBar) mView.findViewById(R.id.devices_seek);
 		mSeekBar.setEnabled(false);
         LightManager.getInstance().lightSensorOperation(mDevices,0);
@@ -81,6 +85,7 @@ public class OnlyShowFragment extends BaseControlFragment {
 	@Override
 	public void onDestroy() {
 		// TODO Auto-generated method stub
+		LightManager.getInstance().deleteObserver(this);
 		super.onDestroy();
 	}
 
@@ -100,9 +105,14 @@ public class OnlyShowFragment extends BaseControlFragment {
 		final Event event = (Event) object;
 		if (EventType.LIGHTSENSOROPERATION == event.getType()) {
 			// data maybe null
-			SimpleDevicesModel data = (SimpleDevicesModel) event.getData();
-			// TODO refresh UI data
-
+			if (event.isSuccess()) {
+				
+				SimpleResponseData data = (SimpleResponseData) event.getData();
+				
+				Toast.makeText(getActivity(), "当前光线亮度"+data.getParam1(),3000).show();
+			}else {
+				Toast.makeText(getActivity(), "获取亮度失败",3000).show();
+			}
 		}
 
 	}

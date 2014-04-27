@@ -137,7 +137,7 @@ public class LightManager extends Manger {
 		paraMap.put("ieee", model.getmIeee());
 		paraMap.put("ep", model.getmEP());
 		paraMap.put("operatortype", String.valueOf(operationType));
-		paraMap.put("param1", "1");
+		paraMap.put("param1", String.valueOf(param1));
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
 		String param = hashMap2ParamString(paraMap);

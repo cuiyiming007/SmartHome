@@ -139,10 +139,7 @@ public class SeekLightsControlFragment extends BaseControlFragment {
 				// TODO Auto-generated method stub
 				currentProgress=progress;
 				text_process.setText(progress+"%");
-				if (currentProgress==0) {
-					LightManager.getInstance().dimmableLightOperation(mDevices,operatortype.TurnOn,progress/10);
-				}
-				LightManager.getInstance().dimmableLightOperation(mDevices,operatortype.MoveToLevel,progress/10);
+				LightManager.getInstance().dimmableLightOperation(mDevices,operatortype.MoveToLevel,progress*255/100);
 			}
 		});
 	}
@@ -183,7 +180,7 @@ public class SeekLightsControlFragment extends BaseControlFragment {
 		public static final int Toggle = 2;
 		public static final int GetOnOffStatus = 3;
 		public static final int GetLevel = 4;
-		public static final int MoveToLevel = 7;
+		public static final int MoveToLevel = 10;
 		public static final int LevelStepUp = 8;
 		public static final int LevelStepDown = 9;
 		public static final int Move = 13;
