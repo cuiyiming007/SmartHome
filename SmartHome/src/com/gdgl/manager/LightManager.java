@@ -450,7 +450,7 @@ GetIlluminanceMeasuredValueR ptTime 7
 		}
 
 	/***
-	 * 2.18 IASZone Operation Common ZigBee动作感应器
+	 * 2.18 IASZone Operation Common ZigBee查看状态
 	 * 
 WriteHeartBeatPeriod 1
 
@@ -494,6 +494,7 @@ GetIRDisableTime 10
 		};
 		String url = NetUtil.getInstance().getCumstomURL(NetUtil.getInstance().IP,
 				"iasZoneOperation.cgi", param);	
+		Log.i("LightManager iASZoneOperationCommon Request:%n %s", url);
 		StringRequest req = new StringRequest(url, responseListener ,
 				new Response.ErrorListener() {
 					@Override

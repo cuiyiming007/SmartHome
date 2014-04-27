@@ -110,7 +110,7 @@ public class TemperatureSensorFragment extends BaseControlFragment {
 				
 				SimpleResponseData data = (SimpleResponseData) event.getData();
 				
-				Toast.makeText(getActivity(), "当前温度"+Integer.valueOf(data.getParam1())/1000,3000).show();
+				Toast.makeText(getActivity(), "当前温度"+Float.valueOf(data.getParam1())/1000,3000).show();
 			}else {
 				Toast.makeText(getActivity(), "获取温度失败",3000).show();
 			}
