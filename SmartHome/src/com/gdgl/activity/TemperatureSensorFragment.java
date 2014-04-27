@@ -1,3 +1,4 @@
+
 package com.gdgl.activity;
 
 import android.app.Activity;
@@ -19,7 +20,7 @@ import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.SimpleResponseData;
 import com.gdgl.smarthome.R;
 
-public class OnlyShowFragment extends BaseControlFragment {
+public class TemperatureSensorFragment extends BaseControlFragment {
 
 	View mView;
 	SimpleDevicesModel mDevices;
@@ -60,7 +61,7 @@ public class OnlyShowFragment extends BaseControlFragment {
 		LightManager.getInstance().addObserver(this);
 		mSeekBar = (SeekBar) mView.findViewById(R.id.devices_seek);
 		mSeekBar.setEnabled(false);
-        LightManager.getInstance().lightSensorOperation(mDevices,0);
+        LightManager.getInstance().temperatureSensorOperation(mDevices,0);
 		// txt_devices_name, txt_devices_region,txt_title,txt_value
 		txt_devices_name = (TextView) mView.findViewById(R.id.txt_devices_name);
 		txt_devices_region = (TextView) mView
@@ -103,15 +104,15 @@ public class OnlyShowFragment extends BaseControlFragment {
 			mDialog=null;
 		}
 		final Event event = (Event) object;
-		if (EventType.LIGHTSENSOROPERATION == event.getType()) {
+		if (EventType.TEMPERATURESENSOROPERATION == event.getType()) {
 			// data maybe null
 			if (event.isSuccess()) {
 				
 				SimpleResponseData data = (SimpleResponseData) event.getData();
 				
-				Toast.makeText(getActivity(), "当前光线亮度"+data.getParam1(),3000).show();
+				Toast.makeText(getActivity(), "当前温度"+Integer.valueOf(data.getParam1())/1000,3000).show();
 			}else {
-				Toast.makeText(getActivity(), "获取亮度失败",3000).show();
+				Toast.makeText(getActivity(), "获取温度失败",3000).show();
 			}
 		}
 

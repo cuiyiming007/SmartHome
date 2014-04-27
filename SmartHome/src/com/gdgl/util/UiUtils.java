@@ -14,9 +14,10 @@ import com.gdgl.activity.LockFragment;
 import com.gdgl.activity.ShadeControlFragment;
 import com.gdgl.activity.DetectorOnOffControlFragment;
 import com.gdgl.activity.OutLetControlFragment;
-import com.gdgl.activity.OnlyShowFragment;
+import com.gdgl.activity.LightSensorFragment;
 import com.gdgl.activity.SeekLightsControlFragment;
 import com.gdgl.activity.SwitchControlFragment;
+import com.gdgl.activity.TemperatureSensorFragment;
 import com.gdgl.activity.WarnningControlFragment;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.smarthome.R;
@@ -285,8 +286,10 @@ public class UiUtils {
 			mFragment = new SwitchControlFragment();
 			break;
 		case DataHelper.TEMPTURE_SENSOR_DEVICETYPE:
+			mFragment = new TemperatureSensorFragment();
+			break;
 		case DataHelper.LIGHT_SENSOR_DEVICETYPE:
-			mFragment = new OnlyShowFragment();
+			mFragment = new LightSensorFragment();
 			break;
 		case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:
 		case DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE:
