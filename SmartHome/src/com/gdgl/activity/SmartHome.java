@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gdgl.adapter.ViewPagerAdapter;
+import com.gdgl.manager.VideoManager;
 import com.gdgl.model.TabInfo;
 import com.gdgl.reciever.NetWorkChangeReciever;
 import com.gdgl.smarthome.R;
@@ -12,6 +13,7 @@ import com.gdgl.util.AddDlg.AddDialogcallback;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 import com.gdgl.util.PullToRefreshViewPager;
 import com.gdgl.util.SelectPicPopupWindow;
+import com.gdgl.video.Network;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 
@@ -94,7 +96,14 @@ public class SmartHome extends FragmentActivity implements OnRefreshListener<Vie
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				 showSetWindow();
+				VideoManager.getInstance().handleVideoResponse();
+//				new Thread(new Runnable() {
+//					@Override
+//					public void run() {
+//						Network.connectServerWithTCPSocket();
+//					}
+//				}).start();
+//				 showSetWindow();
 			}
 		});
 		
