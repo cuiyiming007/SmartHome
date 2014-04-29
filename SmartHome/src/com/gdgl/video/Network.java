@@ -28,6 +28,7 @@ public class Network {
 	public static Socket socket; // tcpSocket
 	public static DatagramSocket udpSocket = null; // udpSocket
 	public static Timer timer;
+	
 
 	public static void recieveVideoFromUdp() {
 		byte data[] = new byte[10240];
@@ -130,34 +131,5 @@ public class Network {
 		}
 	}
 
-	public static void connectServerWithTCPSocket() {
-		String heartbeat = "0200070007";
-		Socket socket;
-		try {// 创建一个Socket对象，并指定服务端的IP及端口号
-			socket = new Socket("192.168.1.239", 5002);
-			OutputStream outputStream = socket.getOutputStream();
-			byte buffer[]=heartbeat.getBytes();
-			int temp = 0;
-			outputStream.write(buffer, 0, buffer.length);
-			// 发送读取的数据到服务端
-			outputStream.flush();
-
-			
-			InputStream inputStream = socket.getInputStream();
-			ByteArrayOutputStream outStream=new ByteArrayOutputStream();
-			byte[] data=new byte[1024];
-			int count=-1;
-			while ((count=inputStream.read(data, 0, 1024))!=-1) {
-				outStream.write(data, 0, count);
-			}
-			data=null;
-			String result=new String(outStream.toByteArray());
-			Log.i("socket recieve", result);
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-	}
+	
 }

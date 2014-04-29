@@ -1,6 +1,12 @@
 package com.gdgl.util;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Type;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,25 +45,60 @@ import com.google.gson.reflect.TypeToken;
  * @author justek http://www.it165.net/pro/html/201310/7419.html
  */
 public class NetUtil {
-	
-	
-	
-	public static String URLDir="/cgi-bin/rest/network/";
-	public static String HTTPHeadStr="http://";
-	public static String encodeStr="&callback=1234&encodemethod=NONE&sign=AAA";
-	public String IP="192.168.1.239";
-	public String loginIP="192.168.1.100";
+
+	public static String URLDir = "/cgi-bin/rest/network/";
+	public static String HTTPHeadStr = "http://";
+	public static String encodeStr = "&callback=1234&encodemethod=NONE&sign=AAA";
+	public String IP = "192.168.1.239";
+	public String loginIP = "192.168.1.100";
 	private static NetUtil instance;
-	
+	public static String heartbeat = "0200070007";
+	public static Socket callbakcSocket;
+
 	public static NetUtil getInstance() {
-		if (instance==null) {
-			instance= new NetUtil();
+		if (instance == null) {
+			instance = new NetUtil();
 		}
 		return instance;
 	}
-	public String getCumstomURL(String serverIP,String resource,String param)
-	{
-		return HTTPHeadStr+serverIP+URLDir+resource+"?"+param+encodeStr;
+
+	public String getCumstomURL(String serverIP, String resource, String param) {
+		return HTTPHeadStr + serverIP + URLDir + resource + "?" + param
+				+ encodeStr;
+	}
+
+	public void connectServerWithTCPSocket() throws Exception {
+		callbakcSocket = new Socket("192.168.1.239", 5002);
+	}
+
+	public void sendHeartBeat() throws IOException {
+		OutputStream outputStream = callbakcSocket.getOutputStream();
+		byte buffer[] = heartbeat.getBytes();
+		int temp = 0;
+		outputStream.write(buffer, 0, buffer.length);
+		outputStream.flush();
+	}
+
+	public void recieveFromCallback() throws IOException {
+		InputStream inputStream = callbakcSocket.getInputStream();
+		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+		byte[] data = new byte[1024];
+		int count = -1;
+		while ((count = inputStream.read(data, 0, 1024)) != -1) {
+			outStream.write(data, 0, count);
+		}
+		data = null;
+		String result = new String(outStream.toByteArray());
+		Log.i("socket recieve", result);
+	}
+
+	public boolean isConnectedCallback() {
+
+		if (callbakcSocket == null) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 }

@@ -14,6 +14,7 @@ import com.gdgl.manager.DeviceManager;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.ResponseParamsEndPoint;
+import com.gdgl.util.NetUtil;
 
 public class SmartService extends Service {
 
@@ -71,5 +72,5 @@ public class SmartService extends Service {
 		// sendBroadcast(brodcastIntent);
 		return super.onStartCommand(intent, flags, startId);
 	}
-
+	
 }
