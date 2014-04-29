@@ -1,5 +1,7 @@
 package com.gdgl.activity;
 
+import h264.com.VideoActivity;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -57,7 +59,7 @@ public class VideoFragment extends Fragment {
 					long arg3) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent((Context)getActivity(),
-						VideoViewActivity.class);
+						VideoActivity.class);
 				intent.putExtra("ipc_channel", arg2);
 				startActivity(intent);
 			}
