@@ -35,6 +35,7 @@ import android.util.LruCache;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -44,421 +45,439 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.TextView;
 
 public class ShowDevicesGroupFragmentActivity extends FragmentActivity
-		implements refreshData, DevicesObserver, UpdateDevice, Dialogcallback,
-		EditDialogcallback {
+        implements refreshData, DevicesObserver, UpdateDevice, Dialogcallback,
+        EditDialogcallback {
 
-	private static final String TAG = "ShowDevicesGroupFragmentActivity";
-	LinearLayout mBack;
+    private static final String TAG = "ShowDevicesGroupFragmentActivity";
+    LinearLayout mBack;
 
-	List<SimpleDevicesModel> mCurrentList;
-	HashMap<Integer, List<SimpleDevicesModel>> mDevicesListCache;
+    List<SimpleDevicesModel> mCurrentList;
+    HashMap<Integer, List<SimpleDevicesModel>> mDevicesListCache;
 
-	private int mListIndex = 0;
+    private int mListIndex = 0;
 
-	private int[] types;
-	private int[] images;
-	private String[] tags;
+    private int[] types;
+    private int[] images;
+    private String[] tags;
 
-	FancyCoverFlow fancyCoverFlow;
+    FancyCoverFlow fancyCoverFlow;
 
-	FragmentManager fragmentManager;
+    FragmentManager fragmentManager;
 
-	DevicesListFragment mDevicesListFragment;
+    DevicesListFragment mDevicesListFragment;
 
-	DevicesBaseAdapter mDevicesBaseAdapter;
+    DevicesBaseAdapter mDevicesBaseAdapter;
 
-	SelectPicPopupWindow mSetWindow;
+    SelectPicPopupWindow mSetWindow;
+    
+    ViewGroup mNoDevices;
+    TextView mContent;
 
-	private int type;
-	private String  devicesIeee = "";
-	private int mCurrentListItemPostion;
+    private int type;
+    private String  devicesIeee = "";
+    private int mCurrentListItemPostion;
 
-	public static final String ACTIVITY_SHOW_DEVICES_TYPE = "activity_show_devices_type";
-	public static final int cacheSize = 512 * 1024;
-	boolean isDelete = false;
+    public static final String ACTIVITY_SHOW_DEVICES_TYPE = "activity_show_devices_type";
+    public static final int cacheSize = 512 * 1024;
+    boolean isDelete = false;
 
-	TextView title;
-	LinearLayout parents_need, devices_need;
-	Button mDelete;
-	Button set;
+    TextView title;
+    LinearLayout parents_need, devices_need;
+    Button mDelete;
+    Button set;
 
-	DataHelper mDataHelper;
+    DataHelper mDataHelper;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.show_devices_group);
-		Bundle mBundle = getIntent().getExtras();
-		if (null != mBundle) {
-			type = mBundle.getInt(ACTIVITY_SHOW_DEVICES_TYPE, 0);
-		}
-		mListIndex = 2;
-		initData();
-		initFancyCoverFlow();
-		initDevicesListFragment();
-		initTitle();
-		initTitleByTag(mListIndex);
-	}
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.show_devices_group);
+        Bundle mBundle = getIntent().getExtras();
+        if (null != mBundle) {
+            type = mBundle.getInt(ACTIVITY_SHOW_DEVICES_TYPE, 0);
+        }
+        mListIndex = 2;
+        initData();
+        initNoContent();
+        initFancyCoverFlow();
+        initDevicesListFragment();
+        initTitle();
+        initTitleByTag(mListIndex);
+    }
 
-	private void initTitle() {
-		// TODO Auto-generated method stub
-		final MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
-				ShowDevicesGroupFragmentActivity.this);
-		mMyOkCancleDlg.setDialogCallback(ShowDevicesGroupFragmentActivity.this);
-		mBack = (LinearLayout) findViewById(R.id.goback);
-		mBack.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				back();
-			}
-		});
+    private void initNoContent() {
+        // TODO Auto-generated method stub
+        mNoDevices=(ViewGroup)findViewById(R.id.nodevices_layout);
+        mContent=(TextView)mNoDevices.findViewById(R.id.text_content);
+        mContent.setText("此项暂无任何设备");
+        if(null==mCurrentList || mCurrentList.size()==0){
+            mNoDevices.setVisibility(View.VISIBLE);
+        }
+    }
 
-		title = (TextView) findViewById(R.id.title);
-		parents_need = (LinearLayout) findViewById(R.id.parent_need);
-		devices_need = (LinearLayout) findViewById(R.id.devices_need);
+    private void initTitle() {
+        // TODO Auto-generated method stub
+        final MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
+                ShowDevicesGroupFragmentActivity.this);
+        mMyOkCancleDlg.setDialogCallback(ShowDevicesGroupFragmentActivity.this);
+        mBack = (LinearLayout) findViewById(R.id.goback);
+        mBack.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                back();
+            }
+        });
 
-		mDelete = (Button) findViewById(R.id.delete);
-		mDelete.setOnClickListener(new OnClickListener() {
+        title = (TextView) findViewById(R.id.title);
+        parents_need = (LinearLayout) findViewById(R.id.parent_need);
+        devices_need = (LinearLayout) findViewById(R.id.devices_need);
 
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				mMyOkCancleDlg.setContent("确定要删除"
-						+ getCurrentDeviceByIeee(devicesIeee).getmNodeENNAme()
-						+ "吗?");
-				mMyOkCancleDlg.show();
-			}
-		});
-		set = (Button) findViewById(R.id.set);
-		set.setOnClickListener(new OnClickListener() {
+        mDelete = (Button) findViewById(R.id.delete);
+        mDelete.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				showSetWindow();
-			}
-		});
-	}
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                mMyOkCancleDlg.setContent("确定要删除"
+                        + getCurrentDeviceByIeee(devicesIeee).getmNodeENNAme()
+                        + "吗?");
+                mMyOkCancleDlg.show();
+            }
+        });
+        set = (Button) findViewById(R.id.set);
+        set.setOnClickListener(new OnClickListener() {
 
-	public SimpleDevicesModel getCurrentDeviceByIeee(String iee) {
-		if (null != mCurrentList) {
-			for (SimpleDevicesModel mSimpleDevicesModel : mCurrentList) {
-				if (iee == mSimpleDevicesModel.getmIeee()) {
-					return mSimpleDevicesModel;
-				}
-			}
-		}
-		return null;
-	}
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                showSetWindow();
+            }
+        });
+    }
 
-	public void showSetWindow() {
-		mSetWindow = new SelectPicPopupWindow(
-				ShowDevicesGroupFragmentActivity.this, mSetOnClick);
-		mSetWindow.showAtLocation(
-				ShowDevicesGroupFragmentActivity.this.findViewById(R.id.set),
-				Gravity.TOP | Gravity.RIGHT, 10, 150);
-	}
+    public SimpleDevicesModel getCurrentDeviceByIeee(String iee) {
+        if (null != mCurrentList) {
+            for (SimpleDevicesModel mSimpleDevicesModel : mCurrentList) {
+                if (iee == mSimpleDevicesModel.getmIeee()) {
+                    return mSimpleDevicesModel;
+                }
+            }
+        }
+        return null;
+    }
 
-	private OnClickListener mSetOnClick = new OnClickListener() {
+    public void showSetWindow() {
+        mSetWindow = new SelectPicPopupWindow(
+                ShowDevicesGroupFragmentActivity.this, mSetOnClick);
+        mSetWindow.showAtLocation(
+                ShowDevicesGroupFragmentActivity.this.findViewById(R.id.set),
+                Gravity.TOP | Gravity.RIGHT, 10, 150);
+    }
 
-		public void onClick(View v) {
-			mSetWindow.dismiss();
-		}
-	};
+    private OnClickListener mSetOnClick = new OnClickListener() {
 
-	private void initData() {
-		// TODO Auto-generated method stub
+        public void onClick(View v) {
+            mSetWindow.dismiss();
+        }
+    };
 
-		mDataHelper = new DataHelper(ShowDevicesGroupFragmentActivity.this);
-		List<SimpleDevicesModel> list;
-		if (type == UiUtils.LIGHTS_MANAGER) {
-			list = DataUtil.getLightingManagementDevices(
-					ShowDevicesGroupFragmentActivity.this, mDataHelper);
-		} else {
-			list = DataUtil.getOtherManagementDevices(
-					ShowDevicesGroupFragmentActivity.this, mDataHelper, type);
-		}
+    private void initData() {
+        // TODO Auto-generated method stub
 
-		images = UiUtils.getImgByType(type);
-		tags = UiUtils.getTagsByType(type);
-		types = UiUtils.getType(type);
+        mDataHelper = new DataHelper(ShowDevicesGroupFragmentActivity.this);
+        List<SimpleDevicesModel> list;
+        if (type == UiUtils.LIGHTS_MANAGER) {
+            list = DataUtil.getLightingManagementDevices(
+                    ShowDevicesGroupFragmentActivity.this, mDataHelper);
+        } else {
+            list = DataUtil.getOtherManagementDevices(
+                    ShowDevicesGroupFragmentActivity.this, mDataHelper, type);
+        }
 
-		mCurrentList = list;
-		mDevicesListCache = new HashMap<Integer, List<SimpleDevicesModel>>();
-		mDevicesListCache.put(type, list);
-		fragmentManager = this.getFragmentManager();
-	}
+        images = UiUtils.getImgByType(type);
+        tags = UiUtils.getTagsByType(type);
+        types = UiUtils.getType(type);
+        mCurrentList = list;
+        mDevicesListCache = new HashMap<Integer, List<SimpleDevicesModel>>();
+        mDevicesListCache.put(type, list);
+        fragmentManager = this.getFragmentManager();
+    }
 
-	private void initDevicesListFragment() {
-		// TODO Auto-generated method stub
-		mDevicesBaseAdapter = new DevicesBaseAdapter(
-				ShowDevicesGroupFragmentActivity.this, mCurrentList, this);
-		FragmentTransaction fragmentTransaction = fragmentManager
-				.beginTransaction();
-		mDevicesListFragment = new DevicesListFragment();
-		fragmentTransaction.replace(R.id.devices_control_fragment,
-				mDevicesListFragment, "LightsControlFragment");
-		mDevicesListFragment.setAdapter(mDevicesBaseAdapter);
-		fragmentTransaction.commit();
-	}
+    private void initDevicesListFragment() {
+        // TODO Auto-generated method stub
+        mDevicesBaseAdapter = new DevicesBaseAdapter(
+                ShowDevicesGroupFragmentActivity.this, mCurrentList, this);
+        FragmentTransaction fragmentTransaction = fragmentManager
+                .beginTransaction();
+        mDevicesListFragment = new DevicesListFragment();
+        fragmentTransaction.replace(R.id.devices_control_fragment,
+                mDevicesListFragment, "LightsControlFragment");
+        mDevicesListFragment.setAdapter(mDevicesBaseAdapter);
+        fragmentTransaction.commit();
+    }
 
-	private void back() {
-		if (fragmentManager.getBackStackEntryCount() > 0) {
-			fragmentManager.popBackStack();
-			initTitleByTag(mListIndex);
-		} else {
-			finish();
-		}
-	}
+    private void back() {
+        if (fragmentManager.getBackStackEntryCount() > 0) {
+            fragmentManager.popBackStack();
+            initTitleByTag(mListIndex);
+        } else {
+            finish();
+        }
+    }
 
-	private void initFancyCoverFlow() {
-		// TODO Auto-generated method stub
-		fancyCoverFlow = (FancyCoverFlow) findViewById(R.id.devices_gallery);
-		fancyCoverFlow.setAdapter(new ViewGroupAdapter(getApplicationContext(),
-				images, tags, 250, 200));
-		fancyCoverFlow.setCallbackDuringFling(false);
-		fancyCoverFlow.setSpacing(50);
-		fancyCoverFlow.setSelection(mListIndex);
-		fancyCoverFlow.setOnItemSelectedListener(new OnItemSelectedListener() {
+    private void initFancyCoverFlow() {
+        // TODO Auto-generated method stub
+        fancyCoverFlow = (FancyCoverFlow) findViewById(R.id.devices_gallery);
+        fancyCoverFlow.setAdapter(new ViewGroupAdapter(getApplicationContext(),
+                images, tags, 250, 200));
+        fancyCoverFlow.setCallbackDuringFling(false);
+        fancyCoverFlow.setSpacing(50);
+        fancyCoverFlow.setSelection(mListIndex);
+        fancyCoverFlow.setOnItemSelectedListener(new OnItemSelectedListener() {
 
-			@SuppressLint("NewApi")
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view,
-					int position, long id) {
-				// TODO Auto-generated method stub
-				changeForCoverFlow(position);
-			}
+            @SuppressLint("NewApi")
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                    int position, long id) {
+                // TODO Auto-generated method stub
+                changeForCoverFlow(position);
+            }
 
-			@Override
-			public void onNothingSelected(AdapterView<?> parent) {
-				// TODO Auto-generated method stub
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
 
-			}
-		});
-		fancyCoverFlow.setOnItemClickListener(new OnItemClickListener() {
+            }
+        });
+        fancyCoverFlow.setOnItemClickListener(new OnItemClickListener() {
 
-			@SuppressLint("NewApi")
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				changeForCoverFlow(position);
-			}
-		});
-	}
+            @SuppressLint("NewApi")
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                    int position, long id) {
+                changeForCoverFlow(position);
+            }
+        });
+    }
 
-	public void changeForCoverFlow(int p) {
-		if (fragmentManager.getBackStackEntryCount() > 0) {
-			fragmentManager.popBackStack();
-		}
-		if (mListIndex != p) {
-			mListIndex = p;
-			devicesIeee ="";
-			refreshAdapter(mListIndex);
-		}
-		initTitleByTag(mListIndex);
-	}
+    public void changeForCoverFlow(int p) {
+        if (fragmentManager.getBackStackEntryCount() > 0) {
+            fragmentManager.popBackStack();
+        }
+        if (mListIndex != p) {
+            mListIndex = p;
+            devicesIeee ="";
+            refreshAdapter(mListIndex);
+        }
+        if(null==mCurrentList || mCurrentList.size()==0){
+            mNoDevices.setVisibility(View.VISIBLE);
+        }else{
+            mNoDevices.setVisibility(View.GONE);
+        }
+        initTitleByTag(mListIndex);
+    }
 
-	public void refreshAdapter(int postion) {
-		mCurrentList = null;
-		int type = types[postion];
-		if (null != mDevicesListCache.get(type)) {
-			mCurrentList = mDevicesListCache.get(type);
-		} else {
-			if (type == UiUtils.LIGHTS_MANAGER) {
-				mCurrentList = DataUtil.getLightingManagementDevices(
-						ShowDevicesGroupFragmentActivity.this, mDataHelper);
-			} else {
-				mCurrentList = DataUtil.getOtherManagementDevices(
-						ShowDevicesGroupFragmentActivity.this, mDataHelper,
-						type);
-			}
-			mDevicesListCache.put(type, mCurrentList);
-		}
-		mDevicesBaseAdapter.setList(mCurrentList);
-		mDevicesBaseAdapter.notifyDataSetChanged();
-		mDevicesListFragment.setLayout();
-	}
+    public void refreshAdapter(int postion) {
+        mCurrentList = null;
+        int type = types[postion];
+        if (null != mDevicesListCache.get(type)) {
+            mCurrentList = mDevicesListCache.get(type);
+        } else {
+            if (type == UiUtils.LIGHTS_MANAGER) {
+                mCurrentList = DataUtil.getLightingManagementDevices(
+                        ShowDevicesGroupFragmentActivity.this, mDataHelper);
+            } else {
+                mCurrentList = DataUtil.getOtherManagementDevices(
+                        ShowDevicesGroupFragmentActivity.this, mDataHelper,
+                        type);
+            }
+            mDevicesListCache.put(type, mCurrentList);
+        }
+        mDevicesBaseAdapter.setList(mCurrentList);
+        mDevicesBaseAdapter.notifyDataSetChanged();
+        mDevicesListFragment.setLayout();
+    }
 
-	private class GetDataTask extends
-			AsyncTask<Void, Void, List<SimpleDevicesModel>> {
+    private class GetDataTask extends
+            AsyncTask<Void, Void, List<SimpleDevicesModel>> {
 
-		@Override
-		protected List<SimpleDevicesModel> doInBackground(Void... params) {
-			// Simulates a background job.
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-			}
-			return mCurrentList;
-		}
+        @Override
+        protected List<SimpleDevicesModel> doInBackground(Void... params) {
+            // Simulates a background job.
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+            }
+            return mCurrentList;
+        }
 
-		@Override
-		protected void onPostExecute(List<SimpleDevicesModel> result) {
-			super.onPostExecute(result);
-			mDevicesListFragment.stopRefresh();
-		}
-	}
+        @Override
+        protected void onPostExecute(List<SimpleDevicesModel> result) {
+            super.onPostExecute(result);
+            mDevicesListFragment.stopRefresh();
+        }
+    }
 
-	public void refreshListData() {
-		// TODO Auto-generated method stub
-		new GetDataTask().execute();
-	}
+    public void refreshListData() {
+        // TODO Auto-generated method stub
+        new GetDataTask().execute();
+    }
 
-	public interface adapterSeter {
-		public void setAdapter(BaseAdapter mAdapter);
+    public interface adapterSeter {
+        public void setAdapter(BaseAdapter mAdapter);
 
-		public void stopRefresh();
+        public void stopRefresh();
 
-		public void setSelectedPostion(int postion);
-	}
+        public void setSelectedPostion(int postion);
+    }
 
-	@Override
-	public void setDevicesId(String id) {
-		// TODO Auto-generated method stub
-		devicesIeee = id;
-	}
+    @Override
+    public void setDevicesId(String id) {
+        // TODO Auto-generated method stub
+        devicesIeee = id;
+    }
 
-	@Override
-	public void setFragment(Fragment mFragment, int postion) {
-		// TODO Auto-generated method stub
-		Log.i(TAG, "zzz->setFragment postion=" + postion);
-		mCurrentListItemPostion = postion;
-		FragmentTransaction fragmentTransaction = fragmentManager
-				.beginTransaction();
-		fragmentTransaction.replace(R.id.devices_control_fragment, mFragment);
-		fragmentTransaction.addToBackStack(null);
-		fragmentTransaction.commit();
-		initTitleByDevices(devicesIeee);
-	}
+    @Override
+    public void setFragment(Fragment mFragment, int postion) {
+        // TODO Auto-generated method stub
+        Log.i(TAG, "zzz->setFragment postion=" + postion);
+        mCurrentListItemPostion = postion;
+        FragmentTransaction fragmentTransaction = fragmentManager
+                .beginTransaction();
+        fragmentTransaction.replace(R.id.devices_control_fragment, mFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+        initTitleByDevices(devicesIeee);
+    }
 
-	public void initTitleByTag(int postion) {
-		title.setText(tags[postion]);
-		parents_need.setVisibility(View.VISIBLE);
-		devices_need.setVisibility(View.GONE);
-	}
+    public void initTitleByTag(int postion) {
+        title.setText(tags[postion]);
+        parents_need.setVisibility(View.VISIBLE);
+        devices_need.setVisibility(View.GONE);
+    }
 
-	public void initTitleByDevices(String devicesId) {
-		SimpleDevicesModel ms = getCurrentDeviceByIeee(devicesIeee);
-		if (null != ms) {
-			title.setText(ms.getmUserDefineName().replace(" ", ""));
-			parents_need.setVisibility(View.GONE);
-			devices_need.setVisibility(View.VISIBLE);
-		}
+    public void initTitleByDevices(String devicesId) {
+        SimpleDevicesModel ms = getCurrentDeviceByIeee(devicesIeee);
+        if (null != ms) {
+            title.setText(ms.getmUserDefineName().replace(" ", ""));
+            parents_need.setVisibility(View.GONE);
+            devices_need.setVisibility(View.VISIBLE);
+        }
 
-	}
+    }
 
-	public interface EditDevicesName {
-		public void editDevicesName();
-	}
+    public interface EditDevicesName {
+        public void editDevicesName();
+    }
 
-	@Override
-	public void saveDevicesName(String name) {
-		// TODO Auto-generated method stub
+    @Override
+    public void saveDevicesName(String name) {
+        // TODO Auto-generated method stub
 
-	}
+    }
 
-	@Override
-	public void onBackPressed() {
-		// TODO Auto-generated method stub
-		back();
-	}
+    @Override
+    public void onBackPressed() {
+        // TODO Auto-generated method stub
+        back();
+    }
 
-	@Override
-	public void dialogdo() {
-		// TODO Auto-generated method stub
-		mDataHelper.delete(mDataHelper.getSQLiteDatabase(),
-				DataHelper.DEVICES_TABLE, " ieee=? ",
-				new String[] { devicesIeee });
-		mDevicesListCache.remove(types[mListIndex]);
-		fragmentManager.popBackStack();
-		refreshAdapter(mListIndex);
-		initTitleByTag(mListIndex);
-	}
+    @Override
+    public void dialogdo() {
+        // TODO Auto-generated method stub
+        mDataHelper.delete(mDataHelper.getSQLiteDatabase(),
+                DataHelper.DEVICES_TABLE, " ieee=? ",
+                new String[] { devicesIeee });
+        mDevicesListCache.remove(types[mListIndex]);
+        fragmentManager.popBackStack();
+        refreshAdapter(mListIndex);
+        initTitleByTag(mListIndex);
+    }
 
-	@Override
-	public void setLayout() {
-		// TODO Auto-generated method stub
-		mDevicesListFragment.setLayout();
-	}
+    @Override
+    public void setLayout() {
+        // TODO Auto-generated method stub
+        mDevicesListFragment.setLayout();
+    }
 
-//	@Override
-//	public void saveedit(String ieee, String ep, String name, String region) {
-//		// TODO Auto-generated method stub
-//		String where = " ieee = ? ";
-//		String[] args = { ieee };
+//    @Override
+//    public void saveedit(String ieee, String ep, String name, String region) {
+//        // TODO Auto-generated method stub
+//        String where = " ieee = ? ";
+//        String[] args = { ieee };
 //
-//		ContentValues c = new ContentValues();
-//		c.put(DevicesModel.USER_DEFINE_NAME, name);
-//		c.put(DevicesModel.DEVICE_REGION, region);
-//		
-//		SQLiteDatabase mSQLiteDatabase = mDataHelper.getSQLiteDatabase();
-//		int result = mDataHelper.update(mSQLiteDatabase,
-//				DataHelper.DEVICES_TABLE, c, where, args);
-//		if (result >= 0) {
+//        ContentValues c = new ContentValues();
+//        c.put(DevicesModel.USER_DEFINE_NAME, name);
+//        c.put(DevicesModel.DEVICE_REGION, region);
+//        
+//        SQLiteDatabase mSQLiteDatabase = mDataHelper.getSQLiteDatabase();
+//        int result = mDataHelper.update(mSQLiteDatabase,
+//                DataHelper.DEVICES_TABLE, c, where, args);
+//        if (result >= 0) {
 //
-//			mDevicesListCache.clear();
-//			refreshAdapter(mListIndex);
-//		}
-//		
-//	}
+//            mDevicesListCache.clear();
+//            refreshAdapter(mListIndex);
+//        }
+//        
+//    }
 
-	@Override
-	public void deleteDevices(String id) {
-		// TODO Auto-generated method stub
-		Log.i(TAG, "tagzgs->delete id=" + id);
-		mDataHelper.delete(mDataHelper.getSQLiteDatabase(),
-				DataHelper.DEVICES_TABLE, " ieee=? ", new String[] { id });
-		mDevicesListCache.clear();
-		refreshAdapter(mListIndex);
-	}
+    @Override
+    public void deleteDevices(String id) {
+        // TODO Auto-generated method stub
+        Log.i(TAG, "tagzgs->delete id=" + id);
+        mDataHelper.delete(mDataHelper.getSQLiteDatabase(),
+                DataHelper.DEVICES_TABLE, " ieee=? ", new String[] { id });
+        mDevicesListCache.clear();
+        refreshAdapter(mListIndex);
+    }
 
-	@Override
-	public SimpleDevicesModel getDeviceModle(int postion) {
-		// TODO Auto-generated method stub
-		if(null!=mCurrentList){
-			return mCurrentList.get(postion);
-		}
-		return null;
-	}
+    @Override
+    public SimpleDevicesModel getDeviceModle(int postion) {
+        // TODO Auto-generated method stub
+        if(null!=mCurrentList){
+            return mCurrentList.get(postion);
+        }
+        return null;
+    }
 
-	@Override
-	public boolean updateDevices(String Ieee, String ep, ContentValues c) {
-		// TODO Auto-generated method stub
-		String where = " ieee = ? and ep = ?";
-		String[] args = { Ieee ,ep };
-		SQLiteDatabase mSQLiteDatabase = mDataHelper.getSQLiteDatabase();
-		int result = mDataHelper.update(mSQLiteDatabase,
-				DataHelper.DEVICES_TABLE, c, where, args);
-		// mDataHelper
-		if (result >= 0) {
-			
-			mDevicesListCache.clear();
-			refreshAdapter(mListIndex);
-			
-			return true;
-		}
-		return false;
-	}
+    @Override
+    public boolean updateDevices(String Ieee, String ep, ContentValues c) {
+        // TODO Auto-generated method stub
+        String where = " ieee = ? and ep = ?";
+        String[] args = { Ieee ,ep };
+        SQLiteDatabase mSQLiteDatabase = mDataHelper.getSQLiteDatabase();
+        int result = mDataHelper.update(mSQLiteDatabase,
+                DataHelper.DEVICES_TABLE, c, where, args);
+        // mDataHelper
+        if (result >= 0) {
+            
+            mDevicesListCache.clear();
+            refreshAdapter(mListIndex);
+            
+            return true;
+        }
+        return false;
+    }
 
-	@Override
-	public void saveedit(String ieee, String ep, String name) {
-		// TODO Auto-generated method stub
-		String where = " ieee = ? ";
-		String[] args = { ieee };
+    @Override
+    public void saveedit(String ieee, String ep, String name) {
+        // TODO Auto-generated method stub
+        String where = " ieee = ? ";
+        String[] args = { ieee };
 
-		ContentValues c = new ContentValues();
-		c.put(DevicesModel.USER_DEFINE_NAME, name);
-//		c.put(DevicesModel.DEVICE_REGION, region);
-		
-		SQLiteDatabase mSQLiteDatabase = mDataHelper.getSQLiteDatabase();
-		int result = mDataHelper.update(mSQLiteDatabase,
-				DataHelper.DEVICES_TABLE, c, where, args);
-		if (result >= 0) {
+        ContentValues c = new ContentValues();
+        c.put(DevicesModel.USER_DEFINE_NAME, name);
+//        c.put(DevicesModel.DEVICE_REGION, region);
+        
+        SQLiteDatabase mSQLiteDatabase = mDataHelper.getSQLiteDatabase();
+        int result = mDataHelper.update(mSQLiteDatabase,
+                DataHelper.DEVICES_TABLE, c, where, args);
+        if (result >= 0) {
 
-			mDevicesListCache.clear();
-			refreshAdapter(mListIndex);
-		}
-	}
+            mDevicesListCache.clear();
+            refreshAdapter(mListIndex);
+        }
+    }
 }

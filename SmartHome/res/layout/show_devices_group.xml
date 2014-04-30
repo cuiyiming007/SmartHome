@@ -28,6 +28,13 @@
         android:alpha="0.65"
         android:background="@drawable/white"
         android:orientation="vertical" >
+
+        <include
+            android:id="@+id/nodevices_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/no_devices"
+            android:visibility="gone" />
     </LinearLayout>
 
     <com.gdgl.GalleryFlow.FancyCoverFlow

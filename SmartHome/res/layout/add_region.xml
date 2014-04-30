@@ -61,7 +61,7 @@
         android:layout_marginRight="15dp"
         android:layout_marginTop="15dp"
         android:layout_weight="1"
-        android:alpha="0.65"
+        android:alpha="0.85"
         android:orientation="vertical"
         android:background="@drawable/white" >
 
@@ -85,7 +85,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="15dp"
-        android:alpha="0.55"
+        android:alpha="0.75"
         android:background="@drawable/add_devices_btn_style"
         android:gravity="center"
         android:text="添加设备"
