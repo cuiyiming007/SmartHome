@@ -79,7 +79,7 @@ public class NetUtil {
 		outputStream.flush();
 	}
 
-	public void recieveFromCallback() throws IOException {
+	public String recieveFromCallback() throws IOException {
 		InputStream inputStream = callbakcSocket.getInputStream();
 		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
 		byte[] data = new byte[1024];
@@ -89,16 +89,20 @@ public class NetUtil {
 		}
 		data = null;
 		String result = new String(outStream.toByteArray());
-		Log.i("socket recieve", result);
+		Log.i("callbakcSocket recieve", result);
+		return result;
 	}
 
 	public boolean isConnectedCallback() {
 
-		if (callbakcSocket == null) {
+		if (callbakcSocket == null||callbakcSocket.isConnected() == false||callbakcSocket.isClosed() == true) {
 			return false;
 		} else {
 			return true;
 		}
+	}
+	public void initalCallbackSocket() {
+			callbakcSocket=null;
 	}
 
 }

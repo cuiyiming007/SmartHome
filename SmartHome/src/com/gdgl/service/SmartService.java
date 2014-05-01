@@ -10,6 +10,7 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.DeviceManager;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.DataHelper;
@@ -51,6 +52,8 @@ public class SmartService extends Service {
 			}
 		}.run();
 
+		CallbackManager.getInstance().startConnectServerByTCPTask();
+		CallbackManager.getInstance().startCallbackTask();
 	}
 
 	public class MsgBinder extends Binder {
