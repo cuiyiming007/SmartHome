@@ -9,6 +9,7 @@ import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.Display;
 
 import com.gdgl.smarthome.R;
@@ -18,7 +19,8 @@ public class VideoActivity extends Activity {
 	Display display;
 	VView decodeh264;
 	public static int ret = 0;
-//	DataInputStream dataInputStream;
+
+	// DataInputStream dataInputStream;
 
 	/*
 	 * (non-Javadoc)
@@ -33,18 +35,18 @@ public class VideoActivity extends Activity {
 		ipc_channel = extras_ipc_channel.getInt("ipc_channel");
 		System.out.println("ipc-channel =" + ipc_channel);
 
+		DisplayMetrics dm = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(dm);
+		int screenWidth = dm.widthPixels;
+		int screenHeight = dm.heightPixels;
+		float density = dm.density;
+
 		// 获取屏幕宽度和高度
-		display = getWindowManager().getDefaultDisplay();
-		decodeh264 = new VView(this, display.getWidth(),
-				display.getHeight());
+		// display = getWindowManager().getDefaultDisplay();
+		decodeh264 = new VView(this, 900, 1500);
 		setContentView(decodeh264);// ���ò���
 
 		new playVideoTask().execute(ipc_channel);
-		// decodeh264.PlayVideo(ipc_channel);
-//		ret = decodeh264.PlayVideo(ipc_channel);
-//		if (ret != 1) {
-//			showMessage(ret);
-//		}
 	}
 
 	/*
@@ -102,6 +104,7 @@ public class VideoActivity extends Activity {
 						decodeh264.dataInputStream = new DataInputStream(
 								Network.socket.getInputStream());
 					} catch (IOException e1) {
+						decodeh264.initalThread();
 						e1.printStackTrace();
 					}
 				}
@@ -114,7 +117,7 @@ public class VideoActivity extends Activity {
 			super.onPostExecute(result);
 			if (result) {
 				new Thread(new Runnable() {
-					
+
 					@Override
 					public void run() {
 						// TODO Auto-generated method stub

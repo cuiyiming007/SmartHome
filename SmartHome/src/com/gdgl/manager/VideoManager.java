@@ -3,9 +3,12 @@ package com.gdgl.manager;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.gdgl.mydata.Constants;
+import com.gdgl.mydata.Event;
+import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.RespondDataEntity;
 import com.gdgl.mydata.ResponseParams;
 import com.gdgl.mydata.video.VideoNode;
@@ -60,5 +63,27 @@ public class VideoManager extends Manger{
 		dataEntity.setList(list);
 		Log.i(TAG, dataEntity.getAction());
 		return dataEntity;
+	}
+	class GetVideoListTast extends AsyncTask<Object, Object, VideoResponse>
+	{
+
+		@Override
+		protected VideoResponse doInBackground(Object... params) {
+			VideoResponse response=handleVideoResponse();
+			return response;
+		}
+		@Override
+		protected void onPostExecute(VideoResponse result) {
+			Event event = new Event(EventType.GETVIDEOLIST, true);
+			if (result==null||result.getList().size()==0) {
+				event.setSuccess(false);
+				notifyObservers(event);
+			}else if (result.getList().size()>0) {
+				event.setData(result);
+				notifyObservers(event);
+			}
+			super.onPostExecute(result);
+		}
+
 	}
 }

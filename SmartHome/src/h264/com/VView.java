@@ -88,7 +88,8 @@ public class VView extends View implements Runnable {
 		this.newWidth = this.gdeviceWith;// ���ſ�ȵ����豸���
 		// ���ź�ĸ�=ԭͼ���x���ű���
 		this.newHeight = (h264Height * newWidth / h264Width) + 100;
-		top = (this.gdeviceHeight - newHeight) / 2 - 50;
+//		top = (this.gdeviceHeight - newHeight) / 2 - 50;
+		top=50;
 		left = 0;
 		setScale();
 	}
@@ -180,9 +181,7 @@ public class VView extends View implements Runnable {
 				// �������ж�ȡ264��ݻ���
 				readNum = dataInputStream.read(buffFromSocket, 0, 8192);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				Log.e("DecodeH264 run", "dataInputStream.read error!");
-				// e.printStackTrace();
+				initalThread();
 			}
 
 			String recstr = new String(buffFromSocket);
@@ -307,11 +306,10 @@ public class VView extends View implements Runnable {
 		try {
 			Thread.currentThread().sleep(1500);
 		} catch (InterruptedException e2) {
-			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
-		InputStream is = null;
-		FileInputStream fileIS = null;
+//		InputStream is = null;
+//		FileInputStream fileIS = null;
 
 		int iTemp = 0;
 		int nalLen;
@@ -340,9 +338,7 @@ public class VView extends View implements Runnable {
 				// bytesReadFromSocketNum = dataInputStream.read(buffFromSocket,
 				// 0, 8192);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				Log.e("DecodeH264 run", "dataInputStream.read error!");
-				// e.printStackTrace();
+				initalThread();
 			}
 
 			if (bytesReadFromSocketNum <= 0) {
@@ -350,8 +346,6 @@ public class VView extends View implements Runnable {
 				break;
 			}
 
-			Log.d("DecodeH264 run", "have recieved data = "
-					+ bytesReadFromSocketNum);
 
 			SockBufUsed = 0;
 
@@ -385,12 +379,7 @@ public class VView extends View implements Runnable {
 								break;
 							}
 						}
-						// ����һ��NAL��Ԫ org
-						// Log.i("DecodeH264 run", "000**DecoderNal**000");
 						iTemp = DecoderNal(decoderInBuf, NalBufUsed - 4, mPixel);
-						// Log.i("DecodeH264 run", "****DecoderNal******");
-						// ʹ��postInvalidate����ֱ�����߳��и��½���
-						// postInvalidate ֪ͨonDraw(Canvas canvas)����view����
 						if (iTemp > 0)
 							postInvalidate();
 
@@ -404,15 +393,6 @@ public class VView extends View implements Runnable {
 					NalBufUsed = 4;
 				}
 			}
-		}
-		try {
-			if (fileIS != null)
-				fileIS.close();
-
-			if (is != null)
-				is.close();
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 		UninitDecoder();
 	}

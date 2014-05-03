@@ -35,6 +35,7 @@ public class EventType {
 	public static final EventType MAINSOUTLETOPERATION;
 	public static final EventType LOCALIASCIEBYPASSZONE;
 	public static final EventType LOCALIASCIEUNBYPASSZONE;
+	public static final EventType GETVIDEOLIST;
 	
 
 	
@@ -62,6 +63,7 @@ public class EventType {
 		MAINSOUTLETOPERATION=new EventType("MainsOutLetOperation", nextId());
 		LOCALIASCIEBYPASSZONE=new EventType("localIASCIEByPassZone", nextId());
 		LOCALIASCIEUNBYPASSZONE=new EventType("localIASCIEByPassZone", nextId());
+		GETVIDEOLIST=new EventType("getvideolist", nextId());
 	}
 	
 	private static int nextId()

@@ -19,9 +19,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
+import com.gdgl.manager.Manger;
+import com.gdgl.manager.UIListener;
+import com.gdgl.mydata.Event;
+import com.gdgl.mydata.EventType;
+import com.gdgl.mydata.video.VideoNode;
+import com.gdgl.mydata.video.VideoResponse;
 import com.gdgl.smarthome.R;
 
-public class VideoFragment extends Fragment {
+public class VideoFragment extends Fragment implements UIListener{
 	GridView content_view;
 	View mView;
 	ViewGroup nodevices;
@@ -115,5 +121,18 @@ public class VideoFragment extends Fragment {
 			TextView funcText;
 		}
 		
+	}
+
+	@Override
+	public void update(Manger observer, Object object) {
+		final Event event = (Event) object;
+		if (event.getType()==EventType.GETVIDEOLIST) {
+			if (event.isSuccess()) {
+				VideoResponse videoResponse=(VideoResponse) event.getData();
+				for (int i = 0; i < videoResponse.getList().size(); i++) {
+					listItemName[i]=((VideoNode)videoResponse.getList().get(i)).getAliases();
+				}
+			}
+		}
 	}
 }
