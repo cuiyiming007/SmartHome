@@ -20,10 +20,11 @@ public class HeartReceiver extends BroadcastReceiver {
             if (Constants.ACTION_START_HEART.equals(action)) {
                     Log.d(TAG, "Start heart");
             } else if (Constants.ACTION_HEARTBEAT.equals(action)) {
-                    Log.d(TAG, "Heartbeat");
+//                    Log.d(TAG, "Heartbeat");
                     try {
 						NetUtil.getInstance().sendHeartBeat();
 					} catch (IOException e) {
+						Log.e(TAG, "sendHeartBeat failed");
 						e.printStackTrace();
 					}
                     //在此完成心跳需要完成的工作，比如请求远程服务器……

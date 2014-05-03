@@ -30,10 +30,10 @@ public class CallbackManager extends Manger {
 		connectServerByTCPTask.start();
 	}
 
-	public void startCallbackTask() {
-		CallbackTask callbackTask = new CallbackTask();
-		callbackTask.start();
-	}
+	// public void startCallbackTask() {
+	// CallbackTask callbackTask = new CallbackTask();
+	// callbackTask.start();
+	// }
 
 	class ConnectServerByTCPTask extends Thread {
 
@@ -43,32 +43,34 @@ public class CallbackManager extends Manger {
 		}
 
 	}
+
 	public void connectAndRecieveFromCallback() {
 		try {
 			NetUtil.getInstance().connectServerWithTCPSocket();
 			NetUtil.getInstance().recieveFromCallback();
 		} catch (Exception e) {
-			e.printStackTrace();
+
+			Log.e(TAG, "connectAndRecieveFromCallback error"+e.getMessage());
 		}
 	}
 
-	class CallbackTask extends Thread {
+	// class CallbackTask extends Thread {
+	//
+	// @Override
+	// public void run() {
+	// try {
+	// NetUtil.getInstance().recieveFromCallback();
+	//
+	// } catch (IOException e) {
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// }
+	//
+	// }
+	//
+	// }
 
-		@Override
-		public void run() {
-			try {
-				NetUtil.getInstance().recieveFromCallback();
-
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-		}
-
-	}
-
-	private void handleCallbackResponse(String response) {
+	public void handleCallbackResponse(String response) {
 		try {
 			Gson gson = new Gson();
 			JSONObject jsonRsponse = new JSONObject(response);

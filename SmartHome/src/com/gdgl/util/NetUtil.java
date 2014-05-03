@@ -25,6 +25,7 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.gdgl.app.ApplicationController;
+import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.DeviceManager;
 import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.Node;
@@ -91,19 +92,29 @@ public class NetUtil {
 	public void recieveFromCallback() throws IOException {
 		while (true) {
 			if (inputStream!=null&&inputStream.available()>0) {
-				String result=inputStream2String(inputStream);
-				Log.i("callbakcSocket recieve", result);
+				handleInputStream(inputStream);
+//				Log.i("callbakcSocket recieve", result);
 			}
 			
 		}
 	}
-	public static String inputStream2String(InputStream is) throws IOException{
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		int i=-1;
-		while((i=is.read())!=-1){
-		baos.write(i);
+	public static void handleInputStream(InputStream inputStream) throws IOException{
+		byte[] buffer = new byte[2048];
+		int readBytes = 0;
+		StringBuilder stringBuilder = new StringBuilder();
+		while((readBytes = inputStream.read(buffer)) > 0){
+			String message=new String(buffer, 0, readBytes);
+			CallbackManager.getInstance().handleCallbackResponse(message);
+//			Log.e(TAG+"+++++++++++++", String.valueOf(readBytes)+new String(buffer, 0, readBytes).toString());
+//		stringBuilder.append(new String(buffer, 0, readBytes));
 		}
-		return baos.toString();
+//		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//		int i=-1;
+//		while((i=is.read())!=-1){;
+//			Log.e(TAG+"+++++++++++++", String.valueOf(i));
+//		baos.write(i);
+//		}
+//		return stringBuilder.toString();
 		}
 
 	public boolean isConnectedCallback() {
