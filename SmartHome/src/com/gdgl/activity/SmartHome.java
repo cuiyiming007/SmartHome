@@ -1,5 +1,6 @@
 package com.gdgl.activity;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import com.gdgl.smarthome.R;
 import com.gdgl.util.AddDlg;
 import com.gdgl.util.AddDlg.AddDialogcallback;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
+import com.gdgl.util.NetUtil;
 import com.gdgl.util.PullToRefreshViewPager;
 import com.gdgl.util.SelectPicPopupWindow;
 import com.gdgl.video.Network;
@@ -96,13 +98,19 @@ public class SmartHome extends FragmentActivity implements OnRefreshListener<Vie
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				VideoManager.getInstance().handleVideoResponse();
-//				new Thread(new Runnable() {
-//					@Override
-//					public void run() {
-//						Network.connectServerWithTCPSocket();
-//					}
-//				}).start();
+//				VideoManager.getInstance().handleVideoResponse();
+				
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						try {
+							NetUtil.getInstance().sendHeartBeat();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}).start();
 //				 showSetWindow();
 			}
 		});

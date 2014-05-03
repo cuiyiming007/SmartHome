@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.StringWriter;
 import java.lang.reflect.Type;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -13,6 +14,7 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.android.volley.Response;
@@ -46,6 +48,7 @@ import com.google.gson.reflect.TypeToken;
  */
 public class NetUtil {
 
+	private final static String TAG = "NetUtil";
 	public static String URLDir = "/cgi-bin/rest/network/";
 	public static String HTTPHeadStr = "http://";
 	public static String encodeStr = "&callback=1234&encodemethod=NONE&sign=AAA";
@@ -53,7 +56,10 @@ public class NetUtil {
 	public String loginIP = "192.168.1.100";
 	private static NetUtil instance;
 	public static String heartbeat = "0200070007";
+	public static byte buffer[] = heartbeat.getBytes();
 	public static Socket callbakcSocket;
+	public InputStream inputStream;
+	public OutputStream outputStream;
 
 	public static NetUtil getInstance() {
 		if (instance == null) {
@@ -69,40 +75,49 @@ public class NetUtil {
 
 	public void connectServerWithTCPSocket() throws Exception {
 		callbakcSocket = new Socket("192.168.1.239", 5002);
+		inputStream = callbakcSocket.getInputStream();
+		outputStream = callbakcSocket.getOutputStream();
+		Log.v(TAG, "callbakcSocket connect server successful");
 	}
 
 	public void sendHeartBeat() throws IOException {
-		OutputStream outputStream = callbakcSocket.getOutputStream();
-		byte buffer[] = heartbeat.getBytes();
-		int temp = 0;
-		outputStream.write(buffer, 0, buffer.length);
-		outputStream.flush();
+		if (isConnectedCallback()) {
+			outputStream.write(buffer, 0, buffer.length);
+			outputStream.flush();
+			Log.i(TAG, "sendHeartBeat successful");
+		}
 	}
 
-	public String recieveFromCallback() throws IOException {
-		InputStream inputStream = callbakcSocket.getInputStream();
-		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-		byte[] data = new byte[1024];
-		int count = -1;
-		while ((count = inputStream.read(data, 0, 1024)) != -1) {
-			outStream.write(data, 0, count);
+	public void recieveFromCallback() throws IOException {
+		while (true) {
+			if (inputStream!=null&&inputStream.available()>0) {
+				String result=inputStream2String(inputStream);
+				Log.i("callbakcSocket recieve", result);
+			}
+			
 		}
-		data = null;
-		String result = new String(outStream.toByteArray());
-		Log.i("callbakcSocket recieve", result);
-		return result;
 	}
+	public static String inputStream2String(InputStream is) throws IOException{
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		int i=-1;
+		while((i=is.read())!=-1){
+		baos.write(i);
+		}
+		return baos.toString();
+		}
 
 	public boolean isConnectedCallback() {
 
-		if (callbakcSocket == null||callbakcSocket.isConnected() == false||callbakcSocket.isClosed() == true) {
+		if (callbakcSocket == null || callbakcSocket.isConnected() == false
+				|| callbakcSocket.isClosed() == true) {
 			return false;
 		} else {
 			return true;
 		}
 	}
+
 	public void initalCallbackSocket() {
-			callbakcSocket=null;
+		callbakcSocket = null;
 	}
 
 }

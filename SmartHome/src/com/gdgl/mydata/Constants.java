@@ -88,4 +88,7 @@ public class Constants {
 	// 1. TemperatureSensor Operation
 	public static String getTemperatureSensorURl = "  http://192.168.1.239/cgi-bin/rest/network/temperatureSensorOperation.cgi?ieee=00137A00000121C2&ep=0A&operatortype=1&param1=1&param2=2&param3=3&callback=1234&encodemethod=NONE&sign=AAA";
 
+	public static final String ACTION_START_HEART="startheart";
+	public static final String ACTION_HEARTBEAT="Heartbeat";
+	public static final String ACTION_STOP_HEART="stopheart";
 }
