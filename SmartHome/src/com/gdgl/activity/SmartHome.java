@@ -84,7 +84,7 @@ public class SmartHome extends FragmentActivity implements OnRefreshListener<Vie
 		mList.add(new TabInfo(new CommonUsedFragment()));
 		mList.add(new TabInfo(new DevicesFragment()));
 		mList.add(new TabInfo(new RegionsFragment()));
-		mList.add(new TabInfo(new CommonUsedFragment()));
+		mList.add(new TabInfo(new ScenesFragment()));
 		mList.add(new TabInfo(new VideoFragment()));
 
 		ViewPagerAdapter mViewPagerAdapter = new ViewPagerAdapter(
@@ -151,6 +151,12 @@ public class SmartHome extends FragmentActivity implements OnRefreshListener<Vie
 					AddDlg mAddDlg=new AddDlg(SmartHome.this, AddDlg.REGION);
 					mAddDlg.setContent("添加区域");
 					mAddDlg.setType("区域名称");
+					mAddDlg.setDialogCallback(SmartHome.this);
+					mAddDlg.show();
+				}else if(3==mCurrentTab){
+					AddDlg mAddDlg=new AddDlg(SmartHome.this, AddDlg.REGION);
+					mAddDlg.setContent("添加场景");
+					mAddDlg.setType("场景名称");
 					mAddDlg.setDialogCallback(SmartHome.this);
 					mAddDlg.show();
 				}
@@ -316,7 +322,7 @@ public class SmartHome extends FragmentActivity implements OnRefreshListener<Vie
 	@Override
 	public void refreshdata() {
 		// TODO Auto-generated method stub
-		mList.get(2).refreshFragment();
+		mList.get(mCurrentTab).refreshFragment();
 //		refreshAdapter mrefreshAdapter=(refreshAdapter)fragmentsList.get(2);
 //		mrefreshAdapter.refreshFragment();
 	}

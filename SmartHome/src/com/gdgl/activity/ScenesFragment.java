@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gdgl.activity.SmartHome.refreshAdapter;
+import com.gdgl.mydata.DataHelper;
+import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.smarthome.R;
+import com.gdgl.util.MyOkCancleDlg;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 
 import android.content.Context;
@@ -13,9 +16,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -23,11 +29,11 @@ import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 
-public class RegionsFragment extends Fragment implements refreshAdapter,Dialogcallback{
+public class ScenesFragment extends Fragment implements refreshAdapter{
 
 	GridView content_view;
 	View mView;
-	List<String> mregions;
+	List<String> mScenes;
 	CustomeAdapter mCustomeAdapter;
 	
 	ViewGroup nodevices;
@@ -42,20 +48,10 @@ public class RegionsFragment extends Fragment implements refreshAdapter,Dialogca
 
 	private void initData() {
 		// TODO Auto-generated method stub
-		mregions=new ArrayList<String>();
-		getFromSharedPreferences.setharedPreferences((Context)getActivity());
-		String[] mregion = null;
-		String reg=getFromSharedPreferences.getRegion();
-		if(null!=reg && !reg.trim().equals("")){
-			mregion=reg.split("@@");
-		}
-		if(null!=mregion){
-			for (String string : mregion) {
-	        	if(!string.equals("")){
-	        		mregions.add(string);
-	        	}
-			}
-		}
+		Log.i("initData", "initData");
+		mScenes=new ArrayList<String>();
+		
+		mScenes=DataUtil.getScenes((Context)getActivity(), null);
 	}
 
 	@Override
@@ -72,27 +68,26 @@ public class RegionsFragment extends Fragment implements refreshAdapter,Dialogca
 		nodevices=(ViewGroup)mView.findViewById(R.id.nodevices);
 		content_view = (GridView) mView.findViewById(R.id.content_view);
 		mCustomeAdapter=new CustomeAdapter();
-		mCustomeAdapter.setString(mregions);
+		mCustomeAdapter.setString(mScenes);
 		content_view.setAdapter(mCustomeAdapter);
 		content_view.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				// TODO Auto-generated method stub
-				Intent i=new Intent((Context)getActivity(),RegionDevicesActivity.class);
-				i.putExtra(RegionDevicesActivity.REGION_NAME, mregions.get(arg2).trim());
+				Intent i=new Intent((Context)getActivity(),SceneDevicesActivity.class);
+				i.putExtra(SceneDevicesActivity.SCENE_NAME, mScenes.get(arg2).trim());
 				startActivity(i);
 			}
 
 		});
-		if(null==mregions || mregions.size()==0){
+		if(null==mScenes || mScenes.size()==0){
 			nodevices.setVisibility(View.VISIBLE);
 		}else{
 			nodevices.setVisibility(View.GONE);
 		}
 //		registerForContextMenu(content_view);
 	}
-	
 	
 	
 	
@@ -104,7 +99,7 @@ public class RegionsFragment extends Fragment implements refreshAdapter,Dialogca
 //		menu.add(0, 1, 0, "删除");
 //		super.onCreateContextMenu(menu, v, menuInfo);
 //	}
-
+//
 //	@Override
 //	public boolean onContextItemSelected(MenuItem item) {
 //		// TODO Auto-generated method stub
@@ -116,21 +111,12 @@ public class RegionsFragment extends Fragment implements refreshAdapter,Dialogca
 //			MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
 //					(Context)getActivity());
 //			mMyOkCancleDlg.setDialogCallback(this);
-//			mMyOkCancleDlg.setContent("确定要删除区域  "
-//					+ mregions.get(position) + " 吗?");
+//			mMyOkCancleDlg.setContent("确定要删除场景  "
+//					+ mScenes.get(position) + " 吗?");
 //			mMyOkCancleDlg.show();
 //		}
 //		return super.onContextItemSelected(item);
 //	}
-	
-	
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		Log.i("onResume", "onResume");
-		refreshFragment();
-		super.onResume();
-	}
 	
 	
 	private class CustomeAdapter extends BaseAdapter{
@@ -188,26 +174,28 @@ public class RegionsFragment extends Fragment implements refreshAdapter,Dialogca
 			mString=s;
 		}
 	}
+	
+	
+
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		refreshFragment();
+		super.onResume();
+	}
 
 	@Override
 	public void refreshFragment() {
 		// TODO Auto-generated method stub
 		Log.i("zgs", "refreshFragment->refreshFragment");
 		initData();
-		if(null==mregions || mregions.size()==0){
+		if(null==mScenes || mScenes.size()==0){
 			nodevices.setVisibility(View.VISIBLE);
 		}else{
 			nodevices.setVisibility(View.GONE);
 		}
-		Log.i("zgs", "refreshFragment->mregions.size()="+mregions.size());
-		mCustomeAdapter.setString(mregions);
+		Log.i("zgs", "refreshFragment->mregions.size()="+mScenes.size());
+		mCustomeAdapter.setString(mScenes);
 		mCustomeAdapter.notifyDataSetChanged();
 	}
-
-	@Override
-	public void dialogdo() {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

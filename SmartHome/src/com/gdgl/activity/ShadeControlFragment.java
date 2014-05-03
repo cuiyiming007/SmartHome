@@ -374,7 +374,7 @@ public class ShadeControlFragment extends Fragment implements UIListener{
         mLightManager.deleteObserver(ShadeControlFragment.this);
         super.onDestroy();
     }
-    class operatortype {
+    public static class operatortype {
 		
 		public static final int TurnOn = 0;
 		public static final int TurnOff = 1;

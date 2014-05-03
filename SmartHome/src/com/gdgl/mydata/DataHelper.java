@@ -3,6 +3,7 @@ package com.gdgl.mydata;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gdgl.model.DevicesGroup;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
 
@@ -59,16 +60,18 @@ public class DataHelper extends SQLiteOpenHelper {
 
 	public static final String DATABASE_NAME = "smarthome";
 	public static final String DEVICES_TABLE = "devices";
-
+	public static final String GROUP_TABLE = "groups";
 	public static final int DATEBASE_VERSTION = 1;
 
 	public StringBuilder mStringBuilder;
+	public StringBuilder mAStringBuilder;
 
 	// public SQLiteDatabase db;
 
 	public DataHelper(Context contex) {
 		super(contex, DATABASE_NAME, null, DATEBASE_VERSTION);
 		mStringBuilder = new StringBuilder();
+		mAStringBuilder= new StringBuilder();
 		// db = getWritableDatabase();
 		// TODO Auto-generated constructor stub
 	}
@@ -120,6 +123,18 @@ public class DataHelper extends SQLiteOpenHelper {
 		mStringBuilder.append(DevicesModel.VOLTAGE_MAX + " VARCHAR,");
 		mStringBuilder.append(DevicesModel.VOLTAGE_MIN + " VARCHAR,");
 		mStringBuilder.append(DevicesModel.ZCL_VERSTION + " VARCHAR )");
+		
+		mAStringBuilder.append("CREATE TABLE " + GROUP_TABLE + " (");
+		mAStringBuilder.append(DevicesGroup._ID
+				+ " INTEGER PRIMARY KEY AUTOINCREMENT,");
+		mAStringBuilder.append(DevicesGroup.DEVICES_IEEE + " VARCHAR(16),");
+		mAStringBuilder.append(DevicesGroup.GROUP_NAME + " VARCHAR(48),");
+		mAStringBuilder.append(DevicesGroup.DEVICES_VALUE + " INTEGER,");
+		mAStringBuilder.append(DevicesGroup.EP + " VARCHAR(16),");
+		mAStringBuilder.append(DevicesGroup.GROUP_ID + " INTEGER,");
+		mAStringBuilder.append(DevicesGroup.GROUP_STATE + " INTEGER,");
+		mAStringBuilder.append(DevicesGroup.ON_OFF_STATUS + " INTEGER )");
+		
 	}
 
 	@Override
@@ -129,12 +144,14 @@ public class DataHelper extends SQLiteOpenHelper {
 		Log.i(DEVICES_TABLE, "zgs-> " + mStringBuilder.toString());
 
 		db.execSQL(mStringBuilder.toString());
+		db.execSQL(mAStringBuilder.toString());
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		// TODO Auto-generated method stub
 		db.execSQL("DROP TABLE IF EXISTS " + DEVICES_TABLE);
+		db.execSQL("DROP TABLE IF EXISTS " + GROUP_TABLE);
 		onCreate(db);
 	}
 
@@ -179,23 +196,36 @@ public class DataHelper extends SQLiteOpenHelper {
 		}
 		return result;
 	}
+	
+	public long insertGroup(SQLiteDatabase db, String table,
+			String nullColumnHack, ContentValues c) {
 
+		long m = db.insert(table, nullColumnHack, c);
+		return m;
+	}
+	
 	public int delete(SQLiteDatabase db, String table, String whereClause,
 			String[] whereArgs) {
 		String[] iees = null;
-		if(whereArgs[0].contains(",")){
-			iees=whereArgs[0].split(",");
-		}else{
-			iees=whereArgs;
+		if (whereArgs[0].contains(",")) {
+			iees = whereArgs[0].split(",");
+		} else {
+			iees = whereArgs;
 		}
-	    for (String string : iees) {
-	    	ContentValues c = new ContentValues();
+		for (String string : iees) {
+			ContentValues c = new ContentValues();
 			c.put(DevicesModel.ON_OFF_LINE, DevicesModel.DEVICE_OFF_LINE);
-			db.update(table, c, " ieee=? ", new String[]{string});
+			db.update(table, c, " ieee=? ", new String[] { string });
 		}
 		return 0;
 	}
-
+	
+	public int deleteGroup(SQLiteDatabase db, String table, String whereClause,
+			String[] whereArgs) {
+		
+		return db.delete(table, whereClause, whereArgs);
+	}
+	
 	public int update(SQLiteDatabase db, String table, ContentValues values,
 			String whereClause, String[] whereArgs) {
 		return db.update(table, values, whereClause, whereArgs);
@@ -302,40 +332,24 @@ public class DataHelper extends SQLiteOpenHelper {
 		return mList;
 	}
 
-	public List<SimpleDevicesModel> rawQuery(SQLiteDatabase db, String sql,
-			String[] selectionArgs) {
-		List<SimpleDevicesModel> mList = new ArrayList<SimpleDevicesModel>();
-		SimpleDevicesModel mSimpleDevicesModel = null;
-		Cursor c = db.rawQuery(sql, selectionArgs);
+	public List<DevicesGroup> queryForGroupList(Context con,SQLiteDatabase db, String table,
+			String[] columns, String selection, String[] selectionArgs,
+			String groupBy, String having, String orderBy, String limit) {
+		List<DevicesGroup> mList = new ArrayList<DevicesGroup>();
+		DevicesGroup mDevicesModel = null;
+		Cursor c = db.query(table, columns, selection, selectionArgs, groupBy,
+				having, orderBy, limit);
 		while (c.moveToNext()) {
 
-			mSimpleDevicesModel = new SimpleDevicesModel();
-			mSimpleDevicesModel.setID(c.getInt(c
-					.getColumnIndex(DevicesModel._ID)));
-			mSimpleDevicesModel.setmDeviceId(Integer.parseInt(c.getString(c
-					.getColumnIndex(DevicesModel.DEVICE_ID))));
-			mSimpleDevicesModel.setmDeviceRegion(c.getString(c
-					.getColumnIndex(DevicesModel.DEVICE_REGION)));
-			mSimpleDevicesModel.setmEP(c.getString(c
-					.getColumnIndex(DevicesModel.EP)));
-			mSimpleDevicesModel.setmIeee(c.getString(c
-					.getColumnIndex(DevicesModel.IEEE)));
-			mSimpleDevicesModel.setmLastDateTime(c.getLong(c
-					.getColumnIndex(DevicesModel.LAST_UPDATE_TIME)));
-			mSimpleDevicesModel.setmModelId(c.getString(c
-					.getColumnIndex(DevicesModel.MODEL_ID)));
-			mSimpleDevicesModel.setmName(c.getString(c
-					.getColumnIndex(DevicesModel.NAME)));
-			mSimpleDevicesModel.setmNodeENNAme(c.getString(c
-					.getColumnIndex(DevicesModel.NODE_EN_NAME)));
-			mSimpleDevicesModel.setmOnOffLine(c.getShort(c
-					.getColumnIndex(DevicesModel.ON_OFF_LINE)));
-			mSimpleDevicesModel.setmOnOffStatus(c.getString(c
-					.getColumnIndex(DevicesModel.ON_OFF_STATUS)));
-			mSimpleDevicesModel.setmUserDefineName(c.getString(c
-					.getColumnIndex(DevicesModel.USER_DEFINE_NAME)));
+			mDevicesModel = new DevicesGroup(con);
+			mDevicesModel.setDevicesState(c.getInt(c.getColumnIndex(DevicesGroup.ON_OFF_STATUS))==0);
+			mDevicesModel.setDevicesValue(c.getInt(c.getColumnIndex(DevicesGroup.DEVICES_VALUE)));
+			mDevicesModel.setEp(c.getString(c.getColumnIndex(DevicesGroup.EP)));
+			mDevicesModel.setGroupId(c.getInt(c.getColumnIndex(DevicesGroup.GROUP_ID)));
+			mDevicesModel.setGroupName(c.getString(c.getColumnIndex(DevicesGroup.GROUP_NAME)));
+			mDevicesModel.setIeee(c.getString(c.getColumnIndex(DevicesGroup.DEVICES_IEEE)));
 			
-			mList.add(mSimpleDevicesModel);
+			mList.add(mDevicesModel);
 		}
 		c.close();
 		return mList;

@@ -30,35 +30,16 @@
             android:layout_marginTop="3dp"
             android:background="#999999" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="1"
-            android:orientation="vertical" >
-
-            <TextView
+        <TextView
                 android:id="@+id/devices_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_weight="1"
                 android:text="Light1"
+                android:layout_gravity="center_vertical"
                 android:textColor="#000000"
                 android:textSize="15dp" />
-
-            <TextView
-                android:id="@+id/devices_state"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="15dp"
-                android:layout_weight="1"
-                android:text="开"
-                android:textColor="#1E90FF"
-                android:textSize="15dp" />
-        </LinearLayout>
 
         <View
             android:layout_width="2dp"
@@ -75,9 +56,7 @@
             android:layout_height="30dp"
             android:layout_gravity="center"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="2dp"
-            android:clickable="false"
-            android:focusable="false" />
+            android:layout_marginRight="2dp" />
     </LinearLayout>
 
 </LinearLayout>

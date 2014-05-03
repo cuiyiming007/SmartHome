@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.gdgl.model.DevicesGroup;
+import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.EditDevicesDlg.EditDialogcallback;
@@ -54,9 +56,16 @@ public class AddDlg {
 			@Override
 			public void onClick(View v) {
 				String mN = mName.getText().toString();
-				if (null != mN && !mN.trim().equals("")) {
-					save(mN.trim());
+				if(text_name.getText().toString().trim().equals("ÇøÓòÃû³Æ")){
+					if (null != mN && !mN.trim().equals("")) {
+						saveRegion(mN.trim());
+					}
+				}else{
+					if (null != mN && !mN.trim().equals("")) {
+						saveScene(mN.trim());
+					}
 				}
+				
 				mAddDialogcallback.refreshdata();
 				dismiss();
 			}
@@ -72,7 +81,26 @@ public class AddDlg {
 		});
 	}
 
-	protected void save(String mN) {
+	protected void saveScene(String trim) {
+		// TODO Auto-generated method stub
+		getFromSharedPreferences.setharedPreferences(mContext);
+		DevicesGroup dg=new DevicesGroup(mContext);
+		dg.setDevicesState(false);
+		dg.setEp("");
+		dg.setIeee("-1");
+		dg.setGroupName(trim);
+		dg.setGroupId(getFromSharedPreferences.getSceneId());
+		dg.setDevicesValue(0);
+		DataHelper dh=new DataHelper(mContext);
+		ArrayList<DevicesGroup> al=new ArrayList<DevicesGroup>();
+		al.add(dg);
+		for (DevicesGroup devicesGroup : al) {
+			dh.insertGroup(dh.getReadableDatabase(), DataHelper.GROUP_TABLE, null,devicesGroup.convertContentValues());
+		}
+		
+	}
+
+	protected void saveRegion(String mN) {
 		// TODO Auto-generated method stub
 		List<String> mList = new ArrayList<String>();
 		String[] mregions = null;

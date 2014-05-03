@@ -172,7 +172,7 @@ public class SeekLightsControlFragment extends BaseControlFragment {
 		LightManager.getInstance().deleteObserver(this);
 		super.onDestroy();
 	}
-	class operatortype {
+	public static class operatortype {
 		public static final int TurnOff = 0;
 		
 		public static final int TurnOn = 1;

@@ -61,4 +61,13 @@ public class getFromSharedPreferences {
 		String region = mSharedPreferences.getString(UiUtils.REGION, null);
 		return region;
 	}
+	
+	public static int getSceneId() {
+		int sceneId = mSharedPreferences.getInt(UiUtils.SCENE, 0);
+		
+		mEditor = mSharedPreferences.edit();
+		mEditor.putInt(UiUtils.SCENE, sceneId+1);
+		mEditor.commit();
+		return sceneId+1;
+	}
 }

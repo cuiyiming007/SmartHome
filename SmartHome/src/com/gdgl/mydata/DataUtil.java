@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.gdgl.activity.ShowDevicesGroupFragmentActivity;
+import com.gdgl.model.DevicesGroup;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.smarthome.R;
@@ -480,5 +481,73 @@ public class DataUtil {
         
     }
     
+    public static List<String> getScenes(
+            Context c, DataHelper dh) {
+    	
+    	if(null==dh){
+    		dh=new DataHelper(c);
+    	}
+        List<DevicesGroup> listDevicesModel = new ArrayList<DevicesGroup>();
+        List<String> scenes = new ArrayList<String>(); 
+        
+
+        SQLiteDatabase db = dh.getSQLiteDatabase();
+        listDevicesModel = dh.queryForGroupList(c, db, DataHelper.GROUP_TABLE, null, null, null, null, null, null, null);
+        
+       for (DevicesGroup d : listDevicesModel) {
+    	   if(!scenes.contains(d.getGroupName())){
+    		   scenes.add(d.getGroupName());
+    	   }
+       }
+       return scenes;
+    }
     
+    public static List<SimpleDevicesModel> getScenesDevices(
+            Context c, DataHelper dh,String name) {
+    	
+    	if(null==dh){
+    		dh=new DataHelper(c);
+    	}
+    	String[] args={name};
+        List<DevicesGroup> listDevicesModel = new ArrayList<DevicesGroup>();
+        List<SimpleDevicesModel> scenes = new ArrayList<SimpleDevicesModel>(); 
+
+        SQLiteDatabase db = dh.getSQLiteDatabase();
+        listDevicesModel = dh.queryForGroupList(c, db, DataHelper.GROUP_TABLE, null, " group_name=? ", args, null, null, null, null);
+        
+
+       for (DevicesGroup d : listDevicesModel) {
+    	   String ieee=d.getIeee();
+    	   if(!ieee.equals("-1")){
+    		   String[] ag={d.getIeee()};
+        	   String where=" ieee=? ";
+        	   List<SimpleDevicesModel> mm=DataUtil.getDevices(c, dh, ag, where);
+        	   if(null!=mm && mm.size()>0){
+        		   scenes.add(mm.get(0));
+        	   }
+    	   }
+       }
+       return scenes;
+    }
+    
+    public static DevicesGroup getOneScenesDevices(
+            Context c, DataHelper dh,String ieee) {
+    	
+    	if(null==dh){
+    		dh=new DataHelper(c);
+    	}
+    	String[] args={ieee};
+        List<DevicesGroup> listDevicesModel = new ArrayList<DevicesGroup>();
+        List<SimpleDevicesModel> scenes = new ArrayList<SimpleDevicesModel>(); 
+
+        SQLiteDatabase db = dh.getSQLiteDatabase();
+        listDevicesModel = dh.queryForGroupList(c, db, DataHelper.GROUP_TABLE, null, " devices_ieee=? ", args, null, null, null, null);
+        
+        if(null!=listDevicesModel && listDevicesModel.size()>0){
+        	return listDevicesModel.get(0);
+        }
+        
+        return null;
+       
+    }
 }

@@ -50,15 +50,28 @@ public class DevicesListFragment extends Fragment implements adapterSeter {
 	public static final String PASS_OBJECT = "pass_object";
 	
 	public static final String PASS_ONOFFIMG = "pass_on_off_img";
+	
+	public static final String OPERATOR = "with_or_not_operator";
 
 	Context mContext;
 
 	AdapterContextMenuInfo selectedMenuInfo = null;
-
+	
+    public static final int WITH_OPERATE = 0;
+    public static final int WITHOUT_OPERATE = 2;
+    
+    private int type;
+    
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		Bundle extras = getArguments();
+		if (null != extras) {
+			type = extras.getInt(OPERATOR, WITH_OPERATE);
+		}else{
+			type=WITH_OPERATE;
+		}
 	}
 
 	@Override
@@ -103,56 +116,57 @@ public class DevicesListFragment extends Fragment implements adapterSeter {
 				}
 			}
 		});
+		
+		if(type==WITH_OPERATE){
+			devices_list.setOnItemClickListener(new OnItemClickListener() {
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view,
+						int position, long id) {
+					// TODO Auto-generated method stub
+					Log.i(TAG, "tagzgs->position=" + position);
+					mSimpleDevicesModel = mRefreshData.getDeviceModle(position - 1);
+					mRefreshData.setDevicesId(mSimpleDevicesModel.getmIeee());
+					Fragment mFragment;
 
-		devices_list.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				// TODO Auto-generated method stub
-				Log.i(TAG, "tagzgs->position=" + position);
-				mSimpleDevicesModel = mRefreshData.getDeviceModle(position - 1);
-				mRefreshData.setDevicesId(mSimpleDevicesModel.getmIeee());
-				Fragment mFragment;
-
-				if (mSimpleDevicesModel.getmModelId().indexOf(
-						DataHelper.Doorbell_button) == 0) {
-					mFragment = new DoorBellFragment();
-				}else if (mSimpleDevicesModel.getmModelId().indexOf(
-						DataHelper.Multi_key_remote_control) == 0) {
-					mFragment = new RemoteControlFragment();
-				}
-				else if (mSimpleDevicesModel.getmModelId().indexOf(
-						DataHelper.Wireless_Intelligent_valve_switch) == 0) {
-					mFragment = new OutPutFragment();
-				} 
-				else {
-					mFragment = UiUtils.getFragment(mSimpleDevicesModel
-							.getmDeviceId());
-				}
-				if (null != mFragment) {
-					Bundle extras = new Bundle();
-					if (DataHelper.IAS_ZONE_DEVICETYPE == mSimpleDevicesModel
-							.getmDeviceId()
-							|| DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE == mSimpleDevicesModel
-									.getmDeviceId()
-							|| DataHelper.ON_OFF_OUTPUT_DEVICETYPE == mSimpleDevicesModel
-									.getmDeviceId()
-							|| DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE == mSimpleDevicesModel
-									.getmDeviceId()		
-							|| DataHelper.MAINS_POWER_OUTLET_DEVICETYPE == mSimpleDevicesModel
-									.getmDeviceId()) {
-						int[] OnOffImg = { R.drawable.bufang_on,
-								R.drawable.chefang_off };
-						extras.putIntArray(PASS_ONOFFIMG, OnOffImg);
+					if (mSimpleDevicesModel.getmModelId().indexOf(
+							DataHelper.Doorbell_button) == 0) {
+						mFragment = new DoorBellFragment();
+					}else if (mSimpleDevicesModel.getmModelId().indexOf(
+							DataHelper.Multi_key_remote_control) == 0) {
+						mFragment = new RemoteControlFragment();
 					}
-					// PASS_OBKECT
-					extras.putParcelable(PASS_OBJECT, mSimpleDevicesModel);
-					mFragment.setArguments(extras);
-					mRefreshData.setFragment(mFragment, position - 1);
+					else if (mSimpleDevicesModel.getmModelId().indexOf(
+							DataHelper.Wireless_Intelligent_valve_switch) == 0) {
+						mFragment = new OutPutFragment();
+					} 
+					else {
+						mFragment = UiUtils.getFragment(mSimpleDevicesModel
+								.getmDeviceId());
+					}
+					if (null != mFragment) {
+						Bundle extras = new Bundle();
+						if (DataHelper.IAS_ZONE_DEVICETYPE == mSimpleDevicesModel
+								.getmDeviceId()
+								|| DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE == mSimpleDevicesModel
+										.getmDeviceId()
+								|| DataHelper.ON_OFF_OUTPUT_DEVICETYPE == mSimpleDevicesModel
+										.getmDeviceId()
+								|| DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE == mSimpleDevicesModel
+										.getmDeviceId()		
+								|| DataHelper.MAINS_POWER_OUTLET_DEVICETYPE == mSimpleDevicesModel
+										.getmDeviceId()) {
+							int[] OnOffImg = { R.drawable.bufang_on,
+									R.drawable.chefang_off };
+							extras.putIntArray(PASS_ONOFFIMG, OnOffImg);
+						}
+						// PASS_OBKECT
+						extras.putParcelable(PASS_OBJECT, mSimpleDevicesModel);
+						mFragment.setArguments(extras);
+						mRefreshData.setFragment(mFragment, position - 1);
+					}
 				}
-			}
-		});
-
+			});
+		}
 		registerForContextMenu(devices_list.getRefreshableView());
 		devices_list.setAdapter(mBaseAdapter);
 	}

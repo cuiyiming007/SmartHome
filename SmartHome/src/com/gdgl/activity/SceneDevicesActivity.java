@@ -4,20 +4,19 @@ package com.gdgl.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.entity.mime.MinimalField;
-
 import com.gdgl.activity.BaseControlFragment.UpdateDevice;
 import com.gdgl.activity.DevicesListFragment.refreshData;
-import com.gdgl.adapter.AllDevicesAdapter;
-import com.gdgl.adapter.AllDevicesAdapter.AddChecked;
-import com.gdgl.adapter.DevicesBaseAdapter;
-import com.gdgl.adapter.DevicesBaseAdapter.DevicesObserver;
+import com.gdgl.adapter.SceneDevicesAdapter;
+import com.gdgl.adapter.SceneDevicesAdapter.AddChecked;
+import com.gdgl.adapter.SceneDevicesListAdapter;
+import com.gdgl.adapter.SceneDevicesListAdapter.DevicesObserver;
+import com.gdgl.model.DevicesGroup;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
-import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.smarthome.R;
+import com.gdgl.util.DispatchOperator;
 import com.gdgl.util.MyOkCancleDlg;
 import com.gdgl.util.EditDevicesDlg.EditDialogcallback;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
@@ -28,23 +27,26 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class RegionDevicesActivity extends Activity implements DevicesObserver,
+public class SceneDevicesActivity extends Activity implements DevicesObserver,
 		AddChecked, refreshData, UpdateDevice,EditDialogcallback,Dialogcallback {
-	public static final String REGION_NAME = "region_name";
+	public static final String SCENE_NAME = "scene_name";
 
-	private String mRegion = "";
+	private String mScene = "";
 
 	String where = " device_region=? ";
 
@@ -52,7 +54,7 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 
 	List<SimpleDevicesModel> mAddList;
 	
-	List<SimpleDevicesModel> mAddToRegionList;
+	List<DevicesGroup> mAddToSceneList;
 
 	DataHelper mDh;
 
@@ -60,66 +62,61 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 
 	DevicesListFragment mDevicesListFragment;
 	
-	AllDevicesFragment mAllDevicesFragment;
+	AllSceneDevicesFragment mAllDevicesFragment;
 
-	DevicesBaseAdapter mDevicesBaseAdapter;
+	SceneDevicesListAdapter mDevicesBaseAdapter;
 
 	TextView mNoDevices,region_name;
 	Button mAdd,delete;
-	
 	DataHelper mDataHelper;
 	
 	private String devicesIeee = "";
 	private boolean deleteType=false;
 	private boolean isAdd=false;
+	CheckBox mSceneOn;
 
 	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.add_region);
+		setContentView(R.layout.add_scene);
 
 		Intent i = getIntent();
 		if (null != i) {
 			Bundle extras = i.getExtras();
 			if (null != extras) {
-				mRegion = extras.getString(REGION_NAME, "");
+				mScene = extras.getString(SCENE_NAME, "");
 			}
 		}
-		mDataHelper=new DataHelper(RegionDevicesActivity.this);
+		mDataHelper=new DataHelper(SceneDevicesActivity.this);
 		initData();
 		initView();
 	}
 	
 	
-	private void initRegionDevicesList(){
+	private void initSceneDevicesList(){
 		mList=null;
-		String[] args = { mRegion };
-		if (!mRegion.trim().equals("")) {
-			mDh = new DataHelper(RegionDevicesActivity.this);
-			mList = DataUtil.getDevices(RegionDevicesActivity.this, mDh, args,
-					where);
+		if (!mScene.trim().equals("")) {
+			mDh = new DataHelper(SceneDevicesActivity.this);
+			mList = DataUtil.getScenesDevices(SceneDevicesActivity.this, mDh, mScene);
 		}
 	}
 	
 	private void initAddFragmentDevicesList(){
 		mAddList=null;
-		List<SimpleDevicesModel> mTempList = DataUtil.getDevices(
-				RegionDevicesActivity.this, mDh, null, null);
-		if (null == mList || mList.size() == 0) {
-			mAddList = mTempList;
-		} else {
-			mAddList = new ArrayList<SimpleDevicesModel>();
-			for (SimpleDevicesModel simpleDevicesModel : mTempList) {
-				if (!isInList(simpleDevicesModel)) {
-					mAddList.add(simpleDevicesModel);
-				}
+		mAddList=new ArrayList<SimpleDevicesModel>();
+		List<SimpleDevicesModel> ls=new ArrayList<SimpleDevicesModel>();
+		ls = DataUtil.getDevices(
+				SceneDevicesActivity.this, mDh, null, null);
+		for (SimpleDevicesModel simpleDevicesModel : ls) {
+			if(!isInList(simpleDevicesModel)){
+				mAddList.add(simpleDevicesModel);
 			}
 		}
 	}
 	
-	
+
 	private boolean isInList(SimpleDevicesModel simpleDevicesModel){
 		
 		for (SimpleDevicesModel msimpleDevicesModel : mList) {
@@ -131,7 +128,7 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 	}
 	
 	private void initAddToRegionDevicesList(){
-		mAddToRegionList=new ArrayList<SimpleDevicesModel>();
+		mAddToSceneList=new ArrayList<DevicesGroup>();
 	}
 	
 	private void initView() {
@@ -141,7 +138,50 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 		delete = (Button) findViewById(R.id.delete);
 		region_name=(TextView) findViewById(R.id.region_name);
 		
-		region_name.setText(mRegion);
+		mSceneOn=(CheckBox)findViewById(R.id.SceneOn);
+		
+		mSceneOn.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				// TODO Auto-generated method stub
+				initSceneDevicesList();
+				SceneDevicesActivity.OperatorDevices so;
+				List<SceneDevicesActivity.OperatorDevices> ml=new ArrayList<SceneDevicesActivity.OperatorDevices>();
+				if(isChecked){
+					for (SimpleDevicesModel sd : mList) {
+						DevicesGroup ds=getModelByID(sd.getmIeee());
+						if(null!=ds){
+							so=new SceneDevicesActivity.OperatorDevices(ds.getDevicesState(),ds.getDevicesValue(),sd);
+							ml.add(so);
+						}
+					}
+				}else{
+					for (SimpleDevicesModel sd : mList) {
+						DevicesGroup ds=getModelByID(sd.getmIeee());
+						if(null!=ds){
+							so=new SceneDevicesActivity.OperatorDevices(!ds.getDevicesState(),0,sd);
+							ml.add(so);
+						}
+					}
+				}
+				DispatchOperator dp=new DispatchOperator(SceneDevicesActivity.this,ml);
+				dp.operator();
+				ContentValues cv;
+				String where=" group_name=? ";
+				String[] args={mScene};
+				cv=new ContentValues();
+				cv.put(DevicesGroup.GROUP_STATE, isChecked? 1: 0);
+				mDataHelper.update(mDataHelper.getReadableDatabase(), DataHelper.GROUP_TABLE, cv, where, args);
+				if(isChecked){
+					mSceneOn.setText("启用");
+				}else{
+					mSceneOn.setText("未启用");
+				}
+			}
+		});
+		
+		region_name.setText(mScene);
 		
 		if(null!=mList && mList.size()>0){
 			mNoDevices.setVisibility(View.GONE);
@@ -156,22 +196,19 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 					isAdd=true;
 					mAdd.setText("添加");
 					mAdd.setTextColor(Color.RED);
-					initRegionDevicesList();
+					initSceneDevicesList();
 					initAddFragmentDevicesList();
-					mAllDevicesFragment=new AllDevicesFragment();
-					AllDevicesAdapter mAllDevicesAdapter=new AllDevicesAdapter(RegionDevicesActivity.this, mAddList, RegionDevicesActivity.this);
-					mAllDevicesFragment.setAdapter(mAllDevicesAdapter);
+					mAllDevicesFragment=new AllSceneDevicesFragment();
+					SceneDevicesAdapter mSceneDevicesAdapter=new SceneDevicesAdapter(SceneDevicesActivity.this, mAddList, SceneDevicesActivity.this,mScene);
+					mAllDevicesFragment.setAdapter(mSceneDevicesAdapter);
 					setFragment(mAllDevicesFragment, 0);
 				}else{
 					isAdd=false;
-					String[] args = { mRegion };
-					ContentValues c = new ContentValues();
-					c.put(DevicesModel.DEVICE_REGION, mRegion);
-					for (SimpleDevicesModel s : mAddToRegionList) {
-						updateDevices(s.getmIeee(), s.getmEP(), c);
+					for (DevicesGroup s : mAddToSceneList) {
+						updateDevices(s.getIeee(), s.getEp(), s.convertContentValues());
 					}
-					mAddToRegionList.clear();
-					initRegionDevicesList();
+					mAddToSceneList.clear();
+					initSceneDevicesList();
 					mDevicesBaseAdapter.setList(mList);
 					mDevicesBaseAdapter.notifyDataSetChanged();
 					fragmentManager.popBackStack();
@@ -188,33 +225,40 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 				finish();
 			}
 		});
-		
 		delete.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
-						RegionDevicesActivity.this);
-				mMyOkCancleDlg.setDialogCallback(RegionDevicesActivity.this);
-				mMyOkCancleDlg.setContent("确定要删除区域  "
-						+ mRegion + " 吗?");
+						SceneDevicesActivity.this);
+				mMyOkCancleDlg.setDialogCallback(SceneDevicesActivity.this);
+				mMyOkCancleDlg.setContent("确定要删除场景  "
+						+ mScene + " 吗?");
 				mMyOkCancleDlg.show();
 				deleteType=true;
 			}
 		});
-		
 	}
-
+	
+	private DevicesGroup getModelByID(String ieee){
+		for (DevicesGroup ds : mAddToSceneList) {
+			if(ds.getIeee().trim().equals(ieee)){
+				return ds;
+			}
+		}
+		return null;
+	}
+	
 	private void initData() {
 		// TODO Auto-generated method stub
 		
 		fragmentManager = getFragmentManager();
 		
-		initRegionDevicesList();
+		initSceneDevicesList();
 		initAddToRegionDevicesList();
-		mDevicesBaseAdapter = new DevicesBaseAdapter(
-				RegionDevicesActivity.this, mList, this);
+		mDevicesBaseAdapter = new SceneDevicesListAdapter(
+				SceneDevicesActivity.this, mList, this);
 	}
 
 	private void initDevicesListFragment() {
@@ -225,9 +269,12 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 			mNoDevices.setVisibility(View.VISIBLE);
 		}else{
 			mNoDevices.setVisibility(View.GONE);
+			Bundle extras = new Bundle();
 			FragmentTransaction fragmentTransaction = fragmentManager
 					.beginTransaction();
+			extras.putInt(DevicesListFragment.OPERATOR, DevicesListFragment.WITHOUT_OPERATE);
 			mDevicesListFragment = new DevicesListFragment();
+			mDevicesListFragment.setArguments(extras);
 			fragmentTransaction.replace(R.id.devices_control_fragment,
 					mDevicesListFragment, "LightsControlFragment");
 			mDevicesListFragment.setAdapter(mDevicesBaseAdapter);
@@ -248,18 +295,20 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 	}
 
 	@Override
-	public void AddCheckedDevices(SimpleDevicesModel s) {
+	public void AddCheckedDevices(DevicesGroup s) {
 		// TODO Auto-generated method stub
-		if(!mAddToRegionList.contains(s)){
-			mAddToRegionList.add(s);
+		Log.i(SCENE_NAME, "zgs->AddCheckedDevices");
+		if(!mAddToSceneList.contains(s)){
+			mAddToSceneList.add(s);
 		}
 	}
 
 	@Override
-	public void DeletedCheckedDevices(SimpleDevicesModel s) {
+	public void DeletedCheckedDevices(DevicesGroup s) {
 		// TODO Auto-generated method stub
-		if(mAddToRegionList.contains(s)){
-			mAddToRegionList.remove(s);
+		Log.i(SCENE_NAME, "zgs->DeletedCheckedDevices");
+		if(mAddToSceneList.contains(s)){
+			mAddToSceneList.remove(s);
 		}
 	}
 
@@ -329,18 +378,8 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 	public boolean updateDevices(String Ieee, String ep, ContentValues c) {
 		// TODO Auto-generated method stub
 		int result=0;
-		String[] eps={ep};
-		if(ep.contains(",")){
-			eps=ep.trim().split(",");
-		} 
-		for (String string : eps) {
-			String wheres = " ieee = ? and ep = ?";
-			String[] args = { Ieee ,string };
-			SQLiteDatabase mSQLiteDatabase = mDataHelper.getSQLiteDatabase();
-			int temp = mDataHelper.update(mSQLiteDatabase,
-					DataHelper.DEVICES_TABLE, c, wheres, args);
-			result=temp>result?temp:result;
-		}
+		SQLiteDatabase mSQLiteDatabase = mDataHelper.getSQLiteDatabase();
+		result=(int) mDataHelper.insertGroup(mSQLiteDatabase, DataHelper.GROUP_TABLE, null, c);
 		if (result >= 0) {
 			return true;
 		}
@@ -356,13 +395,12 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 
 		ContentValues c = new ContentValues();
 		c.put(DevicesModel.USER_DEFINE_NAME, name);
-//		c.put(DevicesModel.DEVICE_REGION, region);
 		
 		SQLiteDatabase mSQLiteDatabase = mDataHelper.getSQLiteDatabase();
 		int result = mDataHelper.update(mSQLiteDatabase,
 				DataHelper.DEVICES_TABLE, c, where, args);
 		if (result >= 0) {
-			initRegionDevicesList();
+			initSceneDevicesList();
 			if(null==mList || mList.size()==0){
 				mNoDevices.setVisibility(View.VISIBLE);
 			}else{
@@ -377,64 +415,24 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 	public void dialogdo() {
 		// TODO Auto-generated method stub
 		if(deleteType){
-			String where = " ieee = ? ";
-			for (SimpleDevicesModel s : mList) {
-				ContentValues c = new ContentValues();
-				c.put(DevicesModel.DEVICE_REGION, "");
-				String[] args = { s.getmIeee() };
-				SQLiteDatabase mSQLiteDatabase = mDataHelper.getSQLiteDatabase();
-				mDataHelper.update(mSQLiteDatabase,
-						DataHelper.DEVICES_TABLE, c, where, args);
-			}
-			List<String> mregions=new ArrayList<String>();
-			getFromSharedPreferences.setharedPreferences(RegionDevicesActivity.this);
-			String[] mregion = null;
-			String reg=getFromSharedPreferences.getRegion();
-			if(null!=reg && !reg.trim().equals("")){
-				mregion=reg.split("@@");
-			}
-			if(null!=mregion){
-				for (String string : mregion) {
-		        	if(!string.equals("")){
-		        		mregions.add(string);
-		        	}
-				}
-			}
-			int index=0;
-			for (; index < mregions.size(); index++) {
-				if(mregions.get(index).trim().equals(mRegion)){
-					break;
-				}
-			}
-			mregions.remove(index);
-			StringBuilder ms = new StringBuilder();
-			for (String string : mregions) {
-				ms.append(string + "@@");
-			}
-			getFromSharedPreferences.setRegion(ms.toString());
-			this.finish();
-		}else{
-			String where = " ieee = ? ";
-			String[] args = { devicesIeee };
-
-			ContentValues c = new ContentValues();
-			c.put(DevicesModel.DEVICE_REGION, "");
+			String where = " group_name = ? ";
+			String[] args = { mScene };
 			
 			SQLiteDatabase mSQLiteDatabase = mDataHelper.getSQLiteDatabase();
-			int result = mDataHelper.update(mSQLiteDatabase,
-					DataHelper.DEVICES_TABLE, c, where, args);
-			if (result >= 0) {
-				initRegionDevicesList();
-				if(null==mList || mList.size()==0){
-					mNoDevices.setVisibility(View.VISIBLE);
-				}else{
-					mDevicesBaseAdapter.setList(mList);
-					mDevicesBaseAdapter.notifyDataSetChanged();
-				}
-			}
+			mDataHelper.deleteGroup(mSQLiteDatabase,
+					DataHelper.GROUP_TABLE,  where, args);
+			finish();
+		}else{
+			String where = " group_name = ? and devices_ieee=? ";
+			String[] args = { mScene,devicesIeee};
+			
+			SQLiteDatabase mSQLiteDatabase = mDataHelper.getSQLiteDatabase();
+			mDataHelper.deleteGroup(mSQLiteDatabase,
+					DataHelper.GROUP_TABLE,  where, args);
 		}
 	}
-	
+
+
 	@Override
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
@@ -451,5 +449,14 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 		}
 	}
 	
-	
+	public class OperatorDevices{
+		public boolean state;
+		public int value;
+		public SimpleDevicesModel sModel;
+		public OperatorDevices(boolean st,int v,SimpleDevicesModel s){
+			state=st;
+			value=v;
+			sModel=s;
+		}
+	}
 }

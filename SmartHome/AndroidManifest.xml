@@ -65,6 +65,12 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
+		<activity
+            android:name="com.gdgl.activity.SceneDevicesActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
         <activity
             android:name="h264.com.VideoActivity"
             android:label="@string/app_name"

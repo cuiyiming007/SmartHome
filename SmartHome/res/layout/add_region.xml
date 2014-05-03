@@ -7,20 +7,27 @@
     android:orientation="vertical" >
 
     <LinearLayout
-        android:id="@+id/goback"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="#ffffff"
         android:orientation="horizontal" >
 
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+        <LinearLayout
+            android:id="@+id/goback"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="5dp"
-            android:src="@drawable/back" />
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:src="@drawable/back" />
 
         <View
             android:layout_width="2px"
@@ -52,6 +59,16 @@
             android:textStyle="bold" />
     </LinearLayout>
 
+        <Button
+            android:id="@+id/delete"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="15dip"
+            android:layout_marginRight="10dip"
+            android:background="@drawable/delete_btn_style"
+            android:gravity="center" />
+    </LinearLayout>
+
     <LinearLayout
         android:id="@+id/devices_control_fragment"
         android:layout_width="match_parent"
@@ -62,15 +79,15 @@
         android:layout_marginTop="15dp"
         android:layout_weight="1"
         android:alpha="0.85"
-        android:orientation="vertical"
-        android:background="@drawable/white" >
+        android:background="@drawable/white"
+        android:orientation="vertical" >
 
         <TextView
             android:id="@+id/no_devices"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_gravity="center"
+            android:layout_weight="1"
             android:gravity="center"
             android:text="暂无任何设备，请添加"
             android:textColor="#000000"

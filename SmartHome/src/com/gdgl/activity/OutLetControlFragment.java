@@ -189,7 +189,7 @@ public class OutLetControlFragment extends BaseControlFragment {
 		}
 	}
 
-	class operatortype {
+	public static class operatortype {
 		/***
 		 * 获取设备类型
 		 */

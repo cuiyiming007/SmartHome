@@ -1,24 +1,21 @@
 package com.gdgl.util;
 
-import android.app.ActionBar.LayoutParams;
 import android.app.Fragment;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.gdgl.activity.LockFragment;
 import com.gdgl.activity.ShadeControlFragment;
-import com.gdgl.activity.DetectorOnOffControlFragment;
 import com.gdgl.activity.OutLetControlFragment;
 import com.gdgl.activity.LightSensorFragment;
 import com.gdgl.activity.SeekLightsControlFragment;
 import com.gdgl.activity.SwitchControlFragment;
 import com.gdgl.activity.TemperatureSensorFragment;
 import com.gdgl.activity.WarnningControlFragment;
+import com.gdgl.adapter.SceneDevicesAdapter;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.smarthome.R;
 
@@ -33,7 +30,7 @@ public class UiUtils {
 	public static final String IS_AUTO_LOGIN = "AutoLogin";
 	
 	public static final String REGION = "RegionName";
-	
+	public static final String SCENE = "SceneId";
 
 	public static final String EMPTY_STR = "";
 
@@ -224,6 +221,39 @@ public class UiUtils {
 		}
 		
 		return imgId;
+	}
+	
+	public static int getSceneItemType(int devicesid) {
+		
+		int LIGHT=DataHelper.ON_OFF_SWITCH_DEVICETYPE;
+		int[] NOOPER={DataHelper.LIGHT_SENSOR_DEVICETYPE,DataHelper.TEMPTURE_SENSOR_DEVICETYPE};
+		int[] WITH_VALUE={DataHelper.DIMEN_SWITCH_DEVICETYPE,DataHelper.DIMEN_LIGHTS_DEVICETYPE,DataHelper.SHADE_DEVICETYPE};
+		for (int i : WITH_VALUE) {
+			if(i==devicesid){
+				return SceneDevicesAdapter.WITH_VALUE;
+			}
+		}
+		if(devicesid==LIGHT){
+			return SceneDevicesAdapter.LIGHT;
+		}
+		for (int i : NOOPER) {
+			if(i==devicesid){
+				return SceneDevicesAdapter.NO_OPERATOR;
+			}
+		}
+		return SceneDevicesAdapter.ON_OFF;
+	}
+	
+	
+	public static int getSceneItemStyle(String modelid) {
+		
+		String[] STYLE={DataHelper.Wall_switch_touch,DataHelper.Wall_switch_double,DataHelper.Wall_switch_triple};
+		for (String s : STYLE) {
+			if(modelid.equals(s)){
+				return R.style.scene_light_checkbox_style;
+			}
+		}
+		return R.style.scene_anfang_checkbox_style;
 	}
 	
 	public static int getDevicesSmallIconForRemote(int type) {

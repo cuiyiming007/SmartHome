@@ -2,9 +2,9 @@ package com.gdgl.activity;
 
 import com.gdgl.activity.DevicesListFragment.refreshData;
 import com.gdgl.activity.ShowDevicesGroupFragmentActivity.adapterSeter;
-import com.gdgl.adapter.AllDevicesAdapter;
-import com.gdgl.adapter.AllDevicesAdapter.AddChecked;
-import com.gdgl.adapter.AllDevicesAdapter.ViewHolder;
+import com.gdgl.adapter.SceneDevicesAdapter;
+import com.gdgl.adapter.SceneDevicesAdapter.AddChecked;
+import com.gdgl.adapter.SceneDevicesAdapter.ViewHolder;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.smarthome.R;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -26,7 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.LinearLayout.LayoutParams;
 
-public class AllDevicesFragment extends Fragment implements adapterSeter {
+public class AllSceneDevicesFragment extends Fragment implements adapterSeter {
 
 	private View mView;
 	PullToRefreshListView devices_list;
@@ -52,7 +52,7 @@ public class AllDevicesFragment extends Fragment implements adapterSeter {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		mView = inflater.inflate(R.layout.all_devices, null);
+		mView = inflater.inflate(R.layout.all_scene_devices, null);
 		initView();
 		return mView;
 	}
@@ -88,26 +88,7 @@ public class AllDevicesFragment extends Fragment implements adapterSeter {
 				}
 			}
 		});
-		
-		devices_list.getRefreshableView().setOnItemClickListener(new OnItemClickListener() {
 
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				// TODO Auto-generated method stub
-				ViewHolder holder = (ViewHolder) view.getTag();
-				holder.selected.toggle();
-				((AllDevicesAdapter) mBaseAdapter).getIsSelected().put(position-1, holder.selected.isChecked());
-				mBaseAdapter.notifyDataSetChanged();
-				if (holder.selected.isChecked()) {
-					mAddChecked.AddCheckedDevices(holder.mSimpleDevicesModel);
-				} else {
-					mAddChecked.DeletedCheckedDevices(holder.mSimpleDevicesModel);
-				}
-			}
-		});
-		
-//		registerForContextMenu(devices_list.getRefreshableView());
 		devices_list.setAdapter(mBaseAdapter);
 	}
 	
