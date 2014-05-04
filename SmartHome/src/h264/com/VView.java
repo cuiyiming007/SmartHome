@@ -157,13 +157,14 @@ public class VView extends View implements Runnable {
 			decodethread.interrupt();
 			decodethread = null;
 		}
-		try {
-			if (Network.socket != null) {
-				Network.socket.close();
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			if (Network.socket != null) {
+//				Network.socket.close();
+//				Network.socket=null;
+//			}
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 	}
 
 	public boolean getStartFlag() {

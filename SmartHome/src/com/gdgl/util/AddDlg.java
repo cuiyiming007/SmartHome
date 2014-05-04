@@ -56,7 +56,7 @@ public class AddDlg {
 			@Override
 			public void onClick(View v) {
 				String mN = mName.getText().toString();
-				if(text_name.getText().toString().trim().equals("ÇøÓòÃû³Æ")){
+				if(text_name.getText().toString().trim().equals("åŒºåŸŸåç§°")){
 					if (null != mN && !mN.trim().equals("")) {
 						saveRegion(mN.trim());
 					}

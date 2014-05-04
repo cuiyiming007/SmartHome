@@ -106,6 +106,7 @@ public class VideoActivity extends Activity {
 					} catch (IOException e1) {
 						decodeh264.initalThread();
 						e1.printStackTrace();
+						return false;
 					}
 				}
 			}

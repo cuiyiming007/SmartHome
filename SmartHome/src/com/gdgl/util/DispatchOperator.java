@@ -7,6 +7,7 @@ import android.content.Context;
 import com.gdgl.activity.OutLetControlFragment;
 import com.gdgl.activity.SceneDevicesActivity;
 import com.gdgl.activity.SeekLightsControlFragment;
+import com.gdgl.activity.ShadeControlFragment;
 import com.gdgl.manager.LightManager;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.DataHelper;
@@ -63,7 +64,7 @@ public class DispatchOperator {
 			mLightManager.dimmableLightOperation(sd,SeekLightsControlFragment.operatortype.MoveToLevel,s.value*255/100);
 			break;
 		case DataHelper.SHADE_DEVICETYPE:
-//			LightManager.getInstance().shadeOperation(sd, ShadeControlFragment.operatortype.TurnOn);
+			LightManager.getInstance().shadeOperation(sd, ShadeControlFragment.operatortype.TurnOn);
 			break;
 	
 		default:

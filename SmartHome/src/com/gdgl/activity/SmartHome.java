@@ -222,6 +222,11 @@ public class SmartHome extends FragmentActivity implements OnRefreshListener<Vie
 		if ((keyCode == KeyEvent.KEYCODE_MENU)) {
 			return true;
 		}
+		else if (keyCode == KeyEvent.KEYCODE_BACK) {  
+            moveTaskToBack(false);  
+            return true;  
+        }  
+
 		return super.onKeyDown(keyCode, event);
 	}
 
