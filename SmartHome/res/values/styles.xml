@@ -67,5 +67,13 @@
         <item name="android:windowEnterAnimation">@anim/slide_left_in</item>
         <item name="android:windowExitAnimation">@anim/slide_right_out</item>
     </style>
-
+	
+    <style name="scene_light_checkbox_style" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/scene_light_checkbox_bg</item>
+    </style>
+    
+   <style name="scene_anfang_checkbox_style" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/scene_bufang_checkbox_bg</item>
+    </style>
+    
 </resources>
