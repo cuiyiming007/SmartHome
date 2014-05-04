@@ -55,7 +55,10 @@ public class DataUtil {
             args[10] = "1";
             break;
         case UiUtils.ENVIRONMENTAL_CONTROL:
-            
+        	args = new String[3];
+            args[0] = DataHelper.Indoor_temperature_sensor + "%";
+            args[1] = DataHelper.Light_Sensor + "%";
+            args[2] = "1";
             break;
         case UiUtils.ENERGY_CONSERVATION:
             args = new String[2];
@@ -82,7 +85,7 @@ public class DataUtil {
             where = "( model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? ) and on_off_line=? ";
             break;
         case UiUtils.ENVIRONMENTAL_CONTROL:
-            where = null;
+            where = " ( model_id like ? or model_id like ? ) and on_off_line=? ";;
             break;
         case UiUtils.ENERGY_CONSERVATION:
             where = " model_id like ? and on_off_line=? ";

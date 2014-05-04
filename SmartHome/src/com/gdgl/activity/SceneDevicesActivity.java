@@ -242,12 +242,7 @@ public class SceneDevicesActivity extends Activity implements DevicesObserver,
 	}
 	
 	private DevicesGroup getModelByID(String ieee){
-		for (DevicesGroup ds : mAddToSceneList) {
-			if(ds.getIeee().trim().equals(ieee)){
-				return ds;
-			}
-		}
-		return null;
+		return DataUtil.getOneScenesDevices(SceneDevicesActivity.this, mDh, ieee);
 	}
 	
 	private void initData() {
@@ -401,11 +396,13 @@ public class SceneDevicesActivity extends Activity implements DevicesObserver,
 				DataHelper.DEVICES_TABLE, c, where, args);
 		if (result >= 0) {
 			initSceneDevicesList();
+			mDevicesBaseAdapter.setList(mList);
+			mDevicesBaseAdapter.notifyDataSetChanged();
 			if(null==mList || mList.size()==0){
+				FragmentTransaction fragmentTransaction = fragmentManager
+						.beginTransaction();
+				fragmentTransaction.hide(mDevicesListFragment);
 				mNoDevices.setVisibility(View.VISIBLE);
-			}else{
-				mDevicesBaseAdapter.setList(mList);
-				mDevicesBaseAdapter.notifyDataSetChanged();
 			}
 		}
 	}
@@ -425,10 +422,17 @@ public class SceneDevicesActivity extends Activity implements DevicesObserver,
 		}else{
 			String where = " group_name = ? and devices_ieee=? ";
 			String[] args = { mScene,devicesIeee};
-			
 			SQLiteDatabase mSQLiteDatabase = mDataHelper.getSQLiteDatabase();
-			mDataHelper.deleteGroup(mSQLiteDatabase,
+			int result=mDataHelper.deleteGroup(mSQLiteDatabase,
 					DataHelper.GROUP_TABLE,  where, args);
+			if (result >= 0) {
+				initSceneDevicesList();
+				mDevicesBaseAdapter.setList(mList);
+				mDevicesBaseAdapter.notifyDataSetChanged();
+				if(null==mList || mList.size()==0){
+					mNoDevices.setVisibility(View.VISIBLE);
+				}
+			}
 		}
 	}
 

@@ -131,8 +131,9 @@ public class RegionsFragment extends Fragment implements refreshAdapter,Dialogca
 		refreshFragment();
 		super.onResume();
 	}
+
 	
-	
+
 	private class CustomeAdapter extends BaseAdapter{
 		
 		private List<String> mString;

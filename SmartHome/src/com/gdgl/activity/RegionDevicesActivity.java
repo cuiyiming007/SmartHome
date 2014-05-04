@@ -363,11 +363,10 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 				DataHelper.DEVICES_TABLE, c, where, args);
 		if (result >= 0) {
 			initRegionDevicesList();
+			mDevicesBaseAdapter.setList(mList);
+			mDevicesBaseAdapter.notifyDataSetChanged();
 			if(null==mList || mList.size()==0){
 				mNoDevices.setVisibility(View.VISIBLE);
-			}else{
-				mDevicesBaseAdapter.setList(mList);
-				mDevicesBaseAdapter.notifyDataSetChanged();
 			}
 		}
 	}
@@ -425,11 +424,10 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 					DataHelper.DEVICES_TABLE, c, where, args);
 			if (result >= 0) {
 				initRegionDevicesList();
+				mDevicesBaseAdapter.setList(mList);
+				mDevicesBaseAdapter.notifyDataSetChanged();
 				if(null==mList || mList.size()==0){
 					mNoDevices.setVisibility(View.VISIBLE);
-				}else{
-					mDevicesBaseAdapter.setList(mList);
-					mDevicesBaseAdapter.notifyDataSetChanged();
 				}
 			}
 		}
