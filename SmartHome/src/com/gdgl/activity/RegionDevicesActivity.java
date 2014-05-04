@@ -19,6 +19,7 @@ import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyOkCancleDlg;
+import com.gdgl.util.UiUtils;
 import com.gdgl.util.EditDevicesDlg.EditDialogcallback;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 
@@ -41,7 +42,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class RegionDevicesActivity extends Activity implements DevicesObserver,
-		AddChecked, refreshData, UpdateDevice,EditDialogcallback,Dialogcallback {
+		AddChecked, refreshData, UpdateDevice, EditDialogcallback,
+		Dialogcallback {
 	public static final String REGION_NAME = "region_name";
 
 	private String mRegion = "";
@@ -123,7 +125,8 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 	private boolean isInList(SimpleDevicesModel simpleDevicesModel){
 		
 		for (SimpleDevicesModel msimpleDevicesModel : mList) {
-			if(msimpleDevicesModel.getmIeee().equals(simpleDevicesModel.getmIeee())){
+			if (msimpleDevicesModel.getmIeee().equals(
+					simpleDevicesModel.getmIeee())) {
 				return true;
 			}
 		}
@@ -158,8 +161,10 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 					mAdd.setTextColor(Color.RED);
 					initRegionDevicesList();
 					initAddFragmentDevicesList();
-					mAllDevicesFragment=new AllDevicesFragment();
-					AllDevicesAdapter mAllDevicesAdapter=new AllDevicesAdapter(RegionDevicesActivity.this, mAddList, RegionDevicesActivity.this);
+					mAllDevicesFragment = new AllDevicesFragment();
+					AllDevicesAdapter mAllDevicesAdapter = new AllDevicesAdapter(
+							RegionDevicesActivity.this, mAddList,
+							RegionDevicesActivity.this);
 					mAllDevicesFragment.setAdapter(mAllDevicesAdapter);
 					setFragment(mAllDevicesFragment, 0);
 				}else{
@@ -197,8 +202,7 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 				MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
 						RegionDevicesActivity.this);
 				mMyOkCancleDlg.setDialogCallback(RegionDevicesActivity.this);
-				mMyOkCancleDlg.setContent("确定要删除区域  "
-						+ mRegion + " 吗?");
+				mMyOkCancleDlg.setContent("确定要删除区域  " + mRegion + " 吗?");
 				mMyOkCancleDlg.show();
 				deleteType=true;
 			}
@@ -381,12 +385,14 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 				ContentValues c = new ContentValues();
 				c.put(DevicesModel.DEVICE_REGION, "");
 				String[] args = { s.getmIeee() };
-				SQLiteDatabase mSQLiteDatabase = mDataHelper.getSQLiteDatabase();
-				mDataHelper.update(mSQLiteDatabase,
-						DataHelper.DEVICES_TABLE, c, where, args);
+				SQLiteDatabase mSQLiteDatabase = mDataHelper
+						.getSQLiteDatabase();
+				mDataHelper.update(mSQLiteDatabase, DataHelper.DEVICES_TABLE,
+						c, where, args);
 			}
-			List<String> mregions=new ArrayList<String>();
-			getFromSharedPreferences.setharedPreferences(RegionDevicesActivity.this);
+			List<String> mregions = new ArrayList<String>();
+			getFromSharedPreferences
+					.setharedPreferences(RegionDevicesActivity.this);
 			String[] mregion = null;
 			String reg=getFromSharedPreferences.getRegion();
 			if(null!=reg && !reg.trim().equals("")){
@@ -411,6 +417,29 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 				ms.append(string + "@@");
 			}
 			getFromSharedPreferences.setRegion(ms.toString());
+
+			List<String> mreg=new ArrayList<String>();
+ 			String comm = getFromSharedPreferences.getCommonUsed();
+			if (null != comm && !comm.trim().equals("")) {
+				String[] result = comm.split("@@");
+				for (String string : result) {
+					if (!string.trim().equals("")) {
+						mreg.add(string);
+					}
+				}
+			}
+			if(mreg.contains(UiUtils.REGION_FLAG+mRegion)){
+				mreg.remove(UiUtils.REGION_FLAG+mRegion);
+				StringBuilder sb=new StringBuilder();
+				if(null!=mreg && mreg.size()>0){
+					for (String s : mreg) {
+						sb.append(s+"@@");
+					}
+				}else{
+					sb.append("");
+				}
+				getFromSharedPreferences.setCommonUsed(sb.toString());
+			}
 			this.finish();
 		}else{
 			String where = " ieee = ? ";

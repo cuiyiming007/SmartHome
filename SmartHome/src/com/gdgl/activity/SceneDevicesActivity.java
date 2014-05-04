@@ -15,9 +15,11 @@ import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
+import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.DispatchOperator;
 import com.gdgl.util.MyOkCancleDlg;
+import com.gdgl.util.UiUtils;
 import com.gdgl.util.EditDevicesDlg.EditDialogcallback;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 
@@ -418,6 +420,30 @@ public class SceneDevicesActivity extends Activity implements DevicesObserver,
 			SQLiteDatabase mSQLiteDatabase = mDataHelper.getSQLiteDatabase();
 			mDataHelper.deleteGroup(mSQLiteDatabase,
 					DataHelper.GROUP_TABLE,  where, args);
+			
+			List<String> mreg=new ArrayList<String>();
+ 			String comm = getFromSharedPreferences.getCommonUsed();
+			if (null != comm && !comm.trim().equals("")) {
+				String[] result = comm.split("@@");
+				for (String string : result) {
+					if (!string.trim().equals("")) {
+						mreg.add(string);
+					}
+				}
+			}
+			if(mreg.contains(UiUtils.SCENE_FLAG+mScene)){
+				mreg.remove(UiUtils.SCENE_FLAG+mScene);
+				StringBuilder sb=new StringBuilder();
+				if(null!=mreg && mreg.size()>0){
+					for (String s : mreg) {
+						sb.append(s+"@@");
+					}
+				}else{
+					sb.append("");
+				}
+				getFromSharedPreferences.setCommonUsed(sb.toString());
+			}
+			
 			finish();
 		}else{
 			String where = " group_name = ? and devices_ieee=? ";

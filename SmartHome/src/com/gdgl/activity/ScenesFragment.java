@@ -159,7 +159,7 @@ public class ScenesFragment extends Fragment implements refreshAdapter{
 			} else {
 				mViewHolder = (ViewHolder) convertView.getTag();
 			}
-			mViewHolder.funcImg.setImageResource(R.drawable.video3);
+			mViewHolder.funcImg.setImageResource(R.drawable.scene);
 			mViewHolder.funcText.setText(mString.get(position));
 			return convertView;
 		}

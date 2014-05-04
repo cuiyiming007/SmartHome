@@ -21,6 +21,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.support.v4.app.Fragment;
@@ -159,6 +160,10 @@ public class SmartHome extends FragmentActivity implements OnRefreshListener<Vie
 					mAddDlg.setType("场景名称");
 					mAddDlg.setDialogCallback(SmartHome.this);
 					mAddDlg.show();
+				}else if(0==mCurrentTab){
+					Intent i=new Intent();
+					i.setClass(SmartHome.this, AddCommonUsedActivity.class);
+					startActivity(i);
 				}
 			}
 		});

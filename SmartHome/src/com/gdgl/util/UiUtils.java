@@ -31,6 +31,9 @@ public class UiUtils {
 	
 	public static final String REGION = "RegionName";
 	public static final String SCENE = "SceneId";
+	public static final String COMMONUSED = "common_used";
+	public static final String REGION_FLAG = "REGION";
+	public static final String SCENE_FLAG = "SCENE";
 
 	public static final String EMPTY_STR = "";
 

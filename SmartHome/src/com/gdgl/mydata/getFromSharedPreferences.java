@@ -62,6 +62,17 @@ public class getFromSharedPreferences {
 		return region;
 	}
 	
+	
+	public static String getCommonUsed() {
+		String commonused = mSharedPreferences.getString(UiUtils.COMMONUSED, null);
+		return commonused;
+	}
+	public static boolean setCommonUsed(String comm) {
+		mEditor = mSharedPreferences.edit();
+		mEditor.putString(UiUtils.COMMONUSED, comm);
+		return mEditor.commit();
+	}
+	
 	public static int getSceneId() {
 		int sceneId = mSharedPreferences.getInt(UiUtils.SCENE, 0);
 		

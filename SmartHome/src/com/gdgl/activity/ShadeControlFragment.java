@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -29,11 +30,12 @@ public class ShadeControlFragment extends Fragment implements UIListener{
     double mCurtainState;
 
     View mView;
-    CircleProgressBar mCircleProgressBar;
+//    CircleProgressBar mCircleProgressBar;
     Button mOpen, mClose;
     TextView txtOpen, txtClose;
     RelativeLayout back;
-
+    
+    ImageView curtainImg;
 
     int mState = 0;
     int mProgress = 0;
@@ -92,14 +94,18 @@ public class ShadeControlFragment extends Fragment implements UIListener{
         txtOpen = (TextView) mView.findViewById(R.id.txt_open);
         txtClose = (TextView) mView.findViewById(R.id.txt_close);
 
-        mCircleProgressBar = (CircleProgressBar) mView
-                .findViewById(R.id.circleProgressbar);
-
-        Log.i("zgs", "zz->mCircleProgressBar==null"
-                + (mCircleProgressBar == null));
-
-        mCircleProgressBar.setProgress(mProgress);
-
+//        mCircleProgressBar = (CircleProgressBar) mView
+//                .findViewById(R.id.circleProgressbar);
+//
+//        Log.i("zgs", "zz->mCircleProgressBar==null"
+//                + (mCircleProgressBar == null));
+//
+//        mCircleProgressBar.setProgress(mProgress);
+        
+        curtainImg=(ImageView)mView.findViewById(R.id.curtain_img);
+        
+        setImg(mProgress);
+        
         mOpen.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -203,7 +209,16 @@ public class ShadeControlFragment extends Fragment implements UIListener{
 
     }
 
-    CloseThread mCloseThread = new CloseThread();
+    private void setImg(int mProgress2) {
+		// TODO Auto-generated method stub
+    	if(mProgress>10){
+        	curtainImg.setImageResource(R.drawable.curtains_on);
+        }else{
+        	curtainImg.setImageResource(R.drawable.curtans_off);
+        }
+	}
+
+	CloseThread mCloseThread = new CloseThread();
 
     OpenThread mOpenThread = new OpenThread();
 
@@ -341,7 +356,7 @@ public class ShadeControlFragment extends Fragment implements UIListener{
             Log.i("zgs", "zz->handleMessage() msg.arg1=" + msg.arg1);
             switch (msg.what) {
             case CHANGE_PROGRESSBAR:
-                mCircleProgressBar.setProgress(msg.arg1);
+            	setImg(msg.arg1);
                 break;
             case OPENFULLY:
                 txtOpen.setText("已经完全打开");

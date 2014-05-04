@@ -174,7 +174,7 @@ public class RegionsFragment extends Fragment implements refreshAdapter,Dialogca
 			} else {
 				mViewHolder = (ViewHolder) convertView.getTag();
 			}
-			mViewHolder.funcImg.setImageResource(R.drawable.video3);
+			mViewHolder.funcImg.setImageResource(R.drawable.region);
 			mViewHolder.funcText.setText(mString.get(position));
 			return convertView;
 		}
