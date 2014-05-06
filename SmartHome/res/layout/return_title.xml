@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:background="#ffffff"
     android:alpha="0.65"
+    android:background="#ffffff"
     android:orientation="horizontal" >
 
     <LinearLayout
@@ -24,18 +24,18 @@
 
         <View
             android:layout_width="2px"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
             android:layout_marginLeft="2dp"
             android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_height="match_parent"
             android:background="@drawable/divider_color" />
 
         <ImageView
             android:id="@+id/imageView1"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginLeft="2dp"
             android:layout_gravity="center"
+            android:layout_marginLeft="2dp"
             android:src="@drawable/icon" />
 
         <TextView
@@ -44,9 +44,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="8dp"
-            android:text="照明管理"
-            android:singleLine="true"
             android:layout_weight="1"
+            android:singleLine="true"
+            android:text="照明管理"
             android:textColor="#000000"
             android:textSize="18dp"
             android:textStyle="bold" />
@@ -74,14 +74,6 @@
             android:gravity="center" >
 
             <Button
-                android:id="@+id/add"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="5dip"
-                android:background="@drawable/add_btn_style"
-                android:gravity="center" />
-
-            <Button
                 android:id="@+id/set"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
@@ -98,14 +90,6 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:visibility="gone" >
-
-            <Button
-                android:id="@+id/edit"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="15dip"
-                android:background="@drawable/edit_btn_style"
-                android:gravity="center" />
 
             <Button
                 android:id="@+id/delete"

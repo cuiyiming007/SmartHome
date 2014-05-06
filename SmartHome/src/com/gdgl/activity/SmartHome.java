@@ -93,28 +93,15 @@ public class SmartHome extends FragmentActivity implements OnRefreshListener<Vie
 
 		mViewPager.setAdapter(mViewPagerAdapter);
 		mViewPager.setOnPageChangeListener(this);
-		set = (Button) findViewById(R.id.set);
-		set.setOnClickListener(new OnClickListener() {
+        set = (Button) findViewById(R.id.set);
+        set.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-//				VideoManager.getInstance().handleVideoResponse();
-				
-				new Thread(new Runnable() {
-					@Override
-					public void run() {
-						try {
-							NetUtil.getInstance().sendHeartBeat();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-				}).start();
-//				 showSetWindow();
-			}
-		});
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                showSetWindow();
+            }
+        });
 		
 		mLastTab = mCurrentTab;
 		

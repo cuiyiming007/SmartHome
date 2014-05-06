@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.gdgl.activity.SmartHome.refreshAdapter;
+import com.gdgl.model.SimpleDevicesModel;
+import com.gdgl.mydata.DataHelper;
+import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.UiUtils;
@@ -70,6 +73,9 @@ public class CommonUsedFragment extends Fragment implements refreshAdapter,
 					} else if (string.indexOf(UiUtils.SCENE_FLAG) == 0) {
 						mList.add(new StringTag(string.replace(UiUtils.SCENE_FLAG, "")
 								.trim(), UiUtils.SCENE_FLAG));
+					} else if (string.indexOf(UiUtils.DEVICES_FLAG) == 0) {
+						mList.add(new StringTag(string.replace(UiUtils.DEVICES_FLAG, "")
+								.trim(), UiUtils.DEVICES_FLAG));
 					}
 				}
 			}
@@ -105,11 +111,16 @@ public class CommonUsedFragment extends Fragment implements refreshAdapter,
 				}else if(st.tag.equals(UiUtils.SCENE_FLAG)){
 					i.setClass((Context) getActivity(), SceneDevicesActivity.class);
 					i.putExtra(SceneDevicesActivity.SCENE_NAME, st.name.trim());
+				}else{
+					return;
 				}
 				startActivity(i);
 			}
 
 		});
+		
+		content_view.setNumColumns(3);
+		
 		if (null == mList || mList.size() == 0) {
 			nodevices.setVisibility(View.VISIBLE);
 		} else {
@@ -174,8 +185,41 @@ public class CommonUsedFragment extends Fragment implements refreshAdapter,
 				mViewHolder.funcImg.setImageResource(R.drawable.region);
 			}else if(st.tag.equals(UiUtils.SCENE_FLAG)){
 				mViewHolder.funcImg.setImageResource(R.drawable.scene);
+			}else if(st.tag.equals(UiUtils.DEVICES_FLAG)){
+				Context c=(Context)getActivity();
+				String[] args={st.name};
+				String where=" ieee=? ";
+				List<SimpleDevicesModel> ls=DataUtil.getDevices(c,new DataHelper(c),args,where);
+				SimpleDevicesModel smd = null;
+				if(null!=ls && ls.size()>0){
+					smd=ls.get(0);
+				}
+				if(null!=smd){
+					if (DataHelper.IAS_ZONE_DEVICETYPE == smd.getmDeviceId()
+							|| DataHelper.IAS_ACE_DEVICETYPE == smd
+									.getmDeviceId()) {
+
+						mViewHolder.funcImg.setImageResource(UiUtils
+								.getDevicesSmallIconByModelId(smd.getmModelId()
+										.trim()));
+					} else if (smd.getmModelId().indexOf(
+							DataHelper.Multi_key_remote_control) == 0) {
+						mViewHolder.funcImg
+								.setImageResource(UiUtils
+										.getDevicesSmallIconForRemote(smd
+												.getmDeviceId()));
+					} else {
+						mViewHolder.funcImg.setImageResource(UiUtils
+								.getDevicesSmallIcon(smd.getmDeviceId()));
+					}
+				}else{
+					mViewHolder.funcImg.setImageResource(R.drawable.scene);
+				}
+				mViewHolder.funcText.setText(smd.getmUserDefineName().trim());
 			}
-			mViewHolder.funcText.setText(st.name.trim());
+			if(!st.tag.equals(UiUtils.DEVICES_FLAG)){
+				mViewHolder.funcText.setText(st.name.trim());
+			}
 			return convertView;
 		}
 

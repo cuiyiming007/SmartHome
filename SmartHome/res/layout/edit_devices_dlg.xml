@@ -5,17 +5,23 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:alpha="0.80"
-    android:background="#e9e9e9"
+    android:background="@drawable/corners"
     android:orientation="vertical" >
 
     <TextView
         android:id="@+id/txt_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/title"
+        android:layout_height="45dp"
         android:gravity="center"
         android:textColor="#000000"
         android:textSize="18dp" />
+    
+    <View 
+        android:background="@drawable/divider_color"
+        android:layout_width="match_parent"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="2dp"
+        android:layout_height="2px"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:gravity="center"
-                android:text="Name  "
+                android:text="名  称"
                 android:textColor="#000000"
                 android:textSize="16dp" />
 
@@ -55,39 +61,6 @@
                 <requestFocus />
             </EditText>
         </LinearLayout>
-
-        <!-- <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:id="@+id/devices_region"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:id="@+id/textView1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:gravity="center"
-                android:text="Region"
-                android:textColor="#000000"
-                android:textSize="16dp" />
-
-            <EditText
-                android:id="@+id/edit_region"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_weight="1"
-                android:ems="10"
-                android:gravity="center"
-                android:textColor="#000000"
-                android:textSize="16dp" >
-            </EditText>
-        </LinearLayout> -->
     </LinearLayout>
 
     <RelativeLayout
@@ -102,7 +75,7 @@
             android:layout_height="40dp"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/function_btn_style"
+            android:background="@drawable/dlg_btn_style"
             android:text="保存"
             android:textColor="#000000"
             android:textSize="16dp" />
@@ -113,7 +86,7 @@
             android:layout_height="40dp"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
-            android:background="@drawable/function_btn_style"
+            android:background="@drawable/dlg_btn_style"
             android:text="取消"
             android:textColor="#000000"
             android:textSize="16dp" />

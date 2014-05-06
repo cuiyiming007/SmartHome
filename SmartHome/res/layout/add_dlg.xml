@@ -5,17 +5,23 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:alpha="0.80"
-    android:background="#e9e9e9"
+    android:background="@drawable/corners"
     android:orientation="vertical" >
 
     <TextView
         android:id="@+id/txt_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/title"
+        android:layout_height="45dp"
         android:gravity="center"
         android:textColor="#000000"
         android:textSize="18dp" />
+    
+    <View 
+        android:background="@drawable/divider_color"
+        android:layout_width="match_parent"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="2dp"
+        android:layout_height="2px"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -72,7 +78,7 @@
             android:layout_height="40dp"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/function_btn_style"
+            android:background="@drawable/dlg_btn_style"
             android:text="保存"
             android:textColor="#000000"
             android:textSize="16dp" />
@@ -83,7 +89,7 @@
             android:layout_height="40dp"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
-            android:background="@drawable/function_btn_style"
+            android:background="@drawable/dlg_btn_style"
             android:text="取消"
             android:textColor="#000000"
             android:textSize="16dp" />

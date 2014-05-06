@@ -3,8 +3,8 @@
     android:id="@+id/loginRoot"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:alpha="0.85"
-    android:background="@drawable/new_bacg" >
+     android:alpha="0.90"
+     android:background="@drawable/corners" >
 
     <ImageView
         android:id="@+id/imageView1"

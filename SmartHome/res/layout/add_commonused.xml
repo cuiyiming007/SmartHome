@@ -61,91 +61,115 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/devices_control_fragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="-5dp"
         android:layout_marginRight="-5dp"
         android:layout_marginTop="15dp"
-        android:layout_weight="1"
         android:alpha="0.85"
         android:background="@drawable/white"
         android:orientation="vertical" >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="区域"
-            android:layout_marginLeft="15dp"
-            android:textColor="#000000"
-            android:textSize="16dp" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="40dp" >
 
+            <TextView
+                android:id="@+id/region_text"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:text="区域"
+                android:textColor="#000000"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/scene_text"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:text="场景"
+                android:background="@drawable/dlg_button_press"
+                android:textColor="#000000"
+            	android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/devices_text"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:text="单个设备"
+            	android:textColor="#000000"
+            	android:textSize="16dp" />
+            
+        </LinearLayout>
+		
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:layout_marginTop="3dp"
             android:background="@drawable/divider_color" />
         
-        
-        <TextView
-            android:id="@+id/no_region"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="暂无区域"
+        <RelativeLayout
+            android:id="@+id/region_lay"
+            android:layout_weight="1"
             android:visibility="gone"
-            android:layout_marginTop="5dp"
-            android:layout_gravity="center"
-            android:textColor="#000000"
-            android:textSize="13dp" />
-
-        <com.handmark.pulltorefresh.library.PullToRefreshListView
-            xmlns:ptr="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/region_list"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:cacheColorHint="#00000000"
-            android:divider="@null"
-            android:dividerHeight="1dp"
-            android:fadingEdge="none"
-            android:fastScrollEnabled="false"
-            android:footerDividersEnabled="false"
-            android:headerDividersEnabled="false"
-            android:layout_marginTop="5dp"
-            android:listSelector="@drawable/listview_style"
-            android:scrollbars="none"
-            android:smoothScrollbar="true"
-            ptr:ptrHeaderBackground="#D3D3D3"
-            ptr:ptrHeaderTextColor="#000000" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="场景"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="10dp"
-            android:textColor="#000000"
-            android:textSize="16dp" />
-
-        <View
             android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_marginTop="3dp"
-            android:background="@drawable/divider_color" />
+            android:layout_height="wrap_content" >
+            
+	        <TextView
+	            android:id="@+id/no_region"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="暂无区域"
+	            android:visibility="gone"
+	            android:layout_marginTop="5dp"
+	            android:layout_centerInParent="true"
+	            android:textColor="#000000"
+	            android:textSize="13dp" />
+	
+	        <ListView
+	            android:id="@+id/region_list"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:cacheColorHint="#00000000"
+	            android:divider="@null"
+	            android:dividerHeight="1dp"
+	            android:fadingEdge="none"
+	            android:fastScrollEnabled="false"
+	            android:footerDividersEnabled="false"
+	            android:headerDividersEnabled="false"
+	            android:layout_marginTop="5dp"
+	            android:listSelector="@drawable/listview_style"
+	            android:scrollbars="none"
+	            android:smoothScrollbar="true"/>
+        </RelativeLayout>
         
+        
+        <RelativeLayout
+            android:id="@+id/scene_lay"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
         <TextView
             android:id="@+id/no_scene"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="暂无场景"
             android:visibility="gone"
+            android:layout_centerInParent="true"
             android:layout_marginTop="5dp"
             android:layout_gravity="center"
             android:textColor="#000000"
             android:textSize="13dp" />
 
-        <com.handmark.pulltorefresh.library.PullToRefreshListView
-            xmlns:ptr="http://schemas.android.com/apk/res-auto"
+        <ListView
             android:id="@+id/scene_list"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -159,9 +183,45 @@
             android:listSelector="@drawable/listview_style"
             android:scrollbars="none"
             android:layout_marginTop="5dp"
-            android:smoothScrollbar="true"
-            ptr:ptrHeaderBackground="#D3D3D3"
-            ptr:ptrHeaderTextColor="#000000" />
+            android:smoothScrollbar="true" />
+	        
+        </RelativeLayout>
+        
+        <RelativeLayout
+            android:id="@+id/devices_lay"
+            android:layout_weight="1"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+            <TextView
+            android:id="@+id/no_devices"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="暂无设备"
+            android:visibility="gone"
+            android:layout_marginTop="5dp"
+            android:layout_centerInParent="true"
+            android:textColor="#000000"
+            android:textSize="13dp" />
+
+        <ListView
+            android:id="@+id/dev_list"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:cacheColorHint="#00000000"
+            android:divider="@null"
+            android:dividerHeight="1dp"
+            android:fadingEdge="none"
+            android:fastScrollEnabled="false"
+            android:footerDividersEnabled="false"
+            android:headerDividersEnabled="false"
+            android:listSelector="@drawable/listview_style"
+            android:scrollbars="none"
+            android:layout_marginTop="5dp"
+            android:smoothScrollbar="true" />
+	        
+        </RelativeLayout>
+        
     </LinearLayout>
 
     <Button

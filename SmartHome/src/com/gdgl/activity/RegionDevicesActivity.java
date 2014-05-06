@@ -115,15 +115,16 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 			mAddList = new ArrayList<SimpleDevicesModel>();
 			for (SimpleDevicesModel simpleDevicesModel : mTempList) {
 				if (!isInList(simpleDevicesModel)) {
-					mAddList.add(simpleDevicesModel);
+					if(simpleDevicesModel.getmDeviceRegion().trim().equals("")){
+						mAddList.add(simpleDevicesModel);
+					}
 				}
 			}
 		}
 	}
-	
-	
-	private boolean isInList(SimpleDevicesModel simpleDevicesModel){
-		
+
+	private boolean isInList(SimpleDevicesModel simpleDevicesModel) {
+
 		for (SimpleDevicesModel msimpleDevicesModel : mList) {
 			if (msimpleDevicesModel.getmIeee().equals(
 					simpleDevicesModel.getmIeee())) {
