@@ -177,7 +177,7 @@ public class VView extends View implements Runnable {
 		ret = false;
 		start_flag = false;
 
-		while (true) {
+		while (true&&dataInputStream!=null) {
 			try {
 				// �������ж�ȡ264��ݻ���
 				readNum = dataInputStream.read(buffFromSocket, 0, 8192);

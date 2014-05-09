@@ -124,7 +124,7 @@ public class SeekLightsControlFragment extends BaseControlFragment {
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
 				// TODO Auto-generated method stub
-				
+				LightManager.getInstance().dimmableLightOperation(mDevices,operatortype.MoveToLevel,currentProgress*255/100);
 			}
 			
 			@Override
@@ -139,7 +139,7 @@ public class SeekLightsControlFragment extends BaseControlFragment {
 				// TODO Auto-generated method stub
 				currentProgress=progress;
 				text_process.setText(progress+"%");
-				LightManager.getInstance().dimmableLightOperation(mDevices,operatortype.MoveToLevel,progress*255/100);
+				
 			}
 		});
 	}

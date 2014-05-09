@@ -34,9 +34,10 @@ public class ApplicationController extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
-        // initialize the singleton
         sInstance = this;
+        CrashHandler crashHandler = CrashHandler.getInstance();  
+        crashHandler.init(this);
+        // initialize the singleton
     }
 
     /**
