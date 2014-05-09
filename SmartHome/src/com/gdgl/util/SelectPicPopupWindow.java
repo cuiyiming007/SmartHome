@@ -1,6 +1,8 @@
 package com.gdgl.util;
 
+import com.gdgl.activity.ShowDevicesGroupFragmentActivity;
 import com.gdgl.smarthome.R;
+import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,11 +16,13 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.PopupWindow;
 
-public class SelectPicPopupWindow extends PopupWindow {
+public class SelectPicPopupWindow extends PopupWindow implements Dialogcallback{
 
 	private Button btn_cancel;
 	private View mMenuView;
-
+	
+	private MyOkCancleDlg mMyOkCancleDlg;
+	
 	public SelectPicPopupWindow(final Activity context,
 			OnClickListener itemsOnClick) {
 		super(context);
@@ -30,10 +34,11 @@ public class SelectPicPopupWindow extends PopupWindow {
 		int w = context.getWindowManager().getDefaultDisplay().getWidth();
 		btn_cancel = (Button) mMenuView.findViewById(R.id.btn_cancel);
 		btn_cancel.setOnClickListener(new OnClickListener() {
-
 			public void onClick(View v) {
-
-				context.finish();
+				mMyOkCancleDlg = new MyOkCancleDlg(context);
+		        mMyOkCancleDlg.setDialogCallback(SelectPicPopupWindow.this);
+                mMyOkCancleDlg.setContent("确定要退出系统吗?");
+                mMyOkCancleDlg.show();
 			}
 		});
 		this.setContentView(mMenuView);
@@ -58,6 +63,12 @@ public class SelectPicPopupWindow extends PopupWindow {
 			}
 		});
 
+	}
+
+	@Override
+	public void dialogdo() {
+		// TODO Auto-generated method stub
+		System.exit(1);
 	}
 
 }

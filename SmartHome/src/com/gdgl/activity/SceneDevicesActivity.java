@@ -479,7 +479,7 @@ public class SceneDevicesActivity extends Activity implements DevicesObserver,
 		}
 	}
 	
-	public class OperatorDevices{
+	public static class OperatorDevices{
 		public boolean state;
 		public int value;
 		public SimpleDevicesModel sModel;

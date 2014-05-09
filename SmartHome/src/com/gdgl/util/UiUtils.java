@@ -5,6 +5,12 @@ import android.content.Context;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
+import android.view.animation.TranslateAnimation;
 import android.widget.Toast;
 
 import com.gdgl.activity.LockFragment;
@@ -63,6 +69,7 @@ public class UiUtils {
 	public static final int SECURITY_CONTROL = 2;
 	public static final int ENVIRONMENTAL_CONTROL = 4;
 	public static final int ENERGY_CONSERVATION = 8;
+	public static final int OTHER = 16;
 
 	public static int getDevicesSmallIcon(int type) {
 		int result = 0;
@@ -114,19 +121,22 @@ public class UiUtils {
 		String[] tags = null;
 		switch (type) {
 		case LIGHTS_MANAGER:
-			tags = new String[] { "电器控制", "安全防护", "照明管理", "环境监测", "节能" };
+			tags = new String[] { "电器控制", "安全防护", "照明管理", "环境监测", "节能", "其它" };
 			break;
 		case ELECTRICAL_MANAGER:
-			tags = new String[] { "照明管理", "安全防护", "电器控制", "环境监测", "节能" };
+			tags = new String[] { "照明管理", "安全防护", "电器控制", "环境监测", "节能", "其它" };
 			break;
 		case SECURITY_CONTROL:
-			tags = new String[] { "照明管理", "电器控制", "安全防护", "环境监测", "节能" };
+			tags = new String[] { "照明管理", "电器控制", "安全防护", "环境监测", "节能", "其它" };
 			break;
 		case ENVIRONMENTAL_CONTROL:
-			tags = new String[] { "照明管理", "电器控制", "环境监测", "安全防护", "节能" };
+			tags = new String[] { "照明管理", "电器控制", "环境监测", "安全防护", "节能", "其它" };
 			break;
 		case ENERGY_CONSERVATION:
-			tags = new String[] { "照明管理", "电器控制", "节能", "安全防护", "环境监测" };
+			tags = new String[] { "照明管理", "电器控制", "节能", "安全防护", "环境监测", "其它" };
+			break;
+		case OTHER:
+			tags = new String[] { "照明管理", "电器控制", "其它", "节能", "安全防护", "环境监测" };
 			break;
 		}
 		return tags;
@@ -138,27 +148,35 @@ public class UiUtils {
 		case LIGHTS_MANAGER:
 			imgs = new int[] { R.drawable.electrical_control, R.drawable.safe,
 					R.drawable.light_manage, R.drawable.huanjing_jiance,
-					R.drawable.jieneng };
+					R.drawable.jieneng, R.drawable.other };
 			break;
 		case ELECTRICAL_MANAGER:
 			imgs = new int[] { R.drawable.light_manage, R.drawable.safe,
 					R.drawable.electrical_control, R.drawable.huanjing_jiance,
-					R.drawable.jieneng };
+					R.drawable.jieneng, R.drawable.other };
 			break;
 		case SECURITY_CONTROL:
 			imgs = new int[] { R.drawable.light_manage,
 					R.drawable.electrical_control, R.drawable.safe,
-					R.drawable.huanjing_jiance, R.drawable.jieneng };
+					R.drawable.huanjing_jiance, R.drawable.jieneng,
+					R.drawable.other };
 			break;
 		case ENVIRONMENTAL_CONTROL:
 			imgs = new int[] { R.drawable.light_manage,
 					R.drawable.electrical_control, R.drawable.huanjing_jiance,
-					R.drawable.safe, R.drawable.jieneng };
+					R.drawable.safe, R.drawable.jieneng, R.drawable.other };
 			break;
 		case ENERGY_CONSERVATION:
 			imgs = new int[] { R.drawable.light_manage,
 					R.drawable.electrical_control, R.drawable.jieneng,
-					R.drawable.safe, R.drawable.huanjing_jiance };
+					R.drawable.safe, R.drawable.huanjing_jiance,
+					R.drawable.other };
+			break;
+		case OTHER:
+			imgs = new int[] { R.drawable.light_manage,
+					R.drawable.electrical_control, R.drawable.other,
+					R.drawable.jieneng, R.drawable.safe,
+					R.drawable.huanjing_jiance };
 			break;
 		}
 		return imgs;
@@ -169,25 +187,31 @@ public class UiUtils {
 		switch (type) {
 		case LIGHTS_MANAGER:
 			imgs = new int[] { ELECTRICAL_MANAGER, SECURITY_CONTROL,
-					LIGHTS_MANAGER, ENVIRONMENTAL_CONTROL, ENERGY_CONSERVATION };
+					LIGHTS_MANAGER, ENVIRONMENTAL_CONTROL, ENERGY_CONSERVATION,
+					OTHER };
 			break;
 		case ELECTRICAL_MANAGER:
 			imgs = new int[] { LIGHTS_MANAGER, SECURITY_CONTROL,
 					ELECTRICAL_MANAGER, ENVIRONMENTAL_CONTROL,
-					ENERGY_CONSERVATION };
+					ENERGY_CONSERVATION, OTHER };
 			break;
 		case SECURITY_CONTROL:
 			imgs = new int[] { LIGHTS_MANAGER, ELECTRICAL_MANAGER,
 					SECURITY_CONTROL, ENVIRONMENTAL_CONTROL,
-					ENERGY_CONSERVATION };
+					ENERGY_CONSERVATION, OTHER };
 			break;
 		case ENVIRONMENTAL_CONTROL:
 			imgs = new int[] { LIGHTS_MANAGER, ELECTRICAL_MANAGER,
 					ENVIRONMENTAL_CONTROL, SECURITY_CONTROL,
-					ENERGY_CONSERVATION };
+					ENERGY_CONSERVATION, OTHER };
 			break;
 		case ENERGY_CONSERVATION:
 			imgs = new int[] { LIGHTS_MANAGER, ELECTRICAL_MANAGER,
+					ENERGY_CONSERVATION, SECURITY_CONTROL,
+					ENVIRONMENTAL_CONTROL, OTHER };
+			break;
+		case OTHER:
+			imgs = new int[] { LIGHTS_MANAGER, ELECTRICAL_MANAGER, OTHER,
 					ENERGY_CONSERVATION, SECURITY_CONTROL,
 					ENVIRONMENTAL_CONTROL };
 			break;
@@ -196,23 +220,23 @@ public class UiUtils {
 	}
 
 	public static int getDevicesSmallIconByModelId(String modelId) {
-		
-		int imgId=R.drawable.detector;
-		
-		if(modelId.indexOf(DataHelper.Motion_Sensor)==0){  // ZigBee动作感应器
-			imgId=R.drawable.motion_sensor;
+
+		int imgId = R.drawable.detector;
+
+		if (modelId.indexOf(DataHelper.Motion_Sensor) == 0) { // ZigBee动作感应器
+			imgId = R.drawable.motion_sensor;
 		}
 		if (modelId.indexOf(DataHelper.Magnetic_Window) == 0) { // ZigBee窗磁
 			imgId = R.drawable.motion_sensor;
 		}
-		if(modelId.indexOf(DataHelper.Emergency_Button)==0){  //ZigBee紧急按钮
-			imgId=R.drawable.urgent;
+		if (modelId.indexOf(DataHelper.Emergency_Button) == 0) { // ZigBee紧急按钮
+			imgId = R.drawable.urgent;
 		}
 		if (modelId.indexOf(DataHelper.Smoke_Detectors) == 0) { // 烟雾感应器
 			imgId = R.drawable.smoke;
 		}
-		if(modelId.indexOf(DataHelper.Combustible_Gas_Detector_Gas)==0){  // 可燃气体探测器（煤气)器
-			imgId=R.drawable.detector;
+		if (modelId.indexOf(DataHelper.Combustible_Gas_Detector_Gas) == 0) { // 可燃气体探测器（煤气)器
+			imgId = R.drawable.detector;
 		}
 		if (modelId.indexOf(DataHelper.Combustible_Gas_Detector_CO) == 0) { // 可燃气体探测器（一氧化碳)
 			imgId = R.drawable.detector_ano;
@@ -223,58 +247,47 @@ public class UiUtils {
 		if (modelId.indexOf(DataHelper.Doorbell_button) == 0) { // 可燃气体探测器（天然气)
 			imgId = R.drawable.doorbell;
 		}
-		
 		return imgId;
 	}
-	
+
 	public static int getSceneItemType(int devicesid) {
-		
-		int LIGHT=DataHelper.ON_OFF_SWITCH_DEVICETYPE;
-		int[] NOOPER={DataHelper.LIGHT_SENSOR_DEVICETYPE,DataHelper.TEMPTURE_SENSOR_DEVICETYPE};
-		int[] WITH_VALUE={DataHelper.DIMEN_SWITCH_DEVICETYPE,DataHelper.DIMEN_LIGHTS_DEVICETYPE,DataHelper.SHADE_DEVICETYPE};
+
+		int LIGHT = DataHelper.ON_OFF_SWITCH_DEVICETYPE;
+		int[] NOOPER = { DataHelper.LIGHT_SENSOR_DEVICETYPE,
+				DataHelper.TEMPTURE_SENSOR_DEVICETYPE };
+		int[] WITH_VALUE = { DataHelper.DIMEN_SWITCH_DEVICETYPE,
+				DataHelper.DIMEN_LIGHTS_DEVICETYPE, DataHelper.SHADE_DEVICETYPE };
 		for (int i : WITH_VALUE) {
-			if(i==devicesid){
+			if (i == devicesid) {
 				return SceneDevicesAdapter.WITH_VALUE;
 			}
 		}
-		if(devicesid==LIGHT){
+		if (devicesid == LIGHT) {
 			return SceneDevicesAdapter.LIGHT;
 		}
 		for (int i : NOOPER) {
-			if(i==devicesid){
+			if (i == devicesid) {
 				return SceneDevicesAdapter.NO_OPERATOR;
 			}
 		}
 		return SceneDevicesAdapter.ON_OFF;
 	}
-	
-	
-	public static int getSceneItemStyle(String modelid) {
-		
-		String[] STYLE={DataHelper.Wall_switch_touch,DataHelper.Wall_switch_double,DataHelper.Wall_switch_triple};
-		for (String s : STYLE) {
-			if(modelid.equals(s)){
-				return R.style.scene_light_checkbox_style;
-			}
-		}
-		return R.style.scene_anfang_checkbox_style;
-	}
-	
+
 	public static int getDevicesSmallIconForRemote(int type) {
 
 		int imgId = R.drawable.detector;
-		
-		switch(type){
+
+		switch (type) {
 		case DataHelper.REMOTE_CONTROL_DEVICETYPE:
-			imgId=R.drawable.tv_control;
+			imgId = R.drawable.tv_control;
 			break;
 		case DataHelper.IAS_ACE_DEVICETYPE:
-			imgId=R.drawable.remote_control;
+			imgId = R.drawable.remote_control;
 			break;
 		}
 		return imgId;
 	}
-	
+
 	public static int getLightsSmallIcon(boolean state) {
 		if (state) {
 			return R.drawable.l_on_forreg;
@@ -282,12 +295,11 @@ public class UiUtils {
 		return R.drawable.l_off_forreg;
 	}
 
-
 	public static int[] DEVICES_MANAGER_IMAGES = { R.drawable.light_manage,
 			R.drawable.electrical_control, R.drawable.safe,
-			R.drawable.huanjing_jiance, R.drawable.jieneng };
+			R.drawable.huanjing_jiance, R.drawable.jieneng ,R.drawable.other};
 	public static String[] DEVICES_MANAGER_TAGS = { "照明管理", "电器控制", "安全防护",
-			"环境监测", "节能" };
+			"环境监测", "节能","其它" };
 
 	public static int[] getImagResource(int type) {
 		int[] mresult = null;
@@ -375,6 +387,24 @@ public class UiUtils {
 		toast.setView(layout);
 		toast.show();
 		return toast;
+	}
+
+	public static LayoutAnimationController getAnimationController(Context c) {
+		int duration = 500;
+		AnimationSet set = new AnimationSet(true);
+
+		Animation animation = new AlphaAnimation(0.0f, 1.0f);
+		animation.setDuration(duration);
+		set.addAnimation(animation);
+
+		animation = AnimationUtils.loadAnimation(c, R.anim.slide_bottom_to_top);
+		animation.setDuration(duration);
+		set.addAnimation(animation);
+
+		LayoutAnimationController controller = new LayoutAnimationController(
+				set, 0.5f);
+		controller.setOrder(LayoutAnimationController.ORDER_NORMAL);
+		return controller;
 	}
 
 }

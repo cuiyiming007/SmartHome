@@ -23,14 +23,11 @@ public class DataUtil {
         String[] args = null;
         switch (type) {
         case UiUtils.LIGHTS_MANAGER:
-            args = new String[7];
+            args = new String[4];
             args[0] = DataHelper.Energy_detection_dimming_module + "%";
             args[1] = DataHelper.Switch_Module_Single + "%";
-            args[2] = DataHelper.Wall_switch_touch + "%";
-            args[3] = DataHelper.Wall_switch_double + "%";
-            args[4] = DataHelper.Wall_switch_triple + "%";
-            args[5] = DataHelper.Dimmer_Switch + "%";
-            args[6] = "1";
+            args[2] = DataHelper.Dimmer_Switch + "%";
+            args[3] = "1";
             break;
         case UiUtils.ELECTRICAL_MANAGER:
             args = new String[5];
@@ -61,6 +58,8 @@ public class DataUtil {
             args[2] = "1";
             break;
         case UiUtils.ENERGY_CONSERVATION:
+            break;
+        case UiUtils.OTHER:
             args = new String[2];
             args[0] = DataHelper.Multi_key_remote_control + "%";
             args[1] = "1";
@@ -76,7 +75,7 @@ public class DataUtil {
         String where = "";
         switch (type) {
         case UiUtils.LIGHTS_MANAGER:
-            where = " ( model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? ) and on_off_line=? ";
+            where = " ( model_id like ? or model_id like ? or model_id like ? ) and on_off_line=? ";
             break;
         case UiUtils.ELECTRICAL_MANAGER:
             where = " ( model_id like ? or model_id like ? or  model_id like ? or model_id like ?  ) and on_off_line=? ";
@@ -88,6 +87,9 @@ public class DataUtil {
             where = " ( model_id like ? or model_id like ? ) and on_off_line=? ";;
             break;
         case UiUtils.ENERGY_CONSERVATION:
+            
+            break;
+        case UiUtils.OTHER:
             where = " model_id like ? and on_off_line=? ";
             break;
         default:
@@ -226,7 +228,7 @@ public class DataUtil {
         List<SimpleDevicesModel> list = new ArrayList<SimpleDevicesModel>();
         args = DataUtil.getArgs(type);
         
-        if(null==where){
+        if(null==where || null==args){
             return null;
         }
         
@@ -397,59 +399,12 @@ public class DataUtil {
         SQLiteDatabase db = dh.getSQLiteDatabase();
         listDevicesModel = dh.queryForList(db, DataHelper.DEVICES_TABLE, null,
                 where, args, null, null, null, null);
-        int n = 0;
+        
         for (int m = 0; m < listDevicesModel.size(); m++) {
             DevicesModel mDevicesModel = listDevicesModel.get(m);
 
-            if (Integer.parseInt(mDevicesModel.getmDeviceId()) == DataHelper.ON_OFF_SWITCH_DEVICETYPE) {
-                if (mMap.containsKey(mDevicesModel.getmIeee())) {
-
-                    SimpleDevicesModel aSimpleDevicesModel = list.get(mMap
-                            .get(mDevicesModel.getmIeee()));
-                    String OnOffStatus = aSimpleDevicesModel.getmOnOffStatus();
-                    String NodeENNAme = aSimpleDevicesModel.getmNodeENNAme();
-                    String EP = aSimpleDevicesModel.getmEP();
-                    aSimpleDevicesModel.setmNodeENNAme(NodeENNAme + ","
-                            + mDevicesModel.getmNodeENNAme());
-                    aSimpleDevicesModel.setmOnOffStatus(OnOffStatus + ","
-                            + mDevicesModel.getmOnOffStatus());
-                    aSimpleDevicesModel.setmEP(EP + ","
-                            + mDevicesModel.getmEP());
-                } else {
-                    mSimpleDevicesModel = new SimpleDevicesModel();
-                    mSimpleDevicesModel.setID(mDevicesModel.getID());
-                    mSimpleDevicesModel.setmDeviceId(Integer
-                            .parseInt(mDevicesModel.getmDeviceId()));
-                    mSimpleDevicesModel.setmDeviceRegion(mDevicesModel
-                            .getmDeviceRegion());
-                    mSimpleDevicesModel.setmEP(mDevicesModel.getmEP());
-                    mSimpleDevicesModel.setmIeee(mDevicesModel.getmIeee());
-                    mSimpleDevicesModel.setmLastDateTime(mDevicesModel
-                            .getmLastDateTime());
-                    mSimpleDevicesModel
-                            .setmModelId(mDevicesModel.getmModelId());
-                    mSimpleDevicesModel.setmName(mDevicesModel.getmName());
-                    mSimpleDevicesModel.setmNodeENNAme(mDevicesModel
-                            .getmNodeENNAme());
-                    mSimpleDevicesModel.setmOnOffLine(mDevicesModel
-                            .getmOnOffLine());
-                    mSimpleDevicesModel.setmOnOffStatus(mDevicesModel
-                            .getmOnOffStatus());
-                    if (mDevicesModel.getmUserDefineName() == null
-                            || mDevicesModel.getmUserDefineName().trim().equals("")) {
-                        mSimpleDevicesModel
-                                .setmUserDefineName(getDefaultUserDefinname(c,
-                                        mSimpleDevicesModel.getmModelId()));
-                    } else {
-                        mSimpleDevicesModel.setmUserDefineName(mDevicesModel
-                                .getmUserDefineName());
-                    }
-                    list.add(mSimpleDevicesModel);
-                    mMap.put(mDevicesModel.getmIeee(), n);
-                    n++;
-                }
-            } else {
-                mSimpleDevicesModel = new SimpleDevicesModel();
+            if (Integer.parseInt(mDevicesModel.getmDeviceId()) != DataHelper.ON_OFF_SWITCH_DEVICETYPE) {
+            	mSimpleDevicesModel = new SimpleDevicesModel();
                 mSimpleDevicesModel.setID(mDevicesModel.getID());
                 mSimpleDevicesModel.setmDeviceId(Integer.parseInt(mDevicesModel
                         .getmDeviceId()));
@@ -476,9 +431,8 @@ public class DataUtil {
                     mSimpleDevicesModel.setmUserDefineName(mDevicesModel
                             .getmUserDefineName());
                 }
-                n++;
                 list.add(mSimpleDevicesModel);
-            }
+            } 
         }
         return list;
         

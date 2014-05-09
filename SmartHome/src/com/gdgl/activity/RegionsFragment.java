@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gdgl.activity.SmartHome.refreshAdapter;
+import com.gdgl.adapter.GridviewAdapter;
 import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.smarthome.R;
+import com.gdgl.util.UiUtils;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 
 import android.content.Context;
@@ -74,6 +76,7 @@ public class RegionsFragment extends Fragment implements refreshAdapter,Dialogca
 		mCustomeAdapter=new CustomeAdapter();
 		mCustomeAdapter.setString(mregions);
 		content_view.setAdapter(mCustomeAdapter);
+		content_view.setLayoutAnimation(UiUtils.getAnimationController((Context)getActivity()));
 		content_view.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
@@ -92,18 +95,14 @@ public class RegionsFragment extends Fragment implements refreshAdapter,Dialogca
 		}
 //		registerForContextMenu(content_view);
 	}
+
 	
-	
-	
-	
-//	@Override
-//	public void onCreateContextMenu(ContextMenu menu, View v,
-//			ContextMenuInfo menuInfo) {
-//		// TODO Auto-generated method stub
-//		menu.setHeaderTitle("删除");
-//		menu.add(0, 1, 0, "删除");
-//		super.onCreateContextMenu(menu, v, menuInfo);
-//	}
+	@Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		content_view.setVisibility(View.GONE);
+	}
 
 //	@Override
 //	public boolean onContextItemSelected(MenuItem item) {
@@ -127,8 +126,17 @@ public class RegionsFragment extends Fragment implements refreshAdapter,Dialogca
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
-		Log.i("onResume", "onResume");
-		refreshFragment();
+		content_view.setVisibility(View.VISIBLE);
+		initData();
+		if(null==mregions || mregions.size()==0){
+			nodevices.setVisibility(View.VISIBLE);
+		}else{
+			nodevices.setVisibility(View.GONE);
+		}
+		mCustomeAdapter=new CustomeAdapter();
+		mCustomeAdapter.setString(mregions);
+		content_view.setAdapter(mCustomeAdapter);
+		content_view.setLayoutAnimation(UiUtils.getAnimationController((Context)getActivity()));
 		super.onResume();
 	}
 
@@ -202,7 +210,9 @@ public class RegionsFragment extends Fragment implements refreshAdapter,Dialogca
 		}
 		Log.i("zgs", "refreshFragment->mregions.size()="+mregions.size());
 		mCustomeAdapter.setString(mregions);
-		mCustomeAdapter.notifyDataSetChanged();
+		content_view.setAdapter(mCustomeAdapter);
+//		mCustomeAdapter.notifyDataSetChanged();
+		content_view.setLayoutAnimation(UiUtils.getAnimationController((Context)getActivity()));
 	}
 
 	@Override

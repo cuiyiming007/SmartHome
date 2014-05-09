@@ -9,6 +9,7 @@ import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyOkCancleDlg;
+import com.gdgl.util.UiUtils;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 
 import android.content.Context;
@@ -70,6 +71,7 @@ public class ScenesFragment extends Fragment implements refreshAdapter{
 		mCustomeAdapter=new CustomeAdapter();
 		mCustomeAdapter.setString(mScenes);
 		content_view.setAdapter(mCustomeAdapter);
+		content_view.setLayoutAnimation(UiUtils.getAnimationController((Context)getActivity()));
 		content_view.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
@@ -176,11 +178,28 @@ public class ScenesFragment extends Fragment implements refreshAdapter{
 	}
 	
 	
+	
+	@Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		content_view.setVisibility(View.GONE);
+	}
 
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
-		refreshFragment();
+		content_view.setVisibility(View.VISIBLE);
+		initData();
+		if(null==mScenes || mScenes.size()==0){
+			nodevices.setVisibility(View.VISIBLE);
+		}else{
+			nodevices.setVisibility(View.GONE);
+		}
+		mCustomeAdapter=new CustomeAdapter();
+		mCustomeAdapter.setString(mScenes);
+		content_view.setAdapter(mCustomeAdapter);
+		content_view.setLayoutAnimation(UiUtils.getAnimationController((Context)getActivity()));
 		super.onResume();
 	}
 

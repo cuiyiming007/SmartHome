@@ -26,6 +26,7 @@ import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.video.VideoNode;
 import com.gdgl.mydata.video.VideoResponse;
 import com.gdgl.smarthome.R;
+import com.gdgl.util.UiUtils;
 
 public class VideoFragment extends Fragment implements UIListener{
 	GridView content_view;
@@ -58,6 +59,7 @@ public class VideoFragment extends Fragment implements UIListener{
 		nodevices.setVisibility(View.GONE);
 		content_view = (GridView) mView.findViewById(R.id.content_view);
 		content_view.setAdapter(new CustomeAdapter());
+		content_view.setLayoutAnimation(UiUtils.getAnimationController((Context)getActivity()));
 		content_view.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -71,6 +73,24 @@ public class VideoFragment extends Fragment implements UIListener{
 			}
 
 		});
+	}
+	
+	
+	@Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		content_view.setVisibility(View.GONE);
+	}
+
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		content_view.setVisibility(View.VISIBLE);
+		
+		content_view.setAdapter(new CustomeAdapter());
+		content_view.setLayoutAnimation(UiUtils.getAnimationController((Context)getActivity()));
+		super.onResume();
 	}
 	
 	private class CustomeAdapter extends BaseAdapter{
