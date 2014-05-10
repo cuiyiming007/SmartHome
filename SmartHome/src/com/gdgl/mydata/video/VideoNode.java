@@ -15,7 +15,7 @@ public class VideoNode {
 	private String password;
 	private String rtspport;
 	private String httpport;
-	private String aliases;
+	private String alias;
 
 	public String getId() {
 		return id;
@@ -66,11 +66,11 @@ public class VideoNode {
 	}
 
 	public String getAliases() {
-		return aliases;
+		return alias;
 	}
 
 	public void setAliases(String aliases) {
-		this.aliases = aliases;
+		this.alias = aliases;
 	}
 
 }

@@ -7,15 +7,30 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
+import android.content.res.Resources;
+import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.gdgl.smarthome.R;
+import com.gdgl.util.ComUtil;
 
-public class VideoActivity extends Activity {
-	public static int ipc_channel = -1;;
+public class VideoActivity extends FragmentActivity {
+	private final static String TAG = "VideoActivity";
+	public static int ipc_channel = -1;
+	public Button captureImageBtn;
 	Display display;
 	VView decodeh264;
 	public static int ret = 0;
@@ -33,20 +48,66 @@ public class VideoActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		Bundle extras_ipc_channel = getIntent().getExtras();
 		ipc_channel = extras_ipc_channel.getInt("ipc_channel");
-		System.out.println("ipc-channel =" + ipc_channel);
 
-		DisplayMetrics dm = new DisplayMetrics();
-		getWindowManager().getDefaultDisplay().getMetrics(dm);
-		int screenWidth = dm.widthPixels;
-		int screenHeight = dm.heightPixels;
-		float density = dm.density;
+		Resources res = getResources();
+		Drawable backDrawable = res.getDrawable(R.drawable.background);
+		this.getWindow().setBackgroundDrawable(backDrawable);
+
+		// getWindow().setBackgroundDrawableResource(R.drawable.new_bacg);
+		Display display = getWindowManager().getDefaultDisplay();
+		Point size = new Point();
+		display.getSize(size);
+		int screenWidth = size.x;
+		int screenHeight = size.y;
 
 		// 获取屏幕宽度和高度
 		// display = getWindowManager().getDefaultDisplay();
-		decodeh264 = new VView(this, 900, 1500);
+		decodeh264 = new VView(this, screenWidth, screenHeight);
 		setContentView(decodeh264);// ���ò���
-
+		addTitle();
+		addRecordBtn();
 		new playVideoTask().execute(ipc_channel);
+	}
+
+	private void addRecordBtn() {
+		captureImageBtn = new Button(this);
+		captureImageBtn.setId(0);
+		FrameLayout.LayoutParams params = setPortrait();
+		captureImageBtn.setText("截图");
+		captureImageBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				new captureImageTask().execute(0);
+			}
+		});
+		addContentView(captureImageBtn, params);
+
+	}
+
+	private void addTitle() {
+		LayoutInflater layoutInflater = LayoutInflater.from(this);
+		View viewTitle = layoutInflater.inflate(R.layout.toptitle, null);
+		FrameLayout.LayoutParams params = setTitlePortrait();
+		addContentView(viewTitle, params);
+	}
+
+	private FrameLayout.LayoutParams setPortrait() {
+		FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+				FrameLayout.LayoutParams.MATCH_PARENT,
+				FrameLayout.LayoutParams.WRAP_CONTENT);
+		params.bottomMargin = 0;
+		// params.rightMargin = display.getWidth() / 2;
+		params.gravity = Gravity.BOTTOM | Gravity.LEFT;
+		return params;
+	}
+
+	private FrameLayout.LayoutParams setTitlePortrait() {
+		FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+				FrameLayout.LayoutParams.MATCH_PARENT,
+				FrameLayout.LayoutParams.WRAP_CONTENT);
+		params.topMargin = 0;
+		params.gravity = Gravity.TOP;
+		return params;
 	}
 
 	/*
@@ -57,7 +118,10 @@ public class VideoActivity extends Activity {
 	@Override
 	public void finish() {
 		// TODO Auto-generated method stub
+		Log.i(TAG, "finish video ipc_channel=" + String.valueOf(ipc_channel));
+		decodeh264.setIsVideoRun(false);
 		decodeh264.initalThread();
+		Network.closeVideoSocket();
 		super.finish();
 	}
 
@@ -86,29 +150,47 @@ public class VideoActivity extends Activity {
 		dl.show();
 	}
 
+	class captureImageTask extends AsyncTask<Integer, Object, Boolean> {
+
+		@Override
+		protected Boolean doInBackground(Integer... params) {
+//			ComUtil.mkdirH264("/PictureShot");
+			return decodeh264.screenShot(ipc_channel);
+		}
+		@Override
+		protected void onPostExecute(Boolean result) {
+			super.onPostExecute(result);
+			if (result) {
+				Toast.makeText(getApplicationContext(), "截图成功",
+						Toast.LENGTH_SHORT).show();
+			}else {
+				Toast.makeText(getApplicationContext(), "截图失败，请检查SD卡是否正常",
+						Toast.LENGTH_SHORT).show();
+			}
+		}
+	}
+
 	class playVideoTask extends AsyncTask<Integer, Object, Boolean> {
 
 		@Override
 		protected Boolean doInBackground(Integer... params) {
-
+			Log.i(TAG, "start video ipc_channel=" + String.valueOf(ipc_channel));
 			decodeh264.initalThread();
-
-			int isreceive = 0;
-			boolean isconnect;
-			if (isreceive == 0) {
-				isconnect = Network.connectServer(Network.IPserver,
-						Network.tcpPort);
-				if (isconnect == true) {
-					Network.sendVideoReq(ipc_channel);
-					try {
-						decodeh264.dataInputStream = new DataInputStream(
-								Network.socket.getInputStream());
-					} catch (IOException e1) {
-						decodeh264.initalThread();
-						e1.printStackTrace();
-						return false;
-					}
+			boolean isconnect = Network.connectServer(Network.IPserver,
+					Network.tcpPort);
+			if (isconnect == true) {
+				Network.sendVideoReq(ipc_channel);
+				try {
+					decodeh264.dataInputStream = new DataInputStream(
+							Network.socket.getInputStream());
+				} catch (IOException e1) {
+					Log.e(TAG, "doInBackground:" + e1.getMessage());
+					// handleError();
+					return false;
 				}
+			} else {
+				// handleError();
+				return false;
 			}
 			return decodeh264.getStartFlag() == true;
 		}
@@ -125,10 +207,18 @@ public class VideoActivity extends Activity {
 						decodeh264.PlayVideo();
 					}
 				}).start();
+			} else {
+				handleError();
 			}
-
 		}
 
+	}
+
+	public void handleError() {
+		decodeh264.initalThread();
+		Toast.makeText(getApplicationContext(), "打开视频失败，请检查网络连接或重试",
+				Toast.LENGTH_SHORT).show();
+		// finish();
 	}
 	/*
 	 * (non-Javadoc)

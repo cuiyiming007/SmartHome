@@ -10,6 +10,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.gdgl.util.ComUtil;
+
 //import android.app.AlertDialog;
 //import android.app.AlertDialog.Builder;
 import android.content.Context;
@@ -19,19 +21,27 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Bitmap.Config;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 public class VView extends View implements Runnable {
+
+	private final static String TAG = "VView";
+	public boolean isVideoRun = false;
+
+	Context context;
 	Thread decodethread = null;
 	public DataInputStream dataInputStream = null;
 	int gdeviceHeight = 0;
 	int gdeviceWith = 0;
 
-	// int h264Width = 352; // 264 CIF�����ֱ��� ok
-	// int h264Height = 288;
-	int h264Width = 640; // 264 CIF�����ֱ���
-	int h264Height = 480;
+	int h264Width = 352; // 264 CIF�����ֱ��� ok
+	int h264Height = 288;
+	// int h264Width = 640; // 264 CIF�����ֱ���
+	// int h264Height = 480;
 
 	// ������Ҫ�Ĵ�С
 	int newWidth = 0;
@@ -47,11 +57,12 @@ public class VView extends View implements Runnable {
 
 	byte[] mPixel = new byte[h264Width * h264Height * 2];
 	ByteBuffer buffer = ByteBuffer.wrap(mPixel);
+	Handler handler;
 	// Bitmap VideoBit = Bitmap.createBitmap(h264Width, h264Height,
 	// Config.RGB_565);
 	Bitmap VideoBit = Bitmap
 			.createBitmap(h264Width, h264Height, Config.RGB_565);
-
+	Bitmap newbm;
 	int mTrans = 0x0F0F0F0F;
 
 	public native int InitDecoder(int width, int height);
@@ -64,8 +75,9 @@ public class VView extends View implements Runnable {
 		System.loadLibrary("H264Android");
 	}
 
-	public VView(Context context, int deviceWidth, int deviceheight) {
+	public VView(final Context context, int deviceWidth, int deviceheight) {
 		super(context);
+		this.context = context;
 		// TODO Auto-generated constructor stub
 		setFocusable(true);
 		this.gdeviceHeight = deviceheight;
@@ -75,6 +87,17 @@ public class VView extends View implements Runnable {
 		for (i = 0; i < mPixel.length; i++) {
 			mPixel[i] = (byte) 0x00;
 		}
+		 handler=new Handler()
+		{
+			@Override
+			public void handleMessage(Message msg) {
+				if (msg.what==0) {
+					 Toast.makeText(context,
+					 "解析视频失败，请重试",Toast.LENGTH_SHORT).show();
+				}
+				super.handleMessage(msg);
+			}
+		};
 	}
 
 	// �������ű���
@@ -88,8 +111,8 @@ public class VView extends View implements Runnable {
 		this.newWidth = this.gdeviceWith;// ���ſ�ȵ����豸���
 		// ���ź�ĸ�=ԭͼ���x���ű���
 		this.newHeight = (h264Height * newWidth / h264Width) + 100;
-//		top = (this.gdeviceHeight - newHeight) / 2 - 50;
-		top=50;
+		// top = (this.gdeviceHeight - newHeight) / 2 - 50;
+		top = 65;
 		left = 0;
 		setScale();
 	}
@@ -111,19 +134,21 @@ public class VView extends View implements Runnable {
 	 * android.view.View#onConfigurationChanged(android.content.res.Configuration
 	 * )
 	 */
-	@Override
-	protected void onConfigurationChanged(Configuration newConfig) {
-		// TODO Auto-generated method stub
-		super.onConfigurationChanged(newConfig);
-
-		if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-			// ����
-			setLandScape();
-		} else if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-			// ����
-			setPortrait();
-		}
-	}
+	// @Override
+	// protected void onConfigurationChanged(Configuration newConfig) {
+	// // TODO Auto-generated method stub
+	// super.onConfigurationChanged(newConfig);
+	//
+	// if (this.getResources().getConfiguration().orientation ==
+	// Configuration.ORIENTATION_LANDSCAPE) {
+	// // ����
+	// setLandScape();
+	// } else if (this.getResources().getConfiguration().orientation ==
+	// Configuration.ORIENTATION_PORTRAIT) {
+	// // ����
+	// setPortrait();
+	// }
+	// }
 
 	// ��view��onDraw�����������ʾ���
 	/*
@@ -144,7 +169,7 @@ public class VView extends View implements Runnable {
 		Matrix matrix = new Matrix();
 		matrix.postScale(scaleWidth, scaleHeight);
 		// �õ��µ�ͼƬ
-		Bitmap newbm = Bitmap.createBitmap(VideoBit, 0, 0, h264Width,
+		 newbm = Bitmap.createBitmap(VideoBit, 0, 0, h264Width,
 				h264Height, matrix, true);
 		canvas.drawBitmap(newbm, left, top, null);
 		// canvas.drawBitmap(VideoBit, 50, 100, null);
@@ -157,14 +182,6 @@ public class VView extends View implements Runnable {
 			decodethread.interrupt();
 			decodethread = null;
 		}
-//		try {
-//			if (Network.socket != null) {
-//				Network.socket.close();
-//				Network.socket=null;
-//			}
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
 	}
 
 	public boolean getStartFlag() {
@@ -177,12 +194,12 @@ public class VView extends View implements Runnable {
 		ret = false;
 		start_flag = false;
 
-		while (true&&dataInputStream!=null) {
+		while (dataInputStream != null) {
 			try {
 				// �������ж�ȡ264��ݻ���
 				readNum = dataInputStream.read(buffFromSocket, 0, 8192);
 			} catch (IOException e) {
-				initalThread();
+				handleError();
 			}
 
 			String recstr = new String(buffFromSocket);
@@ -190,34 +207,13 @@ public class VView extends View implements Runnable {
 				// ����ַ����JSON����
 				JSONObject responseCommand = new JSONObject(recstr);
 				// ��ȡ�����
-				String str1 = responseCommand.getString("action");
-				// System.out.println("responseCommand.getString");
-				// System.out.println(str1);
-				if (str1.equals("startvideo")) {
-					System.out.println("str1.equals(startvideo)");
-					try {
-						// ��ȡ��ݶ���
-						JSONObject user = responseCommand
-								.getJSONObject("response_params");
-						// String nickname = user.getString("status");
-						int status = user.getInt("status");
-						if (status == 0x01) {
-							start_flag = true;
-							ret = true;
-							Log.d("DecodeH264 run",
-									"recieved start flag ipc is online");
-						} else if (status == 0x02) {
-							start_flag = true;
-							ret = false;
-							Log.e("DecodeH264 run",
-									"recieved start flag ipc is not online");
-						}
-						break;
-					} catch (JSONException ex) {
-						ret = false;
-						Log.e("DecodeH264 run", "responseCommand.getJSONObject");
-						break;
-					}
+				int status = responseCommand.getInt("status");
+				if (status == 0x01) {
+					start_flag = true;
+					ret = true;
+					Log.d("DecodeH264 run", "recieved start flag ipc is online");
+				} else {
+					Log.e("getStartFlag()", "video failed");
 				}
 			} catch (JSONException ex) {
 				ret = false;
@@ -301,17 +297,13 @@ public class VView extends View implements Runnable {
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
-		// ��˯��3��ȴ��л�ʱ�ڴ���ա�
-		Log.d("DecodeH264 run", "have recieved data thread");
 		try {
 			Thread.currentThread().sleep(1500);
 		} catch (InterruptedException e2) {
 			e2.printStackTrace();
 		}
-//		InputStream is = null;
-//		FileInputStream fileIS = null;
 
+		setIsVideoRun(true);
 		int iTemp = 0;
 		int nalLen;
 
@@ -321,32 +313,24 @@ public class VView extends View implements Runnable {
 		int bytesReadFromSocketNum = 0;
 		int NalBufUsed = 0;
 		int SockBufUsed = 0;
-
-		// byte[] decoderInBuf = new byte[40980]; // 40k //ok
-		// byte[] buffFromSocket = new byte[2048];
 		byte[] decoderInBuf = new byte[81920]; // 80k
-		// byte[] decoderInBuf = new byte[1024*160]; // 40k
-		// byte[] buffFromSocket = new byte[8192];
 		byte[] buffFromSocket = new byte[2048];
 
 		InitDecoder(h264Width, h264Height);
 
-		while (!Thread.currentThread().isInterrupted()) {
+		while (!Thread.currentThread().isInterrupted()&&getIsVideoRun()) {
 			try {
-				// �������ж�ȡ264��ݻ���
 				bytesReadFromSocketNum = dataInputStream.read(buffFromSocket,
 						0, 2048);
-				// bytesReadFromSocketNum = dataInputStream.read(buffFromSocket,
-				// 0, 8192);
 			} catch (IOException e) {
-				initalThread();
+				handleError();
+				Log.e(TAG, "bytesReadFromSocketNum error" + e.getMessage());
 			}
 
 			if (bytesReadFromSocketNum <= 0) {
 				Log.d("DecodeH264 run", "have not recieved data!");
 				break;
 			}
-
 
 			SockBufUsed = 0;
 
@@ -396,5 +380,29 @@ public class VView extends View implements Runnable {
 			}
 		}
 		UninitDecoder();
+	}
+
+	public void handleError() {
+		setIsVideoRun(false);
+		handler.sendEmptyMessage(0);
+		initalThread();
+		// Toast.makeText(context,
+		// "打开视频失败，请检查网络连接或重试",Toast.LENGTH_SHORT).show();
+	}
+
+	public void setIsVideoRun(boolean isVideoRun) {
+		this.isVideoRun = isVideoRun;
+	}
+
+	public boolean getIsVideoRun() {
+		return isVideoRun;
+	}
+	
+	public Boolean screenShot(int channel) 
+	{
+		String picName=ComUtil.setViedoFileNameBySysTime(channel);
+		ComUtil.mkdirH264();
+		ComUtil.creatVideoFile(picName);
+		return ComUtil.savePic(newbm, ComUtil.picturePath+"/"+picName);
 	}
 }

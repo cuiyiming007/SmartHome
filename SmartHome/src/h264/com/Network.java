@@ -93,15 +93,27 @@ public class Network {
 		return true;
 	}
 
+	public static boolean isVideoSocketConnect() {
+		if (socket!=null&&socket.isConnected()) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	public static void closeVideoSocket()
+	{
+		if (socket!=null) {
+			try {
+				socket.close();
+				socket=null;
+			} catch (IOException e) {
+				e.printStackTrace();
+				Log.e(TAG, "close socket faild");
+			}
+		}
+	}
+
 	public static boolean sendVideoReq(int channelNum) {
-		// ������Ƶ
-		/*
-		 * byte[] sendBuffer1 = new byte[128]; byte chann = (byte) (0xff &
-		 * (channelNum)); // byte chann=(byte) (channelNum<<2); for (int i = 0;
-		 * i < 40; i++) { sendBuffer1[i] = chann; } sendBuffer1[0] = 0x55;
-		 * sendBuffer1[1] = 0x55; sendBuffer1[2] = 0x55; sendBuffer1[3] = 0x55;
-		 * sendBuffer1[4] = 0x01;
-		 */
 
 		byte[] sendBuffer1;
 		JSONObject videoCommand = new JSONObject();
@@ -136,22 +148,21 @@ public class Network {
 		try {// 创建一个Socket对象，并指定服务端的IP及端口号
 			socket = new Socket("192.168.1.239", 5002);
 			OutputStream outputStream = socket.getOutputStream();
-			byte buffer[]=heartbeat.getBytes();
+			byte buffer[] = heartbeat.getBytes();
 			int temp = 0;
 			outputStream.write(buffer, 0, buffer.length);
 			// 发送读取的数据到服务端
 			outputStream.flush();
 
-			
 			InputStream inputStream = socket.getInputStream();
-			ByteArrayOutputStream outStream=new ByteArrayOutputStream();
-			byte[] data=new byte[1024];
-			int count=-1;
-			while ((count=inputStream.read(data, 0, 1024))!=-1) {
+			ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+			byte[] data = new byte[1024];
+			int count = -1;
+			while ((count = inputStream.read(data, 0, 1024)) != -1) {
 				outStream.write(data, 0, count);
 			}
-			data=null;
-			String result=new String(outStream.toByteArray());
+			data = null;
+			String result = new String(outStream.toByteArray());
 			Log.i("socket recieve", result);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
