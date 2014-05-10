@@ -66,6 +66,7 @@
         android:background="@color/black" />
 
     <LinearLayout
+        android:id="@+id/config"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"

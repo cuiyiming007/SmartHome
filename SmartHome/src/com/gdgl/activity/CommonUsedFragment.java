@@ -126,7 +126,6 @@ public class CommonUsedFragment extends Fragment implements refreshAdapter,
 		} else {
 			nodevices.setVisibility(View.GONE);
 		}
-		// registerForContextMenu(content_view);
 	}
 
 	

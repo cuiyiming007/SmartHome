@@ -1,11 +1,13 @@
 package com.gdgl.util;
 
+import com.gdgl.activity.ConfigActivity;
 import com.gdgl.activity.ShowDevicesGroupFragmentActivity;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -14,6 +16,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
 public class SelectPicPopupWindow extends PopupWindow implements Dialogcallback{
@@ -37,10 +40,24 @@ public class SelectPicPopupWindow extends PopupWindow implements Dialogcallback{
 			public void onClick(View v) {
 				mMyOkCancleDlg = new MyOkCancleDlg(context);
 		        mMyOkCancleDlg.setDialogCallback(SelectPicPopupWindow.this);
-                mMyOkCancleDlg.setContent("确定要退出系统吗?");
+                mMyOkCancleDlg.setContent("纭畾瑕侀��鍑虹郴缁熷悧?");
                 mMyOkCancleDlg.show();
 			}
 		});
+		
+		LinearLayout config=(LinearLayout)mMenuView.findViewById(R.id.config);
+		config.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent i=new Intent();
+				i.setClass(context, ConfigActivity.class);
+				context.startActivity(i);
+				dismiss();
+			}
+		});
+		
 		this.setContentView(mMenuView);
 		this.setWidth(LayoutParams.WRAP_CONTENT);
 		this.setHeight(LayoutParams.WRAP_CONTENT);
