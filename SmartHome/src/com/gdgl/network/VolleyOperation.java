@@ -20,6 +20,7 @@ import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.RespondDataEntity;
 import com.gdgl.mydata.ResponseParams;
 import com.gdgl.mydata.ResponseParamsEndPoint;
+import com.gdgl.mydata.getlocalcielist.CIEresponse_params;
 import com.gdgl.util.UiUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -134,13 +135,23 @@ public class VolleyOperation {
 	 * 
 	 * @param response
 	 */
-	public static RespondDataEntity handleResponseString(String response) {
+	public static RespondDataEntity<ResponseParamsEndPoint> handleResponseString(String response) {
 		// format response string to standard json string
 		response = UiUtils.formatResponseString(response);
 
 		// convert string to json object
 		//return parseJSON2EndPoint(response);
 		return parseJSON2EndPoint(response);
+
+	}
+	
+	public static RespondDataEntity<CIEresponse_params> handleCIEString(String response) {
+		// format response string to standard json string
+		response = UiUtils.formatResponseString(response);
+
+		// convert string to json object
+		//return parseJSON2EndPoint(response);
+		return parseJSON2GetLocalCIEList(response);
 
 	}
 
@@ -191,12 +202,12 @@ public class VolleyOperation {
 	 * 
 	 * @param s
 	 */
-	public static RespondDataEntity parseJSON2EndPoint(String s) {
+	public static RespondDataEntity<ResponseParamsEndPoint> parseJSON2EndPoint(String s) {
 		Gson gson = new Gson();
 		JsonParser parser = new JsonParser();
 		ArrayList<ResponseParamsEndPoint> list = new ArrayList<ResponseParamsEndPoint>();
 		JsonObject jsonObject = parser.parse(s).getAsJsonObject();
-		RespondDataEntity dataEntity = new RespondDataEntity();
+		RespondDataEntity<ResponseParamsEndPoint> dataEntity = new RespondDataEntity<ResponseParamsEndPoint>();
 		JsonElement idElement=jsonObject.get("request_id");
 		dataEntity.setRequest_id(idElement.toString());
 //		dataEntity = gson.fromJson(jsonObject, RespondDataEntity.class);
@@ -211,6 +222,31 @@ public class VolleyOperation {
 		dataEntity.setResponseparamList(list);
 		return dataEntity;
 	}
+	
+	/***
+	 * revert String to RespondDataEntity <ResponseParamsEndPoint>
+	 * @param <T>
+	 * 
+	 * @param s
+	 */
+	public static RespondDataEntity<CIEresponse_params> parseJSON2GetLocalCIEList(String s) {
+		Gson gson = new Gson();
+		JsonParser parser = new JsonParser();
+		ArrayList<CIEresponse_params> list = new ArrayList<CIEresponse_params>();
+		JsonObject jsonObject = parser.parse(s).getAsJsonObject();
+		RespondDataEntity<CIEresponse_params> dataEntity = new RespondDataEntity<CIEresponse_params>();
+		JsonElement idElement=jsonObject.get("request_id");
+		dataEntity.setRequest_id(idElement.toString());
+		JsonArray jsonArray = jsonObject.getAsJsonArray("response_params");
+		for (int i = 0; i < jsonArray.size(); i++) {
+			JsonElement el = jsonArray.get(i);
+			CIEresponse_params tmp = gson.fromJson(el, CIEresponse_params.class);
+			list.add(tmp);
+		}
+		dataEntity.setResponseparamList(list);
+		return dataEntity;
+	}
+	
 	/***
 	 * Generic failed! because Type type = new TypeToken<T>() {}.getType();can't get the type
 	 * @param <T>

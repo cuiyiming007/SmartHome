@@ -1,30 +1,12 @@
 package com.gdgl.activity;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gdgl.adapter.ViewPagerAdapter;
-import com.gdgl.manager.VideoManager;
-import com.gdgl.model.TabInfo;
-import com.gdgl.reciever.NetWorkChangeReciever;
-import com.gdgl.smarthome.R;
-import com.gdgl.util.AddDlg;
-import com.gdgl.util.AddDlg.AddDialogcallback;
-import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
-import com.gdgl.util.NetUtil;
-import com.gdgl.util.PullToRefreshViewPager;
-import com.gdgl.util.SelectPicPopupWindow;
-import com.gdgl.video.Network;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
-
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.graphics.Color;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -34,6 +16,16 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.gdgl.adapter.ViewPagerAdapter;
+import com.gdgl.model.TabInfo;
+import com.gdgl.smarthome.R;
+import com.gdgl.util.AddDlg;
+import com.gdgl.util.AddDlg.AddDialogcallback;
+import com.gdgl.util.PullToRefreshViewPager;
+import com.gdgl.util.SelectPicPopupWindow;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 
 public class SmartHome extends FragmentActivity implements OnRefreshListener<ViewPager>,OnPageChangeListener,AddDialogcallback{
 

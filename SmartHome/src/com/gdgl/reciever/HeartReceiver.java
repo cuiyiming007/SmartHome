@@ -2,6 +2,7 @@ package com.gdgl.reciever;
 
 import java.io.IOException;
 
+import com.gdgl.manager.CallbackManager;
 import com.gdgl.mydata.Constants;
 import com.gdgl.util.NetUtil;
 
@@ -26,6 +27,7 @@ public class HeartReceiver extends BroadcastReceiver {
 					} catch (IOException e) {
 						Log.e(TAG, "sendHeartBeat failed");
 						e.printStackTrace();
+						CallbackManager.getInstance().startConnectServerByTCPTask();
 					}
                     //在此完成心跳需要完成的工作，比如请求远程服务器……
             } else if (Constants.ACTION_STOP_HEART.equals(action)) {

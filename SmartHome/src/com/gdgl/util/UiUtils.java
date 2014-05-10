@@ -374,7 +374,8 @@ public class UiUtils {
 	}
 
 	public static String customString(String s) {
-		s = s.substring(s.indexOf("{"), s.length() - 1);
+//		s = s.substring(s.indexOf("{"), s.length() - 1);
+		s = s.substring(s.indexOf("{"), s.lastIndexOf("}")+1);
 		return s;
 	}
 

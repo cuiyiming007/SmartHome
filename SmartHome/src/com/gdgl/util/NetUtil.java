@@ -128,7 +128,15 @@ public class NetUtil {
 	}
 
 	public void initalCallbackSocket() {
-		callbakcSocket = null;
+		if (callbakcSocket!=null) {
+			try {
+				callbakcSocket.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			callbakcSocket = null;
+		}
 	}
 
 }

@@ -1,9 +1,5 @@
 package com.gdgl.manager;
 
-import java.io.IOException;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -12,12 +8,8 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.text.TextUtils;
 import android.util.Log;
 
-import com.gdgl.activity.RegionDevicesActivity;
 import com.gdgl.activity.ShowDevicesGroupFragmentActivity;
 import com.gdgl.app.ApplicationController;
 import com.gdgl.mydata.Callback.CallbackResponseCommon;
@@ -43,11 +35,6 @@ public class CallbackManager extends Manger {
 		connectServerByTCPTask.start();
 	}
 
-	// public void startCallbackTask() {
-	// CallbackTask callbackTask = new CallbackTask();
-	// callbackTask.start();
-	// }
-
 	class ConnectServerByTCPTask extends Thread {
 
 		@Override
@@ -59,10 +46,11 @@ public class CallbackManager extends Manger {
 
 	public void connectAndRecieveFromCallback() {
 		try {
+			Log.e(TAG, "start ConnectServerByTCPTask");
+			NetUtil.getInstance().initalCallbackSocket();
 			NetUtil.getInstance().connectServerWithTCPSocket();
 			NetUtil.getInstance().recieveFromCallback();
 		} catch (Exception e) {
-
 			Log.e(TAG, "connectAndRecieveFromCallback error" + e.getMessage());
 		}
 	}
