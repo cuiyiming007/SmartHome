@@ -9,28 +9,38 @@ import java.util.Set;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.R.id;
 import android.R.integer;
 import android.util.Log;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
+import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.gdgl.activity.SeekLightsControlFragment;
 import com.gdgl.app.ApplicationController;
+import com.gdgl.manager.DeviceManager.InitialCIETask;
 import com.gdgl.manager.DeviceManager.InitialDataTask;
 import com.gdgl.model.SimpleDevicesModel;
+import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.LoginResponse;
 import com.gdgl.mydata.ParamsForStatus;
 import com.gdgl.mydata.ResponseDataEntityForStatus;
+import com.gdgl.mydata.ResponseParamsEndPoint;
+import com.gdgl.mydata.getlocalcielist.LocalIASCIEOperationResponseData;
 import com.gdgl.network.VolleyErrorHelper;
+import com.gdgl.network.VolleyOperation;
 import com.gdgl.util.NetUtil;
 import com.gdgl.util.UiUtils;
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 /***
  * 
@@ -94,6 +104,8 @@ TemperatureSensor
 2.19 TemperatureSensor Operation
  */
 public class LightManager extends Manger {
+	
+	private final static String TAG="LightManager";
 
 	private static LightManager instance;
 
@@ -406,6 +418,59 @@ GetIlluminanceMeasuredValueR ptTime 7
 		simpleVolleyRequset(url, EventType.SHADEOPERATION);
 
 	}
+	/***
+	 * 2.17全局布撤防，
+	 * operatortype=6 布防
+	 * operatortype=7 撤防
+	 * operatortype=5 全局布防状态
+	 *     查看当前全局布防状态（通过Param1的值判断）：
+            0：全部撤防    1：白天布防模式    2：夜间布防模式    3：全部布防
+	 * 
+	 */
+		public void LocalIASCIEOperation(SimpleDevicesModel model,final int operationType)
+		{
+			HashMap<String, String> paraMap = new HashMap<String, String>();
+//			paraMap.put("zone_ieee", model.getmIeee());
+//			paraMap.put("zone_ep", model.getmEP());
+			paraMap.put("operatortype", String.valueOf(operationType));
+			paraMap.put("param1", "1");
+			paraMap.put("param2", "2");
+			paraMap.put("param3", "3");
+			String param = hashMap2ParamString(paraMap);
+
+			String url = NetUtil.getInstance().getCumstomURL(NetUtil.getInstance().IP,"localIASCIEOperation.cgi",
+					param);
+
+			Listener<String> responseListener = new Listener<String>() {
+				@Override
+				public void onResponse(String response) {
+					String jsonString= UiUtils.formatResponseString(response);
+					if (operationType==5) {
+						Gson gson=new Gson();
+						JsonParser parser = new JsonParser();
+						JsonObject jsonObject = parser.parse(jsonString).getAsJsonObject();
+						LocalIASCIEOperationResponseData data = gson.fromJson(jsonObject, LocalIASCIEOperationResponseData.class);
+						String status=data.getResponse_params().getParam1();
+						Log.i(TAG, "LocalIASCIEOperation get status is "+String.valueOf(status));
+					}
+				}
+			};
+
+			ErrorListener errorListener = new ErrorListener() {
+
+				@Override
+				public void onErrorResponse(VolleyError error) {
+//					Log.e("Error: ", error.getMessage());
+				}
+			};
+
+			StringRequest req = new StringRequest(url,
+					responseListener, errorListener);
+
+			// add the request object to the queue to be executed
+			ApplicationController.getInstance().addToRequestQueue(req);
+//			simpleVolleyRequset(url, EventType.LOCALIASCIEOPERATION);
+		}
 /***
  * 2.17窗磁布防LocalIASCIE ByPassZone
  * 
@@ -511,26 +576,12 @@ GetIRDisableTime 10
 				});
 		// add the request object to the queue to be executed
 		ApplicationController.getInstance().addToRequestQueue(req);
-		
-		
-		
-//		HashMap<String, String> paraMap = new HashMap<String, String>();
-//		paraMap.put("ieee", model.getmIeee());
-//		paraMap.put("ep", model.getmEP());
-//		paraMap.put("operatortype", String.valueOf(operationType));
-//		paraMap.put("param1", String.valueOf(param1));
-//		paraMap.put("param2", "2");
-//		paraMap.put("param3", "3");
-//		String param = hashMap2ParamString(paraMap);
-//
-//		String url = NetUtil.getInstance().getCumstomURL(NetUtil.getInstance().IP,
-//				"iasZoneOperation.cgi", param);
-//
-//		simpleVolleyRequset(url, EventType.IASZONEOPERATION);
 	}
 
 	/***
 	 * 2.19TemperatureSensorOperation ZigBee室内型温湿度感应器
+	 * operationType 0：温度
+	 * operationType 1：湿度
 	 * 
 GetTemperature 0
 

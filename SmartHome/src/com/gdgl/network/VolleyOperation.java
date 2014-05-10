@@ -148,9 +148,6 @@ public class VolleyOperation {
 	public static RespondDataEntity<CIEresponse_params> handleCIEString(String response) {
 		// format response string to standard json string
 		response = UiUtils.formatResponseString(response);
-
-		// convert string to json object
-		//return parseJSON2EndPoint(response);
 		return parseJSON2GetLocalCIEList(response);
 
 	}

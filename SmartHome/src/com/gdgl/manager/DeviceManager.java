@@ -21,6 +21,7 @@ import com.gdgl.mydata.Node;
 import com.gdgl.mydata.RespondDataEntity;
 import com.gdgl.mydata.ResponseParamsEndPoint;
 import com.gdgl.mydata.Weather;
+import com.gdgl.mydata.getlocalcielist.CIEresponse_params;
 import com.gdgl.network.CustomRequest;
 import com.gdgl.network.VolleyOperation;
 
@@ -45,6 +46,29 @@ public class DeviceManager extends Manger {
 
 		return devDataList;
 	}
+	public void getLocalCIEList()
+	{
+		Listener<String> responseListener = new Listener<String>() {
+			@Override
+			public void onResponse(String response) {
+				new InitialCIETask().execute(response);
+			}
+		};
+
+		ErrorListener errorListener = new ErrorListener() {
+
+			@Override
+			public void onErrorResponse(VolleyError error) {
+//				Log.e("Error: ", error.getMessage());
+			}
+		};
+
+		StringRequest req = new StringRequest(Constants.getLocalCIEList,
+				responseListener, errorListener);
+
+		// add the request object to the queue to be executed
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
 
 	/***
 	 * url=http://192.168.1.184/cgi-bin/rest/network/getZBNode.cgi?user_name=
@@ -61,7 +85,6 @@ public class DeviceManager extends Manger {
 		};
 
 		ErrorListener errorListener = new ErrorListener() {
-
 			@Override
 			public void onErrorResponse(VolleyError error) {
 //				Log.e("Error: ", error.getMessage());
@@ -88,6 +111,31 @@ public class DeviceManager extends Manger {
 			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
 			mDateHelper.insertList(mSQLiteDatabase, DataHelper.DEVICES_TABLE,
 					null, devDataList);
+			//[TODO]transfer to SimpleDevicesModel
+			return devDataList;
+		}
+
+		@Override
+		protected void onPostExecute(Object result) {
+			Event event = new Event(EventType.INTITIALDVIVCEDATA, true);
+			event.setData(result);
+			notifyObservers(event);
+		}
+
+	}
+	class InitialCIETask extends AsyncTask<String, Object, Object> {
+		@Override
+		protected Object doInBackground(String... params) {
+			RespondDataEntity<CIEresponse_params> data = VolleyOperation
+					.handleCIEString(params[0]);
+			ArrayList<CIEresponse_params> devDataList = data
+					.getResponseparamList();
+
+//			DataHelper mDateHelper = new DataHelper(
+//					ApplicationController.getInstance());
+//			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
+//			mDateHelper.insertList(mSQLiteDatabase, DataHelper.DEVICES_TABLE,
+//					null, devDataList);
 			//[TODO]transfer to SimpleDevicesModel
 			return devDataList;
 		}
