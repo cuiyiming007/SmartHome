@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/okdialog_view"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/corners"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/txt_title"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:gravity="center"
+        android:textColor="#000000"
+        android:text="广联电子科技 SmartHome V2.1"
+        android:textSize="18dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp" >
+
+        <Button
+            android:id="@+id/btn_ok"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/dlg_btn_style"
+            android:text="确   定"
+            android:textColor="#000000"
+            android:textSize="18dp" />
+    </RelativeLayout>
+
+</LinearLayout>

@@ -46,8 +46,8 @@ public class DeviceManager extends Manger {
 
 		return devDataList;
 	}
-	public void getLocalCIEList()
-	{
+
+	public void getLocalCIEList() {
 		Listener<String> responseListener = new Listener<String>() {
 			@Override
 			public void onResponse(String response) {
@@ -59,7 +59,7 @@ public class DeviceManager extends Manger {
 
 			@Override
 			public void onErrorResponse(VolleyError error) {
-//				Log.e("Error: ", error.getMessage());
+				// Log.e("Error: ", error.getMessage());
 			}
 		};
 
@@ -74,20 +74,32 @@ public class DeviceManager extends Manger {
 	 * url=http://192.168.1.184/cgi-bin/rest/network/getZBNode.cgi?user_name=
 	 * aaaa&callback=1234&enco demethod=NONE&sign=AAA
 	 */
-	public void getDeviceList() {
-		// callbakc listener
-		Listener<String> responseListener = new Listener<String>() {
-			@Override
-			public void onResponse(String response) {
-				// Time-consuming operation need to use AsyncTask
-				new InitialDataTask().execute(response);
-			}
-		};
+	// 1,更新数据 2，组网管理
+	public void getDeviceList(int type) {
+		Listener<String> responseListener = null;
+		if (1 == type) {
+			responseListener = new Listener<String>() {
+				@Override
+				public void onResponse(String response) {
+					// Time-consuming operation need to use AsyncTask
+					new InitialDataTask().execute(response);
+				}
+			};
+		} else if (2 == type) {
+			responseListener = new Listener<String>() {
+				@Override
+				public void onResponse(String response) {
+					// Time-consuming operation need to use AsyncTask
+					new InitialDataTaskWithNoInsert().execute(response);
+				}
+			};
+		}
 
 		ErrorListener errorListener = new ErrorListener() {
+
 			@Override
 			public void onErrorResponse(VolleyError error) {
-//				Log.e("Error: ", error.getMessage());
+				// Log.e("Error: ", error.getMessage());
 			}
 		};
 
@@ -96,6 +108,11 @@ public class DeviceManager extends Manger {
 
 		// add the request object to the queue to be executed
 		ApplicationController.getInstance().addToRequestQueue(req);
+	}
+
+	public void getDeviceList() {
+		// callbakc listener
+		getDeviceList(1);
 	}
 
 	class InitialDataTask extends AsyncTask<String, Object, Object> {
@@ -111,7 +128,7 @@ public class DeviceManager extends Manger {
 			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
 			mDateHelper.insertList(mSQLiteDatabase, DataHelper.DEVICES_TABLE,
 					null, devDataList);
-			//[TODO]transfer to SimpleDevicesModel
+			// [TODO]transfer to SimpleDevicesModel
 			return devDataList;
 		}
 
@@ -123,6 +140,32 @@ public class DeviceManager extends Manger {
 		}
 
 	}
+
+	class InitialDataTaskWithNoInsert extends AsyncTask<String, Object, Object> {
+		@Override
+		protected Object doInBackground(String... params) {
+			RespondDataEntity data = VolleyOperation
+					.handleResponseString(params[0]);
+			ArrayList<ResponseParamsEndPoint> devDataList = data
+					.getResponseparamList();
+
+			// DataHelper mDateHelper = new DataHelper(
+			// ApplicationController.getInstance());
+			// SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
+			// mDateHelper.insertList(mSQLiteDatabase, DataHelper.DEVICES_TABLE,
+			// null, devDataList);
+			// [TODO]transfer to SimpleDevicesModel
+			return devDataList;
+		}
+
+		@Override
+		protected void onPostExecute(Object result) {
+			Event event = new Event(EventType.INTITIALDVIVCEDATA, true);
+			event.setData(result);
+			notifyObservers(event);
+		}
+	}
+
 	class InitialCIETask extends AsyncTask<String, Object, Object> {
 		@Override
 		protected Object doInBackground(String... params) {
@@ -131,12 +174,12 @@ public class DeviceManager extends Manger {
 			ArrayList<CIEresponse_params> devDataList = data
 					.getResponseparamList();
 
-//			DataHelper mDateHelper = new DataHelper(
-//					ApplicationController.getInstance());
-//			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
-//			mDateHelper.insertList(mSQLiteDatabase, DataHelper.DEVICES_TABLE,
-//					null, devDataList);
-			//[TODO]transfer to SimpleDevicesModel
+			// DataHelper mDateHelper = new DataHelper(
+			// ApplicationController.getInstance());
+			// SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
+			// mDateHelper.insertList(mSQLiteDatabase, DataHelper.DEVICES_TABLE,
+			// null, devDataList);
+			// [TODO]transfer to SimpleDevicesModel
 			return devDataList;
 		}
 
