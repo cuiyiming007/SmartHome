@@ -339,11 +339,6 @@ public class SafeCenterFragment extends BaseFragment implements UIListener {
 			// mAdapterList = list;
 			mContext = c;
 			isSelected = new HashMap<Integer, Boolean>();
-			if (null != mAdapterList && mAdapterList.size() > 0) {
-				for (int i = 0; i < mAdapterList.size(); i++) {
-					getIsSelected().put(i, false);
-				}
-			}
 		}
 
 		@Override
@@ -456,6 +451,12 @@ public class SafeCenterFragment extends BaseFragment implements UIListener {
 		public void setList(List<SimpleDevicesModel> list) {
 			mAdapterList = null;
 			mAdapterList = list;
+			isSelected.clear();
+			if (null != mAdapterList && mAdapterList.size() > 0) {
+				for (int i = 0; i < mAdapterList.size(); i++) {
+					getIsSelected().put(i, false);
+				}
+			}
 		}
 
 		public class ViewHolder {
