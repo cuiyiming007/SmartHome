@@ -58,6 +58,19 @@ public class SelectPicPopupWindow extends PopupWindow implements Dialogcallback{
 			}
 		});
 		
+		
+		LinearLayout version=(LinearLayout)mMenuView.findViewById(R.id.version);
+		version.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				VersionDlg vd=new VersionDlg(context);
+				vd.show();
+				dismiss();
+			}
+		});
+		
 		this.setContentView(mMenuView);
 		this.setWidth(LayoutParams.WRAP_CONTENT);
 		this.setHeight(LayoutParams.WRAP_CONTENT);

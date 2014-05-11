@@ -220,7 +220,7 @@ public class JoinNetFragment extends Fragment implements UIListener {
 				break;
 			case SCAPE_DEVICES:
 				Log.i("", "zgs->begin scape");
-				mDeviceManager.getDeviceList();
+				mDeviceManager.getDeviceList(2);
 				break;
 			default:
 				break;
