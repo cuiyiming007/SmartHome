@@ -13,6 +13,7 @@ import android.util.Log;
 import com.gdgl.activity.ShowDevicesGroupFragmentActivity;
 import com.gdgl.app.ApplicationController;
 import com.gdgl.mydata.Callback.CallbackResponseCommon;
+import com.gdgl.mydata.Callback.CallbackResponseType2;
 import com.gdgl.mydata.Callback.CallbackWarmMessage;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.NetUtil;
@@ -46,12 +47,12 @@ public class CallbackManager extends Manger {
 
 	public void connectAndRecieveFromCallback() {
 		try {
-			Log.e(TAG, "start ConnectServerByTCPTask");
+			Log.i(TAG, "start ConnectServerByTCPTask");
 			NetUtil.getInstance().initalCallbackSocket();
 			NetUtil.getInstance().connectServerWithTCPSocket();
 			NetUtil.getInstance().recieveFromCallback();
 		} catch (Exception e) {
-			Log.e(TAG, "connectAndRecieveFromCallback error" + e.getMessage());
+			Log.e(TAG, "connectAndRecieveFromCallback error：" + e.getMessage());
 		}
 	}
 
@@ -82,6 +83,10 @@ public class CallbackManager extends Manger {
 				Log.i(TAG, "Callback msgType=" + msgType + "heartbeat");
 				break;
 			case 2:
+				CallbackResponseType2 common = gson.fromJson(response,
+						CallbackResponseType2.class);
+				handleAttribute(common);
+
 				// Log.i(TAG, "Callback msgType=" + msgType + "energy");
 				break;
 			case 3:
@@ -93,7 +98,8 @@ public class CallbackManager extends Manger {
 				i.putExtra(
 						ShowDevicesGroupFragmentActivity.ACTIVITY_SHOW_DEVICES_TYPE,
 						UiUtils.SECURITY_CONTROL);
-				makeNotify(i,warmmessage.getW_description(),warmmessage.toString());
+				makeNotify(i, warmmessage.getW_description(),
+						warmmessage.toString());
 				break;
 			case 4:
 				Log.i(TAG, "Callback msgType=" + msgType + "doorlock");
@@ -109,14 +115,14 @@ public class CallbackManager extends Manger {
 				i5.putExtra(
 						ShowDevicesGroupFragmentActivity.ACTIVITY_SHOW_DEVICES_TYPE,
 						UiUtils.SECURITY_CONTROL);
-				makeNotify(i5,iasZone.getValue(),iasZone.toString());
+				makeNotify(i5, iasZone.getValue(), iasZone.toString());
 				break;
 			case 6:
 				Log.i(TAG, "Callback msgType=" + msgType + "DimmerSwitch");
 				break;
 			case 7:
-				// Log.i(TAG, "Callback msgType=" + msgType +
-				// "OnOffLightSwitch");
+				 Log.i(TAG, "Callback msgType=" + msgType +
+				 "OnOffLightSwitch");
 				break;
 			case 8:
 				CallbackResponseCommon IASWarmingDevice = gson.fromJson(
@@ -141,7 +147,7 @@ public class CallbackManager extends Manger {
 				i11.putExtra(
 						ShowDevicesGroupFragmentActivity.ACTIVITY_SHOW_DEVICES_TYPE,
 						UiUtils.SECURITY_CONTROL);
-				makeNotify(i11,iasZone11.getValue(),iasZone11.toString());
+				makeNotify(i11, iasZone11.getValue(), iasZone11.toString());
 
 				break;
 			case 12:
@@ -178,7 +184,44 @@ public class CallbackManager extends Manger {
 
 	}
 
-	void makeNotify(Intent i,String title,String message) {
+	/***
+	 * 根据attributeId 和clusterId来确定操作是什么，发送event，刷新UI
+	 * 
+	 * @param common
+	 */
+	private void handleAttribute(CallbackResponseType2 common) {
+
+		int attributeId = Integer.parseInt(common.getAttributeId(),16);
+		switch (attributeId) {
+		case 0:
+
+			break;
+		case 1:
+
+			break;
+		case 3:
+
+			break;
+		case 57344://E000
+			Log.i(TAG, "attributeId:E000");
+			break;
+		case 57345://0xE001:
+			Log.i(TAG, "attributeId:E001");
+			break;
+		case 57346://0xE002:
+			Log.i(TAG, "attributeId:E002");
+			break;
+		case 57347://0xE003:
+			Log.i(TAG, "attributeId:E003");
+			break;
+
+		default:
+			break;
+		}
+
+	}
+
+	void makeNotify(Intent i, String title, String message) {
 
 		NotificationManager nm = (NotificationManager) ApplicationController
 				.getInstance().getSystemService(Context.NOTIFICATION_SERVICE);
@@ -203,8 +246,8 @@ public class CallbackManager extends Manger {
 				ApplicationController.getInstance(), R.string.app_name, i,
 				PendingIntent.FLAG_UPDATE_CURRENT);
 
-		noti.setLatestEventInfo(ApplicationController.getInstance(),
-				title, message, contentIntent);
+		noti.setLatestEventInfo(ApplicationController.getInstance(), title,
+				message, contentIntent);
 		nm.notify(R.string.app_name, noti);
 	}
 

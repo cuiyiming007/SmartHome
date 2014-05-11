@@ -1,5 +1,9 @@
 package com.gdgl.mydata.Callback;
-
+/***
+ * messagetype=4,5,6,8,9,10,11
+ * @author justek
+ *
+ */
 public class CallbackResponseCommon {
 	private String deviceID;
 	private String msgtype;

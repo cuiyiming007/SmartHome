@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.gdgl.adapter.ViewPagerAdapter;
+import com.gdgl.manager.LightManager;
 import com.gdgl.model.TabInfo;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.AddDlg;
@@ -92,6 +93,7 @@ public class SmartHome extends FragmentActivity implements OnRefreshListener<Vie
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 showSetWindow();
+//            	LightManager.getInstance().LocalIASCIEOperation(null, 5);
             }
         });
 		

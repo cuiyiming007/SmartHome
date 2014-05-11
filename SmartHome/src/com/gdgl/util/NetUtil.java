@@ -101,12 +101,14 @@ public class NetUtil {
 	public static void handleInputStream(InputStream inputStream) throws IOException{
 		byte[] buffer = new byte[2048];
 		int readBytes = 0;
-		StringBuilder stringBuilder = new StringBuilder();
 		while((readBytes = inputStream.read(buffer)) > 0){
 			String message=new String(buffer, 0, readBytes);
-			CallbackManager.getInstance().handleCallbackResponse(message);
-//			Log.e(TAG+"+++++++++++++", String.valueOf(readBytes)+new String(buffer, 0, readBytes).toString());
-//		stringBuilder.append(new String(buffer, 0, readBytes));
+			String messages[]=message.split("\\}");
+			
+			for (String string : messages) {
+				CallbackManager.getInstance().handleCallbackResponse(string+"}");
+			}
+			
 		}
 //		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 //		int i=-1;
@@ -116,6 +118,12 @@ public class NetUtil {
 //		}
 //		return stringBuilder.toString();
 		}
+
+//	public static String[] splitMessage(String message,String regular) {
+//		String messages[]=message.split("}");
+//		return messages;
+//		
+//	}
 
 	public boolean isConnectedCallback() {
 

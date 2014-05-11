@@ -37,6 +37,8 @@ public class EventType {
 	public static final EventType LOCALIASCIEOPERATION;
 	public static final EventType LOCALIASCIEUNBYPASSZONE;
 	public static final EventType GETVIDEOLIST;
+	public static final EventType DELETENODE;
+	public static final EventType SETPERMITJOINON;
 	
 
 	
@@ -66,6 +68,8 @@ public class EventType {
 		LOCALIASCIEUNBYPASSZONE=new EventType("localIASCIEByPassZone", nextId());
 		LOCALIASCIEOPERATION=new EventType("LocalIASCIEOperation", nextId());
 		GETVIDEOLIST=new EventType("getvideolist", nextId());
+		DELETENODE=new EventType("deleteNode",nextId());
+		SETPERMITJOINON=new EventType("setPermitJoinOn", nextId());
 	}
 	
 	private static int nextId()

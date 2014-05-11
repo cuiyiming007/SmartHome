@@ -116,6 +116,38 @@ public class LightManager extends Manger {
 		return instance;
 	}
 	/***
+	 * 1.7 删除node
+	 * @param model
+	 */
+	public void deleteNode(SimpleDevicesModel model)
+	{
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("ieee", model.getmIeee());
+		String param = hashMap2ParamString(paraMap);
+
+		String url = NetUtil.getInstance().getCumstomURL(NetUtil.getInstance().IP,
+				"deleteNode.cgi", param);
+
+		simpleVolleyRequset(url, EventType.DELETENODE);
+	}
+	/***
+	 * 2.1  入网
+	 * @param model
+	 */
+	
+	public void setPermitJoinOn(SimpleDevicesModel model)
+	{
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("ieee", model.getmIeee());
+		String param = hashMap2ParamString(paraMap);
+
+		String url = NetUtil.getInstance().getCumstomURL(NetUtil.getInstance().IP,
+				"setPermitJoinOn.cgi", param);
+
+		simpleVolleyRequset(url, EventType.SETPERMITJOINON);
+	}
+	
+	/***
 	 * 2.3 插座
 	 */
 	public void MainsOutLetOperation(SimpleDevicesModel model,int operationType,int parem1)
@@ -430,8 +462,6 @@ GetIlluminanceMeasuredValueR ptTime 7
 		public void LocalIASCIEOperation(SimpleDevicesModel model,final int operationType)
 		{
 			HashMap<String, String> paraMap = new HashMap<String, String>();
-//			paraMap.put("zone_ieee", model.getmIeee());
-//			paraMap.put("zone_ep", model.getmEP());
 			paraMap.put("operatortype", String.valueOf(operationType));
 			paraMap.put("param1", "1");
 			paraMap.put("param2", "2");
@@ -447,9 +477,7 @@ GetIlluminanceMeasuredValueR ptTime 7
 					String jsonString= UiUtils.formatResponseString(response);
 					if (operationType==5) {
 						Gson gson=new Gson();
-						JsonParser parser = new JsonParser();
-						JsonObject jsonObject = parser.parse(jsonString).getAsJsonObject();
-						LocalIASCIEOperationResponseData data = gson.fromJson(jsonObject, LocalIASCIEOperationResponseData.class);
+						LocalIASCIEOperationResponseData data = gson.fromJson(jsonString, LocalIASCIEOperationResponseData.class);
 						String status=data.getResponse_params().getParam1();
 						Log.i(TAG, "LocalIASCIEOperation get status is "+String.valueOf(status));
 					}
