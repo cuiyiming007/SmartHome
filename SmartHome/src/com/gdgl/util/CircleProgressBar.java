@@ -11,7 +11,7 @@ import android.view.View;
  
 public class CircleProgressBar extends View {
 	private int maxProgress = 250;
-	private int progress = 50;
+	private int progress = 250;
 	private int progressStrokeWidth = 20;
 	//画圆所在的距形区域
 	RectF oval;

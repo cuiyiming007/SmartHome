@@ -3,6 +3,7 @@ package com.gdgl.activity;
 import java.util.HashMap;
 import java.util.List;
 
+import com.gdgl.activity.AllDevicesListFragment.DevicesAdapter.ViewHolder;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
 import com.gdgl.model.DevicesModel;
@@ -24,6 +25,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -280,74 +282,98 @@ public class JoinNetDevicesListFragment extends BaseFragment implements
 			if (null != mDevList && mDevList.size() > 0) {
 				return mDevList.get(position).getID();
 			}
-			return 0;
+			return position;
 		}
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			// TODO Auto-generated method stub
-			final DevicesModel sd = (DevicesModel) getItem(position);
-			ViewHolder mViewHolder;
-			final boolean isInner = isInNet(sd);
-			if (null == convertView) {
-				mViewHolder = new ViewHolder();
-				convertView = LayoutInflater.from(getActivity()).inflate(
-						R.layout.join_net_item, null);
-				mViewHolder.devImg = (ImageView) convertView
-						.findViewById(R.id.dev_img);
-				mViewHolder.devName = (TextView) convertView
-						.findViewById(R.id.dev_name);
-				mViewHolder.btnEnter = (Button) convertView
-						.findViewById(R.id.join);
-				convertView.setTag(mViewHolder);
-			} else {
-				mViewHolder = (ViewHolder) convertView.getTag();
+			if (null == mDevList) {
+				return convertView;
 			}
-			int devModeleId = Integer.parseInt(sd.getmDeviceId());
+			View mView = convertView;
+			ViewHolder mHolder;
+			final DevicesModel mDevices = mDevList.get(position);
+
+			if (null == mView) {
+				mHolder = new ViewHolder();
+				mView = LayoutInflater.from((Context) getActivity()).inflate(
+						R.layout.devices_list_item, null);
+				mHolder.devices_img = (ImageView) mView
+						.findViewById(R.id.devices_img);
+				mHolder.devices_name = (TextView) mView
+						.findViewById(R.id.devices_name);
+				mHolder.devices_region = (TextView) mView
+						.findViewById(R.id.devices_region);
+				mHolder.devices_state = (TextView) mView
+						.findViewById(R.id.devices_state);
+				mView.setTag(mHolder);
+			} else {
+				mHolder = (ViewHolder) mView.getTag();
+			}
+
+			mHolder.devices_name.setText(mDevices.getmUserDefineName().replace(
+					" ", ""));
+			mHolder.devices_region.setText(mDevices.getmDeviceRegion().replace(
+					" ", ""));
+			
+			int devModeleId = Integer.parseInt(mDevices.getmDeviceId());
+			
 			if (DataHelper.IAS_ZONE_DEVICETYPE == devModeleId
 					|| DataHelper.IAS_ACE_DEVICETYPE == devModeleId) {
 
-				mViewHolder.devImg.setImageResource(UiUtils
-						.getDevicesSmallIconByModelId(sd.getmModelId().trim()));
-			} else if (sd.getmModelId().indexOf(
+				mHolder.devices_img.setImageResource(UiUtils
+						.getDevicesSmallIconByModelId(mDevices.getmModelId()
+								.trim()));
+			} else if (mDevices.getmModelId().indexOf(
 					DataHelper.Multi_key_remote_control) == 0) {
-				mViewHolder.devImg.setImageResource(UiUtils
+				mHolder.devices_img.setImageResource(UiUtils
 						.getDevicesSmallIconForRemote(devModeleId));
 			} else {
-				mViewHolder.devImg.setImageResource(UiUtils
+				mHolder.devices_img.setImageResource(UiUtils
 						.getDevicesSmallIcon(devModeleId));
 			}
-			mViewHolder.devName.setText(sd.getmUserDefineName());
-			if (isInner) {
-				mViewHolder.btnEnter.setText("出网");
+
+			if (devModeleId == DataHelper.ON_OFF_SWITCH_DEVICETYPE) {
+				String state = "";
+				String s = mDevices.getmOnOffStatus();
+				Log.i("tag", "tag->" + s);
+				String[] result = s.split(",");
+				for (String string : result) {
+					if (string.trim().equals("1")) {
+						state += "开 ";
+					} else {
+						state += "关 ";
+					}
+				}
+				Log.i("tag", "tag->" + state);
+				mHolder.devices_state.setText(state);
+			} else if (devModeleId == DataHelper.IAS_ZONE_DEVICETYPE) {
+				if (mDevices.getmOnOffStatus().trim().equals("1")) {
+					mHolder.devices_state.setText("布防");
+				} else {
+					mHolder.devices_state.setText("撤防");
+				}
+			} else if (devModeleId == DataHelper.LIGHT_SENSOR_DEVICETYPE) {
+				mHolder.devices_state.setText("当前室内亮度为: 30");
+			} else if (devModeleId == DataHelper.TEMPTURE_SENSOR_DEVICETYPE) {
+				mHolder.devices_state.setText("当前室内温度为: 30°C");
 			} else {
-				mViewHolder.btnEnter.setText("入网");
+				if (mDevices.getmOnOffStatus().trim().equals("1")) {
+					mHolder.devices_state.setText("开");
+				} else {
+					mHolder.devices_state.setText("关");
+				}
 			}
 
-			mViewHolder.btnEnter.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					// TODO Auto-generated method stub
-					Button btn = (Button) v;
-					mViewGroupMap.put(sd, btn);
-					btn.setEnabled(false);
-					if (isInner) {
-						// 出网
-					} else {
-						// 入网
-					}
-					mHandler.sendEmptyMessageDelayed(FINISH_OPERATOR, 3000);
-				}
-			});
-
-			return convertView;
+			return mView;
 		}
 
-		class ViewHolder {
-			public ImageView devImg;
-			public TextView devName;
-			public Button btnEnter;
+		public class ViewHolder {
+			ImageView devices_img;
+			TextView devices_name;
+			TextView devices_region;
+			TextView devices_state;
 		}
 	}
 }
