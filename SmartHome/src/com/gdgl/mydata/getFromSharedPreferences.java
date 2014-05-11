@@ -50,6 +50,22 @@ public class getFromSharedPreferences {
 
 		return mEditor.commit();
 	}
+	
+	public static boolean setPwd(String pwd) {
+		mEditor = mSharedPreferences.edit();
+
+		mEditor.putString(UiUtils.PWD, pwd);
+
+		return mEditor.commit();
+	}
+	
+	public static boolean setName(String name) {
+		mEditor = mSharedPreferences.edit();
+
+		mEditor.putString(UiUtils.NAME, name);
+
+		return mEditor.commit();
+	}
 
 	public static boolean setRegion(String mSet) {
 		mEditor = mSharedPreferences.edit();

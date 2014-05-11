@@ -1,55 +1,172 @@
 package com.gdgl.activity;
 
+import java.util.List;
+
+import com.gdgl.activity.JoinNetDevicesListFragment.refreshData;
+import com.gdgl.activity.JoinNetFragment.ChangeFragment;
+import com.gdgl.model.SimpleDevicesModel;
+import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.SlideMenu;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-
-public class ConfigActivity extends BaseSlideMenuActivity {
+public class ConfigActivity extends BaseSlideMenuActivity implements
+		ChangeFragment, refreshData {
 	private SlideMenu mSlideMenu;
-	private boolean isFirst=true;
 	int mSelectedColor = 0xffEE3B3B;
 	int mUnSelectedColor = 0xff20B2AA;
+
+	TextView modify_pwd, modify_name, join_net, safe_center,all_dev ;
+	TextView config_name, user_name;
+	TextView tempView;
+	
+	BaseFragment mFragment;
+
 	@Override
 	public void onContentChanged() {
 		super.onContentChanged();
 		setSlideRole(R.layout.fragment_content);
 		setSlideRole(R.layout.config_menu);
-		
-		
-		mSlideMenu=getSlideMenu();
-		
+
+		getFromSharedPreferences.setharedPreferences(ConfigActivity.this);
+		String name = getFromSharedPreferences.getName().trim();
+		if (null == name || name.trim().equals("")) {
+			name = "Adminstartor";
+		}
+
+		mSlideMenu = getSlideMenu();
+
 		mSlideMenu.setInterpolator(new DecelerateInterpolator());
 		mSlideMenu.setSlideMode(SlideMenu.MODE_SLIDE_CONTENT);
 		mSlideMenu.setPrimaryShadowWidth(100);
-		
-		final TextView text_content=(TextView)findViewById(R.id.text_content);
-		
-		TextView tv=(TextView)findViewById(R.id.modify_pwd);
-		tv.setOnClickListener(new OnClickListener() {
-			
+		mSlideMenu.setEdgetSlideWidth(50);
+
+		config_name = (TextView) findViewById(R.id.config_name);
+		user_name = (TextView) findViewById(R.id.user_name);
+		user_name.setText(name);
+		modify_pwd = (TextView) findViewById(R.id.modify_pwd);
+		tempView = modify_pwd;
+		modify_pwd.setOnClickListener(new OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				getSlideMenu().close(true);
-				text_content.setText("修改密码");
-				TextView t=(TextView)v;
-				t.setTextColor(mSelectedColor);
+				TextView tv = (TextView) v;
+				changeFragment(tv, new ChangePWDFragment());
+			}
+		});
+
+		modify_name = (TextView) findViewById(R.id.modify_name);
+		modify_name.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				TextView tv = (TextView) v;
+				changeFragment(tv, new ChangeNameFragment());
+			}
+		});
+
+		LinearLayout mBack = (LinearLayout) findViewById(R.id.goback);
+		mBack.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				if (mSlideMenu.isOpen()) {
+					mSlideMenu.close(true);
+					return;
+				}
+				finish();
+			}
+		});
+
+		join_net = (TextView) findViewById(R.id.join_net);
+		join_net.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				TextView tv = (TextView) v;
+				changeFragment(tv, new JoinNetFragment());
+			}
+		});
+
+		safe_center = (TextView) findViewById(R.id.safe_center);
+		safe_center.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				TextView tv = (TextView) v;
+				SafeCenterFragment mSafeCenterFragment=new SafeCenterFragment();
+				mFragment=mSafeCenterFragment;
+				changeFragment(tv, mSafeCenterFragment);
+			}
+		});
+		
+		all_dev=(TextView) findViewById(R.id.all_dev);
+		all_dev.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				TextView tv = (TextView) v;
+				AllDevicesListFragment mAllDevicesListFragment=new AllDevicesListFragment();
+				mFragment=mAllDevicesListFragment;
+				changeFragment(tv, mAllDevicesListFragment);
 			}
 		});
 		mHandler.sendEmptyMessageDelayed(1, 150);
 	}
-	
-	Handler mHandler=new Handler(){
+
+	private void changeFragment(TextView v, Fragment f) {
+		mSlideMenu.close(true);
+		if (null != tempView) {
+			tempView.setTextColor(mUnSelectedColor);
+		}
+		config_name.setText(v.getText().toString());
+		FragmentTransaction fragmentTransaction = fragmentManager
+				.beginTransaction();
+
+		fragmentTransaction.replace(R.id.fragment_continer, f);
+		fragmentTransaction.commit();
+		v.setTextColor(mSelectedColor);
+		tempView = v;
+	}
+
+	private class GetDataTask extends
+			AsyncTask<Void, Void, List<SimpleDevicesModel>> {
+
+		@Override
+		protected List<SimpleDevicesModel> doInBackground(Void... params) {
+			// Simulates a background job.
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(List<SimpleDevicesModel> result) {
+			super.onPostExecute(result);
+			 mFragment.stopRefresh();
+		}
+	}
+
+	Handler mHandler = new Handler() {
 		public void handleMessage(Message msg) {
-			int what =msg.what;
+			int what = msg.what;
 			switch (what) {
 			case 1:
 				mSlideMenu.open(false, true);
@@ -59,18 +176,38 @@ public class ConfigActivity extends BaseSlideMenuActivity {
 			}
 		};
 	};
-	
+
 	@Override
-	public void onWindowFocusChanged(boolean hasFocus) {
-		// TODO Auto-generated method stub
-		super.onWindowFocusChanged(hasFocus);
-		Log.i(STORAGE_SERVICE, "zgs=>onWindowFocusChanged hasFocus="+hasFocus+" mSlideMenu==null"+(mSlideMenu==null));
-		if(hasFocus && isFirst){
-			if(null!=mSlideMenu){
-				mSlideMenu.open(false, true);
-				isFirst=false;
-			}
-		}
+	public void setFragment(Fragment f) {
+		mFragment=(BaseFragment) f;
+		FragmentTransaction fragmentTransaction = fragmentManager
+				.beginTransaction();
+		fragmentTransaction.replace(R.id.fragment_continer, f);
+		fragmentTransaction.addToBackStack(null);
+		fragmentTransaction.commit();
 	}
-	
+
+	@Override
+	public void refreshListData() {
+		// TODO Auto-generated method stub
+		new GetDataTask().execute();
+	}
+
+	@Override
+	public SimpleDevicesModel getDeviceModle(int postion) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setFragment(Fragment mFragment, int postion) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setDevicesId(String id) {
+		// TODO Auto-generated method stub
+
+	}
 }

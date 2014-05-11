@@ -19,84 +19,85 @@ import com.gdgl.util.UiUtils;
 
 public class DataUtil {
 
-    public static String[] getArgs(int type) {
-        String[] args = null;
-        switch (type) {
-        case UiUtils.LIGHTS_MANAGER:
-            args = new String[4];
-            args[0] = DataHelper.Energy_detection_dimming_module + "%";
-            args[1] = DataHelper.Switch_Module_Single + "%";
-            args[2] = DataHelper.Dimmer_Switch + "%";
-            args[3] = "1";
-            break;
-        case UiUtils.ELECTRICAL_MANAGER:
-            args = new String[5];
-            args[0] = DataHelper.Power_detect_wall + "%";
-            args[1] = DataHelper.Power_detect_socket + "%";
-            args[2] = DataHelper.Curtain_control_switch + "%";
-            args[3] = DataHelper.Infrared_controller + "%";
-            args[4] = "1";
-            break;
-        case UiUtils.SECURITY_CONTROL:
-            args = new String[11];
-            args[0] = DataHelper.Motion_Sensor + "%";
-            args[1] = DataHelper.Magnetic_Window + "%";
-            args[2] = DataHelper.Emergency_Button + "%";
-            args[3] = DataHelper.Doors_and_windows_sensor_switch + "%";
-            args[4] = DataHelper.Smoke_Detectors + "%";
-            args[5] = DataHelper.Combustible_Gas_Detector_Gas + "%";
-            args[6] = DataHelper.Combustible_Gas_Detector_CO + "%";
-            args[7] = DataHelper.Combustible_Gas_Detector_Natural_gas + "%";
-            args[8] = DataHelper.Wireless_Intelligent_valve_switch + "%";
-            args[9] = DataHelper.Siren + "%";
-            args[10] = "1";
-            break;
-        case UiUtils.ENVIRONMENTAL_CONTROL:
-        	args = new String[3];
-            args[0] = DataHelper.Indoor_temperature_sensor + "%";
-            args[1] = DataHelper.Light_Sensor + "%";
-            args[2] = "1";
-            break;
-        case UiUtils.ENERGY_CONSERVATION:
-            break;
-        case UiUtils.OTHER:
-            args = new String[2];
-            args[0] = DataHelper.Multi_key_remote_control + "%";
-            args[1] = "1";
-            break;
-        default:
-            break;
+	public static String[] getArgs(int type) {
+		String[] args = null;
+		switch (type) {
+		case UiUtils.LIGHTS_MANAGER:
+			args = new String[4];
+			args[0] = DataHelper.Energy_detection_dimming_module + "%";
+			args[1] = DataHelper.Switch_Module_Single + "%";
+			args[2] = DataHelper.Dimmer_Switch + "%";
+			args[3] = "1";
+			break;
+		case UiUtils.ELECTRICAL_MANAGER:
+			args = new String[5];
+			args[0] = DataHelper.Power_detect_wall + "%";
+			args[1] = DataHelper.Power_detect_socket + "%";
+			args[2] = DataHelper.Curtain_control_switch + "%";
+			args[3] = DataHelper.Infrared_controller + "%";
+			args[4] = "1";
+			break;
+		case UiUtils.SECURITY_CONTROL:
+			args = new String[11];
+			args[0] = DataHelper.Motion_Sensor + "%";
+			args[1] = DataHelper.Magnetic_Window + "%";
+			args[2] = DataHelper.Emergency_Button + "%";
+			args[3] = DataHelper.Doors_and_windows_sensor_switch + "%";
+			args[4] = DataHelper.Smoke_Detectors + "%";
+			args[5] = DataHelper.Combustible_Gas_Detector_Gas + "%";
+			args[6] = DataHelper.Combustible_Gas_Detector_CO + "%";
+			args[7] = DataHelper.Combustible_Gas_Detector_Natural_gas + "%";
+			args[8] = DataHelper.Wireless_Intelligent_valve_switch + "%";
+			args[9] = DataHelper.Siren + "%";
+			args[10] = "1";
+			break;
+		case UiUtils.ENVIRONMENTAL_CONTROL:
+			args = new String[3];
+			args[0] = DataHelper.Indoor_temperature_sensor + "%";
+			args[1] = DataHelper.Light_Sensor + "%";
+			args[2] = "1";
+			break;
+		case UiUtils.ENERGY_CONSERVATION:
+			break;
+		case UiUtils.OTHER:
+			args = new String[2];
+			args[0] = DataHelper.Multi_key_remote_control + "%";
+			args[1] = "1";
+			break;
+		default:
+			break;
 
-        }
-        return args;
-    }
+		}
+		return args;
+	}
 
-    public static String getWhere(int type) {
-        String where = "";
-        switch (type) {
-        case UiUtils.LIGHTS_MANAGER:
-            where = " ( model_id like ? or model_id like ? or model_id like ? ) and on_off_line=? ";
-            break;
-        case UiUtils.ELECTRICAL_MANAGER:
-            where = " ( model_id like ? or model_id like ? or  model_id like ? or model_id like ?  ) and on_off_line=? ";
-            break;
-        case UiUtils.SECURITY_CONTROL:
-            where = "( model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? ) and on_off_line=? ";
-            break;
-        case UiUtils.ENVIRONMENTAL_CONTROL:
-            where = " ( model_id like ? or model_id like ? ) and on_off_line=? ";;
-            break;
-        case UiUtils.ENERGY_CONSERVATION:
-            
-            break;
-        case UiUtils.OTHER:
-            where = " model_id like ? and on_off_line=? ";
-            break;
-        default:
-            break;
-        }
-        return where;
-    }
+	public static String getWhere(int type) {
+		String where = "";
+		switch (type) {
+		case UiUtils.LIGHTS_MANAGER:
+			where = " ( model_id like ? or model_id like ? or model_id like ? ) and on_off_line=? ";
+			break;
+		case UiUtils.ELECTRICAL_MANAGER:
+			where = " ( model_id like ? or model_id like ? or  model_id like ? or model_id like ?  ) and on_off_line=? ";
+			break;
+		case UiUtils.SECURITY_CONTROL:
+			where = "( model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? ) and on_off_line=? ";
+			break;
+		case UiUtils.ENVIRONMENTAL_CONTROL:
+			where = " ( model_id like ? or model_id like ? ) and on_off_line=? ";
+			;
+			break;
+		case UiUtils.ENERGY_CONSERVATION:
+
+			break;
+		case UiUtils.OTHER:
+			where = " model_id like ? and on_off_line=? ";
+			break;
+		default:
+			break;
+		}
+		return where;
+	}
 
     public static List<DevicesModel> convertToDevicesModel(
             RespondDataEntity<ResponseParamsEndPoint> r) {
@@ -124,98 +125,99 @@ public class DataUtil {
         List<SimpleDevicesModel> list = new ArrayList<SimpleDevicesModel>();
         args = DataUtil.getArgs(UiUtils.LIGHTS_MANAGER);
 
-        SQLiteDatabase db = dh.getSQLiteDatabase();
-        listDevicesModel = dh.queryForList(db, DataHelper.DEVICES_TABLE, null,
-                where, args, null, null, null, null);
-        int n = 0;
-        for (int m = 0; m < listDevicesModel.size(); m++) {
-            DevicesModel mDevicesModel = listDevicesModel.get(m);
+		SQLiteDatabase db = dh.getSQLiteDatabase();
+		listDevicesModel = dh.queryForList(db, DataHelper.DEVICES_TABLE, null,
+				where, args, null, null, null, null);
+		int n = 0;
+		for (int m = 0; m < listDevicesModel.size(); m++) {
+			DevicesModel mDevicesModel = listDevicesModel.get(m);
 
-            if (Integer.parseInt(mDevicesModel.getmDeviceId()) == DataHelper.ON_OFF_SWITCH_DEVICETYPE) {
-                if (mMap.containsKey(mDevicesModel.getmIeee())) {
+			if (Integer.parseInt(mDevicesModel.getmDeviceId()) == DataHelper.ON_OFF_SWITCH_DEVICETYPE) {
+				if (mMap.containsKey(mDevicesModel.getmIeee())) {
 
-                    SimpleDevicesModel aSimpleDevicesModel = list.get(mMap
-                            .get(mDevicesModel.getmIeee()));
-                    String OnOffStatus = aSimpleDevicesModel.getmOnOffStatus();
-                    String NodeENNAme = aSimpleDevicesModel.getmNodeENNAme();
-                    String EP = aSimpleDevicesModel.getmEP();
-                    aSimpleDevicesModel.setmNodeENNAme(NodeENNAme + ","
-                            + mDevicesModel.getmNodeENNAme());
-                    aSimpleDevicesModel.setmOnOffStatus(OnOffStatus + ","
-                            + mDevicesModel.getmOnOffStatus());
-                    aSimpleDevicesModel.setmEP(EP + ","
-                            + mDevicesModel.getmEP());
-                } else {
-                    mSimpleDevicesModel = new SimpleDevicesModel();
-                    mSimpleDevicesModel.setID(mDevicesModel.getID());
-                    mSimpleDevicesModel.setmDeviceId(Integer
-                            .parseInt(mDevicesModel.getmDeviceId()));
-                    mSimpleDevicesModel.setmDeviceRegion(mDevicesModel
-                            .getmDeviceRegion());
-                    mSimpleDevicesModel.setmEP(mDevicesModel.getmEP());
-                    mSimpleDevicesModel.setmIeee(mDevicesModel.getmIeee());
-                    mSimpleDevicesModel.setmLastDateTime(mDevicesModel
-                            .getmLastDateTime());
-                    mSimpleDevicesModel
-                            .setmModelId(mDevicesModel.getmModelId());
-                    mSimpleDevicesModel.setmName(mDevicesModel.getmName());
-                    mSimpleDevicesModel.setmNodeENNAme(mDevicesModel
-                            .getmNodeENNAme());
-                    mSimpleDevicesModel.setmOnOffLine(mDevicesModel
-                            .getmOnOffLine());
-                    mSimpleDevicesModel.setmOnOffStatus(mDevicesModel
-                            .getmOnOffStatus());
-                    if (mDevicesModel.getmUserDefineName() == null
-                            || mDevicesModel.getmUserDefineName().trim().equals("")) {
-                        mSimpleDevicesModel
-                                .setmUserDefineName(getDefaultUserDefinname(c,
-                                        mSimpleDevicesModel.getmModelId()));
-                    } else {
-                        mSimpleDevicesModel.setmUserDefineName(mDevicesModel
-                                .getmUserDefineName());
-                    }
-                    list.add(mSimpleDevicesModel);
-                    mMap.put(mDevicesModel.getmIeee(), n);
-                    n++;
-                }
-            } else {
-                mSimpleDevicesModel = new SimpleDevicesModel();
-                mSimpleDevicesModel.setID(mDevicesModel.getID());
-                mSimpleDevicesModel.setmDeviceId(Integer.parseInt(mDevicesModel
-                        .getmDeviceId()));
-                mSimpleDevicesModel.setmDeviceRegion(mDevicesModel
-                        .getmDeviceRegion());
-                mSimpleDevicesModel.setmEP(mDevicesModel.getmEP());
-                mSimpleDevicesModel.setmIeee(mDevicesModel.getmIeee());
-                mSimpleDevicesModel.setmLastDateTime(mDevicesModel
-                        .getmLastDateTime());
-                mSimpleDevicesModel.setmModelId(mDevicesModel.getmModelId());
-                mSimpleDevicesModel.setmName(mDevicesModel.getmName());
-                mSimpleDevicesModel.setmNodeENNAme(mDevicesModel
-                        .getmNodeENNAme());
-                mSimpleDevicesModel
-                        .setmOnOffLine(mDevicesModel.getmOnOffLine());
-                mSimpleDevicesModel.setmOnOffStatus(mDevicesModel
-                        .getmOnOffStatus());
-                if (mDevicesModel.getmUserDefineName() == null
-                        || mDevicesModel.getmUserDefineName().trim().equals("")) {
-                    mSimpleDevicesModel
-                            .setmUserDefineName(getDefaultUserDefinname(c,
-                                    mSimpleDevicesModel.getmModelId()));
-                } else {
-                    mSimpleDevicesModel.setmUserDefineName(mDevicesModel
-                            .getmUserDefineName());
-                }
-                n++;
-                list.add(mSimpleDevicesModel);
-            }
-        }
-        for (SimpleDevicesModel simpleDevicesModel : list) {
-            Log.i("", "tagzgs->" + simpleDevicesModel.getmOnOffLine() + " "
-                    + simpleDevicesModel.getmModelId());
-        }
-        return list;
-    }
+					SimpleDevicesModel aSimpleDevicesModel = list.get(mMap
+							.get(mDevicesModel.getmIeee()));
+					String OnOffStatus = aSimpleDevicesModel.getmOnOffStatus();
+					String NodeENNAme = aSimpleDevicesModel.getmNodeENNAme();
+					String EP = aSimpleDevicesModel.getmEP();
+					aSimpleDevicesModel.setmNodeENNAme(NodeENNAme + ","
+							+ mDevicesModel.getmNodeENNAme());
+					aSimpleDevicesModel.setmOnOffStatus(OnOffStatus + ","
+							+ mDevicesModel.getmOnOffStatus());
+					aSimpleDevicesModel.setmEP(EP + ","
+							+ mDevicesModel.getmEP());
+				} else {
+					mSimpleDevicesModel = new SimpleDevicesModel();
+					mSimpleDevicesModel.setID(mDevicesModel.getID());
+					mSimpleDevicesModel.setmDeviceId(Integer
+							.parseInt(mDevicesModel.getmDeviceId()));
+					mSimpleDevicesModel.setmDeviceRegion(mDevicesModel
+							.getmDeviceRegion());
+					mSimpleDevicesModel.setmEP(mDevicesModel.getmEP());
+					mSimpleDevicesModel.setmIeee(mDevicesModel.getmIeee());
+					mSimpleDevicesModel.setmLastDateTime(mDevicesModel
+							.getmLastDateTime());
+					mSimpleDevicesModel
+							.setmModelId(mDevicesModel.getmModelId());
+					mSimpleDevicesModel.setmName(mDevicesModel.getmName());
+					mSimpleDevicesModel.setmNodeENNAme(mDevicesModel
+							.getmNodeENNAme());
+					mSimpleDevicesModel.setmOnOffLine(mDevicesModel
+							.getmOnOffLine());
+					mSimpleDevicesModel.setmOnOffStatus(mDevicesModel
+							.getmOnOffStatus());
+					if (mDevicesModel.getmUserDefineName() == null
+							|| mDevicesModel.getmUserDefineName().trim()
+									.equals("")) {
+						mSimpleDevicesModel
+								.setmUserDefineName(getDefaultUserDefinname(c,
+										mSimpleDevicesModel.getmModelId()));
+					} else {
+						mSimpleDevicesModel.setmUserDefineName(mDevicesModel
+								.getmUserDefineName());
+					}
+					list.add(mSimpleDevicesModel);
+					mMap.put(mDevicesModel.getmIeee(), n);
+					n++;
+				}
+			} else {
+				mSimpleDevicesModel = new SimpleDevicesModel();
+				mSimpleDevicesModel.setID(mDevicesModel.getID());
+				mSimpleDevicesModel.setmDeviceId(Integer.parseInt(mDevicesModel
+						.getmDeviceId()));
+				mSimpleDevicesModel.setmDeviceRegion(mDevicesModel
+						.getmDeviceRegion());
+				mSimpleDevicesModel.setmEP(mDevicesModel.getmEP());
+				mSimpleDevicesModel.setmIeee(mDevicesModel.getmIeee());
+				mSimpleDevicesModel.setmLastDateTime(mDevicesModel
+						.getmLastDateTime());
+				mSimpleDevicesModel.setmModelId(mDevicesModel.getmModelId());
+				mSimpleDevicesModel.setmName(mDevicesModel.getmName());
+				mSimpleDevicesModel.setmNodeENNAme(mDevicesModel
+						.getmNodeENNAme());
+				mSimpleDevicesModel
+						.setmOnOffLine(mDevicesModel.getmOnOffLine());
+				mSimpleDevicesModel.setmOnOffStatus(mDevicesModel
+						.getmOnOffStatus());
+				if (mDevicesModel.getmUserDefineName() == null
+						|| mDevicesModel.getmUserDefineName().trim().equals("")) {
+					mSimpleDevicesModel
+							.setmUserDefineName(getDefaultUserDefinname(c,
+									mSimpleDevicesModel.getmModelId()));
+				} else {
+					mSimpleDevicesModel.setmUserDefineName(mDevicesModel
+							.getmUserDefineName());
+				}
+				n++;
+				list.add(mSimpleDevicesModel);
+			}
+		}
+		for (SimpleDevicesModel simpleDevicesModel : list) {
+			Log.i("", "tagzgs->" + simpleDevicesModel.getmOnOffLine() + " "
+					+ simpleDevicesModel.getmModelId());
+		}
+		return list;
+	}
 
     public static List<SimpleDevicesModel> getOtherManagementDevices(Context c,
             DataHelper dh, int type) {
@@ -367,144 +369,183 @@ public class DataUtil {
         }
         return result;
 
-    }
-    public static Set<String> getRegions(
-            Context c, DataHelper dh) {
-        List<DevicesModel> listDevicesModel = new ArrayList<DevicesModel>();
-        Set<String> region = new HashSet<String>(); 
-        
+	}
 
-        SQLiteDatabase db = dh.getSQLiteDatabase();
-        listDevicesModel = dh.queryForList(db, DataHelper.DEVICES_TABLE, null,
-                null, null, null, null, null, null);
-        
-        for (int m = 0; m < listDevicesModel.size(); m++) {
-            String mRegion= listDevicesModel.get(m).getmDeviceRegion();
-            if(!region.contains(mRegion)){
-                region.add(mRegion);
-            }
-        }
-        return region;
-    }
-    
-    public static List<SimpleDevicesModel> getDevices(
-            Context c, DataHelper dh,String[] args,String where) {
-        HashMap<String, Integer> mMap = new HashMap<String, Integer>();
-        List<String> sList = new ArrayList<String>();
-        SimpleDevicesModel mSimpleDevicesModel;
-        List<DevicesModel> listDevicesModel = new ArrayList<DevicesModel>();
-        List<SimpleDevicesModel> list = new ArrayList<SimpleDevicesModel>();
-        
+	public static Set<String> getRegions(Context c, DataHelper dh) {
+		List<DevicesModel> listDevicesModel = new ArrayList<DevicesModel>();
+		Set<String> region = new HashSet<String>();
 
-        SQLiteDatabase db = dh.getSQLiteDatabase();
-        listDevicesModel = dh.queryForList(db, DataHelper.DEVICES_TABLE, null,
-                where, args, null, null, null, null);
-        
-        for (int m = 0; m < listDevicesModel.size(); m++) {
-            DevicesModel mDevicesModel = listDevicesModel.get(m);
+		SQLiteDatabase db = dh.getSQLiteDatabase();
+		listDevicesModel = dh.queryForList(db, DataHelper.DEVICES_TABLE, null,
+				null, null, null, null, null, null);
 
-            if (Integer.parseInt(mDevicesModel.getmDeviceId()) != DataHelper.ON_OFF_SWITCH_DEVICETYPE) {
-            	mSimpleDevicesModel = new SimpleDevicesModel();
-                mSimpleDevicesModel.setID(mDevicesModel.getID());
-                mSimpleDevicesModel.setmDeviceId(Integer.parseInt(mDevicesModel
-                        .getmDeviceId()));
-                mSimpleDevicesModel.setmDeviceRegion(mDevicesModel
-                        .getmDeviceRegion());
-                mSimpleDevicesModel.setmEP(mDevicesModel.getmEP());
-                mSimpleDevicesModel.setmIeee(mDevicesModel.getmIeee());
-                mSimpleDevicesModel.setmLastDateTime(mDevicesModel
-                        .getmLastDateTime());
-                mSimpleDevicesModel.setmModelId(mDevicesModel.getmModelId());
-                mSimpleDevicesModel.setmName(mDevicesModel.getmName());
-                mSimpleDevicesModel.setmNodeENNAme(mDevicesModel
-                        .getmNodeENNAme());
-                mSimpleDevicesModel
-                        .setmOnOffLine(mDevicesModel.getmOnOffLine());
-                mSimpleDevicesModel.setmOnOffStatus(mDevicesModel
-                        .getmOnOffStatus());
-                if (mDevicesModel.getmUserDefineName() == null
-                        || mDevicesModel.getmUserDefineName().trim().equals("")) {
-                    mSimpleDevicesModel
-                            .setmUserDefineName(getDefaultUserDefinname(c,
-                                    mSimpleDevicesModel.getmModelId()));
-                } else {
-                    mSimpleDevicesModel.setmUserDefineName(mDevicesModel
-                            .getmUserDefineName());
-                }
-                list.add(mSimpleDevicesModel);
-            } 
-        }
-        return list;
-        
-    }
-    
-    public static List<String> getScenes(
-            Context c, DataHelper dh) {
-    	
-    	if(null==dh){
-    		dh=new DataHelper(c);
-    	}
-        List<DevicesGroup> listDevicesModel = new ArrayList<DevicesGroup>();
-        List<String> scenes = new ArrayList<String>(); 
-        
+		for (int m = 0; m < listDevicesModel.size(); m++) {
+			String mRegion = listDevicesModel.get(m).getmDeviceRegion();
+			if (!region.contains(mRegion)) {
+				region.add(mRegion);
+			}
+		}
+		return region;
+	}
 
-        SQLiteDatabase db = dh.getSQLiteDatabase();
-        listDevicesModel = dh.queryForGroupList(c, db, DataHelper.GROUP_TABLE, null, null, null, null, null, null, null);
-        
-       for (DevicesGroup d : listDevicesModel) {
-    	   if(!scenes.contains(d.getGroupName())){
-    		   scenes.add(d.getGroupName());
-    	   }
-       }
-       return scenes;
-    }
-    
-    public static List<SimpleDevicesModel> getScenesDevices(
-            Context c, DataHelper dh,String name) {
-    	
-    	if(null==dh){
-    		dh=new DataHelper(c);
-    	}
-    	String[] args={name};
-        List<DevicesGroup> listDevicesModel = new ArrayList<DevicesGroup>();
-        List<SimpleDevicesModel> scenes = new ArrayList<SimpleDevicesModel>(); 
+	public static List<SimpleDevicesModel> getDevices(Context c, DataHelper dh,
+			String[] args, String where, boolean b) {
+		HashMap<String, Integer> mMap = new HashMap<String, Integer>();
+		List<String> sList = new ArrayList<String>();
+		SimpleDevicesModel mSimpleDevicesModel;
+		List<DevicesModel> listDevicesModel = new ArrayList<DevicesModel>();
+		List<SimpleDevicesModel> list = new ArrayList<SimpleDevicesModel>();
 
-        SQLiteDatabase db = dh.getSQLiteDatabase();
-        listDevicesModel = dh.queryForGroupList(c, db, DataHelper.GROUP_TABLE, null, " group_name=? ", args, null, null, null, null);
-        
+		SQLiteDatabase db = dh.getSQLiteDatabase();
+		listDevicesModel = dh.queryForList(db, DataHelper.DEVICES_TABLE, null,
+				where, args, null, null, null, null);
 
-       for (DevicesGroup d : listDevicesModel) {
-    	   String ieee=d.getIeee();
-    	   if(!ieee.equals("-1")){
-    		   String[] ag={d.getIeee()};
-        	   String where=" ieee=? ";
-        	   List<SimpleDevicesModel> mm=DataUtil.getDevices(c, dh, ag, where);
-        	   if(null!=mm && mm.size()>0){
-        		   scenes.add(mm.get(0));
-        	   }
-    	   }
-       }
-       return scenes;
-    }
-    
-    public static DevicesGroup getOneScenesDevices(
-            Context c, DataHelper dh,String ieee) {
-    	
-    	if(null==dh){
-    		dh=new DataHelper(c);
-    	}
-    	String[] args={ieee};
-        List<DevicesGroup> listDevicesModel = new ArrayList<DevicesGroup>();
-        List<SimpleDevicesModel> scenes = new ArrayList<SimpleDevicesModel>(); 
+		if (b) {
+			for (int m = 0; m < listDevicesModel.size(); m++) {
+				DevicesModel mDevicesModel = listDevicesModel.get(m);
+				if (Integer.parseInt(mDevicesModel.getmDeviceId()) != DataHelper.ON_OFF_SWITCH_DEVICETYPE) {
+					mSimpleDevicesModel = new SimpleDevicesModel();
+					mSimpleDevicesModel.setID(mDevicesModel.getID());
+					mSimpleDevicesModel.setmDeviceId(Integer
+							.parseInt(mDevicesModel.getmDeviceId()));
+					mSimpleDevicesModel.setmDeviceRegion(mDevicesModel
+							.getmDeviceRegion());
+					mSimpleDevicesModel.setmEP(mDevicesModel.getmEP());
+					mSimpleDevicesModel.setmIeee(mDevicesModel.getmIeee());
+					mSimpleDevicesModel.setmLastDateTime(mDevicesModel
+							.getmLastDateTime());
+					mSimpleDevicesModel
+							.setmModelId(mDevicesModel.getmModelId());
+					mSimpleDevicesModel.setmName(mDevicesModel.getmName());
+					mSimpleDevicesModel.setmNodeENNAme(mDevicesModel
+							.getmNodeENNAme());
+					mSimpleDevicesModel.setmOnOffLine(mDevicesModel
+							.getmOnOffLine());
+					mSimpleDevicesModel.setmOnOffStatus(mDevicesModel
+							.getmOnOffStatus());
+					if (mDevicesModel.getmUserDefineName() == null
+							|| mDevicesModel.getmUserDefineName().trim()
+									.equals("")) {
+						mSimpleDevicesModel
+								.setmUserDefineName(getDefaultUserDefinname(c,
+										mSimpleDevicesModel.getmModelId()));
+					} else {
+						mSimpleDevicesModel.setmUserDefineName(mDevicesModel
+								.getmUserDefineName());
+					}
+					list.add(mSimpleDevicesModel);
+				}
+			}
+		} else {
+			for (int m = 0; m < listDevicesModel.size(); m++) {
+				DevicesModel mDevicesModel = listDevicesModel.get(m);
+				mSimpleDevicesModel = new SimpleDevicesModel();
+				mSimpleDevicesModel.setID(mDevicesModel.getID());
+				mSimpleDevicesModel.setmDeviceId(Integer.parseInt(mDevicesModel
+						.getmDeviceId()));
+				mSimpleDevicesModel.setmDeviceRegion(mDevicesModel
+						.getmDeviceRegion());
+				mSimpleDevicesModel.setmEP(mDevicesModel.getmEP());
+				mSimpleDevicesModel.setmIeee(mDevicesModel.getmIeee());
+				mSimpleDevicesModel.setmLastDateTime(mDevicesModel
+						.getmLastDateTime());
+				mSimpleDevicesModel.setmModelId(mDevicesModel.getmModelId());
+				mSimpleDevicesModel.setmName(mDevicesModel.getmName());
+				mSimpleDevicesModel.setmNodeENNAme(mDevicesModel
+						.getmNodeENNAme());
+				mSimpleDevicesModel
+						.setmOnOffLine(mDevicesModel.getmOnOffLine());
+				mSimpleDevicesModel.setmOnOffStatus(mDevicesModel
+						.getmOnOffStatus());
+				if (mDevicesModel.getmUserDefineName() == null
+						|| mDevicesModel.getmUserDefineName().trim().equals("")) {
+					mSimpleDevicesModel
+							.setmUserDefineName(getDefaultUserDefinname(c,
+									mSimpleDevicesModel.getmModelId()));
+				} else {
+					mSimpleDevicesModel.setmUserDefineName(mDevicesModel
+							.getmUserDefineName());
+				}
+				list.add(mSimpleDevicesModel);
+			}
+		}
 
-        SQLiteDatabase db = dh.getSQLiteDatabase();
-        listDevicesModel = dh.queryForGroupList(c, db, DataHelper.GROUP_TABLE, null, " devices_ieee=? ", args, null, null, null, null);
-        
-        if(null!=listDevicesModel && listDevicesModel.size()>0){
-        	return listDevicesModel.get(0);
-        }
-        
-        return null;
-       
-    }
+		return list;
+	}
+
+	public static List<SimpleDevicesModel> getDevices(Context c, DataHelper dh,
+			String[] args, String where) {
+		return getDevices(c, dh, args, where, true);
+	}
+
+	public static List<String> getScenes(Context c, DataHelper dh) {
+
+		if (null == dh) {
+			dh = new DataHelper(c);
+		}
+		List<DevicesGroup> listDevicesModel = new ArrayList<DevicesGroup>();
+		List<String> scenes = new ArrayList<String>();
+
+		SQLiteDatabase db = dh.getSQLiteDatabase();
+		listDevicesModel = dh.queryForGroupList(c, db, DataHelper.GROUP_TABLE,
+				null, null, null, null, null, null, null);
+
+		for (DevicesGroup d : listDevicesModel) {
+			if (!scenes.contains(d.getGroupName())) {
+				scenes.add(d.getGroupName());
+			}
+		}
+		return scenes;
+	}
+
+	public static List<SimpleDevicesModel> getScenesDevices(Context c,
+			DataHelper dh, String name) {
+
+		if (null == dh) {
+			dh = new DataHelper(c);
+		}
+		String[] args = { name };
+		List<DevicesGroup> listDevicesModel = new ArrayList<DevicesGroup>();
+		List<SimpleDevicesModel> scenes = new ArrayList<SimpleDevicesModel>();
+
+		SQLiteDatabase db = dh.getSQLiteDatabase();
+		listDevicesModel = dh.queryForGroupList(c, db, DataHelper.GROUP_TABLE,
+				null, " group_name=? ", args, null, null, null, null);
+
+		for (DevicesGroup d : listDevicesModel) {
+			String ieee = d.getIeee();
+			if (!ieee.equals("-1")) {
+				String[] ag = { d.getIeee() };
+				String where = " ieee=? ";
+				List<SimpleDevicesModel> mm = DataUtil.getDevices(c, dh, ag,
+						where);
+				if (null != mm && mm.size() > 0) {
+					scenes.add(mm.get(0));
+				}
+			}
+		}
+		return scenes;
+	}
+
+	public static DevicesGroup getOneScenesDevices(Context c, DataHelper dh,
+			String ieee) {
+
+		if (null == dh) {
+			dh = new DataHelper(c);
+		}
+		String[] args = { ieee };
+		List<DevicesGroup> listDevicesModel = new ArrayList<DevicesGroup>();
+		List<SimpleDevicesModel> scenes = new ArrayList<SimpleDevicesModel>();
+
+		SQLiteDatabase db = dh.getSQLiteDatabase();
+		listDevicesModel = dh.queryForGroupList(c, db, DataHelper.GROUP_TABLE,
+				null, " devices_ieee=? ", args, null, null, null, null);
+
+		if (null != listDevicesModel && listDevicesModel.size() > 0) {
+			return listDevicesModel.get(0);
+		}
+
+		return null;
+
+	}
 }

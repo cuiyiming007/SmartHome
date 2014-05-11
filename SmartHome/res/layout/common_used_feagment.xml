@@ -39,7 +39,9 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_marginTop="3dp"
-        android:background="@drawable/divider_color" />
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="#20B2AA" />
 
     <LinearLayout
         android:id="@+id/region_content"
@@ -102,7 +104,9 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_marginTop="3dp"
-        android:background="@drawable/divider_color" />
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="#20B2AA" />
 
     <LinearLayout
         android:id="@+id/scene_content"
@@ -160,11 +164,13 @@
             android:textSize="16dp" />
     </RelativeLayout>
 
-    <View
+   <View
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_marginTop="3dp"
-        android:background="@drawable/divider_color" />
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="#20B2AA" />
 
     <LinearLayout
         android:id="@+id/dev_content"

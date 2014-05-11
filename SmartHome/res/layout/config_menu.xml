@@ -34,6 +34,7 @@
                 android:textSize="18dp" />
 
             <TextView
+                android:id="@+id/user_name"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
@@ -88,7 +89,7 @@
             android:textSize="15dp" />
 
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/modify_name"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginLeft="35dp"
@@ -134,7 +135,7 @@
             android:background="@drawable/divider_color" />
 
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/all_dev"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginLeft="35dp"
@@ -145,24 +146,24 @@
             android:textSize="15dp" />
 
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/join_net"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginLeft="35dp"
             android:layout_marginTop="10dp"
             android:gravity="center_vertical"
-            android:text="开关绑定"
+            android:text="组网管理"
             android:textColor="#20B2AA"
             android:textSize="15dp" />
         
          <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/safe_center"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginLeft="35dp"
             android:layout_marginTop="10dp"
             android:gravity="center_vertical"
-            android:text="安        防"
+            android:text="安全中心"
             android:textColor="#20B2AA"
             android:textSize="15dp" />
     </LinearLayout>

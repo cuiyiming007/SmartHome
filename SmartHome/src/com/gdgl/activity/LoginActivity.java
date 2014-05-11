@@ -2,6 +2,7 @@ package com.gdgl.activity;
 
 import com.gdgl.manager.LoginManager;
 import com.gdgl.mydata.AccountInfo;
+import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.smarthome.R;
 
 import android.app.Activity;
@@ -29,29 +30,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 		setContentView(R.layout.login);
 
 		initView();
-		setLieners();
-	}
-
-	private void setLieners() {
-		// TODO Auto-generated method stub
-		mLogin.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View arg0) {
-				AccountInfo account=new AccountInfo();
-//				account.setAccount(mName.getText().toString());
-//				account.setPassword(mPwd.getText().toString());
-				
-				account.setAccount("gdglsm");
-				account.setPassword("123456");
-				LoginManager.getInstance().doLogin(account);
-				// TODO Auto-generated method stub
-				Intent intent = new Intent();
-				intent.setClass(LoginActivity.this, SmartHome.class);
-				startActivity(intent);
-				finish();
-			}
-		});
+	
 	}
 
 	private void initView() {
@@ -75,7 +54,9 @@ public class LoginActivity extends Activity implements OnClickListener {
 			AccountInfo account=new AccountInfo();
 			account.setAccount(mName.getText().toString());
 			account.setPassword(mPwd.getText().toString());
-			LoginManager.getInstance().doLogin(null);
+			LoginManager.getInstance().doLogin(account);
+			getFromSharedPreferences.setharedPreferences(LoginActivity.this);
+			getFromSharedPreferences.setLogin(mName.getText().toString(), mPwd.getText().toString(), false, false);
 			Intent intent = new Intent(LoginActivity.this, SmartHome.class);
 			startActivity(intent);
 			this.finish();

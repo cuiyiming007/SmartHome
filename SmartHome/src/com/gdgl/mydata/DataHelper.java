@@ -220,6 +220,12 @@ public class DataHelper extends SQLiteOpenHelper {
 		return 0;
 	}
 	
+	
+	public int deleteDevices(SQLiteDatabase db, String table, String whereClause,
+			String[] whereArgs) {
+		return db.delete(table, whereClause, whereArgs);
+	}
+	
 	public int deleteGroup(SQLiteDatabase db, String table, String whereClause,
 			String[] whereArgs) {
 		
