@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.gdgl.activity.JoinNetDevicesListFragment.refreshData;
 import com.gdgl.activity.SafeCenterFragment.SafeAdapter.ViewHolder;
+import com.gdgl.manager.LightManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
 import com.gdgl.model.DevicesModel;
@@ -13,6 +14,8 @@ import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.Event;
+import com.gdgl.mydata.EventType;
+import com.gdgl.mydata.SimpleResponseData;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.UiUtils;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -22,6 +25,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.ContentValues;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -67,6 +71,8 @@ public class SafeCenterFragment extends BaseFragment implements UIListener {
 	public static final int FINISH_OPERATOR = 1;
 	public static final int SUCESS = 2;
 
+	LightManager mLightManager;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -85,7 +91,10 @@ public class SafeCenterFragment extends BaseFragment implements UIListener {
 		mList = DataUtil.getOtherManagementDevices(c, mDH,
 				UiUtils.SECURITY_CONTROL);
 
-		mAdapter = new SafeAdapter(mList, c);
+		mAdapter = new SafeAdapter(c);
+		mAdapter.setList(mList);
+		mLightManager = LightManager.getInstance();
+		mLightManager.addObserver(SafeCenterFragment.this);
 	}
 
 	@Override
@@ -168,8 +177,8 @@ public class SafeCenterFragment extends BaseFragment implements UIListener {
 					// TODO Auto-generated method stub
 					ViewHolder mViewHolder = (ViewHolder) view.getTag();
 					boolean b = mViewHolder.selected.isChecked();
-					
-					SimpleDevicesModel sd = mList.get(position-1);
+
+					SimpleDevicesModel sd = mList.get(position - 1);
 					if (b) {
 						if (mOperatorList.contains(sd)) {
 							mOperatorList.remove(sd);
@@ -179,7 +188,7 @@ public class SafeCenterFragment extends BaseFragment implements UIListener {
 							mOperatorList.add(sd);
 						}
 					}
-					SafeAdapter.getIsSelected().put(position-1, !b);
+					SafeAdapter.getIsSelected().put(position - 1, !b);
 					mViewHolder.selected.toggle();
 				}
 			});
@@ -220,6 +229,51 @@ public class SafeCenterFragment extends BaseFragment implements UIListener {
 				dataChanged();
 			}
 		});
+
+		AllOn.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				mLightManager.LocalIASCIEOperation(null, 6);
+				AllOn.setEnabled(false);
+				AllOff.setEnabled(false);
+			}
+		});
+
+		AllOff.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				mLightManager.LocalIASCIEOperation(null, 7);
+				AllOn.setEnabled(false);
+				AllOff.setEnabled(false);
+			}
+		});
+	}
+
+	public void updatedata(boolean on) {
+		String on_off = on ? "1" : "0";
+		for (SimpleDevicesModel sdm : mList) {
+			sdm.setmOnOffStatus(on_off);
+		}
+		mAdapter.setList(mList);
+		mAdapter.notifyDataSetChanged();
+		Context c = (Context) getActivity();
+		DataHelper dh = new DataHelper(c);
+		String where = " ieee=? and ep=? ";
+
+		ContentValues cv;
+		for (SimpleDevicesModel sdm : mList) {
+			cv = new ContentValues();
+			String[] args = { sdm.getmIeee(), sdm.getmEP() };
+			cv.put(DevicesModel.ON_OFF_STATUS, on_off);
+			dh.update(dh.getReadableDatabase(), DataHelper.DEVICES_TABLE, cv,
+					where, args);
+		}
+		AllOn.setEnabled(true);
+		AllOff.setEnabled(true);
 	}
 
 	private void dataChanged() {
@@ -231,6 +285,7 @@ public class SafeCenterFragment extends BaseFragment implements UIListener {
 	public void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
+		mLightManager.deleteObserver(SafeCenterFragment.this);
 	}
 
 	public void onAttach(Activity activity) {
@@ -246,10 +301,16 @@ public class SafeCenterFragment extends BaseFragment implements UIListener {
 		// TODO Auto-generated method stub
 
 		final Event event = (Event) object;
-		// if (EventType.MODIFYPASSWORD == event.getType()) {
-		// }
-		// getDevicesByIeee add to mViewToIees
-		// 若成功则Handler SUCESS,然后，设备入库或出库
+		if (EventType.LOCALIASCIEOPERATION == event.getType()) {
+			if (event.isSuccess() == true) {
+				int data = (Integer) event.getData();
+				if (data == 6) {
+					updatedata(true);
+				} else if (data == 7) {
+					updatedata(false);
+				}
+			}
+		}
 	}
 
 	public Handler mHandler = new Handler() {
@@ -274,8 +335,8 @@ public class SafeCenterFragment extends BaseFragment implements UIListener {
 		private List<SimpleDevicesModel> mAdapterList;
 		private Context mContext;
 
-		public SafeAdapter(List<SimpleDevicesModel> list, Context c) {
-			mAdapterList = list;
+		public SafeAdapter(Context c) {
+			// mAdapterList = list;
 			mContext = c;
 			isSelected = new HashMap<Integer, Boolean>();
 			if (null != mAdapterList && mAdapterList.size() > 0) {
@@ -390,6 +451,11 @@ public class SafeCenterFragment extends BaseFragment implements UIListener {
 
 		public void setIsSelected(HashMap<Integer, Boolean> isSelected) {
 			isSelected = isSelected;
+		}
+
+		public void setList(List<SimpleDevicesModel> list) {
+			mAdapterList = null;
+			mAdapterList = list;
 		}
 
 		public class ViewHolder {
