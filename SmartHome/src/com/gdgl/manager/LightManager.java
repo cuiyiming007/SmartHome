@@ -481,6 +481,9 @@ GetIlluminanceMeasuredValueR ptTime 7
 						String status=data.getResponse_params().getParam1();
 						Log.i(TAG, "LocalIASCIEOperation get status is "+String.valueOf(status));
 					}
+					Event event = new Event(EventType.LOCALIASCIEOPERATION, true);
+					event.setData(response);
+					notifyObservers(event);
 				}
 			};
 
@@ -488,6 +491,8 @@ GetIlluminanceMeasuredValueR ptTime 7
 
 				@Override
 				public void onErrorResponse(VolleyError error) {
+					Event event = new Event(EventType.LOCALIASCIEOPERATION, false);
+					notifyObservers(event);
 //					Log.e("Error: ", error.getMessage());
 				}
 			};

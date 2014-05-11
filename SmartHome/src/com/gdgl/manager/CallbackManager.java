@@ -12,6 +12,9 @@ import android.util.Log;
 
 import com.gdgl.activity.ShowDevicesGroupFragmentActivity;
 import com.gdgl.app.ApplicationController;
+import com.gdgl.mydata.Event;
+import com.gdgl.mydata.EventType;
+import com.gdgl.mydata.Callback.CallbackEnrollMessage;
 import com.gdgl.mydata.Callback.CallbackResponseCommon;
 import com.gdgl.mydata.Callback.CallbackResponseType2;
 import com.gdgl.mydata.Callback.CallbackWarmMessage;
@@ -165,6 +168,11 @@ public class CallbackManager extends Manger {
 				break;
 			case 16:
 				Log.i(TAG, "Callback msgType=" + msgType + " Enroll");
+				CallbackEnrollMessage enrollMessage = gson.fromJson(response,
+						CallbackEnrollMessage.class);
+				Event event = new Event(EventType.ENROLL, true);
+				event.setData(enrollMessage);
+				notifyObservers(event);
 				break;
 			case 17:
 				Log.i(TAG, "Callback msgType=" + msgType + " unEnroll");
@@ -204,6 +212,9 @@ public class CallbackManager extends Manger {
 			break;
 		case 57344://E000
 			Log.i(TAG, "attributeId:E000");
+			Event event = new Event(EventType.ENROLL, true);
+			event.setData(common);
+			notifyObservers(event);
 			break;
 		case 57345://0xE001:
 			Log.i(TAG, "attributeId:E001");
