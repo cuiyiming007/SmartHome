@@ -41,7 +41,7 @@
             android:textColor="#000000"
             android:textSize="15dp" />
 
-        <Button
+<!--         <Button
             android:id="@+id/join"
             android:layout_width="80dp"
             android:layout_height="30dp"
@@ -52,7 +52,7 @@
             android:gravity="center"
             android:text="出网"
             android:textColor="#20B2AA"
-            android:textSize="15dp" />
+            android:textSize="15dp" /> -->
     </LinearLayout>
 
 </LinearLayout>

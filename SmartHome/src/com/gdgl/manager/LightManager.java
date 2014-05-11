@@ -135,10 +135,10 @@ public class LightManager extends Manger {
 	 * @param model
 	 */
 	
-	public void setPermitJoinOn(SimpleDevicesModel model)
+	public void setPermitJoinOn(String ieee)
 	{
 		HashMap<String, String> paraMap = new HashMap<String, String>();
-		paraMap.put("ieee", model.getmIeee());
+		paraMap.put("ieee", ieee);
 		String param = hashMap2ParamString(paraMap);
 
 		String url = NetUtil.getInstance().getCumstomURL(NetUtil.getInstance().IP,
