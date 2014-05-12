@@ -78,6 +78,7 @@ public class JoinNetDevicesListFragment extends BaseFragment implements
 		mInnetList = DataUtil.getDevices(c, mDH, null, null);
 		mViewGroupMap = new HashMap<DevicesModel, View>();
 		mViewToIees = new HashMap<View, DevicesModel>();
+		mJoinNetAdapter = new JoinNetAdapter();
 	}
 
 	@Override
@@ -127,7 +128,6 @@ public class JoinNetDevicesListFragment extends BaseFragment implements
 				LinearLayout.LayoutParams.MATCH_PARENT);
 
 		ch_pwd.setLayoutParams(mLayoutParams);
-		mJoinNetAdapter = new JoinNetAdapter();
 		no_dev = (ViewGroup) mView.findViewById(R.id.no_dev);
 
 		deviceslist = (LinearLayout) mView.findViewById(R.id.deviceslist);
