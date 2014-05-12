@@ -92,7 +92,9 @@ public class JoinNetDevicesListFragment extends BaseFragment implements
 
 	public void setList(List<DevicesModel> list) {
 		mDevList = list;
-		mJoinNetAdapter.notifyDataSetChanged();
+		if(null!=mJoinNetAdapter){
+			mJoinNetAdapter.notifyDataSetChanged();
+		}
 	}
 
 	public boolean isInNet(DevicesModel s) {
