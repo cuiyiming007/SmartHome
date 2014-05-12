@@ -97,6 +97,7 @@ public class LightManager extends Manger {
 	public void setPermitJoinOn(String ieee) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", ieee);
+		paraMap.put("second", String.valueOf(250));
 		String param = hashMap2ParamString(paraMap);
 
 		String url = NetUtil.getInstance().getCumstomURL(

@@ -187,7 +187,8 @@ public class CallbackManager extends Manger {
 				break;
 			}
 		} catch (JSONException e) {
-			e.printStackTrace();
+			Log.e(TAG, "error callback json: "+response);
+//			e.printStackTrace();
 		}
 
 	}

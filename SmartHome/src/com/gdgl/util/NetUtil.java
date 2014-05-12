@@ -31,6 +31,7 @@ import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.Node;
 import com.gdgl.mydata.RespondDataEntity;
 import com.gdgl.mydata.ResponseParams;
+import com.gdgl.mydata.getlocalcielist.elserec;
 //import com.gdgl.mydata.meituan.FenleiEntity;
 //import com.gdgl.mydata.meituan.LocationData;
 //import com.gdgl.mydata.meituan.Page;
@@ -105,14 +106,25 @@ public class NetUtil {
 			String message=new String(buffer, 0, readBytes);
 			String messages[]=message.split("\\}");
 			
-			for (String string : messages) {
-				int num=string.split("\\{", -1).length-1;
-				//如果‘{‘有2个，那么type=7，是个嵌套2层的json格式，需多加一个’}‘在后面
-				if (num>1) {
-					string=string+"}";
+				for (int i = 0; i < messages.length; i++) {
+					String json=null;
+					int num=messages[i].split("\\{", -1).length-1;
+					//如果‘{‘有2个，那么type=7，是个嵌套2层的json格式，需多加一个’}‘在后面
+					if (num>1) {
+						json=messages[i]+"}}";
+						i++;
+					}else if (num==1) {
+						json=messages[i]+"}";
+					}else
+					{
+						continue;
+					}
+						
+//					Log.d(TAG, json);
+					CallbackManager.getInstance().handleCallbackResponse(json);
+					
 				}
-				CallbackManager.getInstance().handleCallbackResponse(string+"}");
-			}
+			
 			
 		}
 //		ByteArrayOutputStream baos = new ByteArrayOutputStream();

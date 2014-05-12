@@ -49,7 +49,7 @@ public class JoinNetFragment extends Fragment implements UIListener {
 	private static final int STOPE = 2;
 	private static final int SCAPE_DEVICES = 3;
 
-	private static final int SCAPE_TIME_DURING = 50;
+	private static final int SCAPE_TIME_DURING = 10;
 
 	DeviceManager mDeviceManager;
 	LightManager mLightManager;

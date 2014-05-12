@@ -34,28 +34,28 @@ public class SmartService extends Service {
 
 	public void initial() {
 		// =============================server======================
-//		 DeviceManager.getInstance().getDeviceList();
+		 DeviceManager.getInstance().getDeviceList();
 
 		// ===============================loacl=====================
-		new Thread() {
-			@Override
-			public void run() {
-				DataHelper mDateHelper = new DataHelper(SmartService.this);
-				SQLiteDatabase mSQLiteDatabase = mDateHelper
-						.getSQLiteDatabase();
-				List<DevicesModel> mList = mDateHelper.queryForList(
-						mSQLiteDatabase, DataHelper.DEVICES_TABLE, null, null,
-						null, null, null, null, null);
-				if (mList.size() <= 0) {
-					ArrayList<ResponseParamsEndPoint> devDataList = DeviceManager
-							.getInstance().getDeviceListFromLocalString();
-
-					mDateHelper.insertList(mSQLiteDatabase,
-							DataHelper.DEVICES_TABLE, null, devDataList);
-				}
-				mDateHelper.close(mSQLiteDatabase);
-			}
-		}.run();
+//		new Thread() {
+//			@Override
+//			public void run() {
+//				DataHelper mDateHelper = new DataHelper(SmartService.this);
+//				SQLiteDatabase mSQLiteDatabase = mDateHelper
+//						.getSQLiteDatabase();
+//				List<DevicesModel> mList = mDateHelper.queryForList(
+//						mSQLiteDatabase, DataHelper.DEVICES_TABLE, null, null,
+//						null, null, null, null, null);
+//				if (mList.size() <= 0) {
+//					ArrayList<ResponseParamsEndPoint> devDataList = DeviceManager
+//							.getInstance().getDeviceListFromLocalString();
+//
+//					mDateHelper.insertList(mSQLiteDatabase,
+//							DataHelper.DEVICES_TABLE, null, devDataList);
+//				}
+//				mDateHelper.close(mSQLiteDatabase);
+//			}
+//		}.run();
 
 		CallbackManager.getInstance().startConnectServerByTCPTask();
 //		CallbackManager.getInstance().connectAndRecieveFromCallback();
