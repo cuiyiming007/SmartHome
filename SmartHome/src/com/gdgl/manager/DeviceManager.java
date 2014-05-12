@@ -1,6 +1,7 @@
 package com.gdgl.manager;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
@@ -12,6 +13,7 @@ import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.StringRequest;
 import com.gdgl.activity.SmartHome;
 import com.gdgl.app.ApplicationController;
+import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DevParam;
@@ -74,7 +76,7 @@ public class DeviceManager extends Manger {
 	 * url=http://192.168.1.184/cgi-bin/rest/network/getZBNode.cgi?user_name=
 	 * aaaa&callback=1234&enco demethod=NONE&sign=AAA
 	 */
-	// 1,¸üĞÂÊı¾İ 2£¬×éÍø¹ÜÀí
+	// 1,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public void getDeviceList(int type) {
 		Listener<String> responseListener = null;
 		if (1 == type) {
@@ -125,9 +127,17 @@ public class DeviceManager extends Manger {
 
 			DataHelper mDateHelper = new DataHelper(
 					ApplicationController.getInstance());
-			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
+			SQLiteDatabase mSQLiteDatabase = mDateHelper
+					.getSQLiteDatabase();
+			List<DevicesModel> mList = mDateHelper.queryForList(
+					mSQLiteDatabase, DataHelper.DEVICES_TABLE, null, null,
+					null, null, null, null, null);
+			//æ˜¯å¦åœ¨è¯¥è®¾å¤‡ä¸Šç¬¬ä¸€æ¬¡ç™»é™†
+			if (mList.size() <= 0) {
 			mDateHelper.insertList(mSQLiteDatabase, DataHelper.DEVICES_TABLE,
 					null, devDataList);
+			}
+			mDateHelper.close(mSQLiteDatabase);
 			// [TODO]transfer to SimpleDevicesModel
 			return devDataList;
 		}

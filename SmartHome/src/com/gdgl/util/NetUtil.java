@@ -106,6 +106,11 @@ public class NetUtil {
 			String messages[]=message.split("\\}");
 			
 			for (String string : messages) {
+				int num=string.split("\\{", -1).length-1;
+				//如果‘{‘有2个，那么type=7，是个嵌套2层的json格式，需多加一个’}‘在后面
+				if (num>1) {
+					string=string+"}";
+				}
 				CallbackManager.getInstance().handleCallbackResponse(string+"}");
 			}
 			

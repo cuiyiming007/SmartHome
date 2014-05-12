@@ -34,7 +34,7 @@ public class SmartService extends Service {
 
 	public void initial() {
 		// =============================server======================
-		// DeviceManager.getInstance().getDeviceList();
+//		 DeviceManager.getInstance().getDeviceList();
 
 		// ===============================loacl=====================
 		new Thread() {
