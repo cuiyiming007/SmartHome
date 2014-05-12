@@ -23,11 +23,10 @@ public class DataUtil {
 		String[] args = null;
 		switch (type) {
 		case UiUtils.LIGHTS_MANAGER:
-			args = new String[4];
+			args = new String[3];
 			args[0] = DataHelper.Energy_detection_dimming_module + "%";
 			args[1] = DataHelper.Switch_Module_Single + "%";
-			args[2] = DataHelper.Dimmer_Switch + "%";
-			args[3] = "1";
+			args[2] = "1";
 			break;
 		case UiUtils.ELECTRICAL_MANAGER:
 			args = new String[5];
@@ -38,7 +37,7 @@ public class DataUtil {
 			args[4] = "1";
 			break;
 		case UiUtils.SECURITY_CONTROL:
-			args = new String[11];
+			args = new String[12];
 			args[0] = DataHelper.Motion_Sensor + "%";
 			args[1] = DataHelper.Magnetic_Window + "%";
 			args[2] = DataHelper.Emergency_Button + "%";
@@ -49,7 +48,8 @@ public class DataUtil {
 			args[7] = DataHelper.Combustible_Gas_Detector_Natural_gas + "%";
 			args[8] = DataHelper.Wireless_Intelligent_valve_switch + "%";
 			args[9] = DataHelper.Siren + "%";
-			args[10] = "1";
+			args[10] = DataHelper.RS232_adapter + "%";
+			args[11] = "1";
 			break;
 		case UiUtils.ENVIRONMENTAL_CONTROL:
 			args = new String[3];
@@ -75,13 +75,13 @@ public class DataUtil {
 		String where = "";
 		switch (type) {
 		case UiUtils.LIGHTS_MANAGER:
-			where = " ( model_id like ? or model_id like ? or model_id like ? ) and on_off_line=? ";
+			where = " ( model_id like ? or model_id like ? ) and on_off_line=? ";
 			break;
 		case UiUtils.ELECTRICAL_MANAGER:
 			where = " ( model_id like ? or model_id like ? or  model_id like ? or model_id like ?  ) and on_off_line=? ";
 			break;
 		case UiUtils.SECURITY_CONTROL:
-			where = "( model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? ) and on_off_line=? ";
+			where = "( model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? ) and on_off_line=? ";
 			break;
 		case UiUtils.ENVIRONMENTAL_CONTROL:
 			where = " ( model_id like ? or model_id like ? ) and on_off_line=? ";

@@ -113,6 +113,9 @@ public class JoinNetFragment extends Fragment implements UIListener {
 				// TODO Auto-generated method stub
 				if (!isScape) {
 					isScape = true;
+					if(null!=allList){
+						allList.clear();
+					}
 					mLightManager.setPermitJoinOn("00137A000000B657");
 					text_result.setText("正在扫描...");
 					text_result.setVisibility(View.VISIBLE);
@@ -262,10 +265,12 @@ public class JoinNetFragment extends Fragment implements UIListener {
 			ArrayList<ResponseParamsEndPoint> devDataList = (ArrayList<ResponseParamsEndPoint>) event
 					.getData();
 			if (null == allList || allList.size() == 0) {
+				Log.i("scape devices", "SCAPDEV-> the first scape,get "+devDataList.size()+" result");
 				allList = devDataList;
 			} else {
 				for (ResponseParamsEndPoint responseParamsEndPoint : devDataList) {
 					if (!allList.contains(responseParamsEndPoint)) {
+						Log.i("scape devices", "SCAPDEV-> get a devices not in allList,add");
 						allList.add(responseParamsEndPoint);
 					}
 				}

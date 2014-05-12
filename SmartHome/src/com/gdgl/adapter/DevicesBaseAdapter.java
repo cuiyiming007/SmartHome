@@ -2,6 +2,7 @@ package com.gdgl.adapter;
 
 import java.util.List;
 
+import com.gdgl.activity.SafeSimpleOperation;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.smarthome.R;
@@ -117,6 +118,10 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
                 ""));
         mHolder.devices_region.setText(mDevices.getmDeviceRegion().replace(" ",
                 ""));
+        if(mDevices.getmModelId().indexOf(
+				DataHelper.RS232_adapter) == 0){
+        	mHolder.devices_region.setText("");
+		}
 
         if (DataHelper.IAS_ZONE_DEVICETYPE == mDevices.getmDeviceId()
                 || DataHelper.IAS_ACE_DEVICETYPE == mDevices.getmDeviceId()) {
@@ -158,7 +163,10 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
             mHolder.devices_state.setText("当前室内亮度为: 30");
         } else if (mDevices.getmDeviceId() == DataHelper.TEMPTURE_SENSOR_DEVICETYPE) {
             mHolder.devices_state.setText("当前室内温度为: 30°C");
-        } else {
+        }else if(mDevices.getmModelId().indexOf(
+				DataHelper.RS232_adapter) == 0){
+        	mHolder.devices_state.setText("一键操作");
+		} else {
             if (mDevices.getmOnOffStatus().trim().equals("1")) {
                 mHolder.devices_state.setText("开");
             } else {

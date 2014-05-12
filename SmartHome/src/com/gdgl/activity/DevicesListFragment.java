@@ -138,7 +138,10 @@ public class DevicesListFragment extends Fragment implements adapterSeter {
 					else if (mSimpleDevicesModel.getmModelId().indexOf(
 							DataHelper.Wireless_Intelligent_valve_switch) == 0) {
 						mFragment = new OutPutFragment();
-					} 
+					} else if(mSimpleDevicesModel.getmModelId().indexOf(
+							DataHelper.RS232_adapter) == 0){
+						mFragment=new SafeSimpleOperation();
+					}
 					else {
 						mFragment = UiUtils.getFragment(mSimpleDevicesModel
 								.getmDeviceId());

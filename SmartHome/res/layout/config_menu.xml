@@ -156,7 +156,7 @@
             android:textColor="#20B2AA"
             android:textSize="15dp" />
         
-         <TextView
+         <!-- <TextView
             android:id="@+id/safe_center"
             android:layout_width="match_parent"
             android:layout_height="30dp"
@@ -165,7 +165,7 @@
             android:gravity="center_vertical"
             android:text="安全中心"
             android:textColor="#20B2AA"
-            android:textSize="15dp" />
+            android:textSize="15dp" /> -->
     </LinearLayout>
     
     
