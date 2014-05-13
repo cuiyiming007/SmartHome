@@ -1,8 +1,16 @@
 package com.gdgl.activity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.gdgl.activity.ShowDevicesGroupFragmentActivity.adapterSeter;
+import com.gdgl.adapter.DevicesBaseAdapter;
+import com.gdgl.manager.Manger;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.DataHelper;
+import com.gdgl.mydata.Event;
+import com.gdgl.mydata.EventType;
+import com.gdgl.mydata.Callback.CallbackResponseType2;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.EditDevicesDlg;
 import com.gdgl.util.EditDevicesDlg.EditDialogcallback;
@@ -33,7 +41,7 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 
-public class DevicesListFragment extends Fragment implements adapterSeter {
+public class DevicesListFragment extends BaseFragment implements adapterSeter {
 
 	private static final String TAG = "DevicesListFragment";
 	private View mView;
@@ -61,6 +69,8 @@ public class DevicesListFragment extends Fragment implements adapterSeter {
     public static final int WITHOUT_OPERATE = 2;
     
     private int type;
+    
+    List<SimpleDevicesModel> mList;
     
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -172,6 +182,19 @@ public class DevicesListFragment extends Fragment implements adapterSeter {
 		}
 		registerForContextMenu(devices_list.getRefreshableView());
 		devices_list.setAdapter(mBaseAdapter);
+		initList();
+	}
+
+	private void initList() {
+		// TODO Auto-generated method stub
+		if(null!=mBaseAdapter){
+			int m=mBaseAdapter.getCount();
+			mList=new ArrayList<SimpleDevicesModel>();
+			for (int i = 0; i < m; i++) {
+				SimpleDevicesModel sd=(SimpleDevicesModel)mBaseAdapter.getItem(i);
+				mList.add(sd);
+			}
+		}
 	}
 
 	@Override
@@ -275,5 +298,49 @@ public class DevicesListFragment extends Fragment implements adapterSeter {
 		// TODO Auto-generated method stub
 		devices_list.onRefreshComplete();
 		refreshTag = 0;
+	}
+	
+	public int isInList(String iee,String ep){
+		
+		if(null==mList || mList.size()==0){
+			return -1;
+		}
+		if(iee==null || ep==null){
+			return -1;
+		}
+		SimpleDevicesModel sd;
+		for(int m=0;m<mList.size();m++){
+			sd=mList.get(m);
+			if(iee.trim().equals(sd.getmIeee().trim()) && ep.trim().equals(sd.getmEP().trim())){
+				return m;
+			}
+		}
+		return -1;
+	}
+	
+	@Override
+	public void update(Manger observer, Object object) {
+		// TODO Auto-generated method stub
+		final Event event = (Event) object;
+		if (EventType.ON_OFF_STATUS == event.getType()) {
+			if (event.isSuccess() == true) {
+				// data maybe null
+				CallbackResponseType2 data = (CallbackResponseType2) event
+						.getData();
+				int m=isInList(data.getDeviceIeee(), data.getDeviceEp());
+				if(-1!=m){
+					if(null!=data.getValue()){
+						mList.get(m).setmOnOffStatus(data.getValue());
+						DevicesBaseAdapter mAdapter=(DevicesBaseAdapter)mBaseAdapter;
+						mAdapter.setList(mList);
+						mAdapter.notifyDataSetChanged();
+					}
+				}
+				ProcessUpdate(data);
+			} else {
+				// if failed,prompt a Toast
+				// mError.setVisibility(View.VISIBLE);
+			}
+		}
 	}
 }

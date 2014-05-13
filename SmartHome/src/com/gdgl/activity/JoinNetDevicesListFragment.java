@@ -11,6 +11,8 @@ import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.Event;
+import com.gdgl.mydata.EventType;
+import com.gdgl.mydata.Callback.CallbackResponseType2;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.UiUtils;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -93,6 +95,7 @@ public class JoinNetDevicesListFragment extends BaseFragment implements
 	public void setList(List<DevicesModel> list) {
 		mDevList = list;
 		if(null!=mJoinNetAdapter){
+			mJoinNetAdapter.setList(mDevList);
 			mJoinNetAdapter.notifyDataSetChanged();
 		}
 	}
@@ -181,6 +184,7 @@ public class JoinNetDevicesListFragment extends BaseFragment implements
 							}
 						}
 					});
+			mJoinNetAdapter.setList(mDevList);
 			devices_list.setAdapter(mJoinNetAdapter);
 		}
 
@@ -205,16 +209,48 @@ public class JoinNetDevicesListFragment extends BaseFragment implements
 		}
 		mRefreshData = (refreshData) activity;
 	}
-
+	
+	public int isInList(String iee,String ep){
+		if(null==mDevList || mDevList.size()==0){
+			return -1;
+		}
+		if(iee==null || ep==null){
+			return -1;
+		}
+		DevicesModel sd;
+		for(int m=0;m<mDevList.size();m++){
+			sd=mDevList.get(m);
+			if(iee.trim().equals(sd.getmIeee().trim()) && ep.trim().equals(sd.getmEP().trim())){
+				return m;
+			}
+		}
+		return -1;
+	}
+	
 	@Override
 	public void update(Manger observer, Object object) {
 		// TODO Auto-generated method stub
 
 		final Event event = (Event) object;
-		// if (EventType.MODIFYPASSWORD == event.getType()) {
-		// }
-		// getDevicesByIeee add to mViewToIees
-		// 若成功则Handler SUCESS,然后，设备入库或出库
+		if (EventType.ON_OFF_STATUS == event.getType()) {
+			if (event.isSuccess() == true) {
+				// data maybe null
+				CallbackResponseType2 data = (CallbackResponseType2) event
+						.getData();
+				int m=isInList(data.getDeviceIeee(), data.getDeviceEp());
+				if(-1!=m){
+					if(null!=data.getValue()){
+						mDevList.get(m).setmOnOffStatus(data.getValue());
+						mJoinNetAdapter.setList(mDevList);
+						mJoinNetAdapter.notifyDataSetChanged();
+					}
+				}
+				ProcessUpdate(data);
+			} else {
+				// if failed,prompt a Toast
+				// mError.setVisibility(View.VISIBLE);
+			}
+		}
 	}
 
 	public interface refreshData {
@@ -259,12 +295,14 @@ public class JoinNetDevicesListFragment extends BaseFragment implements
 	}
 
 	public class JoinNetAdapter extends BaseAdapter {
-
+		
+		List<DevicesModel> mdev;
+		
 		@Override
 		public int getCount() {
 			// TODO Auto-generated method stub
-			if (null != mDevList && mDevList.size() > 0) {
-				return mDevList.size();
+			if (null != mdev && mdev.size() > 0) {
+				return mdev.size();
 			}
 			return 0;
 		}
@@ -272,8 +310,8 @@ public class JoinNetDevicesListFragment extends BaseFragment implements
 		@Override
 		public Object getItem(int position) {
 			// TODO Auto-generated method stub
-			if (null != mDevList && mDevList.size() > 0) {
-				return mDevList.get(position);
+			if (null != mdev && mdev.size() > 0) {
+				return mdev.get(position);
 			}
 			return null;
 		}
@@ -281,21 +319,26 @@ public class JoinNetDevicesListFragment extends BaseFragment implements
 		@Override
 		public long getItemId(int position) {
 			// TODO Auto-generated method stub
-			if (null != mDevList && mDevList.size() > 0) {
-				return mDevList.get(position).getID();
+			if (null != mdev && mdev.size() > 0) {
+				return mdev.get(position).getID();
 			}
 			return position;
 		}
-
+		
+		public void setList(List<DevicesModel> ml){
+			mdev=null;
+			mdev=ml;
+		}
+		
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			// TODO Auto-generated method stub
-			if (null == mDevList) {
+			if (null == mdev) {
 				return convertView;
 			}
 			View mView = convertView;
 			ViewHolder mHolder;
-			final DevicesModel mDevices = mDevList.get(position);
+			final DevicesModel mDevices = mdev.get(position);
 
 			if (null == mView) {
 				mHolder = new ViewHolder();

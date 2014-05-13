@@ -201,9 +201,14 @@ public class CallbackManager extends Manger {
 	private void handleAttribute(CallbackResponseType2 common) {
 
 		int attributeId = Integer.parseInt(common.getAttributeId(),16);
+		int clusterId=Integer.parseInt(common.getClusterId(),16);
 		switch (attributeId) {
 		case 0:
-
+			if(6==clusterId){
+				Event event = new Event(EventType.ON_OFF_STATUS, true);
+				event.setData(common);
+				notifyObservers(event);
+			}
 			break;
 		case 1:
 

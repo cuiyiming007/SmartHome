@@ -40,6 +40,8 @@ public class EventType {
 	public static final EventType DELETENODE;
 	public static final EventType SETPERMITJOINON;
 	public static final EventType ENROLL;
+	public static final EventType ON_OFF_STATUS;
+//	public static final EventType LOCALIASCIEOPERATION;
 	
 
 	
@@ -72,6 +74,8 @@ public class EventType {
 		DELETENODE=new EventType("deleteNode",nextId());
 		SETPERMITJOINON=new EventType("setPermitJoinOn", nextId());
 		ENROLL=new EventType("enroll", nextId());
+		ON_OFF_STATUS=new EventType("on_off_status", nextId());
+//		 LOCALIASCIEOPERATION=new EventType("LocalIASCIEOperation", nextId());
 	}
 	
 	private static int nextId()

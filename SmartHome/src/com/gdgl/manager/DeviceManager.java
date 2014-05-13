@@ -77,7 +77,7 @@ public class DeviceManager extends Manger {
 	 * url=http://192.168.1.184/cgi-bin/rest/network/getZBNode.cgi?user_name=
 	 * aaaa&callback=1234&enco demethod=NONE&sign=AAA
 	 */
-	// 1,������� 2���������
+	// 1,更新数据 2，组网管理
 	public void getDeviceList(int type) {
 		Listener<String> responseListener = null;
 		if (1 == type) {

@@ -3,9 +3,14 @@ package com.gdgl.activity;
 import java.util.List;
 
 import com.gdgl.activity.DevicesListFragment.refreshData;
+import com.gdgl.manager.Manger;
+import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
+import com.gdgl.mydata.Event;
+import com.gdgl.mydata.EventType;
+import com.gdgl.mydata.Callback.CallbackResponseType2;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.UiUtils;
 
@@ -29,7 +34,7 @@ public class AllDevicesListFragment extends BaseFragment {
 
 	int refreshTag = 0;
 
-	BaseAdapter mBaseAdapter;
+	DevicesAdapter mDevicesAdapter;
 	private refreshData mRefreshData;
 	LinearLayout list_root;
 	List<SimpleDevicesModel> mDevicesList;
@@ -71,8 +76,9 @@ public class AllDevicesListFragment extends BaseFragment {
 			no_dev.setVisibility(View.VISIBLE);
 			deviceslist.setVisibility(View.GONE);
 		} else {
-
-			devices_list.setAdapter(new DevicesAdapter());
+			DevicesAdapter mDevicesAdapter=new DevicesAdapter();
+			mDevicesAdapter.setList(mDevicesList);
+			devices_list.setAdapter(mDevicesAdapter);
 		}
 
 	}
@@ -91,12 +97,12 @@ public class AllDevicesListFragment extends BaseFragment {
 	}
 
 	public class DevicesAdapter extends BaseAdapter {
-
+		private List<SimpleDevicesModel> mDevList;
 		@Override
 		public int getCount() {
 			// TODO Auto-generated method stub
-			if (null != mDevicesList) {
-				return mDevicesList.size();
+			if (null != mDevList) {
+				return mDevList.size();
 			}
 			return 0;
 		}
@@ -104,8 +110,8 @@ public class AllDevicesListFragment extends BaseFragment {
 		@Override
 		public Object getItem(int position) {
 			// TODO Auto-generated method stub
-			if (null != mDevicesList) {
-				return mDevicesList.get(position);
+			if (null != mDevList) {
+				return mDevList.get(position);
 			}
 			return null;
 		}
@@ -113,21 +119,26 @@ public class AllDevicesListFragment extends BaseFragment {
 		@Override
 		public long getItemId(int position) {
 			// TODO Auto-generated method stub
-			if (null != mDevicesList) {
-				return (long) mDevicesList.get(position).getID();
+			if (null != mDevList) {
+				return (long) mDevList.get(position).getID();
 			}
 			return position;
 		}
-
+		
+		public void setList(List<SimpleDevicesModel> list){
+			mDevList=null;
+			mDevList=list;
+		}
+		
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			// TODO Auto-generated method stub
-			if (null == mDevicesList) {
+			if (null == mDevList) {
 				return convertView;
 			}
 			View mView = convertView;
 			ViewHolder mHolder;
-			final SimpleDevicesModel mDevices = mDevicesList.get(position);
+			final SimpleDevicesModel mDevices = mDevList.get(position);
 
 			if (null == mView) {
 				mHolder = new ViewHolder();
@@ -208,5 +219,46 @@ public class AllDevicesListFragment extends BaseFragment {
 			TextView devices_state;
 		}
 	}
-
+	
+	public int isInList(String iee,String ep){
+		if(null==mDevicesList || mDevicesList.size()==0){
+			return -1;
+		}
+		if(iee==null || ep==null){
+			return -1;
+		}
+		SimpleDevicesModel sd;
+		for(int m=0;m<mDevicesList.size();m++){
+			sd=mDevicesList.get(m);
+			if(iee.trim().equals(sd.getmIeee().trim()) && ep.trim().equals(sd.getmEP().trim())){
+				return m;
+			}
+		}
+		return -1;
+	}
+	
+	@Override
+	public void update(Manger observer, Object object) {
+		// TODO Auto-generated method stub
+		final Event event = (Event) object;
+		if (EventType.ON_OFF_STATUS == event.getType()) {
+			if (event.isSuccess() == true) {
+				// data maybe null
+				CallbackResponseType2 data = (CallbackResponseType2) event
+						.getData();
+				int m=isInList(data.getDeviceIeee(), data.getDeviceEp());
+				if(-1!=m){
+					if(null!=data.getValue()){
+						mDevicesList.get(m).setmOnOffStatus(data.getValue());
+						mDevicesAdapter.setList(mDevicesList);
+						mDevicesAdapter.notifyDataSetChanged();
+					}
+				}
+				ProcessUpdate(data);
+			} else {
+				// if failed,prompt a Toast
+				// mError.setVisibility(View.VISIBLE);
+			}
+		}
+	}
 }

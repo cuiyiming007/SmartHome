@@ -1,5 +1,7 @@
 package com.gdgl.activity;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
@@ -18,9 +20,11 @@ import com.gdgl.manager.LightManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
+import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.SimpleResponseData;
+import com.gdgl.mydata.Callback.CallbackResponseType2;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyDlg;
 
@@ -173,13 +177,41 @@ public class WarnningControlFragment extends BaseControlFragment {
 				status = !status;
 				
 				setImagRes(on_off, status);
-				
+
 				ContentValues c = new ContentValues();
 				c.put(DevicesModel.ON_OFF_STATUS, status ? "1" : "o");
 				mUpdateDevice.updateDevices(Ieee, ep, c);
-			}else {
-				//if failed,prompt a Toast
+			} else {
+				// if failed,prompt a Toast
 				mError.setVisibility(View.VISIBLE);
+			}
+		}
+		if (EventType.ON_OFF_STATUS == event.getType()) {
+			if (event.isSuccess() == true) {
+				// data maybe null
+				CallbackResponseType2 data = (CallbackResponseType2) event
+						.getData();
+				List<DevicesModel> mList;
+				DataHelper mDh = new DataHelper((Context) getActivity());
+				String where = " ieee=? and ep=? ";
+				String[] args = {
+						mDevices.getmIeee() == null ? "" : mDevices.getmIeee()
+								.trim(),
+						mDevices.getmEP() == null ? "" : mDevices.getmEP()
+								.trim() };
+				mList = mDh.queryForList(mDh.getReadableDatabase(),
+						DataHelper.DEVICES_TABLE, null, where, args, null,
+						null, null, null);
+				boolean result = false;
+				if (null != data.getValue()) {
+					result = data.getValue().trim().equals("1");
+					status = result;
+					setImagRes(on_off, status);
+				}
+				ProcessUpdate(data, mList);
+			} else {
+				// if failed,prompt a Toast
+				// mError.setVisibility(View.VISIBLE);
 			}
 		}
 	}
