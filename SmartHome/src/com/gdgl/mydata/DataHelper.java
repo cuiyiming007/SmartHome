@@ -6,6 +6,7 @@ import java.util.List;
 import com.gdgl.model.DevicesGroup;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
+import com.gdgl.mydata.video.VideoNode;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -61,10 +62,12 @@ public class DataHelper extends SQLiteOpenHelper {
 	public static final String DATABASE_NAME = "smarthome";
 	public static final String DEVICES_TABLE = "devices";
 	public static final String GROUP_TABLE = "groups";
+	public static final String VIDEO_TABLE = "video";
 	public static final int DATEBASE_VERSTION = 1;
 
 	public StringBuilder mStringBuilder;
 	public StringBuilder mAStringBuilder;
+	public StringBuilder videoStringBuilder;
 
 	// public SQLiteDatabase db;
 
@@ -72,6 +75,7 @@ public class DataHelper extends SQLiteOpenHelper {
 		super(contex, DATABASE_NAME, null, DATEBASE_VERSTION);
 		mStringBuilder = new StringBuilder();
 		mAStringBuilder= new StringBuilder();
+		videoStringBuilder=new StringBuilder();
 		// db = getWritableDatabase();
 		// TODO Auto-generated constructor stub
 	}
@@ -135,6 +139,18 @@ public class DataHelper extends SQLiteOpenHelper {
 		mAStringBuilder.append(DevicesGroup.GROUP_STATE + " INTEGER,");
 		mAStringBuilder.append(DevicesGroup.ON_OFF_STATUS + " INTEGER )");
 		
+		//video table create string
+		videoStringBuilder.append("CREATE TABLE " + VIDEO_TABLE + " (");
+		videoStringBuilder.append(VideoNode._ID
+				+ " INTEGER PRIMARY KEY AUTOINCREMENT,");
+		videoStringBuilder.append(VideoNode.ALIAS + " VARCHAR(16),");
+		videoStringBuilder.append(VideoNode.ID + " VARCHAR(16),");
+		videoStringBuilder.append(VideoNode.HTTPPORT + " VARCHAR(48),");
+		videoStringBuilder.append(VideoNode.IPC_IPADDR + " INTEGER,");
+		videoStringBuilder.append(VideoNode.NAME + " VARCHAR(16),");
+		videoStringBuilder.append(VideoNode.PASSWORD + " INTEGER,");
+		videoStringBuilder.append(VideoNode.RTSPORT + " INTEGER,");
+		
 	}
 
 	@Override
@@ -145,6 +161,7 @@ public class DataHelper extends SQLiteOpenHelper {
 
 		db.execSQL(mStringBuilder.toString());
 		db.execSQL(mAStringBuilder.toString());
+		db.execSQL(videoStringBuilder.toString());
 	}
 
 	@Override
@@ -152,6 +169,7 @@ public class DataHelper extends SQLiteOpenHelper {
 		// TODO Auto-generated method stub
 		db.execSQL("DROP TABLE IF EXISTS " + DEVICES_TABLE);
 		db.execSQL("DROP TABLE IF EXISTS " + GROUP_TABLE);
+		db.execSQL("DROP TABLE IF EXISTS " + VIDEO_TABLE);
 		onCreate(db);
 	}
 

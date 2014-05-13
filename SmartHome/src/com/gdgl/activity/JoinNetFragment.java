@@ -49,7 +49,7 @@ public class JoinNetFragment extends Fragment implements UIListener {
 	private static final int STOPE = 2;
 	private static final int SCAPE_DEVICES = 3;
 
-	private static final int SCAPE_TIME_DURING = 10;
+	private static final int SCAPE_TIME_DURING = 50;
 
 	DeviceManager mDeviceManager;
 	LightManager mLightManager;
@@ -58,6 +58,8 @@ public class JoinNetFragment extends Fragment implements UIListener {
 	ArrayList<ResponseParamsEndPoint> allList;
 
 	List<DevicesModel> mDevList;
+	
+	List<DevicesModel> mNewDevList;
 
 	List<SimpleDevicesModel> mInnetList;
 
@@ -84,7 +86,7 @@ public class JoinNetFragment extends Fragment implements UIListener {
 		Context c = (Context) getActivity();
 		DataHelper mDH = new DataHelper(c);
 		mInnetList = DataUtil.getDevices(c, mDH, null, null);
-
+		mNewDevList=new ArrayList<DevicesModel>();
 		cb = (CircleProgressBar) mView.findViewById(R.id.seek_time);
 		cb.setText("扫描完毕");
 		ch_pwd = (RelativeLayout) mView.findViewById(R.id.ch_pwd);
@@ -145,8 +147,8 @@ public class JoinNetFragment extends Fragment implements UIListener {
 				// TODO Auto-generated method stub
 				ChangeFragment c = (ChangeFragment) getActivity();
 				JoinNetDevicesListFragment mJoinNetDevicesListFragment = new JoinNetDevicesListFragment();
-				if (null != mDevList && mDevList.size() > 0) {
-					mJoinNetDevicesListFragment.setList(mDevList);
+				if (null != mNewDevList && mNewDevList.size() > 0) {
+					mJoinNetDevicesListFragment.setList(mNewDevList);
 				}
 				c.setFragment(mJoinNetDevicesListFragment);
 			}
@@ -156,8 +158,8 @@ public class JoinNetFragment extends Fragment implements UIListener {
 	public boolean isInNet(DevicesModel s) {
 
 		for (SimpleDevicesModel sd : mInnetList) {
-			if (sd.getmIeee().equals(s.getmIeee())
-					&& sd.getmEP().equals(s.getmEP())) {
+			if (sd.getmIeee().trim().equals(s.getmIeee().trim())
+					&& sd.getmEP().trim().equals(s.getmEP().trim())) {
 				return true;
 			}
 		}
@@ -216,7 +218,7 @@ public class JoinNetFragment extends Fragment implements UIListener {
 						text_result.setText("未扫描到任何设备");
 						text_result.setVisibility(View.VISIBLE);
 					} else {
-						text_result.setText("扫描到" + mDevList.size() + "个设备");
+						text_result.setText("扫描到" + mNewDevList.size() + "个设备");
 						text_result.setVisibility(View.VISIBLE);
 					}
 				}
@@ -236,7 +238,6 @@ public class JoinNetFragment extends Fragment implements UIListener {
 		if (null != allList && allList.size() > 0) {
 			mDevList = DataHelper.convertToDevicesModel(allList);
 		}
-
 		Context c = (Context) getActivity();
 		DataHelper mDH = new DataHelper(c);
 
@@ -245,6 +246,7 @@ public class JoinNetFragment extends Fragment implements UIListener {
 				if (!isInNet(dm)) {
 					mDH.insert(mDH.getReadableDatabase(),
 							DataHelper.DEVICES_TABLE, null, dm);
+					mNewDevList.add(dm);
 				}
 			}
 		}

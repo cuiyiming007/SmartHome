@@ -54,7 +54,7 @@ public class NetUtil {
 	public static String URLDir = "/cgi-bin/rest/network/";
 	public static String HTTPHeadStr = "http://";
 	public static String encodeStr = "&callback=1234&encodemethod=NONE&sign=AAA";
-	public String IP = "192.168.1.239";
+	public String IP = "192.168.1.237";
 	public String loginIP = "192.168.1.100";
 	private static NetUtil instance;
 	public static String heartbeat = "0200070007";

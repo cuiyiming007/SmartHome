@@ -1,5 +1,20 @@
 package com.gdgl.mydata.video;
 
+import android.provider.BaseColumns;
+
+interface VideoNodeColumns extends BaseColumns
+{
+	public static final String _ID= "_id";
+	public static final String ID= "id";
+	public static final String IPC_IPADDR="ipc_ipaddr";
+	public static final String NAME="name";
+	public static final String PASSWORD="password";
+	public static final String RTSPORT="rtspport";
+	public static final String HTTPPORT="httpport";
+	public static final String ALIAS="alias";
+	
+	}
+
 /***
  * "list": [ { "id": 0, "ipc_ipaddr": "192.168.1.164", "name": "admin",
  * "password": "12345", "rtspport": "554", "httpport": "81", "aliases":
@@ -8,7 +23,7 @@ package com.gdgl.mydata.video;
  * @author justek
  * 
  */
-public class VideoNode {
+public class VideoNode implements VideoNodeColumns{
 	private String id;
 	private String ipc_ipaddr;
 	private String name;
