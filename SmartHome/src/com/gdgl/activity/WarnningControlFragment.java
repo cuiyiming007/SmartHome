@@ -199,7 +199,7 @@ public class WarnningControlFragment extends BaseControlFragment {
 								.trim(),
 						mDevices.getmEP() == null ? "" : mDevices.getmEP()
 								.trim() };
-				mList = mDh.queryForList(mDh.getReadableDatabase(),
+				mList = mDh.queryForList(mDh.getSQLiteDatabase(),
 						DataHelper.DEVICES_TABLE, null, where, args, null,
 						null, null, null);
 				boolean result = false;

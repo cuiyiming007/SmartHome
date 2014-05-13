@@ -187,7 +187,7 @@ public class SafeSimpleOperation extends Fragment implements UIListener {
 			cv = new ContentValues();
 			String[] args = { sdm.getmIeee(), sdm.getmEP() };
 			cv.put(DevicesModel.ON_OFF_STATUS, on_off);
-			mDh.update(mDh.getReadableDatabase(), DataHelper.DEVICES_TABLE, cv,
+			mDh.update(mDh.getSQLiteDatabase(), DataHelper.DEVICES_TABLE, cv,
 					where, args);
 		}
 		on_off_img.clearAnimation();

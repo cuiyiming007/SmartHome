@@ -249,7 +249,7 @@ public class JoinNetFragment extends Fragment implements UIListener {
 		if (null != mDevList && mDevList.size() > 0) {
 			for (DevicesModel dm : mDevList) {
 				if (!isInNet(dm)) {
-					mDH.insert(mDH.getReadableDatabase(),
+					mDH.insert(mDH.getSQLiteDatabase(),
 							DataHelper.DEVICES_TABLE, null, dm);
 					mNewDevList.add(dm);
 				}

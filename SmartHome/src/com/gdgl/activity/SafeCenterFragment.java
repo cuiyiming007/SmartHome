@@ -269,7 +269,7 @@ public class SafeCenterFragment extends BaseFragment implements UIListener {
 			cv = new ContentValues();
 			String[] args = { sdm.getmIeee(), sdm.getmEP() };
 			cv.put(DevicesModel.ON_OFF_STATUS, on_off);
-			dh.update(dh.getReadableDatabase(), DataHelper.DEVICES_TABLE, cv,
+			dh.update(dh.getSQLiteDatabase(), DataHelper.DEVICES_TABLE, cv,
 					where, args);
 		}
 		AllOn.setEnabled(true);

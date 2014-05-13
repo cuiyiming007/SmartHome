@@ -174,7 +174,7 @@ public class SceneDevicesActivity extends Activity implements DevicesObserver,
 				String[] args={mScene};
 				cv=new ContentValues();
 				cv.put(DevicesGroup.GROUP_STATE, isChecked? 1: 0);
-				mDataHelper.update(mDataHelper.getReadableDatabase(), DataHelper.GROUP_TABLE, cv, where, args);
+				mDataHelper.update(mDataHelper.getSQLiteDatabase(), DataHelper.GROUP_TABLE, cv, where, args);
 				if(isChecked){
 					mSceneOn.setText("启用");
 				}else{

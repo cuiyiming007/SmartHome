@@ -6,7 +6,6 @@ import java.util.List;
 import com.gdgl.model.ContentValuesListener;
 import com.gdgl.model.DevicesGroup;
 import com.gdgl.model.DevicesModel;
-import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.video.VideoNode;
 
 import android.content.ContentValues;
@@ -189,10 +188,19 @@ public class DataHelper extends SQLiteOpenHelper {
 
 	public long insert(SQLiteDatabase db, String table, String nullColumnHack,
 			DevicesModel values) {
-
-		return db.insert(table, nullColumnHack, values.convertContentValues());
+		long result = 0;
+		try {
+			 result= db.insert(table, nullColumnHack, values.convertContentValues());
+			 db.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally{
+			db.close();
+		}
+		return result;
 
 	}
+
 	public long insertList(SQLiteDatabase db, String table,
 			String nullColumnHack, ArrayList<ResponseParamsEndPoint> r) {
 
@@ -209,8 +217,10 @@ public class DataHelper extends SQLiteOpenHelper {
 
 			}
 			db.setTransactionSuccessful();
+			db.close();
 		} finally {
 			db.endTransaction();
+			db.close();
 		}
 		return result;
 	}
@@ -238,21 +248,38 @@ public class DataHelper extends SQLiteOpenHelper {
 
 			}
 			db.setTransactionSuccessful();
+			db.close();
 		} finally {
 			db.endTransaction();
+			db.close();
 		}
 		return result;
 	}
 	
 	public void emptyTable(SQLiteDatabase db,String table)
 	{
-		db.execSQL("delete from "+table+" where 1=1");
+		try {
+			db.execSQL("delete from "+table+" where 1=1");
+			db.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally{
+			db.close();
+		}
+		
 	}
 	
 	public long insertGroup(SQLiteDatabase db, String table,
 			String nullColumnHack, ContentValues c) {
-
-		long m = db.insert(table, nullColumnHack, c);
+		long m = 0;
+		try {
+			m = db.insert(table, nullColumnHack, c);
+			db.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally{
+			db.close();
+		}
 		return m;
 	}
 	
@@ -264,23 +291,39 @@ public class DataHelper extends SQLiteOpenHelper {
 		} else {
 			iees = whereArgs;
 		}
-		for (String string : iees) {
-			ContentValues c = new ContentValues();
-			c.put(DevicesModel.ON_OFF_LINE, DevicesModel.DEVICE_OFF_LINE);
-			db.update(table, c, " ieee=? ", new String[] { string });
+		try {
+			for (String string : iees) {
+				ContentValues c = new ContentValues();
+				c.put(DevicesModel.ON_OFF_LINE, DevicesModel.DEVICE_OFF_LINE);
+				db.update(table, c, " ieee=? ", new String[] { string });
+			}
+			db.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally{
+			db.close();
 		}
+		
 		return 0;
 	}
 	
 	
 	public int deleteDevices(SQLiteDatabase db, String table, String whereClause,
 			String[] whereArgs) {
+		long m;
+		try {
+			m=db.delete(table, whereClause, whereArgs);
+			db.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally{
+			db.close();
+		}
 		return db.delete(table, whereClause, whereArgs);
 	}
 	
 	public int deleteGroup(SQLiteDatabase db, String table, String whereClause,
 			String[] whereArgs) {
-		
 		return db.delete(table, whereClause, whereArgs);
 	}
 	
@@ -296,10 +339,50 @@ public class DataHelper extends SQLiteOpenHelper {
 	public Cursor query(SQLiteDatabase db, String table, String[] columns,
 			String selection, String[] selectionArgs, String groupBy,
 			String having, String orderBy, String limit) {
-		return db.query(table, columns, selection, selectionArgs, groupBy,
-				having, orderBy, limit);
+		Cursor c = null;
+		try {
+			c=db.query(table, columns, selection, selectionArgs, groupBy,
+					having, orderBy, limit);
+			db.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally{
+			db.close();
+		}
+		return c;
 	}
+	
+	public static List<VideoNode> getVideoList(Context c, DataHelper dh) {
+		List<VideoNode> mList = new ArrayList<VideoNode>();
+		Cursor cursor = null;
+		SQLiteDatabase db=dh.getSQLiteDatabase();
+		cursor = db.query(DataHelper.VIDEO_TABLE, null, null,
+				null, null, null, null, null);
+		VideoNode mVideoNode;
+		while (cursor.moveToNext()) {
+			mVideoNode = new VideoNode();
+			mVideoNode.setAliases(cursor.getString(cursor
+					.getColumnIndex(VideoNode.ALIAS)));
+			mVideoNode.setHttpport(cursor.getString(cursor
+					.getColumnIndex(VideoNode.HTTPPORT)));
+			mVideoNode.setId(cursor.getString(cursor
+					.getColumnIndex(VideoNode._ID)));
+			mVideoNode.setIpc_ipaddr(cursor.getString(cursor
+					.getColumnIndex(VideoNode.IPC_IPADDR)));
+			mVideoNode.setName(cursor.getString(cursor
+					.getColumnIndex(VideoNode.NAME)));
+			mVideoNode.setPassword(cursor.getString(cursor
+							.getColumnIndex(VideoNode.PASSWORD)));
+			mVideoNode.setRtspport(cursor.getString(cursor
+							.getColumnIndex(VideoNode.RTSPORT)));
+			mList.add(mVideoNode);
+		}
+		cursor.close();
+		db.close();
+		return mList;
 
+	}
+	
 	public List<DevicesModel> queryForList(SQLiteDatabase db, String table,
 			String[] columns, String selection, String[] selectionArgs,
 			String groupBy, String having, String orderBy, String limit) {
@@ -387,6 +470,7 @@ public class DataHelper extends SQLiteOpenHelper {
 			mList.add(mDevicesModel);
 		}
 		c.close();
+		db.close();
 		return mList;
 	}
 
@@ -410,6 +494,7 @@ public class DataHelper extends SQLiteOpenHelper {
 			mList.add(mDevicesModel);
 		}
 		c.close();
+		db.close();
 		return mList;
 	}
 

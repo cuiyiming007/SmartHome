@@ -56,7 +56,7 @@ public abstract class BaseControlFragment extends Fragment implements
 		String[] args = {
 				cr.getDeviceIeee() == null ? "" : cr.getDeviceIeee().trim(),
 				cr.getDeviceEp() == null ? "" : cr.getDeviceEp().trim() };
-		mList = mDh.queryForList(mDh.getReadableDatabase(),
+		mList = mDh.queryForList(mDh.getSQLiteDatabase(),
 				DataHelper.DEVICES_TABLE, null, where, args, null, null, null,
 				null);
 		if(null!=mList && mList.size()>0){
@@ -88,7 +88,7 @@ public abstract class BaseControlFragment extends Fragment implements
 			// TODO Auto-generated method stub
 			int result = 0;
 			mDh = new DataHelper((Context) getActivity());
-			mDevList = mDh.queryForList(mDh.getReadableDatabase(),
+			mDevList = mDh.queryForList(mDh.getSQLiteDatabase(),
 					DataHelper.DEVICES_TABLE, null, null, null, null, null,
 					null, null);
 			DevicesModel dm = params[0];
@@ -102,10 +102,10 @@ public abstract class BaseControlFragment extends Fragment implements
 				v.put(DevicesModel.ON_OFF_STATUS,
 						dm.getmOnOffStatus() == null ? "0" : dm
 								.getmOnOffStatus().trim());
-				result = mDh.update(mDh.getReadableDatabase(),
+				result = mDh.update(mDh.getSQLiteDatabase(),
 						DataHelper.DEVICES_TABLE, v, Where, args);
 			} else {
-				long ll = mDh.insert(mDh.getReadableDatabase(),
+				long ll = mDh.insert(mDh.getSQLiteDatabase(),
 						DataHelper.DEVICES_TABLE, null, dm);
 				result = (int) ll;
 			}
