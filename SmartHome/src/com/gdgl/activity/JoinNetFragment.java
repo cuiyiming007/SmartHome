@@ -15,6 +15,7 @@ import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.ResponseParamsEndPoint;
+import com.gdgl.mydata.getlocalcielist.elserec;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.CircleProgressBar;
 
@@ -85,7 +86,7 @@ public class JoinNetFragment extends Fragment implements UIListener {
 
 		Context c = (Context) getActivity();
 		DataHelper mDH = new DataHelper(c);
-		mInnetList = DataUtil.getDevices(c, mDH, null, null);
+		mInnetList = DataUtil.getDevices(c, mDH, null, null,false);
 		mNewDevList=new ArrayList<DevicesModel>();
 		cb = (CircleProgressBar) mView.findViewById(R.id.seek_time);
 		cb.setText("扫描完毕");
@@ -161,8 +162,12 @@ public class JoinNetFragment extends Fragment implements UIListener {
 			if (sd.getmIeee().trim().equals(s.getmIeee().trim())
 					&& sd.getmEP().trim().equals(s.getmEP().trim())) {
 				return true;
+			}else
+			{
+				continue;
 			}
 		}
+		Log.i("new enroll device", "ieee: "+s.getmIeee()+" ep:"+s.getmEP());
 		return false;
 	}
 

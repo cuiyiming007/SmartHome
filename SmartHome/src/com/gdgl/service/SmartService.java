@@ -15,6 +15,7 @@ import android.util.Log;
 
 import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.DeviceManager;
+import com.gdgl.manager.VideoManager;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.DataHelper;
@@ -35,7 +36,7 @@ public class SmartService extends Service {
 	public void initial() {
 		// =============================server======================
 		 DeviceManager.getInstance().getDeviceList();
-
+		 VideoManager.getInstance().getIPClist();
 		// ===============================loacl=====================
 //		new Thread() {
 //			@Override

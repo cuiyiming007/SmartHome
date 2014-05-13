@@ -25,6 +25,7 @@ import com.gdgl.mydata.ResponseParamsEndPoint;
 import com.gdgl.mydata.Weather;
 import com.gdgl.mydata.getlocalcielist.CIEresponse_params;
 import com.gdgl.network.CustomRequest;
+import com.gdgl.network.VolleyErrorHelper;
 import com.gdgl.network.VolleyOperation;
 
 public class DeviceManager extends Manger {
@@ -101,7 +102,10 @@ public class DeviceManager extends Manger {
 
 			@Override
 			public void onErrorResponse(VolleyError error) {
-				// Log.e("Error: ", error.getMessage());
+				if (error!=null&&error.getMessage()!=null) {
+					Log.e("ResponseError: ", error.getMessage());
+					VolleyErrorHelper.getMessage(error, ApplicationController.getInstance());
+					}
 			}
 		};
 

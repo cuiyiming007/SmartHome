@@ -1,5 +1,9 @@
 package com.gdgl.mydata.video;
 
+
+import com.gdgl.model.ContentValuesListener;
+
+import android.content.ContentValues;
 import android.provider.BaseColumns;
 
 interface VideoNodeColumns extends BaseColumns
@@ -23,7 +27,7 @@ interface VideoNodeColumns extends BaseColumns
  * @author justek
  * 
  */
-public class VideoNode implements VideoNodeColumns{
+public class VideoNode implements VideoNodeColumns,ContentValuesListener{
 	private String id;
 	private String ipc_ipaddr;
 	private String name;
@@ -86,6 +90,19 @@ public class VideoNode implements VideoNodeColumns{
 
 	public void setAliases(String aliases) {
 		this.alias = aliases;
+	}
+	public ContentValues convertContentValues() {
+		ContentValues mContentValues = new ContentValues();
+
+		mContentValues.put(VideoNodeColumns.ALIAS, getAliases());
+		mContentValues.put(VideoNodeColumns.HTTPPORT, getHttpport());
+		mContentValues.put(VideoNodeColumns.ID,getId());
+		mContentValues.put(VideoNodeColumns.IPC_IPADDR, getIpc_ipaddr());
+		mContentValues.put(VideoNodeColumns.NAME, getName());
+		mContentValues.put(VideoNodeColumns.PASSWORD, getPassword());
+		mContentValues.put(VideoNodeColumns.RTSPORT, getRtspport());
+
+		return mContentValues;
 	}
 
 }

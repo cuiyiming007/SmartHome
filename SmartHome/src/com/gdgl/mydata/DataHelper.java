@@ -3,6 +3,7 @@ package com.gdgl.mydata;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gdgl.model.ContentValuesListener;
 import com.gdgl.model.DevicesGroup;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
@@ -149,7 +150,7 @@ public class DataHelper extends SQLiteOpenHelper {
 		videoStringBuilder.append(VideoNode.IPC_IPADDR + " INTEGER,");
 		videoStringBuilder.append(VideoNode.NAME + " VARCHAR(16),");
 		videoStringBuilder.append(VideoNode.PASSWORD + " INTEGER,");
-		videoStringBuilder.append(VideoNode.RTSPORT + " INTEGER,");
+		videoStringBuilder.append(VideoNode.RTSPORT + " INTEGER)");
 		
 	}
 
@@ -192,7 +193,6 @@ public class DataHelper extends SQLiteOpenHelper {
 		return db.insert(table, nullColumnHack, values.convertContentValues());
 
 	}
-
 	public long insertList(SQLiteDatabase db, String table,
 			String nullColumnHack, ArrayList<ResponseParamsEndPoint> r) {
 
@@ -213,6 +213,40 @@ public class DataHelper extends SQLiteOpenHelper {
 			db.endTransaction();
 		}
 		return result;
+	}
+	/***
+	 * insert a list which implement the ContentValuesListener
+	 * @param db
+	 * @param table
+	 * @param nullColumnHack
+	 * @param arrayList
+	 * @return
+	 */
+	public long insertVideoList(SQLiteDatabase db, String table,
+			String nullColumnHack, ArrayList<VideoNode> arrayList) {
+
+		long result = -100;
+//		List<DevicesModel> mList = convertToDevicesModel(r);
+		db.beginTransaction();
+		try {
+			for (ContentValuesListener contentvalue : arrayList) {
+				ContentValues c = contentvalue.convertContentValues();
+				long m = db.insert(table, nullColumnHack, c);
+				if (-1 == m) {
+					result = m;
+				}
+
+			}
+			db.setTransactionSuccessful();
+		} finally {
+			db.endTransaction();
+		}
+		return result;
+	}
+	
+	public void emptyTable(SQLiteDatabase db,String table)
+	{
+		db.execSQL("delete from "+table+" where 1=1");
 	}
 	
 	public long insertGroup(SQLiteDatabase db, String table,

@@ -36,57 +36,57 @@ public class Constants {
 
 	// 1. GetZBNode
 	// http://192.168.1.239/cgi-bin/rest/network/getZBNode.cgi?callback=1234&encodemethod=NONE&sign=AAA
-	public static String getLocalCIEList = "http://192.168.1.239/cgi-bin/rest/network/GetLocalCIEList.cgi?callback=1234&encodemethod=NONE&sign=AAA";
+	public static String getLocalCIEList = "http://192.168.1.237/cgi-bin/rest/network/GetLocalCIEList.cgi?callback=1234&encodemethod=NONE&sign=AAA";
 	// 2. GetEndPoint
-	public static String getEndPointURl = " http://192.168.1.239/cgi-bin/rest/network/getendpoint.cgi?callback=1234&encodemethod=NONE&sign=AAA";
+	public static String getEndPointURl = " http://192.168.1.237/cgi-bin/rest/network/getendpoint.cgi?callback=1234&encodemethod=NONE&sign=AAA";
 
 	// 3. ZBGetZBNodeCount
-	public static String getZBGetZBNodeCountURl = "http://192.168.1.239/cgi-bin/rest/network/zbGetZBNodeCount.cgi?callback=1234&encodemethod=NONE&sign=AAA";
+	public static String getZBGetZBNodeCountURl = "http://192.168.1.237/cgi-bin/rest/network/zbGetZBNodeCount.cgi?callback=1234&encodemethod=NONE&sign=AAA";
 
 	// 4. ZBGetZBNodeByIEEE
-	public static String getZBGetZBNodeByIEEEURl = "http://192.168.1.239/cgi-bin/rest/network/zbGetZBNodeByIEEE.cgi?ieee=00137A000000FC73&callback=1234&encodemethod=NONE&sign=AAA";
+	public static String getZBGetZBNodeByIEEEURl = "http://192.168.1.237/cgi-bin/rest/network/zbGetZBNodeByIEEE.cgi?ieee=00137A000000FC73&callback=1234&encodemethod=NONE&sign=AAA";
 
 	// // 5. ZBGetZBNodeByNwk_addr
-	public static String getZBGetZBNodeByNwk_addrURl = " http://192.168.1.239/cgi-bin/rest/network/zbGetZBNodeByNwk_addr.cgi?nwk=0000&callback=1234&encodemethod=NONE&sign=AAA";
+	public static String getZBGetZBNodeByNwk_addrURl = " http://192.168.1.237/cgi-bin/rest/network/zbGetZBNodeByNwk_addr.cgi?nwk=0000&callback=1234&encodemethod=NONE&sign=AAA";
 
 	// 6. ZBGetZBNodeByIndex
-	public static String getZBGetZBNodeByIndexURl = " http://192.168.1.239/cgi-bin/rest/network/zbGetZBNodeByIndex.cgi?index=1&callback=1234&encodemethod=NONE&sign=AAA";
+	public static String getZBGetZBNodeByIndexURl = " http://192.168.1.237/cgi-bin/rest/network/zbGetZBNodeByIndex.cgi?index=1&callback=1234&encodemethod=NONE&sign=AAA";
 
 	// 7. ZBGetEndPointCount
-	public static String getZBGetEndPointCountURl = " http://192.168.1.239/cgi-bin/rest/network/zbGetEndPointCount.cgi?&callback=1234&encodemethod=NONE&sign=AAA";
+	public static String getZBGetEndPointCountURl = " http://192.168.1.237/cgi-bin/rest/network/zbGetEndPointCount.cgi?&callback=1234&encodemethod=NONE&sign=AAA";
 
 	// 8. ZBGetEndPointByIEEE
-	public static String getZBGetEndPointByIEEEURl = "  http://192.168.1.239/cgi-bin/rest/network/zbGetEndPointByIEEE.cgi?ieee=00137A0000011870&callback=1234&encodemethod=NONE&sign=AAA";
+	public static String getZBGetEndPointByIEEEURl = "  http://192.168.1.237/cgi-bin/rest/network/zbGetEndPointByIEEE.cgi?ieee=00137A0000011870&callback=1234&encodemethod=NONE&sign=AAA";
 
 	// 9. ZBGetEndPointByNwk_addr£®Ã· æ≤Œ ˝¥ÌŒÛ£∫¥ÀCGI”–Œ Ã‚£©
-	public static String getZBGetEndPointByNwk_addrURl = "http://192.168.1.239/cgi-bin/rest/network/zbGetEndPointByNwk_addr.cgi?nwk=0000&callback=1234&encodemethod=NONE&sign=AAA";
+	public static String getZBGetEndPointByNwk_addrURl = "http://192.168.1.237/cgi-bin/rest/network/zbGetEndPointByNwk_addr.cgi?nwk=0000&callback=1234&encodemethod=NONE&sign=AAA";
 
 	// 10. ZBGetEndPointByIndex
-	public static String getZBGetEndPointByIndexURl = " http://192.168.1.239/cgi-bin/rest/network/zbGetEndPointByIndex.cgi?index=1&callback=1234&encodemethod=NONE&sign=AAA";
+	public static String getZBGetEndPointByIndexURl = " http://192.168.1.237/cgi-bin/rest/network/zbGetEndPointByIndex.cgi?index=1&callback=1234&encodemethod=NONE&sign=AAA";
 
 	// ===================================================================================
 
 	// 1. MainsOutLet Operation
-	public static String getMainsOutLetURl = " http://192.168.1.239/cgi-bin/rest/network/mainsOutLetOperation.cgi?ieee=00137A000000B657&ep=01&operatortype=2&param1=1&param2=2&param3=3&callback=1234&encodemethod=NONE&sign=AAA";
+	public static String getMainsOutLetURl = " http://192.168.1.237/cgi-bin/rest/network/mainsOutLetOperation.cgi?ieee=00137A000000B657&ep=01&operatortype=2&param1=1&param2=2&param3=3&callback=1234&encodemethod=NONE&sign=AAA";
 
 	// 2. DimmableLight Operation £®≤Ÿ◊˜ ß∞‹£©
-	public static String getDimmableLightURl = "  http://192.168.1.239/cgi-bin/rest/network/dimmableLightOperation.cgi?ieee=00137A00000EE66&ep=01&operatortype=2&param1=1&param2=2&param3=3&callback=1234&encodemethod=NONE&sign=AAA";
+	public static String getDimmableLightURl = "  http://192.168.1.237/cgi-bin/rest/network/dimmableLightOperation.cgi?ieee=00137A00000EE66&ep=01&operatortype=2&param1=1&param2=2&param3=3&callback=1234&encodemethod=NONE&sign=AAA";
 	// public static String getMainsOutLet="
 	// http://192.168.1.239/cgi-bin/rest/network/dimmableLightOperation.cgi?ieee=00137A00000EE66&ep=01&operatortype=7&param1=50&param2=2&param3=3&callback=1234&encodemethod=NONE&sign=AAA
 
 	// 3. OnOffLight Operation
-	public static String getOnOffLightURl = " http://192.168.1.239/cgi-bin/rest/network/onOffLightOperation.cgi?ieee=00137A0000010AB5&ep=0A&operatortype=2&param1=1&param2=2&param3=3&callback=1234&encodemethod=NONE&sign=AAA";
+	public static String getOnOffLightURl = " http://192.168.1.237/cgi-bin/rest/network/onOffLightOperation.cgi?ieee=00137A0000010AB5&ep=0A&operatortype=2&param1=1&param2=2&param3=3&callback=1234&encodemethod=NONE&sign=AAA";
 
 	// 4. OnOffOutput Operation
-	public static String getOnOffOutputURl = "  http://192.168.1.239/cgi-bin/rest/network/onOffOutputOperation.cgi?ieee=00137A0000010AB5&ep=0A&operatortype=2&param1=1&param2=2&param3=3&callback=1234&encodemethod=NONE&sign=AAA";
+	public static String getOnOffOutputURl = "  http://192.168.1.237/cgi-bin/rest/network/onOffOutputOperation.cgi?ieee=00137A0000010AB5&ep=0A&operatortype=2&param1=1&param2=2&param3=3&callback=1234&encodemethod=NONE&sign=AAA";
 
 	// 5. Shade Operation
-	public static String getShadeURl = " http://192.168.1.239/cgi-bin/rest/network/shadeOperation.cgi?ieee=00137A0000010516&ep=01&operatortype=1&param1=1&param2=2&param3=3&callback=1234&encodemethod=NONE&sign=AAA";
+	public static String getShadeURl = " http://192.168.1.237/cgi-bin/rest/network/shadeOperation.cgi?ieee=00137A0000010516&ep=01&operatortype=1&param1=1&param2=2&param3=3&callback=1234&encodemethod=NONE&sign=AAA";
 
 	// ===================================================================================
-
+    public static String getVideoListURL="http://192.168.1.237/cgi-bin/rest/network/getIPClist.cgi";
 	// 1. TemperatureSensor Operation
-	public static String getTemperatureSensorURl = "  http://192.168.1.239/cgi-bin/rest/network/temperatureSensorOperation.cgi?ieee=00137A00000121C2&ep=0A&operatortype=1&param1=1&param2=2&param3=3&callback=1234&encodemethod=NONE&sign=AAA";
+	public static String getTemperatureSensorURl = "http://192.168.1.237/cgi-bin/rest/network/temperatureSensorOperation.cgi?ieee=00137A00000121C2&ep=0A&operatortype=1&param1=1&param2=2&param3=3&callback=1234&encodemethod=NONE&sign=AAA";
 
 	public static final String ACTION_START_HEART = "startheart";
 	public static final String ACTION_HEARTBEAT = "Heartbeat";

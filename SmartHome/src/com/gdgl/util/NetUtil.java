@@ -55,7 +55,7 @@ public class NetUtil {
 	public static String HTTPHeadStr = "http://";
 	public static String encodeStr = "&callback=1234&encodemethod=NONE&sign=AAA";
 	public String IP = "192.168.1.237";
-	public String loginIP = "192.168.1.100";
+//	public String loginIP = "192.168.1.100";
 	private static NetUtil instance;
 	public static String heartbeat = "0200070007";
 	public static byte buffer[] = heartbeat.getBytes();
@@ -76,7 +76,7 @@ public class NetUtil {
 	}
 
 	public void connectServerWithTCPSocket() throws Exception {
-		callbakcSocket = new Socket("192.168.1.239", 5002);
+		callbakcSocket = new Socket(IP, 5002);
 		inputStream = callbakcSocket.getInputStream();
 		outputStream = callbakcSocket.getOutputStream();
 		Log.v(TAG, "callbakcSocket connect server successful");

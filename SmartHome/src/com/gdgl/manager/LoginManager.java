@@ -78,7 +78,7 @@ public class LoginManager extends Manger {
 		String param = hashMap2ParamString(paraMap);
 
 		String url = NetUtil.getInstance().getCumstomURL(
-				NetUtil.getInstance().loginIP, "modifyPassword.cgi", param);
+				NetUtil.getInstance().IP, "modifyPassword.cgi", param);
 		JsonObjectRequest req = new JsonObjectRequest(url, null,
 				new Response.Listener<JSONObject>() {
 					@Override
@@ -117,7 +117,7 @@ public class LoginManager extends Manger {
 		String param = hashMap2ParamString(paraMap);
 
 		String url = NetUtil.getInstance().getCumstomURL(
-				NetUtil.getInstance().loginIP, "modifyAlias.cgi", param);
+				NetUtil.getInstance().IP, "modifyAlias.cgi", param);
 		JsonObjectRequest req = new JsonObjectRequest(url, null,
 				new Response.Listener<JSONObject>() {
 					@Override
