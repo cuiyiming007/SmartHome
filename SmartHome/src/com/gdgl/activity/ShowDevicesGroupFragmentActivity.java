@@ -97,7 +97,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
         if (null != mBundle) {
             type = mBundle.getInt(ACTIVITY_SHOW_DEVICES_TYPE, 0);
         }
-        mListIndex = 2;
+        mListIndex = type;
         initData();
         initNoContent();
         initFancyCoverFlow();
@@ -196,9 +196,9 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
                     ShowDevicesGroupFragmentActivity.this, mDataHelper, type);
         }
 
-        images = UiUtils.getImgByType(type);
-        tags = UiUtils.getTagsByType(type);
-        types = UiUtils.getType(type);
+        images = UiUtils.getImgByType(UiUtils.SECURITY_CONTROL);
+        tags = UiUtils.getTagsByType(UiUtils.SECURITY_CONTROL);
+        types = UiUtils.getType(UiUtils.SECURITY_CONTROL);
         mCurrentList = list;
         mDevicesListCache = new HashMap<Integer, List<SimpleDevicesModel>>();
         mDevicesListCache.put(type, list);

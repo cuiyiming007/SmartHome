@@ -60,7 +60,7 @@ public class DevicesFragment extends Fragment{
 				Intent intent = new Intent();
 				intent.putExtra(
 						ShowDevicesGroupFragmentActivity.ACTIVITY_SHOW_DEVICES_TYPE,
-						types[position]);
+						position);
 				intent.setClass(getActivity(),
 						ShowDevicesGroupFragmentActivity.class);
 				startActivity(intent);
