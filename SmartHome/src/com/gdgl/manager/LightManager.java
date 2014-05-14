@@ -77,9 +77,9 @@ public class LightManager extends Manger {
 	 * 
 	 * @param model
 	 */
-	public void deleteNode(SimpleDevicesModel model) {
+	public void deleteNode(String ieee) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
-		paraMap.put("ieee", model.getmIeee());
+		paraMap.put("ieee", ieee);
 		String param = hashMap2ParamString(paraMap);
 
 		String url = NetUtil.getInstance().getCumstomURL(

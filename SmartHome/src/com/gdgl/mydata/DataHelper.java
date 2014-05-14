@@ -294,9 +294,10 @@ public class DataHelper extends SQLiteOpenHelper {
 		}
 		try {
 			for (String string : iees) {
-				ContentValues c = new ContentValues();
-				c.put(DevicesModel.ON_OFF_LINE, DevicesModel.DEVICE_OFF_LINE);
-				db.update(table, c, " ieee=? ", new String[] { string });
+//				ContentValues c = new ContentValues();
+//				c.put(DevicesModel.ON_OFF_LINE, DevicesModel.DEVICE_OFF_LINE);
+//				db.update(table, c, " ieee=? ", new String[] { string });
+				db.delete(table, " ieee=? ", new String[] { string });
 			}
 //			db.close();
 		} catch (Exception e) {
