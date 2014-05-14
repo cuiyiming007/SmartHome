@@ -141,7 +141,7 @@ public class DeviceManager extends Manger {
 			mDateHelper.insertList(mSQLiteDatabase, DataHelper.DEVICES_TABLE,
 					null, devDataList);
 			}
-			mDateHelper.close(mSQLiteDatabase);
+//			mDateHelper.close(mSQLiteDatabase);
 			// [TODO]transfer to SimpleDevicesModel
 			return devDataList;
 		}

@@ -470,7 +470,7 @@ public class DataHelper extends SQLiteOpenHelper {
 			mList.add(mDevicesModel);
 		}
 		c.close();
-		db.close();
+//		db.close();
 		return mList;
 	}
 

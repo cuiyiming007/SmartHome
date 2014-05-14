@@ -107,7 +107,7 @@ public class VideoManager extends Manger{
 				mDateHelper.insertVideoList(mSQLiteDatabase, DataHelper.VIDEO_TABLE,
 						null, response.getList());
 			}
-			mDateHelper.close(mSQLiteDatabase);
+//			mDateHelper.close(mSQLiteDatabase);
 			return response;
 		}
 		@Override
