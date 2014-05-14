@@ -149,7 +149,7 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter {
 							DataHelper.Wireless_Intelligent_valve_switch) == 0) {
 						mFragment = new OutPutFragment();
 					} else if(mSimpleDevicesModel.getmModelId().indexOf(
-							DataHelper.RS232_adapter) == 0){
+							DataHelper.One_key_operator) == 0){
 						mFragment=new SafeSimpleOperation();
 					}
 					else {

@@ -58,6 +58,7 @@
 	<string name="Pro_RF"> "Pro RF 模块"</string>  
 	<string name="RS232_adapter"> "工业级 RS232适配器"</string> 
 	<string name="Power_detect_socket"> "电能检测插座"</string> 
+	<string name="One_key_operator"> "安防控制中心"</string>
 	
 	<drawable name="background">#ffffff</drawable>
 
