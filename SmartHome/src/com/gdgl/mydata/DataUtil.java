@@ -367,7 +367,10 @@ public class DataUtil {
         if (modelID.indexOf(DataHelper.Infrared_controller) == 0) {
             result = c.getResources().getString(R.string.Infrared_controller);
         }
-        return result;
+		if (modelID.indexOf(DataHelper.One_key_operator) == 0) {
+			result = c.getResources().getString(R.string.One_key_operator);
+		}
+		return result;
 
 	}
 
