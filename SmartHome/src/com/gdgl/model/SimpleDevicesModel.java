@@ -18,6 +18,8 @@ public class SimpleDevicesModel implements Parcelable{
 	private String mOnOffStatus = "";
 	private String mUserDefineName = "";
 	private String mValue = "";
+	//湿度
+	private String humidityValue="";
 
 	// 自定义
 	private String mDeviceRegion = "";
@@ -129,6 +131,14 @@ public class SimpleDevicesModel implements Parcelable{
 		this.mUserDefineName = mUserDefineName;
 	}
 	
+	public String getHumidityValue() {
+		return humidityValue;
+	}
+
+	public void setHumidityValue(String humidityValue) {
+		this.humidityValue = humidityValue;
+	}
+
 	public SimpleDevicesModel(){}
 	
 	
@@ -156,6 +166,7 @@ public class SimpleDevicesModel implements Parcelable{
 		public SimpleDevicesModel[] newArray(int size) {
 			return new SimpleDevicesModel[size];
 		}
+		
 	};
 
 	

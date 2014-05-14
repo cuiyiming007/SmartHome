@@ -629,8 +629,13 @@ public class LightManager extends Manger {
 		String url = NetUtil.getInstance().getCumstomURL(
 				NetUtil.getInstance().IP, "temperatureSensorOperation.cgi",
 				param);
-
-		simpleVolleyRequset(url, EventType.TEMPERATURESENSOROPERATION);
+		EventType type;
+		if (operationType==0) {
+			 type=EventType.TEMPERATURESENSOROPERATION;
+		}else {
+			type=EventType.HUMIDITY;
+		}
+		simpleVolleyRequset(url, type);
 	}
 
 	/***

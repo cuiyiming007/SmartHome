@@ -232,6 +232,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 				if (sd.getmModelId().indexOf(
 						DataHelper.Indoor_temperature_sensor) == 0) {
 					temptureManager.temperatureSensorOperation(sd, 0);
+					temptureManager.temperatureSensorOperation(sd, 1);
 				} else if (sd.getmModelId().indexOf(DataHelper.Light_Sensor) == 0) {
 					temptureManager.lightSensorOperation(sd, 0);
 				}
@@ -337,6 +338,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 					if (sd.getmModelId().indexOf(
 							DataHelper.Indoor_temperature_sensor) == 0) {
 						temptureManager.temperatureSensorOperation(sd, 0);
+						temptureManager.temperatureSensorOperation(sd, 1);
 					} else if (sd.getmModelId()
 							.indexOf(DataHelper.Light_Sensor) == 0) {
 						temptureManager.lightSensorOperation(sd, 0);
@@ -575,6 +577,28 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 							.get(UiUtils.ENVIRONMENTAL_CONTROL);
 					
 					temList.get(m).setmValue(String.valueOf(Float.valueOf(data.getParam1())/1000));
+					if (4 == mListIndex) {
+						mCurrentList = temList;
+						title.post(new Runnable() {
+							@Override
+							public void run() {
+								setdata(mCurrentList);
+							}
+						});
+					}
+				}
+				// Toast.makeText(getActivity(),
+				// "当前光线亮度"+data.getParam1(),3000).show();
+			} 
+		}else if (EventType.HUMIDITY==event.getType()) {
+			if (event.isSuccess()) {
+				SimpleResponseData data = (SimpleResponseData) event.getData();
+				int m = getDevicesPostion(data.getIeee(), data.getEp());
+				if (m != -1) {
+					List<SimpleDevicesModel> temList = mDevicesListCache
+							.get(UiUtils.ENVIRONMENTAL_CONTROL);
+					
+					temList.get(m).setHumidityValue(String.valueOf(Float.valueOf(data.getParam1())/1000));
 					if (4 == mListIndex) {
 						mCurrentList = temList;
 						title.post(new Runnable() {

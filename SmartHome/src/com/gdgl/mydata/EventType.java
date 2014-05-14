@@ -41,6 +41,7 @@ public class EventType {
 	public static final EventType SETPERMITJOINON;
 	public static final EventType ENROLL;
 	public static final EventType ON_OFF_STATUS;
+	public static final EventType HUMIDITY;
 //	public static final EventType LOCALIASCIEOPERATION;
 	
 
@@ -63,6 +64,7 @@ public class EventType {
 		SHADEOPERATION=new EventType("shadeOperation", nextId());
 		IASZONEOPERATION=new EventType("iasZoneOperation", nextId());
 		TEMPERATURESENSOROPERATION=new EventType("temperatureSensorOperation", nextId());
+		HUMIDITY=new EventType("humidity", nextId());
 		RANGEEXTENDER=new EventType("RangeExtender", nextId());
 		IASACE=new EventType("IASACE", nextId());
 		REMOTECONTROL=new EventType("RemoteControl", nextId());
