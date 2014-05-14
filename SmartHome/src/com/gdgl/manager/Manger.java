@@ -81,6 +81,8 @@ public class Manger {
             }
             catch (Exception e)
             {
+            	Log.e("Manger", "notifyObservers exception"+e.getMessage());
+            	e.printStackTrace();
             }
         }
     }

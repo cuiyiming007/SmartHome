@@ -79,7 +79,7 @@ public class VideoFragment extends Fragment implements UIListener {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent((Context) getActivity(),
 						VideoActivity.class);
-				intent.putExtra("ipc_channel", mList.get(arg2).getId());
+				intent.putExtra("ipc_channel", Integer.valueOf(mList.get(arg2).getId()));
 				startActivity(intent);
 			}
 
@@ -158,7 +158,7 @@ public class VideoFragment extends Fragment implements UIListener {
 				mViewHolder = (ViewHolder) convertView.getTag();
 			}
 			mViewHolder.funcImg.setImageResource(R.drawable.video3);
-			mViewHolder.funcText.setText(mList.get(position).getName());
+			mViewHolder.funcText.setText(mList.get(position).getAliases());
 			return convertView;
 		}
 

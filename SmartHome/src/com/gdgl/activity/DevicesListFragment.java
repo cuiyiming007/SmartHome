@@ -335,7 +335,12 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter {
 				if(-1!=m){
 					if(null!=data.getValue()){
 						mList.get(m).setmOnOffStatus(data.getValue());
-						setDataActivity.setdata(mList);
+						mView.post(new Runnable() {
+							@Override
+							public void run() {
+								setDataActivity.setdata(mList);
+							}
+						});
 					}
 				}
 				ProcessUpdate(data);

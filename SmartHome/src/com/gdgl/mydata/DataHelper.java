@@ -366,7 +366,7 @@ public class DataHelper extends SQLiteOpenHelper {
 			mVideoNode.setHttpport(cursor.getString(cursor
 					.getColumnIndex(VideoNode.HTTPPORT)));
 			mVideoNode.setId(cursor.getString(cursor
-					.getColumnIndex(VideoNode._ID)));
+					.getColumnIndex(VideoNode.ID)));
 			mVideoNode.setIpc_ipaddr(cursor.getString(cursor
 					.getColumnIndex(VideoNode.IPC_IPADDR)));
 			mVideoNode.setName(cursor.getString(cursor
