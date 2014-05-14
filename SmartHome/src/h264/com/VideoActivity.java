@@ -22,8 +22,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gdgl.activity.DevicesListFragment;
+import com.gdgl.activity.VideoFragment;
+import com.gdgl.model.SimpleDevicesModel;
+import com.gdgl.mydata.video.VideoNode;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.ComUtil;
 
@@ -34,7 +40,7 @@ public class VideoActivity extends FragmentActivity {
 	Display display;
 	VView decodeh264;
 	public static int ret = 0;
-
+	VideoNode mVideoNode;
 	private boolean isVisible=false;
 	// DataInputStream dataInputStream;
 
@@ -48,8 +54,12 @@ public class VideoActivity extends FragmentActivity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		Bundle extras_ipc_channel = getIntent().getExtras();
-		ipc_channel = extras_ipc_channel.getInt("ipc_channel");
-
+		if(null!=extras_ipc_channel){
+			mVideoNode=(VideoNode)extras_ipc_channel.getParcelable(VideoFragment.PASS_OBJECT);
+		}
+		if(null!=mVideoNode){
+			ipc_channel=Integer.parseInt(mVideoNode.getId());
+		}
 		Resources res = getResources();
 		Drawable backDrawable = res.getDrawable(R.drawable.background);
 		this.getWindow().setBackgroundDrawable(backDrawable);
@@ -88,7 +98,9 @@ public class VideoActivity extends FragmentActivity {
 	private void addTitle() {
 		LayoutInflater layoutInflater = LayoutInflater.from(this);
 		View viewTitle = layoutInflater.inflate(R.layout.toptitle, null);
-		FrameLayout.LayoutParams params = setTitlePortrait();
+		TextView title=(TextView)viewTitle.findViewById(R.id.title);
+		title.setText(mVideoNode.getName());
+		LinearLayout.LayoutParams params = setTitlePortrait();
 		addContentView(viewTitle, params);
 	}
 
@@ -102,10 +114,10 @@ public class VideoActivity extends FragmentActivity {
 		return params;
 	}
 
-	private FrameLayout.LayoutParams setTitlePortrait() {
-		FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-				FrameLayout.LayoutParams.MATCH_PARENT,
-				FrameLayout.LayoutParams.WRAP_CONTENT);
+	private LinearLayout.LayoutParams setTitlePortrait() {
+		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.MATCH_PARENT,
+				LinearLayout.LayoutParams.WRAP_CONTENT);
 		params.topMargin = 0;
 		params.gravity = Gravity.TOP;
 		return params;

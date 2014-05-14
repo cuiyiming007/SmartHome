@@ -4,6 +4,9 @@ package com.gdgl.mydata.video;
 import com.gdgl.model.ContentValuesListener;
 
 import android.content.ContentValues;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.os.Parcelable.Creator;
 import android.provider.BaseColumns;
 
 interface VideoNodeColumns extends BaseColumns
@@ -27,7 +30,7 @@ interface VideoNodeColumns extends BaseColumns
  * @author justek
  * 
  */
-public class VideoNode implements VideoNodeColumns,ContentValuesListener{
+public class VideoNode implements VideoNodeColumns,ContentValuesListener,Parcelable{
 	private String id;
 	private String ipc_ipaddr;
 	private String name;
@@ -104,5 +107,43 @@ public class VideoNode implements VideoNodeColumns,ContentValuesListener{
 
 		return mContentValues;
 	}
+	
+	
+	public static final Parcelable.Creator<VideoNode> CREATOR = new Creator<VideoNode>() {
+		public VideoNode createFromParcel(Parcel source) {
+			VideoNode mDevicesModel = new VideoNode();
 
+			mDevicesModel.setAliases(source.readString());
+			mDevicesModel.setHttpport(source.readString());
+			mDevicesModel.setId(source.readString());
+			mDevicesModel.setIpc_ipaddr(source.readString());
+			mDevicesModel.setName(source.readString());
+			mDevicesModel.setPassword(source.readString());
+			mDevicesModel.setRtspport(source.readString());
+
+			return mDevicesModel;
+		}
+
+		public VideoNode[] newArray(int size) {
+			return new VideoNode[size];
+		}
+	};
+
+	
+	@Override
+	public void writeToParcel(Parcel parcel, int flags) {
+		parcel.writeString(alias);
+		parcel.writeString(httpport);
+		parcel.writeString(id);
+		parcel.writeString(ipc_ipaddr);
+		parcel.writeString(name);
+		parcel.writeString(password);
+		parcel.writeString(rtspport);
+	}
+
+	@Override
+	public int describeContents() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

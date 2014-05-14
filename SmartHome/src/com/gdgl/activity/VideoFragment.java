@@ -37,7 +37,8 @@ public class VideoFragment extends Fragment implements UIListener {
 	ArrayList<HashMap<String, Object>> mylist = new ArrayList<HashMap<String, Object>>();
 
 	String[] listItemName = { "通道1", "通道2", "通道3", "通道4", "通道5" };
-
+	
+	public static final String PASS_OBJECT = "pass_object";
 	List<VideoNode> mList;
 
 	@Override
@@ -77,9 +78,11 @@ public class VideoFragment extends Fragment implements UIListener {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				// TODO Auto-generated method stub
+				Bundle extras = new Bundle();
 				Intent intent = new Intent((Context) getActivity(),
 						VideoActivity.class);
-				intent.putExtra("ipc_channel", Integer.valueOf(mList.get(arg2).getId()));
+				extras.putParcelable(PASS_OBJECT, mList.get(arg2));
+				intent.putExtras(extras);
 				startActivity(intent);
 			}
 

@@ -551,8 +551,8 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 					List<SimpleDevicesModel> temList = mDevicesListCache
 							.get(UiUtils.ENVIRONMENTAL_CONTROL);
 					temList.get(m).setmValue(data.getParam1());
-					if (4 == mListIndex) {
-						mCurrentList = temList;
+					if(UiUtils.ENVIRONMENTAL_CONTROL==mListIndex){
+						mCurrentList=temList;
 						title.post(new Runnable() {
 							@Override
 							public void run() {
