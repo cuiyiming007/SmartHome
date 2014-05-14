@@ -52,13 +52,12 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 
     private String index;
 
-    public DevicesBaseAdapter(Context c, List<SimpleDevicesModel> list,
+    public DevicesBaseAdapter(Context c,
             DevicesObserver mObserver) {
         mContext = c;
-        mDevicesList = list;
+//        mDevicesList = list;
         mDevicesObserver = mObserver;
     }
-
     @Override
     public int getCount() {
         // TODO Auto-generated method stub

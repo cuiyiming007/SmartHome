@@ -219,7 +219,8 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 		initRegionDevicesList();
 		initAddToRegionDevicesList();
 		mDevicesBaseAdapter = new DevicesBaseAdapter(
-				RegionDevicesActivity.this, mList, this);
+				RegionDevicesActivity.this, this);
+		mDevicesBaseAdapter.setList(mList);
 	}
 
 	private void initDevicesListFragment() {

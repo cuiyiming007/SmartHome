@@ -46,7 +46,7 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter {
 	private static final String TAG = "DevicesListFragment";
 	private View mView;
 	PullToRefreshListView devices_list;
-
+	private setData setDataActivity;
 	SimpleDevicesModel mSimpleDevicesModel;
 	int refreshTag = 0;
 
@@ -253,7 +253,7 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter {
 			throw new IllegalStateException("Activity必须实现refreshData接口");
 		}
 		mRefreshData = (refreshData) activity;
-
+		setDataActivity=(setData)activity;
 	}
 
 	public interface refreshData {
@@ -318,6 +318,10 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter {
 		return -1;
 	}
 	
+	public interface setData{
+		public void setdata(List<SimpleDevicesModel> list);
+	}
+	
 	@Override
 	public void update(Manger observer, Object object) {
 		// TODO Auto-generated method stub
@@ -331,9 +335,7 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter {
 				if(-1!=m){
 					if(null!=data.getValue()){
 						mList.get(m).setmOnOffStatus(data.getValue());
-						DevicesBaseAdapter mAdapter=(DevicesBaseAdapter)mBaseAdapter;
-						mAdapter.setList(mList);
-						mAdapter.notifyDataSetChanged();
+						setDataActivity.setdata(mList);
 					}
 				}
 				ProcessUpdate(data);

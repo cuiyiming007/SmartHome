@@ -6,6 +6,7 @@ import java.util.List;
 import com.gdgl.GalleryFlow.FancyCoverFlow;
 import com.gdgl.activity.BaseControlFragment.UpdateDevice;
 import com.gdgl.activity.DevicesListFragment.refreshData;
+import com.gdgl.activity.DevicesListFragment.setData;
 import com.gdgl.adapter.DevicesBaseAdapter;
 import com.gdgl.adapter.ViewGroupAdapter;
 import com.gdgl.adapter.DevicesBaseAdapter.DevicesObserver;
@@ -46,7 +47,7 @@ import android.widget.TextView;
 
 public class ShowDevicesGroupFragmentActivity extends FragmentActivity
         implements refreshData, DevicesObserver, UpdateDevice, Dialogcallback,
-        EditDialogcallback {
+        EditDialogcallback,setData{
 
     private static final String TAG = "ShowDevicesGroupFragmentActivity";
     LinearLayout mBack;
@@ -208,7 +209,8 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
     private void initDevicesListFragment() {
         // TODO Auto-generated method stub
         mDevicesBaseAdapter = new DevicesBaseAdapter(
-                ShowDevicesGroupFragmentActivity.this, mCurrentList, this);
+                ShowDevicesGroupFragmentActivity.this, this);
+        mDevicesBaseAdapter.setList(mCurrentList);
         FragmentTransaction fragmentTransaction = fragmentManager
                 .beginTransaction();
         mDevicesListFragment = new DevicesListFragment();
@@ -295,9 +297,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
             }
             mDevicesListCache.put(type, mCurrentList);
         }
-        mDevicesBaseAdapter.setList(mCurrentList);
-        mDevicesBaseAdapter.notifyDataSetChanged();
-        mDevicesListFragment.setLayout();
+        setdata(mCurrentList);
     }
 
     private class GetDataTask extends
@@ -480,4 +480,12 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
             refreshAdapter(mListIndex);
         }
     }
+
+	@Override
+	public void setdata(List<SimpleDevicesModel> list) {
+		// TODO Auto-generated method stub
+        mDevicesBaseAdapter.setList(list);
+        mDevicesBaseAdapter.notifyDataSetChanged();
+        mDevicesListFragment.setLayout();
+	}
 }
