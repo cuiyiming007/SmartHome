@@ -99,7 +99,7 @@ public class VideoActivity extends FragmentActivity {
 		LayoutInflater layoutInflater = LayoutInflater.from(this);
 		View viewTitle = layoutInflater.inflate(R.layout.toptitle, null);
 		TextView title=(TextView)viewTitle.findViewById(R.id.title);
-		title.setText(mVideoNode.getName());
+		title.setText(mVideoNode.getAliases());
 		LinearLayout.LayoutParams params = setTitlePortrait();
 		addContentView(viewTitle, params);
 	}
@@ -134,6 +134,7 @@ public class VideoActivity extends FragmentActivity {
 		Log.i(TAG, "finish video ipc_channel=" + String.valueOf(ipc_channel));
 		decodeh264.setIsVideoRun(false);
 		decodeh264.initalThread();
+		isVisible=false;
 		Network.closeVideoSocket();
 		super.finish();
 	}

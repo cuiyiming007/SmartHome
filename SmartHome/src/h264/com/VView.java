@@ -114,7 +114,7 @@ public class VView extends View implements Runnable {
 		// ���ź�ĸ�=ԭͼ���x���ű���
 		this.newHeight = (h264Height * newWidth / h264Width) + 100;
 		// top = (this.gdeviceHeight - newHeight) / 2 - 50;
-		top = 65;
+		top = 80;
 		left = 0;
 		setScale();
 	}
