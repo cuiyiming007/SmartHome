@@ -48,7 +48,7 @@ public class DataUtil {
 			args[7] = DataHelper.Combustible_Gas_Detector_Natural_gas + "%";
 			args[8] = DataHelper.Wireless_Intelligent_valve_switch + "%";
 			args[9] = DataHelper.Siren + "%";
-			args[10] = DataHelper.RS232_adapter + "%";
+			args[10] = DataHelper.One_key_operator + "%";
 			args[11] = "1";
 			break;
 		case UiUtils.ENVIRONMENTAL_CONTROL:

@@ -58,6 +58,7 @@ public class DataHelper extends SQLiteOpenHelper {
 	public static final String Pro_RF = "Z100BI"; // ZigBee Pro RF ģ��
 	public static final String RS232_adapter = "ZL01A"; // ��ҵ��ZigBee RS232������
 	public static final String Power_detect_socket = "Z809A"; // ZigBee ���ܼ�����
+	public static final String One_key_operator = "Z103AE3C"; // 一键布防撤防
 
 	public static final String DATABASE_NAME = "smarthome";
 	public static final String DEVICES_TABLE = "devices";
