@@ -92,7 +92,9 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
     LinearLayout parents_need, devices_need;
     Button mDelete;
     Button set;
-
+    
+    LightManager temptureManager;
+    
     DataHelper mDataHelper;
 
     @Override
@@ -212,14 +214,29 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
             list = DataUtil.getOtherManagementDevices(
                     ShowDevicesGroupFragmentActivity.this, mDataHelper, type);
         }
-
+        
+        
+        List<SimpleDevicesModel> temPlist;
+        temPlist=DataUtil.getOtherManagementDevices(
+                ShowDevicesGroupFragmentActivity.this, mDataHelper, UiUtils.ENVIRONMENTAL_CONTROL);
         images = UiUtils.getImgByType(UiUtils.SECURITY_CONTROL);
         tags = UiUtils.getTagsByType(UiUtils.SECURITY_CONTROL);
         types = UiUtils.getType(UiUtils.SECURITY_CONTROL);
         mCurrentList = list;
         mDevicesListCache = new HashMap<Integer, List<SimpleDevicesModel>>();
         mDevicesListCache.put(type, list);
+        mDevicesListCache.put(UiUtils.ENVIRONMENTAL_CONTROL, temPlist);
         fragmentManager = this.getFragmentManager();
+        
+        if(null!=temPlist && temPlist.size()>0){
+    		for (SimpleDevicesModel sd : temPlist) {
+				if(sd.getmModelId().indexOf(DataHelper.Indoor_temperature_sensor)==0){
+					temptureManager.temperatureSensorOperation(sd,0);
+				}else if(sd.getmModelId().indexOf(DataHelper.Light_Sensor)==0){
+					temptureManager.lightSensorOperation(sd,0);
+				}
+			}
+    	}
     }
 
     private void initDevicesListFragment() {

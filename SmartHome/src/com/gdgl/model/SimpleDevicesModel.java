@@ -17,6 +17,7 @@ public class SimpleDevicesModel implements Parcelable{
 	private String mName = "";
 	private String mOnOffStatus = "";
 	private String mUserDefineName = "";
+	private String mValue = "";
 
 	// 自定义
 	private String mDeviceRegion = "";
@@ -179,5 +180,13 @@ public class SimpleDevicesModel implements Parcelable{
 	public int describeContents() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	public String getmValue() {
+		return mValue;
+	}
+
+	public void setmValue(String mValue) {
+		this.mValue = mValue;
 	}
 }
