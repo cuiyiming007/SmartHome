@@ -191,7 +191,7 @@ public class DataHelper extends SQLiteOpenHelper {
 		long result = 0;
 		try {
 			 result= db.insert(table, nullColumnHack, values.convertContentValues());
-			 db.close();
+//			 db.close();
 		} catch (Exception e) {
 			// TODO: handle exception
 		}finally{
@@ -217,7 +217,7 @@ public class DataHelper extends SQLiteOpenHelper {
 
 			}
 			db.setTransactionSuccessful();
-			db.close();
+//			db.close();
 		} finally {
 			db.endTransaction();
 			db.close();
@@ -248,7 +248,7 @@ public class DataHelper extends SQLiteOpenHelper {
 
 			}
 			db.setTransactionSuccessful();
-			db.close();
+//			db.close();
 		} finally {
 			db.endTransaction();
 			db.close();
@@ -258,14 +258,14 @@ public class DataHelper extends SQLiteOpenHelper {
 	
 	public void emptyTable(SQLiteDatabase db,String table)
 	{
-		try {
+//		try {
 			db.execSQL("delete from "+table+" where 1=1");
-			db.close();
-		} catch (Exception e) {
-			// TODO: handle exception
-		}finally{
-			db.close();
-		}
+//			db.close();
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//		}finally{
+//			db.close();
+//		}
 		
 	}
 	
@@ -274,7 +274,7 @@ public class DataHelper extends SQLiteOpenHelper {
 		long m = 0;
 		try {
 			m = db.insert(table, nullColumnHack, c);
-			db.close();
+//			db.close();
 		} catch (Exception e) {
 			// TODO: handle exception
 		}finally{
@@ -297,7 +297,7 @@ public class DataHelper extends SQLiteOpenHelper {
 				c.put(DevicesModel.ON_OFF_LINE, DevicesModel.DEVICE_OFF_LINE);
 				db.update(table, c, " ieee=? ", new String[] { string });
 			}
-			db.close();
+//			db.close();
 		} catch (Exception e) {
 			// TODO: handle exception
 		}finally{
@@ -313,7 +313,7 @@ public class DataHelper extends SQLiteOpenHelper {
 		long m;
 		try {
 			m=db.delete(table, whereClause, whereArgs);
-			db.close();
+//			db.close();
 		} catch (Exception e) {
 			// TODO: handle exception
 		}finally{
@@ -343,7 +343,7 @@ public class DataHelper extends SQLiteOpenHelper {
 		try {
 			c=db.query(table, columns, selection, selectionArgs, groupBy,
 					having, orderBy, limit);
-			db.close();
+//			db.close();
 		} catch (Exception e) {
 			// TODO: handle exception
 		}finally{

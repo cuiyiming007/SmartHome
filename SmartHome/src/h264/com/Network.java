@@ -22,7 +22,7 @@ import android.util.Log;
 
 public class Network {
 	private final static String TAG = "NetWorkUtil";
-	public static String IPserver = "192.168.1.239";
+	public static String IPserver = "192.168.1.237";
 	// private static int udpPort = 5000;
 	public static int tcpPort = 5012;
 	public static Socket socket; // tcpSocket
