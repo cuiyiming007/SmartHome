@@ -35,6 +35,7 @@ public class VideoActivity extends FragmentActivity {
 	VView decodeh264;
 	public static int ret = 0;
 
+	private boolean isVisible=false;
 	// DataInputStream dataInputStream;
 
 	/*
@@ -219,6 +220,20 @@ public class VideoActivity extends FragmentActivity {
 		Toast.makeText(getApplicationContext(), "打开视频失败，请检查网络连接或重试",
 				Toast.LENGTH_SHORT).show();
 		// finish();
+	}
+	public boolean isVideoVisble()
+	{
+		return isVisible;
+	}
+	@Override
+	protected void onResume() {
+		isVisible=true;
+		super.onResume();
+	}
+	@Override
+	protected void onPause() {
+		isVisible=false;
+		super.onPause();
 	}
 	/*
 	 * (non-Javadoc)

@@ -33,6 +33,7 @@ public class VView extends View implements Runnable {
 	public boolean isVideoRun = false;
 
 	Context context;
+	VideoActivity videoActivity;
 	Thread decodethread = null;
 	public DataInputStream dataInputStream = null;
 	int gdeviceHeight = 0;
@@ -75,9 +76,10 @@ public class VView extends View implements Runnable {
 		System.loadLibrary("H264Android");
 	}
 
-	public VView(final Context context, int deviceWidth, int deviceheight) {
+	public VView(final VideoActivity context, int deviceWidth, int deviceheight) {
 		super(context);
 		this.context = context;
+		videoActivity=context;
 		// TODO Auto-generated constructor stub
 		setFocusable(true);
 		this.gdeviceHeight = deviceheight;
@@ -91,7 +93,7 @@ public class VView extends View implements Runnable {
 		{
 			@Override
 			public void handleMessage(Message msg) {
-				if (msg.what==0) {
+				if (msg.what==0&&videoActivity.isVideoVisble()) {
 					 Toast.makeText(context,
 					 "解析视频失败，请重试",Toast.LENGTH_SHORT).show();
 				}
