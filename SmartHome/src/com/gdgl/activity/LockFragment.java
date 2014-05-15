@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.gdgl.activity.BaseControlFragment.UpdateDevice;
+import com.gdgl.manager.DeviceManager;
 import com.gdgl.manager.LightManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.model.DevicesModel;
@@ -25,6 +26,7 @@ import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.SimpleResponseData;
 import com.gdgl.mydata.Callback.CallbackResponseType2;
+import com.gdgl.mydata.getlocalcielist.elserec;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyDlg;
 /***
@@ -98,6 +100,7 @@ public class LockFragment extends BaseControlFragment {
 
 		mLightManager = LightManager.getInstance();
 		mLightManager.addObserver(LockFragment.this);
+		DeviceManager.getInstance().addObserver(this);
 		initstate();
 	}
 
@@ -111,7 +114,7 @@ public class LockFragment extends BaseControlFragment {
 	}
 
 	private void initView() {
-	   mLightManager.iASZoneOperationCommon(mDevices, 7, 1);
+//	   mLightManager.iASZoneOperationCommon(mDevices, 7, 1);
 		// TODO Auto-generated method stub
 		on_off = (ImageView) mView.findViewById(R.id.devices_on_off);
 
@@ -153,6 +156,7 @@ public class LockFragment extends BaseControlFragment {
 		// TODO Auto-generated method stub
 		super.onDestroy();
 		mLightManager.deleteObserver(LockFragment.this);
+		DeviceManager.getInstance().deleteObserver(this);
 	}
 
 	@Override
@@ -169,26 +173,35 @@ public class LockFragment extends BaseControlFragment {
 			mDialog = null;
 		}
 		final Event event = (Event) object;
-		if (EventType.IASWARNINGDEVICOPERATION == event.getType()) {
+//		if (EventType.IASWARNINGDEVICOPERATION == event.getType()) {
+//			
+//			if (event.isSuccess()==true) {
+//				// data maybe null
+//				SimpleResponseData data = (SimpleResponseData) event.getData();
+//				//  refresh UI data
+//				
+//				status = !status;
+//				
+//				setImagRes(on_off, status);
+//				
+//				ContentValues c = new ContentValues();
+//				c.put(DevicesModel.ON_OFF_STATUS, status ? "1" : "o");
+//				mUpdateDevice.updateDevices(Ieee, ep, c);
+//			}else {
+//				//if failed,prompt a Toast
+//				mError.setVisibility(View.VISIBLE);
+//			}
+//		}else
+			if (EventType.LOCALIASCIEBYPASSZONE==event.getType()) {
 			
-			if (event.isSuccess()==true) {
-				// data maybe null
-				SimpleResponseData data = (SimpleResponseData) event.getData();
-				//  refresh UI data
-				
-				status = !status;
-				
-				setImagRes(on_off, status);
-				
-				ContentValues c = new ContentValues();
-				c.put(DevicesModel.ON_OFF_STATUS, status ? "1" : "o");
-				mUpdateDevice.updateDevices(Ieee, ep, c);
-			}else {
-				//if failed,prompt a Toast
-				mError.setVisibility(View.VISIBLE);
-			}
+			DeviceManager.getInstance().getLocalCIEList();
+			//更新数据库
+			
+			
+		}else if (EventType.INTITIALDVIVCEDATA==event.getType()) {
+			
 		}
-		if (EventType.ON_OFF_STATUS == event.getType()) {
+		else if (EventType.ON_OFF_STATUS == event.getType()) {
 			if (event.isSuccess()==true) {
 				// data maybe null
 				CallbackResponseType2 data = (CallbackResponseType2) event.getData();
