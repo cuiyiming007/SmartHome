@@ -26,7 +26,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
     private static final String FILE_NAME = "crash";
 
     //log文件的后缀名
-    private static final String FILE_NAME_SUFFIX = ".trace";
+    private static final String FILE_NAME_SUFFIX = ".txt";
 
     private static CrashHandler sInstance = new CrashHandler();
 
@@ -94,7 +94,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
             dir.mkdirs();
         }
         long current = System.currentTimeMillis();
-        String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(current));
+        String time = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date(current));
         //以当前时间创建log文件
         File file = new File(PATH + FILE_NAME + time + FILE_NAME_SUFFIX);
 
