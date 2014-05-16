@@ -70,6 +70,7 @@ public class DeviceManager extends Manger {
 				responseListener, errorListener);
 
 		// add the request object to the queue to be executed
+		Log.i("request url", Constants.getLocalCIEList);
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
 
@@ -199,7 +200,7 @@ public class DeviceManager extends Manger {
 
 		@Override
 		protected void onPostExecute(Object result) {
-			Event event = new Event(EventType.INTITIALDVIVCEDATA, true);
+			Event event = new Event(EventType.GETICELIST, true);
 			event.setData(result);
 			notifyObservers(event);
 		}

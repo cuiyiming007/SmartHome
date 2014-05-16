@@ -635,7 +635,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 				// Toast.makeText(getActivity(),
 				// "当前光线亮度"+data.getParam1(),3000).show();
 			}
-		} else if (EventType.INTITIALDVIVCEDATA == event.getType()) {
+		} else if (EventType.GETICELIST == event.getType()) {
 			if (event.isSuccess()) {
 				ArrayList<CIEresponse_params> devDataList = (ArrayList<CIEresponse_params>) event
 						.getData();

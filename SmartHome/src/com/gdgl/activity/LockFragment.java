@@ -1,7 +1,9 @@
 package com.gdgl.activity;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
@@ -14,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gdgl.activity.BaseControlFragment.UpdateDevice;
 import com.gdgl.manager.DeviceManager;
@@ -26,13 +29,16 @@ import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.SimpleResponseData;
 import com.gdgl.mydata.Callback.CallbackResponseType2;
+import com.gdgl.mydata.getlocalcielist.CIEresponse_params;
 import com.gdgl.mydata.getlocalcielist.elserec;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyDlg;
+
 /***
  * 窗磁布撤防
+ * 
  * @author justek
- *
+ * 
  */
 public class LockFragment extends BaseControlFragment {
 
@@ -114,8 +120,9 @@ public class LockFragment extends BaseControlFragment {
 	}
 
 	private void initView() {
-//	   mLightManager.iASZoneOperationCommon(mDevices, 7, 1);
+		// mLightManager.iASZoneOperationCommon(mDevices, 7, 1);
 		// TODO Auto-generated method stub
+		
 		on_off = (ImageView) mView.findViewById(R.id.devices_on_off);
 
 		txt_devices_name = (TextView) mView.findViewById(R.id.txt_devices_name);
@@ -126,10 +133,9 @@ public class LockFragment extends BaseControlFragment {
 		txt_devices_region.setText(mDevices.getmDeviceRegion().trim());
 
 		setImagRes(on_off, status);
-		
-		
-		mError=(RelativeLayout)mView.findViewById(R.id.error_message);
-		
+
+		mError = (RelativeLayout) mView.findViewById(R.id.error_message);
+
 		on_off.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -143,14 +149,12 @@ public class LockFragment extends BaseControlFragment {
 				} else {
 					mDialog.show();
 				}
-				if (status) {
-					mLightManager.LocalIASCIEUnByPassZone(mDevices, -1);
-				}else {
-					mLightManager.LocalIASCIEByPassZone(mDevices,-1);
-				}
+				mLightManager.LocalIASCIEByPassZone(mDevices, -1);
+				status=!status;
 			}
 		});
 	}
+
 	@Override
 	public void onDestroy() {
 		// TODO Auto-generated method stub
@@ -165,67 +169,95 @@ public class LockFragment extends BaseControlFragment {
 
 	}
 
+	@SuppressLint("ShowToast")
 	@Override
 	public void update(Manger observer, Object object) {
-		// TODO Auto-generated method stub
 		if (null != mDialog) {
 			mDialog.dismiss();
 			mDialog = null;
 		}
 		final Event event = (Event) object;
-//		if (EventType.IASWARNINGDEVICOPERATION == event.getType()) {
-//			
-//			if (event.isSuccess()==true) {
-//				// data maybe null
-//				SimpleResponseData data = (SimpleResponseData) event.getData();
-//				//  refresh UI data
-//				
-//				status = !status;
-//				
-//				setImagRes(on_off, status);
-//				
-//				ContentValues c = new ContentValues();
-//				c.put(DevicesModel.ON_OFF_STATUS, status ? "1" : "o");
-//				mUpdateDevice.updateDevices(Ieee, ep, c);
-//			}else {
-//				//if failed,prompt a Toast
-//				mError.setVisibility(View.VISIBLE);
-//			}
-//		}else
-			if (EventType.LOCALIASCIEBYPASSZONE==event.getType()) {
-			
-			DeviceManager.getInstance().getLocalCIEList();
-			//更新数据库
-			
-			
-		}else if (EventType.INTITIALDVIVCEDATA==event.getType()) {
-			
-		}
-		else if (EventType.ON_OFF_STATUS == event.getType()) {
-			if (event.isSuccess()==true) {
-				// data maybe null
-				CallbackResponseType2 data = (CallbackResponseType2) event.getData();
-				List<DevicesModel> mList;
-				DataHelper mDh = new DataHelper((Context) getActivity());
-				String where = " ieee=? and ep=? ";
-				String[] args = {
-						mDevices.getmIeee() == null ? "" : mDevices.getmIeee().trim(),
-								mDevices.getmEP() == null ? "" : mDevices.getmEP().trim() };
-				mList = mDh.queryForList(mDh.getSQLiteDatabase(),
-						DataHelper.DEVICES_TABLE, null, where, args, null, null, null,
-						null);
-				boolean result=false;
-				if(null!=data.getValue()){
-					result=data.getValue().trim().equals("1");
-					status=result;
-					setImagRes(on_off, status);
-				}
-				ProcessUpdate(data,mList);
-			}else {
-				//if failed,prompt a Toast
-//				mError.setVisibility(View.VISIBLE);
+		if (EventType.LOCALIASCIEBYPASSZONE == event.getType()) {
+			if (event.isSuccess()) {
+				updateStatusOnUIThread();
+				DeviceManager.getInstance().getLocalCIEList();
+			}else
+			{
+				Toast.makeText(getActivity(), "操作失败", Toast.LENGTH_SHORT);
+			}
+		} else if (EventType.GETICELIST == event.getType()) {
+			if (event.isSuccess()) {
+				ArrayList<CIEresponse_params> devDataList = (ArrayList<CIEresponse_params>) event
+						.getData();
+				updateStatusByList(devDataList);
 			}
 		}
+//		else if (EventType.ON_OFF_STATUS == event.getType()) {
+//			if (event.isSuccess() == true) {
+//				// data maybe null
+//				CallbackResponseType2 data = (CallbackResponseType2) event
+//						.getData();
+//				List<DevicesModel> mList;
+//				DataHelper mDh = new DataHelper((Context) getActivity());
+//				String where = " ieee=? and ep=? ";
+//				String[] args = {
+//						mDevices.getmIeee() == null ? "" : mDevices.getmIeee()
+//								.trim(),
+//						mDevices.getmEP() == null ? "" : mDevices.getmEP()
+//								.trim() };
+//				mList = mDh.queryForList(mDh.getSQLiteDatabase(),
+//						DataHelper.DEVICES_TABLE, null, where, args, null,
+//						null, null, null);
+//				boolean result = false;
+//				if (null != data.getValue()) {
+//					result = data.getValue().trim().equals("1");
+//					status = result;
+//					setImagRes(on_off, status);
+//				}
+//				ProcessUpdate(data, mList);
+//			} else {
+//				// if failed,prompt a Toast
+//				// mError.setVisibility(View.VISIBLE);
+//			}
+//		}
+	}
+
+	private void updateStatusByList(ArrayList<CIEresponse_params> devDataList) {
+		for (CIEresponse_params ciEresponse_params : devDataList) {
+			//过滤出本页面设备的Ieee
+			if (ciEresponse_params.getCie().getIeee()
+					.equals(mDevices.getmIeee())) {
+				String bypass = ciEresponse_params.getCie()
+						.getElserec().getBbypass();
+				//异或运算，当bypass的值和status的值不同时，刷新界面和数据库
+				if(!stringToBoolean(bypass)^status)
+				{
+					updateStatusOnUIThread();
+					//[TODO]刷新数据库
+				}
+				break;
+			}
+
+		}
+	}
+
+	private void updateStatusOnUIThread() {
+		mView.post(new Runnable() {
+			@Override
+			public void run() {
+				setImagRes(on_off, status);
+			}
+		});
+	}
+
+	private boolean stringToBoolean(String bypass) {
+		boolean b;
+		if (bypass.trim().equals("true")) {
+			b = true;
+		} else {
+			b = false;
+		}
+		return b;
 	}
 
 	class operatortype {
@@ -245,4 +277,3 @@ public class LockFragment extends BaseControlFragment {
 	}
 
 }
-

@@ -42,6 +42,7 @@ public class EventType {
 	public static final EventType ENROLL;
 	public static final EventType ON_OFF_STATUS;
 	public static final EventType HUMIDITY;
+	public static final EventType GETICELIST;
 //	public static final EventType LOCALIASCIEOPERATION;
 	
 
@@ -56,6 +57,7 @@ public class EventType {
 		ONOFFOUTPUTOPERATION=new EventType("onOffOutputOperation", nextId());
 		ONOFFSWITCHOPERATION=new EventType("onOffSwitchOperation", nextId());
 		INTITIALDVIVCEDATA=new EventType("initialDiviceData",nextId());
+		GETICELIST=new EventType("getICEList",nextId());
 		LIGHTSENSOROPERATION=new EventType("lightSensorOperation",nextId());
 		DOORLOCKOPERATION=new EventType("doorLockOperation", nextId());
 		IASWARNINGDEVICOPERATION=new EventType("iasWarningDeviceOperation", nextId());
