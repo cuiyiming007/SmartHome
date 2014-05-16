@@ -93,7 +93,6 @@ public class SmartHome extends FragmentActivity implements OnRefreshListener<Vie
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 showSetWindow();
-//            	LightManager.getInstance().LocalIASCIEOperation(null, 5);
             }
         });
 		
