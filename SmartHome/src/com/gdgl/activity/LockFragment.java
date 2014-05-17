@@ -149,7 +149,11 @@ public class LockFragment extends BaseControlFragment {
 				} else {
 					mDialog.show();
 				}
-				mLightManager.LocalIASCIEByPassZone(mDevices, -1);
+				if (status) {
+					mLightManager.LocalIASCIEUnByPassZone(mDevices, -1);
+				}else {
+					mLightManager.LocalIASCIEByPassZone(mDevices,-1);
+				}
 				status=!status;
 			}
 		});
@@ -177,7 +181,7 @@ public class LockFragment extends BaseControlFragment {
 			mDialog = null;
 		}
 		final Event event = (Event) object;
-		if (EventType.LOCALIASCIEBYPASSZONE == event.getType()) {
+		if (EventType.LOCALIASCIEBYPASSZONE == event.getType()||EventType.LOCALIASCIEUNBYPASSZONE==event.getType()) {
 			if (event.isSuccess()) {
 				updateStatusOnUIThread();
 				DeviceManager.getInstance().getLocalCIEList();
