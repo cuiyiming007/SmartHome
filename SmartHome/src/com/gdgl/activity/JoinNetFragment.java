@@ -22,6 +22,7 @@ import com.gdgl.util.CircleProgressBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -108,6 +109,8 @@ public class JoinNetFragment extends Fragment implements UIListener {
 		btn_scape = (Button) mView.findViewById(R.id.scape);
 		btn_close = (Button) mView.findViewById(R.id.close);
 		btn_look = (Button) mView.findViewById(R.id.look);
+		btn_look.setEnabled(false);
+		btn_look.setBackgroundColor(Color.DKGRAY);
 
 		btn_scape.setOnClickListener(new OnClickListener() {
 
@@ -219,11 +222,10 @@ public class JoinNetFragment extends Fragment implements UIListener {
 				}
 				getData();
 				if (finish_scape) {
-					if (null == mDevList || mDevList.size() == 0) {
-						text_result.setText("未扫描到任何设备");
-						text_result.setVisibility(View.VISIBLE);
+					if (null != mNewDevList&& mNewDevList.size() > 0) {
+						updateScapeSuccessful();
 					} else {
-						text_result.setText("扫描到" + mNewDevList.size() + "个设备");
+						text_result.setText("未扫描到任何设备");
 						text_result.setVisibility(View.VISIBLE);
 					}
 				}
@@ -236,7 +238,15 @@ public class JoinNetFragment extends Fragment implements UIListener {
 				break;
 			}
 		}
+
+		
 	};
+	private void updateScapeSuccessful() {
+		text_result.setText("扫描到" + mNewDevList.size() + "个设备");
+		text_result.setVisibility(View.VISIBLE);
+		btn_look.setEnabled(true);
+		btn_look.setBackgroundColor(R.drawable.add_devices_btn_style);
+	}
 
 	private void getData() {
 		// TODO Auto-generated method stub
@@ -282,6 +292,12 @@ public class JoinNetFragment extends Fragment implements UIListener {
 					}
 				}
 			}
+			getData();
+			if (null != mNewDevList && mNewDevList.size() > 0) {
+				updateScapeSuccessful();
+			}
+			
+			
 		}
 	}
 
