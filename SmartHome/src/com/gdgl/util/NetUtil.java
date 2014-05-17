@@ -69,7 +69,18 @@ public class NetUtil {
 		}
 		return instance;
 	}
-
+/***
+ *  http://192.168.1.239/cgi-bin/rest/network/addIPC.cgi?
+	 * ipaddr=192.168.1.90&rtspport=554&httpport=80&name=admin&password=12345&alias=camera4
+ * @param serverIP
+ * @param resource
+ * @param param
+ * @return
+ */
+	public String getVideoURL(String serverIP, String resource, String param) 
+	{
+		return HTTPHeadStr+serverIP+HTTPHeadStr + serverIP + URLDir + resource + "?" + param;
+	}
 	public String getCumstomURL(String serverIP, String resource, String param) {
 		return HTTPHeadStr + serverIP + URLDir + resource + "?" + param
 				+ encodeStr;

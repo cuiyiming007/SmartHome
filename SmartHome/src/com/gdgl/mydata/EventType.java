@@ -45,6 +45,9 @@ public class EventType {
 	public static final EventType GETICELIST;
 	public static final EventType BINDDEVICE;
 	public static final EventType UNBINDDEVICE;
+	public static final EventType ADDIPC;
+	public static final EventType EDITIPC;
+	public static final EventType DELETEIPC;
 	
 
 	
@@ -82,6 +85,9 @@ public class EventType {
 		ON_OFF_STATUS=new EventType("on_off_status", nextId());
 		BINDDEVICE=new EventType("bindDevice", nextId());
 		UNBINDDEVICE=new EventType("unbindDevice", nextId());
+		ADDIPC=new EventType("addIPC", nextId());
+		EDITIPC=new EventType("editIPC", nextId());
+		DELETEIPC=new EventType("deleteIPC", nextId());
 	}
 	
 	private static int nextId()

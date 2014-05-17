@@ -65,6 +65,136 @@ public class VideoManager extends Manger{
 				errorListener);
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
+	/***
+	 * 添加摄像头
+	 * http://192.168.1.239/cgi-bin/rest/network/addIPC.cgi?
+	 * ipaddr=192.168.1.90&rtspport=554&httpport=80&name=admin&password=12345&alias=camera4
+	 * @param videoNode
+	 */
+	
+	public void addIPC(VideoNode videoNode)
+	{
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("ipaddr", videoNode.getIpc_ipaddr());
+		paraMap.put("rtspport", videoNode.getRtspport());
+		paraMap.put("httpport", videoNode.getHttpport());
+		paraMap.put("name", videoNode.getName());
+		paraMap.put("password", videoNode.getPassword());
+		paraMap.put("alias", videoNode.getAliases());
+		String param = hashMap2ParamString(paraMap);
+		Listener<String> responseListener = new Listener<String>() {
+			@Override
+			public void onResponse(String response) {
+				Gson gson =new Gson();
+				VideoResponse videoResponse=gson.fromJson(response, VideoResponse.class);
+				
+				Event event = new Event(EventType.ADDIPC, true);
+				event.setData(videoResponse);
+				notifyObservers(event);
+			}
+		};
+		ErrorListener errorListener = new ErrorListener() {
+
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				String errorString=null;
+				if (error!=null&&error.getMessage()!=null) {
+					Log.e("ResponseError: ", error.getMessage());
+					 errorString=VolleyErrorHelper.getMessage(error, ApplicationController.getInstance());
+					}
+				Event event = new Event(EventType.ADDIPC, false);
+				event.setData(errorString);
+				notifyObservers(event);
+			}
+		};
+		String url = NetUtil.getInstance().getCumstomURL(
+				NetUtil.getInstance().IP, "addIPC.cgi", param);
+		StringRequest req = new StringRequest(url, responseListener,
+				errorListener);
+		ApplicationController.getInstance().addToRequestQueue(req);
+		
+	}
+	public void editIPC(VideoNode videoNode)
+	{
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("ipaddr", videoNode.getIpc_ipaddr());
+		paraMap.put("rtspport", videoNode.getRtspport());
+		paraMap.put("httpport", videoNode.getHttpport());
+		paraMap.put("name", videoNode.getName());
+		paraMap.put("password", videoNode.getPassword());
+		paraMap.put("alias", videoNode.getAliases());
+		String param = hashMap2ParamString(paraMap);
+		Listener<String> responseListener = new Listener<String>() {
+			@Override
+			public void onResponse(String response) {
+				Gson gson =new Gson();
+				VideoResponse videoResponse=gson.fromJson(response, VideoResponse.class);
+				
+				Event event = new Event(EventType.ADDIPC, true);
+				event.setData(videoResponse);
+				notifyObservers(event);
+			}
+		};
+		ErrorListener errorListener = new ErrorListener() {
+			
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				String errorString=null;
+				if (error!=null&&error.getMessage()!=null) {
+					Log.e("ResponseError: ", error.getMessage());
+					errorString=VolleyErrorHelper.getMessage(error, ApplicationController.getInstance());
+				}
+				Event event = new Event(EventType.EDITIPC, false);
+				event.setData(errorString);
+				notifyObservers(event);
+			}
+		};
+		String url = NetUtil.getInstance().getCumstomURL(
+				NetUtil.getInstance().IP, "editIPC.cgi", param);
+		StringRequest req = new StringRequest(url, responseListener,
+				errorListener);
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
+	/***
+	 * http://192.168.1.239/cgi-bin/rest/network/deleteIPC.cgi?ipc_id=3
+	 * @param videoNode
+	 */
+	public void deleteIPC(VideoNode videoNode)
+	{
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("ipc_id", videoNode.getId());
+		String param = hashMap2ParamString(paraMap);
+		Listener<String> responseListener = new Listener<String>() {
+			@Override
+			public void onResponse(String response) {
+				Gson gson =new Gson();
+				VideoResponse videoResponse=gson.fromJson(response, VideoResponse.class);
+				
+				Event event = new Event(EventType.DELETEIPC, true);
+				event.setData(videoResponse);
+				notifyObservers(event);
+			}
+		};
+		ErrorListener errorListener = new ErrorListener() {
+			
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				String errorString=null;
+				if (error!=null&&error.getMessage()!=null) {
+					Log.e("ResponseError: ", error.getMessage());
+					errorString=VolleyErrorHelper.getMessage(error, ApplicationController.getInstance());
+				}
+				Event event = new Event(EventType.DELETEIPC, false);
+				event.setData(errorString);
+				notifyObservers(event);
+			}
+		};
+		String url = NetUtil.getInstance().getCumstomURL(
+				NetUtil.getInstance().IP, "deleteIPC.cgi", param);
+		StringRequest req = new StringRequest(url, responseListener,
+				errorListener);
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
 	public VideoResponse handleVideoResponse(String result)
 	{
 		String json=UiUtils.formatResponseString(result);
