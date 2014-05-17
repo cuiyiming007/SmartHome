@@ -211,7 +211,7 @@ public class ShadeControlFragment extends Fragment implements UIListener{
 
     private void setImg(int mProgress2) {
 		// TODO Auto-generated method stub
-    	if(mProgress>10){
+    	if(mProgress>0){
         	curtainImg.setImageResource(R.drawable.curtains_on);
         }else{
         	curtainImg.setImageResource(R.drawable.curtans_off);

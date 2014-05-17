@@ -1,11 +1,13 @@
 package com.gdgl.activity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Dialog;
 import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -13,18 +15,21 @@ import com.gdgl.activity.ShowDevicesGroupFragmentActivity.EditDevicesName;
 import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.UIListener;
 import com.gdgl.model.DevicesModel;
+import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.Callback.CallbackResponseType2;
+import com.gdgl.mydata.getlocalcielist.CIEresponse_params;
 
 public abstract class BaseControlFragment extends Fragment implements
 		EditDevicesName, UIListener {
 	public UpdateDevice mUpdateDevice;
 	public Dialog mDialog;
+	public DataHelper mDh;
 
 	public interface UpdateDevice {
 		public void saveDevicesName(String name);
 
-		public boolean updateDevices(String Ieee, String ep, ContentValues c);
+		public boolean updateDevices(SimpleDevicesModel sd, ContentValues c);
 	}
 
 	public CallbackManager mCallbackManager;
@@ -35,6 +40,7 @@ public abstract class BaseControlFragment extends Fragment implements
 		super.onCreate(savedInstanceState);
 		mCallbackManager = CallbackManager.getInstance();
 		mCallbackManager.addObserver(this);
+		mDh = new DataHelper((Context) getActivity());
 	}
 
 	@Override
@@ -81,13 +87,12 @@ public abstract class BaseControlFragment extends Fragment implements
 	public class UpdateDatabaseTask extends
 			AsyncTask<DevicesModel, Void, Integer> {
 		private List<DevicesModel> mDevList;
-		DataHelper mDh;
+		
 
 		@Override
 		protected Integer doInBackground(DevicesModel... params) {
 			// TODO Auto-generated method stub
 			int result = 0;
-			mDh = new DataHelper((Context) getActivity());
 			mDevList = mDh.queryForList(mDh.getSQLiteDatabase(),
 					DataHelper.DEVICES_TABLE, null, null, null, null, null,
 					null, null);
@@ -113,5 +118,35 @@ public abstract class BaseControlFragment extends Fragment implements
 		}
 
 	}
+	
+	public void updateDeviceStatus(ArrayList<CIEresponse_params> sd){
+		new updateDeviceStatus().execute(sd);
+	}
+	
+	
+	public class updateDeviceStatus extends AsyncTask<ArrayList<CIEresponse_params>, Integer, Integer>{
 
+		@Override
+		protected Integer doInBackground(ArrayList<CIEresponse_params>... params) {
+			// TODO Auto-generated method stub
+//			List<SimpleDevicesModel> updateList=params[0];
+//			if(null==updateList || updateList.size()==0){
+//				return null;
+//			}else{
+//				String where=" ieee=? and ep=? ";
+//				ContentValues v;
+//				SQLiteDatabase db=mDh.getSQLiteDatabase();
+//				for (SimpleDevicesModel simpleDevicesModel : updateList) {
+//					String[] args={simpleDevicesModel.getmIeee().trim(),simpleDevicesModel.getmEP().trim()};
+//					String status=simpleDevicesModel.getmOnOffStatus();
+//					v=new ContentValues();
+//					v.put(DevicesModel.ON_OFF_STATUS, status=="1"?"1":"0");
+//					mDh.update(db, DataHelper.DEVICES_TABLE, v, where, args);
+//				}
+//				mDh.close(db);
+//			}
+			return null;
+		}
+		
+	}
 }

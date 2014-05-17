@@ -182,10 +182,10 @@ public class OutLetControlFragment extends BaseControlFragment {
 				status = !status;
 				
 				setImagRes(on_off, status);
-				
+				mDevices.setmOnOffStatus(status ? "1" : "o");
 				ContentValues c = new ContentValues();
 				c.put(DevicesModel.ON_OFF_STATUS, status ? "1" : "o");
-				mUpdateDevice.updateDevices(Ieee, ep, c);
+				mUpdateDevice.updateDevices(mDevices, c);
 			}else {
 				//if failed,prompt a Toast
 				mError.setVisibility(View.VISIBLE);

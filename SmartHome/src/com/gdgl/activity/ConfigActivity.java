@@ -123,7 +123,7 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				TextView tv = (TextView) v;
-				AllDevicesListFragment mAllDevicesListFragment=new AllDevicesListFragment();
+				DevicesListWithGroup mAllDevicesListFragment=new DevicesListWithGroup();
 				mFragment=mAllDevicesListFragment;
 				changeFragment(tv, mAllDevicesListFragment);
 			}

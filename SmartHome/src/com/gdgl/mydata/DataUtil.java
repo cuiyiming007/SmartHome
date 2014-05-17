@@ -176,6 +176,10 @@ public class DataUtil {
 						mSimpleDevicesModel.setmUserDefineName(mDevicesModel
 								.getmUserDefineName());
 					}
+		            if(mDevicesModel.getmCurrent()!=null && !mDevicesModel.getmCurrent().trim().equals("")){
+		            	mSimpleDevicesModel.setmValue(mDevicesModel.getmCurrent().trim());
+		            }
+		            
 					list.add(mSimpleDevicesModel);
 					mMap.put(mDevicesModel.getmIeee(), n);
 					n++;
@@ -208,6 +212,10 @@ public class DataUtil {
 					mSimpleDevicesModel.setmUserDefineName(mDevicesModel
 							.getmUserDefineName());
 				}
+	            if(mDevicesModel.getmCurrent()!=null && !mDevicesModel.getmCurrent().trim().equals("")){
+	            	mSimpleDevicesModel.setmValue(mDevicesModel.getmCurrent().trim());
+	            }
+	            
 				n++;
 				list.add(mSimpleDevicesModel);
 			}
@@ -264,10 +272,55 @@ public class DataUtil {
                 mSimpleDevicesModel.setmUserDefineName(mDevicesModel
                         .getmUserDefineName());
             }
+            
+            if(mDevicesModel.getmCurrent()!=null && !mDevicesModel.getmCurrent().trim().equals("")){
+            	mSimpleDevicesModel.setmValue(mDevicesModel.getmCurrent().trim());
+            }
+            
             list.add(mSimpleDevicesModel);
         }
         return list;
     }
+    
+    
+    public static List<DevicesModel> getDevices(Context c,
+            DataHelper dh, int type) {
+    	
+    	String[] args;
+        List<String> sList = new ArrayList<String>();
+        String where = DataUtil.getWhere(type);
+        args = DataUtil.getArgs(type);
+    	if(UiUtils.LIGHTS_MANAGER==type){
+    		where = " model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? ";
+    		args=new String[6];
+    		args[0] = DataHelper.Energy_detection_dimming_module + "%";
+			args[1] = DataHelper.Switch_Module_Single + "%";
+			args[2] = DataHelper.Wall_switch_touch + "%";
+			args[3] = DataHelper.Wall_switch_double + "%";
+			args[4] = DataHelper.Wall_switch_triple + "%";
+			args[5] = DataHelper.Dimmer_Switch + "%";
+    	}
+        
+        List<DevicesModel> listDevicesModel = new ArrayList<DevicesModel>();
+        
+        
+        
+        if(null==where || null==args){
+            return null;
+        }
+        listDevicesModel = dh.queryForList(dh.getSQLiteDatabase(), DataHelper.DEVICES_TABLE, null,
+                where, args, null, null, null, null);
+        if(null!=listDevicesModel && listDevicesModel.size()>0){
+        	for (DevicesModel devicesModel : listDevicesModel) {
+    			if(null==devicesModel.getmUserDefineName() || devicesModel.getmUserDefineName().trim().equals("")){
+    				devicesModel.setmUserDefineName(getDefaultUserDefinname(c,devicesModel.getmModelId()));
+    			}
+    		}
+        }
+        
+        return listDevicesModel;
+    }
+    
 
     public static String getDefaultUserDefinname(Context c, String modelID) {
         String result = "";

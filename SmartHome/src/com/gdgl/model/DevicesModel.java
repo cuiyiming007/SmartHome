@@ -102,6 +102,9 @@ public class DevicesModel implements DevicesBaseColumns {
 	private long mLastDateTime;
 	private int mOnOffLine = DEVICE_ON_LINE;
 	private String mUserDefineName = "";
+	
+	private int mValue1 = 0;
+	private int mValue2 = 0;
 
 	public int getID() {
 		return ID;
@@ -505,5 +508,21 @@ public class DevicesModel implements DevicesBaseColumns {
 		setmDeviceRegion("");
 		setmLastDateTime(System.currentTimeMillis());
 		setmOnOffLine(DEVICE_ON_LINE);
+	}
+
+	public int getmValue1() {
+		return mValue1;
+	}
+
+	public void setmValue1(int mValue1) {
+		this.mValue1 = mValue1;
+	}
+
+	public int getmValue2() {
+		return mValue2;
+	}
+
+	public void setmValue2(int mValue2) {
+		this.mValue2 = mValue2;
 	}
 }

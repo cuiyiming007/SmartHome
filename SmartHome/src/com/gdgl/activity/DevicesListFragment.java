@@ -180,7 +180,7 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter {
 				}
 			});
 		}
-		registerForContextMenu(devices_list.getRefreshableView());
+//		registerForContextMenu(devices_list.getRefreshableView());
 		devices_list.setAdapter(mBaseAdapter);
 		initList();
 	}

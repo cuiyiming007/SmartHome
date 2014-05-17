@@ -165,7 +165,18 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
         }else if(mDevices.getmModelId().indexOf(
 				DataHelper.RS232_adapter) == 0){
         	mHolder.devices_state.setText("一键操作");
-		} else {
+		} else if(mDevices.getmModelId().indexOf(
+				DataHelper.Energy_detection_dimming_module) == 0){
+			String state=mDevices.getmValue();
+			if(null==state || state.trim().equals("") || state.trim().equals("0")){
+				mHolder.devices_state.setText("关");
+			}else if(state.trim().equals("100")){
+				mHolder.devices_state.setText("开");
+			}else {
+				mHolder.devices_state.setText("开"+state+"%");
+			}
+		}
+        else {
             if (mDevices.getmOnOffStatus().trim().equals("1")) {
                 mHolder.devices_state.setText("开");
             } else {

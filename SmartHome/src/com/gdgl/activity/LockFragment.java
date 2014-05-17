@@ -7,6 +7,8 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,7 +64,7 @@ public class LockFragment extends BaseControlFragment {
 	String ep = "";
 
 	LightManager mLightManager;
-
+	DataHelper mDataHelper;
 	@Override
 	public void onAttach(Activity activity) {
 		// TODO Auto-generated method stub
@@ -107,6 +109,9 @@ public class LockFragment extends BaseControlFragment {
 		mLightManager = LightManager.getInstance();
 		mLightManager.addObserver(LockFragment.this);
 		DeviceManager.getInstance().addObserver(this);
+		
+		mDataHelper=new DataHelper((Context)getActivity());
+		
 		initstate();
 	}
 

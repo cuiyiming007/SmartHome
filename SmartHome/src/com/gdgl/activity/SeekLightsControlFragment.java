@@ -2,6 +2,7 @@ package com.gdgl.activity;
 
 import android.R.integer;
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,8 +14,10 @@ import android.widget.Toast;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
+import com.gdgl.activity.BaseControlFragment.UpdateDevice;
 import com.gdgl.manager.LightManager;
 import com.gdgl.manager.Manger;
+import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
@@ -34,10 +37,17 @@ public class SeekLightsControlFragment extends BaseControlFragment {
 	
 	int currentProgress=0;
 	
+	public UpdateDevice mUpdateDevice;
+	
 	@Override
 	public void onAttach(Activity activity) {
 		// TODO Auto-generated method stub
 		super.onAttach(activity);
+		
+		if (!(activity instanceof UpdateDevice)) {
+			throw new IllegalStateException("Activity必须实现SaveDevicesName接口");
+		}
+		mUpdateDevice = (UpdateDevice) activity;
 		
 		Bundle extras = getArguments();
 		if (null != extras) {
@@ -108,9 +118,12 @@ public class SeekLightsControlFragment extends BaseControlFragment {
 		devices_seek=(SeekBar)mView.findViewById(R.id.devices_seek);
 		devices_img=(ImageView)mView.findViewById(R.id.devices_img);
 		text_process=(TextView)mView.findViewById(R.id.text_process);
-		text_process.setText("0%");
-		devices_seek.setProgress(0);
-		setDevicesImg(0);
+		
+		currentProgress=Integer.parseInt(mDevices.getmValue());
+		
+		text_process.setText(currentProgress+"%");
+		devices_seek.setProgress(currentProgress);
+		setDevicesImg(currentProgress);
 		
 		
 		txt_devices_region=(TextView)mView.findViewById(R.id.txt_devices_region);
@@ -159,6 +172,13 @@ public class SeekLightsControlFragment extends BaseControlFragment {
 				SimpleResponseData data = (SimpleResponseData) event.getData();
 				//  refresh UI data
 				setDevicesImg(currentProgress);
+				
+				
+				ContentValues c = new ContentValues();
+				c.put(DevicesModel.CURRENT, currentProgress);
+				mDevices.setmValue(currentProgress+"");
+				mUpdateDevice.updateDevices(mDevices, c);
+				
 			}else {
 				//if failed,prompt a Toast
 				Toast toast=UiUtils.getToast((Context) getActivity());
