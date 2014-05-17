@@ -43,7 +43,8 @@ public class EventType {
 	public static final EventType ON_OFF_STATUS;
 	public static final EventType HUMIDITY;
 	public static final EventType GETICELIST;
-//	public static final EventType LOCALIASCIEOPERATION;
+	public static final EventType BINDDEVICE;
+	public static final EventType UNBINDDEVICE;
 	
 
 	
@@ -79,7 +80,8 @@ public class EventType {
 		SETPERMITJOINON=new EventType("setPermitJoinOn", nextId());
 		ENROLL=new EventType("enroll", nextId());
 		ON_OFF_STATUS=new EventType("on_off_status", nextId());
-//		 LOCALIASCIEOPERATION=new EventType("LocalIASCIEOperation", nextId());
+		BINDDEVICE=new EventType("bindDevice", nextId());
+		UNBINDDEVICE=new EventType("unbindDevice", nextId());
 	}
 	
 	private static int nextId()

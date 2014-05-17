@@ -32,6 +32,8 @@ import com.gdgl.mydata.LoginResponse;
 import com.gdgl.mydata.ParamsForStatus;
 import com.gdgl.mydata.ResponseDataEntityForStatus;
 import com.gdgl.mydata.ResponseParamsEndPoint;
+import com.gdgl.mydata.bind.BindResponseData;
+import com.gdgl.mydata.bind.BindResponse_params;
 import com.gdgl.mydata.getlocalcielist.LocalIASCIEOperationResponseData;
 import com.gdgl.network.VolleyErrorHelper;
 import com.gdgl.network.VolleyOperation;
@@ -71,7 +73,80 @@ public class LightManager extends Manger {
 		}
 		return instance;
 	}
+	/***
+	 * 1.4BindDevice
+	 * @param outModel
+	 * @param inModel
+	 */
+	public void bindDevice(SimpleDevicesModel outModel,SimpleDevicesModel inModel)
+	{
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+//		paraMap.put("devout_ieee", outModel.getmIeee());
+//		paraMap.put("devout_ep", outModel.getmEP());
+//		paraMap.put("devin_ieee", inModel.getmIeee());
+//		paraMap.put("devin_ep", inModel.getmIeee());
+		paraMap.put("devout_ieee", "00137A000001122A");
+		paraMap.put("devout_ep", "03");
+		paraMap.put("devin_ieee", "00137A0000010AB5");
+		paraMap.put("devin_ep", "0A");
+		paraMap.put("cluster_id", "0006");
+		String param = hashMap2ParamString(paraMap);
 
+		Listener<String> responseListener = new Listener<String>() {
+			@Override
+			public void onResponse(String response) {
+				response = UiUtils.formatResponseString(response);
+				Log.i("LightManager bindDevice Response:%n %s",
+						response);
+				Gson gson = new Gson();
+				BindResponseData statusData = gson.fromJson(
+						response.toString(), BindResponseData.class);
+				Event event = new Event(EventType.BINDDEVICE, true);
+				event.setData(statusData);
+				notifyObservers(event);
+			}
+		};
+		String url = NetUtil.getInstance().getCumstomURL(
+				NetUtil.getInstance().IP, "bindDevice.cgi", param);
+		Log.i("LightManager bindDevice Request:%n %s", url);
+		StringRequest req = new StringRequest(url, responseListener,
+				new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+						String errorString = null;
+						if (error != null && error.getMessage() != null) {
+							VolleyLog.e("Error: ", error.getMessage());
+							errorString = VolleyErrorHelper.getMessage(error,
+									ApplicationController.getInstance());
+						}
+						Event event = new Event(EventType.BINDDEVICE,
+								false);
+						event.setData(errorString);
+						notifyObservers(event);
+					}
+				});
+		// add the request object to the queue to be executed
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
+	public void unbindDevice(SimpleDevicesModel outModel,SimpleDevicesModel inModel)
+	{
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+//		paraMap.put("devout_ieee", outModel.getmIeee());
+//		paraMap.put("devout_ep", outModel.getmEP());
+//		paraMap.put("devin_ieee", inModel.getmIeee());
+//		paraMap.put("devin_ep", inModel.getmIeee());
+		paraMap.put("devout_ieee", "00137A000001122A");
+		paraMap.put("devout_ep", "03");
+		paraMap.put("devin_ieee", "00137A0000010AB5");
+		paraMap.put("devin_ep", "0A");
+		paraMap.put("cluster_id", "0006");
+		String param = hashMap2ParamString(paraMap);
+
+		String url = NetUtil.getInstance().getCumstomURL(
+				NetUtil.getInstance().IP, "unbindDevice.cgi", param);
+		simpleVolleyRequset(url, EventType.UNBINDDEVICE);
+	}
+	
 	/***
 	 * 1.7 删除node
 	 * 
