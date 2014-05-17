@@ -595,7 +595,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 				int m = getDevicesPostion(data.getIeee(), data.getEp(), temList);
 				if (m != -1) {
 
-					temList.get(m).setmValue(data.getParam1());
+					temList.get(m).setmValue(data.getParam1()+"LUX");
 					if (UiUtils.ENVIRONMENTAL_CONTROL == mListIndex) {
 						mCurrentList = temList;
 						title.post(new Runnable() {
@@ -677,7 +677,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 //					List<SimpleDevicesModel> temList = mDevicesListCache
 //							.get(UiUtils.ENVIRONMENTAL_CONTROL);
 					
-					temList.get(m).setHumidityValue(String.valueOf(Float.valueOf(data.getParam1())/1000));
+					temList.get(m).setHumidityValue(String.valueOf(Float.valueOf(data.getParam1())/1000)+"%RH");
 					if (4 == mListIndex) {
 						mCurrentList = temList;
 						title.post(new Runnable() {
