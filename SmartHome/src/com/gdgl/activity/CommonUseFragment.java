@@ -738,9 +738,10 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 						mViewHolder.funcImg.setImageResource(UiUtils
 								.getDevicesSmallIcon(smd.getmDeviceId()));
 					}
+					
+					setTextViewContent(smd, mViewHolder.devState);
+					mViewHolder.funcText.setText(smd.getmUserDefineName().trim());
 				}
-				setTextViewContent(smd, mViewHolder.devState);
-				mViewHolder.funcText.setText(smd.getmUserDefineName().trim());
 			}
 			if (Type != DEV) {
 				mViewHolder.funcText.setText(s.trim());

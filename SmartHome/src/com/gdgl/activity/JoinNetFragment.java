@@ -110,7 +110,7 @@ public class JoinNetFragment extends Fragment implements UIListener {
 		btn_close = (Button) mView.findViewById(R.id.close);
 		btn_look = (Button) mView.findViewById(R.id.look);
 		btn_look.setEnabled(false);
-		btn_look.setBackgroundColor(Color.DKGRAY);
+//		btn_look.setBackgroundColor(Color.DKGRAY);
 
 		btn_scape.setOnClickListener(new OnClickListener() {
 
@@ -245,7 +245,7 @@ public class JoinNetFragment extends Fragment implements UIListener {
 		text_result.setText("扫描到" + mNewDevList.size() + "个设备");
 		text_result.setVisibility(View.VISIBLE);
 		btn_look.setEnabled(true);
-		btn_look.setBackgroundColor(R.drawable.add_devices_btn_style);
+//		btn_look.setBackgroundColor(R.drawable.add_devices_btn_style);
 	}
 
 	private void getData() {

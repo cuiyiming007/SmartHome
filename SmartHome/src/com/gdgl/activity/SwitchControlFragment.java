@@ -10,6 +10,7 @@ import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
+import com.gdgl.mydata.ResponseParamsEndPoint;
 import com.gdgl.mydata.SimpleResponseData;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyDlg;
@@ -20,6 +21,7 @@ import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -312,13 +314,29 @@ public class SwitchControlFragment extends BaseControlFragment implements
 				c = new ContentValues();
 				c.put(DevicesModel.ON_OFF_STATUS, mBoolean[mCurrent] ? "1"
 						: "o");
-//				mUpdateDevice.updateDevices(s.getmIeee(), s.getmEP(), c);
+				mUpdateDevice.updateDevices(s, c);
 			} else {
 				// if failed,prompt a Toast
 				Toast toast=UiUtils.getToast((Context) getActivity());
 				toast.show();
 			}
 
+		}
+		
+		if (EventType.INTITIALDVIVCEDATA == event.getType()) {
+//			ArrayList<ResponseParamsEndPoint> devDataList = (ArrayList<ResponseParamsEndPoint>) event
+//					.getData();
+//			if (null == allList || allList.size() == 0) {
+//				Log.i("scape devices", "SCAPDEV-> the first scape,get "+devDataList.size()+" result");
+//				allList = devDataList;
+//			} else {
+//				for (ResponseParamsEndPoint responseParamsEndPoint : devDataList) {
+//					if (!allList.contains(responseParamsEndPoint)) {
+//						Log.i("scape devices", "SCAPDEV-> get a devices not in allList,add");
+//						allList.add(responseParamsEndPoint);
+//					}
+//				}
+//			}
 		}
 	}
 

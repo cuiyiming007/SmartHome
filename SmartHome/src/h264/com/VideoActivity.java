@@ -2,6 +2,7 @@ package h264.com;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -99,7 +100,14 @@ public class VideoActivity extends FragmentActivity {
 		LayoutInflater layoutInflater = LayoutInflater.from(this);
 		View viewTitle = layoutInflater.inflate(R.layout.toptitle, null);
 		TextView title=(TextView)viewTitle.findViewById(R.id.title);
-		title.setText(mVideoNode.getAliases());
+		String name = "";
+		try {
+			name=new String((mVideoNode.getAliases()).getBytes("UTF-8"),"ISO-8859-1");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		title.setText(name);
 		LinearLayout.LayoutParams params = setTitlePortrait();
 		addContentView(viewTitle, params);
 	}
