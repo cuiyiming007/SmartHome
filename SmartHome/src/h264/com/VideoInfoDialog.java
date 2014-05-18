@@ -2,9 +2,6 @@ package h264.com;
 
 
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
@@ -13,9 +10,9 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.gdgl.model.DevicesGroup;
-import com.gdgl.mydata.DataHelper;
-import com.gdgl.mydata.getFromSharedPreferences;
+import com.gdgl.activity.VideoFragment;
+import com.gdgl.manager.VideoManager;
+import com.gdgl.mydata.video.VideoNode;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.AddDlg.AddDialogcallback;
 
@@ -26,14 +23,19 @@ public class VideoInfoDialog {
 	Button cancle;
 	TextView textView;
 
-	EditText mName;
+	EditText userNameEdit;
+	EditText ipEditText;
+	EditText portEditText;
+	EditText passworeEditText;
+	EditText aliasEditText;
 	LinearLayout devices_region;
 	TextView text_name;
 	
+	
 	AddDialogcallback mAddDialogcallback;
 	
-	public static final int REGION = 1;
-	public static final int SCENE = 2;
+	public static final int Add = 1;
+	public static final int Edit = 2;
 
 	int mType;
 
@@ -47,7 +49,11 @@ public class VideoInfoDialog {
 //		devices_region = (LinearLayout) dialog
 //				.findViewById(R.id.devices_region);
 
-		mName = (EditText) dialog.findViewById(R.id.edit_user_name);
+		userNameEdit = (EditText) dialog.findViewById(R.id.edit_user_name);
+		ipEditText = (EditText) dialog.findViewById(R.id.edit_video_ip);
+		portEditText = (EditText) dialog.findViewById(R.id.edit_port);
+		passworeEditText = (EditText) dialog.findViewById(R.id.edit_password);
+		aliasEditText = (EditText) dialog.findViewById(R.id.edit_alias);
 		text_name = (TextView) dialog.findViewById(R.id.text_user_name);
 
 		save = (Button) dialog.findViewById(R.id.btn_save);
@@ -55,6 +61,9 @@ public class VideoInfoDialog {
 
 			@Override
 			public void onClick(View v) {
+				VideoNode videoNode=getVideoNode();
+				VideoManager.getInstance().addIPC(videoNode);
+				
 //				String mN = mName.getText().toString();
 //				if(text_name.getText().toString().trim().equals("区域名称")){
 //					if (null != mN && !mN.trim().equals("")) {
@@ -66,8 +75,24 @@ public class VideoInfoDialog {
 //					}
 //				}
 //				
-//				mAddDialogcallback.refreshdata();
-//				dismiss();
+				((VideoFragment)mAddDialogcallback).updateVideoList(videoNode);
+				dismiss();
+			}
+
+			private VideoNode getVideoNode() {
+				String ipString=ipEditText.getText().toString();
+				String port=portEditText.getText().toString();
+				String nameString=userNameEdit.getText().toString();
+				String passwordString=passworeEditText.getText().toString();
+				String aliase=aliasEditText.getText().toString();
+				
+				VideoNode videoNode=new VideoNode();
+				videoNode.setAliases(aliase);
+				videoNode.setHttpport(port);
+				videoNode.setIpc_ipaddr(ipString);
+				videoNode.setName(nameString);
+				videoNode.setPassword(passwordString);
+				return videoNode;
 			}
 		});
 
@@ -81,50 +106,50 @@ public class VideoInfoDialog {
 		});
 	}
 
-	protected void saveScene(String trim) {
-		// TODO Auto-generated method stub
-		getFromSharedPreferences.setharedPreferences(mContext);
-		DevicesGroup dg=new DevicesGroup(mContext);
-		dg.setDevicesState(false);
-		dg.setEp("");
-		dg.setIeee("-1");
-		dg.setGroupName(trim);
-		dg.setGroupId(getFromSharedPreferences.getSceneId());
-		dg.setDevicesValue(0);
-		DataHelper dh=new DataHelper(mContext);
-		ArrayList<DevicesGroup> al=new ArrayList<DevicesGroup>();
-		al.add(dg);
-		for (DevicesGroup devicesGroup : al) {
-			dh.insertGroup(dh.getReadableDatabase(), DataHelper.GROUP_TABLE, null,devicesGroup.convertContentValues());
-		}
-		
-	}
+//	protected void saveScene(String trim) {
+//		// TODO Auto-generated method stub
+//		getFromSharedPreferences.setharedPreferences(mContext);
+//		DevicesGroup dg=new DevicesGroup(mContext);
+//		dg.setDevicesState(false);
+//		dg.setEp("");
+//		dg.setIeee("-1");
+//		dg.setGroupName(trim);
+//		dg.setGroupId(getFromSharedPreferences.getSceneId());
+//		dg.setDevicesValue(0);
+//		DataHelper dh=new DataHelper(mContext);
+//		ArrayList<DevicesGroup> al=new ArrayList<DevicesGroup>();
+//		al.add(dg);
+//		for (DevicesGroup devicesGroup : al) {
+//			dh.insertGroup(dh.getReadableDatabase(), DataHelper.GROUP_TABLE, null,devicesGroup.convertContentValues());
+//		}
+//		
+//	}
 
-	protected void saveRegion(String mN) {
-		// TODO Auto-generated method stub
-		List<String> mList = new ArrayList<String>();
-		String[] mregions = null;
-		getFromSharedPreferences.setharedPreferences(mContext);
-		String reg = getFromSharedPreferences.getRegion();
-		if (null != reg && !reg.trim().equals("")) {
-			mregions = reg.split("@@");
-		}
-		if (null != mregions) {
-			for (String string : mregions) {
-				if (!string.equals("")) {
-					mList.add(string);
-				}
-			}
-		}
-		if (!mList.contains(mN)) {
-			mList.add(mN);
-		}
-		StringBuilder ms = new StringBuilder();
-		for (String string : mList) {
-			ms.append(string + "@@");
-		}
-		getFromSharedPreferences.setRegion(ms.toString());
-	}
+//	protected void saveRegion(String mN) {
+//		// TODO Auto-generated method stub
+//		List<String> mList = new ArrayList<String>();
+//		String[] mregions = null;
+//		getFromSharedPreferences.setharedPreferences(mContext);
+//		String reg = getFromSharedPreferences.getRegion();
+//		if (null != reg && !reg.trim().equals("")) {
+//			mregions = reg.split("@@");
+//		}
+//		if (null != mregions) {
+//			for (String string : mregions) {
+//				if (!string.equals("")) {
+//					mList.add(string);
+//				}
+//			}
+//		}
+//		if (!mList.contains(mN)) {
+//			mList.add(mN);
+//		}
+//		StringBuilder ms = new StringBuilder();
+//		for (String string : mList) {
+//			ms.append(string + "@@");
+//		}
+//		getFromSharedPreferences.setRegion(ms.toString());
+//	}
 
 	public void setContent(String content) {
 		textView.setText(content);
