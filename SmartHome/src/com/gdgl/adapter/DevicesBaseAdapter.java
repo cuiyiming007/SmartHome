@@ -161,7 +161,7 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
         } else if (mDevices.getmDeviceId() == DataHelper.LIGHT_SENSOR_DEVICETYPE) {
             mHolder.devices_state.setText("亮度: "+mDevices.getmValue());
         } else if (mDevices.getmDeviceId() == DataHelper.TEMPTURE_SENSOR_DEVICETYPE) {
-            mHolder.devices_state.setText("温度: "+mDevices.getmValue()+"°C,湿度: "+mDevices.getHumidityValue());
+            mHolder.devices_state.setText("温度: "+mDevices.getmValue()+"°C,湿度: "+mDevices.getHumidityValue()+"%");
         }else if(mDevices.getmModelId().indexOf(
 				DataHelper.RS232_adapter) == 0){
         	mHolder.devices_state.setText("一键操作");

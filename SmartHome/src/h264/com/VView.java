@@ -112,7 +112,7 @@ public class VView extends View implements Runnable {
 	private void setPortrait() {
 		this.newWidth = this.gdeviceWith;// ���ſ�ȵ����豸���
 		// ���ź�ĸ�=ԭͼ���x���ű���
-		this.newHeight = (h264Height * newWidth / h264Width) + 100;
+		this.newHeight = (h264Height * newWidth / h264Width);
 		// top = (this.gdeviceHeight - newHeight) / 2 - 50;
 		top = 80;
 		left = 0;

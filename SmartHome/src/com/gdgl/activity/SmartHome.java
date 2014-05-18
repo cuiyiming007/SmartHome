@@ -1,5 +1,7 @@
 package com.gdgl.activity;
 
+import h264.com.VideoInfoDialog;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -144,6 +146,14 @@ public class SmartHome extends FragmentActivity implements OnRefreshListener<Vie
 					Intent i=new Intent();
 					i.setClass(SmartHome.this, AddCommonUsedActivity.class);
 					startActivity(i);
+				}
+				else if(4==mCurrentTab){
+					VideoInfoDialog mAddDlg=new VideoInfoDialog(SmartHome.this, AddDlg.REGION);
+					mAddDlg.setContent("添加区域");
+					mAddDlg.setType("区域名称");
+					mAddDlg.setDialogCallback(SmartHome.this);
+					mAddDlg.show();
+					
 				}
 			}
 		});
