@@ -85,12 +85,11 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 	private String devicesIeee = "";
 
 	public static final String ACTIVITY_SHOW_DEVICES_TYPE = "activity_show_devices_type";
-	public static final int cacheSize = 512 * 1024;
 	boolean isDelete = false;
 
 	TextView title;
-	LinearLayout parents_need, devices_need;
-	Button mDelete;
+//	LinearLayout parents_need, devices_need;
+//	Button mDelete;
 	Button set;
 
 	LightManager temptureManager;
@@ -102,21 +101,12 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		protected Integer doInBackground(Integer... params) {
 			// TODO Auto-generated method stub
 			List<SimpleDevicesModel> temPlist;
-			temPlist = DataUtil.getOtherManagementDevices(
-					ShowDevicesGroupFragmentActivity.this, mDataHelper,
-					UiUtils.ENVIRONMENTAL_CONTROL);
-			mDevicesListCache.put(UiUtils.ENVIRONMENTAL_CONTROL, temPlist);
-			if (null != temPlist && temPlist.size() > 0) {
-				for (SimpleDevicesModel sd : temPlist) {
-					if (sd.getmModelId().indexOf(
-							DataHelper.Indoor_temperature_sensor) == 0) {
-						temptureManager.temperatureSensorOperation(sd, 0);
-						temptureManager.temperatureSensorOperation(sd, 1);
-					} else if (sd.getmModelId()
-							.indexOf(DataHelper.Light_Sensor) == 0) {
-						temptureManager.lightSensorOperation(sd, 0);
-					}
-				}
+			temPlist=mDevicesListCache.get(UiUtils.ENVIRONMENTAL_CONTROL);
+			if(null==temPlist){
+				temPlist = DataUtil.getOtherManagementDevices(
+						ShowDevicesGroupFragmentActivity.this, mDataHelper,
+						UiUtils.ENVIRONMENTAL_CONTROL);
+				mDevicesListCache.put(UiUtils.ENVIRONMENTAL_CONTROL, temPlist);
 			}
 
 			List<SimpleDevicesModel> safeList = mDevicesListCache
@@ -127,8 +117,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 						UiUtils.SECURITY_CONTROL);
 				mDevicesListCache.put(UiUtils.SECURITY_CONTROL, safeList);
 			}
-			mDeviceManager.getLocalCIEList();
-
+			
 			List<SimpleDevicesModel> LightList = mDevicesListCache
 					.get(UiUtils.LIGHTS_MANAGER);
 			if (null == LightList) {
@@ -163,12 +152,31 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 						UiUtils.OTHER);
 				mDevicesListCache.put(UiUtils.OTHER, anoList);
 			}
-
-			return null;
+			return 1;
 		}
-
+		
+		@Override
+		protected void onPostExecute(Integer result) {
+			// TODO Auto-generated method stub
+			if(1==result){
+				List<SimpleDevicesModel> temPlist;
+				temPlist=mDevicesListCache.get(UiUtils.ENVIRONMENTAL_CONTROL);
+				if (null != temPlist && temPlist.size() > 0) {
+					for (SimpleDevicesModel sd : temPlist) {
+						if (sd.getmModelId().indexOf(
+								DataHelper.Indoor_temperature_sensor) == 0) {
+							temptureManager.temperatureSensorOperation(sd, 0);
+							temptureManager.temperatureSensorOperation(sd, 1);
+						} else if (sd.getmModelId()
+								.indexOf(DataHelper.Light_Sensor) == 0) {
+							temptureManager.lightSensorOperation(sd, 0);
+						}
+					}
+				}
+			}
+		}
 	}
-
+	
 	public class GetDataTask extends
 			AsyncTask<Void, Void, List<SimpleDevicesModel>> {
 
@@ -188,7 +196,72 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 			mDevicesListFragment.stopRefresh();
 		}
 	}
-
+	
+	
+	public class getDataInBackgroundTaskByPostion extends AsyncTask<Integer, Integer, Integer> {
+		@Override
+		protected Integer doInBackground(Integer... params) {
+			// TODO Auto-generated method stub
+			List<SimpleDevicesModel> temPlist;
+			int postion=params[0];
+			switch (postion) {
+			case UiUtils.LIGHTS_MANAGER:
+				temPlist=DataUtil.getOtherManagementDevices(
+						ShowDevicesGroupFragmentActivity.this, mDataHelper,
+						UiUtils.LIGHTS_MANAGER);
+				mDevicesListCache.put(UiUtils.LIGHTS_MANAGER, temPlist);
+				break;
+			
+			case UiUtils.ELECTRICAL_MANAGER:
+				temPlist=DataUtil.getOtherManagementDevices(
+						ShowDevicesGroupFragmentActivity.this, mDataHelper,
+						UiUtils.ELECTRICAL_MANAGER);
+				mDevicesListCache.put(UiUtils.ELECTRICAL_MANAGER, temPlist);
+				break;
+			
+			case UiUtils.ENVIRONMENTAL_CONTROL:
+				temPlist=DataUtil.getOtherManagementDevices(
+						ShowDevicesGroupFragmentActivity.this, mDataHelper,
+						UiUtils.ENVIRONMENTAL_CONTROL);
+				mDevicesListCache.put(UiUtils.ENVIRONMENTAL_CONTROL, temPlist);
+				break;
+			
+			case UiUtils.SECURITY_CONTROL:
+				temPlist=DataUtil.getOtherManagementDevices(
+						ShowDevicesGroupFragmentActivity.this, mDataHelper,
+						UiUtils.SECURITY_CONTROL);
+				mDevicesListCache.put(UiUtils.SECURITY_CONTROL, temPlist);
+				break;
+				
+			case UiUtils.ENERGY_CONSERVATION:
+				temPlist=DataUtil.getOtherManagementDevices(
+						ShowDevicesGroupFragmentActivity.this, mDataHelper,
+						UiUtils.ENERGY_CONSERVATION);
+				mDevicesListCache.put(UiUtils.ENERGY_CONSERVATION, temPlist);
+				break;
+				
+			case UiUtils.OTHER:
+				temPlist=DataUtil.getOtherManagementDevices(
+						ShowDevicesGroupFragmentActivity.this, mDataHelper,
+						UiUtils.OTHER);
+				mDevicesListCache.put(UiUtils.OTHER, temPlist);
+				break;	
+			default:
+				break;
+			}
+			return 1;
+		}
+		@Override
+		protected void onPostExecute(Integer result) {
+			// TODO Auto-generated method stub
+			if(1==result){
+				if (null != mDevicesListCache.get(type)) {
+					mCurrentList = mDevicesListCache.get(type);
+				}
+			}
+		}
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -216,7 +289,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 			mNoDevices.setVisibility(View.VISIBLE);
 		}
 	}
-
+	
 	private void initTitle() {
 		// TODO Auto-generated method stub
 		final MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
@@ -232,21 +305,6 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		});
 
 		title = (TextView) findViewById(R.id.title);
-		parents_need = (LinearLayout) findViewById(R.id.parent_need);
-		devices_need = (LinearLayout) findViewById(R.id.devices_need);
-
-		mDelete = (Button) findViewById(R.id.delete);
-		mDelete.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-//				mMyOkCancleDlg.setContent("确定要删除"
-//						+ getCurrentDeviceByIeee(devicesIeee).getmNodeENNAme()
-//						+ "吗?");
-//				mMyOkCancleDlg.show();
-			}
-		});
 		set = (Button) findViewById(R.id.set);
 		set.setOnClickListener(new OnClickListener() {
 
@@ -317,7 +375,9 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		mDevicesListCache = new HashMap<Integer, List<SimpleDevicesModel>>();
 		mDevicesListCache.put(type, list);
 		fragmentManager = this.getFragmentManager();
-
+		
+		mDeviceManager.getLocalCIEList();
+		
 		new getDataInBackgroundTask().execute(1);
 	}
 
@@ -339,6 +399,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		if (fragmentManager.getBackStackEntryCount() > 0) {
 			fragmentManager.popBackStack();
 			initTitleByTag(mListIndex);
+			setdata(mCurrentList);
 		} else {
 			finish();
 		}
@@ -378,41 +439,8 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 			}
 		});
 	}
-
-	public void changeForCoverFlow(int p) {
-		if (fragmentManager.getBackStackEntryCount() > 0) {
-			fragmentManager.popBackStack();
-		}
-		if (mListIndex != p) {
-			mListIndex = p;
-			devicesIeee = "";
-			refreshAdapter(mListIndex);
-		}
-		if (null == mCurrentList || mCurrentList.size() == 0) {
-			mNoDevices.setVisibility(View.VISIBLE);
-		} else {
-			mNoDevices.setVisibility(View.GONE);
-		}
-		initTitleByTag(mListIndex);
-	}
-
-	public void refreshAdapter(int postion) {
-		mCurrentList = null;
-		postion = mListIndex;
-		int type = types[postion];
-		if (null != mDevicesListCache.get(type)) {
-			mCurrentList = mDevicesListCache.get(type);
-		} else {
-			if (type == UiUtils.LIGHTS_MANAGER) {
-				mCurrentList = DataUtil.getLightingManagementDevices(
-						ShowDevicesGroupFragmentActivity.this, mDataHelper);
-			} else {
-				mCurrentList = DataUtil.getOtherManagementDevices(
-						ShowDevicesGroupFragmentActivity.this, mDataHelper,
-						type);
-			}
-			mDevicesListCache.put(type, mCurrentList);
-		}
+	
+	public void requestData(int postion){
 		if (UiUtils.ENVIRONMENTAL_CONTROL == postion) {
 			if (null != mCurrentList && mCurrentList.size() > 0) {
 				for (SimpleDevicesModel sd : mCurrentList) {
@@ -429,6 +457,33 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		} else if (UiUtils.SECURITY_CONTROL == postion) {
 			mDeviceManager.getLocalCIEList();
 		}
+	}
+	
+	public void changeForCoverFlow(int p) {
+		if (fragmentManager.getBackStackEntryCount() > 0) {
+			fragmentManager.popBackStack();
+		}
+		if (mListIndex != p) {
+			mListIndex = p;
+			devicesIeee = "";
+			requestData(mListIndex);
+			refreshAdapter(mListIndex);
+		}
+		if (null == mCurrentList || mCurrentList.size() == 0) {
+			mNoDevices.setVisibility(View.VISIBLE);
+		} else {
+			mNoDevices.setVisibility(View.GONE);
+		}
+		initTitleByTag(mListIndex);
+	}
+
+	public void refreshAdapter(int postion) {
+		mCurrentList = null;
+		postion = mListIndex;
+		int type = types[postion];
+		if (null != mDevicesListCache.get(type)) {
+			mCurrentList = mDevicesListCache.get(type);
+		} 
 		setdata(mCurrentList);
 	}
 
@@ -466,16 +521,16 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 
 	public void initTitleByTag(int postion) {
 		title.setText(tags[postion]);
-		parents_need.setVisibility(View.VISIBLE);
-		devices_need.setVisibility(View.GONE);
+//		parents_need.setVisibility(View.VISIBLE);
+//		devices_need.setVisibility(View.GONE);
 	}
 
 	public void initTitleByDevices(String devicesId) {
 		SimpleDevicesModel ms = getCurrentDeviceByIeee(devicesIeee);
 		if (null != ms) {
 			title.setText(ms.getmUserDefineName().replace(" ", ""));
-			parents_need.setVisibility(View.GONE);
-			devices_need.setVisibility(View.VISIBLE);
+//			parents_need.setVisibility(View.GONE);
+//			devices_need.setVisibility(View.VISIBLE);
 		}
 
 	}
@@ -536,24 +591,45 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 	}
 
 	@Override
-	public boolean updateDevices(String Ieee, String ep, ContentValues c) {
+	public boolean updateDevices(SimpleDevicesModel sd, ContentValues c) {
 		// TODO Auto-generated method stub
 		String where = " ieee = ? and ep = ?";
+		String Ieee=sd.getmIeee().trim();
+		String ep=sd.getmEP().trim();
 		String[] args = { Ieee, ep };
 		SQLiteDatabase mSQLiteDatabase = mDataHelper.getSQLiteDatabase();
 		int result = mDataHelper.update(mSQLiteDatabase,
 				DataHelper.DEVICES_TABLE, c, where, args);
 		// mDataHelper
 		if (result >= 0) {
-
-			mDevicesListCache.clear();
+			int m=getPostionInList(Ieee,ep,mCurrentList);
+			if(-1!=m){
+				mDevicesListCache.get(mListIndex).remove(m);
+				mDevicesListCache.get(mListIndex).add(sd);
+			}
 			refreshAdapter(mListIndex);
 
 			return true;
 		}
 		return false;
 	}
-
+	
+	public int getPostionInList(String ieee,String ep,List<SimpleDevicesModel> list){
+		if(ieee==null || ep==null || list==null || list.size()==0){
+			return -1;
+		}else{
+			for(int m=0;m<list.size();m++){
+				SimpleDevicesModel sd=list.get(m);
+				if(ieee.trim().equals(sd.getmIeee().trim()) && 
+						ep.trim().equals(sd.getmEP().trim())){
+					return m;
+				}
+			}
+		}
+		return -1;
+	}
+	
+	
 	@Override
 	public void saveedit(String ieee, String ep, String name) {
 		// TODO Auto-generated method stub
@@ -622,7 +698,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 							.setmValue(
 									String.valueOf(Float.valueOf(data
 											.getParam1()) / 1000));
-					if (4 == mListIndex) {
+					if (UiUtils.ENVIRONMENTAL_CONTROL == mListIndex) {
 						mCurrentList = temList;
 						title.post(new Runnable() {
 							@Override
@@ -642,7 +718,8 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 
 				List<SimpleDevicesModel> safeList = mDevicesListCache
 						.get(UiUtils.SECURITY_CONTROL);
-
+				
+				List<SimpleDevicesModel> updatsLis=new ArrayList<SimpleDevicesModel>();
 				if (null != devDataList && devDataList.size() > 0) {
 					for (int i = 0; i < devDataList.size(); i++) {
 						CIEresponse_params cp = devDataList.get(i);
@@ -650,9 +727,12 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 								.getCie().getEp(), safeList);
 						if (-1 != m) {
 							String s = cp.getCie().getElserec().getBbypass();
-							safeList.get(m).setmOnOffStatus(
-									s == null ? "0" : (s.trim().toLowerCase()
-											.equals("true") ? "1" : "0"));
+							String status=s.trim().toLowerCase()
+									.equals("true") ? "1" : "0";
+							if(!status.equals(safeList.get(m).getmOnOffStatus())){
+								safeList.get(m).setmOnOffStatus(status);
+								updatsLis.add(safeList.get(m));
+							}
 						}
 					}
 					if (UiUtils.SECURITY_CONTROL == mListIndex) {
@@ -663,6 +743,9 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 								setdata(mCurrentList);
 							}
 						});
+					}
+					if(null!=updatsLis && updatsLis.size()>0){
+						new UpdateDatabaseTask().execute(updatsLis);
 					}
 				}
 
@@ -677,8 +760,8 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 //					List<SimpleDevicesModel> temList = mDevicesListCache
 //							.get(UiUtils.ENVIRONMENTAL_CONTROL);
 					
-					temList.get(m).setHumidityValue(String.valueOf(Float.valueOf(data.getParam1())/1000)+"%RH");
-					if (4 == mListIndex) {
+					temList.get(m).setHumidityValue(String.valueOf(Float.valueOf(data.getParam1())/1000));
+					if (UiUtils.ENVIRONMENTAL_CONTROL == mListIndex) {
 						mCurrentList = temList;
 						title.post(new Runnable() {
 							@Override
@@ -694,7 +777,33 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		}
 
 	}
+	
+	public class UpdateDatabaseTask extends AsyncTask<List<SimpleDevicesModel>, Integer, Integer>{
 
+		@Override
+		protected Integer doInBackground(List<SimpleDevicesModel>... params) {
+			// TODO Auto-generated method stub
+			List<SimpleDevicesModel> updateList=params[0];
+			if(null==updateList || updateList.size()==0){
+				return null;
+			}else{
+				String where=" ieee=? and ep=? ";
+				ContentValues v;
+				SQLiteDatabase db=mDataHelper.getSQLiteDatabase();
+				for (SimpleDevicesModel simpleDevicesModel : updateList) {
+					String[] args={simpleDevicesModel.getmIeee().trim(),simpleDevicesModel.getmEP().trim()};
+					String status=simpleDevicesModel.getmOnOffStatus();
+					v=new ContentValues();
+					v.put(DevicesModel.ON_OFF_STATUS, status=="1"?"1":"0");
+					mDataHelper.update(db, DataHelper.DEVICES_TABLE, v, where, args);
+				}
+				mDataHelper.close(db);
+			}
+			return null;
+		}
+		
+	}
+	
 	private int getDevicesPostion(String ieee, String ep,
 			List<SimpleDevicesModel> temList) {
 		if (null == ieee || null == ep) {

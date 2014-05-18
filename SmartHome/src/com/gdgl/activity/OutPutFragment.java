@@ -115,7 +115,7 @@ public class OutPutFragment extends BaseControlFragment {
 		txt_devices_region = (TextView) mView
 				.findViewById(R.id.txt_devices_region);
 
-		txt_devices_name.setText(mDevices.getmNodeENNAme());
+		txt_devices_name.setText(mDevices.getmUserDefineName());
 		txt_devices_region.setText(mDevices.getmDeviceRegion());
 
 		setImagRes(on_off, status);
@@ -180,10 +180,10 @@ public class OutPutFragment extends BaseControlFragment {
 				status = !status;
 				
 				setImagRes(on_off, status);
-				
+				mDevices.setmOnOffStatus(status ? "1" : "o");
 				ContentValues c = new ContentValues();
 				c.put(DevicesModel.ON_OFF_STATUS, status ? "1" : "o");
-				mUpdateDevice.updateDevices(Ieee, ep, c);
+				mUpdateDevice.updateDevices(mDevices, c);
 			}else {
 				//if failed,prompt a Toast
 				mError.setVisibility(View.VISIBLE);

@@ -166,6 +166,7 @@ public class WarnningControlFragment extends BaseControlFragment {
 			mDialog.dismiss();
 			mDialog = null;
 		}
+		
 		final Event event = (Event) object;
 		if (EventType.IASWARNINGDEVICOPERATION == event.getType()) {
 			
@@ -180,7 +181,8 @@ public class WarnningControlFragment extends BaseControlFragment {
 
 				ContentValues c = new ContentValues();
 				c.put(DevicesModel.ON_OFF_STATUS, status ? "1" : "o");
-				mUpdateDevice.updateDevices(Ieee, ep, c);
+				mDevices.setmOnOffStatus(status ? "1" : "o");
+				mUpdateDevice.updateDevices(mDevices, c);
 			} else {
 				// if failed,prompt a Toast
 				mError.setVisibility(View.VISIBLE);

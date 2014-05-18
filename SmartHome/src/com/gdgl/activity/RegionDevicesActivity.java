@@ -8,6 +8,7 @@ import org.apache.http.entity.mime.MinimalField;
 
 import com.gdgl.activity.BaseControlFragment.UpdateDevice;
 import com.gdgl.activity.DevicesListFragment.refreshData;
+import com.gdgl.activity.DevicesListFragment.setData;
 import com.gdgl.adapter.AllDevicesAdapter;
 import com.gdgl.adapter.AllDevicesAdapter.AddChecked;
 import com.gdgl.adapter.DevicesBaseAdapter;
@@ -43,7 +44,7 @@ import android.widget.TextView;
 
 public class RegionDevicesActivity extends Activity implements DevicesObserver,
 		AddChecked, refreshData, UpdateDevice, EditDialogcallback,
-		Dialogcallback {
+		Dialogcallback,setData {
 	public static final String REGION_NAME = "region_name";
 
 	private String mRegion = "";
@@ -174,7 +175,8 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 					ContentValues c = new ContentValues();
 					c.put(DevicesModel.DEVICE_REGION, mRegion);
 					for (SimpleDevicesModel s : mAddToRegionList) {
-						updateDevices(s.getmIeee(), s.getmEP(), c);
+						s.setmDeviceRegion(mRegion);
+						updateDevices(s, c);
 					}
 					mAddToRegionList.clear();
 					initRegionDevicesList();
@@ -332,8 +334,9 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 	}
 
 	@Override
-	public boolean updateDevices(String Ieee, String ep, ContentValues c) {
+	public boolean updateDevices(SimpleDevicesModel sd, ContentValues c) {
 		// TODO Auto-generated method stub
+		String ep=sd.getmEP().trim();
 		int result=0;
 		String[] eps={ep};
 		if(ep.contains(",")){
@@ -341,7 +344,7 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 		} 
 		for (String string : eps) {
 			String wheres = " ieee = ? and ep = ?";
-			String[] args = { Ieee ,string };
+			String[] args = { sd.getmIeee() ,string };
 			SQLiteDatabase mSQLiteDatabase = mDataHelper.getSQLiteDatabase();
 			int temp = mDataHelper.update(mSQLiteDatabase,
 					DataHelper.DEVICES_TABLE, c, wheres, args);
@@ -478,6 +481,13 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 				finish();
 			}
 		}
+	}
+
+
+	@Override
+	public void setdata(List<SimpleDevicesModel> list) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

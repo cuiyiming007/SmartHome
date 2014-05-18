@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.gdgl.activity.BaseControlFragment.UpdateDevice;
 import com.gdgl.activity.DevicesListFragment.refreshData;
+import com.gdgl.activity.DevicesListFragment.setData;
 import com.gdgl.adapter.SceneDevicesAdapter;
 import com.gdgl.adapter.SceneDevicesAdapter.AddChecked;
 import com.gdgl.adapter.SceneDevicesListAdapter;
@@ -45,7 +46,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class SceneDevicesActivity extends Activity implements DevicesObserver,
-		AddChecked, refreshData, UpdateDevice,EditDialogcallback,Dialogcallback {
+		AddChecked, refreshData, UpdateDevice,EditDialogcallback,Dialogcallback,setData {
 	public static final String SCENE_NAME = "scene_name";
 
 	private String mScene = "";
@@ -207,7 +208,8 @@ public class SceneDevicesActivity extends Activity implements DevicesObserver,
 				}else{
 					isAdd=false;
 					for (DevicesGroup s : mAddToSceneList) {
-						updateDevices(s.getIeee(), s.getEp(), s.convertContentValues());
+						SimpleDevicesModel sd=new SimpleDevicesModel();
+						updateDevices(sd, s.convertContentValues());
 					}
 					mAddToSceneList.clear();
 					initSceneDevicesList();
@@ -372,7 +374,7 @@ public class SceneDevicesActivity extends Activity implements DevicesObserver,
 	}
 
 	@Override
-	public boolean updateDevices(String Ieee, String ep, ContentValues c) {
+	public boolean updateDevices(SimpleDevicesModel sd, ContentValues c) {
 		// TODO Auto-generated method stub
 		int result=0;
 		SQLiteDatabase mSQLiteDatabase = mDataHelper.getSQLiteDatabase();
@@ -488,5 +490,11 @@ public class SceneDevicesActivity extends Activity implements DevicesObserver,
 			value=v;
 			sModel=s;
 		}
+	}
+
+	@Override
+	public void setdata(List<SimpleDevicesModel> list) {
+		// TODO Auto-generated method stub
+		
 	}
 }
