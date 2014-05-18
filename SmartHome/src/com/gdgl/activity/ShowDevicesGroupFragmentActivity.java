@@ -241,10 +241,10 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				mMyOkCancleDlg.setContent("确定要删除"
-						+ getCurrentDeviceByIeee(devicesIeee).getmNodeENNAme()
-						+ "吗?");
-				mMyOkCancleDlg.show();
+//				mMyOkCancleDlg.setContent("确定要删除"
+//						+ getCurrentDeviceByIeee(devicesIeee).getmNodeENNAme()
+//						+ "吗?");
+//				mMyOkCancleDlg.show();
 			}
 		});
 		set = (Button) findViewById(R.id.set);

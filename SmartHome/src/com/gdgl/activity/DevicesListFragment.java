@@ -88,7 +88,6 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		Log.i(TAG, "zzz->onCreateView");
 		mView = inflater.inflate(R.layout.devices_list_fragment, null);
 		initView();
 		return mView;
@@ -96,7 +95,6 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter {
 
 	private void initView() {
 		// TODO Auto-generated method stub
-		Log.i(TAG, "zzz->initView");
 
 		list_root = (LinearLayout) mView.findViewById(R.id.list_root);
 		setLayout();

@@ -1,6 +1,6 @@
 package com.gdgl.activity;
 /***
- *智能插座，墙面插座
+ *智能插座，墙面插座，开关模块
  */
 import java.util.List;
 
