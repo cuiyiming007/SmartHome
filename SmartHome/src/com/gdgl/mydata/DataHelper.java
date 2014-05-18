@@ -7,6 +7,7 @@ import com.gdgl.model.ContentValuesListener;
 import com.gdgl.model.DevicesGroup;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.video.VideoNode;
+import com.gdgl.util.UiUtils;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -284,7 +285,7 @@ public class DataHelper extends SQLiteOpenHelper {
 		return m;
 	}
 	
-	public int delete(SQLiteDatabase db, String table, String whereClause,
+	public int delete(Context c,SQLiteDatabase db, String table, String whereClause,
 			String[] whereArgs) {
 		String[] iees = null;
 		if (whereArgs[0].contains(",")) {
@@ -292,12 +293,33 @@ public class DataHelper extends SQLiteOpenHelper {
 		} else {
 			iees = whereArgs;
 		}
+		StringBuilder sb = new StringBuilder();
+		getFromSharedPreferences.setharedPreferences(c);
+		
+		List<String> mIeees = new ArrayList<String>();
+		String comm = getFromSharedPreferences.getCommonUsed();
+		if (null != comm && !comm.trim().equals("")) {
+			String[] result = comm.split("@@");
+			for (String string : result) {
+				if (!string.trim().equals("")) {
+					if (string.indexOf(UiUtils.DEVICES_FLAG) == 0) {
+						mIeees.add(string.replace(UiUtils.DEVICES_FLAG, "")
+								.trim());
+					}
+				}
+			}
+		}
+		
 		try {
 			for (String string : iees) {
 //				ContentValues c = new ContentValues();
 //				c.put(DevicesModel.ON_OFF_LINE, DevicesModel.DEVICE_OFF_LINE);
 //				db.update(table, c, " ieee=? ", new String[] { string });
 				db.delete(table, " ieee=? ", new String[] { string });
+				db.delete(DataHelper.GROUP_TABLE, " ieee=? ", new String[] { string });
+				if(null!=mIeees && mIeees.contains(string.trim())){
+					mIeees.remove(string.trim());
+				}
 			}
 //			db.close();
 		} catch (Exception e) {
@@ -305,7 +327,15 @@ public class DataHelper extends SQLiteOpenHelper {
 		}finally{
 			db.close();
 		}
-		
+
+		if(null!= mIeees && mIeees.size()>0){
+			for (String strings : mIeees) {
+				sb.append(UiUtils.REGION_FLAG + strings + "@@");
+			}
+		}else{
+			sb.append("@@");
+		}
+		getFromSharedPreferences.setCommonUsed(sb.toString());
 		return 0;
 	}
 	

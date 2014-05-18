@@ -555,7 +555,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 	public void dialogdo() {
 		// TODO Auto-generated method stub
 		LightManager.getInstance().deleteNode(devicesIeee);
-		mDataHelper.delete(mDataHelper.getSQLiteDatabase(),
+		mDataHelper.delete(ShowDevicesGroupFragmentActivity.this,mDataHelper.getSQLiteDatabase(),
 				DataHelper.DEVICES_TABLE, " ieee=? ",
 				new String[] { devicesIeee });
 		mDevicesListCache.remove(types[mListIndex]);
@@ -575,7 +575,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		// TODO Auto-generated method stub
 		Log.i(TAG, "tagzgs->delete id=" + id);
 		LightManager.getInstance().deleteNode(devicesIeee);
-		mDataHelper.delete(mDataHelper.getSQLiteDatabase(),
+		mDataHelper.delete(ShowDevicesGroupFragmentActivity.this,mDataHelper.getSQLiteDatabase(),
 				DataHelper.DEVICES_TABLE, " ieee=? ", new String[] { id });
 		mDevicesListCache.clear();
 		refreshAdapter(mListIndex);
