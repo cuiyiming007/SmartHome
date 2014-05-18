@@ -312,7 +312,7 @@ public class SwitchControlFragment extends BaseControlFragment implements
 				c = new ContentValues();
 				c.put(DevicesModel.ON_OFF_STATUS, mBoolean[mCurrent] ? "1"
 						: "o");
-				mUpdateDevice.updateDevices(s.getmIeee(), s.getmEP(), c);
+//				mUpdateDevice.updateDevices(s.getmIeee(), s.getmEP(), c);
 			} else {
 				// if failed,prompt a Toast
 				Toast toast=UiUtils.getToast((Context) getActivity());

@@ -124,8 +124,7 @@ public class CallbackManager extends Manger {
 				Log.i(TAG, "Callback msgType=" + msgType + "DimmerSwitch");
 				break;
 			case 7:
-				 Log.i(TAG, "Callback msgType=" + msgType +
-				 "OnOffLightSwitch");
+				Log.i(TAG, "Callback msgType=" + msgType + "OnOffLightSwitch");
 				break;
 			case 8:
 				CallbackResponseCommon IASWarmingDevice = gson.fromJson(
@@ -187,8 +186,8 @@ public class CallbackManager extends Manger {
 				break;
 			}
 		} catch (JSONException e) {
-			Log.e(TAG, "error callback json: "+response);
-//			e.printStackTrace();
+			Log.e(TAG, "error callback json: " + response);
+			// e.printStackTrace();
 		}
 
 	}
@@ -200,11 +199,11 @@ public class CallbackManager extends Manger {
 	 */
 	private void handleAttribute(CallbackResponseType2 common) {
 
-		int attributeId = Integer.parseInt(common.getAttributeId(),16);
-		int clusterId=Integer.parseInt(common.getClusterId(),16);
+		int attributeId = Integer.parseInt(common.getAttributeId(), 16);
+		int clusterId = Integer.parseInt(common.getClusterId(), 16);
 		switch (attributeId) {
 		case 0:
-			if(6==clusterId){
+			if (6 == clusterId) {
 				Event event = new Event(EventType.ON_OFF_STATUS, true);
 				event.setData(common);
 				notifyObservers(event);
@@ -216,19 +215,19 @@ public class CallbackManager extends Manger {
 		case 3:
 
 			break;
-		case 57344://E000
+		case 57344:// E000
 			Log.i(TAG, "attributeId:E000");
 			Event event = new Event(EventType.ENROLL, true);
 			event.setData(common);
 			notifyObservers(event);
 			break;
-		case 57345://0xE001:
+		case 57345:// 0xE001:
 			Log.i(TAG, "attributeId:E001");
 			break;
-		case 57346://0xE002:
+		case 57346:// 0xE002:
 			Log.i(TAG, "attributeId:E002");
 			break;
-		case 57347://0xE003:
+		case 57347:// 0xE003:
 			Log.i(TAG, "attributeId:E003");
 			break;
 
@@ -265,6 +264,29 @@ public class CallbackManager extends Manger {
 
 		noti.setLatestEventInfo(ApplicationController.getInstance(), title,
 				message, contentIntent);
+		nm.notify(R.string.app_name, noti);
+	}
+
+	void makeWarmNotify(Intent i, CallbackWarmMessage warmmessage) {
+
+		NotificationManager nm = (NotificationManager) ApplicationController
+				.getInstance().getSystemService(Context.NOTIFICATION_SERVICE);
+		Notification noti = new Notification(R.drawable.icon,
+				warmmessage.getW_description(), System.currentTimeMillis());
+		noti.flags = Notification.FLAG_AUTO_CANCEL;
+		// Intent i = new Intent(ApplicationController.getInstance(),
+		// ShowDevicesGroupFragmentActivity.class);
+		i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+				| Intent.FLAG_ACTIVITY_NEW_TASK);
+
+		// PendingIntent
+		PendingIntent contentIntent = PendingIntent.getActivity(
+				ApplicationController.getInstance(), R.string.app_name, i,
+				PendingIntent.FLAG_UPDATE_CURRENT);
+
+		noti.setLatestEventInfo(ApplicationController.getInstance(),
+				warmmessage.getW_description(), warmmessage.toString(),
+				contentIntent);
 		nm.notify(R.string.app_name, noti);
 	}
 
