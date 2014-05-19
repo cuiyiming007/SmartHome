@@ -60,6 +60,7 @@ public class SmartHome extends FragmentActivity implements OnRefreshListener<Vie
     Button mAdd;
     
     ViewPager mViewPager;
+    VideoFragment  videoFragment;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,13 +76,14 @@ public class SmartHome extends FragmentActivity implements OnRefreshListener<Vie
 		pull_refresh_viewpager.setOnRefreshListener(this);
 		
 		mViewPager = pull_refresh_viewpager.getRefreshableView();
+		videoFragment=new VideoFragment();
 
 		mList = new ArrayList<TabInfo>();
 		mList.add(new TabInfo(new CommonUseFragment()));
 		mList.add(new TabInfo(new DevicesFragment()));
 		mList.add(new TabInfo(new RegionsFragment()));
 		mList.add(new TabInfo(new ScenesFragment()));
-		mList.add(new TabInfo(new VideoFragment()));
+		mList.add(new TabInfo(videoFragment));
 
 		ViewPagerAdapter mViewPagerAdapter = new ViewPagerAdapter(
 				getSupportFragmentManager(), SmartHome.this, mList);
@@ -148,12 +150,11 @@ public class SmartHome extends FragmentActivity implements OnRefreshListener<Vie
 					startActivity(i);
 				}
 				else if(4==mCurrentTab){
-					VideoInfoDialog mAddDlg=new VideoInfoDialog(SmartHome.this, AddDlg.REGION);
-					mAddDlg.setContent("添加区域");
-					mAddDlg.setType("区域名称");
-					mAddDlg.setDialogCallback(SmartHome.this);
+					VideoInfoDialog mAddDlg=new VideoInfoDialog(SmartHome.this, VideoInfoDialog.Add,videoFragment);
+					mAddDlg.setContent("添加");
+//					mAddDlg.setType("区域名称");
+//					mAddDlg.setDialogCallback(SmartHome.this);
 					mAddDlg.show();
-					
 				}
 			}
 		});

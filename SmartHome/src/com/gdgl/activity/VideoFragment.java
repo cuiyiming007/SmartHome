@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gdgl.activity.SmartHome.refreshAdapter;
+import com.gdgl.activity.UIinterface.IFragmentCallbak;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
 import com.gdgl.manager.VideoManager;
@@ -42,15 +43,11 @@ import com.gdgl.util.MyOkCancleDlg;
 import com.gdgl.util.UiUtils;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 
-public class VideoFragment extends Fragment implements UIListener,
-		refreshAdapter, AddDialogcallback {
+public class VideoFragment extends Fragment implements UIListener,Dialogcallback,
+		IFragmentCallbak {
 	GridView content_view;
 	View mView;
 	ViewGroup nodevices;
-//	ArrayList<HashMap<String, Object>> mylist = new ArrayList<HashMap<String, Object>>();
-
-	// String[] listItemName = { "通道1", "通道2", "通道3", "通道4", "通道5" };
-//	ArrayList<VideoNode> videonodelist = new ArrayList<VideoNode>();
 
 	public static final String PASS_OBJECT = "pass_object";
 	List<VideoNode> mList;
@@ -58,7 +55,6 @@ public class VideoFragment extends Fragment implements UIListener,
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		initData();
 
@@ -108,6 +104,7 @@ public class VideoFragment extends Fragment implements UIListener,
 		} else {
 			nodevices.setVisibility(View.GONE);
 		}
+		registerForContextMenu(content_view);
 	}
 
 	@Override
@@ -213,12 +210,9 @@ public class VideoFragment extends Fragment implements UIListener,
 
 		if (1 == menuIndex) {
 			VideoInfoDialog videoInfoDialog = new VideoInfoDialog(
-					getActivity(), VideoInfoDialog.Edit);
-			videoInfoDialog.setDialogCallback(this);
-//
-//			mEditDevicesDlg.setContent("编辑"
-//					+ mDevicesModel.getmUserDefineName().trim());
-//			mEditDevicesDlg.show();
+					getActivity(), VideoInfoDialog.Edit, this,currentvVideoNode);
+			videoInfoDialog.setContent("编辑" + currentvVideoNode.getAliases());
+			 videoInfoDialog.show();
 		}
 		if (2 == menuIndex) {
 			MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
@@ -239,37 +233,41 @@ public class VideoFragment extends Fragment implements UIListener,
 				mList.clear();
 				VideoResponse videoResponse = (VideoResponse) event.getData();
 				for (int i = 0; i < videoResponse.getList().size(); i++) {
-					mList.add(videoResponse.getList().get(
-							i));
+					mList.add(videoResponse.getList().get(i));
 				}
 			}
-		} else if (event.getType() == EventType.ADDIPC) {
+		}else if (event.getType() == EventType.DELETEIPC) {
 			if (event.isSuccess()) {
-				Toast.makeText(getActivity(), "添加成功", Toast.LENGTH_SHORT).show();
-				content_view.setLayoutAnimation(UiUtils
-						.getAnimationController((Context) getActivity()));
-//				listItemName
-			}else
-			{
-				Toast.makeText(getActivity(), "添加添加失败", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity(), "删除成功!", Toast.LENGTH_SHORT).show();
+				updateDeleteVideoList(currentvVideoNode);
+			}else {
+				Toast.makeText(getActivity(), "删除失败!", Toast.LENGTH_SHORT).show();
 			}
-
 		}
 	}
 
-	public void updateVideoList(VideoNode videoNode) {
-//		listItemName[listItemName.length] = videoNode.getAliases();
+	public void updateAddVideoList(VideoNode videoNode) {
 		mList.add(videoNode);
+		content_view.setLayoutAnimation(UiUtils
+				.getAnimationController((Context) getActivity()));
+	}
+
+	public void updateDeleteVideoList(VideoNode videoNode) {
+		if (mList.contains(videoNode)) {
+			mList.remove(videoNode);
+		}
+		content_view.setLayoutAnimation(UiUtils
+				.getAnimationController((Context) getActivity()));
+	}
+	@Override
+	public void onFragmentResult(int requsetId, boolean result, Object data) {
+		if (requsetId == VideoInfoDialog.Add && result) {
+			updateAddVideoList((VideoNode) data);
+		}
 	}
 
 	@Override
-	public void refreshFragment() {
-
-	}
-
-	@Override
-	public void refreshdata() {
-		// TODO Auto-generated method stub
-
+	public void dialogdo() {
+		VideoManager.getInstance().deleteIPC(currentvVideoNode);
 	}
 }

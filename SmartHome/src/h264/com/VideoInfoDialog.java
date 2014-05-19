@@ -1,7 +1,5 @@
 package h264.com;
 
-
-
 import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
@@ -9,14 +7,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.gdgl.activity.VideoFragment;
+import com.gdgl.activity.UIinterface.IFragmentCallbak;
+import com.gdgl.manager.Manger;
+import com.gdgl.manager.UIListener;
 import com.gdgl.manager.VideoManager;
+import com.gdgl.mydata.Event;
+import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.video.VideoNode;
 import com.gdgl.smarthome.R;
-import com.gdgl.util.AddDlg.AddDialogcallback;
 
-public class VideoInfoDialog {
+public class VideoInfoDialog implements UIListener {
 	private Context mContext;
 	Dialog dialog;
 	Button save;
@@ -30,24 +32,33 @@ public class VideoInfoDialog {
 	EditText aliasEditText;
 	LinearLayout devices_region;
 	TextView text_name;
-	
-	
-	AddDialogcallback mAddDialogcallback;
-	
+	IFragmentCallbak listener;
+	VideoNode videoNode;
+
+	// AddDialogcallback mAddDialogcallback;
+
 	public static final int Add = 1;
 	public static final int Edit = 2;
 
 	int mType;
+	public VideoInfoDialog(Context c, int type, IFragmentCallbak fragmentCallbak,Object data)
+	{
+		this(c,type,fragmentCallbak);
+		videoNode=(VideoNode) data;
+		userNameEdit.setText(videoNode.getName());
+		ipEditText.setText(videoNode.getIpc_ipaddr());
+		portEditText.setText(videoNode.getHttpport());
+		passworeEditText.setText(videoNode.getPassword());
+		aliasEditText.setText(videoNode.getAliases());
+	} 
 
-	public VideoInfoDialog(Context c, int type) {
+	public VideoInfoDialog(Context c, int type, IFragmentCallbak fragmentCallbak) {
 		mContext = c;
 		mType = type;
 		dialog = new Dialog(mContext, R.style.MyDialog);
 		dialog.setContentView(R.layout.video_info_dlg);
 		textView = (TextView) dialog.findViewById(R.id.txt_title);
-
-//		devices_region = (LinearLayout) dialog
-//				.findViewById(R.id.devices_region);
+		listener = fragmentCallbak;
 
 		userNameEdit = (EditText) dialog.findViewById(R.id.edit_user_name);
 		ipEditText = (EditText) dialog.findViewById(R.id.edit_video_ip);
@@ -61,32 +72,22 @@ public class VideoInfoDialog {
 
 			@Override
 			public void onClick(View v) {
-				VideoNode videoNode=getVideoNode();
-				VideoManager.getInstance().addIPC(videoNode);
-				
-//				String mN = mName.getText().toString();
-//				if(text_name.getText().toString().trim().equals("区域名称")){
-//					if (null != mN && !mN.trim().equals("")) {
-//						saveRegion(mN.trim());
-//					}
-//				}else{
-//					if (null != mN && !mN.trim().equals("")) {
-//						saveScene(mN.trim());
-//					}
-//				}
-//				
-				((VideoFragment)mAddDialogcallback).updateVideoList(videoNode);
-				dismiss();
+				videoNode = getVideoNode();
+				if (mType == Add) {
+					VideoManager.getInstance().addIPC(videoNode);
+				} else if (mType == Edit) {
+					VideoManager.getInstance().editIPC(videoNode);
+				}
 			}
 
 			private VideoNode getVideoNode() {
-				String ipString=ipEditText.getText().toString();
-				String port=portEditText.getText().toString();
-				String nameString=userNameEdit.getText().toString();
-				String passwordString=passworeEditText.getText().toString();
-				String aliase=aliasEditText.getText().toString();
-				
-				VideoNode videoNode=new VideoNode();
+				String ipString = ipEditText.getText().toString();
+				String port = portEditText.getText().toString();
+				String nameString = userNameEdit.getText().toString();
+				String passwordString = passworeEditText.getText().toString();
+				String aliase = aliasEditText.getText().toString();
+
+				VideoNode videoNode = new VideoNode();
 				videoNode.setAliases(aliase);
 				videoNode.setHttpport(port);
 				videoNode.setIpc_ipaddr(ipString);
@@ -105,51 +106,6 @@ public class VideoInfoDialog {
 			}
 		});
 	}
-
-//	protected void saveScene(String trim) {
-//		// TODO Auto-generated method stub
-//		getFromSharedPreferences.setharedPreferences(mContext);
-//		DevicesGroup dg=new DevicesGroup(mContext);
-//		dg.setDevicesState(false);
-//		dg.setEp("");
-//		dg.setIeee("-1");
-//		dg.setGroupName(trim);
-//		dg.setGroupId(getFromSharedPreferences.getSceneId());
-//		dg.setDevicesValue(0);
-//		DataHelper dh=new DataHelper(mContext);
-//		ArrayList<DevicesGroup> al=new ArrayList<DevicesGroup>();
-//		al.add(dg);
-//		for (DevicesGroup devicesGroup : al) {
-//			dh.insertGroup(dh.getReadableDatabase(), DataHelper.GROUP_TABLE, null,devicesGroup.convertContentValues());
-//		}
-//		
-//	}
-
-//	protected void saveRegion(String mN) {
-//		// TODO Auto-generated method stub
-//		List<String> mList = new ArrayList<String>();
-//		String[] mregions = null;
-//		getFromSharedPreferences.setharedPreferences(mContext);
-//		String reg = getFromSharedPreferences.getRegion();
-//		if (null != reg && !reg.trim().equals("")) {
-//			mregions = reg.split("@@");
-//		}
-//		if (null != mregions) {
-//			for (String string : mregions) {
-//				if (!string.equals("")) {
-//					mList.add(string);
-//				}
-//			}
-//		}
-//		if (!mList.contains(mN)) {
-//			mList.add(mN);
-//		}
-//		StringBuilder ms = new StringBuilder();
-//		for (String string : mList) {
-//			ms.append(string + "@@");
-//		}
-//		getFromSharedPreferences.setRegion(ms.toString());
-//	}
 
 	public void setContent(String content) {
 		textView.setText(content);
@@ -170,10 +126,29 @@ public class VideoInfoDialog {
 	public void dismiss() {
 		dialog.dismiss();
 	}
-	
 
-	public void setDialogCallback(AddDialogcallback dialogcallback) {
-		this.mAddDialogcallback = dialogcallback;
+	@Override
+	public void update(Manger observer, Object object) {
+		final Event event = (Event) object;
+		if (event.getType() == EventType.ADDIPC) {
+			if (event.isSuccess()) {
+				Toast.makeText(mContext, "添加成功", Toast.LENGTH_SHORT).show();
+				listener.onFragmentResult(Add, true, videoNode);
+				dismiss();
+			} else {
+				Toast.makeText(mContext, "添加失败", Toast.LENGTH_SHORT).show();
+			}
+
+		} else if (event.getType() == EventType.EDITIPC) {
+			if (event.isSuccess()) {
+				Toast.makeText(mContext, "编辑成功", Toast.LENGTH_SHORT).show();
+				listener.onFragmentResult(Edit, true, videoNode);
+				dismiss();
+			} else {
+				Toast.makeText(mContext, "编辑失败", Toast.LENGTH_SHORT).show();
+			}
+		}
+
 	}
-	
+
 }
