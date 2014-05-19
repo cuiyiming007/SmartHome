@@ -259,10 +259,24 @@ public class VideoFragment extends Fragment implements UIListener,Dialogcallback
 		content_view.setLayoutAnimation(UiUtils
 				.getAnimationController((Context) getActivity()));
 	}
+	public void updateEditVideoList(VideoNode videoNode) {
+		String id=videoNode.getId();
+		for (VideoNode v : mList) {
+			if (v.getId().equals(id)) {
+				mList.remove(v);
+				mList.add(videoNode);
+				break;
+			}
+		}
+		content_view.setLayoutAnimation(UiUtils
+				.getAnimationController((Context) getActivity()));
+	}
 	@Override
 	public void onFragmentResult(int requsetId, boolean result, Object data) {
 		if (requsetId == VideoInfoDialog.Add && result) {
 			updateAddVideoList((VideoNode) data);
+		}if (requsetId==VideoInfoDialog.Edit&&result) {
+			updateEditVideoList((VideoNode) data);
 		}
 	}
 

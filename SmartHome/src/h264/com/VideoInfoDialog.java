@@ -47,7 +47,7 @@ public class VideoInfoDialog implements UIListener {
 		videoNode=(VideoNode) data;
 		userNameEdit.setText(videoNode.getName());
 		ipEditText.setText(videoNode.getIpc_ipaddr());
-		portEditText.setText(videoNode.getHttpport());
+		portEditText.setText(videoNode.getRtspport());
 		passworeEditText.setText(videoNode.getPassword());
 		aliasEditText.setText(videoNode.getAliases());
 	} 
@@ -80,21 +80,7 @@ public class VideoInfoDialog implements UIListener {
 				}
 			}
 
-			private VideoNode getVideoNode() {
-				String ipString = ipEditText.getText().toString();
-				String port = portEditText.getText().toString();
-				String nameString = userNameEdit.getText().toString();
-				String passwordString = passworeEditText.getText().toString();
-				String aliase = aliasEditText.getText().toString();
-
-				VideoNode videoNode = new VideoNode();
-				videoNode.setAliases(aliase);
-				videoNode.setHttpport(port);
-				videoNode.setIpc_ipaddr(ipString);
-				videoNode.setName(nameString);
-				videoNode.setPassword(passwordString);
-				return videoNode;
-			}
+			
 		});
 
 		cancle = (Button) dialog.findViewById(R.id.btn_cancle);
@@ -105,6 +91,23 @@ public class VideoInfoDialog implements UIListener {
 				dismiss();
 			}
 		});
+		VideoManager.getInstance().addObserver(this);
+	}
+	private VideoNode getVideoNode() {
+		String ipString = ipEditText.getText().toString();
+		String port = portEditText.getText().toString();
+		String nameString = userNameEdit.getText().toString();
+		String passwordString = passworeEditText.getText().toString();
+		String aliase = aliasEditText.getText().toString();
+
+		VideoNode videoNode = new VideoNode();
+		videoNode.setAliases(aliase);
+		videoNode.setRtspport(port);
+		videoNode.setIpc_ipaddr(ipString);
+		videoNode.setName(nameString);
+		videoNode.setPassword(passwordString);
+		videoNode.setId(this.videoNode.getId());
+		return videoNode;
 	}
 
 	public void setContent(String content) {

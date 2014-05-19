@@ -79,7 +79,7 @@ public class NetUtil {
  */
 	public String getVideoURL(String serverIP, String resource, String param) 
 	{
-		return HTTPHeadStr+serverIP+HTTPHeadStr + serverIP + URLDir + resource + "?" + param;
+		return HTTPHeadStr + serverIP + URLDir + resource + "?" + param;
 	}
 	public String getCumstomURL(String serverIP, String resource, String param) {
 		return HTTPHeadStr + serverIP + URLDir + resource + "?" + param

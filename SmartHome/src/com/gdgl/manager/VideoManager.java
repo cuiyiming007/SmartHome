@@ -77,7 +77,6 @@ public class VideoManager extends Manger{
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ipaddr", videoNode.getIpc_ipaddr());
 		paraMap.put("rtspport", videoNode.getRtspport());
-		paraMap.put("httpport", videoNode.getHttpport());
 		paraMap.put("name", videoNode.getName());
 		paraMap.put("password", videoNode.getPassword());
 		paraMap.put("alias", videoNode.getAliases());
@@ -107,7 +106,7 @@ public class VideoManager extends Manger{
 				notifyObservers(event);
 			}
 		};
-		String url = NetUtil.getInstance().getCumstomURL(
+		String url = NetUtil.getInstance().getVideoURL(
 				NetUtil.getInstance().IP, "addIPC.cgi", param);
 		StringRequest req = new StringRequest(url, responseListener,
 				errorListener);
@@ -119,7 +118,7 @@ public class VideoManager extends Manger{
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ipaddr", videoNode.getIpc_ipaddr());
 		paraMap.put("rtspport", videoNode.getRtspport());
-		paraMap.put("httpport", videoNode.getHttpport());
+		paraMap.put("id", videoNode.getId());
 		paraMap.put("name", videoNode.getName());
 		paraMap.put("password", videoNode.getPassword());
 		paraMap.put("alias", videoNode.getAliases());
@@ -149,8 +148,8 @@ public class VideoManager extends Manger{
 				notifyObservers(event);
 			}
 		};
-		String url = NetUtil.getInstance().getCumstomURL(
-				NetUtil.getInstance().IP, "editIPC.cgi", param);
+		String url = NetUtil.getInstance().getVideoURL(
+				NetUtil.getInstance().IP, "editorIPC.cgi", param);
 		StringRequest req = new StringRequest(url, responseListener,
 				errorListener);
 		ApplicationController.getInstance().addToRequestQueue(req);
@@ -189,7 +188,7 @@ public class VideoManager extends Manger{
 				notifyObservers(event);
 			}
 		};
-		String url = NetUtil.getInstance().getCumstomURL(
+		String url = NetUtil.getInstance().getVideoURL(
 				NetUtil.getInstance().IP, "deleteIPC.cgi", param);
 		StringRequest req = new StringRequest(url, responseListener,
 				errorListener);

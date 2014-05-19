@@ -1,6 +1,5 @@
 package com.gdgl.activity.UIinterface;
 
-import android.R.integer;
 
 public interface IFragmentCallbak {
 	/***
