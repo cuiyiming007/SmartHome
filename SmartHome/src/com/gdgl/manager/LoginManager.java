@@ -38,7 +38,7 @@ public class LoginManager extends Manger {
 		paraMap.put("password", accountInfo.getPassword());
 		String param = hashMap2ParamString(paraMap);
 
-		String url = NetUtil.getInstance().getCumstomURL(
+		String url = NetUtil.getInstance().getVideoURL(
 				NetUtil.getInstance().IP, "clientLogin.cgi", param);
 		JsonObjectRequest req = new JsonObjectRequest(url, null,
 				new Response.Listener<JSONObject>() {
@@ -77,7 +77,7 @@ public class LoginManager extends Manger {
 		paraMap.put("new_password", newPWD);
 		String param = hashMap2ParamString(paraMap);
 
-		String url = NetUtil.getInstance().getCumstomURL(
+		String url = NetUtil.getInstance().getVideoURL(
 				NetUtil.getInstance().IP, "modifyPassword.cgi", param);
 		JsonObjectRequest req = new JsonObjectRequest(url, null,
 				new Response.Listener<JSONObject>() {
@@ -116,7 +116,7 @@ public class LoginManager extends Manger {
 		paraMap.put("new_alias", new_alias);
 		String param = hashMap2ParamString(paraMap);
 
-		String url = NetUtil.getInstance().getCumstomURL(
+		String url = NetUtil.getInstance().getVideoURL(
 				NetUtil.getInstance().IP, "modifyAlias.cgi", param);
 		JsonObjectRequest req = new JsonObjectRequest(url, null,
 				new Response.Listener<JSONObject>() {

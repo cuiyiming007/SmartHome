@@ -40,7 +40,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 		mName=(EditText) findViewById(R.id.name);
 		mPwd=(EditText) findViewById(R.id.pwd);
 		
-		mName.setText("gdglsm");
+		mName.setText("BC6A2987D431");
 		mPwd.setText("123456");
 		mLogin.setOnClickListener(this);
 	}

@@ -77,6 +77,7 @@ public class VideoManager extends Manger{
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ipaddr", videoNode.getIpc_ipaddr());
 		paraMap.put("rtspport", videoNode.getRtspport());
+		paraMap.put("httpport", videoNode.getHttpport());
 		paraMap.put("name", videoNode.getName());
 		paraMap.put("password", videoNode.getPassword());
 		paraMap.put("alias", videoNode.getAliases());
@@ -85,7 +86,8 @@ public class VideoManager extends Manger{
 			@Override
 			public void onResponse(String response) {
 				Gson gson =new Gson();
-				VideoResponse videoResponse=gson.fromJson(response, VideoResponse.class);
+				String jsonString=UiUtils.customString(response);
+				VideoResponse videoResponse=gson.fromJson(jsonString, VideoResponse.class);
 				
 				Event event = new Event(EventType.ADDIPC, true);
 				event.setData(videoResponse);
@@ -117,8 +119,9 @@ public class VideoManager extends Manger{
 	{
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ipaddr", videoNode.getIpc_ipaddr());
+		paraMap.put("ipc_id", videoNode.getId());
 		paraMap.put("rtspport", videoNode.getRtspport());
-		paraMap.put("id", videoNode.getId());
+		paraMap.put("httpport", videoNode.getHttpport());
 		paraMap.put("name", videoNode.getName());
 		paraMap.put("password", videoNode.getPassword());
 		paraMap.put("alias", videoNode.getAliases());
@@ -127,7 +130,8 @@ public class VideoManager extends Manger{
 			@Override
 			public void onResponse(String response) {
 				Gson gson =new Gson();
-				VideoResponse videoResponse=gson.fromJson(response, VideoResponse.class);
+				String jsonString=UiUtils.customString(response);
+				VideoResponse videoResponse=gson.fromJson(jsonString, VideoResponse.class);
 				
 				Event event = new Event(EventType.ADDIPC, true);
 				event.setData(videoResponse);
@@ -149,7 +153,7 @@ public class VideoManager extends Manger{
 			}
 		};
 		String url = NetUtil.getInstance().getVideoURL(
-				NetUtil.getInstance().IP, "editorIPC.cgi", param);
+				NetUtil.getInstance().IP, "editIPC.cgi", param);
 		StringRequest req = new StringRequest(url, responseListener,
 				errorListener);
 		ApplicationController.getInstance().addToRequestQueue(req);
@@ -167,7 +171,8 @@ public class VideoManager extends Manger{
 			@Override
 			public void onResponse(String response) {
 				Gson gson =new Gson();
-				VideoResponse videoResponse=gson.fromJson(response, VideoResponse.class);
+				String jsonString=UiUtils.customString(response);
+				VideoResponse videoResponse=gson.fromJson(jsonString, VideoResponse.class);
 				
 				Event event = new Event(EventType.DELETEIPC, true);
 				event.setData(videoResponse);
