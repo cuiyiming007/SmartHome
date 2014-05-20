@@ -95,6 +95,8 @@ public class DataHelper extends SQLiteOpenHelper {
 		mStringBuilder.append(DevicesModel.MODEL_ID + " VARCHAR,");
 		mStringBuilder.append(DevicesModel.DEVICE_ID + " VARCHAR(4),");
 		mStringBuilder.append(DevicesModel.DEVICE_REGION + " VARCHAR,");
+		mStringBuilder.append(DevicesModel.CLUSTER_ID + " VARCHAR,");
+		mStringBuilder.append(DevicesModel.BIND_TO + " VARCHAR,");
 		mStringBuilder.append(DevicesModel.ALL_COUNT + " VARCHAR,");
 		mStringBuilder.append(DevicesModel.APP_VERSTION + " VARCHAR,");
 		mStringBuilder.append(DevicesModel.CUR_POWER_RESOURCE + " VARCHAR,");

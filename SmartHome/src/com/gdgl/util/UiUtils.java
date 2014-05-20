@@ -1,5 +1,8 @@
 package com.gdgl.util;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import android.app.Fragment;
 import android.content.Context;
 import android.provider.ContactsContract.Contacts.Data;
@@ -72,6 +75,24 @@ public class UiUtils {
 	public static final int ENERGY_CONSERVATION = 4;
 	public static final int OTHER = 5;
 
+	
+	public static Map<String,String> mMap;
+	static{
+		mMap=new HashMap<String, String>();
+		mMap.put("00137A000000F55A", "0006IN");
+		mMap.put("00137A000000ECBD", "0006OUT");
+		mMap.put("00137A000001184B", "0006OUT");
+		mMap.put("00137A000001122A", "0006OUT");
+		mMap.put("00137A000000BF13", "0008OUT");
+		mMap.put("00137A000000B657", "0006IN");
+		mMap.put("00137A0000010516", "0008IN");
+		mMap.put("00137A00000121C2", "0402OUT@@@0405OUT");
+		mMap.put("00137A000001181F", "0400OUT");
+		mMap.put("00137A0000010AB5", "0006IN");
+		mMap.put("00137A000000EE66", "0008IN");
+		mMap.put("00137A000000DC86", "0006IN");
+	}
+	
 	public static int getDevicesSmallIcon(int type) {
 		int result = 0;
 		switch (type) {
@@ -142,7 +163,17 @@ public class UiUtils {
 		}
 		return tags;
 	}
-
+	
+	public static String getClusterIdByIeee(String Ieee){
+		if(null==Ieee){
+			return "";
+		}
+		if(!mMap.containsKey(Ieee.trim())){
+			return "";
+		}
+		return mMap.get(Ieee.trim());
+	}
+	
 	public static int[] getImgByType(int type) {
 		int[] imgs = null;
 		switch (type) {

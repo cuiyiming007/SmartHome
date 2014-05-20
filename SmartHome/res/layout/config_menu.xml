@@ -45,66 +45,9 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_marginTop="5dp"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-
-            <ImageView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ofm_setting_icon" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_marginLeft="10dp"
-                android:gravity="center"
-                android:text="用户管理"
-                android:textColor="#000000"
-                android:textSize="15dip" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_marginTop="2dp"
-            android:background="@drawable/divider_color" />
-
-        <TextView
-            android:id="@+id/modify_pwd"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_marginLeft="35dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical"
-            android:text="修改密码"
-            android:textColor="#EE3B3B"
-            android:textSize="15dp" />
-
-        <TextView
-            android:id="@+id/modify_name"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_marginLeft="35dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical"
-            android:text="修改別名"
-            android:textColor="#20B2AA"
-            android:textSize="15dp" />
-    </LinearLayout>
-    
-    
-    <LinearLayout
         android:layout_marginTop="5dp"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
         android:orientation="vertical" >
 
         <LinearLayout
@@ -142,7 +85,7 @@
             android:layout_marginTop="10dp"
             android:gravity="center_vertical"
             android:text="设备列表"
-            android:textColor="#20B2AA"
+            android:textColor="#EE3B3B"
             android:textSize="15dp" />
 
         <TextView
@@ -155,24 +98,26 @@
             android:text="组网管理"
             android:textColor="#20B2AA"
             android:textSize="15dp" />
-        
-         <!-- <TextView
-            android:id="@+id/safe_center"
+
+        <TextView
+            android:id="@+id/bind_control"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginLeft="35dp"
             android:layout_marginTop="10dp"
             android:gravity="center_vertical"
-            android:text="安全中心"
+            android:text="设备绑定"
             android:textColor="#20B2AA"
-            android:textSize="15dp" /> -->
+            android:textSize="15dp" />
+        
+     
+        
     </LinearLayout>
-    
-    
+
     <LinearLayout
-        android:layout_marginTop="5dp"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:orientation="vertical" >
 
         <LinearLayout
@@ -195,6 +140,62 @@
                 android:textColor="#000000"
                 android:textSize="15dip" />
         </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ofm_setting_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:text="用户管理"
+                android:textColor="#000000"
+                android:textSize="15dip" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/divider_color" />
+
+        <TextView
+            android:id="@+id/modify_pwd"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:text="修改密码"
+            android:textColor="#20B2AA"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/modify_name"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:text="修改別名"
+            android:textColor="#20B2AA"
+            android:textSize="15dp" />
     </LinearLayout>
 
 </LinearLayout>

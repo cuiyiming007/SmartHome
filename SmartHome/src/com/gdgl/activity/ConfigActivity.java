@@ -26,7 +26,7 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 	int mSelectedColor = 0xffEE3B3B;
 	int mUnSelectedColor = 0xff20B2AA;
 
-	TextView modify_pwd, modify_name, join_net,all_dev ;
+	TextView modify_pwd, modify_name, join_net,all_dev,bind_control;
 	
 //	TextView safe_center;
 	TextView config_name, user_name;
@@ -102,7 +102,18 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 				changeFragment(tv, new JoinNetFragment());
 			}
 		});
+		
+		bind_control= (TextView) findViewById(R.id.bind_control);
+		bind_control.setOnClickListener(new OnClickListener() {
 
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				TextView tv = (TextView) v;
+				changeFragment(tv, new BindListFragment());
+			}
+		});
+		
 //		safe_center = (TextView) findViewById(R.id.safe_center);
 //		safe_center.setOnClickListener(new OnClickListener() {
 //

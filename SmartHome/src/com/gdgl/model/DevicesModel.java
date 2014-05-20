@@ -3,6 +3,7 @@ package com.gdgl.model;
 import com.gdgl.mydata.DevParam;
 import com.gdgl.mydata.Node;
 import com.gdgl.mydata.ResponseParamsEndPoint;
+import com.gdgl.util.UiUtils;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -23,7 +24,9 @@ interface DevicesBaseColumns extends BaseColumns {
 	public static final String IEEE = "ieee";
 	public static final String NWK_ADDR = "nwk_addr";
 	public static final String NODE_EN_NAME = "node_en_name";
-
+	public static final String CLUSTER_ID = "cluster_id";
+	public static final String BIND_TO = "bind_to";
+	
 	public static final String MANUFACTORY = "manufactory";
 	public static final String ZCL_VERSTION = "zcl_version";
 	public static final String STACK_VERSTION = "stack_version";
@@ -72,6 +75,8 @@ public class DevicesModel implements DevicesBaseColumns {
 	private String mIeee = "";
 	private String mNWKAddr = "";
 	private String mNodeENNAme = "";
+	private String mClusterID="";
+	private String mBindTo="";
 
 	private String mManufactory = "";
 	private String mZCLVersion = "";
@@ -459,6 +464,8 @@ public class DevicesModel implements DevicesBaseColumns {
 		mContentValues.put(DevicesBaseColumns.VOLTAGE_MIN, getmVoltageMin());
 		mContentValues.put(DevicesBaseColumns.ZCL_VERSTION, getmZCLVersion());
 		mContentValues.put(DevicesBaseColumns.USER_DEFINE_NAME, getmUserDefineName());
+		mContentValues.put(DevicesBaseColumns.CLUSTER_ID, getmClusterID());
+		mContentValues.put(DevicesBaseColumns.BIND_TO, getmBindTo());
 
 		return mContentValues;
 	}
@@ -507,6 +514,8 @@ public class DevicesModel implements DevicesBaseColumns {
 		setmZCLVersion(n.getZcl_version());
 		setmDeviceRegion("");
 		setmLastDateTime(System.currentTimeMillis());
+		setmClusterID(UiUtils.getClusterIdByIeee(n.getIeee()));
+		setmBindTo("");
 		setmOnOffLine(DEVICE_ON_LINE);
 	}
 
@@ -524,5 +533,21 @@ public class DevicesModel implements DevicesBaseColumns {
 
 	public void setmValue2(int mValue2) {
 		this.mValue2 = mValue2;
+	}
+
+	public String getmClusterID() {
+		return mClusterID;
+	}
+
+	public void setmClusterID(String mClusterID) {
+		this.mClusterID = mClusterID;
+	}
+
+	public String getmBindTo() {
+		return mBindTo;
+	}
+
+	public void setmBindTo(String mBindTo) {
+		this.mBindTo = mBindTo;
 	}
 }

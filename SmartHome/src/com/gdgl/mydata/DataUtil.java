@@ -176,10 +176,12 @@ public class DataUtil {
 						mSimpleDevicesModel.setmUserDefineName(mDevicesModel
 								.getmUserDefineName());
 					}
-		            if(mDevicesModel.getmCurrent()!=null && !mDevicesModel.getmCurrent().trim().equals("")){
-		            	mSimpleDevicesModel.setmValue(mDevicesModel.getmCurrent().trim());
-		            }
-		            
+					if (mDevicesModel.getmCurrent() != null
+							&& !mDevicesModel.getmCurrent().trim().equals("")) {
+						mSimpleDevicesModel.setmValue(mDevicesModel
+								.getmCurrent().trim());
+					}
+
 					list.add(mSimpleDevicesModel);
 					mMap.put(mDevicesModel.getmIeee(), n);
 					n++;
@@ -212,10 +214,12 @@ public class DataUtil {
 					mSimpleDevicesModel.setmUserDefineName(mDevicesModel
 							.getmUserDefineName());
 				}
-	            if(mDevicesModel.getmCurrent()!=null && !mDevicesModel.getmCurrent().trim().equals("")){
-	            	mSimpleDevicesModel.setmValue(mDevicesModel.getmCurrent().trim());
-	            }
-	            
+				if (mDevicesModel.getmCurrent() != null
+						&& !mDevicesModel.getmCurrent().trim().equals("")) {
+					mSimpleDevicesModel.setmValue(mDevicesModel.getmCurrent()
+							.trim());
+				}
+
 				n++;
 				list.add(mSimpleDevicesModel);
 			}
@@ -227,100 +231,173 @@ public class DataUtil {
 		return list;
 	}
 
-    public static List<SimpleDevicesModel> getOtherManagementDevices(Context c,
-            DataHelper dh, int type) {
+	public static List<SimpleDevicesModel> getOtherManagementDevices(Context c,
+			DataHelper dh, int type) {
 
-        String[] args;
-        List<String> sList = new ArrayList<String>();
-        String where = DataUtil.getWhere(type);
-        SimpleDevicesModel mSimpleDevicesModel;
-        List<DevicesModel> listDevicesModel = new ArrayList<DevicesModel>();
-        List<SimpleDevicesModel> list = new ArrayList<SimpleDevicesModel>();
-        args = DataUtil.getArgs(type);
-        
-        if(null==where || null==args){
-            return null;
-        }
-        
-        SQLiteDatabase db = dh.getSQLiteDatabase();
-        listDevicesModel = dh.queryForList(db, DataHelper.DEVICES_TABLE, null,
-                where, args, null, null, null, null);
-        DevicesModel mDevicesModel;
-        for (int m = 0; m < listDevicesModel.size(); m++) {
-            mDevicesModel = listDevicesModel.get(m);
-            mSimpleDevicesModel = new SimpleDevicesModel();
-            mSimpleDevicesModel.setID(mDevicesModel.getID());
-            mSimpleDevicesModel.setmDeviceId(Integer.parseInt(mDevicesModel
-                    .getmDeviceId()));
-            mSimpleDevicesModel.setmDeviceRegion(mDevicesModel
-                    .getmDeviceRegion());
-            mSimpleDevicesModel.setmEP(mDevicesModel.getmEP());
-            mSimpleDevicesModel.setmIeee(mDevicesModel.getmIeee());
-            mSimpleDevicesModel.setmLastDateTime(mDevicesModel
-                    .getmLastDateTime());
-            mSimpleDevicesModel.setmModelId(mDevicesModel.getmModelId());
-            mSimpleDevicesModel.setmName(mDevicesModel.getmName());
-            mSimpleDevicesModel.setmNodeENNAme(mDevicesModel.getmNodeENNAme());
-            mSimpleDevicesModel.setmOnOffLine(mDevicesModel.getmOnOffLine());
-            mSimpleDevicesModel
-                    .setmOnOffStatus(mDevicesModel.getmOnOffStatus());
-            if (mDevicesModel.getmUserDefineName() == null
-                    || mDevicesModel.getmUserDefineName().trim().equals("")) {
-                mSimpleDevicesModel.setmUserDefineName(getDefaultUserDefinname(
-                        c, mSimpleDevicesModel.getmModelId()));
-            } else {
-                mSimpleDevicesModel.setmUserDefineName(mDevicesModel
-                        .getmUserDefineName());
-            }
-            
-            if(mDevicesModel.getmCurrent()!=null && !mDevicesModel.getmCurrent().trim().equals("")){
-            	mSimpleDevicesModel.setmValue(mDevicesModel.getmCurrent().trim());
-            }
-            
-            list.add(mSimpleDevicesModel);
-        }
-        return list;
-    }
-    
-    
-    public static List<DevicesModel> getDevices(Context c,
-            DataHelper dh, int type) {
-    	
-    	String[] args;
-        List<String> sList = new ArrayList<String>();
-        String where = DataUtil.getWhere(type);
-        args = DataUtil.getArgs(type);
-    	if(UiUtils.LIGHTS_MANAGER==type){
-    		where = " model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? ";
-    		args=new String[6];
-    		args[0] = DataHelper.Energy_detection_dimming_module + "%";
+		String[] args;
+		List<String> sList = new ArrayList<String>();
+		String where = DataUtil.getWhere(type);
+		SimpleDevicesModel mSimpleDevicesModel;
+		List<DevicesModel> listDevicesModel = new ArrayList<DevicesModel>();
+		List<SimpleDevicesModel> list = new ArrayList<SimpleDevicesModel>();
+		args = DataUtil.getArgs(type);
+
+		if (null == where || null == args) {
+			return null;
+		}
+
+		SQLiteDatabase db = dh.getSQLiteDatabase();
+		listDevicesModel = dh.queryForList(db, DataHelper.DEVICES_TABLE, null,
+				where, args, null, null, null, null);
+		DevicesModel mDevicesModel;
+		for (int m = 0; m < listDevicesModel.size(); m++) {
+			mDevicesModel = listDevicesModel.get(m);
+			mSimpleDevicesModel = new SimpleDevicesModel();
+			mSimpleDevicesModel.setID(mDevicesModel.getID());
+			mSimpleDevicesModel.setmDeviceId(Integer.parseInt(mDevicesModel
+					.getmDeviceId()));
+			mSimpleDevicesModel.setmDeviceRegion(mDevicesModel
+					.getmDeviceRegion());
+			mSimpleDevicesModel.setmEP(mDevicesModel.getmEP());
+			mSimpleDevicesModel.setmIeee(mDevicesModel.getmIeee());
+			mSimpleDevicesModel.setmLastDateTime(mDevicesModel
+					.getmLastDateTime());
+			mSimpleDevicesModel.setmModelId(mDevicesModel.getmModelId());
+			mSimpleDevicesModel.setmName(mDevicesModel.getmName());
+			mSimpleDevicesModel.setmNodeENNAme(mDevicesModel.getmNodeENNAme());
+			mSimpleDevicesModel.setmOnOffLine(mDevicesModel.getmOnOffLine());
+			mSimpleDevicesModel
+					.setmOnOffStatus(mDevicesModel.getmOnOffStatus());
+			if (mDevicesModel.getmUserDefineName() == null
+					|| mDevicesModel.getmUserDefineName().trim().equals("")) {
+				mSimpleDevicesModel.setmUserDefineName(getDefaultUserDefinname(
+						c, mSimpleDevicesModel.getmModelId()));
+			} else {
+				mSimpleDevicesModel.setmUserDefineName(mDevicesModel
+						.getmUserDefineName());
+			}
+
+			if (mDevicesModel.getmCurrent() != null
+					&& !mDevicesModel.getmCurrent().trim().equals("")) {
+				mSimpleDevicesModel.setmValue(mDevicesModel.getmCurrent()
+						.trim());
+			}
+
+			list.add(mSimpleDevicesModel);
+		}
+		return list;
+	}
+
+	public static List<DevicesModel> getBindDevices(Context c, DataHelper dh) {
+
+		String[] args = new String[6];
+		args[0] = "00137A000000F55A";
+		args[1] = "00137A000000B657";
+		args[2] = "00137A0000010516";
+		args[3] = "00137A0000010AB5";
+		args[4] = "00137A000000EE66";
+		args[5] = "00137A000000DC86";
+		String where = " ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? ";
+
+		List<DevicesModel> listDevicesModel = new ArrayList<DevicesModel>();
+
+		listDevicesModel = dh.queryForList(dh.getSQLiteDatabase(),
+				DataHelper.DEVICES_TABLE, null, where, args, null, null, null,
+				null);
+		if (null != listDevicesModel && listDevicesModel.size() > 0) {
+			for (DevicesModel devicesModel : listDevicesModel) {
+				if (null == devicesModel.getmUserDefineName()
+						|| devicesModel.getmUserDefineName().trim().equals("")) {
+					devicesModel.setmUserDefineName(getDefaultUserDefinname(c,
+							devicesModel.getmModelId()));
+				}
+			}
+		}
+
+		return listDevicesModel;
+
+	}
+	
+	public static List<DevicesModel> getCanbeBindDevices(Context c, DataHelper dh) {
+
+		String[] args = new String[7];
+		args[0] = "00137A000000ECBD";
+		args[1] = "00137A000001184B";
+		args[2] = "00137A000001122A";
+		args[3] = "00137A000000BF13";
+		args[4] = "00137A00000121C2";
+		args[5] = "00137A00000121C2";
+		args[6] = "00137A000001181F";
+		String where = " ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? ";
+
+		List<DevicesModel> listDevicesModel = new ArrayList<DevicesModel>();
+
+		listDevicesModel = dh.queryForList(dh.getSQLiteDatabase(),
+				DataHelper.DEVICES_TABLE, null, where, args, null, null, null,
+				null);
+		if (null != listDevicesModel && listDevicesModel.size() > 0) {
+			for (DevicesModel devicesModel : listDevicesModel) {
+				if (null == devicesModel.getmUserDefineName()
+						|| devicesModel.getmUserDefineName().trim().equals("")) {
+					devicesModel.setmUserDefineName(getDefaultUserDefinname(c,
+							devicesModel.getmModelId()));
+				}
+			}
+		}
+
+		return listDevicesModel;
+
+	}
+	
+	public static DevicesModel getDeviceModelById(int id,DataHelper dh){
+		String where=" _id=? ";
+		String[] args={id+""};
+		SQLiteDatabase db=dh.getSQLiteDatabase();
+		List<DevicesModel> mList=dh.queryForList(db, DataHelper.DEVICES_TABLE, null, where, args, null, null, null, null);
+		if(null!=mList && mList.size()>0){
+			return mList.get(0);
+		}
+		return null;
+	}
+
+	public static List<DevicesModel> getDevices(Context c, DataHelper dh,
+			int type) {
+
+		String[] args;
+		List<String> sList = new ArrayList<String>();
+		String where = DataUtil.getWhere(type);
+		args = DataUtil.getArgs(type);
+		if (UiUtils.LIGHTS_MANAGER == type) {
+			where = " model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? ";
+			args = new String[6];
+			args[0] = DataHelper.Energy_detection_dimming_module + "%";
 			args[1] = DataHelper.Switch_Module_Single + "%";
 			args[2] = DataHelper.Wall_switch_touch + "%";
 			args[3] = DataHelper.Wall_switch_double + "%";
 			args[4] = DataHelper.Wall_switch_triple + "%";
 			args[5] = DataHelper.Dimmer_Switch + "%";
-    	}
-        
-        List<DevicesModel> listDevicesModel = new ArrayList<DevicesModel>();
-        
-        
-        
-        if(null==where || null==args){
-            return null;
-        }
-        listDevicesModel = dh.queryForList(dh.getSQLiteDatabase(), DataHelper.DEVICES_TABLE, null,
-                where, args, null, null, null, null);
-        if(null!=listDevicesModel && listDevicesModel.size()>0){
-        	for (DevicesModel devicesModel : listDevicesModel) {
-    			if(null==devicesModel.getmUserDefineName() || devicesModel.getmUserDefineName().trim().equals("")){
-    				devicesModel.setmUserDefineName(getDefaultUserDefinname(c,devicesModel.getmModelId()));
-    			}
-    		}
-        }
-        
-        return listDevicesModel;
-    }
-    
+		}
+
+		List<DevicesModel> listDevicesModel = new ArrayList<DevicesModel>();
+
+		if (null == where || null == args) {
+			return null;
+		}
+		listDevicesModel = dh.queryForList(dh.getSQLiteDatabase(),
+				DataHelper.DEVICES_TABLE, null, where, args, null, null, null,
+				null);
+		if (null != listDevicesModel && listDevicesModel.size() > 0) {
+			for (DevicesModel devicesModel : listDevicesModel) {
+				if (null == devicesModel.getmUserDefineName()
+						|| devicesModel.getmUserDefineName().trim().equals("")) {
+					devicesModel.setmUserDefineName(getDefaultUserDefinname(c,
+							devicesModel.getmModelId()));
+				}
+			}
+		}
+
+		return listDevicesModel;
+	}
 
     public static String getDefaultUserDefinname(Context c, String modelID) {
         String result = "";
