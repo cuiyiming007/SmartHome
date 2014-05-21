@@ -679,7 +679,7 @@ public class DevicesListWithGroup extends BaseFragment implements
 			} else if (devcicesId == DataHelper.LIGHT_SENSOR_DEVICETYPE) {
 				mViewHolder.devState.setText("亮度: "+ds.getmValue1());
 			} else if (devcicesId == DataHelper.TEMPTURE_SENSOR_DEVICETYPE) {
-				mViewHolder.devState.setText("温度: "+ds.getmValue1()+"°C,湿度: "+ds.getmValue2()+"%");
+				mViewHolder.devState.setText("温度: "+ds.getmValue1()+"°C\n湿度: "+ds.getmValue2()+"%");
 			} else if (ds.getmModelId().indexOf(DataHelper.RS232_adapter) == 0) {
 				mViewHolder.devState.setText("一键操作");
 			} else if (ds.getmModelId().indexOf(

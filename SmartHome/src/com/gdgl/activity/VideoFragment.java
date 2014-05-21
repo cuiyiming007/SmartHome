@@ -48,6 +48,7 @@ public class VideoFragment extends Fragment implements UIListener,Dialogcallback
 	GridView content_view;
 	View mView;
 	ViewGroup nodevices;
+	CustomeAdapter adapter;
 
 	public static final String PASS_OBJECT = "pass_object";
 	List<VideoNode> mList;
@@ -81,7 +82,8 @@ public class VideoFragment extends Fragment implements UIListener,Dialogcallback
 		nodevices = (ViewGroup) mView.findViewById(R.id.nodevices);
 		nodevices.setVisibility(View.GONE);
 		content_view = (GridView) mView.findViewById(R.id.content_view);
-		content_view.setAdapter(new CustomeAdapter());
+		adapter=new CustomeAdapter();
+		content_view.setAdapter(adapter);
 		content_view.setLayoutAnimation(UiUtils
 				.getAnimationController((Context) getActivity()));
 		content_view.setOnItemClickListener(new OnItemClickListener() {
@@ -119,7 +121,7 @@ public class VideoFragment extends Fragment implements UIListener,Dialogcallback
 		// TODO Auto-generated method stub
 		content_view.setVisibility(View.VISIBLE);
 
-		content_view.setAdapter(new CustomeAdapter());
+		content_view.setAdapter(adapter);
 		content_view.setLayoutAnimation(UiUtils
 				.getAnimationController((Context) getActivity()));
 		super.onResume();
@@ -248,16 +250,14 @@ public class VideoFragment extends Fragment implements UIListener,Dialogcallback
 
 	public void updateAddVideoList(VideoNode videoNode) {
 		mList.add(videoNode);
-		content_view.setLayoutAnimation(UiUtils
-				.getAnimationController((Context) getActivity()));
+		adapter.notifyDataSetChanged();
 	}
 
 	public void updateDeleteVideoList(VideoNode videoNode) {
 		if (mList.contains(videoNode)) {
 			mList.remove(videoNode);
 		}
-		content_view.setLayoutAnimation(UiUtils
-				.getAnimationController((Context) getActivity()));
+		adapter.notifyDataSetChanged();
 	}
 	public void updateEditVideoList(VideoNode videoNode) {
 		String id=videoNode.getId();
@@ -268,8 +268,7 @@ public class VideoFragment extends Fragment implements UIListener,Dialogcallback
 				break;
 			}
 		}
-		content_view.setLayoutAnimation(UiUtils
-				.getAnimationController((Context) getActivity()));
+		adapter.notifyDataSetChanged();
 	}
 	@Override
 	public void onFragmentResult(int requsetId, boolean result, Object data) {

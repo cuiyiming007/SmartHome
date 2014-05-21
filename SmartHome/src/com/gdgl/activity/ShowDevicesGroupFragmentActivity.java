@@ -671,7 +671,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 				int m = getDevicesPostion(data.getIeee(), data.getEp(), temList);
 				if (m != -1) {
 
-					temList.get(m).setmValue(data.getParam1()+"LUX");
+					temList.get(m).setmValue(data.getParam1()+"Lux");
 					if (UiUtils.ENVIRONMENTAL_CONTROL == mListIndex) {
 						mCurrentList = temList;
 						title.post(new Runnable() {

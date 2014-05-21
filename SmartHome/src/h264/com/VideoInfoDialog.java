@@ -1,7 +1,11 @@
 package h264.com;
 
+import java.util.ArrayList;
+
 import android.app.Dialog;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,9 +14,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gdgl.activity.UIinterface.IFragmentCallbak;
+import com.gdgl.app.ApplicationController;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
 import com.gdgl.manager.VideoManager;
+import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.video.VideoNode;
@@ -28,6 +34,7 @@ public class VideoInfoDialog implements UIListener {
 	EditText userNameEdit;
 	EditText ipEditText;
 	EditText portEditText;
+	EditText httpportEditText;
 	EditText passworeEditText;
 	EditText aliasEditText;
 	LinearLayout devices_region;
@@ -48,6 +55,7 @@ public class VideoInfoDialog implements UIListener {
 		userNameEdit.setText(videoNode.getName());
 		ipEditText.setText(videoNode.getIpc_ipaddr());
 		portEditText.setText(videoNode.getRtspport());
+		httpportEditText.setText(videoNode.getHttpport());
 		passworeEditText.setText(videoNode.getPassword());
 		aliasEditText.setText(videoNode.getAliases());
 	} 
@@ -63,6 +71,7 @@ public class VideoInfoDialog implements UIListener {
 		userNameEdit = (EditText) dialog.findViewById(R.id.edit_user_name);
 		ipEditText = (EditText) dialog.findViewById(R.id.edit_video_ip);
 		portEditText = (EditText) dialog.findViewById(R.id.edit_port);
+		httpportEditText = (EditText) dialog.findViewById(R.id.edit_http_port);
 		passworeEditText = (EditText) dialog.findViewById(R.id.edit_password);
 		aliasEditText = (EditText) dialog.findViewById(R.id.edit_alias);
 		text_name = (TextView) dialog.findViewById(R.id.text_user_name);
@@ -96,17 +105,21 @@ public class VideoInfoDialog implements UIListener {
 	private VideoNode getVideoNode() {
 		String ipString = ipEditText.getText().toString();
 		String port = portEditText.getText().toString();
+		String httpport = httpportEditText.getText().toString();
 		String nameString = userNameEdit.getText().toString();
 		String passwordString = passworeEditText.getText().toString();
 		String aliase = aliasEditText.getText().toString();
 
 		VideoNode videoNode = new VideoNode();
 		videoNode.setAliases(aliase);
+		videoNode.setHttpport(httpport);
 		videoNode.setRtspport(port);
 		videoNode.setIpc_ipaddr(ipString);
 		videoNode.setName(nameString);
 		videoNode.setPassword(passwordString);
-		videoNode.setId(this.videoNode.getId());
+		if (mType==Edit) {
+			videoNode.setId(this.videoNode.getId());
+		}
 		return videoNode;
 	}
 
@@ -136,6 +149,16 @@ public class VideoInfoDialog implements UIListener {
 		if (event.getType() == EventType.ADDIPC) {
 			if (event.isSuccess()) {
 				Toast.makeText(mContext, "添加成功", Toast.LENGTH_SHORT).show();
+				
+				DataHelper mDateHelper = new DataHelper(
+						ApplicationController.getInstance());
+				SQLiteDatabase mSQLiteDatabase = mDateHelper
+						.getSQLiteDatabase();
+			ArrayList< VideoNode> videoNodes=	 new ArrayList<VideoNode>();
+			videoNodes.add(videoNode);
+					mDateHelper.insertVideoList(mSQLiteDatabase, DataHelper.VIDEO_TABLE,
+							null,videoNodes);
+				
 				listener.onFragmentResult(Add, true, videoNode);
 				dismiss();
 			} else {
@@ -145,6 +168,17 @@ public class VideoInfoDialog implements UIListener {
 		} else if (event.getType() == EventType.EDITIPC) {
 			if (event.isSuccess()) {
 				Toast.makeText(mContext, "编辑成功", Toast.LENGTH_SHORT).show();
+				DataHelper mDateHelper = new DataHelper(
+						ApplicationController.getInstance());
+				SQLiteDatabase mSQLiteDatabase = mDateHelper
+						.getSQLiteDatabase();
+				
+				String Where = " id=?";
+				String[] args = {
+						videoNode.getId() == null ? "" : videoNode.getId().trim(),
+						 };
+				ContentValues contentValues=videoNode.convertContentValues();
+				mDateHelper.update(mSQLiteDatabase, DataHelper.VIDEO_TABLE, contentValues, Where, args);
 				listener.onFragmentResult(Edit, true, videoNode);
 				dismiss();
 			} else {

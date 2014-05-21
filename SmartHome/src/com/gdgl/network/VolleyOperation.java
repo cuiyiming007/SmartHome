@@ -20,6 +20,9 @@ import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.RespondDataEntity;
 import com.gdgl.mydata.ResponseParams;
 import com.gdgl.mydata.ResponseParamsEndPoint;
+import com.gdgl.mydata.binding.BindingDataEntity;
+import com.gdgl.mydata.binding.BindingDivice;
+import com.gdgl.mydata.binding.Binding_response_params;
 import com.gdgl.mydata.getlocalcielist.CIEresponse_params;
 import com.gdgl.util.UiUtils;
 import com.google.gson.Gson;
@@ -151,6 +154,12 @@ public class VolleyOperation {
 		return parseJSON2GetLocalCIEList(response);
 
 	}
+	public static BindingDataEntity handleBindingString(String response) {
+		// format response string to standard json string
+		response = UiUtils.formatResponseString(response);
+		return parseJSON2GetBindingList(response);
+
+	}
 
 	/***
 	 * 
@@ -221,7 +230,7 @@ public class VolleyOperation {
 	}
 	
 	/***
-	 * revert String to RespondDataEntity <ResponseParamsEndPoint>
+	 * revert String to RespondDataEntity <CIEresponse_params>
 	 * @param <T>
 	 * 
 	 * @param s
@@ -243,6 +252,40 @@ public class VolleyOperation {
 		dataEntity.setResponseparamList(list);
 		return dataEntity;
 	}
+	
+	/***
+	 * revert String to RespondDataEntity <CIEresponse_params>
+	 * @param <T>
+	 * 
+	 * @param s
+	 */
+	public static BindingDataEntity parseJSON2GetBindingList(String s) {
+		Gson gson = new Gson();
+		JsonParser parser = new JsonParser();
+		ArrayList<BindingDivice> list = new ArrayList<BindingDivice>();
+		JsonObject jsonObject = parser.parse(s).getAsJsonObject();
+		BindingDataEntity dataEntity = new BindingDataEntity();
+		JsonElement idElement=jsonObject.get("request_id");
+		dataEntity.setRequest_id(idElement.toString());
+//		JsonElement paElement=jsonObject.get("response_params");
+		JsonObject paramsoJsonObject=jsonObject.getAsJsonObject("response_params");
+		
+		Binding_response_params params=new Binding_response_params();
+		params.setIeee(paramsoJsonObject.get("ieee").toString());
+		params.setCount(paramsoJsonObject.get("count").toString());
+		params.setEp(paramsoJsonObject.get("ep").toString());
+		
+		JsonArray jsonArray = paramsoJsonObject.getAsJsonArray("list");
+		for (int i = 0; i < jsonArray.size(); i++) {
+			JsonElement el = jsonArray.get(i);
+			BindingDivice tmp = gson.fromJson(el, BindingDivice.class);
+			list.add(tmp);
+		}
+		params.setList(list);
+		dataEntity.setResponse_params(params);
+		return dataEntity;
+	}
+	
 	
 	/***
 	 * Generic failed! because Type type = new TypeToken<T>() {}.getType();can't get the type

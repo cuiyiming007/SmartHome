@@ -1,5 +1,6 @@
 package com.gdgl.manager;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -11,6 +12,7 @@ import org.json.JSONObject;
 
 import android.R.id;
 import android.R.integer;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.android.volley.Response;
@@ -30,10 +32,13 @@ import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.LoginResponse;
 import com.gdgl.mydata.ParamsForStatus;
+import com.gdgl.mydata.RespondDataEntity;
 import com.gdgl.mydata.ResponseDataEntityForStatus;
 import com.gdgl.mydata.ResponseParamsEndPoint;
 import com.gdgl.mydata.bind.BindResponseData;
 import com.gdgl.mydata.bind.BindResponse_params;
+import com.gdgl.mydata.binding.BindingDataEntity;
+import com.gdgl.mydata.getlocalcielist.CIEresponse_params;
 import com.gdgl.mydata.getlocalcielist.LocalIASCIEOperationResponseData;
 import com.gdgl.network.VolleyErrorHelper;
 import com.gdgl.network.VolleyOperation;
@@ -145,6 +150,37 @@ public class LightManager extends Manger {
 		String url = NetUtil.getInstance().getCumstomURL(
 				NetUtil.getInstance().IP, "unbindDevice.cgi", param);
 		simpleVolleyRequset(url, EventType.UNBINDDEVICE);
+	}
+	
+	public void getBindList(SimpleDevicesModel outModel)
+	{
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("ieee", outModel.getmIeee());
+		paraMap.put("ep", outModel.getmEP());
+		String param = hashMap2ParamString(paraMap);
+		String url = NetUtil.getInstance().getCumstomURL(
+				NetUtil.getInstance().IP, "getBindList.cgi", param);
+		Listener<String> responseListener = new Listener<String>() {
+			@Override
+			public void onResponse(String response) {
+				new GetBindingTast().execute(response);
+			}
+		};
+
+		ErrorListener errorListener = new ErrorListener() {
+
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				// Log.e("Error: ", error.getMessage());
+			}
+		};
+
+		StringRequest req = new StringRequest(url,
+				responseListener, errorListener);
+
+		// add the request object to the queue to be executed
+		Log.i("request url", url);
+		ApplicationController.getInstance().addToRequestQueue(req);
 	}
 	
 	/***
@@ -780,5 +816,21 @@ public class LightManager extends Manger {
 
 		simpleVolleyRequset(url, EventType.REMOTECONTROL);
 	}
+	
+  class GetBindingTast extends AsyncTask<String, Object, Object> {
+		@Override
+		protected Object doInBackground(String... params) {
+			BindingDataEntity data = VolleyOperation
+					.handleBindingString(params[0]);
+			return data;
+		}
+
+		@Override
+		protected void onPostExecute(Object result) {
+			Event event = new Event(EventType.GETBINDLIST, true);
+			event.setData(result);
+			notifyObservers(event);
+		}
+  }
 
 }

@@ -133,7 +133,7 @@ public class VideoManager extends Manger{
 				String jsonString=UiUtils.customString(response);
 				VideoResponse videoResponse=gson.fromJson(jsonString, VideoResponse.class);
 				
-				Event event = new Event(EventType.ADDIPC, true);
+				Event event = new Event(EventType.EDITIPC, true);
 				event.setData(videoResponse);
 				notifyObservers(event);
 			}

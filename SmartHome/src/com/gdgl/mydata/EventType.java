@@ -48,6 +48,7 @@ public class EventType {
 	public static final EventType ADDIPC;
 	public static final EventType EDITIPC;
 	public static final EventType DELETEIPC;
+	public static final EventType GETBINDLIST;
 	
 
 	
@@ -88,6 +89,8 @@ public class EventType {
 		ADDIPC=new EventType("addIPC", nextId());
 		EDITIPC=new EventType("editIPC", nextId());
 		DELETEIPC=new EventType("deleteIPC", nextId());
+		GETBINDLIST=new EventType("getBindList", nextId());
+		
 	}
 	
 	private static int nextId()
