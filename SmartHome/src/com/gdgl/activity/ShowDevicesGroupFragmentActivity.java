@@ -399,6 +399,8 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		if (fragmentManager.getBackStackEntryCount() > 0) {
 			fragmentManager.popBackStack();
 			initTitleByTag(mListIndex);
+			int type = types[mListIndex];
+			mCurrentList = mDevicesListCache.get(type);
 			setdata(mCurrentList);
 		} else {
 			finish();
@@ -478,7 +480,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 	}
 
 	public void refreshAdapter(int postion) {
-		mCurrentList = null;
+//		mCurrentList = null;
 		postion = mListIndex;
 		int type = types[postion];
 		if (null != mDevicesListCache.get(type)) {
@@ -601,11 +603,12 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		int result = mDataHelper.update(mSQLiteDatabase,
 				DataHelper.DEVICES_TABLE, c, where, args);
 		// mDataHelper
+		int type = types[mListIndex];
 		if (result >= 0) {
-			int m=getPostionInList(Ieee,ep,mCurrentList);
-			if(-1!=m){
-				mDevicesListCache.get(mListIndex).remove(m);
-				mDevicesListCache.get(mListIndex).add(sd);
+			int m = getPostionInList(Ieee, ep, mCurrentList);
+			if (-1 != m) {
+				mDevicesListCache.get(type).add(m, sd);
+				mCurrentList=mDevicesListCache.get(type);
 			}
 			refreshAdapter(mListIndex);
 
