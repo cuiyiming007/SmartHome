@@ -402,6 +402,9 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 	public void changeForCoverFlow(int p) {
 		if (fragmentManager.getBackStackEntryCount() > 0) {
 			fragmentManager.popBackStack();
+			int type = types[mListIndex];
+			mCurrentList = mDevicesListCache.get(type);
+			setdata(mCurrentList);
 		}
 		if (mListIndex != p) {
 			mListIndex = p;
