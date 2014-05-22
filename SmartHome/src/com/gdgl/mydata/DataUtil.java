@@ -298,10 +298,11 @@ public class DataUtil {
 		String where = " ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? ";
 
 		List<DevicesModel> listDevicesModel = new ArrayList<DevicesModel>();
-
-		listDevicesModel = dh.queryForList(dh.getSQLiteDatabase(),
+		SQLiteDatabase db=dh.getSQLiteDatabase();
+		listDevicesModel = dh.queryForList(db,
 				DataHelper.DEVICES_TABLE, null, where, args, null, null, null,
 				null);
+		dh.close(db);
 		if (null != listDevicesModel && listDevicesModel.size() > 0) {
 			for (DevicesModel devicesModel : listDevicesModel) {
 				if (null == devicesModel.getmUserDefineName()
@@ -316,21 +317,28 @@ public class DataUtil {
 
 	}
 	
-	public static List<DevicesModel> getCanbeBindDevices(Context c, DataHelper dh) {
-
-		String[] args = new String[7];
-		args[0] = "00137A000000ECBD";
-		args[1] = "00137A000001184B";
-		args[2] = "00137A000001122A";
-		args[3] = "00137A000000BF13";
-		args[4] = "00137A00000121C2";
-		args[5] = "00137A00000121C2";
-		args[6] = "00137A000001181F";
-		String where = " ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? ";
+	public static List<DevicesModel> getCanbeBindDevices(Context c, DataHelper dh,SQLiteDatabase db,String type) {
+		
+		String[] args = null;
+		String where = null;
+		if(null==type || type.trim().equals("")){
+			return null;
+		}
+		if(type.trim().equals("0006IN")){
+			args = new String[3];
+			args[0] = "00137A000000ECBD";
+			args[1] = "00137A000001184B";
+			args[2] = "00137A000001122A";
+			where = " ieee = ? or ieee = ? or ieee = ? ";
+		}else if(type.trim().equals("0008IN")){
+			args = new String[1];
+			args[0]="00137A000000BF13";
+			where = " ieee = ? ";
+		}
 
 		List<DevicesModel> listDevicesModel = new ArrayList<DevicesModel>();
 
-		listDevicesModel = dh.queryForList(dh.getSQLiteDatabase(),
+		listDevicesModel = dh.queryForList(db,
 				DataHelper.DEVICES_TABLE, null, where, args, null, null, null,
 				null);
 		if (null != listDevicesModel && listDevicesModel.size() > 0) {
@@ -347,10 +355,9 @@ public class DataUtil {
 
 	}
 	
-	public static DevicesModel getDeviceModelById(int id,DataHelper dh){
+	public static DevicesModel getDeviceModelById(int id,DataHelper dh,SQLiteDatabase db){
 		String where=" _id=? ";
 		String[] args={id+""};
-		SQLiteDatabase db=dh.getSQLiteDatabase();
 		List<DevicesModel> mList=dh.queryForList(db, DataHelper.DEVICES_TABLE, null, where, args, null, null, null, null);
 		if(null!=mList && mList.size()>0){
 			return mList.get(0);
@@ -600,7 +607,11 @@ public class DataUtil {
 				list.add(mSimpleDevicesModel);
 			}
 		}
-
+		try {
+			dh.close(db);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		return list;
 	}
 

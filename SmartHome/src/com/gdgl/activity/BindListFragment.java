@@ -4,6 +4,12 @@ import java.util.List;
 
 
 
+
+
+
+
+
+import com.gdgl.activity.BindControlFragment.backAction;
 import com.gdgl.activity.BindControlFragment.updateList;
 import com.gdgl.activity.JoinNetDevicesListFragment.JoinNetAdapter.ViewHolder;
 import com.gdgl.activity.JoinNetFragment.ChangeFragment;
@@ -19,6 +25,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -27,6 +34,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -60,15 +68,29 @@ public class BindListFragment extends Fragment implements updateList{
 	private void initData() {
 		// TODO Auto-generated method stub
 		dh = new DataHelper((Context) getActivity());
-		mList = DataUtil.getBindDevices((Context) getActivity(), dh);
+		new getDataTask().execute(1);
 	}
+	
+	public class getDataTask extends AsyncTask<Integer, Integer, Integer>{
 
+		@Override
+		protected Integer doInBackground(Integer... params) {
+			// TODO Auto-generated method stub
+			mList = DataUtil.getBindDevices((Context) getActivity(), dh);
+			return 1;
+		}
+		@Override
+		protected void onPostExecute(Integer result) {
+			// TODO Auto-generated method stub
+			initView();
+		}
+	}
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		mView = inflater.inflate(R.layout.bind_list, null);
-		initView();
 		return mView;
 	}
 
@@ -100,11 +122,12 @@ public class BindListFragment extends Fragment implements updateList{
 					// TODO Auto-generated method stub
 					Bundle extra=new Bundle();
 					extra.putInt(BindControlFragment.DevicesId, mList.get(position).getID());
-					int bindId=mList.get(position).getmBindTo()==null || mList.get(position).getmBindTo().trim().equals("")?-1:Integer.parseInt(mList.get(position).getmBindTo().trim());
-					extra.putInt(BindControlFragment.BindId, bindId);
+//					int bindId=mList.get(position).getmBindTo()==null || mList.get(position).getmBindTo().trim().equals("")?-1:Integer.parseInt(mList.get(position).getmBindTo().trim());
+//					extra.putInt(BindControlFragment.BindId, bindId);
 					ChangeFragment c = (ChangeFragment) getActivity();
 					BindControlFragment mBindControlFragment = new BindControlFragment();
 					mBindControlFragment.setUplist(BindListFragment.this);
+					mBindControlFragment.setBackAction((backAction)getActivity());
 					mBindControlFragment.setArguments(extra);
 					c.setFragment(mBindControlFragment);
 				}
@@ -167,13 +190,9 @@ public class BindListFragment extends Fragment implements updateList{
 
 			mHolder.devices_name.setText(mDevices.getmUserDefineName().replace(
 					" ", ""));
-			DevicesModel binDev;
 			if (null != mDevices.getmBindTo()
 					&& !mDevices.getmBindTo().trim().equals("")) {
-				binDev = DataUtil.getDeviceModelById(
-						Integer.parseInt(mDevices.getmBindTo().trim()), dh);
-				mHolder.devices_state.setText("已绑定至"
-						+ binDev.getmUserDefineName());
+				mHolder.devices_state.setText("已绑定");
 			} else {
 				mHolder.devices_state.setText("未绑定到任何设备");
 			}
@@ -206,7 +225,7 @@ public class BindListFragment extends Fragment implements updateList{
 	}
 
 	@Override
-	public void upList(DevicesModel dm, int id) {
+	public void upList(DevicesModel dm, String id) {
 		// TODO Auto-generated method stub
 		int postion = 0;
 		if (null != mList && mList.size() > 0) {
@@ -219,7 +238,7 @@ public class BindListFragment extends Fragment implements updateList{
 
 				}
 			}
-			mList.get(postion).setmBindTo(id+"");
+			mList.get(postion).setmBindTo(id);
 			mBindAdapter.notifyDataSetChanged();
 		}
 		

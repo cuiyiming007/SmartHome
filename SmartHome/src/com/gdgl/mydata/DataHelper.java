@@ -204,7 +204,23 @@ public class DataHelper extends SQLiteOpenHelper {
 		return result;
 
 	}
+	
+	public long insertDevList(SQLiteDatabase db, String table, String nullColumnHack,
+			List<DevicesModel> values) {
+		long result = 0;
+		try {
+			for (DevicesModel devicesModel : values) {
+				result= db.insert(table, nullColumnHack, devicesModel.convertContentValues());
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally{
+			db.close();
+		}
+		return result;
 
+	}
+	
 	public long insertList(SQLiteDatabase db, String table,
 			String nullColumnHack, ArrayList<ResponseParamsEndPoint> r) {
 
@@ -344,7 +360,7 @@ public class DataHelper extends SQLiteOpenHelper {
 	
 	public int deleteDevices(SQLiteDatabase db, String table, String whereClause,
 			String[] whereArgs) {
-		long m;
+		long m = 0;
 		try {
 			m=db.delete(table, whereClause, whereArgs);
 //			db.close();
@@ -353,7 +369,7 @@ public class DataHelper extends SQLiteOpenHelper {
 		}finally{
 			db.close();
 		}
-		return db.delete(table, whereClause, whereArgs);
+		return (int) m;
 	}
 	
 	public int deleteGroup(SQLiteDatabase db, String table, String whereClause,
@@ -501,6 +517,8 @@ public class DataHelper extends SQLiteOpenHelper {
 					.getColumnIndex(DevicesModel.ON_OFF_LINE)));
 			mDevicesModel.setID(c.getInt(c.getColumnIndex(DevicesModel._ID)));
 			mDevicesModel.setmUserDefineName(c.getString(c.getColumnIndex(DevicesModel.USER_DEFINE_NAME)));
+			mDevicesModel.setmClusterID(c.getString(c.getColumnIndex(DevicesModel.CLUSTER_ID)));
+			mDevicesModel.setmBindTo(c.getString(c.getColumnIndex(DevicesModel.BIND_TO)));
 			mList.add(mDevicesModel);
 		}
 		c.close();

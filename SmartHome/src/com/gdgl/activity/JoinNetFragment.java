@@ -23,6 +23,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -66,11 +67,16 @@ public class JoinNetFragment extends Fragment implements UIListener {
 	List<SimpleDevicesModel> mInnetList;
 
 	List<SimpleDevicesModel> mList;
+	
+	DataHelper mDH;
+	Context c;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		c = (Context) getActivity();
+		mDH=new DataHelper(c);
 	}
 
 	@Override
@@ -84,9 +90,6 @@ public class JoinNetFragment extends Fragment implements UIListener {
 
 	private void initView() {
 		// TODO Auto-generated method stub
-
-		Context c = (Context) getActivity();
-		DataHelper mDH = new DataHelper(c);
 		mInnetList = DataUtil.getDevices(c, mDH, null, null,false);
 		mNewDevList=new ArrayList<DevicesModel>();
 		cb = (CircleProgressBar) mView.findViewById(R.id.seek_time);
@@ -253,20 +256,32 @@ public class JoinNetFragment extends Fragment implements UIListener {
 		if (null != allList && allList.size() > 0) {
 			mDevList = DataHelper.convertToDevicesModel(allList);
 		}
-		Context c = (Context) getActivity();
-		DataHelper mDH = new DataHelper(c);
-
 		if (null != mDevList && mDevList.size() > 0) {
 			for (DevicesModel dm : mDevList) {
 				if (!isInNet(dm)) {
-					mDH.insert(mDH.getSQLiteDatabase(),
-							DataHelper.DEVICES_TABLE, null, dm);
 					mNewDevList.add(dm);
 				}
 			}
 		}
+		new InsertTask().execute(mNewDevList);
 	};
+	
+	public class InsertTask extends AsyncTask<List<DevicesModel>, Integer, Integer>{
 
+		@Override
+		protected Integer doInBackground(List<DevicesModel>... params) {
+			// TODO Auto-generated method stub
+			List<DevicesModel> list=params[0];
+			if(null==list || list.size()==0){
+				return 1;
+			}
+			mDH.insertDevList(mDH.getSQLiteDatabase(),
+					DataHelper.DEVICES_TABLE, null, list);
+			return 1;
+		}
+		
+	}
+	
 	public interface ChangeFragment {
 		public void setFragment(Fragment f);
 	}

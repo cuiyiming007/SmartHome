@@ -2,6 +2,7 @@ package com.gdgl.activity;
 
 import java.util.List;
 
+import com.gdgl.activity.BindControlFragment.backAction;
 import com.gdgl.activity.JoinNetDevicesListFragment.refreshData;
 import com.gdgl.activity.JoinNetFragment.ChangeFragment;
 import com.gdgl.model.SimpleDevicesModel;
@@ -18,21 +19,24 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 public class ConfigActivity extends BaseSlideMenuActivity implements
-		ChangeFragment, refreshData {
+		ChangeFragment, refreshData, backAction {
 	private SlideMenu mSlideMenu;
 	int mSelectedColor = 0xffEE3B3B;
 	int mUnSelectedColor = 0xff20B2AA;
 
-	TextView modify_pwd, modify_name, join_net,all_dev,bind_control;
-	
-//	TextView safe_center;
+	TextView modify_pwd, modify_name, join_net, all_dev, bind_control;
+
+	// TextView safe_center;
 	TextView config_name, user_name;
 	TextView tempView;
-	
+
 	BaseFragment mFragment;
+
+	LinearLayout mfragment_continer;
 
 	@Override
 	public void onContentChanged() {
@@ -52,12 +56,11 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 		mSlideMenu.setSlideMode(SlideMenu.MODE_SLIDE_CONTENT);
 		mSlideMenu.setPrimaryShadowWidth(100);
 		mSlideMenu.setEdgetSlideWidth(50);
-
+		mfragment_continer = (LinearLayout) findViewById(R.id.fragment_continer);
 		config_name = (TextView) findViewById(R.id.config_name);
 		user_name = (TextView) findViewById(R.id.user_name);
 		user_name.setText(name);
 		modify_pwd = (TextView) findViewById(R.id.modify_pwd);
-		tempView = modify_pwd;
 		modify_pwd.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -102,8 +105,8 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 				changeFragment(tv, new JoinNetFragment());
 			}
 		});
-		
-		bind_control= (TextView) findViewById(R.id.bind_control);
+
+		bind_control = (TextView) findViewById(R.id.bind_control);
 		bind_control.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -113,29 +116,16 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 				changeFragment(tv, new BindListFragment());
 			}
 		});
-		
-//		safe_center = (TextView) findViewById(R.id.safe_center);
-//		safe_center.setOnClickListener(new OnClickListener() {
-//
-//			@Override
-//			public void onClick(View v) {
-//				// TODO Auto-generated method stub
-//				TextView tv = (TextView) v;
-//				SafeCenterFragment mSafeCenterFragment=new SafeCenterFragment();
-//				mFragment=mSafeCenterFragment;
-//				changeFragment(tv, mSafeCenterFragment);
-//			}
-//		});
-		
-		all_dev=(TextView) findViewById(R.id.all_dev);
+		all_dev = (TextView) findViewById(R.id.all_dev);
+		tempView = all_dev;
 		all_dev.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				TextView tv = (TextView) v;
-				DevicesListWithGroup mAllDevicesListFragment=new DevicesListWithGroup();
-				mFragment=mAllDevicesListFragment;
+				DevicesListWithGroup mAllDevicesListFragment = new DevicesListWithGroup();
+				mFragment = mAllDevicesListFragment;
 				changeFragment(tv, mAllDevicesListFragment);
 			}
 		});
@@ -173,7 +163,7 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 		@Override
 		protected void onPostExecute(List<SimpleDevicesModel> result) {
 			super.onPostExecute(result);
-			 mFragment.stopRefresh();
+			mFragment.stopRefresh();
 		}
 	}
 
@@ -192,11 +182,11 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 
 	@Override
 	public void setFragment(Fragment f) {
-		mFragment=(BaseFragment) f;
+		mFragment = (BaseFragment) f;
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
-		fragmentTransaction.replace(R.id.fragment_continer, f);
 		fragmentTransaction.addToBackStack(null);
+		fragmentTransaction.replace(R.id.fragment_continer, f);
 		fragmentTransaction.commit();
 	}
 
@@ -222,5 +212,20 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 	public void setDevicesId(String id) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void back() {
+		// TODO Auto-generated method stub
+//		LayoutParams mLayoutParams = new LayoutParams(
+//				LinearLayout.LayoutParams.MATCH_PARENT,
+//				LinearLayout.LayoutParams.MATCH_PARENT);
+//		mfragment_continer.setLayoutParams(mLayoutParams);
+		FragmentTransaction fragmentTransaction = fragmentManager
+				.beginTransaction();
+
+		fragmentTransaction.replace(R.id.fragment_continer,
+				new BindListFragment());
+		fragmentTransaction.commit();
 	}
 }

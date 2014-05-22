@@ -163,7 +163,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 			// TODO Auto-generated method stub
 
 			List<SimpleDevicesModel> list = mDevicesListCache
-					.get(UiUtils.LIGHTS_MANAGER);
+					.get(type);
 			mCurrentList = list;
 
 			initNoContent();
