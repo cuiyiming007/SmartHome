@@ -607,6 +607,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		if (result >= 0) {
 			int m = getPostionInList(Ieee, ep, mCurrentList);
 			if (-1 != m) {
+				mDevicesListCache.get(type).remove(m);
 				mDevicesListCache.get(type).add(m, sd);
 				mCurrentList=mDevicesListCache.get(type);
 			}

@@ -97,11 +97,11 @@ public class SmartHome extends FragmentActivity implements OnRefreshListener<Vie
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-//                showSetWindow();
-                SimpleDevicesModel outModel=new SimpleDevicesModel();
-                outModel.setmIeee("00137A000001122A");
-                outModel.setmEP("ep");
-                LightManager.getInstance().getBindList(outModel);
+                showSetWindow();
+//                SimpleDevicesModel outModel=new SimpleDevicesModel();
+//                outModel.setmIeee("00137A000001122A");
+//                outModel.setmEP("ep");
+//                LightManager.getInstance().getBindList(outModel);
             }
         });
 		

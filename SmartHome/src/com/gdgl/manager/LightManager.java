@@ -1,53 +1,29 @@
 package com.gdgl.manager;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.R.id;
-import android.R.integer;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
-import com.gdgl.activity.SeekLightsControlFragment;
 import com.gdgl.app.ApplicationController;
-import com.gdgl.manager.DeviceManager.InitialCIETask;
-import com.gdgl.manager.DeviceManager.InitialDataTask;
 import com.gdgl.model.SimpleDevicesModel;
-import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
-import com.gdgl.mydata.LoginResponse;
-import com.gdgl.mydata.ParamsForStatus;
-import com.gdgl.mydata.RespondDataEntity;
 import com.gdgl.mydata.ResponseDataEntityForStatus;
-import com.gdgl.mydata.ResponseParamsEndPoint;
 import com.gdgl.mydata.bind.BindResponseData;
-import com.gdgl.mydata.bind.BindResponse_params;
 import com.gdgl.mydata.binding.BindingDataEntity;
-import com.gdgl.mydata.getlocalcielist.CIEresponse_params;
 import com.gdgl.mydata.getlocalcielist.LocalIASCIEOperationResponseData;
 import com.gdgl.network.VolleyErrorHelper;
 import com.gdgl.network.VolleyOperation;
 import com.gdgl.util.NetUtil;
 import com.gdgl.util.UiUtils;
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 /***
  * 
