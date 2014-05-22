@@ -91,6 +91,9 @@ public class VideoManager extends Manger{
 				
 				Event event = new Event(EventType.ADDIPC, true);
 				event.setData(videoResponse);
+				if (!videoResponse.getResponse_params().getStatus().equals("0")) {
+					event.setSuccess(false);
+				}
 				notifyObservers(event);
 			}
 		};
@@ -135,6 +138,9 @@ public class VideoManager extends Manger{
 				
 				Event event = new Event(EventType.EDITIPC, true);
 				event.setData(videoResponse);
+				if (!videoResponse.getResponse_params().getStatus().equals("0")) {
+					event.setSuccess(false);
+				}
 				notifyObservers(event);
 			}
 		};
@@ -176,6 +182,9 @@ public class VideoManager extends Manger{
 				
 				Event event = new Event(EventType.DELETEIPC, true);
 				event.setData(videoResponse);
+				if (!videoResponse.getResponse_params().getStatus().equals("0")) {
+					event.setSuccess(false);
+				}
 				notifyObservers(event);
 			}
 		};
@@ -236,8 +245,12 @@ public class VideoManager extends Manger{
 					ApplicationController.getInstance());
 			SQLiteDatabase mSQLiteDatabase = mDateHelper
 					.getSQLiteDatabase();
-			mDateHelper.emptyTable(mSQLiteDatabase, DataHelper.VIDEO_TABLE);
-			if (response.getList()!=null&&response.getList().size()>0) {
+//			List<VideoNode> mList = mDateHelper.queryForList(
+//					mSQLiteDatabase, DataHelper.VIDEO_TABLE, null, null,
+//					null, null, null, null, null);
+			List<VideoNode> mList=DataHelper.getVideoList(ApplicationController.getInstance(),mDateHelper);
+			if (response.getList()!=null&&response.getList().size()!=mList.size()) {
+				mDateHelper.emptyTable(mSQLiteDatabase, DataHelper.VIDEO_TABLE);
 				mDateHelper.insertVideoList(mSQLiteDatabase, DataHelper.VIDEO_TABLE,
 						null, response.getList());
 			}

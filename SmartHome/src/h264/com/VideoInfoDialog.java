@@ -119,6 +119,9 @@ public class VideoInfoDialog implements UIListener {
 		videoNode.setPassword(passwordString);
 		if (mType==Edit) {
 			videoNode.setId(this.videoNode.getId());
+		}else {
+			videoNode.setId("");
+			
 		}
 		return videoNode;
 	}

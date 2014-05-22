@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -159,7 +160,7 @@ public class VideoFragment extends Fragment implements UIListener,Dialogcallback
 		@Override
 		public long getItemId(int position) {
 			// TODO Auto-generated method stub
-			if (null != mList) {
+			if (null != mList&&!TextUtils.isEmpty(mList.get(position).getId())) {
 				return Integer.parseInt(mList.get(position).getId());
 			}
 			return position;

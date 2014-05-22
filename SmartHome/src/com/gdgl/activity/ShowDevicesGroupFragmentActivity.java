@@ -627,8 +627,8 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		} else {
 			mNoDevices.setVisibility(View.GONE);
 			mDevicesBaseAdapter.setList(list);
-			mDevicesBaseAdapter.notifyDataSetChanged();
 			mDevicesListFragment.setLayout();
+			mDevicesBaseAdapter.notifyDataSetChanged();
 		}
 		initTitleByTag(mListIndex);
 	}
