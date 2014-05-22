@@ -95,7 +95,9 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 	LightManager temptureManager;
 	DeviceManager mDeviceManager;
 	DataHelper mDataHelper;
-
+	
+	public boolean isTop=true;
+	
 	public class getDataInBackgroundTask extends
 			AsyncTask<Integer, Integer, Integer> {
 		@Override
@@ -335,16 +337,27 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 	}
 
 	private void back() {
-		if (fragmentManager.getBackStackEntryCount() > 0) {
-			fragmentManager.popBackStack();
-			 int type = types[mListIndex];
-			 mCurrentList = mDevicesListCache.get(type);
-			 setdata(mCurrentList);
-		} else {
+		if(isTop){
 			finish();
+		}else{
+			isTop=true;
+			resetFragment();
 		}
 	}
-
+	
+	public void resetFragment(){
+		int type = types[mListIndex];
+		mCurrentList = mDevicesListCache.get(type);
+		mDevicesBaseAdapter.setList(mCurrentList);
+		FragmentTransaction fragmentTransaction = fragmentManager
+				.beginTransaction();
+		mDevicesListFragment = new DevicesListFragment();
+		fragmentTransaction.replace(R.id.devices_control_fragment,
+				mDevicesListFragment, "LightsControlFragment");
+		mDevicesListFragment.setAdapter(mDevicesBaseAdapter);
+		fragmentTransaction.commit();
+	}
+	
 	private void initFancyCoverFlow() {
 		// TODO Auto-generated method stub
 		fancyCoverFlow = (FancyCoverFlow) findViewById(R.id.devices_gallery);
@@ -400,17 +413,16 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 	}
 
 	public void changeForCoverFlow(int p) {
-		if (fragmentManager.getBackStackEntryCount() > 0) {
-			fragmentManager.popBackStack();
-			int type = types[mListIndex];
-			mCurrentList = mDevicesListCache.get(type);
-			setdata(mCurrentList);
-		}
-		if (mListIndex != p) {
-			mListIndex = p;
-			devicesIeee = "";
-			requestData(mListIndex);
-			refreshAdapter(mListIndex);
+		if(isTop){
+			if (mListIndex != p) {
+				mListIndex = p;
+				devicesIeee = "";
+				requestData(mListIndex);
+				refreshAdapter(mListIndex);
+			}
+		}else{
+			isTop=true;
+			resetFragment();
 		}
 	}
 
@@ -451,8 +463,9 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
 		fragmentTransaction.replace(R.id.devices_control_fragment, mFragment);
-		fragmentTransaction.addToBackStack(null);
+//		fragmentTransaction.addToBackStack(null);
 		fragmentTransaction.commit();
+		isTop=false;
 		initTitleByDevices(devicesIeee);
 	}
 
