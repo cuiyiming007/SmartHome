@@ -448,8 +448,10 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 					String[] args = { sce };
 					cv = new ContentValues();
 					cv.put(DevicesGroup.GROUP_STATE, 1);
-					mDh.update(mDh.getSQLiteDatabase(),
+				    SQLiteDatabase db=mDh.getSQLiteDatabase();
+					mDh.update(db,
 							DataHelper.GROUP_TABLE, cv, where, args);
+					mDh.close(db);
 					Message msg = Message.obtain();
 					msg.what = SCENE;
 					msg.obj = arg1;

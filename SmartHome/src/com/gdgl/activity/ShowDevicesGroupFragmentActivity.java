@@ -507,13 +507,13 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 	@Override
 	public void deleteDevices(String id) {
 		// TODO Auto-generated method stub
-		Log.i(TAG, "tagzgs->delete id=" + id);
-		LightManager.getInstance().deleteNode(devicesIeee);
-		mDataHelper.delete(ShowDevicesGroupFragmentActivity.this,
-				mDataHelper.getSQLiteDatabase(), DataHelper.DEVICES_TABLE,
-				" ieee=? ", new String[] { id });
-		mDevicesListCache.clear();
-		refreshAdapter(mListIndex);
+//		Log.i(TAG, "tagzgs->delete id=" + id);
+//		LightManager.getInstance().deleteNode(devicesIeee);
+//		mDataHelper.delete(ShowDevicesGroupFragmentActivity.this,
+//				mDataHelper.getSQLiteDatabase(), DataHelper.DEVICES_TABLE,
+//				" ieee=? ", new String[] { id });
+//		mDevicesListCache.clear();
+//		refreshAdapter(mListIndex);
 	}
 
 	@Override
@@ -622,13 +622,17 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 	public void setdata(List<SimpleDevicesModel> list) {
 		// TODO Auto-generated method stub
 
-		if (null == mCurrentList || mCurrentList.size() == 0) {
+		if (null == list || list.size() == 0) {
 			mNoDevices.setVisibility(View.VISIBLE);
 		} else {
 			mNoDevices.setVisibility(View.GONE);
 			mDevicesBaseAdapter.setList(list);
 			mDevicesListFragment.setLayout();
 			mDevicesBaseAdapter.notifyDataSetChanged();
+			
+			int type = types[mListIndex];
+			mDevicesListCache.put(type, list);
+			
 		}
 		initTitleByTag(mListIndex);
 	}
