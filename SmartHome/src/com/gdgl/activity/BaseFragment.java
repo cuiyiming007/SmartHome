@@ -40,22 +40,7 @@ public abstract class BaseFragment extends Fragment implements UIListener{
 		if(null==cr ){
 			return ;
 		}
-		DevicesModel ds = null;
-		List<DevicesModel> mList;
-		DataHelper mDh = new DataHelper((Context) getActivity());
-		String where = " ieee=? and ep=? ";
-		String[] args = {
-				cr.getDeviceIeee() == null ? "" : cr.getDeviceIeee().trim(),
-				cr.getDeviceEp() == null ? "" : cr.getDeviceEp().trim() };
-		mList = mDh.queryForList(mDh.getSQLiteDatabase(),
-				DataHelper.DEVICES_TABLE, null, where, args, null, null, null,
-				null);
-		if(null!=mList && mList.size()>0){
-			ds=mList.get(0);
-		}
-		if(null!=ds){
-			new UpdateDatabaseTask().execute(ds);
-		}
+		new UpdateDatabaseTask().execute(cr);
 	}
 
 	public boolean isInList(DevicesModel ds, List<DevicesModel> list) {
@@ -68,22 +53,36 @@ public abstract class BaseFragment extends Fragment implements UIListener{
 		}
 		return b;
 	}
-
+	
 	public class UpdateDatabaseTask extends
-			AsyncTask<DevicesModel, Void, Integer> {
+			AsyncTask<CallbackResponseType2, Void, Integer> {
 		private List<DevicesModel> mDevList;
 		DataHelper mDh;
 
 		@Override
-		protected Integer doInBackground(DevicesModel... params) {
+		protected Integer doInBackground(CallbackResponseType2... params) {
 			// TODO Auto-generated method stub
 			int result = 0;
 			mDh = new DataHelper((Context) getActivity());
 			mDevList = mDh.queryForList(mDh.getSQLiteDatabase(),
 					DataHelper.DEVICES_TABLE, null, null, null, null, null,
 					null, null);
-			DevicesModel dm = params[0];
-
+			CallbackResponseType2 cr = params[0];
+			List<DevicesModel> mList;
+			DevicesModel dm = null;
+			String where = " ieee=? and ep=? ";
+			String[] argss = {
+					cr.getDeviceIeee() == null ? "" : cr.getDeviceIeee().trim(),
+					cr.getDeviceEp() == null ? "" : cr.getDeviceEp().trim() };
+			mList = mDh.queryForList(mDh.getSQLiteDatabase(),
+					DataHelper.DEVICES_TABLE, null, where, argss, null, null, null,
+					null);
+			if(null!=mList && mList.size()>0){
+				dm=mList.get(0);
+			}
+			if(null==dm){
+				return -1;
+			}
 			if (isInList(dm, mDevList)) {
 				ContentValues v = new ContentValues();
 				String Where = " ieee=? and ep=? ";

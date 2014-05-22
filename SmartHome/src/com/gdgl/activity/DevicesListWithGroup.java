@@ -700,7 +700,29 @@ public class DevicesListWithGroup extends BaseFragment implements
 					mViewHolder.devState.setText("关");
 				}
 			}
-			if(expan_postion==2){
+
+			if (null != ds.getmClusterID()
+					&& !ds.getmClusterID().trim().equals("")) {
+				if (ds.getmClusterID().toLowerCase().contains("in")) {
+					if (null != ds.getmBindTo()
+							&& !ds.getmBindTo().trim().equals("")) {
+						mViewHolder.devState.setText("已绑定");
+					} else {
+						mViewHolder.devState.setText("未绑定");
+					}
+				} else if (ds.getmClusterID().toLowerCase().contains("out")) {
+					if (null != ds.getmBindTo()
+							&& !ds.getmBindTo().trim().equals("")) {
+						mViewHolder.devState.setText(mViewHolder.devState
+								.getText().toString() + "  已绑定");
+					} else {
+						mViewHolder.devState.setText(mViewHolder.devState
+								.getText().toString() + "  未绑定");
+					}
+				}
+			}
+
+			if (expan_postion == 2) {
 				mViewHolder.devAlarm.setVisibility(View.VISIBLE);
 				//
 			}else{
@@ -739,9 +761,9 @@ public class DevicesListWithGroup extends BaseFragment implements
 		// TODO Auto-generated method stub
 		DevicesModel ds = mCurrentList.get(currentpostion);
 		LightManager.getInstance().deleteNode(ds.getmIeee().trim());
-		int result = mDh.delete((Context)getActivity(),mDh.getSQLiteDatabase(),
-				DataHelper.DEVICES_TABLE, " ieee=? ", new String[] { ds
-						.getmIeee().trim() });
+		int result = mDh.delete((Context) getActivity(),
+				mDh.getSQLiteDatabase(), DataHelper.DEVICES_TABLE, " ieee=? ",
+				new String[] { ds.getmIeee().trim() });
 
 		if (result >= 0) {
 			if (LightManager_expn) {

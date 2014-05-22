@@ -248,7 +248,6 @@ public class JoinNetFragment extends Fragment implements UIListener {
 		text_result.setText("扫描到" + mNewDevList.size() + "个设备");
 		text_result.setVisibility(View.VISIBLE);
 		btn_look.setEnabled(true);
-//		btn_look.setBackgroundColor(R.drawable.add_devices_btn_style);
 	}
 
 	private void getData() {
