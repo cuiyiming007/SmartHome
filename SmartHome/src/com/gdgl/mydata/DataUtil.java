@@ -114,7 +114,7 @@ public class DataUtil {
     }
 
     public static List<SimpleDevicesModel> getLightingManagementDevices(
-            Context c, DataHelper dh) {
+            Context c, DataHelper dh,SQLiteDatabase db) {
 
         String[] args;
         HashMap<String, Integer> mMap = new HashMap<String, Integer>();
@@ -125,7 +125,7 @@ public class DataUtil {
         List<SimpleDevicesModel> list = new ArrayList<SimpleDevicesModel>();
         args = DataUtil.getArgs(UiUtils.LIGHTS_MANAGER);
 
-		SQLiteDatabase db = dh.getSQLiteDatabase();
+		
 		listDevicesModel = dh.queryForList(db, DataHelper.DEVICES_TABLE, null,
 				where, args, null, null, null, null);
 		int n = 0;
@@ -232,7 +232,7 @@ public class DataUtil {
 	}
 
 	public static List<SimpleDevicesModel> getOtherManagementDevices(Context c,
-			DataHelper dh, int type) {
+			DataHelper dh,SQLiteDatabase db,int type) {
 
 		String[] args;
 		List<String> sList = new ArrayList<String>();
@@ -245,8 +245,6 @@ public class DataUtil {
 		if (null == where || null == args) {
 			return null;
 		}
-
-		SQLiteDatabase db = dh.getSQLiteDatabase();
 		listDevicesModel = dh.queryForList(db, DataHelper.DEVICES_TABLE, null,
 				where, args, null, null, null, null);
 		DevicesModel mDevicesModel;
