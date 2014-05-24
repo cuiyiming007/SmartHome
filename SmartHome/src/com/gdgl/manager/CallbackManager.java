@@ -1,5 +1,7 @@
 package com.gdgl.manager;
 
+import java.util.ArrayList;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -8,10 +10,13 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.gdgl.activity.ShowDevicesGroupFragmentActivity;
 import com.gdgl.app.ApplicationController;
+import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.Callback.CallbackEnrollMessage;
@@ -96,13 +101,7 @@ public class CallbackManager extends Manger {
 				Log.i(TAG, "Callback msgType=" + msgType + "warm message");
 				CallbackWarmMessage warmmessage = gson.fromJson(response,
 						CallbackWarmMessage.class);
-				Intent i = new Intent(ApplicationController.getInstance(),
-						ShowDevicesGroupFragmentActivity.class);
-				i.putExtra(
-						ShowDevicesGroupFragmentActivity.ACTIVITY_SHOW_DEVICES_TYPE,
-						UiUtils.SECURITY_CONTROL);
-				makeNotify(i, warmmessage.getW_description(),
-						warmmessage.toString());
+				handlerWarmMessage(warmmessage);
 				break;
 			case 4:
 				Log.i(TAG, "Callback msgType=" + msgType + "doorlock");
@@ -190,6 +189,21 @@ public class CallbackManager extends Manger {
 			// e.printStackTrace();
 		}
 
+	}
+
+	private void handlerWarmMessage(CallbackWarmMessage warmmessage) {
+		Intent i = new Intent(ApplicationController.getInstance(),
+				ShowDevicesGroupFragmentActivity.class);
+		i.putExtra(
+				ShowDevicesGroupFragmentActivity.ACTIVITY_SHOW_DEVICES_TYPE,
+				UiUtils.SECURITY_CONTROL);
+		makeNotify(i, warmmessage.getW_description(),
+				warmmessage.toString());
+		new UpdateDBTask().execute(warmmessage);
+		
+		Event event = new Event(EventType.WARM, true);
+		event.setData(warmmessage);
+		notifyObservers(event);
 	}
 
 	/***
@@ -290,4 +304,19 @@ public class CallbackManager extends Manger {
 		nm.notify(R.string.app_name, noti);
 	}
 
+	class UpdateDBTask extends AsyncTask<Object, Object, Boolean>
+	{
+		@Override
+		protected Boolean doInBackground(Object... params) {
+			DataHelper mDateHelper = new DataHelper(
+					ApplicationController.getInstance());
+			SQLiteDatabase mSQLiteDatabase = mDateHelper
+					.getSQLiteDatabase();
+			ArrayList<CallbackWarmMessage> callbackWarmMessages=new ArrayList<CallbackWarmMessage>();
+			callbackWarmMessages.add((CallbackWarmMessage) params[0]);
+			mDateHelper.insertMessageList(mSQLiteDatabase, DataHelper.MESSAGE_TABLE,
+					null, callbackWarmMessages);
+			return null;
+		}
+	}
 }

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
@@ -14,6 +15,8 @@ import com.gdgl.activity.ShowDevicesGroupFragmentActivity;
 import com.gdgl.model.DevicesGroup;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
+import com.gdgl.mydata.Callback.CallbackWarmMessage;
+import com.gdgl.mydata.video.VideoNode;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.UiUtils;
 
@@ -315,6 +318,51 @@ public class DataUtil {
 
 		return listDevicesModel;
 
+	}
+	public static List<CallbackWarmMessage> getWarmMessage(Context c, DataHelper dh) {
+		
+		List<CallbackWarmMessage> mList = new ArrayList<CallbackWarmMessage>();
+		Cursor cursor = null;
+		SQLiteDatabase db=dh.getSQLiteDatabase();
+		cursor = db.query(DataHelper.MESSAGE_TABLE, null, null,
+				null, null, null, null, null);
+		CallbackWarmMessage message;
+		while (cursor.moveToNext()) {
+			message = new CallbackWarmMessage();
+			message.setCie_ep(cursor.getString(cursor
+					.getColumnIndex(CallbackWarmMessage.CIE_EP)));
+			message.setCie_ieee(cursor.getString(cursor
+					.getColumnIndex(CallbackWarmMessage.CIE_IEEE)));
+			message.setCie_name(cursor.getString(cursor
+					.getColumnIndex(CallbackWarmMessage.CIE_NAME)));
+			message.setHome_id(cursor.getString(cursor
+					.getColumnIndex(CallbackWarmMessage.HOME_ID)));
+			message.setHome_name(cursor.getString(cursor
+					.getColumnIndex(CallbackWarmMessage.HOME_NAME)));
+			message.setHouseIEEE(cursor.getString(cursor
+					.getColumnIndex(CallbackWarmMessage.HOUSEIEEE)));
+			message.setMsgtype(cursor.getString(cursor
+					.getColumnIndex(CallbackWarmMessage.MSGTYPE)));
+			message.setRoomId(cursor.getString(cursor
+					.getColumnIndex(CallbackWarmMessage.ROOMID)));
+			message.setTime(cursor.getString(cursor
+					.getColumnIndex(CallbackWarmMessage.TIME)));
+			message.setW_description(cursor.getString(cursor
+					.getColumnIndex(CallbackWarmMessage.W_DESCRIPTION)));
+			message.setW_mode(cursor.getString(cursor
+					.getColumnIndex(CallbackWarmMessage.W_MODE)));
+			message.setZone_ep(cursor.getString(cursor
+					.getColumnIndex(CallbackWarmMessage.ZONE_EP)));
+			message.setZone_ieee(cursor.getString(cursor
+					.getColumnIndex(CallbackWarmMessage.ZONE_IEEE)));
+			message.setZone_name(cursor.getString(cursor
+					.getColumnIndex(CallbackWarmMessage.ZONE_NAME)));
+			mList.add(message);
+		}
+		cursor.close();
+//		db.close();
+		return mList;
+		
 	}
 	
 	public static List<DevicesModel> getCanbeBindDevices(Context c, DataHelper dh,SQLiteDatabase db,String type) {

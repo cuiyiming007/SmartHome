@@ -6,6 +6,7 @@ import java.util.List;
 import com.gdgl.model.ContentValuesListener;
 import com.gdgl.model.DevicesGroup;
 import com.gdgl.model.DevicesModel;
+import com.gdgl.mydata.Callback.CallbackWarmMessage;
 import com.gdgl.mydata.video.VideoNode;
 import com.gdgl.util.UiUtils;
 
@@ -65,11 +66,13 @@ public class DataHelper extends SQLiteOpenHelper {
 	public static final String DEVICES_TABLE = "devices";
 	public static final String GROUP_TABLE = "groups";
 	public static final String VIDEO_TABLE = "video";
+	public static final String MESSAGE_TABLE = "message_table";
 	public static final int DATEBASE_VERSTION = 1;
 
 	public StringBuilder mStringBuilder;
 	public StringBuilder mAStringBuilder;
 	public StringBuilder videoStringBuilder;
+	public StringBuilder messageStringBuilder;
 
 	// public SQLiteDatabase db;
 
@@ -78,6 +81,7 @@ public class DataHelper extends SQLiteOpenHelper {
 		mStringBuilder = new StringBuilder();
 		mAStringBuilder= new StringBuilder();
 		videoStringBuilder=new StringBuilder();
+		messageStringBuilder=new StringBuilder();
 		// db = getWritableDatabase();
 		// TODO Auto-generated constructor stub
 	}
@@ -155,6 +159,26 @@ public class DataHelper extends SQLiteOpenHelper {
 		videoStringBuilder.append(VideoNode.PASSWORD + " INTEGER,");
 		videoStringBuilder.append(VideoNode.RTSPORT + " INTEGER)");
 		
+		
+		//message table create string
+		messageStringBuilder.append("CREATE TABLE " + MESSAGE_TABLE + " (");
+		messageStringBuilder.append(CallbackWarmMessage._ID
+				+ " INTEGER PRIMARY KEY AUTOINCREMENT,");
+		messageStringBuilder.append(CallbackWarmMessage.CIE_EP + " VARCHAR(16),");
+		messageStringBuilder.append(CallbackWarmMessage.CIE_IEEE + " VARCHAR(16),");
+		messageStringBuilder.append(CallbackWarmMessage.CIE_NAME + " VARCHAR(48),");
+		messageStringBuilder.append(CallbackWarmMessage.HOME_ID + " VARCHAR(16),");
+		messageStringBuilder.append(CallbackWarmMessage.HOME_NAME + " VARCHAR(16),");
+		messageStringBuilder.append(CallbackWarmMessage.HOUSEIEEE + " VARCHAR(16),");
+		messageStringBuilder.append(CallbackWarmMessage.MSGTYPE + " INTEGER,");
+		messageStringBuilder.append(CallbackWarmMessage.ROOMID + " VARCHAR(16),");
+		messageStringBuilder.append(CallbackWarmMessage.TIME + " VARCHAR(16),");
+		messageStringBuilder.append(CallbackWarmMessage.W_DESCRIPTION + " VARCHAR(64),");
+		messageStringBuilder.append(CallbackWarmMessage.W_MODE + " VARCHAR(16),");
+		messageStringBuilder.append(CallbackWarmMessage.ZONE_EP + " VARCHAR(16),");
+		messageStringBuilder.append(CallbackWarmMessage.ZONE_IEEE + " VARCHAR(16),");
+		messageStringBuilder.append(CallbackWarmMessage.ZONE_NAME + " VARCHAR(16))");
+		
 	}
 
 	@Override
@@ -166,6 +190,7 @@ public class DataHelper extends SQLiteOpenHelper {
 		db.execSQL(mStringBuilder.toString());
 		db.execSQL(mAStringBuilder.toString());
 		db.execSQL(videoStringBuilder.toString());
+		db.execSQL(messageStringBuilder.toString());
 	}
 
 	@Override
@@ -174,6 +199,7 @@ public class DataHelper extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE IF EXISTS " + DEVICES_TABLE);
 		db.execSQL("DROP TABLE IF EXISTS " + GROUP_TABLE);
 		db.execSQL("DROP TABLE IF EXISTS " + VIDEO_TABLE);
+		db.execSQL("DROP TABLE IF EXISTS " + MESSAGE_TABLE);
 		onCreate(db);
 	}
 
@@ -266,6 +292,29 @@ public class DataHelper extends SQLiteOpenHelper {
 					result = m;
 				}
 
+			}
+			db.setTransactionSuccessful();
+//			db.close();
+		} finally {
+			db.endTransaction();
+			db.close();
+		}
+		return result;
+	}
+	public long insertMessageList(SQLiteDatabase db, String table,
+			String nullColumnHack, ArrayList<CallbackWarmMessage> arrayList) {
+		
+		long result = -100;
+//		List<DevicesModel> mList = convertToDevicesModel(r);
+		db.beginTransaction();
+		try {
+			for (ContentValuesListener contentvalue : arrayList) {
+				ContentValues c = contentvalue.convertContentValues();
+				long m = db.insert(table, nullColumnHack, c);
+				if (-1 == m) {
+					result = m;
+				}
+				
 			}
 			db.setTransactionSuccessful();
 //			db.close();

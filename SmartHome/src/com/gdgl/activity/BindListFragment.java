@@ -363,4 +363,10 @@ public class BindListFragment extends Fragment implements updateList,UIListener{
 			}
 		}
 	}
+	@Override
+	public void onDestroy() {
+		mLightManager.deleteObserver(this);
+		super.onDestroy();
+	}
+	
 }

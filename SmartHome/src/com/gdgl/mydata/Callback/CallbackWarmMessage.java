@@ -1,6 +1,31 @@
 package com.gdgl.mydata.Callback;
 
-public class CallbackWarmMessage {
+import com.gdgl.model.ContentValuesListener;
+
+import android.content.ContentValues;
+import android.provider.BaseColumns;
+
+interface CallbackWarmMessageColumns extends BaseColumns
+{
+	public static final String _ID= "_id";
+	public static final String CIE_EP= "cie_ep";
+	public static final String ROOMID="roomId";
+	public static final String CIE_IEEE="cie_ieee";
+	public static final String CIE_NAME="cie_name";
+	public static final String HOME_ID="home_id";
+	public static final String TIME="time";
+	public static final String HOUSEIEEE="houseIEEE";
+	public static final String W_MODE="w_mode";
+	public static final String ZONE_IEEE="zone_ieee";
+	public static final String ZONE_NAME="zone_name";
+	public static final String MSGTYPE="msgtype";
+	public static final String W_DESCRIPTION="w_description";
+	public static final String HOME_NAME="home_name";
+	public static final String ZONE_EP="zone_ep";
+	
+	}
+
+public class CallbackWarmMessage implements CallbackWarmMessageColumns,ContentValuesListener{
 	// {"cie_ep":"0A","roomId":"-1","cie_ieee":"00137A00000101D1","cie_name":"NULL","home_id":"00",
 	// "time":"2000-01-13 13:37:21","houseIEEE":"00137A00000101D1","w_mode":"1","zone_ieee":"00137A0000011598","zone_name":"","msgtype":3,"room_name":"","w_description":"Burglar","home_name":"","zone_ep":"02"}
 
@@ -112,6 +137,27 @@ public class CallbackWarmMessage {
 				+ ", zone_name=" + zone_name + ", msgtype=" + msgtype
 				+ ", w_description=" + w_description + ", home_name="
 				+ home_name + ", zone_ep=" + zone_ep + "]";
+	}
+	@Override
+	public ContentValues convertContentValues() {
+		ContentValues mContentValues = new ContentValues();
+
+		mContentValues.put(CallbackWarmMessageColumns.CIE_EP, getCie_ep());
+		mContentValues.put(CallbackWarmMessageColumns.CIE_IEEE, getCie_ieee());
+		mContentValues.put(CallbackWarmMessageColumns.CIE_NAME,getCie_name());
+		mContentValues.put(CallbackWarmMessageColumns.HOME_ID, getHome_id());
+		mContentValues.put(CallbackWarmMessageColumns.HOME_NAME, getHome_name());
+		mContentValues.put(CallbackWarmMessageColumns.HOUSEIEEE, getHouseIEEE());
+		mContentValues.put(CallbackWarmMessageColumns.MSGTYPE, getMsgtype());
+		mContentValues.put(CallbackWarmMessageColumns.ROOMID, getRoomId());
+		mContentValues.put(CallbackWarmMessageColumns.TIME, getTime());
+		mContentValues.put(CallbackWarmMessageColumns.W_DESCRIPTION, getW_description());
+		mContentValues.put(CallbackWarmMessageColumns.W_MODE, getW_mode());
+		mContentValues.put(CallbackWarmMessageColumns.ZONE_EP, getZone_ep());
+		mContentValues.put(CallbackWarmMessageColumns.ZONE_IEEE, getZone_ieee());
+		mContentValues.put(CallbackWarmMessageColumns.ZONE_NAME, getZone_name());
+
+		return mContentValues;
 	}
 	
 	

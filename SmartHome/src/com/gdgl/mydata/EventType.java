@@ -51,6 +51,7 @@ public class EventType {
 	public static final EventType GETBINDLIST;
 	public static final EventType BEGINLEARNIR;
 	public static final EventType BEGINAPPLYIR;
+	public static final EventType WARM;
 	
 
 	
@@ -94,6 +95,7 @@ public class EventType {
 		GETBINDLIST=new EventType("getBindList", nextId());
 		BEGINLEARNIR=new EventType("beginLearnIR", nextId());
 		BEGINAPPLYIR=new EventType("beginApplyIR", nextId());
+		WARM=new EventType("warm", nextId());
 		
 	}
 	
