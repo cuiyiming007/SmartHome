@@ -11,12 +11,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.gdgl.activity.ShowDevicesGroupFragmentActivity;
 import com.gdgl.model.DevicesGroup;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.Callback.CallbackWarmMessage;
-import com.gdgl.mydata.video.VideoNode;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.UiUtils;
 
@@ -291,14 +289,19 @@ public class DataUtil {
 
 	public static List<DevicesModel> getBindDevices(Context c, DataHelper dh) {
 
-		String[] args = new String[6];
+		String[] args = new String[11];
 		args[0] = "00137A000000F55A";
 		args[1] = "00137A000000B657";
 		args[2] = "00137A0000010516";
 		args[3] = "00137A0000010AB5";
 		args[4] = "00137A000000EE66";
 		args[5] = "00137A000000DC86";
-		String where = " ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? ";
+		args[6] = "00137A000000ECBD";
+		args[7] = "00137A000001184B";
+		args[8] = "00137A000001122A";
+		args[9] = "00137A000000BF13";
+		args[10] = "00137A000001181F";
+		String where = " ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? ";
 
 		List<DevicesModel> listDevicesModel = new ArrayList<DevicesModel>();
 		SQLiteDatabase db=dh.getSQLiteDatabase();
@@ -382,6 +385,18 @@ public class DataUtil {
 			args = new String[1];
 			args[0]="00137A000000BF13";
 			where = " ieee = ? ";
+		}else if(type.trim().equals("0006OUT")){
+			args = new String[4];
+			args[0]="00137A000000F55A";
+			args[1]="00137A000000B657";
+			args[2]="00137A0000010AB5";
+			args[3]="00137A000000DC86";
+			where = " ieee = ? or ieee = ? or ieee = ?  or ieee = ? ";
+		}else if(type.trim().equals("0008OUT")){
+			args = new String[2];
+			args[0]="00137A0000010516";
+			args[1]="00137A000000EE66";
+			where = " ieee = ? or ieee = ? ";
 		}
 
 		List<DevicesModel> listDevicesModel = new ArrayList<DevicesModel>();

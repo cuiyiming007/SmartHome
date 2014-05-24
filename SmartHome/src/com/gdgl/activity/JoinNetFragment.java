@@ -168,9 +168,6 @@ public class JoinNetFragment extends Fragment implements UIListener {
 			if (sd.getmIeee().trim().equals(s.getmIeee().trim())
 					&& sd.getmEP().trim().equals(s.getmEP().trim())) {
 				return true;
-			}else
-			{
-				continue;
 			}
 		}
 		Log.i("new enroll device", "ieee: "+s.getmIeee()+" ep:"+s.getmEP());
@@ -284,7 +281,20 @@ public class JoinNetFragment extends Fragment implements UIListener {
 	public interface ChangeFragment {
 		public void setFragment(Fragment f);
 	}
-
+	
+	public boolean isInAllList(ResponseParamsEndPoint responseParamsEndPoint){
+		if(null==allList || allList.size()==0){
+			return false;
+		}
+		for (ResponseParamsEndPoint rp : allList) {
+			if(rp.getDevparam().getNode().getIeee().equals(responseParamsEndPoint.getDevparam().getNode().getIeee())
+					&& rp.getDevparam().getEp().equals(responseParamsEndPoint.getDevparam().getEp())){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	@Override
 	public void update(Manger observer, Object object) {
 		// TODO Auto-generated method stub
@@ -300,7 +310,7 @@ public class JoinNetFragment extends Fragment implements UIListener {
 				allList = devDataList;
 			} else {
 				for (ResponseParamsEndPoint responseParamsEndPoint : devDataList) {
-					if (!allList.contains(responseParamsEndPoint)) {
+					if (!isInAllList(responseParamsEndPoint)) {
 						Log.i("scape devices", "SCAPDEV-> get a devices not in allList,add");
 						allList.add(responseParamsEndPoint);
 					}

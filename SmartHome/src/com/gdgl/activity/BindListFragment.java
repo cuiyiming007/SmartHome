@@ -1,46 +1,26 @@
 package com.gdgl.activity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.gdgl.activity.BindControlFragment.backAction;
 import com.gdgl.activity.BindControlFragment.updateList;
-import com.gdgl.activity.JoinNetDevicesListFragment.JoinNetAdapter.ViewHolder;
 import com.gdgl.activity.JoinNetFragment.ChangeFragment;
 import com.gdgl.manager.LightManager;
-import com.gdgl.manager.Manger;
-import com.gdgl.manager.UIListener;
 import com.gdgl.model.DevicesModel;
-import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
-import com.gdgl.mydata.Event;
-import com.gdgl.mydata.EventType;
-import com.gdgl.mydata.SimpleResponseData;
-import com.gdgl.mydata.binding.BindingDataEntity;
-import com.gdgl.mydata.binding.BindingDivice;
-import com.gdgl.mydata.binding.Binding_response_params;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.UiUtils;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -48,7 +28,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class BindListFragment extends Fragment implements updateList,UIListener{
+public class BindListFragment extends Fragment implements updateList{
 
 	private View mView;
 	List<DevicesModel> mList;
@@ -75,8 +55,6 @@ public class BindListFragment extends Fragment implements updateList,UIListener{
 	private void initData() {
 		// TODO Auto-generated method stub
 		dh = new DataHelper((Context) getActivity());
-		mLightManager=LightManager.getInstance();
-		mLightManager.addObserver(this);
 		new getDataTask().execute(1);
 	}
 	
@@ -92,15 +70,15 @@ public class BindListFragment extends Fragment implements updateList,UIListener{
 		protected void onPostExecute(Integer result) {
 			// TODO Auto-generated method stub
 			initView();
-			SimpleDevicesModel mSimpleDevicesModel;
-			if(null!=mList && mList.size()>0){
-				for (DevicesModel dm : mList) {
-					mSimpleDevicesModel=new SimpleDevicesModel();
-					mSimpleDevicesModel.setmIeee(dm.getmIeee());
-					mSimpleDevicesModel.setmEP(dm.getmEP());
-					mLightManager.getBindList(mSimpleDevicesModel);
-				}
-			}
+//			SimpleDevicesModel mSimpleDevicesModel;
+//			if(null!=mList && mList.size()>0){
+//				for (DevicesModel dm : mList) {
+//					mSimpleDevicesModel=new SimpleDevicesModel();
+//					mSimpleDevicesModel.setmIeee(dm.getmIeee());
+//					mSimpleDevicesModel.setmEP(dm.getmEP());
+//					mLightManager.getBindList(mSimpleDevicesModel);
+//				}
+//			}
 		}
 	}
 	
@@ -261,112 +239,4 @@ public class BindListFragment extends Fragment implements updateList,UIListener{
 		}
 		
 	}
-	
-	public class updateDevTask extends AsyncTask<BindingDataEntity, Integer, Integer>{
-		String ieee="";
-		String ep="";
-		String newId="";
-		@Override
-		protected Integer doInBackground(BindingDataEntity... params) {
-			// TODO Auto-generated method stub
-			BindingDataEntity data=params[0];
-			if(null==data){
-				return -1;
-			}
-			List<DevicesModel> mDevList=new ArrayList<DevicesModel>();
-			List<DevicesModel> tempList;
-			Binding_response_params brp=data.getResponse_params();
-			ArrayList<BindingDivice> ablist=brp.getList();
-			String where=" ieee=? and ep=? ";
-			String[] args;
-			
-			if(null!=ablist && ablist.size()>0){
-				SQLiteDatabase db=dh.getSQLiteDatabase();
-				for (BindingDivice bindingDivice : ablist) {
-					args=new String[2];
-					args[0]=bindingDivice.getIeee();
-					args[1]=bindingDivice.getEp();
-					tempList=dh.queryForList(db, DataHelper.DEVICES_TABLE, null, where, args, null, null, null, null);
-					if(null!=tempList && tempList.size()>0){
-						mDevList.add(tempList.get(0));
-					}
-				}
-				dh.close(db);
-			}
-			
-			String newBindId="";
-			
-			if(null!=mDevList && mDevList.size()>0){
-				for (DevicesModel dm : mDevList) {
-					if(null!=dm){
-						newBindId+=dm.getID()+"##";
-					}
-				}
-			}
-			
-			String[] argss = { brp.getIeee(), brp.getEp() };
-			ContentValues values = new ContentValues();
-			values.put(DevicesModel.BIND_TO, newBindId);
-			SQLiteDatabase db = dh.getSQLiteDatabase();
-			dh.update(db, DataHelper.DEVICES_TABLE, values,
-					where, argss);
-			
-			dh.close(db);
-			
-			newId=newBindId;
-			ieee=brp.getIeee();
-			ep=brp.getEp();
-			
-			return 1;
-		}
-		@Override
-		protected void onPostExecute(Integer result) {
-			// TODO Auto-generated method stub
-			int m=getPostionInList(ieee, ep);
-			if(-1!=m){
-				mList.get(m).setmBindTo(newId);
-				mBindAdapter.notifyDataSetChanged();
-			}
-		}
-	}
-	
-	public int getPostionInList(String ieee,String ep){
-		if(null==mList || null==ieee || null==ep){
-			return -1;
-		}
-		if(ieee.trim().equals("") || ep.trim().equals("")){
-			return -1;
-		}
-		for (int i=0;i<mList.size();i++) {
-			DevicesModel dm=mList.get(i);
-			if(ieee.trim().equals(dm.getmIeee().trim()) && ep.trim().equals(dm.getmEP().trim())){
-				return i;
-			}
-		}
-		return -1;
-	}
-	
-	@Override
-	public void update(Manger observer, Object object) {
-		// TODO Auto-generated method stub
-		//EventType.GETBINDLIST
-		final Event event = (Event) object;
-		if (EventType.GETBINDLIST == event.getType()) {
-			if (event.isSuccess()==true) {
-				// data maybe null
-				BindingDataEntity data=(BindingDataEntity)event.getData();
-				new updateDevTask().execute(data);
-				
-			}else {
-				//if failed,prompt a Toast
-				
-			}
-		}
-	}
-	@Override
-	public void onDestroy() {
-		mLightManager.deleteObserver(this);
-		super.onDestroy();
-	}
-	
 }
