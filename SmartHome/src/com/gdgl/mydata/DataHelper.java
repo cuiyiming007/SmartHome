@@ -428,7 +428,7 @@ public class DataHelper extends SQLiteOpenHelper {
 			mList.add(mVideoNode);
 		}
 		cursor.close();
-		db.close();
+//		db.close();
 		return mList;
 
 	}

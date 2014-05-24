@@ -1,7 +1,11 @@
 package com.gdgl.manager;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import android.database.sqlite.SQLiteDatabase;
@@ -127,7 +131,15 @@ public class VideoManager extends Manger{
 		paraMap.put("httpport", videoNode.getHttpport());
 		paraMap.put("name", videoNode.getName());
 		paraMap.put("password", videoNode.getPassword());
-		paraMap.put("alias", videoNode.getAliases());
+		String	alias = videoNode.getAliases();
+			try {
+				alias = URLEncoder.encode(alias, "UTF-8");
+//				String deString=URLDecoder.decode(alias, "UTF-8");
+//				Log.i(TAG, deString);
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+		paraMap.put("alias", alias);
 		String param = hashMap2ParamString(paraMap);
 		Listener<String> responseListener = new Listener<String>() {
 			@Override
@@ -160,6 +172,7 @@ public class VideoManager extends Manger{
 		};
 		String url = NetUtil.getInstance().getVideoURL(
 				NetUtil.getInstance().IP, "editIPC.cgi", param);
+		
 		StringRequest req = new StringRequest(url, responseListener,
 				errorListener);
 		ApplicationController.getInstance().addToRequestQueue(req);
@@ -245,17 +258,30 @@ public class VideoManager extends Manger{
 					ApplicationController.getInstance());
 			SQLiteDatabase mSQLiteDatabase = mDateHelper
 					.getSQLiteDatabase();
-//			List<VideoNode> mList = mDateHelper.queryForList(
-//					mSQLiteDatabase, DataHelper.VIDEO_TABLE, null, null,
-//					null, null, null, null, null);
+			
 			List<VideoNode> mList=DataHelper.getVideoList(ApplicationController.getInstance(),mDateHelper);
 			if (response.getList()!=null&&response.getList().size()!=mList.size()) {
 				mDateHelper.emptyTable(mSQLiteDatabase, DataHelper.VIDEO_TABLE);
+				ArrayList<VideoNode> videoNodesFromSever=decodeAlias2Chinese(response);
 				mDateHelper.insertVideoList(mSQLiteDatabase, DataHelper.VIDEO_TABLE,
-						null, response.getList());
+						null, videoNodesFromSever);
 			}
 //			mDateHelper.close(mSQLiteDatabase);
 			return response;
+		}
+		private ArrayList<VideoNode> decodeAlias2Chinese(VideoResponse response) {
+			ArrayList<VideoNode> videoNodesFromSever=response.getList();
+			for (Iterator iterator = videoNodesFromSever.iterator(); iterator
+					.hasNext();) {
+				VideoNode videoNode = (VideoNode) iterator.next();
+				try {
+					videoNode.setAliases(URLDecoder.decode(videoNode.getAliases(), "UTF-8"));
+				} catch (UnsupportedEncodingException e) {
+					e.printStackTrace();
+				}
+				
+			}
+			return videoNodesFromSever;
 		}
 		@Override
 		protected void onPostExecute(VideoResponse result) {

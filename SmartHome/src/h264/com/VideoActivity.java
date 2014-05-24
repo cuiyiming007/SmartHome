@@ -101,12 +101,13 @@ public class VideoActivity extends FragmentActivity {
 		View viewTitle = layoutInflater.inflate(R.layout.toptitle, null);
 		TextView title=(TextView)viewTitle.findViewById(R.id.title);
 		String name = "";
-		try {
-			name=new String((mVideoNode.getAliases()).getBytes("UTF-8"),"ISO-8859-1");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		name=mVideoNode.getAliases();
+//		try {
+////			name=new String((mVideoNode.getAliases()).getBytes("UTF-8"),"ISO-8859-1");
+//		} catch (UnsupportedEncodingException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		title.setText(name);
 		LinearLayout.LayoutParams params = setTitlePortrait();
 		addContentView(viewTitle, params);
