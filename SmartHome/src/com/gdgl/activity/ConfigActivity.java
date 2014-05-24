@@ -129,7 +129,22 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 				changeFragment(tv, mAllDevicesListFragment);
 			}
 		});
+		initFragment();
+		
 		mHandler.sendEmptyMessageDelayed(1, 150);
+	}
+
+	private void initFragment() {
+		// TODO Auto-generated method stub
+		config_name.setText(all_dev.getText().toString());
+		if(null==fragmentManager){
+			fragmentManager=this.getFragmentManager();
+		}
+		FragmentTransaction fragmentTransaction = fragmentManager
+				.beginTransaction();
+
+		fragmentTransaction.replace(R.id.fragment_continer, new DevicesListWithGroup());
+		fragmentTransaction.commit();
 	}
 
 	private void changeFragment(TextView v, Fragment f) {
