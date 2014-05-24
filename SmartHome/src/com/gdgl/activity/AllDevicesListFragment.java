@@ -251,7 +251,12 @@ public class AllDevicesListFragment extends BaseFragment {
 					if(null!=data.getValue()){
 						mDevicesList.get(m).setmOnOffStatus(data.getValue());
 						mDevicesAdapter.setList(mDevicesList);
-						mDevicesAdapter.notifyDataSetChanged();
+						mView.post(new Runnable() {
+							@Override
+							public void run() {
+								mDevicesAdapter.notifyDataSetChanged();
+							}
+						});
 					}
 				}
 				ProcessUpdate(data);

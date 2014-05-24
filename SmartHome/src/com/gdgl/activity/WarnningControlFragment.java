@@ -208,7 +208,12 @@ public class WarnningControlFragment extends BaseControlFragment {
 				if (null != data.getValue()) {
 					result = data.getValue().trim().equals("1");
 					status = result;
-					setImagRes(on_off, status);
+					mView.post(new Runnable() {
+						@Override
+						public void run() {
+							setImagRes(on_off, status);
+						}
+					});
 				}
 				ProcessUpdate(data, mList);
 			} else {

@@ -242,7 +242,13 @@ public class JoinNetDevicesListFragment extends BaseFragment implements
 					if(null!=data.getValue()){
 						mDevList.get(m).setmOnOffStatus(data.getValue());
 						mJoinNetAdapter.setList(mDevList);
-						mJoinNetAdapter.notifyDataSetChanged();
+						mView.post(new Runnable() {
+							
+							@Override
+							public void run() {
+								mJoinNetAdapter.notifyDataSetChanged();
+							}
+						});
 					}
 				}
 				ProcessUpdate(data);
