@@ -132,6 +132,7 @@
                 android:src="@drawable/ofm_collect_icon" />
 
             <TextView
+                android:id="@+id/message_menu"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:layout_marginLeft="10dp"

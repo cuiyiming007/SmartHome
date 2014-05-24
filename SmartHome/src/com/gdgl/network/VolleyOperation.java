@@ -17,6 +17,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.gdgl.app.ApplicationController;
 import com.gdgl.mydata.Constants;
+import com.gdgl.mydata.DeviceLearnedParam;
 import com.gdgl.mydata.RespondDataEntity;
 import com.gdgl.mydata.ResponseParams;
 import com.gdgl.mydata.ResponseParamsEndPoint;
@@ -160,6 +161,12 @@ public class VolleyOperation {
 		return parseJSON2GetBindingList(response);
 
 	}
+	public static RespondDataEntity<DeviceLearnedParam> handleDeviceLearnedString(String response) {
+		// format response string to standard json string
+		response = UiUtils.formatResponseString(response);
+		return parseJSON2GetGeviceLearned(response);
+		
+	}
 
 	/***
 	 * 
@@ -283,6 +290,24 @@ public class VolleyOperation {
 		}
 		params.setList(list);
 		dataEntity.setResponse_params(params);
+		return dataEntity;
+	}
+	
+	public static RespondDataEntity<DeviceLearnedParam> parseJSON2GetGeviceLearned(String s) {
+		Gson gson = new Gson();
+		JsonParser parser = new JsonParser();
+		ArrayList<DeviceLearnedParam> list = new ArrayList<DeviceLearnedParam>();
+		JsonObject jsonObject = parser.parse(s).getAsJsonObject();
+		RespondDataEntity<DeviceLearnedParam> dataEntity = new RespondDataEntity<DeviceLearnedParam>();
+		JsonElement idElement=jsonObject.get("request_id");
+		dataEntity.setRequest_id(idElement.toString());
+		JsonArray jsonArray = jsonObject.getAsJsonArray("response_params");
+		for (int i = 0; i < jsonArray.size(); i++) {
+			JsonElement el = jsonArray.get(i);
+			DeviceLearnedParam tmp = gson.fromJson(el, DeviceLearnedParam.class);
+			list.add(tmp);
+		}
+		dataEntity.setResponseparamList(list);
 		return dataEntity;
 	}
 	

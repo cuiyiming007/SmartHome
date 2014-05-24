@@ -1,12 +1,8 @@
 package com.gdgl.activity;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Fragment;
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,31 +13,20 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.gdgl.activity.BindControlFragment.backAction;
-import com.gdgl.activity.BindControlFragment.updateList;
-import com.gdgl.activity.JoinNetFragment.ChangeFragment;
 import com.gdgl.manager.CallbackManager;
-import com.gdgl.manager.LightManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
-import com.gdgl.model.DevicesModel;
-import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.Callback.CallbackWarmMessage;
-import com.gdgl.mydata.binding.BindingDataEntity;
-import com.gdgl.mydata.binding.BindingDivice;
-import com.gdgl.mydata.binding.Binding_response_params;
 import com.gdgl.smarthome.R;
-import com.gdgl.util.UiUtils;
 
-public class MessageListFragment extends Fragment implements UIListener {
+public class MessageListFragment extends BaseFragment implements UIListener {
 
 	private View mView;
 	List<CallbackWarmMessage> mList;
@@ -206,5 +191,10 @@ public class MessageListFragment extends Fragment implements UIListener {
 	public void onDestroy() {
 		CallbackManager.getInstance().deleteObserver(this);
 		super.onDestroy();
+	}
+
+	@Override
+	public void stopRefresh() {
+		
 	}
 }

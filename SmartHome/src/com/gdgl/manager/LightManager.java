@@ -13,8 +13,10 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.gdgl.app.ApplicationController;
 import com.gdgl.model.SimpleDevicesModel;
+import com.gdgl.mydata.DeviceLearnedParam;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
+import com.gdgl.mydata.RespondDataEntity;
 import com.gdgl.mydata.ResponseDataEntityForStatus;
 import com.gdgl.mydata.bind.BindResponseData;
 import com.gdgl.mydata.binding.BindingDataEntity;
@@ -54,13 +56,15 @@ public class LightManager extends Manger {
 		}
 		return instance;
 	}
+
 	/***
 	 * 1.4BindDevice
+	 * 
 	 * @param outModel
 	 * @param inModel
 	 */
-	public void bindDevice(SimpleDevicesModel outModel,SimpleDevicesModel inModel)
-	{
+	public void bindDevice(SimpleDevicesModel outModel,
+			SimpleDevicesModel inModel) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("devout_ieee", outModel.getmIeee());
 		paraMap.put("devout_ep", outModel.getmEP());
@@ -73,8 +77,7 @@ public class LightManager extends Manger {
 			@Override
 			public void onResponse(String response) {
 				response = UiUtils.formatResponseString(response);
-				Log.i("LightManager bindDevice Response:%n %s",
-						response);
+				Log.i("LightManager bindDevice Response:%n %s", response);
 				Gson gson = new Gson();
 				BindResponseData statusData = gson.fromJson(
 						response.toString(), BindResponseData.class);
@@ -96,8 +99,7 @@ public class LightManager extends Manger {
 							errorString = VolleyErrorHelper.getMessage(error,
 									ApplicationController.getInstance());
 						}
-						Event event = new Event(EventType.BINDDEVICE,
-								false);
+						Event event = new Event(EventType.BINDDEVICE, false);
 						event.setData(errorString);
 						notifyObservers(event);
 					}
@@ -105,17 +107,18 @@ public class LightManager extends Manger {
 		// add the request object to the queue to be executed
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
-	public void unbindDevice(SimpleDevicesModel outModel,SimpleDevicesModel inModel)
-	{
+
+	public void unbindDevice(SimpleDevicesModel outModel,
+			SimpleDevicesModel inModel) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("devout_ieee", outModel.getmIeee());
 		paraMap.put("devout_ep", outModel.getmEP());
 		paraMap.put("devin_ieee", inModel.getmIeee());
 		paraMap.put("devin_ep", inModel.getmEP());
-//		paraMap.put("devout_ieee", "00137A000001122A");
-//		paraMap.put("devout_ep", "03");
-//		paraMap.put("devin_ieee", "00137A0000010AB5");
-//		paraMap.put("devin_ep", "0A");
+		// paraMap.put("devout_ieee", "00137A000001122A");
+		// paraMap.put("devout_ep", "03");
+		// paraMap.put("devin_ieee", "00137A0000010AB5");
+		// paraMap.put("devin_ep", "0A");
 		paraMap.put("cluster_id", "0006");
 		String param = hashMap2ParamString(paraMap);
 
@@ -123,9 +126,8 @@ public class LightManager extends Manger {
 				NetUtil.getInstance().IP, "unbindDevice.cgi", param);
 		simpleVolleyRequset(url, EventType.UNBINDDEVICE);
 	}
-	
-	public void getBindList(SimpleDevicesModel outModel)
-	{
+
+	public void getBindList(SimpleDevicesModel outModel) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", outModel.getmIeee());
 		paraMap.put("ep", outModel.getmEP());
@@ -147,14 +149,14 @@ public class LightManager extends Manger {
 			}
 		};
 
-		StringRequest req = new StringRequest(url,
-				responseListener, errorListener);
+		StringRequest req = new StringRequest(url, responseListener,
+				errorListener);
 
 		// add the request object to the queue to be executed
 		Log.i("request url", url);
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
-	
+
 	/***
 	 * 1.7 删除node
 	 * 
@@ -713,10 +715,10 @@ public class LightManager extends Manger {
 				NetUtil.getInstance().IP, "temperatureSensorOperation.cgi",
 				param);
 		EventType type;
-		if (operationType==0) {
-			 type=EventType.TEMPERATURESENSOROPERATION;
-		}else {
-			type=EventType.HUMIDITY;
+		if (operationType == 0) {
+			type = EventType.TEMPERATURESENSOROPERATION;
+		} else {
+			type = EventType.HUMIDITY;
 		}
 		simpleVolleyRequset(url, type);
 	}
@@ -788,15 +790,16 @@ public class LightManager extends Manger {
 
 		simpleVolleyRequset(url, EventType.REMOTECONTROL);
 	}
+
 	/***
-	 * 打开红外学习设备，准备学习
-	 * 成功返回的数据跟跟BindResponseData一样
+	 * 打开红外学习设备，准备学习 成功返回的数据跟跟BindResponseData一样
+	 * 
 	 * @param model
 	 * @param index
 	 * @param operation
 	 */
-	public void beginLearnIR(SimpleDevicesModel model,int index,String operation)
-	{
+	public void beginLearnIR(SimpleDevicesModel model, int index,
+			String operation) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", model.getmIeee());
 		paraMap.put("ep", model.getmEP());
@@ -808,8 +811,7 @@ public class LightManager extends Manger {
 			@Override
 			public void onResponse(String response) {
 				response = UiUtils.formatResponseString(response);
-				Log.i("LightManager beginLearnIR Response:%n %s",
-						response);
+				Log.i("LightManager beginLearnIR Response:%n %s", response);
 				Gson gson = new Gson();
 				BindResponseData statusData = gson.fromJson(
 						response.toString(), BindResponseData.class);
@@ -831,36 +833,35 @@ public class LightManager extends Manger {
 							errorString = VolleyErrorHelper.getMessage(error,
 									ApplicationController.getInstance());
 						}
-						Event event = new Event(EventType.BEGINLEARNIR,
-								false);
+						Event event = new Event(EventType.BEGINLEARNIR, false);
 						event.setData(errorString);
 						notifyObservers(event);
 					}
 				});
 		// add the request object to the queue to be executed
 		ApplicationController.getInstance().addToRequestQueue(req);
-		
+
 	}
+
 	/***
 	 * 红外控制
+	 * 
 	 * @param model
 	 * @param index
 	 * @param operation
 	 */
-	public void beginApplyIR(SimpleDevicesModel model,int index)
-	{
+	public void beginApplyIR(SimpleDevicesModel model, int index) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", model.getmIeee());
 		paraMap.put("ep", model.getmEP());
 		paraMap.put("hadaemonindex", String.valueOf(index));
 		String param = hashMap2ParamString(paraMap);
-		
+
 		Listener<String> responseListener = new Listener<String>() {
 			@Override
 			public void onResponse(String response) {
 				response = UiUtils.formatResponseString(response);
-				Log.i("LightManager beginApplyIR Response:%n %s",
-						response);
+				Log.i("LightManager beginApplyIR Response:%n %s", response);
 				Gson gson = new Gson();
 				BindResponseData statusData = gson.fromJson(
 						response.toString(), BindResponseData.class);
@@ -874,26 +875,63 @@ public class LightManager extends Manger {
 		Log.i("LightManager beginApplyIR Request:%n %s", url);
 		StringRequest req = new StringRequest(url, responseListener,
 				new Response.ErrorListener() {
-			@Override
-			public void onErrorResponse(VolleyError error) {
-				String errorString = null;
-				if (error != null && error.getMessage() != null) {
-					VolleyLog.e("Error: ", error.getMessage());
-					errorString = VolleyErrorHelper.getMessage(error,
-							ApplicationController.getInstance());
-				}
-				Event event = new Event(EventType.BEGINAPPLYIR,
-						false);
-				event.setData(errorString);
-				notifyObservers(event);
-			}
-		});
+					@Override
+					public void onErrorResponse(VolleyError error) {
+						String errorString = null;
+						if (error != null && error.getMessage() != null) {
+							VolleyLog.e("Error: ", error.getMessage());
+							errorString = VolleyErrorHelper.getMessage(error,
+									ApplicationController.getInstance());
+						}
+						Event event = new Event(EventType.BEGINAPPLYIR, false);
+						event.setData(errorString);
+						notifyObservers(event);
+					}
+				});
 		// add the request object to the queue to be executed
 		ApplicationController.getInstance().addToRequestQueue(req);
-		
+
 	}
-	
-  class GetBindingTast extends AsyncTask<String, Object, Object> {
+
+	public void getDeviceLearnedIRDataInformation(SimpleDevicesModel model) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("ieee", model.getmIeee());
+		paraMap.put("ep", model.getmEP());
+		String param = hashMap2ParamString(paraMap);
+
+		Listener<String> responseListener = new Listener<String>() {
+			@Override
+			public void onResponse(String response) {
+				Log.i("LightManager GetDeviceLearnedIRDataInformation Response:%n %s",
+						response);
+				new GetDeviceLearnedTast().execute(response);
+			}
+		};
+		String url = NetUtil.getInstance().getCumstomURL(
+				NetUtil.getInstance().IP,
+				"GetDeviceLearnedIRDataInformation.cgi", param);
+		Log.i("LightManager GetDeviceLearnedIRDataInformation Request:%n %s",
+				url);
+		StringRequest req = new StringRequest(url, responseListener,
+				new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+						String errorString = null;
+						if (error != null && error.getMessage() != null) {
+							VolleyLog.e("Error: ", error.getMessage());
+							errorString = VolleyErrorHelper.getMessage(error,
+									ApplicationController.getInstance());
+						}
+						Event event = new Event(EventType.GETDEVICELEARNED, false);
+						event.setData(errorString);
+						notifyObservers(event);
+					}
+				});
+		// add the request object to the queue to be executed
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
+
+	class GetBindingTast extends AsyncTask<String, Object, Object> {
 		@Override
 		protected Object doInBackground(String... params) {
 			BindingDataEntity data = VolleyOperation
@@ -907,6 +945,23 @@ public class LightManager extends Manger {
 			event.setData(result);
 			notifyObservers(event);
 		}
-  }
+	}
+
+	class GetDeviceLearnedTast extends AsyncTask<String, Object, Object> {
+
+		@Override
+		protected Object doInBackground(String... params) {
+			RespondDataEntity<DeviceLearnedParam> dataEntity = VolleyOperation
+					.handleDeviceLearnedString(params[0]);
+			return dataEntity;
+		}
+		@Override
+		protected void onPostExecute(Object result) {
+			
+			Event event = new Event(EventType.GETDEVICELEARNED, true);
+			event.setData(result);
+			notifyObservers(event);
+		}
+	}
 
 }

@@ -52,6 +52,7 @@ public class EventType {
 	public static final EventType BEGINLEARNIR;
 	public static final EventType BEGINAPPLYIR;
 	public static final EventType WARM;
+	public static final EventType GETDEVICELEARNED;
 	
 
 	
@@ -96,6 +97,7 @@ public class EventType {
 		BEGINLEARNIR=new EventType("beginLearnIR", nextId());
 		BEGINAPPLYIR=new EventType("beginApplyIR", nextId());
 		WARM=new EventType("warm", nextId());
+		GETDEVICELEARNED=new EventType("GetDeviceLearned", nextId());
 		
 	}
 	

@@ -28,7 +28,7 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 	int mSelectedColor = 0xffEE3B3B;
 	int mUnSelectedColor = 0xff20B2AA;
 
-	TextView modify_pwd, modify_name, join_net, all_dev, bind_control;
+	TextView modify_pwd, modify_name, join_net, all_dev, bind_control,messagemenu;
 
 	// TextView safe_center;
 	TextView config_name, user_name;
@@ -59,8 +59,10 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 		mfragment_continer = (LinearLayout) findViewById(R.id.fragment_continer);
 		config_name = (TextView) findViewById(R.id.config_name);
 		user_name = (TextView) findViewById(R.id.user_name);
+		messagemenu = (TextView) findViewById(R.id.message_menu);
 		user_name.setText(name);
 		modify_pwd = (TextView) findViewById(R.id.modify_pwd);
+		
 		modify_pwd.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -127,6 +129,14 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 				DevicesListWithGroup mAllDevicesListFragment = new DevicesListWithGroup();
 				mFragment = mAllDevicesListFragment;
 				changeFragment(tv, mAllDevicesListFragment);
+			}
+		});
+		messagemenu.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				MessageListFragment messageListFragment=new MessageListFragment();
+				mFragment=messageListFragment;
+				changeFragment((TextView) v, messageListFragment);
 			}
 		});
 		initFragment();
