@@ -53,7 +53,7 @@ public class KongtiaoTvControlActivity extends Activity implements UIListener {
 	RemoteControl currentControl;
 
 	int currentPostion = 1;
-	boolean b=false;
+	boolean b = false;
 
 	LightManager mLightManager;
 	SimpleDevicesModel mControlModel;
@@ -181,239 +181,21 @@ public class KongtiaoTvControlActivity extends Activity implements UIListener {
 
 	private void setListeners() {
 		// TODO Auto-generated method stub
-		btn_tv_power.setOnClickListener(new OnClickListener() {
+		btn_tv_power.setOnClickListener(new learnListeners("1", TV_ONOFF));
 
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				RemoteControl rc = (RemoteControl) v.getTag();
-				if (null == rc) {
+		btn_jian.setOnClickListener(new learnListeners("2", CHANNEL_DEC));
 
-					rc = new RemoteControl();
-					rc.Index = "1";
-					rc.Name = TV_ONOFF;
-					rc.IsLearn = "0";
-				}
-				if (!rc.IsLearn.trim().equals("1")) {
-					if (null == mDialog) {
-						mDialog = MyDlg.createLoadingDialog(
-								KongtiaoTvControlActivity.this, "开始学习此功能...");
-						mDialog.show();
-					} else {
-						mDialog.show();
-					}
+		btn_jia.setOnClickListener(new learnListeners("3", CHANNEL_ADD));
 
-					currentControl = rc;
-					mLightManager.beginLearnIR(mControlModel,
-							Integer.parseInt(rc.Index), rc.Name);
-					mHandler.sendEmptyMessageDelayed(FINISH_DLG, 3000);
-				} else {
-					mLightManager.beginApplyIR(mControlModel,
-							Integer.parseInt(rc.Index));
-				}
-			}
-		});
-		
-		btn_jian.setOnClickListener(new OnClickListener() {
+		btn_increment.setOnClickListener(new learnListeners("4", VOL_ADD));
 
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				RemoteControl rc = (RemoteControl) v.getTag();
-				if (null == rc) {
+		btn_decress.setOnClickListener(new learnListeners("5", VOL_DEC));
 
-					rc = new RemoteControl();
-					rc.Index = "2";
-					rc.Name = CHANNEL_DEC;
-					rc.IsLearn = "0";
-				}
-				if (!rc.IsLearn.trim().equals("1")) {
-					if (null == mDialog) {
-						mDialog = MyDlg.createLoadingDialog(
-								KongtiaoTvControlActivity.this, "开始学习此功能...");
-						mDialog.show();
-					} else {
-						mDialog.show();
-					}
+		btn_up.setOnClickListener(new learnListeners("6", TEMPTURE_DEC));
+		btn_down.setOnClickListener(new learnListeners("8", TEMPTURE_ADD));
 
-					currentControl = rc;
-					mLightManager.beginLearnIR(mControlModel,
-							Integer.parseInt(rc.Index), rc.Name);
-					mHandler.sendEmptyMessageDelayed(FINISH_DLG, 3000);
-				} else {
-					mLightManager.beginApplyIR(mControlModel,
-							Integer.parseInt(rc.Index));
-				}
-			}
-		});
-		
-		
-		btn_jia.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				RemoteControl rc = (RemoteControl) v.getTag();
-				if (null == rc) {
-
-					rc = new RemoteControl();
-					rc.Index = "3";
-					rc.Name = CHANNEL_ADD;
-					rc.IsLearn = "0";
-				}
-				if (!rc.IsLearn.trim().equals("1")) {
-					if (null == mDialog) {
-						mDialog = MyDlg.createLoadingDialog(
-								KongtiaoTvControlActivity.this, "开始学习此功能...");
-						mDialog.show();
-					} else {
-						mDialog.show();
-					}
-
-					currentControl = rc;
-					mLightManager.beginLearnIR(mControlModel,
-							Integer.parseInt(rc.Index), rc.Name);
-					mHandler.sendEmptyMessageDelayed(FINISH_DLG, 3000);
-				} else {
-					mLightManager.beginApplyIR(mControlModel,
-							Integer.parseInt(rc.Index));
-				}
-			}
-		});
-		
-		
-		btn_increment.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				RemoteControl rc = (RemoteControl) v.getTag();
-				if (null == rc) {
-
-					rc = new RemoteControl();
-					rc.Index = "4";
-					rc.Name = VOL_ADD;
-					rc.IsLearn = "0";
-				}
-				if (!rc.IsLearn.trim().equals("1")) {
-					if (null == mDialog) {
-						mDialog = MyDlg.createLoadingDialog(
-								KongtiaoTvControlActivity.this, "开始学习此功能...");
-						mDialog.show();
-					} else {
-						mDialog.show();
-					}
-
-					currentControl = rc;
-					mLightManager.beginLearnIR(mControlModel,
-							Integer.parseInt(rc.Index), rc.Name);
-					mHandler.sendEmptyMessageDelayed(FINISH_DLG, 3000);
-				} else {
-					mLightManager.beginApplyIR(mControlModel,
-							Integer.parseInt(rc.Index));
-				}
-			}
-		});
-		
-		
-		btn_decress.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				RemoteControl rc = (RemoteControl) v.getTag();
-				if (null == rc) {
-
-					rc = new RemoteControl();
-					rc.Index = "5";
-					rc.Name = VOL_DEC;
-					rc.IsLearn = "0";
-				}
-				if (!rc.IsLearn.trim().equals("1")) {
-					if (null == mDialog) {
-						mDialog = MyDlg.createLoadingDialog(
-								KongtiaoTvControlActivity.this, "开始学习此功能...");
-						mDialog.show();
-					} else {
-						mDialog.show();
-					}
-
-					currentControl = rc;
-					mLightManager.beginLearnIR(mControlModel,
-							Integer.parseInt(rc.Index), rc.Name);
-					mHandler.sendEmptyMessageDelayed(FINISH_DLG, 3000);
-				} else {
-					mLightManager.beginApplyIR(mControlModel,
-							Integer.parseInt(rc.Index));
-				}
-			}
-		});
-		btn_up.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				RemoteControl rc = (RemoteControl) v.getTag();
-				if (null == rc) {
-
-					rc = new RemoteControl();
-					rc.Index = "6";
-					rc.Name = TEMPTURE_DEC;
-					rc.IsLearn = "0";
-				}
-				if (!rc.IsLearn.trim().equals("1")) {
-					if (null == mDialog) {
-						mDialog = MyDlg.createLoadingDialog(
-								KongtiaoTvControlActivity.this, "开始学习此功能...");
-						mDialog.show();
-					} else {
-						mDialog.show();
-					}
-
-					currentControl = rc;
-					mLightManager.beginLearnIR(mControlModel,
-							Integer.parseInt(rc.Index), rc.Name);
-					mHandler.sendEmptyMessageDelayed(FINISH_DLG, 3000);
-				} else {
-					mLightManager.beginApplyIR(mControlModel,
-							Integer.parseInt(rc.Index));
-				}
-			}
-		});
-		btn_down.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				RemoteControl rc = (RemoteControl) v.getTag();
-				if (null == rc) {
-
-					rc = new RemoteControl();
-					rc.Index = "8";
-					rc.Name = TEMPTURE_ADD;
-					rc.IsLearn = "0";
-				}
-				if (!rc.IsLearn.trim().equals("1")) {
-					if (null == mDialog) {
-						mDialog = MyDlg.createLoadingDialog(
-								KongtiaoTvControlActivity.this, "开始学习此功能...");
-						mDialog.show();
-					} else {
-						mDialog.show();
-					}
-
-					currentControl = rc;
-					mLightManager.beginLearnIR(mControlModel,
-							Integer.parseInt(rc.Index), rc.Name);
-					mHandler.sendEmptyMessageDelayed(FINISH_DLG, 3000);
-				} else {
-					mLightManager.beginApplyIR(mControlModel,
-							Integer.parseInt(rc.Index));
-				}
-			}
-		});
 		on_off_remote.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
@@ -441,17 +223,61 @@ public class KongtiaoTvControlActivity extends Activity implements UIListener {
 				} else {
 					mLightManager.beginApplyIR(mControlModel,
 							Integer.parseInt(rc.Index));
-					ImageView mImageView=(ImageView)v;
-					if(!b){
-						mImageView.setImageResource(R.drawable.kongtao_on_small);
-					}else{
-						mImageView.setImageResource(R.drawable.kongtao_off_small);
+					ImageView mImageView = (ImageView) v;
+					if (!b) {
+						mImageView
+								.setImageResource(R.drawable.kongtao_on_small);
+					} else {
+						mImageView
+								.setImageResource(R.drawable.kongtao_off_small);
 					}
-					b=!b;
+					b = !b;
 				}
 			}
 		});
-		
+
+	}
+
+	public class learnListeners implements OnClickListener {
+
+		public String Index;
+		public String Name;
+
+		public learnListeners(String index, String name) {
+			Index = index;
+			Name = name;
+		}
+
+		@Override
+		public void onClick(View v) {
+			// TODO Auto-generated method stub
+			RemoteControl rc = (RemoteControl) v.getTag();
+			if (null == rc) {
+
+				rc = new RemoteControl();
+				rc.Index = Index;
+				rc.Name = Name;
+				rc.IsLearn = "0";
+			}
+			if (!rc.IsLearn.trim().equals("1")) {
+				if (null == mDialog) {
+					mDialog = MyDlg.createLoadingDialog(
+							KongtiaoTvControlActivity.this, "开始学习此功能...");
+					mDialog.show();
+				} else {
+					mDialog.show();
+				}
+
+				currentControl = rc;
+				mLightManager.beginLearnIR(mControlModel,
+						Integer.parseInt(rc.Index), rc.Name);
+				mHandler.sendEmptyMessageDelayed(FINISH_DLG, 3000);
+			} else {
+				mLightManager.beginApplyIR(mControlModel,
+						Integer.parseInt(rc.Index));
+			}
+		}
+
 	}
 
 	@SuppressLint("NewApi")
@@ -468,6 +294,9 @@ public class KongtiaoTvControlActivity extends Activity implements UIListener {
 						.equals("1")) {
 			btn_tv_power.setBackground(getResources().getDrawable(
 					R.drawable.power_unlearned_btn_style));
+		} else {
+			btn_tv_power.setBackground(getResources().getDrawable(
+					R.drawable.power_learned_btn_style));
 		}
 
 		if (btn_jian.getTag() == null
@@ -475,6 +304,9 @@ public class KongtiaoTvControlActivity extends Activity implements UIListener {
 						"1")) {
 			btn_jian.setBackground(getResources().getDrawable(
 					R.drawable.jian_unlearned_btn_style));
+		} else {
+			btn_jian.setBackground(getResources().getDrawable(
+					R.drawable.jian_learned_btn_style));
 		}
 
 		if (btn_jia.getTag() == null
@@ -482,6 +314,9 @@ public class KongtiaoTvControlActivity extends Activity implements UIListener {
 						"1")) {
 			btn_jia.setBackground(getResources().getDrawable(
 					R.drawable.jia_unlearned_btn_style));
+		} else {
+			btn_jia.setBackground(getResources().getDrawable(
+					R.drawable.jia_learned_btn_style));
 		}
 
 		if (btn_increment.getTag() == null
@@ -489,6 +324,9 @@ public class KongtiaoTvControlActivity extends Activity implements UIListener {
 						.equals("1")) {
 			btn_increment.setBackground(getResources().getDrawable(
 					R.drawable.increment_unlearned_btn_style));
+		} else {
+			btn_increment.setBackground(getResources().getDrawable(
+					R.drawable.increment_learned_btn_style));
 		}
 
 		if (btn_decress.getTag() == null
@@ -496,6 +334,9 @@ public class KongtiaoTvControlActivity extends Activity implements UIListener {
 						.equals("1")) {
 			btn_decress.setBackground(getResources().getDrawable(
 					R.drawable.decress_unlearned_btn_style));
+		} else {
+			btn_decress.setBackground(getResources().getDrawable(
+					R.drawable.decress_learned_btn_style));
 		}
 	}
 
@@ -552,19 +393,21 @@ public class KongtiaoTvControlActivity extends Activity implements UIListener {
 		}
 		return -1;
 	}
-	
+
 	private void writeLearnListToSharedPreferences(int type) {
 		// TODO Auto-generated method stub
 		getFromSharedPreferences
 				.setharedPreferences(KongtiaoTvControlActivity.this);
-		if(1==type){
-			getFromSharedPreferences.addTvKongtiaoRemoteControlList(mKongtiaoControl, 1);
-		}else if(2==type){
-			getFromSharedPreferences.addTvKongtiaoRemoteControlList(mtvControl, 2);
+		if (1 == type) {
+			getFromSharedPreferences.addTvKongtiaoRemoteControlList(
+					mKongtiaoControl, 1);
+		} else if (2 == type) {
+			getFromSharedPreferences.addTvKongtiaoRemoteControlList(mtvControl,
+					2);
 		}
-		
+
 	}
-	
+
 	@Override
 	public void update(Manger observer, Object object) {
 		// TODO Auto-generated method stub
