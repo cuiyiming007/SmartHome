@@ -108,11 +108,12 @@ public class LoginManager extends Manger {
 		// add the request object to the queue to be executed
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
-	public void modifyAlias(String id,String old_alias,String new_alias)
+	public void modifyAlias(AccountInfo info,String new_alias)
 	{
 		HashMap<String, String> paraMap = new HashMap<String, String>();
-		paraMap.put("id", id);
-		paraMap.put("old_alias", old_alias);
+		paraMap.put("id", info.getId());
+		paraMap.put("password", info.getPassword());
+		paraMap.put("old_alias", info.getAlias());
 		paraMap.put("new_alias", new_alias);
 		String param = hashMap2ParamString(paraMap);
 

@@ -1,10 +1,19 @@
 package com.gdgl.mydata;
 
 public class AccountInfo {
+	
+	private String id;
 
 	private String account;
 	private String  password;
 	private String alias;
+	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	public String getAccount() {
 		return account;
 	}

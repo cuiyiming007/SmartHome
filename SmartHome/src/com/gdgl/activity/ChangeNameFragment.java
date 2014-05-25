@@ -3,6 +3,7 @@ package com.gdgl.activity;
 import com.gdgl.manager.LoginManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
+import com.gdgl.mydata.AccountInfo;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.getFromSharedPreferences;
@@ -30,6 +31,7 @@ public class ChangeNameFragment extends Fragment implements UIListener{
 
 	String odlPwd,name;
 	String newName;
+	String id;
 	LoginManager mLoginManager;
 	
 	RelativeLayout ch_pwd;
@@ -54,7 +56,7 @@ public class ChangeNameFragment extends Fragment implements UIListener{
 		getFromSharedPreferences.setharedPreferences((Context) getActivity());
 		odlPwd = getFromSharedPreferences.getPwd();
 		name=getFromSharedPreferences.getName();
-		
+		id=getFromSharedPreferences.getUid();
 		new_name = (EditText) mView.findViewById(R.id.new_name);
 		new_name.setText(name);
 		
@@ -88,10 +90,12 @@ public class ChangeNameFragment extends Fragment implements UIListener{
 				} 
 				error_message.setVisibility(View.INVISIBLE);
 				
-//				AccountInfo account=new AccountInfo();
-//				account.setAccount(name);
-//				account.setPassword(odlPwd);
-//				mLoginManager.modifyAlias(id, old_alias, new_alias);
+				AccountInfo account=new AccountInfo();
+				account.setAccount(name);
+				account.setPassword(odlPwd);
+				account.setId(id);
+				account.setAlias(name);
+				mLoginManager.modifyAlias(account, newName);
 			}
 		});
 

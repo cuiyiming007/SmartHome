@@ -29,8 +29,8 @@ public class getFromSharedPreferences {
 		return mSharedPreferences.getString(UiUtils.NAME, UiUtils.EMPTY_STR);
 	}
 
-	public static int getUid() {
-		return mSharedPreferences.getInt(UiUtils.UID, UiUtils.ILLEGAI_UID);
+	public static String getUid() {
+		return mSharedPreferences.getString(UiUtils.UID, UiUtils.EMPTY_STR);
 	}
 
 	public static boolean getIsRemerber() {
@@ -41,12 +41,13 @@ public class getFromSharedPreferences {
 		return mSharedPreferences.getBoolean(UiUtils.IS_AUTO_LOGIN, false);
 	}
 
-	public static boolean setLogin(String name, String pwd, boolean isRemerber,
+	public static boolean setLogin(AccountInfo accountInfo, boolean isRemerber,
 			boolean isAuto) {
 		mEditor = mSharedPreferences.edit();
 
-		mEditor.putString(UiUtils.NAME, name);
-		mEditor.putString(UiUtils.PWD, pwd);
+		mEditor.putString(UiUtils.UID, accountInfo.getId());
+		mEditor.putString(UiUtils.NAME, accountInfo.getAlias());
+		mEditor.putString(UiUtils.PWD, accountInfo.getPassword());
 		mEditor.putBoolean(UiUtils.IS_REMERBER_PWD, isRemerber);
 		mEditor.putBoolean(UiUtils.IS_AUTO_LOGIN, isAuto);
 

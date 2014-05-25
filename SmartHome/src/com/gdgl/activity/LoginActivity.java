@@ -1,11 +1,17 @@
 package com.gdgl.activity;
 
 import com.gdgl.manager.LoginManager;
+import com.gdgl.manager.Manger;
+import com.gdgl.manager.UIListener;
 import com.gdgl.mydata.AccountInfo;
+import com.gdgl.mydata.Event;
+import com.gdgl.mydata.EventType;
+import com.gdgl.mydata.LoginResponse;
 import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.smarthome.R;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -14,7 +20,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-public class LoginActivity extends Activity implements OnClickListener {
+public class LoginActivity extends Activity implements OnClickListener ,UIListener{
 
 	private EditText mName;
 	private EditText mPwd;
@@ -22,6 +28,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 	private CheckBox mAut;
 	private Button mLogin;
 	private Button mCancle;
+	private AccountInfo accountInfo;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +50,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 		mName.setText("BC6A2987D431");
 		mPwd.setText("123456");
 		mLogin.setOnClickListener(this);
+		LoginManager.getInstance().addObserver(this);
 	}
 
 	@Override
@@ -51,12 +59,12 @@ public class LoginActivity extends Activity implements OnClickListener {
 		int id = v.getId();
 		switch (id) {
 		case R.id.login:
-			AccountInfo account=new AccountInfo();
-			account.setAccount(mName.getText().toString());
-			account.setPassword(mPwd.getText().toString());
-			LoginManager.getInstance().doLogin(account);
-			getFromSharedPreferences.setharedPreferences(LoginActivity.this);
-			getFromSharedPreferences.setLogin(mName.getText().toString(), mPwd.getText().toString(), false, false);
+			accountInfo=new AccountInfo();
+			accountInfo.setAccount(mName.getText().toString());
+			accountInfo.setPassword(mPwd.getText().toString());
+			accountInfo.setAlias(mName.getText().toString());
+			LoginManager.getInstance().doLogin(accountInfo);
+			
 			Intent intent = new Intent(LoginActivity.this, SmartHome.class);
 			startActivity(intent);
 			this.finish();
@@ -65,4 +73,31 @@ public class LoginActivity extends Activity implements OnClickListener {
 			break;
 		}
 	}
+	@Override
+	protected void onDestroy() {
+		LoginManager.getInstance().deleteObserver(this);
+		super.onDestroy();
+	}
+
+	@Override
+	public void update(Manger observer, Object object) {
+		final Event event = (Event) object;
+		if (EventType.LOGIN == event.getType()) {
+			
+			if (event.isSuccess()==true) {
+				LoginResponse response=(LoginResponse) event.getData();
+				accountInfo.setId(response.getId());
+				getFromSharedPreferences.setharedPreferences(LoginActivity.this);
+				getFromSharedPreferences.setLogin(accountInfo, false, false);
+//				getFromSharedPreferences.setharedPreferences(this);
+//				getFromSharedPreferences.setName(newName.trim());
+			}else {
+				//if failed,prompt a Toast
+//				error_message.setText("修改失败");
+//				error_message.setVisibility(View.VISIBLE);
+			}
+		}
+		
+	}
+	
 }

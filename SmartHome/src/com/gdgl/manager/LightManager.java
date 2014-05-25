@@ -871,7 +871,7 @@ public class LightManager extends Manger {
 			}
 		};
 		String url = NetUtil.getInstance().getCumstomURL(
-				NetUtil.getInstance().IP, "BeginLearnIR.cgi", param);
+				NetUtil.getInstance().IP, "BeginApplyIR.cgi", param);
 		Log.i("LightManager beginApplyIR Request:%n %s", url);
 		StringRequest req = new StringRequest(url, responseListener,
 				new Response.ErrorListener() {
