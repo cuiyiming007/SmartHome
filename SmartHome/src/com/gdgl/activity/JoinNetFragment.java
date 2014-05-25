@@ -64,6 +64,7 @@ public class JoinNetFragment extends Fragment implements UIListener {
 	List<DevicesModel> mDevList;
 
 	List<DevicesModel> mNewDevList;
+	List<DevicesModel> mAddDevList;
 
 	List<SimpleDevicesModel> mInnetList;
 
@@ -156,8 +157,8 @@ public class JoinNetFragment extends Fragment implements UIListener {
 				// TODO Auto-generated method stub
 				ChangeFragment c = (ChangeFragment) getActivity();
 				JoinNetDevicesListFragment mJoinNetDevicesListFragment = new JoinNetDevicesListFragment();
-				if (null != mNewDevList && mNewDevList.size() > 0) {
-					mJoinNetDevicesListFragment.setList(mNewDevList);
+				if (null != mAddDevList && mAddDevList.size() > 0) {
+					mJoinNetDevicesListFragment.setList(mAddDevList);
 				}
 				c.setFragment(mJoinNetDevicesListFragment);
 			}
@@ -263,6 +264,7 @@ public class JoinNetFragment extends Fragment implements UIListener {
 						dm.setmUserDefineName(DataUtil.getDefaultUserDefinname(
 								c, dm.getmModelId()));
 						mNewDevList.add(dm);
+						mAddDevList.add(dm);
 					}
 				}
 			}
