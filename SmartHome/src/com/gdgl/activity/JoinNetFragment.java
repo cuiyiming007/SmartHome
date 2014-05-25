@@ -278,6 +278,9 @@ public class JoinNetFragment extends Fragment implements UIListener {
 			sd.setmOnOffLine(dm.getmOnOffLine());
 			mInnetList.add(sd);
 		}
+		if (null != mNewDevList && mNewDevList.size() > 0) {
+			updateScapeSuccessful();
+		}
 		new InsertTask().execute(mNewDevList);
 	};
 	
@@ -335,10 +338,10 @@ public class JoinNetFragment extends Fragment implements UIListener {
 					}
 				}
 			}
-			getData();
-			if (null != mNewDevList && mNewDevList.size() > 0) {
-				updateScapeSuccessful();
-			}
+//			getData();
+//			if (null != mNewDevList && mNewDevList.size() > 0) {
+//				updateScapeSuccessful();
+//			}
 			
 			
 		}
