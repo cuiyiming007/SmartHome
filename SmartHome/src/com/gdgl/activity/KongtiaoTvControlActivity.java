@@ -414,7 +414,7 @@ public class KongtiaoTvControlActivity extends Activity implements UIListener {
 		if (EventType.BEGINLEARNIR == event.getType()) {
 			if (event.isSuccess() == true) {
 				// data maybe null
-
+				currentControl.IsLearn="1";
 				if (1 == currentPostion) {
 					if (mKongtiaoControl.size() == 0) {
 						mKongtiaoControl.add(currentControl);
@@ -426,14 +426,8 @@ public class KongtiaoTvControlActivity extends Activity implements UIListener {
 							mKongtiaoControl.get(m).IsLearn = "1";
 						}
 					}
-					kongtiao.post(new Runnable() {
-
-						@Override
-						public void run() {
-							initKongtiao();
-							writeLearnListToSharedPreferences(1);
-						}
-					});
+					initKongtiao();
+					writeLearnListToSharedPreferences(1);
 				} else if (2 == currentPostion) {
 					if (mtvControl.size() == 0) {
 						mtvControl.add(currentControl);
@@ -445,14 +439,8 @@ public class KongtiaoTvControlActivity extends Activity implements UIListener {
 							mtvControl.get(m).IsLearn = "1";
 						}
 					}
-					tv.post(new Runnable() {
-
-						@Override
-						public void run() {
-							initTv();
-							writeLearnListToSharedPreferences(2);
-						}
-					});
+					initTv();
+					writeLearnListToSharedPreferences(2);
 				}
 
 			} else {
