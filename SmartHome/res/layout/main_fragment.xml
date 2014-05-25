@@ -15,6 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
+        android:scrollbars="none"
         android:horizontalSpacing="10dp"
         android:listSelector="@drawable/gridview_style"
         android:numColumns="2"

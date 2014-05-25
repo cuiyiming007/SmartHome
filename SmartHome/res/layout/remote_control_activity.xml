@@ -74,6 +74,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:visibility="gone"
+        android:scrollbars="none"
         android:horizontalSpacing="10dp"
         android:listSelector="@drawable/gridview_style"
         android:numColumns="2"
