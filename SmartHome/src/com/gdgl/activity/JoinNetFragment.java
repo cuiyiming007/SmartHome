@@ -256,8 +256,11 @@ public class JoinNetFragment extends Fragment implements UIListener {
 		if (null != mDevList && mDevList.size() > 0) {
 			for (DevicesModel dm : mDevList) {
 				if (!isInNet(dm)) {
-					dm.setmUserDefineName(DataUtil.getDefaultUserDefinname(c, dm.getmModelId()));
-					mNewDevList.add(dm);
+					if (!(dm.getmIeee().trim().equals("00137A0000010264")
+							&& dm.getmEP().trim().equals("0A"))) {
+						dm.setmUserDefineName(DataUtil.getDefaultUserDefinname(c, dm.getmModelId()));
+						mNewDevList.add(dm);
+					}
 				}
 			}
 		}
