@@ -83,7 +83,7 @@
                 android:alpha="0.75"
                 android:background="@drawable/add_devices_btn_style"
                 android:gravity="center"
-                android:text="一键布防"
+                android:text="开启"
                 android:textColor="#000000"
                 android:textSize="20dp" />
 
@@ -97,7 +97,7 @@
                 android:alpha="0.75"
                 android:background="@drawable/add_devices_btn_style"
                 android:gravity="center"
-                android:text="一键撤防"
+                android:text="关闭"
                 android:textColor="#000000"
                 android:textSize="20dp" />
         </LinearLayout>

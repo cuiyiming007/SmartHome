@@ -164,7 +164,7 @@ public class SafeSimpleOperation extends Fragment implements UIListener {
 				on_off_img.setVisibility(View.VISIBLE);
 				on_off_img.startAnimation(loadAnim);
 				load_message.setVisibility(View.VISIBLE);
-				load_message.setText("一键布防中...");
+				load_message.setText("开启中...");
 				btn_on.setEnabled(false);
 				btn_off.setEnabled(false);
 				mHandler.sendEmptyMessageDelayed(1, 3000);
@@ -179,7 +179,7 @@ public class SafeSimpleOperation extends Fragment implements UIListener {
 				on_off_img.setVisibility(View.VISIBLE);
 				on_off_img.startAnimation(loadAnim);
 				load_message.setVisibility(View.VISIBLE);
-				load_message.setText("一键撤防中...");
+				load_message.setText("关闭中...");
 				btn_on.setEnabled(false);
 				btn_off.setEnabled(false);
 				mHandler.sendEmptyMessageDelayed(2, 3000);

@@ -3,11 +3,15 @@ package com.gdgl.activity;
 import java.util.List;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
@@ -40,6 +44,7 @@ public class MessageListFragment extends BaseFragment implements UIListener {
 	DataHelper dh;
 
 	MessageAdapter messageAdapter;
+	CallbackWarmMessage currentMessage;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -53,6 +58,41 @@ public class MessageListFragment extends BaseFragment implements UIListener {
 		dh = new DataHelper((Context) getActivity());
 		CallbackManager.getInstance().addObserver(this);
 		new getDataTask().execute(1);
+	}
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
+		menu.setHeaderTitle("删除");
+		menu.add(0, 1, 0, "删除");
+		super.onCreateContextMenu(menu, v, menuInfo);
+	}
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
+				.getMenuInfo();
+		final int position = info.position;
+		currentMessage = mList.get(position);
+		int menuIndex = item.getItemId();
+		if (menuIndex==1) {
+			mList.remove(currentMessage);
+			messageAdapter.notifyDataSetChanged();
+			new AsyncTask<Object, Object, Object>()
+			{
+				@Override
+				protected Object doInBackground(Object... params) {
+					String where = " _id = ? ";
+					String[] args = { currentMessage.getId() };
+					
+					SQLiteDatabase mSQLiteDatabase = dh.getSQLiteDatabase();
+					dh.deleteGroup(mSQLiteDatabase,
+							DataHelper.MESSAGE_TABLE,  where, args);
+					return null;
+				}
+				
+			}.execute(currentMessage);
+			
+		}
+		return super.onContextItemSelected(item);
 	}
 
 	public class getDataTask extends AsyncTask<Integer, Integer, Integer> {
@@ -87,12 +127,12 @@ public class MessageListFragment extends BaseFragment implements UIListener {
 
 		messageListView = (ListView) mView.findViewById(R.id.message_list);
 
+		messageAdapter = new MessageAdapter();
+		messageListView.setAdapter(messageAdapter);
 		if (null == mList || mList.size() == 0) {
 			no_dev.setVisibility(View.VISIBLE);
 			// deviceslist.setVisibility(View.GONE);
 		} else {
-			messageAdapter = new MessageAdapter();
-			messageListView.setAdapter(messageAdapter);
 			messageListView.setOnItemClickListener(new OnItemClickListener() {
 
 				@Override
@@ -101,6 +141,7 @@ public class MessageListFragment extends BaseFragment implements UIListener {
 				}
 			});
 		}
+		registerForContextMenu(messageListView);
 
 	}
 

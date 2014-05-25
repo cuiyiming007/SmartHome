@@ -334,6 +334,8 @@ public class DataUtil {
 		CallbackWarmMessage message;
 		while (cursor.moveToNext()) {
 			message = new CallbackWarmMessage();
+			message.setId(cursor.getString(cursor
+					.getColumnIndex(CallbackWarmMessage._ID)));
 			message.setCie_ep(cursor.getString(cursor
 					.getColumnIndex(CallbackWarmMessage.CIE_EP)));
 			message.setCie_ieee(cursor.getString(cursor
