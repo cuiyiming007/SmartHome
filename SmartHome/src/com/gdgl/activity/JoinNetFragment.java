@@ -62,22 +62,23 @@ public class JoinNetFragment extends Fragment implements UIListener {
 	ArrayList<ResponseParamsEndPoint> allList;
 
 	List<DevicesModel> mDevList;
-	
+
 	List<DevicesModel> mNewDevList;
 
 	List<SimpleDevicesModel> mInnetList;
 
 	List<SimpleDevicesModel> mList;
-	
+
 	DataHelper mDH;
 	Context c;
+	int totlaDevices = 0;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		c = (Context) getActivity();
-		mDH=new DataHelper(c);
+		mDH = new DataHelper(c);
 	}
 
 	@Override
@@ -91,8 +92,8 @@ public class JoinNetFragment extends Fragment implements UIListener {
 
 	private void initView() {
 		// TODO Auto-generated method stub
-		mInnetList = DataUtil.getDevices(c, mDH, null, null,false);
-		mNewDevList=new ArrayList<DevicesModel>();
+		mInnetList = DataUtil.getDevices(c, mDH, null, null, false);
+		mNewDevList = new ArrayList<DevicesModel>();
 		cb = (CircleProgressBar) mView.findViewById(R.id.seek_time);
 		cb.setText("扫描完毕");
 		ch_pwd = (RelativeLayout) mView.findViewById(R.id.ch_pwd);
@@ -114,7 +115,7 @@ public class JoinNetFragment extends Fragment implements UIListener {
 		btn_close = (Button) mView.findViewById(R.id.close);
 		btn_look = (Button) mView.findViewById(R.id.look);
 		btn_look.setEnabled(false);
-//		btn_look.setBackgroundColor(Color.DKGRAY);
+		// btn_look.setBackgroundColor(Color.DKGRAY);
 
 		btn_scape.setOnClickListener(new OnClickListener() {
 
@@ -123,7 +124,7 @@ public class JoinNetFragment extends Fragment implements UIListener {
 				// TODO Auto-generated method stub
 				if (!isScape) {
 					isScape = true;
-					if(null!=allList){
+					if (null != allList) {
 						allList.clear();
 					}
 					mLightManager.setPermitJoinOn("00137A000000B657");
@@ -223,7 +224,7 @@ public class JoinNetFragment extends Fragment implements UIListener {
 				}
 				getData();
 				if (finish_scape) {
-					if (null != mNewDevList&& mNewDevList.size() > 0) {
+					if (null != mNewDevList && mNewDevList.size() > 0) {
 						updateScapeSuccessful();
 					} else {
 						text_result.setText("未扫描到任何设备");
@@ -240,10 +241,10 @@ public class JoinNetFragment extends Fragment implements UIListener {
 			}
 		}
 
-		
 	};
+
 	private void updateScapeSuccessful() {
-		text_result.setText("扫描到" + mNewDevList.size() + "个设备");
+		text_result.setText("扫描到" + totlaDevices + "个设备");
 		text_result.setVisibility(View.VISIBLE);
 		btn_look.setEnabled(true);
 	}
@@ -253,70 +254,81 @@ public class JoinNetFragment extends Fragment implements UIListener {
 		if (null != allList && allList.size() > 0) {
 			mDevList = DataHelper.convertToDevicesModel(allList);
 		}
+		mNewDevList.clear();
 		if (null != mDevList && mDevList.size() > 0) {
 			for (DevicesModel dm : mDevList) {
 				if (!isInNet(dm)) {
-					if (!(dm.getmIeee().trim().equals("00137A0000010264")
-							&& dm.getmEP().trim().equals("0A"))) {
-						dm.setmUserDefineName(DataUtil.getDefaultUserDefinname(c, dm.getmModelId()));
+					if (!(dm.getmIeee().trim().equals("00137A0000010264") && dm
+							.getmEP().trim().equals("0A"))) {
+						dm.setmUserDefineName(DataUtil.getDefaultUserDefinname(
+								c, dm.getmModelId()));
 						mNewDevList.add(dm);
 					}
 				}
 			}
 		}
-		SimpleDevicesModel sd;
-		for (DevicesModel dm : mNewDevList) {
-			sd=new SimpleDevicesModel();
-			sd.setmIeee(dm.getmIeee());
-			sd.setmEP(dm.getmEP());
-			sd.setmDeviceId(Integer.parseInt(dm.getmDeviceId()));
-			sd.setmDeviceRegion(dm.getmDeviceRegion());
-			sd.setmUserDefineName(dm.getmUserDefineName());
-			sd.setmModelId(dm.getmModelId());
-			sd.setmName(dm.getmName());
-			sd.setmNodeENNAme(dm.getmNodeENNAme());
-			sd.setmOnOffLine(dm.getmOnOffLine());
-			mInnetList.add(sd);
+		if (mNewDevList.size() > 0) {
+			totlaDevices += mNewDevList.size();
+			SimpleDevicesModel sd;
+			for (DevicesModel dm : mNewDevList) {
+				sd = new SimpleDevicesModel();
+				sd.setmIeee(dm.getmIeee());
+				sd.setmEP(dm.getmEP());
+				sd.setmDeviceId(Integer.parseInt(dm.getmDeviceId()));
+				sd.setmDeviceRegion(dm.getmDeviceRegion());
+				sd.setmUserDefineName(dm.getmUserDefineName());
+				sd.setmModelId(dm.getmModelId());
+				sd.setmName(dm.getmName());
+				sd.setmNodeENNAme(dm.getmNodeENNAme());
+				sd.setmOnOffLine(dm.getmOnOffLine());
+				mInnetList.add(sd);
+			}
+			new InsertTask().execute(mNewDevList);
 		}
-		if (null != mNewDevList && mNewDevList.size() > 0) {
-			updateScapeSuccessful();
-		}
-		new InsertTask().execute(mNewDevList);
+
 	};
-	
-	public class InsertTask extends AsyncTask<List<DevicesModel>, Integer, Integer>{
+
+	public class InsertTask extends
+			AsyncTask<List<DevicesModel>, Integer, Integer> {
 
 		@Override
 		protected Integer doInBackground(List<DevicesModel>... params) {
 			// TODO Auto-generated method stub
-			List<DevicesModel> list=params[0];
-			if(null==list || list.size()==0){
+			List<DevicesModel> list = params[0];
+			if (null == list || list.size() == 0) {
 				return 1;
 			}
 			mDH.insertDevList(mDH.getSQLiteDatabase(),
 					DataHelper.DEVICES_TABLE, null, list);
 			return 1;
 		}
-		
+
 	}
-	
+
 	public interface ChangeFragment {
 		public void setFragment(Fragment f);
 	}
-	
-	public boolean isInAllList(ResponseParamsEndPoint responseParamsEndPoint){
-		if(null==allList || allList.size()==0){
+
+	public boolean isInAllList(ResponseParamsEndPoint responseParamsEndPoint) {
+		if (null == allList || allList.size() == 0) {
 			return false;
 		}
 		for (ResponseParamsEndPoint rp : allList) {
-			if(rp.getDevparam().getNode().getIeee().equals(responseParamsEndPoint.getDevparam().getNode().getIeee())
-					&& rp.getDevparam().getEp().equals(responseParamsEndPoint.getDevparam().getEp())){
+			if (rp.getDevparam()
+					.getNode()
+					.getIeee()
+					.equals(responseParamsEndPoint.getDevparam().getNode()
+							.getIeee())
+					&& rp.getDevparam()
+							.getEp()
+							.equals(responseParamsEndPoint.getDevparam()
+									.getEp())) {
 				return true;
 			}
 		}
 		return false;
 	}
-	
+
 	@Override
 	public void update(Manger observer, Object object) {
 		// TODO Auto-generated method stub
@@ -328,22 +340,23 @@ public class JoinNetFragment extends Fragment implements UIListener {
 			ArrayList<ResponseParamsEndPoint> devDataList = (ArrayList<ResponseParamsEndPoint>) event
 					.getData();
 			if (null == allList || allList.size() == 0) {
-				Log.i("scape devices", "SCAPDEV-> the first scape,get "+devDataList.size()+" result");
+				Log.i("scape devices", "SCAPDEV-> the first scape,get "
+						+ devDataList.size() + " result");
 				allList = devDataList;
 			} else {
 				for (ResponseParamsEndPoint responseParamsEndPoint : devDataList) {
 					if (!isInAllList(responseParamsEndPoint)) {
-						Log.i("scape devices", "SCAPDEV-> get a devices not in allList,add");
+						Log.i("scape devices",
+								"SCAPDEV-> get a devices not in allList,add");
 						allList.add(responseParamsEndPoint);
 					}
 				}
 			}
-//			getData();
-//			if (null != mNewDevList && mNewDevList.size() > 0) {
-//				updateScapeSuccessful();
-//			}
-			
-			
+			getData();
+			if (null != mNewDevList && mNewDevList.size() > 0) {
+				updateScapeSuccessful();
+			}
+
 		}
 	}
 
