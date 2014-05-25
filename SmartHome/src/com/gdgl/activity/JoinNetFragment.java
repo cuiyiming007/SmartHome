@@ -95,6 +95,7 @@ public class JoinNetFragment extends Fragment implements UIListener {
 		// TODO Auto-generated method stub
 		mInnetList = DataUtil.getDevices(c, mDH, null, null, false);
 		mNewDevList = new ArrayList<DevicesModel>();
+		mAddDevList=new ArrayList<DevicesModel>();
 		cb = (CircleProgressBar) mView.findViewById(R.id.seek_time);
 		cb.setText("扫描完毕");
 		ch_pwd = (RelativeLayout) mView.findViewById(R.id.ch_pwd);
