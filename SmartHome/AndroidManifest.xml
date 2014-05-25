@@ -97,6 +97,12 @@
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
+            android:name="com.gdgl.activity.RemoteControlActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
             android:name="com.gdgl.activity.AddCommonUsedActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"

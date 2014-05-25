@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.gdgl.model.DevicesGroup;
+import com.gdgl.model.RemoteControl;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.smarthome.R;
@@ -34,6 +35,7 @@ public class AddDlg {
 	
 	public static final int REGION = 1;
 	public static final int SCENE = 2;
+	public static final int REMOTE_CONTROL = 3;
 
 	int mType;
 
@@ -56,13 +58,17 @@ public class AddDlg {
 			@Override
 			public void onClick(View v) {
 				String mN = mName.getText().toString();
-				if(text_name.getText().toString().trim().equals("区域名称")){
+				if(mType==REGION){
 					if (null != mN && !mN.trim().equals("")) {
 						saveRegion(mN.trim());
 					}
-				}else{
+				}else if(mType==SCENE){
 					if (null != mN && !mN.trim().equals("")) {
 						saveScene(mN.trim());
+					}
+				}else if(mType==REMOTE_CONTROL){
+					if (null != mN && !mN.trim().equals("")) {
+						saveRemoteControl(mN.trim());
 					}
 				}
 				
@@ -79,6 +85,21 @@ public class AddDlg {
 				dismiss();
 			}
 		});
+	}
+
+	protected void saveRemoteControl(String trim) {
+		// TODO Auto-generated method stub
+		getFromSharedPreferences.setharedPreferences(mContext);
+		RemoteControl rc=new RemoteControl();
+		rc.Name=trim;
+		rc.Index=getFromSharedPreferences.getRemoteControlId()+"";
+		rc.IsLearn="0";
+		List<RemoteControl> mControlList=getFromSharedPreferences.getRemoteControl();
+		if(null==mControlList){
+			mControlList=new ArrayList<RemoteControl>();
+		}
+		mControlList.add(rc);
+		getFromSharedPreferences.addRemoteControlList(mControlList);
 	}
 
 	protected void saveScene(String trim) {

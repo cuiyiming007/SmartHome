@@ -255,6 +255,10 @@ public class DataHelper extends SQLiteOpenHelper {
 		db.beginTransaction();
 		try {
 			for (DevicesModel devicesModel : mList) {
+				if (devicesModel.getmIeee().trim().equals("00137A0000010264")
+						&& devicesModel.getmEP().trim().equals("0A")) {
+					continue;
+				}
 				ContentValues c = devicesModel.convertContentValues();
 				long m = db.insert(table, nullColumnHack, c);
 				if (-1 == m) {

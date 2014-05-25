@@ -289,7 +289,7 @@ public class DataUtil {
 
 	public static List<DevicesModel> getBindDevices(Context c, DataHelper dh) {
 
-		String[] args = new String[11];
+		String[] args = new String[13];
 		args[0] = "00137A000000F55A";
 		args[1] = "00137A000000B657";
 		args[2] = "00137A0000010516";
@@ -301,7 +301,9 @@ public class DataUtil {
 		args[8] = "00137A000001122A";
 		args[9] = "00137A000000BF13";
 		args[10] = "00137A000001181F";
-		String where = " ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? ";
+		args[11] = "00137A0000011949";
+		args[12] = "00137A0000011F8C";
+		String where = " ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? ";
 
 		List<DevicesModel> listDevicesModel = new ArrayList<DevicesModel>();
 		SQLiteDatabase db=dh.getSQLiteDatabase();
@@ -397,6 +399,14 @@ public class DataUtil {
 			args[0]="00137A0000010516";
 			args[1]="00137A000000EE66";
 			where = " ieee = ? or ieee = ? ";
+		}else if(type.trim().equals("0502IN")){
+			args = new String[1];
+			args[0]="00137A0000011F8C";
+			where = " ieee = ? ";
+		}else if(type.trim().equals("0502OUT")){
+			args = new String[1];
+			args[0]="00137A0000011949";
+			where = " ieee = ? ";
 		}
 
 		List<DevicesModel> listDevicesModel = new ArrayList<DevicesModel>();

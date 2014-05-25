@@ -356,6 +356,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 				mDevicesListFragment, "LightsControlFragment");
 		mDevicesListFragment.setAdapter(mDevicesBaseAdapter);
 		fragmentTransaction.commit();
+		initTitleByTag(mListIndex);
 	}
 	
 	private void initFancyCoverFlow() {

@@ -24,6 +24,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -134,46 +135,54 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter {
 					Log.i(TAG, "tagzgs->position=" + position);
 					mSimpleDevicesModel = mRefreshData.getDeviceModle(position - 1);
 					mRefreshData.setDevicesId(mSimpleDevicesModel.getmIeee());
-					Fragment mFragment;
+					
+					if(mSimpleDevicesModel.getmIeee().equals("00137A0000010148") && mSimpleDevicesModel.getmEP().equals("01")){
+						Intent intent=new Intent();
+						intent.setClass((Context)getActivity(), RemoteControlActivity.class);
+						startActivity(intent);
+					}else{
+						Fragment mFragment;
 
-					if (mSimpleDevicesModel.getmModelId().indexOf(
-							DataHelper.Doorbell_button) == 0) {
-						mFragment = new DoorBellFragment();
-					}else if (mSimpleDevicesModel.getmModelId().indexOf(
-							DataHelper.Infrared_controller) == 0) {
-						mFragment = new RemoteControlFragment();
-					}
-					else if (mSimpleDevicesModel.getmModelId().indexOf(
-							DataHelper.Wireless_Intelligent_valve_switch) == 0) {
-						mFragment = new OutPutFragment();
-					} else if(mSimpleDevicesModel.getmModelId().indexOf(
-							DataHelper.One_key_operator) == 0){
-						mFragment=new SafeSimpleOperation();
-					}
-					else {
-						mFragment = UiUtils.getFragment(mSimpleDevicesModel
-								.getmDeviceId());
-					}
-					if (null != mFragment) {
-						Bundle extras = new Bundle();
-						if (DataHelper.IAS_ZONE_DEVICETYPE == mSimpleDevicesModel
-								.getmDeviceId()
-								|| DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE == mSimpleDevicesModel
-										.getmDeviceId()
-								|| DataHelper.ON_OFF_OUTPUT_DEVICETYPE == mSimpleDevicesModel
-										.getmDeviceId()
-								|| DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE == mSimpleDevicesModel
-										.getmDeviceId()		
-								|| DataHelper.MAINS_POWER_OUTLET_DEVICETYPE == mSimpleDevicesModel
-										.getmDeviceId()) {
-							int[] OnOffImg = { R.drawable.bufang_on,
-									R.drawable.chefang_off };
-							extras.putIntArray(PASS_ONOFFIMG, OnOffImg);
+						if (mSimpleDevicesModel.getmModelId().indexOf(
+								DataHelper.Doorbell_button) == 0) {
+							mFragment = new DoorBellFragment();
 						}
-						// PASS_OBKECT
-						extras.putParcelable(PASS_OBJECT, mSimpleDevicesModel);
-						mFragment.setArguments(extras);
-						mRefreshData.setFragment(mFragment, position - 1);
+//						else if (mSimpleDevicesModel.getmModelId().indexOf(
+//								DataHelper.Infrared_controller) == 0) {
+//							mFragment = new RemoteControlFragment();
+//						}
+						else if (mSimpleDevicesModel.getmModelId().indexOf(
+								DataHelper.Wireless_Intelligent_valve_switch) == 0) {
+							mFragment = new OutPutFragment();
+						} else if(mSimpleDevicesModel.getmModelId().indexOf(
+								DataHelper.One_key_operator) == 0){
+							mFragment=new SafeSimpleOperation();
+						}
+						else {
+							mFragment = UiUtils.getFragment(mSimpleDevicesModel
+									.getmDeviceId());
+						}
+						if (null != mFragment) {
+							Bundle extras = new Bundle();
+							if (DataHelper.IAS_ZONE_DEVICETYPE == mSimpleDevicesModel
+									.getmDeviceId()
+									|| DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE == mSimpleDevicesModel
+											.getmDeviceId()
+									|| DataHelper.ON_OFF_OUTPUT_DEVICETYPE == mSimpleDevicesModel
+											.getmDeviceId()
+									|| DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE == mSimpleDevicesModel
+											.getmDeviceId()		
+									|| DataHelper.MAINS_POWER_OUTLET_DEVICETYPE == mSimpleDevicesModel
+											.getmDeviceId()) {
+								int[] OnOffImg = { R.drawable.bufang_on,
+										R.drawable.chefang_off };
+								extras.putIntArray(PASS_ONOFFIMG, OnOffImg);
+							}
+							// PASS_OBKECT
+							extras.putParcelable(PASS_OBJECT, mSimpleDevicesModel);
+							mFragment.setArguments(extras);
+							mRefreshData.setFragment(mFragment, position - 1);
+						}
 					}
 				}
 			});

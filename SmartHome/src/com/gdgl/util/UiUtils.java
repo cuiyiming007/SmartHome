@@ -38,6 +38,9 @@ public class UiUtils {
 	public static final String UID = "UserID";
 	public static final String IS_REMERBER_PWD = "RemerberPwd";
 	public static final String IS_AUTO_LOGIN = "AutoLogin";
+	
+	public static final String REMOTE_CONTROL = "RemoteControl";
+	
 
 	public static final String REGION = "RegionName";
 	public static final String SCENE = "SceneId";
@@ -91,6 +94,8 @@ public class UiUtils {
 		mMap.put("00137A0000010AB5", "0006IN");
 		mMap.put("00137A000000EE66", "0008IN");
 		mMap.put("00137A000000DC86", "0006IN");
+		mMap.put("00137A0000011949", "0502IN");
+		mMap.put("00137A0000011F8C", "0502OUT");
 	}
 	
 	public static int getDevicesSmallIcon(int type) {
