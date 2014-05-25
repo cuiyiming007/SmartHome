@@ -18,6 +18,7 @@ import com.gdgl.mydata.ResponseParamsEndPoint;
 import com.gdgl.mydata.getlocalcielist.elserec;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.CircleProgressBar;
+import com.gdgl.util.UiUtils;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -255,9 +256,24 @@ public class JoinNetFragment extends Fragment implements UIListener {
 		if (null != mDevList && mDevList.size() > 0) {
 			for (DevicesModel dm : mDevList) {
 				if (!isInNet(dm)) {
+					dm.setmUserDefineName(DataUtil.getDefaultUserDefinname(c, dm.getmModelId()));
 					mNewDevList.add(dm);
 				}
 			}
+		}
+		SimpleDevicesModel sd;
+		for (DevicesModel dm : mNewDevList) {
+			sd=new SimpleDevicesModel();
+			sd.setmIeee(dm.getmIeee());
+			sd.setmEP(dm.getmEP());
+			sd.setmDeviceId(Integer.parseInt(dm.getmDeviceId()));
+			sd.setmDeviceRegion(dm.getmDeviceRegion());
+			sd.setmUserDefineName(dm.getmUserDefineName());
+			sd.setmModelId(dm.getmModelId());
+			sd.setmName(dm.getmName());
+			sd.setmNodeENNAme(dm.getmNodeENNAme());
+			sd.setmOnOffLine(dm.getmOnOffLine());
+			mInnetList.add(sd);
 		}
 		new InsertTask().execute(mNewDevList);
 	};
