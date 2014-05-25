@@ -125,7 +125,59 @@ public class getFromSharedPreferences {
 		return mList;
 
 	}
+	
+	public static List<RemoteControl> getTvKongtiaoRemoteControl(int type) {
+		List<RemoteControl> mList = new ArrayList<RemoteControl>();
+		RemoteControl rc;
+		String controlString="";
+		if(1==type){
+			controlString = mSharedPreferences.getString(
+					UiUtils.KONGTIAO, "");
+		}else if(2==type){
+			controlString = mSharedPreferences.getString(
+					UiUtils.TV, "");
+		}
+		
+		if (null == controlString || controlString.trim().equals("")) {
+			return null;
+		}
+		String[] RemoteControlNode = controlString.split("##");
+		for (String string : RemoteControlNode) {
+			String[] controls;
+			if (!string.trim().equals("")) {
+				controls = string.trim().split("@@");
+				rc = new RemoteControl();
+				rc.Index = controls[0];
+				rc.Name = controls[1];
+				rc.IsLearn = controls[2];
+				mList.add(rc);
+			}
+		}
+		return mList;
 
+	}
+	
+	public static void addTvKongtiaoRemoteControlList(List<RemoteControl> rc,int type) {
+		if (null == rc) {
+			return;
+		}
+		String controls = "";
+		for (RemoteControl remoteControl : rc) {
+			if (null != remoteControl) {
+				controls += remoteControl.Index + "@@" + remoteControl.Name
+						+ "@@" + remoteControl.IsLearn + "##";
+			}
+		}
+
+		mEditor = mSharedPreferences.edit();
+		if(1==type){
+			mEditor.putString(UiUtils.KONGTIAO, controls);
+		}else if(2==type){
+			mEditor.putString(UiUtils.TV, controls);
+		}
+		mEditor.commit();
+	}
+	
 	public static int getRemoteControlId() {
 		List<RemoteControl> mList = getRemoteControl();
 		if (null == mList || mList.size() == 0) {

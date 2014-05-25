@@ -99,7 +99,6 @@ public class RemoteControlActivity extends Activity implements UIListener,
 
 	private void setData(List<RemoteControl> tempList) {
 		// TODO Auto-generated method stub
-		Log.i("zgs", "zzgs-? setData");
 		if (null == mRemoteControl || mRemoteControl.size() == 0) {
 			if (null != tempList && tempList.size() > 0) {
 				mRemoteControl = tempList;
@@ -288,7 +287,6 @@ public class RemoteControlActivity extends Activity implements UIListener,
 	public void update(Manger observer, Object object) {
 		// TODO Auto-generated method stub
 		final Event event = (Event) object;
-		Log.i("zgs", "zzgs-? update GETDEVICELEARNED");
 		if (EventType.GETDEVICELEARNED == event.getType()) {
 			if (event.isSuccess() == true) {
 				// data maybe null

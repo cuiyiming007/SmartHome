@@ -41,6 +41,8 @@ public class UiUtils {
 	
 	public static final String REMOTE_CONTROL = "RemoteControl";
 	
+	public static final String KONGTIAO="kongtiao";
+	public static final String TV="tv";
 
 	public static final String REGION = "RegionName";
 	public static final String SCENE = "SceneId";

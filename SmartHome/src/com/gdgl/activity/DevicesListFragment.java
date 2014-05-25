@@ -138,7 +138,7 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter {
 					
 					if(mSimpleDevicesModel.getmIeee().equals("00137A0000010148") && mSimpleDevicesModel.getmEP().equals("01")){
 						Intent intent=new Intent();
-						intent.setClass((Context)getActivity(), RemoteControlActivity.class);
+						intent.setClass((Context)getActivity(), KongtiaoTvControlActivity.class);
 						startActivity(intent);
 					}else{
 						Fragment mFragment;
