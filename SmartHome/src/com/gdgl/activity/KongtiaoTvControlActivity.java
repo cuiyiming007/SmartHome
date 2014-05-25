@@ -259,6 +259,7 @@ public class KongtiaoTvControlActivity extends Activity implements UIListener {
 				rc.Name = Name;
 				rc.IsLearn = "0";
 			}
+			currentControl = rc;
 			if (!rc.IsLearn.trim().equals("1")) {
 				if (null == mDialog) {
 					mDialog = MyDlg.createLoadingDialog(
@@ -267,8 +268,6 @@ public class KongtiaoTvControlActivity extends Activity implements UIListener {
 				} else {
 					mDialog.show();
 				}
-
-				currentControl = rc;
 				mLightManager.beginLearnIR(mControlModel,
 						Integer.parseInt(rc.Index), rc.Name);
 				mHandler.sendEmptyMessageDelayed(FINISH_DLG, 3000);
