@@ -144,7 +144,7 @@ public class SmartHome extends FragmentActivity implements OnRefreshListener<Vie
 					mAddDlg.setDialogCallback(SmartHome.this);
 					mAddDlg.show();
 				}else if(3==mCurrentTab){
-					AddDlg mAddDlg=new AddDlg(SmartHome.this, AddDlg.REGION);
+					AddDlg mAddDlg=new AddDlg(SmartHome.this, AddDlg.SCENE);
 					mAddDlg.setContent("添加场景");
 					mAddDlg.setType("场景名称");
 					mAddDlg.setDialogCallback(SmartHome.this);
