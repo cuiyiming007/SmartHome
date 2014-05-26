@@ -93,10 +93,16 @@ public class NetUtil {
 		Log.v(TAG, "callbakcSocket connect server successful");
 	}
 
-	public void sendHeartBeat() throws IOException {
+	public void sendHeartBeat()  {
 		if (isConnectedCallback()) {
-			outputStream.write(buffer, 0, buffer.length);
-			outputStream.flush();
+			try {
+				outputStream.write(buffer, 0, buffer.length);
+				outputStream.flush();
+			} catch (IOException e) {
+				Log.e(TAG, "sendHeartBeat failed");
+				e.printStackTrace();
+				CallbackManager.getInstance().startConnectServerByTCPTask();
+			}
 			Log.i(TAG, "sendHeartBeat successful");
 		}
 	}

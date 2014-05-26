@@ -1,5 +1,8 @@
 package com.gdgl.reciever;
 
+import com.gdgl.manager.CallbackManager;
+import com.gdgl.util.NetUtil;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -25,6 +28,7 @@ public class NetWorkChangeReciever extends BroadcastReceiver {
                 Toast.makeText(context, "网络连接成功！", Toast.LENGTH_SHORT).show();  
             } else if (wifiState != null && mobileState != null && State.CONNECTED == wifiState && State.CONNECTED != mobileState) {  
               //  context.startService(intent2);  
+            	NetUtil.getInstance().sendHeartBeat();
                 Toast.makeText(context, "wifi连接成功！", Toast.LENGTH_SHORT).show();  
             } else if (wifiState != null && mobileState != null && State.CONNECTED != wifiState && State.CONNECTED != mobileState) {  
                // context.startService(intent2);  
