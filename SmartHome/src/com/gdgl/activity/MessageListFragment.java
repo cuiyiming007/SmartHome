@@ -2,16 +2,20 @@ package com.gdgl.activity;
 
 import java.util.List;
 
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
@@ -20,7 +24,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
 import com.gdgl.mydata.DataHelper;
@@ -56,9 +59,9 @@ public class MessageListFragment extends BaseFragment implements UIListener {
 	private void initData() {
 		// TODO Auto-generated method stub
 		dh = new DataHelper((Context) getActivity());
-		CallbackManager.getInstance().addObserver(this);
 		new getDataTask().execute(1);
 	}
+
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
@@ -66,6 +69,7 @@ public class MessageListFragment extends BaseFragment implements UIListener {
 		menu.add(0, 1, 0, "删除");
 		super.onCreateContextMenu(menu, v, menuInfo);
 	}
+
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
@@ -73,24 +77,23 @@ public class MessageListFragment extends BaseFragment implements UIListener {
 		final int position = info.position;
 		currentMessage = mList.get(position);
 		int menuIndex = item.getItemId();
-		if (menuIndex==1) {
+		if (menuIndex == 1) {
 			mList.remove(currentMessage);
 			messageAdapter.notifyDataSetChanged();
-			new AsyncTask<Object, Object, Object>()
-			{
+			new AsyncTask<Object, Object, Object>() {
 				@Override
 				protected Object doInBackground(Object... params) {
 					String where = " _id = ? ";
 					String[] args = { currentMessage.getId() };
-					
+
 					SQLiteDatabase mSQLiteDatabase = dh.getSQLiteDatabase();
-					dh.deleteGroup(mSQLiteDatabase,
-							DataHelper.MESSAGE_TABLE,  where, args);
+					dh.deleteGroup(mSQLiteDatabase, DataHelper.MESSAGE_TABLE,
+							where, args);
 					return null;
 				}
-				
+
 			}.execute(currentMessage);
-			
+
 		}
 		return super.onContextItemSelected(item);
 	}
@@ -198,7 +201,12 @@ public class MessageListFragment extends BaseFragment implements UIListener {
 				mHolder = (ViewHolder) mView.getTag();
 			}
 			mHolder.warn_name.setText(message.getW_description());
-			mHolder.warn_state.setText(message.getW_description()+"收到报警信息，请注意！");
+			String detailmessage = message.getW_description() + "收到报警信息，请注意！";
+			if (message.getW_description().equals("Doorbell")) {
+				detailmessage = "门铃响了";
+			}
+			// mHolder.warn_state.setText(message.getW_description()+"收到报警信息，请注意！");
+			mHolder.warn_state.setText(detailmessage);
 			mHolder.warn_time.setText(message.getTime());
 			return mView;
 		}
@@ -210,6 +218,33 @@ public class MessageListFragment extends BaseFragment implements UIListener {
 			TextView warn_time;
 		}
 
+	}
+
+	public void dialog() {
+		AlertDialog.Builder builder = new Builder(getActivity());
+		builder.setMessage("确认清空所有消息吗？");
+		builder.setTitle("提示");
+		builder.setPositiveButton("确认", new OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+				clearAllMessage();
+			}
+		});
+		builder.setNegativeButton("取消", new OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+			}
+		});
+		builder.create().show();
+	}
+
+	private void clearAllMessage() {
+		mList.clear();
+		messageAdapter.notifyDataSetChanged();
+		SQLiteDatabase mSQLiteDatabase = dh.getSQLiteDatabase();
+		dh.emptyTable(mSQLiteDatabase, DataHelper.MESSAGE_TABLE);
 	}
 
 	@Override
@@ -230,12 +265,11 @@ public class MessageListFragment extends BaseFragment implements UIListener {
 
 	@Override
 	public void onDestroy() {
-		CallbackManager.getInstance().deleteObserver(this);
 		super.onDestroy();
 	}
 
 	@Override
 	public void stopRefresh() {
-		
+
 	}
 }

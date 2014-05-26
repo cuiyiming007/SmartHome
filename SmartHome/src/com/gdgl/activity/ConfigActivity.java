@@ -10,6 +10,7 @@ import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.SlideMenu;
 
+import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.AsyncTask;
@@ -18,6 +19,7 @@ import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
@@ -33,6 +35,7 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 	// TextView safe_center;
 	TextView config_name, user_name;
 	TextView tempView;
+	ImageButton clearMessageImageButton;
 
 	BaseFragment mFragment;
 
@@ -62,6 +65,8 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 		messagemenu = (TextView) findViewById(R.id.message_menu);
 		user_name.setText(name);
 		modify_pwd = (TextView) findViewById(R.id.modify_pwd);
+		clearMessageImageButton=(ImageButton) findViewById(R.id.clear_message);
+		clearMessageImageButton.setVisibility(View.GONE);
 		
 		modify_pwd.setOnClickListener(new OnClickListener() {
 
@@ -137,6 +142,7 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 				MessageListFragment messageListFragment=new MessageListFragment();
 				mFragment=messageListFragment;
 				changeFragment((TextView) v, messageListFragment);
+				
 			}
 		});
 		initFragment();
@@ -157,10 +163,21 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 		fragmentTransaction.commit();
 	}
 
-	private void changeFragment(TextView v, Fragment f) {
+	private void changeFragment(TextView v, final Fragment f) {
 		mSlideMenu.close(true);
 		if (null != tempView) {
 			tempView.setTextColor(mUnSelectedColor);
+		}
+		clearMessageImageButton.setVisibility(View.GONE);
+		if (f instanceof MessageListFragment) {
+			clearMessageImageButton.setVisibility(View.VISIBLE);
+			clearMessageImageButton.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					((MessageListFragment) f).dialog();
+				}
+			});
 		}
 		config_name.setText(v.getText().toString());
 		FragmentTransaction fragmentTransaction = fragmentManager

@@ -104,6 +104,8 @@ public class NetUtil {
 				CallbackManager.getInstance().startConnectServerByTCPTask();
 			}
 			Log.i(TAG, "sendHeartBeat successful");
+		}else {
+			CallbackManager.getInstance().startConnectServerByTCPTask();
 		}
 	}
 
