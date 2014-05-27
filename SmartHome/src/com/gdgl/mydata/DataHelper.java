@@ -174,6 +174,7 @@ public class DataHelper extends SQLiteOpenHelper {
 		messageStringBuilder.append(CallbackWarmMessage.ROOMID + " VARCHAR(16),");
 		messageStringBuilder.append(CallbackWarmMessage.TIME + " VARCHAR(16),");
 		messageStringBuilder.append(CallbackWarmMessage.W_DESCRIPTION + " VARCHAR(64),");
+		messageStringBuilder.append(CallbackWarmMessage.DETAILMESSAGE + " VARCHAR(64),");
 		messageStringBuilder.append(CallbackWarmMessage.W_MODE + " VARCHAR(16),");
 		messageStringBuilder.append(CallbackWarmMessage.ZONE_EP + " VARCHAR(16),");
 		messageStringBuilder.append(CallbackWarmMessage.ZONE_IEEE + " VARCHAR(16),");

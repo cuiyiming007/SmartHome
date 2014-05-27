@@ -356,6 +356,8 @@ public class DataUtil {
 					.getColumnIndex(CallbackWarmMessage.TIME)));
 			message.setW_description(cursor.getString(cursor
 					.getColumnIndex(CallbackWarmMessage.W_DESCRIPTION)));
+			message.setW_description(cursor.getString(cursor
+					.getColumnIndex(CallbackWarmMessage.DETAILMESSAGE)));
 			message.setW_mode(cursor.getString(cursor
 					.getColumnIndex(CallbackWarmMessage.W_MODE)));
 			message.setZone_ep(cursor.getString(cursor

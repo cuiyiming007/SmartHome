@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.gdgl.activity.BaseControlFragment.UpdateDevice;
+import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.LightManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.model.DevicesModel;
@@ -25,6 +26,8 @@ import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.SimpleResponseData;
 import com.gdgl.mydata.Callback.CallbackResponseType2;
+import com.gdgl.mydata.Callback.CallbackWarmMessage;
+import com.gdgl.mydata.getlocalcielist.elserec;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyDlg;
 
@@ -94,6 +97,7 @@ public class WarnningControlFragment extends BaseControlFragment {
 
 		mLightManager = LightManager.getInstance();
 		mLightManager.addObserver(WarnningControlFragment.this);
+		CallbackManager.getInstance().addObserver(this);
 		initstate();
 	}
 
@@ -118,10 +122,9 @@ public class WarnningControlFragment extends BaseControlFragment {
 		txt_devices_region.setText(mDevices.getmDeviceRegion().trim());
 
 		setImagRes(on_off, status);
-		
-		
-		mError=(RelativeLayout)mView.findViewById(R.id.error_message);
-		
+
+		mError = (RelativeLayout) mView.findViewById(R.id.error_message);
+
 		on_off.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -135,22 +138,26 @@ public class WarnningControlFragment extends BaseControlFragment {
 				} else {
 					mDialog.show();
 				}
-				mLightManager.IASWarningDeviceOperationCommon(mDevices,0);
+				mLightManager.IASWarningDeviceOperationCommon(mDevices, 0);
+				txt_devices_name.setText(mDevices.getmUserDefineName().trim());
 			}
 		});
 	}
+
 	private int getChangeValue() {
 		if (status) {
 			return 0x00;
-		}else {
+		} else {
 			return 0x01;
 		}
 	}
+
 	@Override
 	public void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
 		mLightManager.deleteObserver(WarnningControlFragment.this);
+		CallbackManager.getInstance().deleteObserver(this);
 	}
 
 	@Override
@@ -166,17 +173,17 @@ public class WarnningControlFragment extends BaseControlFragment {
 			mDialog.dismiss();
 			mDialog = null;
 		}
-		
+
 		final Event event = (Event) object;
 		if (EventType.IASWARNINGDEVICOPERATION == event.getType()) {
-			
-			if (event.isSuccess()==true) {
+
+			if (event.isSuccess() == true) {
 				// data maybe null
 				SimpleResponseData data = (SimpleResponseData) event.getData();
-				//  refresh UI data
-				
+				// refresh UI data
+
 				status = !status;
-				
+
 				setImagRes(on_off, status);
 
 				ContentValues c = new ContentValues();
@@ -188,39 +195,57 @@ public class WarnningControlFragment extends BaseControlFragment {
 				mError.setVisibility(View.VISIBLE);
 			}
 		}
-		if (EventType.ON_OFF_STATUS == event.getType()) {
+		else if (EventType.WARM == event.getType()) {
 			if (event.isSuccess() == true) {
 				// data maybe null
-				CallbackResponseType2 data = (CallbackResponseType2) event
+				final CallbackWarmMessage data = (CallbackWarmMessage) event
 						.getData();
-				List<DevicesModel> mList;
-				DataHelper mDh = new DataHelper((Context) getActivity());
-				String where = " ieee=? and ep=? ";
-				String[] args = {
-						mDevices.getmIeee() == null ? "" : mDevices.getmIeee()
-								.trim(),
-						mDevices.getmEP() == null ? "" : mDevices.getmEP()
-								.trim() };
-				mList = mDh.queryForList(mDh.getSQLiteDatabase(),
-						DataHelper.DEVICES_TABLE, null, where, args, null,
-						null, null, null);
-				boolean result = false;
-				if (null != data.getValue()) {
-					result = data.getValue().trim().equals("1");
-					status = result;
+//				if (data.getCie_ieee() == mDevices.getmIeee()) {
 					mView.post(new Runnable() {
 						@Override
 						public void run() {
-							setImagRes(on_off, status);
+							status=true;
+							setImagRes(on_off, true);
+							txt_devices_name.setText(data.getDetailmessage());
 						}
 					});
-				}
-				ProcessUpdate(data, mList);
-			} else {
-				// if failed,prompt a Toast
-				// mError.setVisibility(View.VISIBLE);
+//				}
 			}
 		}
+//		if (EventType.ON_OFF_STATUS == event.getType()) {
+//			if (event.isSuccess() == true) {
+//				// data maybe null
+//				CallbackResponseType2 data = (CallbackResponseType2) event
+//						.getData();
+//				List<DevicesModel> mList;
+//				DataHelper mDh = new DataHelper((Context) getActivity());
+//				String where = " ieee=? and ep=? ";
+//				String[] args = {
+//						mDevices.getmIeee() == null ? "" : mDevices.getmIeee()
+//								.trim(),
+//						mDevices.getmEP() == null ? "" : mDevices.getmEP()
+//								.trim() };
+//				mList = mDh.queryForList(mDh.getSQLiteDatabase(),
+//						DataHelper.DEVICES_TABLE, null, where, args, null,
+//						null, null, null);
+//				boolean result = false;
+//				if (null != data.getValue()) {
+//					result = data.getValue().trim().equals("1");
+//					status = result;
+//					mView.post(new Runnable() {
+//						@Override
+//						public void run() {
+//							setImagRes(on_off, status);
+//						}
+//					});
+//				}
+//				ProcessUpdate(data, mList);
+//			} else {
+//				// if failed,prompt a Toast
+//				// mError.setVisibility(View.VISIBLE);
+//			}
+//		}
+		
 	}
 
 	class operatortype {

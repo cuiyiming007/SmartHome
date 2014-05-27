@@ -201,12 +201,9 @@ public class MessageListFragment extends BaseFragment implements UIListener {
 				mHolder = (ViewHolder) mView.getTag();
 			}
 			mHolder.warn_name.setText(message.getW_description());
-			String detailmessage = message.getW_description() + "收到报警信息，请注意！";
-			if (message.getW_description().equals("Doorbell")) {
-				detailmessage = "门铃响了";
-			}
+			
 			// mHolder.warn_state.setText(message.getW_description()+"收到报警信息，请注意！");
-			mHolder.warn_state.setText(detailmessage);
+			mHolder.warn_state.setText(message.getDetailmessage());
 			mHolder.warn_time.setText(message.getTime());
 			return mView;
 		}

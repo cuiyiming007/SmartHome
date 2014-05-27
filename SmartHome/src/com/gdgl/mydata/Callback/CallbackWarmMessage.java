@@ -19,6 +19,7 @@ interface CallbackWarmMessageColumns extends BaseColumns {
 	public static final String ZONE_NAME = "zone_name";
 	public static final String MSGTYPE = "msgtype";
 	public static final String W_DESCRIPTION = "w_description";
+	public static final String DETAILMESSAGE = "detailmessage";
 	public static final String HOME_NAME = "home_name";
 	public static final String ZONE_EP = "zone_ep";
 
@@ -43,6 +44,17 @@ public class CallbackWarmMessage implements CallbackWarmMessageColumns,
 	private String w_description;
 	private String home_name;
 	private String zone_ep;
+	private String detailmessage;
+	
+	
+
+	public String getDetailmessage() {
+		return detailmessage;
+	}
+
+	public void setDetailmessage(String detailmessage) {
+		this.detailmessage = detailmessage;
+	}
 
 	public String getId() {
 		return id;
@@ -191,6 +203,8 @@ public class CallbackWarmMessage implements CallbackWarmMessageColumns,
 		mContentValues.put(CallbackWarmMessageColumns.ROOMID, getRoomId());
 		mContentValues.put(CallbackWarmMessageColumns.TIME, getTime());
 		mContentValues.put(CallbackWarmMessageColumns.W_DESCRIPTION,
+				getW_description());
+		mContentValues.put(CallbackWarmMessageColumns.DETAILMESSAGE,
 				getW_description());
 		mContentValues.put(CallbackWarmMessageColumns.W_MODE, getW_mode());
 		mContentValues.put(CallbackWarmMessageColumns.ZONE_EP, getZone_ep());
