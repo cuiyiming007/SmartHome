@@ -19,6 +19,7 @@ import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
@@ -35,7 +36,7 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 	// TextView safe_center;
 	TextView config_name, user_name;
 	TextView tempView;
-	ImageButton clearMessageImageButton;
+	Button clearMessageImageButton;
 
 	BaseFragment mFragment;
 
@@ -65,7 +66,7 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 		messagemenu = (TextView) findViewById(R.id.message_menu);
 		user_name.setText(name);
 		modify_pwd = (TextView) findViewById(R.id.modify_pwd);
-		clearMessageImageButton=(ImageButton) findViewById(R.id.clear_message);
+		clearMessageImageButton=(Button) findViewById(R.id.clear_message);
 		clearMessageImageButton.setVisibility(View.GONE);
 		
 		modify_pwd.setOnClickListener(new OnClickListener() {

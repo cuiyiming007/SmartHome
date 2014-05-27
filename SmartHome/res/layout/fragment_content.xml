@@ -58,15 +58,14 @@
                 android:textColor="#000000"
                 android:textSize="18dp"
                 android:textStyle="bold" />
-            
-            <ImageButton
+            <Button
                 android:id="@+id/clear_message"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="left|center_vertical"
-                android:visibility="gone"
-                android:layout_marginLeft="2dp"
-                android:src="@drawable/delete_bl" />
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="10dip"
+                android:background="@drawable/delete_btn_style"
+                android:gravity="center_vertical" />
+            
         </LinearLayout>
     </LinearLayout>
 
