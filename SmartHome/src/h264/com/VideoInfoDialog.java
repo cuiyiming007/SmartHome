@@ -22,6 +22,7 @@ import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.video.VideoNode;
+import com.gdgl.mydata.video.VideoResponse;
 import com.gdgl.smarthome.R;
 
 public class VideoInfoDialog implements UIListener {
@@ -151,7 +152,10 @@ public class VideoInfoDialog implements UIListener {
 		final Event event = (Event) object;
 		if (event.getType() == EventType.ADDIPC) {
 			if (event.isSuccess()) {
+				//get the id
+				VideoResponse response=(VideoResponse) event.getData();
 				Toast.makeText(mContext, "添加成功", Toast.LENGTH_SHORT).show();
+				videoNode.setId(response.getResponse_params().getIpc_id());
 				
 				DataHelper mDateHelper = new DataHelper(
 						ApplicationController.getInstance());
@@ -161,7 +165,6 @@ public class VideoInfoDialog implements UIListener {
 			videoNodes.add(videoNode);
 					mDateHelper.insertVideoList(mSQLiteDatabase, DataHelper.VIDEO_TABLE,
 							null,videoNodes);
-				
 				listener.onFragmentResult(Add, true, videoNode);
 				dismiss();
 			} else {

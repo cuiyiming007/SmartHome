@@ -12,6 +12,14 @@ public class VideoResponseParams {
 	public static String KEY = "response_params";
 	private String status;
 	private String status_msg;
+	private String ipc_id;
+	
+	public String getIpc_id() {
+		return ipc_id;
+	}
+	public void setIpc_id(String ipc_id) {
+		this.ipc_id = ipc_id;
+	}
 	public String getStatus() {
 		return status;
 	}

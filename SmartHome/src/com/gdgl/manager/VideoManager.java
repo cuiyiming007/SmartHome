@@ -82,9 +82,9 @@ public class VideoManager extends Manger{
 		paraMap.put("ipaddr", videoNode.getIpc_ipaddr());
 		paraMap.put("rtspport", videoNode.getRtspport());
 		paraMap.put("httpport", videoNode.getHttpport());
-		paraMap.put("name", videoNode.getName());
+		paraMap.put("name", encodeString(videoNode.getName()));
 		paraMap.put("password", videoNode.getPassword());
-		paraMap.put("alias", videoNode.getAliases());
+		paraMap.put("alias",  encodeString(videoNode.getAliases()));
 		String param = hashMap2ParamString(paraMap);
 		Listener<String> responseListener = new Listener<String>() {
 			@Override
@@ -129,17 +129,9 @@ public class VideoManager extends Manger{
 		paraMap.put("ipc_id", videoNode.getId());
 		paraMap.put("rtspport", videoNode.getRtspport());
 		paraMap.put("httpport", videoNode.getHttpport());
-		paraMap.put("name", videoNode.getName());
+		paraMap.put("name", encodeString(videoNode.getName()));
 		paraMap.put("password", videoNode.getPassword());
-		String	alias = videoNode.getAliases();
-			try {
-				alias = URLEncoder.encode(alias, "UTF-8");
-//				String deString=URLDecoder.decode(alias, "UTF-8");
-//				Log.i(TAG, deString);
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}
-		paraMap.put("alias", alias);
+		paraMap.put("alias",  encodeString(videoNode.getAliases()));
 		String param = hashMap2ParamString(paraMap);
 		Listener<String> responseListener = new Listener<String>() {
 			@Override
@@ -176,6 +168,17 @@ public class VideoManager extends Manger{
 		StringRequest req = new StringRequest(url, responseListener,
 				errorListener);
 		ApplicationController.getInstance().addToRequestQueue(req);
+	}
+	private String encodeString(String alias) {
+		if (alias==null) {
+			return null;
+		}
+		try {
+			alias = URLEncoder.encode(alias, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return alias;
 	}
 	/***
 	 * http://192.168.1.239/cgi-bin/rest/network/deleteIPC.cgi?ipc_id=3
@@ -259,13 +262,13 @@ public class VideoManager extends Manger{
 			SQLiteDatabase mSQLiteDatabase = mDateHelper
 					.getSQLiteDatabase();
 			
-			List<VideoNode> mList=DataHelper.getVideoList(ApplicationController.getInstance(),mDateHelper);
-			if (response.getList()!=null&&response.getList().size()!=mList.size()) {
+//			List<VideoNode> mList=DataHelper.getVideoList(ApplicationController.getInstance(),mDateHelper);
+//			if (response.getList()!=null&&response.getList().size()!=mList.size()) {
 				mDateHelper.emptyTable(mSQLiteDatabase, DataHelper.VIDEO_TABLE);
 				ArrayList<VideoNode> videoNodesFromSever=decodeAlias2Chinese(response);
 				mDateHelper.insertVideoList(mSQLiteDatabase, DataHelper.VIDEO_TABLE,
 						null, videoNodesFromSever);
-			}
+//			}
 //			mDateHelper.close(mSQLiteDatabase);
 			return response;
 		}

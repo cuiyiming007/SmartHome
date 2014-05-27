@@ -77,6 +77,13 @@ public class VideoFragment extends Fragment implements UIListener,Dialogcallback
 		VideoManager.getInstance().addObserver(this);
 		return mView;
 	}
+	@Override
+	public void setUserVisibleHint(boolean isVisibleToUser) {
+		super.setUserVisibleHint(isVisibleToUser);
+		 if (isVisibleToUser == true) {
+	            VideoManager.getInstance().getIPClist();
+	        }
+	}
 
 	private void initview() {
 		// TODO Auto-generated method stub
@@ -238,6 +245,7 @@ public class VideoFragment extends Fragment implements UIListener,Dialogcallback
 				for (int i = 0; i < videoResponse.getList().size(); i++) {
 					mList.add(videoResponse.getList().get(i));
 				}
+				adapter.notifyDataSetChanged();
 			}
 		}else if (event.getType() == EventType.DELETEIPC) {
 			if (event.isSuccess()) {
@@ -250,7 +258,9 @@ public class VideoFragment extends Fragment implements UIListener,Dialogcallback
 	}
 
 	public void updateAddVideoList(VideoNode videoNode) {
-		mList.add(videoNode);
+		if (!mList.contains(videoNode)) {
+			mList.add(videoNode);
+		}
 		adapter.notifyDataSetChanged();
 	}
 
