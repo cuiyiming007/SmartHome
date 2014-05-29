@@ -160,7 +160,7 @@ public class SafeSimpleOperation extends Fragment implements UIListener {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				mLightManager.LocalIASCIEOperation(null, 6);
+				mLightManager.LocalIASCIEOperation(null, 7);
 				on_off_img.setVisibility(View.VISIBLE);
 				on_off_img.startAnimation(loadAnim);
 				load_message.setVisibility(View.VISIBLE);
@@ -175,7 +175,7 @@ public class SafeSimpleOperation extends Fragment implements UIListener {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				mLightManager.LocalIASCIEOperation(null, 7);
+				mLightManager.LocalIASCIEOperation(null, 6);
 				on_off_img.setVisibility(View.VISIBLE);
 				on_off_img.startAnimation(loadAnim);
 				load_message.setVisibility(View.VISIBLE);

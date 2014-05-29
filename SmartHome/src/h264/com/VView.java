@@ -104,8 +104,10 @@ public class VView extends View implements Runnable {
 
 	// �������ű���
 	private void setScale() {
-		scaleWidth = ((float) newWidth) / h264Width;
-		scaleHeight = ((float) newHeight) / h264Height;
+//		scaleWidth = ((float) newWidth) / h264Width;
+//		scaleHeight = ((float) newHeight) / h264Height;
+		scaleWidth = (float)16/9;
+		scaleHeight = scaleWidth;
 	}
 
 	// ����

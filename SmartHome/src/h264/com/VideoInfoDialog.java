@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -49,17 +50,18 @@ public class VideoInfoDialog implements UIListener {
 	public static final int Edit = 2;
 
 	int mType;
-	public VideoInfoDialog(Context c, int type, IFragmentCallbak fragmentCallbak,Object data)
-	{
-		this(c,type,fragmentCallbak);
-		videoNode=(VideoNode) data;
+
+	public VideoInfoDialog(Context c, int type,
+			IFragmentCallbak fragmentCallbak, Object data) {
+		this(c, type, fragmentCallbak);
+		videoNode = (VideoNode) data;
 		userNameEdit.setText(videoNode.getName());
 		ipEditText.setText(videoNode.getIpc_ipaddr());
 		portEditText.setText(videoNode.getRtspport());
 		httpportEditText.setText(videoNode.getHttpport());
 		passworeEditText.setText(videoNode.getPassword());
 		aliasEditText.setText(videoNode.getAliases());
-	} 
+	}
 
 	public VideoInfoDialog(Context c, int type, IFragmentCallbak fragmentCallbak) {
 		mContext = c;
@@ -90,7 +92,6 @@ public class VideoInfoDialog implements UIListener {
 				}
 			}
 
-			
 		});
 
 		cancle = (Button) dialog.findViewById(R.id.btn_cancle);
@@ -103,6 +104,7 @@ public class VideoInfoDialog implements UIListener {
 		});
 		VideoManager.getInstance().addObserver(this);
 	}
+
 	private VideoNode getVideoNode() {
 		String ipString = ipEditText.getText().toString();
 		String port = portEditText.getText().toString();
@@ -118,11 +120,11 @@ public class VideoInfoDialog implements UIListener {
 		videoNode.setIpc_ipaddr(ipString);
 		videoNode.setName(nameString);
 		videoNode.setPassword(passwordString);
-		if (mType==Edit) {
+		if (mType == Edit) {
 			videoNode.setId(this.videoNode.getId());
-		}else {
+		} else {
 			videoNode.setId("");
-			
+
 		}
 		return videoNode;
 	}
@@ -152,21 +154,14 @@ public class VideoInfoDialog implements UIListener {
 		final Event event = (Event) object;
 		if (event.getType() == EventType.ADDIPC) {
 			if (event.isSuccess()) {
-				//get the id
-				VideoResponse response=(VideoResponse) event.getData();
+				// get the id
+				VideoResponse response = (VideoResponse) event.getData();
 				Toast.makeText(mContext, "添加成功", Toast.LENGTH_SHORT).show();
 				videoNode.setId(response.getResponse_params().getIpc_id());
-				
-				DataHelper mDateHelper = new DataHelper(
-						ApplicationController.getInstance());
-				SQLiteDatabase mSQLiteDatabase = mDateHelper
-						.getSQLiteDatabase();
-			ArrayList< VideoNode> videoNodes=	 new ArrayList<VideoNode>();
-			videoNodes.add(videoNode);
-					mDateHelper.insertVideoList(mSQLiteDatabase, DataHelper.VIDEO_TABLE,
-							null,videoNodes);
 				listener.onFragmentResult(Add, true, videoNode);
 				dismiss();
+
+				addToDB();
 			} else {
 				Toast.makeText(mContext, "添加失败", Toast.LENGTH_SHORT).show();
 			}
@@ -174,24 +169,52 @@ public class VideoInfoDialog implements UIListener {
 		} else if (event.getType() == EventType.EDITIPC) {
 			if (event.isSuccess()) {
 				Toast.makeText(mContext, "编辑成功", Toast.LENGTH_SHORT).show();
+				listener.onFragmentResult(Edit, true, videoNode);
+				dismiss();
+				editToDB();
+			} else {
+				Toast.makeText(mContext, "编辑失败", Toast.LENGTH_SHORT).show();
+			}
+		}
+
+	}
+
+	private void editToDB() {
+		new AsyncTask<Object, Object, Object>(){
+
+			@Override
+			protected Object doInBackground(Object... params) {
 				DataHelper mDateHelper = new DataHelper(
 						ApplicationController.getInstance());
 				SQLiteDatabase mSQLiteDatabase = mDateHelper
 						.getSQLiteDatabase();
 				
 				String Where = " id=?";
-				String[] args = {
-						videoNode.getId() == null ? "" : videoNode.getId().trim(),
-						 };
-				ContentValues contentValues=videoNode.convertContentValues();
-				mDateHelper.update(mSQLiteDatabase, DataHelper.VIDEO_TABLE, contentValues, Where, args);
-				listener.onFragmentResult(Edit, true, videoNode);
-				dismiss();
-			} else {
-				Toast.makeText(mContext, "编辑失败", Toast.LENGTH_SHORT).show();
-			}
-		}
+				String[] args = { videoNode.getId() == null ? "" : videoNode
+						.getId().trim(), };
+				ContentValues contentValues = videoNode.convertContentValues();
+				mDateHelper.update(mSQLiteDatabase, DataHelper.VIDEO_TABLE,
+						contentValues, Where, args);
+				return true;
+			}}.execute();
+	}
 
+	private void addToDB() {
+		new AsyncTask<Object, Object, Object>() {
+
+			@Override
+			protected Object doInBackground(Object... params) {
+				DataHelper mDateHelper = new DataHelper(
+						ApplicationController.getInstance());
+				SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
+				ArrayList<VideoNode> videoNodes = new ArrayList<VideoNode>();
+				videoNodes.add(videoNode);
+				mDateHelper.insertVideoList(mSQLiteDatabase, DataHelper.VIDEO_TABLE,
+						null, videoNodes);
+				return true;
+			}
+		}.execute();
+		
 	}
 
 }
