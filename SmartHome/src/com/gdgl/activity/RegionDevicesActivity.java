@@ -177,9 +177,9 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 					for (SimpleDevicesModel s : mAddToRegionList) {
 						s.setmDeviceRegion(mRegion);
 						updateDevices(s, c);
+						mList.add(s);
 					}
 					mAddToRegionList.clear();
-					initRegionDevicesList();
 					mDevicesBaseAdapter.setList(mList);
 					mDevicesBaseAdapter.notifyDataSetChanged();
 					fragmentManager.popBackStack();
@@ -256,16 +256,18 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 	}
 
 	@Override
-	public void AddCheckedDevices(SimpleDevicesModel s) {
+	public void AddCheckedDevices(int postion) {
 		// TODO Auto-generated method stub
+		SimpleDevicesModel s=mAddList.get(postion);
 		if(!mAddToRegionList.contains(s)){
 			mAddToRegionList.add(s);
 		}
 	}
 
 	@Override
-	public void DeletedCheckedDevices(SimpleDevicesModel s) {
+	public void DeletedCheckedDevices(int postion) {
 		// TODO Auto-generated method stub
+		SimpleDevicesModel s=mAddList.get(postion);
 		if(mAddToRegionList.contains(s)){
 			mAddToRegionList.remove(s);
 		}

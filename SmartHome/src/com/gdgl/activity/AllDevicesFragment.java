@@ -100,9 +100,9 @@ public class AllDevicesFragment extends Fragment implements adapterSeter {
 				((AllDevicesAdapter) mBaseAdapter).getIsSelected().put(position-1, holder.selected.isChecked());
 				mBaseAdapter.notifyDataSetChanged();
 				if (holder.selected.isChecked()) {
-					mAddChecked.AddCheckedDevices(holder.mSimpleDevicesModel);
+					mAddChecked.AddCheckedDevices(holder.mPostion);
 				} else {
-					mAddChecked.DeletedCheckedDevices(holder.mSimpleDevicesModel);
+					mAddChecked.DeletedCheckedDevices(holder.mPostion);
 				}
 			}
 		});

@@ -88,7 +88,7 @@ public class AllDevicesAdapter extends BaseAdapter {
 		// TODO Auto-generated method stub
 		View mView = convertView;
 		final ViewHolder mHolder;
-		final SimpleDevicesModel mDevices = mDevicesList.get(position);
+		final SimpleDevicesModel mDevices = (SimpleDevicesModel)getItem(position);
 		
 		if (null == mView) {
 			mHolder = new ViewHolder();
@@ -102,10 +102,11 @@ public class AllDevicesAdapter extends BaseAdapter {
 					.findViewById(R.id.devices_state);
 			mHolder.selected = (CheckBox) mView
 					.findViewById(R.id.selected);
-			mHolder.mSimpleDevicesModel=mDevices;
+			mHolder.mPostion=position;
 			mView.setTag(mHolder);
 		} else {
 			mHolder = (ViewHolder) mView.getTag();
+			mHolder.mPostion=position;
 		}
 
 		mHolder.devices_name.setText(mDevices.getmUserDefineName().replace(" ",
@@ -172,7 +173,7 @@ public class AllDevicesAdapter extends BaseAdapter {
 		public TextView devices_name;
 		public TextView devices_state;
 		public CheckBox selected;
-		public SimpleDevicesModel mSimpleDevicesModel;
+		public int mPostion;
 	}
 
 	public interface DevicesObserver {
@@ -192,7 +193,7 @@ public class AllDevicesAdapter extends BaseAdapter {
 	}
 
 	public interface AddChecked{
-		public void AddCheckedDevices(SimpleDevicesModel s);
-		public void DeletedCheckedDevices(SimpleDevicesModel s);
+		public void AddCheckedDevices(int postion);
+		public void DeletedCheckedDevices(int postion);
 	}
 }
