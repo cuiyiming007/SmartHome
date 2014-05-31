@@ -258,9 +258,14 @@ public class VideoFragment extends Fragment implements UIListener,Dialogcallback
 	}
 
 	public void updateAddVideoList(VideoNode videoNode) {
-		if (!mList.contains(videoNode)) {
-			mList.add(videoNode);
+		//如果在列表中已经存在该摄像头，就返回，不添加
+		for (VideoNode node : mList) {
+			if (node.getId().equals(videoNode.getId())) {
+				return;
+			}
 		}
+		
+		mList.add(videoNode);
 		adapter.notifyDataSetChanged();
 	}
 

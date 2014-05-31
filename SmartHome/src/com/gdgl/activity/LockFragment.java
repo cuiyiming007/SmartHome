@@ -188,7 +188,11 @@ public class LockFragment extends BaseControlFragment {
 		final Event event = (Event) object;
 		if (EventType.LOCALIASCIEBYPASSZONE == event.getType()||EventType.LOCALIASCIEUNBYPASSZONE==event.getType()) {
 			if (event.isSuccess()) {
+				mDevices.setmOnOffStatus(status ? "1" : "o");
 				updateStatusOnUIThread();
+				ContentValues c = new ContentValues();
+				c.put(DevicesModel.ON_OFF_STATUS, status ? "1" : "o");
+				mUpdateDevice.updateDevices(mDevices, c);
 				DeviceManager.getInstance().getLocalCIEList();
 			}else
 			{

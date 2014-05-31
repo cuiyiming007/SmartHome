@@ -239,8 +239,10 @@ public class VideoActivity extends FragmentActivity {
 
 	public void handleError() {
 		decodeh264.initalThread();
-		Toast.makeText(getApplicationContext(), "打开视频失败，请检查网络连接或重试",
-				Toast.LENGTH_SHORT).show();
+		if (isVisible) {
+			Toast.makeText(getApplicationContext(), "打开视频失败，请检查网络连接或重试",
+					Toast.LENGTH_SHORT).show();
+		}
 		// finish();
 	}
 	public boolean isVideoVisble()
