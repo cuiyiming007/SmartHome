@@ -289,7 +289,7 @@ public class DataUtil {
 
 	public static List<DevicesModel> getBindDevices(Context c, DataHelper dh) {
 
-		String[] args = new String[13];
+		String[] args = new String[12];
 		args[0] = "00137A000000F55A";
 		args[1] = "00137A000000B657";
 		args[2] = "00137A0000010516";
@@ -300,10 +300,9 @@ public class DataUtil {
 		args[7] = "00137A000001184B";
 		args[8] = "00137A000001122A";
 		args[9] = "00137A000000BF13";
-		args[10] = "00137A000001181F";
-		args[11] = "00137A0000011949";
-		args[12] = "00137A0000011F8C";
-		String where = " ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? ";
+		args[10] = "00137A0000011949";
+		args[11] = "00137A0000011F8C";
+		String where = " ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? ";
 
 		List<DevicesModel> listDevicesModel = new ArrayList<DevicesModel>();
 		SQLiteDatabase db=dh.getSQLiteDatabase();
