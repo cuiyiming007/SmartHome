@@ -3,6 +3,7 @@ package com.gdgl.adapter;
 import java.util.List;
 
 import com.gdgl.activity.SafeSimpleOperation;
+import com.gdgl.manager.WarnManager;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.smarthome.R;
@@ -27,6 +28,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
@@ -51,6 +53,7 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
     }
 
     private String index;
+	private ListView listView;
 
     public DevicesBaseAdapter(Context c,
             DevicesObserver mObserver) {
@@ -104,6 +107,8 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
                     .findViewById(R.id.devices_img);
             mHolder.devices_name = (TextView) mView
                     .findViewById(R.id.devices_name);
+            mHolder.warn_state = (TextView) mView
+            		.findViewById(R.id.warn_state);
             mHolder.devices_region = (TextView) mView
                     .findViewById(R.id.devices_region);
             mHolder.devices_state = (TextView) mView
@@ -121,10 +126,16 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 				DataHelper.RS232_adapter) == 0){
         	mHolder.devices_region.setText("");
 		}
-
+        mHolder.warn_state.setText("");
         if (DataHelper.IAS_ZONE_DEVICETYPE == mDevices.getmDeviceId()
-                || DataHelper.IAS_ACE_DEVICETYPE == mDevices.getmDeviceId()) {
+                || DataHelper.IAS_ACE_DEVICETYPE == mDevices.getmDeviceId()||DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE==mDevices.getmDeviceId()) {
 
+        	if (WarnManager.getInstance().isDeviceWarning(mDevices)) {
+        		mHolder.warn_state.setText("正在报警!");
+			}
+        	if (WarnManager.getInstance().isWarnning()&&mDevices.getmIeee().trim().equals("00137A0000011949")) {
+        		mHolder.warn_state.setText("报警器响!");
+			}
             mHolder.devices_img
                     .setImageResource(UiUtils
                             .getDevicesSmallIconByModelId(mDevices
@@ -186,6 +197,14 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 
         return mView;
     }
+//    public void updateItem()
+//    {
+//    	//得到第1个可显示控件的位置,记住是第1个可显示控件噢。而不是第1个控件
+//    	int visiblePosition = mDevicesList.getFirstVisiblePosition(); 
+//    	//得到你需要更新item的View
+//    	View view = listView.getChildAt(itemIndex - visiblePosition);
+//    }
+    
 
     public void setList(List<SimpleDevicesModel> list) {
         mDevicesList = null;
@@ -195,6 +214,7 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
     public class ViewHolder {
         ImageView devices_img;
         TextView devices_name;
+        TextView warn_state;
         TextView devices_region;
         TextView devices_state;
     }
@@ -217,5 +237,8 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
         // //lay.expand.startAnimation(anim);
         // mDevicesObserver.deleteDevices(index);
     }
+//    public void setListView(ListView listView) {
+//    	this.listView = listView;
+//    	}
 
 }

@@ -101,7 +101,7 @@ public class CallbackManager extends Manger {
 				Log.i(TAG, "Callback msgType=" + msgType + "warm message");
 				CallbackWarmMessage warmmessage = gson.fromJson(response,
 						CallbackWarmMessage.class);
-				setWarnDetailMessage(warmmessage);
+				
 				handlerWarmMessage(warmmessage);
 				break;
 			case 4:
@@ -193,11 +193,17 @@ public class CallbackManager extends Manger {
 	}
 
 	private void handlerWarmMessage(CallbackWarmMessage warmmessage) {
+		
+		WarnManager.getInstance().setWarnDetailMessage(warmmessage);
+		WarnManager.getInstance().setCurrentWarnInfo(warmmessage);
+		
 		Intent i = new Intent(ApplicationController.getInstance(),
 				ShowDevicesGroupFragmentActivity.class);
 		i.putExtra(ShowDevicesGroupFragmentActivity.ACTIVITY_SHOW_DEVICES_TYPE,
 				UiUtils.SECURITY_CONTROL);
 		makeNotify(i, warmmessage.getW_description(), warmmessage.toString());
+		
+		
 		new UpdateDBTask().execute(warmmessage);
 
 		Event event = new Event(EventType.WARM, true);
@@ -205,13 +211,7 @@ public class CallbackManager extends Manger {
 		notifyObservers(event);
 	}
 
-	public void setWarnDetailMessage(CallbackWarmMessage message) {
-		String detailmessage = message.getW_description() + "收到报警信息，请注意！";
-		if (message.getW_description().equals("Doorbell")) {
-			detailmessage = "门铃响了";
-		}
-		message.setDetailmessage(detailmessage);
-	}
+	
 
 	/***
 	 * 根据attributeId 和clusterId来确定操作是什么，发送event，刷新UI

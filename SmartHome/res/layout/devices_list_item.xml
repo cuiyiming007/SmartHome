@@ -73,6 +73,17 @@
                     android:text="开"
                     android:textColor="#1E90FF"
                     android:textSize="15dp" />
+                
+                 <TextView
+                    android:id="@+id/warn_state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:textColor="#1E90FF"
+                    android:textSize="15dp" />
 
                 <TextView
                     android:id="@+id/devices_region"

@@ -266,20 +266,20 @@ public class AllDevicesListFragment extends BaseFragment {
 				// mError.setVisibility(View.VISIBLE);
 			}
 		}
-		else if (EventType.WARM == event.getType()) {
-			if (event.isSuccess() == true) {
-				// data maybe null
-				final CallbackWarmMessage data = (CallbackWarmMessage) event
-						.getData();
-//				if (data.getCie_ieee() == mDevices.getmIeee()) {
-					mView.post(new Runnable() {
-						@Override
-						public void run() {
-							
-						}
-					});
-//				}
-			}
-		}
+//		else if (EventType.WARM == event.getType()) {
+//			if (event.isSuccess() == true) {
+//				// data maybe null
+//				final CallbackWarmMessage data = (CallbackWarmMessage) event
+//						.getData();
+////				if (data.getCie_ieee() == mDevices.getmIeee()) {
+//					mView.post(new Runnable() {
+//						@Override
+//						public void run() {
+//							
+//						}
+//					});
+////				}
+//			}
+//		}
 	}
 }

@@ -1,33 +1,27 @@
 package com.gdgl.activity;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.gdgl.activity.BaseControlFragment.UpdateDevice;
 import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.LightManager;
 import com.gdgl.manager.Manger;
+import com.gdgl.manager.WarnManager;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
-import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.SimpleResponseData;
-import com.gdgl.mydata.Callback.CallbackResponseType2;
 import com.gdgl.mydata.Callback.CallbackWarmMessage;
-import com.gdgl.mydata.getlocalcielist.elserec;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyDlg;
 
@@ -40,6 +34,8 @@ public class WarnningControlFragment extends BaseControlFragment {
 
 	View mView;
 	SimpleDevicesModel mDevices;
+
+	CallbackWarmMessage currentWarmMessage;
 
 	TextView txt_devices_name, txt_devices_region;
 	RelativeLayout mError;
@@ -67,12 +63,18 @@ public class WarnningControlFragment extends BaseControlFragment {
 	private void initstate() {
 		// TODO Auto-generated method stub
 		if (null != mDevices) {
-			if (mDevices.getmOnOffStatus().trim().equals("1")) {
-				status = true;
-			}
+			// if (mDevices.getmOnOffStatus().trim().equals("1")) {
+			// status = true;
+			// }
+			initalCrunentWarnStatus();
 			Ieee = mDevices.getmIeee().trim();
 			ep = mDevices.getmEP().trim();
 		}
+	}
+
+	private void initalCrunentWarnStatus() {
+		status = WarnManager.getInstance().isWarnning();
+		currentWarmMessage = WarnManager.getInstance().getCurrentWarmmessage();
 	}
 
 	private void setImagRes(ImageView mSwitch, boolean b) {
@@ -95,10 +97,10 @@ public class WarnningControlFragment extends BaseControlFragment {
 			OnOffImg = extras.getIntArray(DevicesListFragment.PASS_ONOFFIMG);
 		}
 
+		initstate();
 		mLightManager = LightManager.getInstance();
 		mLightManager.addObserver(WarnningControlFragment.this);
 		CallbackManager.getInstance().addObserver(this);
-		initstate();
 	}
 
 	@Override
@@ -111,7 +113,6 @@ public class WarnningControlFragment extends BaseControlFragment {
 	}
 
 	private void initView() {
-		// TODO Auto-generated method stub
 		on_off = (ImageView) mView.findViewById(R.id.devices_on_off);
 
 		txt_devices_name = (TextView) mView.findViewById(R.id.txt_devices_name);
@@ -140,29 +141,20 @@ public class WarnningControlFragment extends BaseControlFragment {
 				}
 				mLightManager.IASWarningDeviceOperationCommon(mDevices, 0);
 				txt_devices_name.setText(mDevices.getmUserDefineName().trim());
+
 			}
 		});
 	}
 
-	private int getChangeValue() {
-		if (status) {
-			return 0x00;
-		} else {
-			return 0x01;
-		}
-	}
-
 	@Override
 	public void onDestroy() {
-		// TODO Auto-generated method stub
-		super.onDestroy();
 		mLightManager.deleteObserver(WarnningControlFragment.this);
 		CallbackManager.getInstance().deleteObserver(this);
+		super.onDestroy();
 	}
 
 	@Override
 	public void editDevicesName() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -186,82 +178,45 @@ public class WarnningControlFragment extends BaseControlFragment {
 
 				setImagRes(on_off, status);
 
-				ContentValues c = new ContentValues();
-				c.put(DevicesModel.ON_OFF_STATUS, status ? "1" : "o");
-				mDevices.setmOnOffStatus(status ? "1" : "o");
-				mUpdateDevice.updateDevices(mDevices, c);
+//				ContentValues c = new ContentValues();
+//				c.put(DevicesModel.ON_OFF_STATUS, status ? "1" : "o");
+//				mDevices.setmOnOffStatus(status ? "1" : "o");
+//				mUpdateDevice.updateDevices(mDevices, c);
+				WarnManager.getInstance().inialWarn();
 			} else {
 				// if failed,prompt a Toast
 				mError.setVisibility(View.VISIBLE);
 			}
-		}
-		else if (EventType.WARM == event.getType()) {
+		} else if (EventType.WARM == event.getType()) {
 			if (event.isSuccess() == true) {
 				// data maybe null
 				final CallbackWarmMessage data = (CallbackWarmMessage) event
 						.getData();
-//				if (data.getCie_ieee() == mDevices.getmIeee()) {
-					mView.post(new Runnable() {
-						@Override
-						public void run() {
-							status=true;
-							setImagRes(on_off, true);
-							txt_devices_name.setText(data.getDetailmessage());
-						}
-					});
-//				}
+				mView.post(new Runnable() {
+					@Override
+					public void run() {
+						updateWarnMessage(data, true);
+					}
+				});
 			}
 		}
-//		if (EventType.ON_OFF_STATUS == event.getType()) {
-//			if (event.isSuccess() == true) {
-//				// data maybe null
-//				CallbackResponseType2 data = (CallbackResponseType2) event
-//						.getData();
-//				List<DevicesModel> mList;
-//				DataHelper mDh = new DataHelper((Context) getActivity());
-//				String where = " ieee=? and ep=? ";
-//				String[] args = {
-//						mDevices.getmIeee() == null ? "" : mDevices.getmIeee()
-//								.trim(),
-//						mDevices.getmEP() == null ? "" : mDevices.getmEP()
-//								.trim() };
-//				mList = mDh.queryForList(mDh.getSQLiteDatabase(),
-//						DataHelper.DEVICES_TABLE, null, where, args, null,
-//						null, null, null);
-//				boolean result = false;
-//				if (null != data.getValue()) {
-//					result = data.getValue().trim().equals("1");
-//					status = result;
-//					mView.post(new Runnable() {
-//						@Override
-//						public void run() {
-//							setImagRes(on_off, status);
-//						}
-//					});
-//				}
-//				ProcessUpdate(data, mList);
-//			} else {
-//				// if failed,prompt a Toast
-//				// mError.setVisibility(View.VISIBLE);
-//			}
-//		}
-		
+
 	}
 
-	class operatortype {
-		/***
-		 * 获取设备类型
-		 */
-		public static final int GetOnOffSwitchType = 0;
-		/***
-		 * 获取状态
-		 */
-		public static final int GetOnOffSwitchActions = 1;
-		/***
-		 * 当操作类型是2时，para1有以下意义 Param1: switchaction: 0x00: Off 0x01: On 0x02:
-		 * Toggle
-		 */
-		public static final int ChangeOnOffSwitchActions = 2;
+	@Override
+	public void onResume() {
+		updateWarnMessage(WarnManager.getInstance().getCurrentWarmmessage(),
+				WarnManager.getInstance().isWarnning());
+		super.onResume();
 	}
 
+	private void updateWarnMessage(CallbackWarmMessage data, boolean isWarning) {
+		status = isWarning;
+		setImagRes(on_off, status);
+		if (isWarning && data != null) {
+			txt_devices_name.setText(data.getDetailmessage());
+		} else {
+			txt_devices_name.setText(mDevices.getmUserDefineName());
+		}
+	}
 }
