@@ -591,7 +591,6 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 	@Override
 	public boolean updateDevices(SimpleDevicesModel sd, ContentValues c) {
 		// TODO Auto-generated method stub
-
 		Paremeters p = new Paremeters();
 		p.sd = sd;
 		p.c = c;

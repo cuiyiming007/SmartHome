@@ -610,16 +610,12 @@ public class DevicesListWithGroup extends BaseFragment implements
 						R.layout.devices_list_item_withgroup, null);
 				mViewHolder.devImg = (ImageView) convertView
 						.findViewById(R.id.devices_img);
-				mViewHolder.devState = (TextView) convertView
-						.findViewById(R.id.devices_state);
 				mViewHolder.devName = (TextView) convertView
 						.findViewById(R.id.devices_name);
 				mViewHolder.devRegion = (TextView) convertView
 						.findViewById(R.id.devices_region);
 				mViewHolder.devOnOffLine = (TextView) convertView
 						.findViewById(R.id.on_off_line);
-				mViewHolder.devSingal = (ImageView) convertView
-						.findViewById(R.id.singal);
 				mViewHolder.devEnergy = (TextView) convertView
 						.findViewById(R.id.enerry);
 				mViewHolder.devAlarm = (TextView) convertView
@@ -635,9 +631,13 @@ public class DevicesListWithGroup extends BaseFragment implements
 					&& !ds.getmDeviceRegion().trim().equals("")) {
 				mViewHolder.devRegion.setText(ds.getmDeviceRegion().replace(
 						" ", ""));
+			}else{
+				mViewHolder.devRegion.setVisibility(View.GONE);
 			}
+			
 			if (ds.getmModelId().indexOf(DataHelper.RS232_adapter) == 0) {
 				mViewHolder.devRegion.setText("");
+				mViewHolder.devRegion.setVisibility(View.GONE);
 			}
 
 			int devcicesId = Integer.parseInt(ds.getmDeviceId());
@@ -655,78 +655,11 @@ public class DevicesListWithGroup extends BaseFragment implements
 				mViewHolder.devImg.setImageResource(UiUtils
 						.getDevicesSmallIcon(devcicesId));
 			}
-
-			if (devcicesId == DataHelper.ON_OFF_SWITCH_DEVICETYPE) {
-				String state = "";
-				String s = ds.getmOnOffStatus();
-				Log.i("tag", "tag->" + s);
-				String[] result = s.split(",");
-				for (String string : result) {
-					if (string.trim().equals("1")) {
-						state += "开 ";
-					} else {
-						state += "关 ";
-					}
-				}
-				Log.i("tag", "tag->" + state);
-				mViewHolder.devState.setText(state);
-			} else if (devcicesId == DataHelper.IAS_ZONE_DEVICETYPE) {
-				if (ds.getmOnOffStatus().trim().equals("1")) {
-					mViewHolder.devState.setText("已布防");
-				} else {
-					mViewHolder.devState.setText("已撤防");
-				}
-			} else if (devcicesId == DataHelper.LIGHT_SENSOR_DEVICETYPE) {
-				mViewHolder.devState.setText("亮度: "+ds.getmValue1());
-			} else if (devcicesId == DataHelper.TEMPTURE_SENSOR_DEVICETYPE) {
-				mViewHolder.devState.setText("温度: "+ds.getmValue1()+"°C\n湿度: "+ds.getmValue2()+"%");
-			} else if (ds.getmModelId().indexOf(DataHelper.RS232_adapter) == 0) {
-				mViewHolder.devState.setText("一键操作");
-			} else if (ds.getmModelId().indexOf(
-					DataHelper.Energy_detection_dimming_module) == 0) {
-				String state = ds.getmCurrent();
-				if (null == state || state.trim().equals("")
-						|| state.trim().equals("0")) {
-					mViewHolder.devState.setText("关");
-				} else if (state.trim().equals("100")) {
-					mViewHolder.devState.setText("开");
-				} else {
-					mViewHolder.devState.setText("开 " + state + "%");
-				}
-			} else {
-				if (ds.getmOnOffStatus().trim().equals("1")) {
-					mViewHolder.devState.setText("开");
-				} else {
-					mViewHolder.devState.setText("关");
-				}
-			}
-
-			if (null != ds.getmClusterID()
-					&& !ds.getmClusterID().trim().equals("")) {
-				if (ds.getmClusterID().toLowerCase().contains("in")) {
-					if (null != ds.getmBindTo()
-							&& !ds.getmBindTo().trim().equals("")) {
-						mViewHolder.devState.setText("已绑定");
-					} else {
-						mViewHolder.devState.setText("未绑定");
-					}
-				} else if (ds.getmClusterID().toLowerCase().contains("out")) {
-					if (null != ds.getmBindTo()
-							&& !ds.getmBindTo().trim().equals("")) {
-						mViewHolder.devState.setText(mViewHolder.devState
-								.getText().toString() + "  已绑定");
-					} else {
-						mViewHolder.devState.setText(mViewHolder.devState
-								.getText().toString() + "  未绑定");
-					}
-				}
-			}
-
+			
+			mViewHolder.devAlarm.setVisibility(View.GONE);
 			if (expan_postion == 2) {
 				mViewHolder.devAlarm.setVisibility(View.VISIBLE);
 				//
-			}else{
-				mViewHolder.devAlarm.setVisibility(View.GONE);
 			}
 			
 			if(UiUtils.isHaveBattery(ds.getmModelId())){
@@ -742,10 +675,8 @@ public class DevicesListWithGroup extends BaseFragment implements
 		class ViewHolder {
 			ImageView devImg;
 			TextView devName;
-			TextView devState;
 			TextView devRegion;
 			TextView devOnOffLine;
-			ImageView devSingal;
 			TextView devEnergy;
 			TextView devAlarm;
 		}
@@ -862,40 +793,6 @@ public class DevicesListWithGroup extends BaseFragment implements
 			if (event.isSuccess()) {
 				ArrayList<CIEresponse_params> devDataList = (ArrayList<CIEresponse_params>) event
 						.getData();
-
-				// List<SimpleDevicesModel> safeList = mDevicesListCache
-				// .get(UiUtils.SECURITY_CONTROL);
-				//
-				// List<SimpleDevicesModel> updatsLis=new
-				// ArrayList<SimpleDevicesModel>();
-				// if (null != devDataList && devDataList.size() > 0) {
-				// for (int i = 0; i < devDataList.size(); i++) {
-				// CIEresponse_params cp = devDataList.get(i);
-				// int m = getDevicesPostion(cp.getCie().getIeee(), cp
-				// .getCie().getEp(), safeList);
-				// if (-1 != m) {
-				// String s = cp.getCie().getElserec().getBbypass();
-				// String status=s.trim().toLowerCase()
-				// .equals("true") ? "1" : "0";
-				// if(!status.equals(safeList.get(m).getmOnOffStatus())){
-				// safeList.get(m).setmOnOffStatus(status);
-				// updatsLis.add(safeList.get(m));
-				// }
-				// }
-				// }
-				// if (UiUtils.SECURITY_CONTROL == mListIndex) {
-				// mCurrentList = safeList;
-				// title.post(new Runnable() {
-				// @Override
-				// public void run() {
-				// setdata(mCurrentList);
-				// }
-				// });
-				// }
-				// if(null!=updatsLis && updatsLis.size()>0){
-				// new UpdateDatabaseTask().execute(updatsLis);
-				// }
-				// }
 
 			}
 		} else if (EventType.HUMIDITY == event.getType()) {
