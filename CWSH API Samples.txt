@@ -1,0 +1,187 @@
+- 设备信息获取
+
+1. GetZBNode
+http://192.168.1.237/cgi-bin/rest/network/getZBNode.cgi?callback=1234&encodemethod=NONE&sign=AAA
+
+2. GetEndPoint
+http://192.168.1.237/cgi-bin/rest/network/getendpoint.cgi?callback=1234&encodemethod=NONE&sign=AAA
+"curpowersourcelevel"（剩余电量）
+"powersource"（供电方式）
+    "Mains(single phase)": 交流电供电
+    "DC source": 直流电供电
+    "Battery": 电池供电
+    "DC source with battery": 带备用电池的直流电供电
+
+3. ZBGetZBNodeCount
+http://192.168.1.237/cgi-bin/rest/network/zbGetZBNodeCount.cgi?callback=1234&encodemethod=NONE&sign=AAA
+
+4. ZBGetZBNodeByIEEE
+http://192.168.1.237/cgi-bin/rest/network/zbGetZBNodeByIEEE.cgi?ieee=00137A000000FC73&callback=1234&encodemethod=NONE&sign=AAA
+
+5. ZBGetZBNodeByNwk_addr
+http://192.168.1.237/cgi-bin/rest/network/zbGetZBNodeByNwk_addr.cgi?nwk=0000&callback=1234&encodemethod=NONE&sign=AAA
+
+6. ZBGetZBNodeByIndex
+http://192.168.1.237/cgi-bin/rest/network/zbGetZBNodeByIndex.cgi?index=1&callback=1234&encodemethod=NONE&sign=AAA
+
+7. ZBGetEndPointCount
+http://192.168.1.237/cgi-bin/rest/network/zbGetEndPointCount.cgi?&callback=1234&encodemethod=NONE&sign=AAA
+
+8. ZBGetEndPointByIndex
+http://192.168.1.237/cgi-bin/rest/network/zbGetEndPointByIndex.cgi?index=1&callback=1234&encodemethod=NONE&sign=AAA
+
+===================================================================================
+
+- 组网相关
+
+1. 允许入网
+http://192.168.1.237/cgi-bin/rest/network/setPermitJoinOn.cgi?ieee=00137A00000101D1&second=250&callback=1234&encodemethod=NONE&sign=AAA
+
+2. 删除网关中的设备信息
+注意：不需重新入网，一旦被删除的设备重新上电或被唤醒，相关的设备信息就会自动恢复
+http://192.168.1.237/cgi-bin/rest/network/deleteNode.cgi?ieee=00137A000000DC86&callback=1234&encodemethod=NONE&sign=AAA
+
+3. 删除网关中的设备信息并使设备出网
+注意：必须重新入网
+http://192.168.1.237/cgi-bin/rest/network/manageLeaveNode.cgi?ieee=00137A000000DC86&callback=1234&encodemethod=NONE&sign=AAA
+
+4. 重建ZigBee网络（慎用）
+http://192.168.1.237/cgi-bin/rest/network/rebuildNetworkByParam.cgi?channel=13&panid=5434&panexid=1234567812345678&prelinkkey=01234567123456781234567801234567&prenwkkey=12340123456712341234012345671234&callback=1234&encodemethod=NONE&sign=AAA
+
+===================================================================================
+
+- 绑定相关
+
+示例一：ZigBee开关模块（单路）与智能开关（三键）左边按键的绑定与解除绑定
+http://192.168.1.237/cgi-bin/rest/network/bindDevice.cgi?devout_ieee=00137A000001122A&devout_ep=03&devin_ieee=00137A0000010AB5&devin_ep=0A&cluster_id=0006&callback=1234&encodemethod=NONE&sign=AAA
+http://192.168.1.237/cgi-bin/rest/network/unbindDevice.cgi?devout_ieee=00137A000001122A&devout_ep=03&devin_ieee=00137A0000010AB5&devin_ep=0A&cluster_id=0006&callback=1234&encodemethod=NONE&sign=AAA
+
+示例二：警报器与门铃按键的绑定与解除绑定（ClusterID必须为0x0502的十进制数1282）
+http://192.168.1.237/cgi-bin/rest/network/bindDevice.cgi?devout_ieee=00137A0000011F8C&devout_ep=01&devin_ieee=00137A0000011949&devin_ep=01&cluster_id=1282&callback=1234&encodemethod=NONE&sign=AAA
+http://192.168.1.237/cgi-bin/rest/network/unbindDevice.cgi?devout_ieee=00137A0000011F8C&devout_ep=01&devin_ieee=00137A0000011949&devin_ep=01&cluster_id=1282&callback=1234&encodemethod=NONE&sign=AAA
+
+注意：在调用绑定和解除绑定的API之前，如果绑定的设备中有电池供电的设备，则应先短按一次绑定键（各个设备的绑定键参看说明书）唤醒设备，否则操作不生效。
+
+1. 查看某设备某EP的绑定列表
+http://192.168.1.237/cgi-bin/rest/network/getBindList.cgi?ieee=00137A000001122A&ep=01&callback=1234&encodemethod=NONE&sign=AAA
+
+===================================================================================
+
+- 开关量控制
+
+operatortype=0  // 开
+operatortype=1  // 关
+operatortype=2  // 翻转
+
+1. 窗帘控制
+http://192.168.1.237/cgi-bin/rest/network/shadeOperation.cgi?ieee=00137A0000010516&ep=01&operatortype=1&param1=1&param2=2&param3=3&callback=1234&encodemethod=NONE&sign=AAA
+
+2. 开关量控制（阀门开关、开关模块都应该使用下述API）
+http://192.168.1.237/cgi-bin/rest/network/onOffOutputOperation.cgi?ieee=00137A0000010AB5&ep=0A&operatortype=2&param1=1&param2=2&param3=3&callback=1234&encodemethod=NONE&sign=AAA
+
+3. 插座控制（智能插座、墙面插座都应该使用下述API）
+http://192.168.1.237/cgi-bin/rest/network/mainsOutLetOperation.cgi?ieee=00137A000000B657&ep=01&operatortype=2&param1=1&param2=2&param3=3&callback=1234&encodemethod=NONE&sign=AAA
+
+===================================================================================
+
+- 调光模块
+
+http://192.168.1.237/cgi-bin/rest/network/dimmableLightOperation.cgi?ieee=00137A000000EE66&ep=01&operatortype=10&param1=128&param2=2&param3=3&callback=1234&encodemethod=NONE&sign=AAA
+
+===================================================================================
+
+- 红外学习、控制
+
+1. 学习红外码
+http://192.168.1.237/cgi-bin/rest/network/BeginLearnIR.cgi?ieee=00137A0000010148&ep=01&hadaemonindex=1&irdisplayname=tv_open&callback=1234&encodemethod=NONE&sign=AAA
+
+2. 调用红外码（控制）
+http://192.168.1.237/cgi-bin/rest/network/BeginApplyIR.cgi?ieee=00137A0000010148&ep=01&hadaemonindex=1&callback=1234&encodemethod=NONE&sign=AAA
+
+3. 获取已学习的红外数据信息
+http://192.168.1.237/cgi-bin/rest/network/GetDeviceLearnedIRDataInformation.cgi?ieee=00137A0000010148&ep=01&callback=1234&encodemethod=NONE&sign=AAA
+
+===================================================================================
+
+- 安防相关
+
+1. 获取窗磁状态
+http://192.168.1.237/cgi-bin/rest/network/iasZoneOperation.cgi?ieee=00137A00000121EF&ep=01&operatortype=7&param1=1&param2=2&param3=3&callback=1234&encodemethod=NONE&sign=AAA
+
+2. 窗磁布撤防
+窗磁撤防（马上生效）：
+http://192.168.1.237/cgi-bin/rest/network/localIASCIEByPassZone.cgi?zone_ieee=00137A00000121EF&zone_ep=01&callback=1234&encodemethod=NONE&sign=AAA
+
+窗磁布防（马上生效）：
+http://192.168.1.237/cgi-bin/rest/network/localIASCIEUnByPassZone.cgi?zone_ieee=00137A00000121EF&zone_ep=01&callback=1234&encodemethod=NONE&sign=AAA
+
+3. 全局布撤防
+全局撤防（马上生效）：
+http://192.168.1.237/cgi-bin/rest/network/localIASCIEOperation.cgi?operatortype=6&param1=1&param2=2&param3=3&callback=1234&encodemethod=NONE&sign=AAA
+
+全局布防（默认1min后生效）：
+http://192.168.1.237/cgi-bin/rest/network/localIASCIEOperation.cgi?operatortype=7&param1=1&param2=2&param3=3&callback=1234&encodemethod=NONE&sign=AAA
+
+查看当前全局布防状态（通过Param1的值判断）：
+0：全部撤防    1：白天布防模式    2：夜间布防模式    3：全部布防
+http://192.168.1.237/cgi-bin/rest/network/localIASCIEOperation.cgi?operatortype=5&param1=1&param2=2&param3=3&callback=1234&encodemethod=NONE&sign=AAA
+
+4. 报警器停止报警
+http://192.168.1.237/cgi-bin/rest/network/iasWarningDeviceOperation.cgi?ep=01&ieee=00137A0000011949&param3=0&param1=0&param2=0&operatortype=0&callback=1234&encodemethod=NONE&sign=AAA
+
+5. 布撤防状态获取（查看bbypass属性，true表示撤防；false表示布防）
+http://192.168.1.237/cgi-bin/rest/network/GetLocalCIEList.cgi?callback=1234&encodemethod=NONE&sign=AAA
+
+6. 安防设备登记（enroll，ieee_cie一般为协调器的IEEE地址）
+如果某个安防设备不包含在GetLocalCIEList.cgi返回的结果中，则可尝试此操作
+http://192.168.1.237/cgi-bin/rest/network/iasZoneWriteIASCIEAddressData.cgi?ieee=00137A000000AEBA&ep=01&ieee_cie=00137A00000101D1&callback=1234&encodemethod=NONE&sign=AAA
+
+7. 获取安防设备的CIE地址
+http://192.168.1.237/cgi-bin/rest/network/iasZoneOperation.cgi?ieee=00137A000000AEBA&ep=01&operatortype=2&param1=1&param2=2&param3=3&callback=1234&encodemethod=NONE&sign=AAA
+
+===================================================================================
+
+- 环境监测
+
+1. 温湿度传感器
+读取温度（缩小100倍）
+http://192.168.1.237/cgi-bin/rest/network/temperatureSensorOperation.cgi?ieee=00137A00000121C2&ep=0A&operatortype=0&param1=1&param2=2&param3=3&callback=1234&encodemethod=NONE&sign=AAA
+
+读取湿度（缩小100倍）
+http://192.168.1.237/cgi-bin/rest/network/temperatureSensorOperation.cgi?ieee=00137A00000121C2&ep=0A&operatortype=1&param1=1&param2=2&param3=3&callback=1234&encodemethod=NONE&sign=AAA
+
+2. 光线感应器（读取照度值，获得的数据就是真实读数）
+http://192.168.1.237/cgi-bin/rest/network/lightSensorOperation.cgi?ieee=00137A000001181F&ep=01&operatortype=0&param1=1&param2=2&param3=3&callback=1234&encodemethod=NONE&sign=AAA
+
+===================================================================================
+
+- 区域相关
+
+1. 获取房间信息
+http://192.168.1.237/cgi-bin/rest/network/getAllRoomInfo.cgi?callback=1234&encodemethod=NONE&sign=AAA
+
+2. 获取房间设备信息
+http://192.168.1.237/cgi-bin/rest/network/getEPByRoomIndex.cgi?rid=1&callback=1234&encodemethod=NONE&sign=AAA
+
+3. 添加房间（修改）
+http://192.168.1.237/cgi-bin/rest/network/zbAddRoomDataMain.cgi?rid=1&roomname=客厅&roompic=home.png&callback=1234&encodemethod=NONE&sign=AAA
+
+4. 删除房间
+http://192.168.1.237/cgi-bin/rest/network/zbDeleteRoomDataMainByID.cgi?rid=1&callback=1234&encodemethod=NONE&sign=AAA
+
+5. 修改设备roomid（即getendpoint.cgi返回中的rid）
+rid默认为-1，成功修改后会有callback数据
+当设备所在的房间被删除后，rid会重新被置为-1
+http://192.168.1.237/cgi-bin/rest/network/ModifyDeviceRoomId.cgi?ieee=00137A000000DC86&ep=01&new_roomid=1&callback=1234&encodemethod=NONE&sign=AAA
+
+===================================================================================
+
+- 其他
+
+1. 识别某个设备（让某个设备的指示灯闪烁一定时间）
+http://192.168.1.237/cgi-bin/rest/network/identifyDevice.cgi?ieee=00137A000001020D&ep=01&time=5&callback=1234&encodemethod=NONE&sign=AAA
+
+2. 获取ZigBee网络通道
+http://192.168.1.237/cgi-bin/rest/network/ZBGetChannel.cgi?callback=1234&encodemethod=NONE&sign=AAA
+
+===================================================================================
