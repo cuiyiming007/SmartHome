@@ -37,7 +37,7 @@ public class DataHelper extends SQLiteOpenHelper {
 	public static final String Motion_Sensor = "ZB11A"; // ZigBee������Ӧ��
 	public static final String Magnetic_Window = "Z311A"; // ZigBee����
 	public static final String Emergency_Button = "Z302D"; // ZigBee������ť
-	public static final String Doors_and_windows_sensor_switch = "Z311J"; // �Ŵ���Ӧ����
+	public static final String Doors_and_windows_sensor_switch = "Z302J"; // �Ŵ���Ӧ����
 	public static final String Smoke_Detectors = "ZA01A"; // �����Ӧ��
 	public static final String Combustible_Gas_Detector_Gas = "ZA01B"; // ��ȼ����̽������ú��)
 	public static final String Combustible_Gas_Detector_CO = "ZA01C"; // ��ȼ����̽������һ����̼)

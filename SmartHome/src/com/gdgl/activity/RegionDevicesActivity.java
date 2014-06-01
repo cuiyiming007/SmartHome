@@ -341,9 +341,9 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 		@Override
 		protected void onPostExecute(List<SimpleDevicesModel> result) {
 			super.onPostExecute(result);
-			if(isAdd){
+			if(currentState==INADD){
 				mAllDevicesFragment.stopRefresh();
-			}else{
+			}else if(currentState==INLIST){
 				mDevicesListFragment.stopRefresh();
 			}
 			

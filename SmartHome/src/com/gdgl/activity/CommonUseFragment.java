@@ -19,6 +19,7 @@ import com.gdgl.mydata.SimpleResponseData;
 import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.DispatchOperator;
+import com.gdgl.util.MyOkCancleDlg;
 import com.gdgl.util.UiUtils;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 import com.gdgl.util.ExpandCollapseAnimation;
@@ -32,8 +33,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnWindowFocusChangeListener;
@@ -66,6 +70,7 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 	View mView;
 
 	List<StringTag> mList;
+	private int deletePostion=-1;
 
 	CustomeAdapter regionAdap, sceneAdap, devAdap;
 
@@ -246,7 +251,12 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 		expnRegion(true);
 		hideScene(false);
 		hideDev(false);
-
+		
+		
+		registerForContextMenu(region_list);
+		registerForContextMenu(scene_list);
+		registerForContextMenu(dev_list);
+		
 		region_lay.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -499,31 +509,55 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 				devrefeeshImg.setVisibility(View.GONE);
 				devimg.setVisibility(View.VISIBLE);
 				break;
-//			case STOP:
-//				ImageView devimg,
-//				devrefeeshImg;
-//				TextView devstate;
-//				devimg = (ImageView) vg.findViewById(R.id.dev_img);
-//				devrefeeshImg = (ImageView) vg.findViewById(R.id.refresh_img);
-//
-//				devstate = (TextView) vg.findViewById(R.id.dev_state);
-//
-//				String ieee = mViewToIees.get((View) msg.obj);
-//
-//				SimpleDevicesModel sd = getDevicesByIeee(ieee);
-//				if (null != sd) {
-//					setTextViewContent(sd, devstate);
-//				}
-//				devrefeeshImg.clearAnimation();
-//				devrefeeshImg.setVisibility(View.GONE);
-//				devimg.setVisibility(View.VISIBLE);
-//				break;
 			default:
 				break;
 			}
 		};
 	};
-
+	
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
+		// TODO Auto-generated method stub
+		menu.setHeaderTitle("删除");
+		menu.add(0, 1, 0, "删除");
+		super.onCreateContextMenu(menu, v, menuInfo);
+	}
+	
+	
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
+				.getMenuInfo();
+		int position = info.position;
+		deletePostion=position;
+		int menuIndex = item.getItemId();
+		if (region_expn) {
+			MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
+			(Context) getActivity());
+			mMyOkCancleDlg.setDialogCallback(CommonUseFragment.this);
+			mMyOkCancleDlg.setContent("确定要删除区域"
+					+ mRegion.get(position)+ "吗?");
+			mMyOkCancleDlg.show();
+		} else if (scene_expn) {
+			MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
+			(Context) getActivity());
+			mMyOkCancleDlg.setDialogCallback(CommonUseFragment.this);
+			mMyOkCancleDlg.setContent("确定要删除场景"
+					+ mScene.get(position)+ "吗?");
+			mMyOkCancleDlg.show();
+		} else if (dev_expn) {
+			MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
+			(Context) getActivity());
+			mMyOkCancleDlg.setDialogCallback(CommonUseFragment.this);
+			mMyOkCancleDlg.setContent("确定要删除设备"
+					+ mDev.get(position).getmUserDefineName()+ "吗?");
+			mMyOkCancleDlg.show();
+		}
+		return super.onContextItemSelected(item);
+	}
+	
 	private DevicesGroup getModelByID(String ieee) {
 		return DataUtil.getOneScenesDevices((Context) getActivity(), mDh, ieee);
 	}
@@ -613,7 +647,16 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 	public void onResume() {
 		// TODO Auto-generated method stub
 		Log.i("onResume", "onResume");
-		refreshFragment();
+		initRegiondata();
+		initScenedata();
+		initDevdata();
+		if (region_expn) {
+			expnRegion(false);
+		} else if (scene_expn) {
+			expnScene(false);
+		} else if (dev_expn) {
+			expnDev(false);
+		}
 		super.onResume();
 	}
 
@@ -784,7 +827,40 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 	@Override
 	public void dialogdo() {
 		// TODO Auto-generated method stub
-
+		getFromSharedPreferences.setharedPreferences((Context) getActivity());
+		StringBuilder sb=new StringBuilder();
+		String sR = getFromSharedPreferences.getCommonUsed();
+		String deleteString="";
+		List<String> rs=new ArrayList<String>();
+		if (!(null == sR || sR.trim().equals(""))) {
+			String[] com=sR.split("@@");
+			for (String string : com) {
+				if(!string.trim().equals("")){
+					rs.add(string);
+				}
+			}
+		}
+		
+		if (region_expn) {
+			deleteString=UiUtils.REGION_FLAG+mRegion.get(deletePostion);
+			mRegion.remove(deletePostion);
+			
+		} else if (scene_expn) {
+			deleteString=UiUtils.SCENE_FLAG+mScene.get(deletePostion);
+			mScene.remove(deletePostion);
+		} else if (dev_expn) {
+			deleteString=UiUtils.DEVICES_FLAG+mIeees.get(deletePostion);
+			mIeees.remove(deletePostion);
+		}
+		
+		for (String string : rs) {
+			if(!string.equals(deleteString)){
+				sb.append(string+"@@");
+			}
+		}
+		getFromSharedPreferences.setCommonUsed(sb.toString());
+		
+		refreshFragment();
 	}
 
 	private void setTextViewContent(SimpleDevicesModel s, TextView view) {

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.DataHelper;
+import com.gdgl.mydata.DataUtil;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.UiUtils;
 
@@ -108,9 +109,15 @@ public class AllDevicesAdapter extends BaseAdapter {
 			mHolder = (ViewHolder) mView.getTag();
 			mHolder.mPostion=position;
 		}
-
-		mHolder.devices_name.setText(mDevices.getmUserDefineName().replace(" ",
-				""));
+		
+		if(null==mDevices.getmUserDefineName() || mDevices.getmUserDefineName().trim().equals("")){
+			mHolder.devices_name.setText(DataUtil.getDefaultUserDefinname(mContext, mDevices.getmModelId()));
+		}else{
+			mHolder.devices_name.setText(mDevices.getmUserDefineName().replace(" ",
+					""));
+		}
+		
+		
 
 		if (DataHelper.IAS_ZONE_DEVICETYPE == mDevices.getmDeviceId()
 				|| DataHelper.IAS_ACE_DEVICETYPE == mDevices.getmDeviceId()) {
