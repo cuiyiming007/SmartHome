@@ -1,9 +1,16 @@
 package com.gdgl.manager;
 
 import android.R.integer;
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 
+import com.gdgl.app.ApplicationController;
+import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
+import com.gdgl.mydata.DataHelper;
+import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.Callback.CallbackWarmMessage;
+import com.gdgl.mydata.getlocalcielist.elserec;
 
 public class WarnManager {
 	private static WarnManager instance;
@@ -44,9 +51,16 @@ public class WarnManager {
 	
 	
 	public void setWarnDetailMessage(CallbackWarmMessage message) {
-		String detailmessage = message.getW_description() + "收到报警信息，请注意！";
+		String detailmessage;
+	DataHelper	dh = new DataHelper(ApplicationController.getInstance());
+		SQLiteDatabase db = dh.getSQLiteDatabase();
+		DevicesModel device= DataUtil.getDeviceModelByIeee(message.getCie_ieee(), dh, db);
 		if (message.getW_description().equals("Doorbell")) {
 			detailmessage = "门铃响了";
+		}else{
+			String chineseName=DataUtil.getDefaultUserDefinname(ApplicationController.getInstance(), device.getmModelId());
+			message.setW_description(chineseName);
+			detailmessage = message.getW_description() + "收到报警信息，请注意！";
 		}
 		message.setDetailmessage(detailmessage);
 	}

@@ -440,6 +440,15 @@ public class DataUtil {
 		}
 		return null;
 	}
+	public static DevicesModel getDeviceModelByIeee(String ieee,DataHelper dh,SQLiteDatabase db){
+		String where=" ieee=? ";
+		String[] args={ieee+""};
+		List<DevicesModel> mList=dh.queryForList(db, DataHelper.DEVICES_TABLE, null, where, args, null, null, null, null);
+		if(null!=mList && mList.size()>0){
+			return mList.get(0);
+		}
+		return null;
+	}
 
 	public static List<DevicesModel> getDevices(Context c, DataHelper dh,
 			int type) {
