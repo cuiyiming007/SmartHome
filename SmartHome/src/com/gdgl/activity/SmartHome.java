@@ -182,6 +182,7 @@ public class SmartHome extends FragmentActivity implements
 						ConfigActivity.class);
 				i.putExtra("fragid",1);
 				startActivity(i);
+				WarnManager.getInstance().intilMessageNum();
 			}
 		});
 	}
@@ -284,12 +285,13 @@ public class SmartHome extends FragmentActivity implements
 	@Override
 	protected void onStop() {
 		// unregisterReceiver(networkreChangeReciever);
-		CallbackManager.getInstance().deleteObserver(this);
+		
 		super.onStop();
 	}
 
 	@Override
 	protected void onDestroy() {
+		CallbackManager.getInstance().deleteObserver(this);
 		super.onDestroy();
 		// stopService(serviceIntent);
 		// unregisterReceiver(msgReceiver);

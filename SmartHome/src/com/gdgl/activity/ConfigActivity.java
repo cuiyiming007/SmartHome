@@ -162,8 +162,7 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 				.beginTransaction();
 		Bundle mBundle = getIntent().getExtras();
 		//通过点击通知传过来的，进入消息管理界面
-		int id = mBundle.getInt("fragid",-1);
-		if (id==1) {
+		if (mBundle!=null&&mBundle.getInt("fragid",-1)==1) {
 			MessageListFragment f=new MessageListFragment();
 			config_name.setText(messagemenu.getText().toString());
 			showClearMesssageBtn(f);

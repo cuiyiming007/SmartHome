@@ -54,6 +54,10 @@ public class WarnManager {
 	{
 		return messageNum;
 	}
+	public void intilMessageNum()
+	{
+		messageNum=0;
+	}
 	
 	public boolean isWarnning() {
 		return isWarnning;

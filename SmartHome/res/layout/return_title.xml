@@ -55,17 +55,50 @@
     <LinearLayout
         android:id="@+id/parents_need"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:layout_alignParentRight="true"
         android:layout_gravity="center"
         android:orientation="horizontal" >
+        
+        <FrameLayout
+            android:layout_width="0.0dip"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@null" >
 
-        <Button
-            android:id="@+id/alarm"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:background="@drawable/alarm_btn_style"
-            android:gravity="center" />
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="bottom|center" >
+
+                <Button
+                    android:id="@+id/alarm_in_device"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:background="@drawable/alarm_btn_style"
+                    android:gravity="center_vertical" />
+                        />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:gravity="top|right|center"
+                android:paddingRight="10.0dip" >
+
+                <TextView
+                    android:id="@+id/unread_ms_device"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/unread_message"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="@android:color/white"
+                    android:textSize="10.0dip"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+        </FrameLayout>
 
         <LinearLayout
             android:id="@+id/parent_need"
@@ -77,6 +110,7 @@
                 android:id="@+id/set"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:layout_marginTop="10dip"
                 android:layout_marginLeft="5dip"
                 android:layout_marginRight="10dip"
                 android:background="@drawable/more_btn_style"

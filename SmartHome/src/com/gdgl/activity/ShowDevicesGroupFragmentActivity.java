@@ -16,6 +16,7 @@ import com.gdgl.manager.DeviceManager;
 import com.gdgl.manager.LightManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
+import com.gdgl.manager.WarnManager;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.DataHelper;
@@ -37,6 +38,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -90,6 +92,8 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 	boolean isDelete = false;
 
 	TextView title;
+	Button notifyBtn;
+	TextView notifyTextView;
 	// LinearLayout parents_need, devices_need;
 	// Button mDelete;
 	Button set;
@@ -172,7 +176,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 			initNoContent();
 			initFancyCoverFlow();
 			initDevicesListFragment();
-			initTitle();
+			
 			initTitleByTag(mListIndex);
 
 			mDeviceManager.getLocalCIEList();
@@ -226,7 +230,13 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 			type = mBundle.getInt(ACTIVITY_SHOW_DEVICES_TYPE, 0);
 		}
 		mListIndex = type;
+		initTitle();
 		initData();
+	}
+	@Override
+	protected void onResume() {
+		super.onResume();
+		updateMessageNum();
 	}
 
 	private void initNoContent() {
@@ -254,6 +264,19 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 			}
 		});
 
+		notifyBtn=(Button) findViewById(R.id.alarm_in_device);
+		notifyTextView=(TextView) findViewById(R.id.unread_ms_device);
+		notifyBtn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(ShowDevicesGroupFragmentActivity.this,
+						ConfigActivity.class);
+				i.putExtra("fragid",1);
+				startActivity(i);
+				WarnManager.getInstance().intilMessageNum();				
+			}
+		});
 		title = (TextView) findViewById(R.id.title);
 		set = (Button) findViewById(R.id.set);
 		set.setOnClickListener(new OnClickListener() {
@@ -754,6 +777,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 				
 				@Override
 				public void run() {
+					updateMessageNum();
 					setdata(mCurrentList);
 				}
 			});
@@ -835,5 +859,16 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		}
 		return -1;
 
+	}
+	
+	private void updateMessageNum() {
+		int messageNum=WarnManager.getInstance().getMessageNum();
+		
+		if (messageNum==0) {
+			notifyTextView.setVisibility(View.GONE);
+		}else{
+			notifyTextView.setVisibility(View.VISIBLE);
+			notifyTextView.setText(String.valueOf(messageNum));
+		}
 	}
 }

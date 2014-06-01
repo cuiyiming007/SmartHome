@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
@@ -27,14 +28,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gdgl.activity.ConfigActivity;
 import com.gdgl.activity.DevicesListFragment;
+import com.gdgl.activity.SmartHome;
 import com.gdgl.activity.VideoFragment;
+import com.gdgl.manager.CallbackManager;
+import com.gdgl.manager.Manger;
+import com.gdgl.manager.UIListener;
+import com.gdgl.manager.WarnManager;
 import com.gdgl.model.SimpleDevicesModel;
+import com.gdgl.mydata.Event;
+import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.video.VideoNode;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.ComUtil;
 
-public class VideoActivity extends FragmentActivity {
+public class VideoActivity extends FragmentActivity implements UIListener{
 	private final static String TAG = "VideoActivity";
 	public static int ipc_channel = -1;
 	public Button captureImageBtn;
@@ -42,7 +51,10 @@ public class VideoActivity extends FragmentActivity {
 	VView decodeh264;
 	public static int ret = 0;
 	VideoNode mVideoNode;
-	private boolean isVisible=false;
+	private boolean isVisible = false;
+	TextView unreadMessageView;
+	Button notifyButton;
+
 	// DataInputStream dataInputStream;
 
 	/*
@@ -55,11 +67,12 @@ public class VideoActivity extends FragmentActivity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		Bundle extras_ipc_channel = getIntent().getExtras();
-		if(null!=extras_ipc_channel){
-			mVideoNode=(VideoNode)extras_ipc_channel.getParcelable(VideoFragment.PASS_OBJECT);
+		if (null != extras_ipc_channel) {
+			mVideoNode = (VideoNode) extras_ipc_channel
+					.getParcelable(VideoFragment.PASS_OBJECT);
 		}
-		if(null!=mVideoNode){
-			ipc_channel=Integer.parseInt(mVideoNode.getId());
+		if (null != mVideoNode) {
+			ipc_channel = Integer.parseInt(mVideoNode.getId());
 		}
 		Resources res = getResources();
 		Drawable backDrawable = res.getDrawable(R.drawable.background);
@@ -78,7 +91,13 @@ public class VideoActivity extends FragmentActivity {
 		setContentView(decodeh264);// ���ò���
 		addTitle();
 		addRecordBtn();
+		CallbackManager.getInstance().addObserver(this);
 		new playVideoTask().execute(ipc_channel);
+	}
+	@Override
+	protected void onDestroy() {
+		CallbackManager.getInstance().deleteObserver(this);
+		super.onDestroy();
 	}
 
 	private void addRecordBtn() {
@@ -99,18 +118,24 @@ public class VideoActivity extends FragmentActivity {
 	private void addTitle() {
 		LayoutInflater layoutInflater = LayoutInflater.from(this);
 		View viewTitle = layoutInflater.inflate(R.layout.toptitle, null);
-		TextView title=(TextView)viewTitle.findViewById(R.id.title);
+		TextView title = (TextView) viewTitle.findViewById(R.id.title);
 		String name = "";
-		name=mVideoNode.getAliases();
-//		try {
-////			name=new String((mVideoNode.getAliases()).getBytes("UTF-8"),"ISO-8859-1");
-//		} catch (UnsupportedEncodingException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		name = mVideoNode.getAliases();
 		title.setText(name);
 		LinearLayout.LayoutParams params = setTitlePortrait();
 		addContentView(viewTitle, params);
+		notifyButton = (Button) findViewById(R.id.alarm_btn);
+		unreadMessageView = (TextView) findViewById(R.id.unread_tv);
+		notifyButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(VideoActivity.this, ConfigActivity.class);
+				i.putExtra("fragid", 1);
+				startActivity(i);
+				WarnManager.getInstance().intilMessageNum();
+			}
+		});
 	}
 
 	private FrameLayout.LayoutParams setPortrait() {
@@ -143,7 +168,7 @@ public class VideoActivity extends FragmentActivity {
 		Log.i(TAG, "finish video ipc_channel=" + String.valueOf(ipc_channel));
 		decodeh264.setIsVideoRun(false);
 		decodeh264.initalThread();
-		isVisible=false;
+		isVisible = false;
 		Network.closeVideoSocket();
 		super.finish();
 	}
@@ -177,16 +202,17 @@ public class VideoActivity extends FragmentActivity {
 
 		@Override
 		protected Boolean doInBackground(Integer... params) {
-//			ComUtil.mkdirH264("/PictureShot");
+			// ComUtil.mkdirH264("/PictureShot");
 			return decodeh264.screenShot(ipc_channel);
 		}
+
 		@Override
 		protected void onPostExecute(Boolean result) {
 			super.onPostExecute(result);
 			if (result) {
 				Toast.makeText(getApplicationContext(), "截图成功",
 						Toast.LENGTH_SHORT).show();
-			}else {
+			} else {
 				Toast.makeText(getApplicationContext(), "截图失败，请检查SD卡是否正常",
 						Toast.LENGTH_SHORT).show();
 			}
@@ -245,19 +271,48 @@ public class VideoActivity extends FragmentActivity {
 		}
 		// finish();
 	}
-	public boolean isVideoVisble()
-	{
+
+	public boolean isVideoVisble() {
 		return isVisible;
 	}
+
 	@Override
 	protected void onResume() {
-		isVisible=true;
+		isVisible = true;
+		updateMessageNum();
 		super.onResume();
 	}
+
 	@Override
 	protected void onPause() {
-		isVisible=false;
+		isVisible = false;
 		super.onPause();
+	}
+
+	private void updateMessageNum() {
+		int messageNum = WarnManager.getInstance().getMessageNum();
+
+		if (messageNum == 0) {
+			unreadMessageView.setVisibility(View.GONE);
+		} else {
+			unreadMessageView.setVisibility(View.VISIBLE);
+			unreadMessageView.setText(String.valueOf(messageNum));
+		}
+	}
+	
+	@Override
+	public void update(Manger observer, Object object) {
+		Event data=(Event) object;
+		if (EventType.WARM==data.getType()) {
+			notifyButton.post(new Runnable() {
+				
+				@Override
+				public void run() {
+					updateMessageNum();
+				}
+			});
+		}
+		
 	}
 	/*
 	 * (non-Javadoc)
@@ -277,6 +332,8 @@ public class VideoActivity extends FragmentActivity {
 	 * "onActivityResult IOException"+e.getMessage()); return; } }
 	 * super.onActivityResult(requestCode, resultCode, data); }
 	 */
+
+	
 
 	/*
 	 * private FrameLayout.LayoutParams setPortrait() { FrameLayout.LayoutParams
