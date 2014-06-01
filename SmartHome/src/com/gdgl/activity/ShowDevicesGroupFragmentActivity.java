@@ -125,6 +125,24 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 				safeList = DataUtil.getOtherManagementDevices(
 						ShowDevicesGroupFragmentActivity.this, mDataHelper, db,
 						UiUtils.SECURITY_CONTROL);
+				
+				SimpleDevicesModel dm = null;
+				SimpleDevicesModel tempDevicesModel;
+				int index=-1;
+				if(null!=safeList){
+					tempDevicesModel=safeList.get(0);
+					for (int i = 0; i < safeList.size(); i++) {
+						if(safeList.get(i).getmModelId().indexOf(
+								DataHelper.One_key_operator) == 0){
+							dm=safeList.get(i);
+							index=i;
+						}
+					}
+					if(index!=-1 && index!=0){
+						safeList.add(0, dm);
+						safeList.add(index, tempDevicesModel);
+					}
+				}
 				mDevicesListCache.put(UiUtils.SECURITY_CONTROL, safeList);
 			}
 
@@ -356,6 +374,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
 		mDevicesListFragment = new DevicesListFragment();
+		mDevicesListFragment.initList();
 		fragmentTransaction.replace(R.id.devices_control_fragment,
 				mDevicesListFragment, "LightsControlFragment");
 		mDevicesListFragment.setAdapter(mDevicesBaseAdapter);
@@ -668,7 +687,9 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 			mNoDevices.setVisibility(View.VISIBLE);
 		} else {
 			mNoDevices.setVisibility(View.GONE);
+			
 			mDevicesBaseAdapter.setList(list);
+			mDevicesListFragment.initList();
 			mDevicesListFragment.setLayout();
 			mDevicesBaseAdapter.notifyDataSetChanged();
 

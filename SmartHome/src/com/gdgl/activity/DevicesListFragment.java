@@ -13,6 +13,7 @@ import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.Callback.CallbackResponseType2;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.EditDevicesDlg;
+import com.gdgl.util.VersionDlg;
 import com.gdgl.util.EditDevicesDlg.EditDialogcallback;
 import com.gdgl.util.MyOkCancleDlg;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
@@ -56,22 +57,22 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter {
 	LinearLayout list_root;
 
 	public static final String PASS_OBJECT = "pass_object";
-	
+
 	public static final String PASS_ONOFFIMG = "pass_on_off_img";
-	
+
 	public static final String OPERATOR = "with_or_not_operator";
 
 	Context mContext;
 
 	AdapterContextMenuInfo selectedMenuInfo = null;
-	
-    public static final int WITH_OPERATE = 0;
-    public static final int WITHOUT_OPERATE = 2;
-    
-    private int type=1;
-    
-    List<SimpleDevicesModel> mList;
-    
+
+	public static final int WITH_OPERATE = 0;
+	public static final int WITHOUT_OPERATE = 2;
+
+	private int type = 1;
+
+	List<SimpleDevicesModel> mList;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -122,90 +123,131 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter {
 				}
 			}
 		});
-		
-		if(type!=WITHOUT_OPERATE){
+
+		initList();
+		setListeners();
+		registerForContextMenu(devices_list.getRefreshableView());
+		devices_list.setAdapter(mBaseAdapter);
+	}
+
+	private void setListeners() {
+		// TODO Auto-generated method stub
+		if (type != WITHOUT_OPERATE) {
 			devices_list.setOnItemClickListener(new OnItemClickListener() {
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view,
 						int position, long id) {
 					// TODO Auto-generated method stub
 					Log.i(TAG, "tagzgs->position=" + position);
-					mSimpleDevicesModel = mRefreshData.getDeviceModle(position - 1);
+					mSimpleDevicesModel = mRefreshData
+							.getDeviceModle(position - 1);
 					mRefreshData.setDevicesId(mSimpleDevicesModel.getmIeee());
-					
-					if(mSimpleDevicesModel.getmIeee().equals("00137A0000010148") && mSimpleDevicesModel.getmEP().equals("01")){
-						Intent intent=new Intent();
-						intent.setClass((Context)getActivity(), KongtiaoTvControlActivity.class);
-						startActivity(intent);
-					}else{
-						Fragment mFragment;
 
-						if (mSimpleDevicesModel.getmModelId().indexOf(
-								DataHelper.Doorbell_button) == 0) {
-							mFragment = new DoorBellFragment();
-						}
-//						else if (mSimpleDevicesModel.getmModelId().indexOf(
-//								DataHelper.Infrared_controller) == 0) {
-//							mFragment = new RemoteControlFragment();
-//						}
-						else if (mSimpleDevicesModel.getmModelId().indexOf(
-								DataHelper.Wireless_Intelligent_valve_switch) == 0) {
-							mFragment = new OutPutFragment();
-						} else if(mSimpleDevicesModel.getmModelId().indexOf(
-								DataHelper.One_key_operator) == 0){
-							mFragment=new SafeSimpleOperation();
-						}
-						else {
-							mFragment = UiUtils.getFragment(mSimpleDevicesModel
-									.getmDeviceId());
-						}
-						if (null != mFragment) {
-							Bundle extras = new Bundle();
-							if (DataHelper.IAS_ZONE_DEVICETYPE == mSimpleDevicesModel
-									.getmDeviceId()
-									|| DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE == mSimpleDevicesModel
-											.getmDeviceId()
-									|| DataHelper.ON_OFF_OUTPUT_DEVICETYPE == mSimpleDevicesModel
-											.getmDeviceId()
-									|| DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE == mSimpleDevicesModel
-											.getmDeviceId()		
-									|| DataHelper.MAINS_POWER_OUTLET_DEVICETYPE == mSimpleDevicesModel
-											.getmDeviceId()) {
-								int[] OnOffImg = { R.drawable.bufang_on,
-										R.drawable.chefang_off };
-								extras.putIntArray(PASS_ONOFFIMG, OnOffImg);
+					if (mSimpleDevicesModel.getmOnOffLine() == 0) {
+						VersionDlg vd = new VersionDlg((Context) getActivity());
+						vd.setContent("安防设备已关闭");
+						vd.show();
+					} else {
+						if (mSimpleDevicesModel.getmIeee().equals(
+								"00137A0000010148")
+								&& mSimpleDevicesModel.getmEP().equals("01")) {
+							Intent intent = new Intent();
+							intent.setClass((Context) getActivity(),
+									KongtiaoTvControlActivity.class);
+							startActivity(intent);
+						}else if (mSimpleDevicesModel.getmIeee().equals(
+								"00137A0000010264")) {
+							Intent intent = new Intent();
+							intent.setClass((Context) getActivity(),
+									RemoteControlActivity.class);
+							startActivity(intent);
+						}else {
+							Fragment mFragment;
+
+							if (mSimpleDevicesModel.getmModelId().indexOf(
+									DataHelper.Doorbell_button) == 0) {
+								mFragment = new DoorBellFragment();
+							} else if (mSimpleDevicesModel
+									.getmModelId()
+									.indexOf(
+											DataHelper.Wireless_Intelligent_valve_switch) == 0) {
+								mFragment = new OutPutFragment();
+							} else if (mSimpleDevicesModel
+									.getmModelId()
+									.indexOf(
+											DataHelper.Doors_and_windows_sensor_switch) == 0) {
+								mFragment = new WarnningControlFragment();
+
+							} else if (mSimpleDevicesModel.getmModelId()
+									.indexOf(DataHelper.Siren) == 0) {
+								Bundle extras = new Bundle();
+								extras.putParcelable(PASS_OBJECT,
+										mSimpleDevicesModel);
+								mFragment = new SafeSimpleOperation();
+								mFragment.setArguments(extras);
+							} else {
+								mFragment = UiUtils
+										.getFragment(mSimpleDevicesModel
+												.getmDeviceId());
 							}
-							// PASS_OBKECT
-							extras.putParcelable(PASS_OBJECT, mSimpleDevicesModel);
-							mFragment.setArguments(extras);
-							mRefreshData.setFragment(mFragment, position - 1);
+							if (null != mFragment) {
+								Bundle extras = new Bundle();
+								if (DataHelper.IAS_ZONE_DEVICETYPE == mSimpleDevicesModel
+										.getmDeviceId()
+										|| DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE == mSimpleDevicesModel
+												.getmDeviceId()
+										|| DataHelper.ON_OFF_OUTPUT_DEVICETYPE == mSimpleDevicesModel
+												.getmDeviceId()
+										|| DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE == mSimpleDevicesModel
+												.getmDeviceId()
+										|| DataHelper.MAINS_POWER_OUTLET_DEVICETYPE == mSimpleDevicesModel
+												.getmDeviceId()
+										|| mSimpleDevicesModel
+												.getmModelId()
+												.indexOf(
+														DataHelper.Doors_and_windows_sensor_switch) == 0) {
+									int[] OnOffImg = { R.drawable.bufang_on,
+											R.drawable.chefang_off };
+									extras.putIntArray(PASS_ONOFFIMG, OnOffImg);
+								}
+								// PASS_OBKECT
+								extras.putParcelable(PASS_OBJECT,
+										mSimpleDevicesModel);
+								mFragment.setArguments(extras);
+								mRefreshData.setFragment(mFragment,
+										position - 1);
+							}
 						}
 					}
 				}
+
 			});
 		}
-		registerForContextMenu(devices_list.getRefreshableView());
-		devices_list.setAdapter(mBaseAdapter);
-		initList();
 	}
 
-	private void initList() {
+	public void initList() {
 		// TODO Auto-generated method stub
-		if(null!=mBaseAdapter){
-			int m=mBaseAdapter.getCount();
-			mList=new ArrayList<SimpleDevicesModel>();
+
+		if (null != mBaseAdapter) {
+			int m = mBaseAdapter.getCount();
+			mList = new ArrayList<SimpleDevicesModel>();
 			for (int i = 0; i < m; i++) {
-				SimpleDevicesModel sd=(SimpleDevicesModel)mBaseAdapter.getItem(i);
+				SimpleDevicesModel sd = (SimpleDevicesModel) mBaseAdapter
+						.getItem(i);
 				mList.add(sd);
 			}
 		}
+		if (null != devices_list) {
+			setListeners();
+		}
+
 	}
 
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
 		// TODO Auto-generated method stub
-		if(type!=1){
+		if (type != 1) {
 			menu.setHeaderTitle("删除");
 			menu.add(0, 1, 0, "删除");
 		}
@@ -217,11 +259,11 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter {
 				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		list_root.setLayoutParams(mLayoutParams);
 	}
-	
-	public interface deleteDevicesFromGroup{
+
+	public interface deleteDevicesFromGroup {
 		public void deleteDevices(SimpleDevicesModel sd);
 	}
-	
+
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
@@ -232,28 +274,30 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter {
 		int menuIndex = item.getItemId();
 		Log.i(TAG, "tagzgs-> menuInfo.position=" + position
 				+ " item.getItemId()" + item.getItemId());
-		if(type==WITH_OPERATE){
+		if (type == WITH_OPERATE) {
 			if (1 == menuIndex) {
 				mRefreshData.setDevicesId(mSimpleDevicesModel.getmIeee());
 				MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
 						(Context) getActivity());
 				mMyOkCancleDlg.setDialogCallback((Dialogcallback) mRefreshData);
 				mMyOkCancleDlg.setContent("确定要从此区域删除"
-						+ mSimpleDevicesModel.getmUserDefineName().trim() + "吗?");
+						+ mSimpleDevicesModel.getmUserDefineName().trim()
+						+ "吗?");
 				mMyOkCancleDlg.show();
 			}
-		}else if(type==WITHOUT_OPERATE){
+		} else if (type == WITHOUT_OPERATE) {
 			if (1 == menuIndex) {
 				mRefreshData.setDevicesId(mSimpleDevicesModel.getmIeee());
 				MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
 						(Context) getActivity());
 				mMyOkCancleDlg.setDialogCallback((Dialogcallback) mRefreshData);
 				mMyOkCancleDlg.setContent("确定要从此场景删除"
-						+ mSimpleDevicesModel.getmUserDefineName().trim() + "吗?");
+						+ mSimpleDevicesModel.getmUserDefineName().trim()
+						+ "吗?");
 				mMyOkCancleDlg.show();
 			}
 		}
-		
+
 		return super.onContextItemSelected(item);
 	}
 
@@ -264,7 +308,7 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter {
 			throw new IllegalStateException("Activity必须实现refreshData接口");
 		}
 		mRefreshData = (refreshData) activity;
-		setDataActivity=(setData)activity;
+		setDataActivity = (setData) activity;
 	}
 
 	public interface refreshData {
@@ -296,6 +340,7 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter {
 		// TODO Auto-generated method stub
 		mBaseAdapter = null;
 		mBaseAdapter = mAdapter;
+		initList();
 	}
 
 	@Override
@@ -310,29 +355,30 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter {
 		devices_list.onRefreshComplete();
 		refreshTag = 0;
 	}
-	
-	public int isInList(String iee,String ep){
-		
-		if(null==mList || mList.size()==0){
+
+	public int isInList(String iee, String ep) {
+
+		if (null == mList || mList.size() == 0) {
 			return -1;
 		}
-		if(iee==null || ep==null){
+		if (iee == null || ep == null) {
 			return -1;
 		}
 		SimpleDevicesModel sd;
-		for(int m=0;m<mList.size();m++){
-			sd=mList.get(m);
-			if(iee.trim().equals(sd.getmIeee().trim()) && ep.trim().equals(sd.getmEP().trim())){
+		for (int m = 0; m < mList.size(); m++) {
+			sd = mList.get(m);
+			if (iee.trim().equals(sd.getmIeee().trim())
+					&& ep.trim().equals(sd.getmEP().trim())) {
 				return m;
 			}
 		}
 		return -1;
 	}
-	
-	public interface setData{
+
+	public interface setData {
 		public void setdata(List<SimpleDevicesModel> list);
 	}
-	
+
 	@Override
 	public void update(Manger observer, Object object) {
 		// TODO Auto-generated method stub
@@ -342,9 +388,9 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter {
 				// data maybe null
 				CallbackResponseType2 data = (CallbackResponseType2) event
 						.getData();
-				int m=isInList(data.getDeviceIeee(), data.getDeviceEp());
-				if(-1!=m){
-					if(null!=data.getValue()){
+				int m = isInList(data.getDeviceIeee(), data.getDeviceEp());
+				if (-1 != m) {
+					if (null != data.getValue()) {
 						mList.get(m).setmOnOffStatus(data.getValue());
 						mView.post(new Runnable() {
 							@Override

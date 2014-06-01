@@ -54,7 +54,7 @@ public class SafeSimpleOperation extends Fragment implements UIListener {
 	LightManager mLightManager;
 	
 	TextView load_message;
-	
+	SimpleDevicesModel mDevices;
 	List<SimpleDevicesModel> mList;
 	DataHelper mDh;
 	@Override
@@ -72,7 +72,15 @@ public class SafeSimpleOperation extends Fragment implements UIListener {
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		
+		Bundle extras = getArguments();
+		if (null != extras) {
+			mDevices = (SimpleDevicesModel) extras
+					.getParcelable(DevicesListFragment.PASS_OBJECT);
+		}
+		
 		initData();
+		
 
 	}
 
@@ -80,7 +88,7 @@ public class SafeSimpleOperation extends Fragment implements UIListener {
 		// TODO Auto-generated method stub
 
 		Context c = (Context) getActivity();
-
+		
 		mLightManager = LightManager.getInstance();
 		mLightManager.addObserver(SafeSimpleOperation.this);
 
@@ -112,6 +120,7 @@ public class SafeSimpleOperation extends Fragment implements UIListener {
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		mView = inflater.inflate(R.layout.simple_operation, null);
+		initView();
 		return mView;
 	}
 
@@ -196,18 +205,21 @@ public class SafeSimpleOperation extends Fragment implements UIListener {
 			// TODO Auto-generated method stub
 			boolean on = params[0];
 			String on_off = on ? "1" : "0";
-			for (SimpleDevicesModel sdm : mList) {
-				sdm.setmOnOffStatus(on_off);
-			}
+			
 			String where = " ieee=? and ep=? ";
+			String[] args = { mDevices.getmIeee(), mDevices.getmEP() };
 			SQLiteDatabase db = mDh.getSQLiteDatabase();
-			ContentValues cv;
+			ContentValues cv=new ContentValues();
+			cv.put(DevicesModel.ON_OFF_STATUS, on_off);
+			mDh.update(db, DataHelper.DEVICES_TABLE, cv, where, args);
+			
 			for (SimpleDevicesModel sdm : mList) {
 				cv = new ContentValues();
-				String[] args = { sdm.getmIeee(), sdm.getmEP() };
-				cv.put(DevicesModel.ON_OFF_STATUS, on_off);
-				mDh.update(db, DataHelper.DEVICES_TABLE, cv, where, args);
+				String[] arg = { sdm.getmIeee(), sdm.getmEP() };
+				cv.put(DevicesModel.ON_OFF_LINE, on?0:1);
+				mDh.update(db, DataHelper.DEVICES_TABLE, cv, where, arg);
 			}
+			
 			mDh.close(db);
 			return 1;
 		}
@@ -235,7 +247,6 @@ public class SafeSimpleOperation extends Fragment implements UIListener {
 	@Override
 	public void update(Manger observer, Object object) {
 		// TODO Auto-generated method stub
-	
 		final Event event = (Event) object;
 		if (EventType.LOCALIASCIEOPERATION == event.getType()) {
 			if (event.isSuccess() == true) {

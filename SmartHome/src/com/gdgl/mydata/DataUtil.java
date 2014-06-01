@@ -24,21 +24,19 @@ public class DataUtil {
 		String[] args = null;
 		switch (type) {
 		case UiUtils.LIGHTS_MANAGER:
-			args = new String[3];
+			args = new String[2];
 			args[0] = DataHelper.Energy_detection_dimming_module + "%";
 			args[1] = DataHelper.Switch_Module_Single + "%";
-			args[2] = "1";
 			break;
 		case UiUtils.ELECTRICAL_MANAGER:
-			args = new String[5];
+			args = new String[4];
 			args[0] = DataHelper.Power_detect_wall + "%";
 			args[1] = DataHelper.Power_detect_socket + "%";
 			args[2] = DataHelper.Curtain_control_switch + "%";
 			args[3] = DataHelper.Infrared_controller + "%";
-			args[4] = "1";
 			break;
 		case UiUtils.SECURITY_CONTROL:
-			args = new String[12];
+			args = new String[11];
 			args[0] = DataHelper.Motion_Sensor + "%";
 			args[1] = DataHelper.Magnetic_Window + "%";
 			args[2] = DataHelper.Emergency_Button + "%";
@@ -50,20 +48,17 @@ public class DataUtil {
 			args[8] = DataHelper.Wireless_Intelligent_valve_switch + "%";
 			args[9] = DataHelper.Siren + "%";
 			args[10] = DataHelper.One_key_operator + "%";
-			args[11] = "1";
 			break;
 		case UiUtils.ENVIRONMENTAL_CONTROL:
-			args = new String[3];
+			args = new String[2];
 			args[0] = DataHelper.Indoor_temperature_sensor + "%";
 			args[1] = DataHelper.Light_Sensor + "%";
-			args[2] = "1";
 			break;
 		case UiUtils.ENERGY_CONSERVATION:
 			break;
 		case UiUtils.OTHER:
-			args = new String[2];
+			args = new String[1];
 			args[0] = DataHelper.Multi_key_remote_control + "%";
-			args[1] = "1";
 			break;
 		default:
 			break;
@@ -76,23 +71,23 @@ public class DataUtil {
 		String where = "";
 		switch (type) {
 		case UiUtils.LIGHTS_MANAGER:
-			where = " ( model_id like ? or model_id like ? ) and on_off_line=? ";
+			where = "  model_id like ? or model_id like ?  ";
 			break;
 		case UiUtils.ELECTRICAL_MANAGER:
-			where = " ( model_id like ? or model_id like ? or  model_id like ? or model_id like ?  ) and on_off_line=? ";
+			where = "  model_id like ? or model_id like ? or  model_id like ? or model_id like ?  ";
 			break;
 		case UiUtils.SECURITY_CONTROL:
-			where = "( model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? ) and on_off_line=? ";
+			where = " model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? ";
 			break;
 		case UiUtils.ENVIRONMENTAL_CONTROL:
-			where = " ( model_id like ? or model_id like ? ) and on_off_line=? ";
+			where = "  model_id like ? or model_id like ?  ";
 			;
 			break;
 		case UiUtils.ENERGY_CONSERVATION:
 
 			break;
 		case UiUtils.OTHER:
-			where = " model_id like ? and on_off_line=? ";
+			where = " model_id like ? ";
 			break;
 		default:
 			break;

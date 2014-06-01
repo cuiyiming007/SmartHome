@@ -53,14 +53,10 @@ public class SeekLightsControlFragment extends BaseControlFragment {
 		if (null != extras) {
 			mDevices = (SimpleDevicesModel) extras
 					.getParcelable(DevicesListFragment.PASS_OBJECT);
+			if(null!=mDevices && mDevices.getmValue().trim().equals("")){
+				mDevices.setmValue("0");
+			}
 		}
-		initstate();
-		
-	}
-
-	private void initstate() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	private void setDevicesImg(int i) {

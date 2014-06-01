@@ -15,11 +15,15 @@ public class VersionDlg {
 	Context context;
 	Dialog dialog;
 	Button sure;
-
+	TextView textView;
+	
 	public VersionDlg(Context con) {
 		this.context = con;
 		dialog = new Dialog(context, R.style.MyDialog);
 		dialog.setContentView(R.layout.version_dlg);
+		
+		textView=(TextView)dialog.findViewById(R.id.txt_title);
+		
 		sure = (Button) dialog.findViewById(R.id.btn_ok);
 		sure.setOnClickListener(new View.OnClickListener() {
 
@@ -30,9 +34,9 @@ public class VersionDlg {
 			}
 		});
 	}
-
-	public interface Dialogcallback {
-		public void dialogdo();
+	
+	public void setContent(String content) {
+		textView.setText(content);
 	}
 	public void show() {
 		dialog.show();

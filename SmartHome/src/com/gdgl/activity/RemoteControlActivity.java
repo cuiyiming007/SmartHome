@@ -9,6 +9,7 @@ import com.gdgl.manager.UIListener;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.RemoteControl;
 import com.gdgl.model.SimpleDevicesModel;
+import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DeviceLearnedParam;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
@@ -169,10 +170,10 @@ public class RemoteControlActivity extends Activity implements UIListener,
 		mRemoteControl = new ArrayList<RemoteControl>();
 
 		mControlModel = new SimpleDevicesModel();
-		mControlModel.setmIeee("00137A0000010148");
-		mControlModel.setmEP("01");
-		mControlModel.setmModelId("Z211");
-		mControlModel.setmDeviceId(8);
+		mControlModel.setmIeee("00137A0000010264");
+		mControlModel.setmEP("0F");
+		mControlModel.setmModelId("Z503");
+		mControlModel.setmDeviceId(DataHelper.REMOTE_CONTROL_DEVICETYPE);
 
 		getFromSharedPreferences
 				.setharedPreferences(RemoteControlActivity.this);

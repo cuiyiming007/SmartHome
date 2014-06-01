@@ -16,22 +16,26 @@ import com.gdgl.mydata.RespondDataEntity;
 import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyDlg;
+import com.gdgl.util.MyOkCancleDlg;
+import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class KongtiaoTvControlActivity extends Activity implements UIListener {
+public class KongtiaoTvControlActivity extends Activity implements UIListener,Dialogcallback {
 
 	TextView kongtiao, tv;
 	LinearLayout kongtiao_control;
@@ -59,6 +63,7 @@ public class KongtiaoTvControlActivity extends Activity implements UIListener {
 	SimpleDevicesModel mControlModel;
 	Dialog mDialog;
 	public static final int FINISH_DLG = 1;
+	public static final int FINISH_GETDATA = 2;
 
 	Button btn_up, btn_down, btn_tv_power, btn_jian, btn_jia, btn_increment,
 			btn_decress;
@@ -70,7 +75,6 @@ public class KongtiaoTvControlActivity extends Activity implements UIListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.kongtiao_tv_control);
 		initData();
-		initView();
 	}
 
 	private void initData() {
@@ -95,6 +99,8 @@ public class KongtiaoTvControlActivity extends Activity implements UIListener {
 
 		mLightManager = LightManager.getInstance();
 		mLightManager.addObserver(this);
+		mLightManager.getDeviceLearnedIRDataInformation(mControlModel);
+		mHandler.sendEmptyMessageDelayed(FINISH_GETDATA, 3000);
 	}
 
 	private void initView() {
@@ -172,7 +178,9 @@ public class KongtiaoTvControlActivity extends Activity implements UIListener {
 					mDialog = null;
 				}
 				break;
-
+			case FINISH_GETDATA:
+				initView();
+				break;
 			default:
 				break;
 			}
@@ -182,17 +190,25 @@ public class KongtiaoTvControlActivity extends Activity implements UIListener {
 	private void setListeners() {
 		// TODO Auto-generated method stub
 		btn_tv_power.setOnClickListener(new learnListeners("1", TV_ONOFF));
+		btn_tv_power.setOnLongClickListener(new cleanLearListener("1", TV_ONOFF));
 
 		btn_jian.setOnClickListener(new learnListeners("2", CHANNEL_DEC));
+		btn_jian.setOnLongClickListener(new cleanLearListener("2", CHANNEL_DEC));
 
 		btn_jia.setOnClickListener(new learnListeners("3", CHANNEL_ADD));
+		btn_jia.setOnLongClickListener(new cleanLearListener("3", CHANNEL_ADD));
 
 		btn_increment.setOnClickListener(new learnListeners("4", VOL_ADD));
+		btn_increment.setOnLongClickListener(new cleanLearListener("4", VOL_ADD));
 
 		btn_decress.setOnClickListener(new learnListeners("5", VOL_DEC));
+		btn_decress.setOnLongClickListener(new cleanLearListener("5", VOL_DEC));
 
 		btn_up.setOnClickListener(new learnListeners("6", TEMPTURE_DEC));
+		btn_up.setOnLongClickListener(new cleanLearListener("6", TEMPTURE_DEC));
+		
 		btn_down.setOnClickListener(new learnListeners("8", TEMPTURE_ADD));
+		btn_down.setOnLongClickListener(new cleanLearListener("8", TEMPTURE_ADD));
 
 		on_off_remote.setOnClickListener(new OnClickListener() {
 
@@ -235,9 +251,66 @@ public class KongtiaoTvControlActivity extends Activity implements UIListener {
 				}
 			}
 		});
+		
+//		on_off_remote.setOnLongClickListener(new cleanLearListener("7", KONGTIAO_ONOFF));
+		on_off_remote.setOnLongClickListener(new OnLongClickListener() {
+			
+			@Override
+			public boolean onLongClick(View v) {
+				// TODO Auto-generated method stub
+				ImageView mImageView = (ImageView) v;
+				RemoteControl rc = (RemoteControl) v.getTag();
+				if (null == rc) {
+					return true;
+				}
+				currentControl = rc;
+				if (rc.IsLearn.trim().equals("1")) {
+					MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
+							KongtiaoTvControlActivity.this);
+					mMyOkCancleDlg.setDialogCallback(KongtiaoTvControlActivity.this);
+					mMyOkCancleDlg.setContent("确定要重新学习此功能吗?");
+					mMyOkCancleDlg.show();
+					mImageView.setImageResource(R.drawable.kongtao_off_small);
+				}
+				return true;
+			}
+		});
 
 	}
+	
+	public class cleanLearListener implements OnLongClickListener{
+		
+		public String Index;
+		public String Name;
 
+		public cleanLearListener(String index, String name) {
+			Index = index;
+			Name = name;
+		}
+		
+		@Override
+		public boolean onLongClick(View v) {
+			// TODO Auto-generated method stub
+			
+			RemoteControl rc = (RemoteControl) v.getTag();
+			if (null == rc) {
+
+				return true;
+			}
+			currentControl = rc;
+			if (rc.IsLearn.trim().equals("1")) {
+				MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
+						KongtiaoTvControlActivity.this);
+				mMyOkCancleDlg.setDialogCallback(KongtiaoTvControlActivity.this);
+				mMyOkCancleDlg.setContent("确定要重新学习此功能吗?");
+				mMyOkCancleDlg.show();
+			} 
+			
+			return true;
+		}
+		
+	}
+	
 	public class learnListeners implements OnClickListener {
 
 		public String Index;
@@ -374,7 +447,7 @@ public class KongtiaoTvControlActivity extends Activity implements UIListener {
 		btn_down.setTag(getRemoteControl(8, 1));
 
 	}
-
+	
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
@@ -447,6 +520,82 @@ public class KongtiaoTvControlActivity extends Activity implements UIListener {
 				// if failed,prompt a Toast
 
 			}
+		}else if (EventType.GETDEVICELEARNED == event.getType()) {
+			if (event.isSuccess() == true) {
+				// data maybe null
+				RespondDataEntity<DeviceLearnedParam> dataEntity = (RespondDataEntity<DeviceLearnedParam>) event
+						.getData();
+				List<DeviceLearnedParam> mLearnedList = dataEntity
+						.getResponseparamList();
+				final List<RemoteControl> tempList = new ArrayList<RemoteControl>();
+				if (null == mLearnedList || mLearnedList.size() == 0) {
+					return;
+				} else {
+					RemoteControl rc;
+					for (DeviceLearnedParam deviceLearnedParam : mLearnedList) {
+						rc = new RemoteControl();
+						rc.Index = deviceLearnedParam.getHadaemonindex();
+						rc.Name = deviceLearnedParam.getIrdisplayname();
+						rc.IsLearn = "1";
+						if(mtvControl.size()==0 || mKongtiaoControl.size()==0){
+							if(rc.Index.equals("6") || rc.Index.equals("7") || rc.Index.equals("8")){
+								mKongtiaoControl.add(rc);
+							}else{
+								mtvControl.add(rc);
+							}
+						}else{
+							if(rc.Index.equals("6") || rc.Index.equals("7") || rc.Index.equals("8")){
+								int m=isInList(rc, mKongtiaoControl);
+								if(-1!=m){
+									mKongtiaoControl.get(m).IsLearn="1";
+								}
+							}else{
+								int m=isInList(rc, mtvControl);
+								if(-1!=m){
+									mtvControl.get(m).IsLearn="1";
+								}
+							}
+						}
+						initView();
+					}
+				}
+			} else {
+				// if failed,prompt a Toast
+
+			}
+		}
+	}
+
+	@Override
+	public void dialogdo() {
+		// TODO Auto-generated method stub
+		currentControl.IsLearn="0";
+		if (1 == currentPostion) {
+			if (mKongtiaoControl.size() == 0) {
+				mKongtiaoControl.add(currentControl);
+			} else {
+				int m = isInList(currentControl, mKongtiaoControl);
+				if (-1 == m) {
+					mKongtiaoControl.add(currentControl);
+				} else {
+					mKongtiaoControl.get(m).IsLearn = "0";
+				}
+			}
+			initKongtiao();
+			writeLearnListToSharedPreferences(1);
+		} else if (2 == currentPostion) {
+			if (mtvControl.size() == 0) {
+				mtvControl.add(currentControl);
+			} else {
+				int m = isInList(currentControl, mtvControl);
+				if (-1 == m) {
+					mtvControl.add(currentControl);
+				} else {
+					mtvControl.get(m).IsLearn = "0";
+				}
+			}
+			initTv();
+			writeLearnListToSharedPreferences(2);
 		}
 	}
 
