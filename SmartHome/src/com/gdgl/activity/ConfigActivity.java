@@ -14,6 +14,7 @@ import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
@@ -159,8 +160,19 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 		}
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
+		Bundle mBundle = getIntent().getExtras();
+		//通过点击通知传过来的，进入消息管理界面
+		int id = mBundle.getInt("fragid",-1);
+		if (id==1) {
+			MessageListFragment f=new MessageListFragment();
+			config_name.setText(messagemenu.getText().toString());
+			showClearMesssageBtn(f);
+			fragmentTransaction.replace(R.id.fragment_continer, f);
+		}else
+		{
+			fragmentTransaction.replace(R.id.fragment_continer, 	new DevicesListWithGroup());
+		}
 
-		fragmentTransaction.replace(R.id.fragment_continer, new DevicesListWithGroup());
 		fragmentTransaction.commit();
 	}
 
@@ -171,14 +183,7 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 		}
 		clearMessageImageButton.setVisibility(View.GONE);
 		if (f instanceof MessageListFragment) {
-			clearMessageImageButton.setVisibility(View.VISIBLE);
-			clearMessageImageButton.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					((MessageListFragment) f).dialog();
-				}
-			});
+			showClearMesssageBtn(f);
 		}
 		config_name.setText(v.getText().toString());
 		FragmentTransaction fragmentTransaction = fragmentManager
@@ -188,6 +193,17 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 		fragmentTransaction.commit();
 		v.setTextColor(mSelectedColor);
 		tempView = v;
+	}
+
+	private void showClearMesssageBtn(final Fragment f) {
+		clearMessageImageButton.setVisibility(View.VISIBLE);
+		clearMessageImageButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				((MessageListFragment) f).dialog();
+			}
+		});
 	}
 
 	private class GetDataTask extends

@@ -1,5 +1,7 @@
 package com.gdgl.manager;
 
+import android.R.integer;
+
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.Callback.CallbackWarmMessage;
 
@@ -7,6 +9,7 @@ public class WarnManager {
 	private static WarnManager instance;
 	private boolean isWarnning;
 	private CallbackWarmMessage currentWarmmessage;
+	private int messageNum=0;
 
 	public static WarnManager getInstance() {
 		if (instance == null) {
@@ -22,9 +25,11 @@ public class WarnManager {
 	{
 		isWarnning=false;
 		currentWarmmessage=null;
+		messageNum=0;
 	}
 	public void setCurrentWarnInfo(CallbackWarmMessage currentWarmmessage)
 	{
+		messageNum++;
 		isWarnning=true;
 		setCurrentWarmmessage(currentWarmmessage);
 		
@@ -44,6 +49,10 @@ public class WarnManager {
 			detailmessage = "门铃响了";
 		}
 		message.setDetailmessage(detailmessage);
+	}
+	public int getMessageNum()
+	{
+		return messageNum;
 	}
 	
 	public boolean isWarnning() {

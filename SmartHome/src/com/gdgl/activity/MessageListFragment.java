@@ -26,6 +26,7 @@ import android.widget.TextView;
 
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
+import com.gdgl.manager.WarnManager;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.Event;
@@ -239,6 +240,7 @@ public class MessageListFragment extends BaseFragment implements UIListener {
 
 	private void clearAllMessage() {
 		mList.clear();
+		WarnManager.getInstance().inialWarn();
 		messageAdapter.notifyDataSetChanged();
 		SQLiteDatabase mSQLiteDatabase = dh.getSQLiteDatabase();
 		dh.emptyTable(mSQLiteDatabase, DataHelper.MESSAGE_TABLE);
