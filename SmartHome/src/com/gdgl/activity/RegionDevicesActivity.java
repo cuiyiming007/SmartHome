@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.http.entity.mime.MinimalField;
 
 import com.gdgl.activity.BaseControlFragment.UpdateDevice;
+import com.gdgl.activity.DevicesListFragment.deleteDevicesFromGroup;
 import com.gdgl.activity.DevicesListFragment.refreshData;
 import com.gdgl.activity.DevicesListFragment.setData;
 import com.gdgl.adapter.AllDevicesAdapter;
@@ -44,8 +45,12 @@ import android.widget.TextView;
 
 public class RegionDevicesActivity extends Activity implements DevicesObserver,
 		AddChecked, refreshData, UpdateDevice, EditDialogcallback,
-		Dialogcallback,setData {
+		Dialogcallback,setData{
 	public static final String REGION_NAME = "region_name";
+	
+	public static final int INLIST=1;
+	public static final int INCONTROL=2;
+	public static final int INADD=3;
 
 	private String mRegion = "";
 
@@ -75,6 +80,9 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 	private String devicesIeee = "";
 	private boolean deleteType=false;
 	private boolean isAdd=false;
+	private boolean isControl=false;
+	
+	private int currentState=INLIST;
 
 	@SuppressLint("NewApi")
 	@Override
@@ -157,8 +165,7 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if(!isAdd){
-					isAdd=true;
+				if(currentState==INLIST){
 					mAdd.setText("添加");
 					mAdd.setTextColor(Color.RED);
 					initRegionDevicesList();
@@ -168,9 +175,9 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 							RegionDevicesActivity.this, mAddList,
 							RegionDevicesActivity.this);
 					mAllDevicesFragment.setAdapter(mAllDevicesAdapter);
-					setFragment(mAllDevicesFragment, 0);
-				}else{
-					isAdd=false;
+					setFragment(mAllDevicesFragment, -1);
+					currentState=INADD;
+				}else if(currentState==INADD){
 					String[] args = { mRegion };
 					ContentValues c = new ContentValues();
 					c.put(DevicesModel.DEVICE_REGION, mRegion);
@@ -184,6 +191,11 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 					mDevicesBaseAdapter.notifyDataSetChanged();
 					fragmentManager.popBackStack();
 					initDevicesListFragment();
+					currentState=INLIST;
+				}else if(currentState==INCONTROL){
+					fragmentManager.popBackStack();
+					initDevicesListFragment();
+					currentState=INLIST;
 				}
 			}
 		});
@@ -236,6 +248,9 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 			FragmentTransaction fragmentTransaction = fragmentManager
 					.beginTransaction();
 			mDevicesListFragment = new DevicesListFragment();
+			Bundle extras = new Bundle();
+			extras.putInt(DevicesListFragment.OPERATOR, DevicesListFragment.WITH_OPERATE);
+			mDevicesListFragment.setArguments(extras);
 			fragmentTransaction.replace(R.id.devices_control_fragment,
 					mDevicesListFragment, "LightsControlFragment");
 			mDevicesListFragment.setAdapter(mDevicesBaseAdapter);
@@ -296,6 +311,12 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 		fragmentTransaction.replace(R.id.devices_control_fragment, mFragment);
 		fragmentTransaction.addToBackStack(null);
 		fragmentTransaction.commit();
+		
+		if(postion!=-1){
+			mAdd.setText("返回");
+			mAdd.setTextColor(Color.BLACK);
+			currentState=INCONTROL;
+		}
 	}
 
 	@Override
@@ -491,6 +512,4 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 		// TODO Auto-generated method stub
 		
 	}
-	
-	
 }

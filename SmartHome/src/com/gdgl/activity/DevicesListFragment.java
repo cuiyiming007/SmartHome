@@ -53,7 +53,6 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter {
 
 	BaseAdapter mBaseAdapter;
 	private refreshData mRefreshData;
-
 	LinearLayout list_root;
 
 	public static final String PASS_OBJECT = "pass_object";
@@ -69,7 +68,7 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter {
     public static final int WITH_OPERATE = 0;
     public static final int WITHOUT_OPERATE = 2;
     
-    private int type;
+    private int type=1;
     
     List<SimpleDevicesModel> mList;
     
@@ -80,8 +79,6 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter {
 		Bundle extras = getArguments();
 		if (null != extras) {
 			type = extras.getInt(OPERATOR, WITH_OPERATE);
-		}else{
-			type=WITH_OPERATE;
 		}
 	}
 
@@ -126,7 +123,7 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter {
 			}
 		});
 		
-		if(type==WITH_OPERATE){
+		if(type!=WITHOUT_OPERATE){
 			devices_list.setOnItemClickListener(new OnItemClickListener() {
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view,
@@ -187,7 +184,7 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter {
 				}
 			});
 		}
-//		registerForContextMenu(devices_list.getRefreshableView());
+		registerForContextMenu(devices_list.getRefreshableView());
 		devices_list.setAdapter(mBaseAdapter);
 		initList();
 	}
@@ -208,10 +205,10 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter {
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
 		// TODO Auto-generated method stub
-		menu.setHeaderTitle("编辑&删除");
-		menu.add(0, 1, 0, "编辑");
-		menu.add(0, 2, 0, "删除");
-		Log.i(TAG, "tagzgs->menuInfo==null =" + (menuInfo == null));
+		if(type!=1){
+			menu.setHeaderTitle("删除");
+			menu.add(0, 1, 0, "删除");
+		}
 		super.onCreateContextMenu(menu, v, menuInfo);
 	}
 
@@ -220,7 +217,11 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter {
 				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		list_root.setLayoutParams(mLayoutParams);
 	}
-
+	
+	public interface deleteDevicesFromGroup{
+		public void deleteDevices(SimpleDevicesModel sd);
+	}
+	
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
@@ -231,25 +232,28 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter {
 		int menuIndex = item.getItemId();
 		Log.i(TAG, "tagzgs-> menuInfo.position=" + position
 				+ " item.getItemId()" + item.getItemId());
-		if (1 == menuIndex) {
-			EditDevicesDlg mEditDevicesDlg = new EditDevicesDlg(
-					(Context) getActivity(), mSimpleDevicesModel);
-			mEditDevicesDlg
-					.setDialogCallback((EditDialogcallback) mRefreshData);
-
-			mEditDevicesDlg.setContent("编辑"
-					+ mSimpleDevicesModel.getmUserDefineName().trim());
-			mEditDevicesDlg.show();
+		if(type==WITH_OPERATE){
+			if (1 == menuIndex) {
+				mRefreshData.setDevicesId(mSimpleDevicesModel.getmIeee());
+				MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
+						(Context) getActivity());
+				mMyOkCancleDlg.setDialogCallback((Dialogcallback) mRefreshData);
+				mMyOkCancleDlg.setContent("确定要从此区域删除"
+						+ mSimpleDevicesModel.getmUserDefineName().trim() + "吗?");
+				mMyOkCancleDlg.show();
+			}
+		}else if(type==WITHOUT_OPERATE){
+			if (1 == menuIndex) {
+				mRefreshData.setDevicesId(mSimpleDevicesModel.getmIeee());
+				MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
+						(Context) getActivity());
+				mMyOkCancleDlg.setDialogCallback((Dialogcallback) mRefreshData);
+				mMyOkCancleDlg.setContent("确定要从此场景删除"
+						+ mSimpleDevicesModel.getmUserDefineName().trim() + "吗?");
+				mMyOkCancleDlg.show();
+			}
 		}
-		if (2 == menuIndex) {
-			mRefreshData.setDevicesId(mSimpleDevicesModel.getmIeee());
-			MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
-					(Context) getActivity());
-			mMyOkCancleDlg.setDialogCallback((Dialogcallback) mRefreshData);
-			mMyOkCancleDlg.setContent("确定要删除"
-					+ mSimpleDevicesModel.getmUserDefineName().trim() + "吗?");
-			mMyOkCancleDlg.show();
-		}
+		
 		return super.onContextItemSelected(item);
 	}
 
