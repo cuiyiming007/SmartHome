@@ -97,6 +97,17 @@ public class BindControlFragment extends BaseFragment {
 		mLightManager.addObserver(this);
 
 	}
+	
+	
+	
+	@Override
+	public void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		mLightManager.deleteObserver(this);
+	}
+
+
 
 	public class getDataTask extends AsyncTask<Integer, Integer, Integer> {
 
