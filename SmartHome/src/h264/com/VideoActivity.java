@@ -54,6 +54,8 @@ public class VideoActivity extends FragmentActivity implements UIListener{
 	private boolean isVisible = false;
 	TextView unreadMessageView;
 	Button notifyButton;
+	Button addButton;
+	Button setButton;
 
 	// DataInputStream dataInputStream;
 
@@ -75,7 +77,7 @@ public class VideoActivity extends FragmentActivity implements UIListener{
 			ipc_channel = Integer.parseInt(mVideoNode.getId());
 		}
 		Resources res = getResources();
-		Drawable backDrawable = res.getDrawable(R.drawable.background);
+		Drawable backDrawable = res.getDrawable(R.drawable.new_bacg);
 		this.getWindow().setBackgroundDrawable(backDrawable);
 
 		// getWindow().setBackgroundDrawableResource(R.drawable.new_bacg);
@@ -124,6 +126,10 @@ public class VideoActivity extends FragmentActivity implements UIListener{
 		title.setText(name);
 		LinearLayout.LayoutParams params = setTitlePortrait();
 		addContentView(viewTitle, params);
+		addButton=(Button) findViewById(R.id.add);
+		setButton=(Button) findViewById(R.id.set);
+		addButton.setVisibility(View.GONE);
+		setButton.setVisibility(View.GONE);
 		notifyButton = (Button) findViewById(R.id.alarm_btn);
 		unreadMessageView = (TextView) findViewById(R.id.unread_tv);
 		notifyButton.setOnClickListener(new OnClickListener() {

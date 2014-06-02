@@ -345,6 +345,12 @@ public class SmartHome extends FragmentActivity implements
 		// TODO Auto-generated method stub
 		if (arg0 == ViewPager.SCROLL_STATE_IDLE) {
 			mLastTab = mCurrentTab;
+			if (mCurrentTab==1) {
+				mAdd.setVisibility(View.GONE);
+			}else
+			{
+				mAdd.setVisibility(View.VISIBLE);
+			}
 		}
 	}
 
@@ -353,6 +359,12 @@ public class SmartHome extends FragmentActivity implements
 		// TODO Auto-generated method stub
 		mCurrentTab = arg0;
 		setMyTextColor(arg0);
+		if (mCurrentTab==1) {
+			mAdd.setVisibility(View.GONE);
+		}else
+		{
+			mAdd.setVisibility(View.VISIBLE);
+		}
 	}
 
 	public interface refreshAdapter {
