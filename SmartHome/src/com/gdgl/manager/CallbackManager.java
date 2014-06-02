@@ -101,7 +101,7 @@ public class CallbackManager extends Manger {
 				Log.i(TAG, "Callback msgType=" + msgType + "warm message");
 				CallbackWarmMessage warmmessage = gson.fromJson(response,
 						CallbackWarmMessage.class);
-				
+				Log.i(TAG, warmmessage.toString());
 				handlerWarmMessage(warmmessage);
 				break;
 			case 4:
@@ -194,9 +194,10 @@ public class CallbackManager extends Manger {
 
 	private void handlerWarmMessage(CallbackWarmMessage warmmessage) {
 		
-		WarnManager.getInstance().setWarnDetailMessage(warmmessage);
+		warmmessage=WarnManager.getInstance().setWarnDetailMessage(warmmessage);
 		WarnManager.getInstance().setCurrentWarnInfo(warmmessage);
 		
+		new UpdateDBTask().execute(warmmessage);
 		Intent i = new Intent(ApplicationController.getInstance(),
 				ShowDevicesGroupFragmentActivity.class);
 		i.putExtra(ShowDevicesGroupFragmentActivity.ACTIVITY_SHOW_DEVICES_TYPE,
@@ -204,7 +205,6 @@ public class CallbackManager extends Manger {
 		makeNotify(i, warmmessage.getW_description(), warmmessage.toString());
 		
 		
-		new UpdateDBTask().execute(warmmessage);
 
 		Event event = new Event(EventType.WARM, true);
 		event.setData(warmmessage);
