@@ -179,7 +179,7 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter {
 								mFragment = new WarnningControlFragment();
 
 							} else if (mSimpleDevicesModel.getmModelId()
-									.indexOf(DataHelper.Siren) == 0) {
+									.indexOf(DataHelper.One_key_operator) == 0) {
 								Bundle extras = new Bundle();
 								extras.putParcelable(PASS_OBJECT,
 										mSimpleDevicesModel);
