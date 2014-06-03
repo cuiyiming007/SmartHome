@@ -1,4 +1,3 @@
-
 package com.gdgl.activity;
 
 import java.util.ArrayList;
@@ -27,6 +26,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.gdgl.activity.BaseControlFragment.UpdateDevice;
+import com.gdgl.activity.UIinterface.IFragmentCallbak;
 import com.gdgl.manager.LightManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
@@ -41,46 +41,49 @@ import com.gdgl.smarthome.R;
 import com.gdgl.util.MyDlg;
 import com.gdgl.util.UiUtils;
 
-public class SafeSimpleOperation extends Fragment implements UIListener {
+public class SafeSimpleOperation extends BaseControlFragment implements UIListener {
 
-
+	IFragmentCallbak callbakListener;
 	View mView;
 	ImageView on_off_img;
 
 	boolean is_on_operation = false;
 
-	Button btn_on,btn_off;
+	Button btn_on, btn_off;
 	Animation loadAnim;
 	LightManager mLightManager;
-	
+
 	TextView load_message;
 	SimpleDevicesModel mDevices;
 	List<SimpleDevicesModel> mList;
 	DataHelper mDh;
+	
+	public SafeSimpleOperation(IFragmentCallbak callbak) {
+		callbakListener=callbak;
+	}
+
 	@Override
 	public void onAttach(Activity activity) {
 		// TODO Auto-generated method stub
 		if (!(activity instanceof UpdateDevice)) {
 			throw new IllegalStateException("Activity必须实现SaveDevicesName接口");
 		}
+		mUpdateDevice = (UpdateDevice) activity;
 		super.onAttach(activity);
 	}
-
-
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		
+
 		Bundle extras = getArguments();
 		if (null != extras) {
 			mDevices = (SimpleDevicesModel) extras
 					.getParcelable(DevicesListFragment.PASS_OBJECT);
 		}
-		
+
 		initData();
-		
 
 	}
 
@@ -88,7 +91,7 @@ public class SafeSimpleOperation extends Fragment implements UIListener {
 		// TODO Auto-generated method stub
 
 		Context c = (Context) getActivity();
-		
+
 		mLightManager = LightManager.getInstance();
 		mLightManager.addObserver(SafeSimpleOperation.this);
 
@@ -179,7 +182,7 @@ public class SafeSimpleOperation extends Fragment implements UIListener {
 				mHandler.sendEmptyMessageDelayed(1, 3000);
 			}
 		});
-		
+
 		btn_off.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -205,22 +208,31 @@ public class SafeSimpleOperation extends Fragment implements UIListener {
 			// TODO Auto-generated method stub
 			boolean on = params[0];
 			String on_off = on ? "1" : "0";
+
+			callbakListener.onFragmentResult(0,true, on_off);
 			
-			String where = " ieee=? and ep=? ";
-			String[] args = { mDevices.getmIeee(), mDevices.getmEP() };
-			SQLiteDatabase db = mDh.getSQLiteDatabase();
-			ContentValues cv=new ContentValues();
-			cv.put(DevicesModel.ON_OFF_STATUS, on_off);
-			mDh.update(db, DataHelper.DEVICES_TABLE, cv, where, args);
+			ContentValues c = new ContentValues();
+			c.put(DevicesModel.ON_OFF_STATUS, on ? "1" : "0");
+			mDevices.setmOnOffStatus(on_off);
+			//这里面也更新了数据库的status，有点冗余
+			mUpdateDevice.updateDevices(mDevices, c);
 			
-			for (SimpleDevicesModel sdm : mList) {
-				cv = new ContentValues();
-				String[] arg = { sdm.getmIeee(), sdm.getmEP() };
-				cv.put(DevicesModel.ON_OFF_LINE, on?0:1);
-				mDh.update(db, DataHelper.DEVICES_TABLE, cv, where, arg);
-			}
-			
-			mDh.close(db);
+//			String where = " ieee=? and ep=? ";
+//			String[] args = { mDevices.getmIeee(), mDevices.getmEP() };
+//			SQLiteDatabase db = mDh.getSQLiteDatabase();
+//			ContentValues cv = new ContentValues();
+//			cv.put(DevicesModel.ON_OFF_STATUS, on_off);
+//			
+//			mDh.update(db, DataHelper.DEVICES_TABLE, cv, where, args);
+
+			// for (SimpleDevicesModel sdm : mList) {
+			// cv = new ContentValues();
+			// String[] arg = { sdm.getmIeee(), sdm.getmEP() };
+			// cv.put(DevicesModel.ON_OFF_LINE, on?0:1);
+			// mDh.update(db, DataHelper.DEVICES_TABLE, cv, where, arg);
+			// }
+
+//			mDh.close(db);
 			return 1;
 		}
 
@@ -242,8 +254,6 @@ public class SafeSimpleOperation extends Fragment implements UIListener {
 		mLightManager.deleteObserver(SafeSimpleOperation.this);
 	}
 
-
-
 	@Override
 	public void update(Manger observer, Object object) {
 		// TODO Auto-generated method stub
@@ -251,30 +261,18 @@ public class SafeSimpleOperation extends Fragment implements UIListener {
 		if (EventType.LOCALIASCIEOPERATION == event.getType()) {
 			if (event.isSuccess() == true) {
 				int data = (Integer) event.getData();
-				if (data == 6) {
+				if (data == 7) {
 					new UpdateSafeControlDevices().execute(true);
-				} else if (data == 7) {
+				} else if (data == 6) {
 					new UpdateSafeControlDevices().execute(false);
 				}
 			}
 		}
 	}
 
-	class operatortype {
-		/***
-		 * 获取设备类型
-		 */
-		public static final int TURNON = 0;
-		/***
-		 * 获取状态
-		 */
-		public static final int TURNOFF = 1;
-		/***
-		 * 当操作类型是2时，para1有以下意义 Param1: switchaction: 0x00: Off 0x01: On 0x02:
-		 * Toggle
-		 */
-		public static final int TOGGLE = 2;
-		public static final int GETSTATUS = 3;
+	@Override
+	public void editDevicesName() {
+		
 	}
 
 }
