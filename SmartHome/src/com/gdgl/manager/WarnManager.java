@@ -50,7 +50,7 @@ public class WarnManager {
 	}
 	
 	
-	public void setWarnDetailMessage(CallbackWarmMessage message) {
+	public CallbackWarmMessage  setWarnDetailMessage(CallbackWarmMessage message) {
 		String detailmessage;
 	DataHelper	dh = new DataHelper(ApplicationController.getInstance());
 		SQLiteDatabase db = dh.getSQLiteDatabase();
@@ -63,6 +63,7 @@ public class WarnManager {
 			detailmessage = message.getW_description() + "收到报警信息，请注意！";
 		}
 		message.setDetailmessage(detailmessage);
+		return message;
 	}
 	public int getMessageNum()
 	{

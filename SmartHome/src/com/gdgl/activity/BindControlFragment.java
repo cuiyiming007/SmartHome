@@ -118,11 +118,11 @@ public class BindControlFragment extends BaseFragment {
 			if (devId != -1) {
 				mdevices = DataUtil.getDeviceModelById(devId, dh, db);
 			}
-			SimpleDevicesModel mSimpleDevicesModel=new SimpleDevicesModel();
+			SimpleDevicesModel mSimpleDevicesModel = new SimpleDevicesModel();
 			mSimpleDevicesModel.setmIeee(mdevices.getmIeee());
 			mSimpleDevicesModel.setmEP(mdevices.getmEP());
 			mLightManager.getBindList(mSimpleDevicesModel);
-			
+
 			if (!bindId.trim().equals("")) {
 				String[] ids = bindId.trim().split("##");
 				DevicesModel dm;
@@ -139,7 +139,7 @@ public class BindControlFragment extends BaseFragment {
 			mList = DataUtil.getCanbeBindDevices((Context) getActivity(), dh,
 					db, mdevices.getmClusterID());
 			dh.close(db);
-			
+
 			return 1;
 		}
 
@@ -209,86 +209,88 @@ public class BindControlFragment extends BaseFragment {
 	public interface backAction {
 		public void back();
 	}
-	
-	
-	public class updateDevTask extends AsyncTask<BindingDataEntity, Integer, Integer>{
+
+	public class updateDevTask extends
+			AsyncTask<BindingDataEntity, Integer, Integer> {
 		List<DevicesModel> mNewBindList;
-		String newBind="";
+		String newBind = "";
+
 		@Override
 		protected Integer doInBackground(BindingDataEntity... params) {
 			// TODO Auto-generated method stub
-			BindingDataEntity data=params[0];
-			if(null==data){
+			BindingDataEntity data = params[0];
+			if (null == data) {
 				return -1;
 			}
-			List<DevicesModel> mDevList=new ArrayList<DevicesModel>();
+			List<DevicesModel> mDevList = new ArrayList<DevicesModel>();
 			List<DevicesModel> tempList;
-			Binding_response_params brp=data.getResponse_params();
-			ArrayList<BindingDivice> ablist=brp.getList();
-			String where=" ieee=? and ep=? ";
+			Binding_response_params brp = data.getResponse_params();
+			ArrayList<BindingDivice> ablist = brp.getList();
+			String where = " ieee=? and ep=? ";
 			String[] args;
-			
-			if(null!=ablist && ablist.size()>0){
-				SQLiteDatabase db=dh.getSQLiteDatabase();
+
+			if (null != ablist && ablist.size() > 0) {
+				SQLiteDatabase db = dh.getSQLiteDatabase();
 				for (BindingDivice bindingDivice : ablist) {
-					args=new String[2];
-					args[0]=bindingDivice.getIeee();
-					args[1]=bindingDivice.getEp();
-					tempList=dh.queryForList(db, DataHelper.DEVICES_TABLE, null, where, args, null, null, null, null);
-					if(null!=tempList && tempList.size()>0){
+					args = new String[2];
+					args[0] = bindingDivice.getIeee();
+					args[1] = bindingDivice.getEp();
+					tempList = dh.queryForList(db, DataHelper.DEVICES_TABLE,
+							null, where, args, null, null, null, null);
+					if (null != tempList && tempList.size() > 0) {
 						mDevList.add(tempList.get(0));
 					}
 				}
 				dh.close(db);
 			}
-			
-			String newBindId="";
-			
-			if(null!=mDevList && mDevList.size()>0){
+
+			String newBindId = "";
+
+			if (null != mDevList && mDevList.size() > 0) {
 				for (DevicesModel dm : mDevList) {
-					if(null!=dm){
-						newBindId+=dm.getID()+"##";
+					if (null != dm) {
+						newBindId += dm.getID() + "##";
 					}
 				}
 			}
-			
+
 			String[] argss = { brp.getIeee(), brp.getEp() };
 			ContentValues values = new ContentValues();
 			values.put(DevicesModel.BIND_TO, newBindId);
 			SQLiteDatabase db = dh.getSQLiteDatabase();
-			dh.update(db, DataHelper.DEVICES_TABLE, values,
-					where, argss);
-			
+			dh.update(db, DataHelper.DEVICES_TABLE, values, where, argss);
+
 			dh.close(db);
-			
+
 			mdevices.setmBindTo(newBindId);
-			mNewBindList=mDevList;
-			newBind=newBindId;
+			mNewBindList = mDevList;
+			newBind = newBindId;
 			return 1;
 		}
+
 		@Override
 		protected void onPostExecute(Integer result) {
 			// TODO Auto-generated method stub
-			
+
 			mUpList.upList(mdevices, newBind);
-			
-			if(null!=mNewBindList && mNewBindList.size()>0){
+
+			if (null != mNewBindList && mNewBindList.size() > 0) {
 				for (DevicesModel dm : mNewBindList) {
-					int m=getPostionInList(dm.getmIeee(), dm.getmEP());
-					if(-1!=m){
-						String ids=mList.get(m).getmBindTo();
-						String newIds="";
+					int m = getPostionInList(dm.getmIeee(), dm.getmEP());
+					if (-1 != m) {
+						String ids = mList.get(m).getmBindTo();
+						String newIds = "";
 						String[] idArrary;
-						if(null!=ids && !ids.trim().equals("")){
-							idArrary=ids.trim().split("##");
+						if (null != ids && !ids.trim().equals("")) {
+							idArrary = ids.trim().split("##");
 							for (String string : idArrary) {
-								if(!string.trim().equals("")){
-									newIds+=string+"##";
+								if (!string.trim().equals("")) {
+									newIds += string + "##";
 								}
 							}
-							newIds+=mdevices.getID()+"##";
-						}else{
-							newIds=mdevices.getID()+"##";
+							newIds += mdevices.getID() + "##";
+						} else {
+							newIds = mdevices.getID() + "##";
 						}
 						mList.get(m).setmBindTo(newIds);
 					}
@@ -297,23 +299,24 @@ public class BindControlFragment extends BaseFragment {
 			}
 		}
 	}
-	
-	public int getPostionInList(String ieee,String ep){
-		if(null==mList || null==ieee || null==ep){
+
+	public int getPostionInList(String ieee, String ep) {
+		if (null == mList || null == ieee || null == ep) {
 			return -1;
 		}
-		if(ieee.trim().equals("") || ep.trim().equals("")){
+		if (ieee.trim().equals("") || ep.trim().equals("")) {
 			return -1;
 		}
-		for (int i=0;i<mList.size();i++) {
-			DevicesModel dm=mList.get(i);
-			if(ieee.trim().equals(dm.getmIeee().trim()) && ep.trim().equals(dm.getmEP().trim())){
+		for (int i = 0; i < mList.size(); i++) {
+			DevicesModel dm = mList.get(i);
+			if (ieee.trim().equals(dm.getmIeee().trim())
+					&& ep.trim().equals(dm.getmEP().trim())) {
 				return i;
 			}
 		}
 		return -1;
 	}
-	
+
 	public Handler mHandler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			int what = msg.what;
@@ -395,7 +398,7 @@ public class BindControlFragment extends BaseFragment {
 					if (null != string && string.trim().equals(devId + "")) {
 						mHolder.bindBtn.setText("解除绑定");
 						mHolder.devices_state.setText("已绑定");
-					}else{
+					} else {
 						mHolder.bindBtn.setText("绑定");
 						mHolder.devices_state.setText("未绑定");
 					}
@@ -440,16 +443,16 @@ public class BindControlFragment extends BaseFragment {
 						mDialog.show();
 					}
 					willBindDevices = mDevices;
-//					btn.setEnabled(false);
+					// btn.setEnabled(false);
 					mPostion = position;
 					if (s.equals("解除绑定")) {
 						// 解除绑定
 						mLightManager.unbindDevice(moutModel, minModel);
-//						unBinddev();
+						// unBinddev();
 					} else {
 						// 绑定
 						mLightManager.bindDevice(moutModel, minModel);
-//						bindDev();
+						// bindDev();
 					}
 					mHandler.sendEmptyMessageDelayed(FINISH_DLG, 3000);
 				}
@@ -472,41 +475,40 @@ public class BindControlFragment extends BaseFragment {
 		String[] args = { mdevices.getmIeee(), mdevices.getmEP() };
 
 		String oldId = mdevices.getmBindTo();
-		String newids="";
+		String newids = "";
 		if (null == oldId || oldId.trim().equals("")) {
 			newids = willBindDevices.getID() + "##";
 		} else {
-			String[]  ids=oldId.split("##");
+			String[] ids = oldId.split("##");
 			for (String string : ids) {
-				if(!string.equals("")){
-					newids+=string+"##";
+				if (!string.equals("")) {
+					newids += string + "##";
 				}
 			}
-			newids +=willBindDevices.getID() + "##";
+			newids += willBindDevices.getID() + "##";
 		}
 
 		ContentValues values = new ContentValues();
 		values.put(DevicesModel.BIND_TO, newids);
 		SQLiteDatabase db = dh.getSQLiteDatabase();
-		dh.update(db, DataHelper.DEVICES_TABLE, values,
-				where, args);
-		String temp=newids;
+		dh.update(db, DataHelper.DEVICES_TABLE, values, where, args);
+		String temp = newids;
 		String wheres = " ieee=? and ep=? ";
 		String[] argss = { willBindDevices.getmIeee(), willBindDevices.getmEP() };
 
 		oldId = willBindDevices.getmBindTo();
-		newids="";
+		newids = "";
 		if (null == oldId || oldId.trim().equals("")) {
 			newids = mdevices.getID() + "##";
 		} else {
-			
-			String[]  ids=oldId.split("##");
+
+			String[] ids = oldId.split("##");
 			for (String string : ids) {
-				if(!string.equals("")){
-					newids+=string+"##";
+				if (!string.equals("")) {
+					newids += string + "##";
 				}
 			}
-			newids +=mdevices.getID() + "##";
+			newids += mdevices.getID() + "##";
 		}
 		ContentValues v = new ContentValues();
 		v.put(DevicesModel.BIND_TO, newids);
@@ -540,14 +542,13 @@ public class BindControlFragment extends BaseFragment {
 		ContentValues values = new ContentValues();
 		values.put(DevicesModel.BIND_TO, newId);
 		SQLiteDatabase db = dh.getSQLiteDatabase();
-		dh.update(db, DataHelper.DEVICES_TABLE, values,
-				where, args);
-		
-		String temp=newId;
-		
+		dh.update(db, DataHelper.DEVICES_TABLE, values, where, args);
+
+		String temp = newId;
+
 		String wheres = " ieee=? and ep=? ";
 		String[] argss = { willBindDevices.getmIeee(), willBindDevices.getmEP() };
-		
+
 		unbindId = mdevices.getID() + "";
 		oldId = willBindDevices.getmBindTo();
 		String[] oldUnAr = oldId.trim().split("##");
@@ -570,7 +571,7 @@ public class BindControlFragment extends BaseFragment {
 			mBindAdapter.notifyDataSetChanged();
 		}
 
-		mUpList.upList(mdevices,newId);
+		mUpList.upList(mdevices, newId);
 	}
 
 	@Override
@@ -599,21 +600,27 @@ public class BindControlFragment extends BaseFragment {
 				// if failed,prompt a Toast
 
 			}
-		}else if (EventType.GETBINDLIST == event.getType()) {
-			if (event.isSuccess()==true) {
+		} else if (EventType.GETBINDLIST == event.getType()) {
+			if (event.isSuccess() == true) {
 				// data maybe null
-				BindingDataEntity data=(BindingDataEntity)event.getData();
+				BindingDataEntity data = (BindingDataEntity) event.getData();
 				new updateDevTask().execute(data);
-				
-			}else {
-				//if failed,prompt a Toast
-				
+
+			} else {
+				// if failed,prompt a Toast
+
 			}
 		}
 		if (null != mDialog) {
 			mDialog.dismiss();
 			mDialog = null;
 		}
+	}
+
+	@Override
+	public void onDestroy() {
+		mLightManager.deleteObserver(this);
+		super.onDestroy();
 	}
 
 	public interface updateList {

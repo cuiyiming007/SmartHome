@@ -90,7 +90,7 @@
                     android:id="@+id/unread_ms_device"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/unread_message"
+                    android:background="@drawable/unread_message_new"
                     android:gravity="center"
                     android:text="0"
                     android:textColor="@android:color/white"

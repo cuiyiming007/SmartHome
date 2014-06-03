@@ -176,15 +176,18 @@ public class CallbackWarmMessage implements CallbackWarmMessageColumns,
 		this.zone_ep = zone_ep;
 	}
 
+	
+
 	@Override
 	public String toString() {
-		return "CallbackWarmMessage [cie_ep=" + cie_ep + ", roomId=" + roomId
-				+ ", cie_ieee=" + cie_ieee + ", cie_name=" + cie_name
-				+ ", home_id=" + home_id + ", time=" + time + ", houseIEEE="
-				+ houseIEEE + ", w_mode=" + w_mode + ", zone_ieee=" + zone_ieee
-				+ ", zone_name=" + zone_name + ", msgtype=" + msgtype
-				+ ", w_description=" + w_description + ", home_name="
-				+ home_name + ", zone_ep=" + zone_ep + "]";
+		return "CallbackWarmMessage [id=" + id + ", cie_ep=" + cie_ep
+				+ ", roomId=" + roomId + ", cie_ieee=" + cie_ieee
+				+ ", cie_name=" + cie_name + ", home_id=" + home_id + ", time="
+				+ time + ", houseIEEE=" + houseIEEE + ", w_mode=" + w_mode
+				+ ", zone_ieee=" + zone_ieee + ", zone_name=" + zone_name
+				+ ", msgtype=" + msgtype + ", w_description=" + w_description
+				+ ", home_name=" + home_name + ", zone_ep=" + zone_ep
+				+ ", detailmessage=" + detailmessage + "]";
 	}
 
 	@Override
@@ -205,7 +208,7 @@ public class CallbackWarmMessage implements CallbackWarmMessageColumns,
 		mContentValues.put(CallbackWarmMessageColumns.W_DESCRIPTION,
 				getW_description());
 		mContentValues.put(CallbackWarmMessageColumns.DETAILMESSAGE,
-				getW_description());
+				getDetailmessage());
 		mContentValues.put(CallbackWarmMessageColumns.W_MODE, getW_mode());
 		mContentValues.put(CallbackWarmMessageColumns.ZONE_EP, getZone_ep());
 		mContentValues

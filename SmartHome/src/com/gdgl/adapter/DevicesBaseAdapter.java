@@ -175,7 +175,12 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
             mHolder.devices_state.setText("温度: "+mDevices.getmValue()+"°C\n湿度: "+mDevices.getHumidityValue()+"%");
         }else if(mDevices.getmModelId().indexOf(
 				DataHelper.One_key_operator) == 0){
-        	mHolder.devices_state.setText("一键操作");
+//        	mHolder.devices_state.setText("一键操作");
+        	if (mDevices.getmOnOffStatus().trim().equals("1")) {
+                mHolder.devices_state.setText("开启");
+            } else {
+                mHolder.devices_state.setText("关闭");
+            }
 		} else if(mDevices.getmModelId().indexOf(
 				DataHelper.Energy_detection_dimming_module) == 0){
 			String state=mDevices.getmValue();

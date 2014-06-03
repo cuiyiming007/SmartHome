@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gdgl.activity.ShowDevicesGroupFragmentActivity.adapterSeter;
+import com.gdgl.activity.UIinterface.IFragmentCallbak;
 import com.gdgl.adapter.DevicesBaseAdapter;
+import com.gdgl.app.ApplicationController;
 import com.gdgl.manager.Manger;
+import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.DataHelper;
+import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.Callback.CallbackResponseType2;
@@ -26,6 +30,8 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -43,7 +49,7 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 
-public class DevicesListFragment extends BaseFragment implements adapterSeter {
+public class DevicesListFragment extends BaseFragment implements adapterSeter,IFragmentCallbak {
 
 	private static final String TAG = "DevicesListFragment";
 	private View mView;
@@ -72,6 +78,8 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter {
 	private int type = 1;
 
 	List<SimpleDevicesModel> mList;
+	//一键布撤防的设备 ieee=00137A00000121F0
+	DevicesModel totalControlDevice;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -81,6 +89,7 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter {
 		if (null != extras) {
 			type = extras.getInt(OPERATOR, WITH_OPERATE);
 		}
+		new intialDataTask().execute(0);
 	}
 
 	@Override
@@ -143,7 +152,9 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter {
 							.getDeviceModle(position - 1);
 					mRefreshData.setDevicesId(mSimpleDevicesModel.getmIeee());
 
-					if (mSimpleDevicesModel.getmOnOffLine() == 0) {
+
+					if (totalControlDevice!=null&&totalControlDevice.getmOnOffStatus().equals("0")&&mSimpleDevicesModel.getmModelId()
+							.indexOf(DataHelper.One_key_operator) != 0) {
 						VersionDlg vd = new VersionDlg((Context) getActivity());
 						vd.setContent("安防设备已关闭");
 						vd.show();
@@ -162,7 +173,7 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter {
 									RemoteControlActivity.class);
 							startActivity(intent);
 						}else {
-							Fragment mFragment;
+							Fragment mFragment = null;
 
 							if (mSimpleDevicesModel.getmModelId().indexOf(
 									DataHelper.Doorbell_button) == 0) {
@@ -183,7 +194,8 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter {
 								Bundle extras = new Bundle();
 								extras.putParcelable(PASS_OBJECT,
 										mSimpleDevicesModel);
-								mFragment = new SafeSimpleOperation();
+								mFragment = new SafeSimpleOperation(DevicesListFragment.this);
+
 								mFragment.setArguments(extras);
 							} else {
 								mFragment = UiUtils
@@ -407,4 +419,21 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter {
 			}
 		}
 	}
+	
+	class intialDataTask extends AsyncTask<Object, Object, Object>{
+
+		@Override
+		protected Object doInBackground(Object... params) {
+			DataHelper	dh = new DataHelper(ApplicationController.getInstance());
+			SQLiteDatabase db = dh.getSQLiteDatabase();
+			 totalControlDevice= DataUtil.getDeviceModelByIeee("00137A00000121F0", dh, db);
+			return null;
+		}}
+
+	@Override
+	public void onFragmentResult(int requsetId, boolean result, Object data) {
+		String  status=(String) data;
+		totalControlDevice.setmOnOffStatus(status);
+	}
+
 }
