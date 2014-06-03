@@ -154,7 +154,7 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,IF
 
 
 					if (totalControlDevice!=null&&totalControlDevice.getmOnOffStatus().equals("0")&&mSimpleDevicesModel.getmModelId()
-							.indexOf(DataHelper.One_key_operator) != 0) {
+							.indexOf(DataHelper.One_key_operator) != 0 && DataUtil.isSecrity(mSimpleDevicesModel.getmModelId())) {
 						VersionDlg vd = new VersionDlg((Context) getActivity());
 						vd.setContent("安防设备已关闭");
 						vd.show();

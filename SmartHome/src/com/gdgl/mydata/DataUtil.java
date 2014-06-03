@@ -66,7 +66,22 @@ public class DataUtil {
 		}
 		return args;
 	}
-
+	
+	public static boolean isSecrity(String modelID){
+		if(null==modelID || modelID.trim().equals("")){
+			return false;
+		}
+		if(modelID.trim().indexOf(DataHelper.Motion_Sensor)==0 || modelID.trim().indexOf(DataHelper.Combustible_Gas_Detector_Natural_gas)==0
+				|| modelID.trim().indexOf(DataHelper.Magnetic_Window)==0 || modelID.trim().indexOf(DataHelper.Emergency_Button)==0 
+				|| modelID.trim().indexOf(DataHelper.Doors_and_windows_sensor_switch)==0 || modelID.trim().indexOf(DataHelper.Smoke_Detectors)==0
+				|| modelID.trim().indexOf(DataHelper.Combustible_Gas_Detector_Gas)==0 || modelID.trim().indexOf(DataHelper.Combustible_Gas_Detector_CO)==0
+				|| modelID.trim().indexOf(DataHelper.Wireless_Intelligent_valve_switch)==0 || modelID.trim().indexOf(DataHelper.Siren)==0){
+			return true;
+		}
+		return false;
+		
+	}
+	
 	public static String getWhere(int type) {
 		String where = "";
 		switch (type) {
