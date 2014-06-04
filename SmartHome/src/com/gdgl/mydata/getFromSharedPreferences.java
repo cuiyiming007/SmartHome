@@ -21,6 +21,42 @@ public class getFromSharedPreferences {
 				UiUtils.SharedPreferences_SETTING_INFOS, context.MODE_PRIVATE);
 	}
 
+	public static String getTemperature()
+	{
+		return mSharedPreferences.getString("Temperature",UiUtils.EMPTY_STR);
+	}
+	public static boolean setTemperature(String tem)
+	{
+		mEditor = mSharedPreferences.edit();
+
+		mEditor.putString("Temperature", tem);
+
+		return mEditor.commit();
+	}
+	public static String getHumidity()
+	{
+		return mSharedPreferences.getString("Humidity",UiUtils.EMPTY_STR);
+	}
+	public static boolean setHumidity(String tem)
+	{
+		mEditor = mSharedPreferences.edit();
+		
+		mEditor.putString("Humidity", tem);
+		
+		return mEditor.commit();
+	}
+	public static String getLight()
+	{
+		return mSharedPreferences.getString("Light",UiUtils.EMPTY_STR);
+	}
+	public static boolean setLight(String tem)
+	{
+		mEditor = mSharedPreferences.edit();
+		
+		mEditor.putString("Light", tem);
+		
+		return mEditor.commit();
+	}
 	public static String getPwd() {
 		return mSharedPreferences.getString(UiUtils.PWD, UiUtils.EMPTY_STR);
 	}

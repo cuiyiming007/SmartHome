@@ -764,10 +764,7 @@ public class DevicesListWithGroup extends BaseFragment implements
 						});
 					}
 				}
-				// Toast.makeText(getActivity(),
-				// "当前光线亮度"+data.getParam1(),3000).show();
 			} else {
-				// Toast.makeText(getActivity(), "获取亮度失败",3000).show();
 			}
 		} else if (EventType.TEMPERATURESENSOROPERATION == event.getType()) {
 			if (event.isSuccess()) {
@@ -786,8 +783,6 @@ public class DevicesListWithGroup extends BaseFragment implements
 						});
 					}
 				}
-				// Toast.makeText(getActivity(),
-				// "当前光线亮度"+data.getParam1(),3000).show();
 			}
 		} else if (EventType.GETICELIST == event.getType()) {
 			if (event.isSuccess()) {
@@ -813,8 +808,6 @@ public class DevicesListWithGroup extends BaseFragment implements
 						});
 					}
 				}
-				// Toast.makeText(getActivity(),
-				// "当前光线亮度"+data.getParam1(),3000).show();
 			}
 		}
 	}

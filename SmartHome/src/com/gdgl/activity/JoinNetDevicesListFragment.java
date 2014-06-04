@@ -12,6 +12,7 @@ import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
+import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.mydata.Callback.CallbackResponseType2;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.UiUtils;
@@ -406,9 +407,9 @@ public class JoinNetDevicesListFragment extends BaseFragment implements
 					mHolder.devices_state.setText("撤防");
 				}
 			} else if (devModeleId == DataHelper.LIGHT_SENSOR_DEVICETYPE) {
-				mHolder.devices_state.setText("当前室内亮度为: 30");
+				 mHolder.devices_state.setText("亮度: "+getFromSharedPreferences.getLight());
 			} else if (devModeleId == DataHelper.TEMPTURE_SENSOR_DEVICETYPE) {
-				mHolder.devices_state.setText("当前室内温度为: 30°C");
+	            mHolder.devices_state.setText("温度: "+getFromSharedPreferences.getTemperature()+"\n湿度: "+getFromSharedPreferences.getHumidity());
 			} else {
 				if (mDevices.getmOnOffStatus().trim().equals("1")) {
 					mHolder.devices_state.setText("开");

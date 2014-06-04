@@ -6,6 +6,7 @@ import com.gdgl.activity.SafeSimpleOperation;
 import com.gdgl.manager.WarnManager;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.DataHelper;
+import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.EditDevicesDlg;
 import com.gdgl.util.ExpandCollapseAnimation;
@@ -170,9 +171,11 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
                 mHolder.devices_state.setText("已撤防");
             }
         } else if (mDevices.getmDeviceId() == DataHelper.LIGHT_SENSOR_DEVICETYPE) {
-            mHolder.devices_state.setText("亮度: "+mDevices.getmValue());
+//            mHolder.devices_state.setText("亮度: "+mDevices.getmValue());
+            mHolder.devices_state.setText("亮度: "+getFromSharedPreferences.getLight());
         } else if (mDevices.getmDeviceId() == DataHelper.TEMPTURE_SENSOR_DEVICETYPE) {
-            mHolder.devices_state.setText("温度: "+mDevices.getmValue()+"°C\n湿度: "+mDevices.getHumidityValue()+"%");
+//            mHolder.devices_state.setText("温度: "+mDevices.getmValue()+"°C\n湿度: "+mDevices.getHumidityValue()+"%");
+            mHolder.devices_state.setText("温度: "+getFromSharedPreferences.getTemperature()+"\n湿度: "+getFromSharedPreferences.getHumidity());
         }else if(mDevices.getmModelId().indexOf(
 				DataHelper.One_key_operator) == 0){
 //        	mHolder.devices_state.setText("一键操作");

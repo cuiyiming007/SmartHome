@@ -6,6 +6,7 @@ import com.gdgl.model.DevicesGroup;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
+import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 import com.gdgl.util.UiUtils;
@@ -157,11 +158,11 @@ public class SceneDevicesListAdapter extends BaseAdapter implements Dialogcallba
             mHolder.devices_scene_state.setText(mDevicesGp.getDevicesState()?"布防":"撤防");
         } else if (mDevices.getmDeviceId() == DataHelper.LIGHT_SENSOR_DEVICETYPE) {
         	mHolder.scene_stste.setVisibility(View.GONE);
-            mHolder.devices_state.setText("当前室内亮度为: 30");
+            mHolder.devices_state.setText("亮度: "+getFromSharedPreferences.getLight());
             mHolder.devices_scene_state.setText(mDevicesGp.getDevicesState()?"布防":"撤防");
         } else if (mDevices.getmDeviceId() == DataHelper.TEMPTURE_SENSOR_DEVICETYPE) {
         	mHolder.scene_stste.setVisibility(View.GONE);
-            mHolder.devices_state.setText("当前室内温度为: 30°C");
+            mHolder.devices_state.setText("温度: "+getFromSharedPreferences.getTemperature()+"\n湿度: "+getFromSharedPreferences.getHumidity());
             mHolder.devices_scene_state.setText(mDevicesGp.getDevicesState()?"布防":"撤防");
         } else {
         	mHolder.scene_stste.setVisibility(View.VISIBLE);

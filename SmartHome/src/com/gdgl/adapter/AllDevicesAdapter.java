@@ -6,6 +6,7 @@ import java.util.List;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
+import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.UiUtils;
 
@@ -156,9 +157,9 @@ public class AllDevicesAdapter extends BaseAdapter {
 				mHolder.devices_state.setText("撤防");
 			}
 		} else if (mDevices.getmDeviceId() == DataHelper.LIGHT_SENSOR_DEVICETYPE) {
-			mHolder.devices_state.setText("当前室内亮度为: 30");
+			 mHolder.devices_state.setText("亮度: "+getFromSharedPreferences.getLight());
 		} else if (mDevices.getmDeviceId() == DataHelper.TEMPTURE_SENSOR_DEVICETYPE) {
-			mHolder.devices_state.setText("当前室内温度为: 30°C");
+			 mHolder.devices_state.setText("温度: "+getFromSharedPreferences.getTemperature()+"\n湿度: "+getFromSharedPreferences.getHumidity());
 		} else {
 			if (mDevices.getmOnOffStatus().trim().equals("1")) {
 				mHolder.devices_state.setText("开");

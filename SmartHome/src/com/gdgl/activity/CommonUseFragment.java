@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.gdgl.activity.SmartHome.refreshAdapter;
 import com.gdgl.adapter.SceneDevicesAdapter.ViewHolder;
+import com.gdgl.manager.LightManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
 import com.gdgl.model.DevicesGroup;
@@ -61,7 +62,7 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 	public static final int REGION = 0;
 	public static final int SCENE = 1;
 	public static final int DEV = 2;
-	
+
 	public static final int STOP = 3;
 
 	private static final int DURATION = 500;
@@ -70,7 +71,7 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 	View mView;
 
 	List<StringTag> mList;
-	private int deletePostion=-1;
+	private int deletePostion = -1;
 
 	CustomeAdapter regionAdap, sceneAdap, devAdap;
 
@@ -122,7 +123,7 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 		initScenedata();
 		initDevdata();
 	}
-	
+
 	private void initDevdata() {
 		// TODO Auto-generated method stub
 		getFromSharedPreferences.setharedPreferences((Context) getActivity());
@@ -251,12 +252,11 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 		expnRegion(true);
 		hideScene(false);
 		hideDev(false);
-		
-		
+
 		registerForContextMenu(region_list);
 		registerForContextMenu(scene_list);
 		registerForContextMenu(dev_list);
-		
+
 		region_lay.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -458,9 +458,8 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 					String[] args = { sce };
 					cv = new ContentValues();
 					cv.put(DevicesGroup.GROUP_STATE, 1);
-				    SQLiteDatabase db=mDh.getSQLiteDatabase();
-					mDh.update(db,
-							DataHelper.GROUP_TABLE, cv, where, args);
+					SQLiteDatabase db = mDh.getSQLiteDatabase();
+					mDh.update(db, DataHelper.GROUP_TABLE, cv, where, args);
 					mDh.close(db);
 					Message msg = Message.obtain();
 					msg.what = SCENE;
@@ -514,7 +513,7 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 			}
 		};
 	};
-	
+
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
@@ -523,41 +522,38 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 		menu.add(0, 1, 0, "删除");
 		super.onCreateContextMenu(menu, v, menuInfo);
 	}
-	
-	
+
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
 		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
 				.getMenuInfo();
 		int position = info.position;
-		deletePostion=position;
+		deletePostion = position;
 		int menuIndex = item.getItemId();
 		if (region_expn) {
 			MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
-			(Context) getActivity());
+					(Context) getActivity());
 			mMyOkCancleDlg.setDialogCallback(CommonUseFragment.this);
-			mMyOkCancleDlg.setContent("确定要删除区域"
-					+ mRegion.get(position)+ "吗?");
+			mMyOkCancleDlg.setContent("确定要删除区域" + mRegion.get(position) + "吗?");
 			mMyOkCancleDlg.show();
 		} else if (scene_expn) {
 			MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
-			(Context) getActivity());
+					(Context) getActivity());
 			mMyOkCancleDlg.setDialogCallback(CommonUseFragment.this);
-			mMyOkCancleDlg.setContent("确定要删除场景"
-					+ mScene.get(position)+ "吗?");
+			mMyOkCancleDlg.setContent("确定要删除场景" + mScene.get(position) + "吗?");
 			mMyOkCancleDlg.show();
 		} else if (dev_expn) {
 			MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
-			(Context) getActivity());
+					(Context) getActivity());
 			mMyOkCancleDlg.setDialogCallback(CommonUseFragment.this);
 			mMyOkCancleDlg.setContent("确定要删除设备"
-					+ mDev.get(position).getmUserDefineName()+ "吗?");
+					+ mDev.get(position).getmUserDefineName() + "吗?");
 			mMyOkCancleDlg.show();
 		}
 		return super.onContextItemSelected(item);
 	}
-	
+
 	private DevicesGroup getModelByID(String ieee) {
 		return DataUtil.getOneScenesDevices((Context) getActivity(), mDh, ieee);
 	}
@@ -614,7 +610,7 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 					dp.operator();
 
 					mViewGroupMap.put(mIeees.get(position), view);
-					
+
 					Message msg = Message.obtain();
 					msg.what = SCENE;
 					msg.obj = view;
@@ -783,9 +779,10 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 						mViewHolder.funcImg.setImageResource(UiUtils
 								.getDevicesSmallIcon(smd.getmDeviceId()));
 					}
-					
+
 					setTextViewContent(smd, mViewHolder.devState);
-					mViewHolder.funcText.setText(smd.getmUserDefineName().trim());
+					mViewHolder.funcText.setText(smd.getmUserDefineName()
+							.trim());
 				}
 			}
 			if (Type != DEV) {
@@ -828,38 +825,38 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 	public void dialogdo() {
 		// TODO Auto-generated method stub
 		getFromSharedPreferences.setharedPreferences((Context) getActivity());
-		StringBuilder sb=new StringBuilder();
+		StringBuilder sb = new StringBuilder();
 		String sR = getFromSharedPreferences.getCommonUsed();
-		String deleteString="";
-		List<String> rs=new ArrayList<String>();
+		String deleteString = "";
+		List<String> rs = new ArrayList<String>();
 		if (!(null == sR || sR.trim().equals(""))) {
-			String[] com=sR.split("@@");
+			String[] com = sR.split("@@");
 			for (String string : com) {
-				if(!string.trim().equals("")){
+				if (!string.trim().equals("")) {
 					rs.add(string);
 				}
 			}
 		}
-		
+
 		if (region_expn) {
-			deleteString=UiUtils.REGION_FLAG+mRegion.get(deletePostion);
+			deleteString = UiUtils.REGION_FLAG + mRegion.get(deletePostion);
 			mRegion.remove(deletePostion);
-			
+
 		} else if (scene_expn) {
-			deleteString=UiUtils.SCENE_FLAG+mScene.get(deletePostion);
+			deleteString = UiUtils.SCENE_FLAG + mScene.get(deletePostion);
 			mScene.remove(deletePostion);
 		} else if (dev_expn) {
-			deleteString=UiUtils.DEVICES_FLAG+mIeees.get(deletePostion);
+			deleteString = UiUtils.DEVICES_FLAG + mIeees.get(deletePostion);
 			mIeees.remove(deletePostion);
 		}
-		
+
 		for (String string : rs) {
-			if(!string.equals(deleteString)){
-				sb.append(string+"@@");
+			if (!string.equals(deleteString)) {
+				sb.append(string + "@@");
 			}
 		}
 		getFromSharedPreferences.setCommonUsed(sb.toString());
-		
+
 		refreshFragment();
 	}
 
@@ -884,9 +881,10 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 				view.setText("撤防");
 			}
 		} else if (s.getmDeviceId() == DataHelper.LIGHT_SENSOR_DEVICETYPE) {
-			view.setText("亮度30");
+			view.setText("亮度: " + getFromSharedPreferences.getLight());
 		} else if (s.getmDeviceId() == DataHelper.TEMPTURE_SENSOR_DEVICETYPE) {
-			view.setText("温度30°C");
+			view.setText("温度: " + getFromSharedPreferences.getTemperature()
+					+ "\n湿度: " + getFromSharedPreferences.getHumidity());
 		} else {
 			if (s.getmOnOffStatus().trim().equals("1")) {
 				view.setText("开");
@@ -932,28 +930,31 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 		} else if (EventType.LIGHTSENSOROPERATION == event.getType()) {
 			// data maybe null
 			if (event.isSuccess()) {
-
 				SimpleResponseData data = (SimpleResponseData) event.getData();
-
-//				Toast.makeText(getActivity(), "当前光线亮度" + data.getParam1(), 3000)
-//						.show();
-				
-				
-				
+				String light = data.getParam1() + "Lux";
+				getFromSharedPreferences.setLight(light);
+				devAdap.notifyDataSetChanged();
 			} else {
-				Toast.makeText(getActivity(), "获取亮度失败", 3000).show();
 			}
 		} else if (EventType.TEMPERATURESENSOROPERATION == event.getType()) {
 			// data maybe null
 			if (event.isSuccess()) {
 
 				SimpleResponseData data = (SimpleResponseData) event.getData();
-
-				Toast.makeText(getActivity(),
-						"当前温度" + Float.valueOf(data.getParam1()) / 1000, 3000)
-						.show();
+				String temperature = String.valueOf(Float.valueOf(data
+						.getParam1()) / 1000 + "°C");
+				getFromSharedPreferences.setTemperature(temperature);
+				devAdap.notifyDataSetChanged();
 			} else {
 				Toast.makeText(getActivity(), "获取温度失败", 3000).show();
+			}
+		} else if (EventType.HUMIDITY == event.getType()) {
+			if (event.isSuccess()) {
+				SimpleResponseData data = (SimpleResponseData) event.getData();
+				String humidity = String.valueOf(Float.valueOf(data
+						.getParam1()) / 1000);
+				getFromSharedPreferences.setHumidity(humidity);
+				devAdap.notifyDataSetChanged();
 			}
 		}
 	}

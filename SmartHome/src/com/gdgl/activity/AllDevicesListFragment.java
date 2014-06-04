@@ -10,6 +10,7 @@ import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
+import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.mydata.Callback.CallbackResponseType2;
 import com.gdgl.mydata.Callback.CallbackWarmMessage;
 import com.gdgl.smarthome.R;
@@ -199,9 +200,10 @@ public class AllDevicesListFragment extends BaseFragment {
 					mHolder.devices_state.setText("已撤防");
 				}
 			} else if (mDevices.getmDeviceId() == DataHelper.LIGHT_SENSOR_DEVICETYPE) {
-				mHolder.devices_state.setText("当前室内亮度为: 30");
+				 mHolder.devices_state.setText("亮度: "+getFromSharedPreferences.getLight());
 			} else if (mDevices.getmDeviceId() == DataHelper.TEMPTURE_SENSOR_DEVICETYPE) {
-				mHolder.devices_state.setText("当前室内温度为: 30°C");
+	            mHolder.devices_state.setText("温度: "+getFromSharedPreferences.getTemperature()+"\n湿度: "+getFromSharedPreferences.getHumidity());
+
 			} else {
 				if (mDevices.getmOnOffStatus().trim().equals("1")) {
 					mHolder.devices_state.setText("开");

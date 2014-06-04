@@ -24,6 +24,7 @@ import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.SimpleResponseData;
+import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.mydata.Callback.CallbackWarmMessage;
 import com.gdgl.mydata.getlocalcielist.CIEresponse_params;
 import com.gdgl.smarthome.R;
@@ -125,20 +126,20 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 				safeList = DataUtil.getOtherManagementDevices(
 						ShowDevicesGroupFragmentActivity.this, mDataHelper, db,
 						UiUtils.SECURITY_CONTROL);
-				
+
 				SimpleDevicesModel dm = null;
 				SimpleDevicesModel tempDevicesModel;
-				int index=-1;
-				if(null!=safeList){
-					tempDevicesModel=safeList.get(0);
+				int index = -1;
+				if (null != safeList) {
+					tempDevicesModel = safeList.get(0);
 					for (int i = 0; i < safeList.size(); i++) {
-						if(safeList.get(i).getmModelId().indexOf(
-								DataHelper.One_key_operator) == 0){
-							dm=safeList.get(i);
-							index=i;
+						if (safeList.get(i).getmModelId()
+								.indexOf(DataHelper.One_key_operator) == 0) {
+							dm = safeList.get(i);
+							index = i;
 						}
 					}
-					if(index!=-1 && index!=0){
+					if (index != -1 && index != 0) {
 						safeList.add(0, dm);
 						safeList.add(index, tempDevicesModel);
 					}
@@ -194,7 +195,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 			initNoContent();
 			initFancyCoverFlow();
 			initDevicesListFragment();
-			
+
 			initTitleByTag(mListIndex);
 
 			mDeviceManager.getLocalCIEList();
@@ -251,6 +252,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		initTitle();
 		initData();
 	}
+
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -282,17 +284,17 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 			}
 		});
 
-		notifyBtn=(Button) findViewById(R.id.alarm_in_device);
-		notifyTextView=(TextView) findViewById(R.id.unread_ms_device);
+		notifyBtn = (Button) findViewById(R.id.alarm_in_device);
+		notifyTextView = (TextView) findViewById(R.id.unread_ms_device);
 		notifyBtn.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				Intent i = new Intent(ShowDevicesGroupFragmentActivity.this,
 						ConfigActivity.class);
-				i.putExtra("fragid",1);
+				i.putExtra("fragid", 1);
 				startActivity(i);
-				WarnManager.getInstance().intilMessageNum();				
+				WarnManager.getInstance().intilMessageNum();
 			}
 		});
 		title = (TextView) findViewById(R.id.title);
@@ -687,7 +689,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 			mNoDevices.setVisibility(View.VISIBLE);
 		} else {
 			mNoDevices.setVisibility(View.GONE);
-			
+
 			mDevicesBaseAdapter.setList(list);
 			mDevicesListFragment.initList();
 			mDevicesListFragment.setLayout();
@@ -712,8 +714,11 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 						.get(UiUtils.ENVIRONMENTAL_CONTROL);
 				int m = getDevicesPostion(data.getIeee(), data.getEp(), temList);
 				if (m != -1) {
+					String light = data.getParam1() + "Lux";
 
-					temList.get(m).setmValue(data.getParam1() + "Lux");
+					getFromSharedPreferences.setLight(light);
+					temList.get(m).setmValue(light);
+
 					if (UiUtils.ENVIRONMENTAL_CONTROL == mListIndex) {
 						mCurrentList = temList;
 						title.post(new Runnable() {
@@ -724,10 +729,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 						});
 					}
 				}
-				// Toast.makeText(getActivity(),
-				// "当前光线亮度"+data.getParam1(),3000).show();
 			} else {
-				// Toast.makeText(getActivity(), "获取亮度失败",3000).show();
 			}
 		} else if (EventType.TEMPERATURESENSOROPERATION == event.getType()) {
 			if (event.isSuccess()) {
@@ -736,10 +738,10 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 						.get(UiUtils.ENVIRONMENTAL_CONTROL);
 				int m = getDevicesPostion(data.getIeee(), data.getEp(), temList);
 				if (m != -1) {
-					temList.get(m)
-							.setmValue(
-									String.valueOf(Float.valueOf(data
-											.getParam1()) / 1000));
+					String temperature = String.valueOf(Float.valueOf(data
+							.getParam1()) / 1000+"°C");
+					getFromSharedPreferences.setTemperature(temperature);
+					temList.get(m).setmValue(temperature);
 					if (UiUtils.ENVIRONMENTAL_CONTROL == mListIndex) {
 						mCurrentList = temList;
 						title.post(new Runnable() {
@@ -750,8 +752,6 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 						});
 					}
 				}
-				// Toast.makeText(getActivity(),
-				// "当前光线亮度"+data.getParam1(),3000).show();
 			}
 		} else if (EventType.GETICELIST == event.getType()) {
 			if (event.isSuccess()) {
@@ -795,7 +795,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 			}
 		} else if (EventType.WARM == event.getType()) {
 			title.post(new Runnable() {
-				
+
 				@Override
 				public void run() {
 					updateMessageNum();
@@ -809,13 +809,11 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 						.get(UiUtils.ENVIRONMENTAL_CONTROL);
 				int m = getDevicesPostion(data.getIeee(), data.getEp(), temList);
 				if (m != -1) {
-					// List<SimpleDevicesModel> temList = mDevicesListCache
-					// .get(UiUtils.ENVIRONMENTAL_CONTROL);
+					String humidity = String.valueOf(Float.valueOf(data
+							.getParam1()) / 1000);
+					getFromSharedPreferences.setHumidity(humidity);
+					temList.get(m).setHumidityValue(humidity);
 
-					temList.get(m)
-							.setHumidityValue(
-									String.valueOf(Float.valueOf(data
-											.getParam1()) / 1000));
 					if (UiUtils.ENVIRONMENTAL_CONTROL == mListIndex) {
 						mCurrentList = temList;
 						title.post(new Runnable() {
@@ -826,8 +824,6 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 						});
 					}
 				}
-				// Toast.makeText(getActivity(),
-				// "当前光线亮度"+data.getParam1(),3000).show();
 			}
 		}
 
@@ -881,13 +877,13 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		return -1;
 
 	}
-	
+
 	private void updateMessageNum() {
-		int messageNum=WarnManager.getInstance().getMessageNum();
-		
-		if (messageNum==0) {
+		int messageNum = WarnManager.getInstance().getMessageNum();
+
+		if (messageNum == 0) {
 			notifyTextView.setVisibility(View.GONE);
-		}else{
+		} else {
 			notifyTextView.setVisibility(View.VISIBLE);
 			notifyTextView.setText(String.valueOf(messageNum));
 		}

@@ -38,10 +38,12 @@ public class DispatchOperator {
 			mLightManager.OnOffOutputOperation(sd, getChangeValue(s.state));
 			break;
 		case DataHelper.TEMPTURE_SENSOR_DEVICETYPE:
-			
+			LightManager.getInstance().temperatureSensorOperation(sd, 0);
+			LightManager.getInstance().temperatureSensorOperation(sd, 1);
+
 			break;
 		case DataHelper.LIGHT_SENSOR_DEVICETYPE:
-			
+			LightManager.getInstance().lightSensorOperation(sd, 0);
 			break;
 		case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:
 		case DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE:

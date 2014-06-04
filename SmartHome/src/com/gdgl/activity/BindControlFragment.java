@@ -617,11 +617,6 @@ public class BindControlFragment extends BaseFragment {
 		}
 	}
 
-	@Override
-	public void onDestroy() {
-		mLightManager.deleteObserver(this);
-		super.onDestroy();
-	}
 
 	public interface updateList {
 		public void upList(DevicesModel dm, String id);
