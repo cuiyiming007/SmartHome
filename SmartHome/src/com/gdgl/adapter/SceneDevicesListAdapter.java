@@ -162,7 +162,7 @@ public class SceneDevicesListAdapter extends BaseAdapter implements Dialogcallba
             mHolder.devices_scene_state.setText(mDevicesGp.getDevicesState()?"布防":"撤防");
         } else if (mDevices.getmDeviceId() == DataHelper.TEMPTURE_SENSOR_DEVICETYPE) {
         	mHolder.scene_stste.setVisibility(View.GONE);
-            mHolder.devices_state.setText("温度: "+getFromSharedPreferences.getTemperature()+"\n湿度: "+getFromSharedPreferences.getHumidity());
+            mHolder.devices_state.setText("温度: "+getFromSharedPreferences.getTemperature()+"\n湿度: "+getFromSharedPreferences.getHumidity()+"RH");
             mHolder.devices_scene_state.setText(mDevicesGp.getDevicesState()?"布防":"撤防");
         } else {
         	mHolder.scene_stste.setVisibility(View.VISIBLE);

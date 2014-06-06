@@ -884,7 +884,7 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 			view.setText("亮度: " + getFromSharedPreferences.getLight());
 		} else if (s.getmDeviceId() == DataHelper.TEMPTURE_SENSOR_DEVICETYPE) {
 			view.setText("温度: " + getFromSharedPreferences.getTemperature()
-					+ "\n湿度: " + getFromSharedPreferences.getHumidity());
+					+ "\n湿度: " + getFromSharedPreferences.getHumidity()+"RH");
 		} else {
 			if (s.getmOnOffStatus().trim().equals("1")) {
 				view.setText("开");

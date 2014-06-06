@@ -202,7 +202,7 @@ public class AllDevicesListFragment extends BaseFragment {
 			} else if (mDevices.getmDeviceId() == DataHelper.LIGHT_SENSOR_DEVICETYPE) {
 				 mHolder.devices_state.setText("亮度: "+getFromSharedPreferences.getLight());
 			} else if (mDevices.getmDeviceId() == DataHelper.TEMPTURE_SENSOR_DEVICETYPE) {
-	            mHolder.devices_state.setText("温度: "+getFromSharedPreferences.getTemperature()+"\n湿度: "+getFromSharedPreferences.getHumidity());
+	            mHolder.devices_state.setText("温度: "+getFromSharedPreferences.getTemperature()+"\n湿度: "+getFromSharedPreferences.getHumidity()+"RH");
 
 			} else {
 				if (mDevices.getmOnOffStatus().trim().equals("1")) {

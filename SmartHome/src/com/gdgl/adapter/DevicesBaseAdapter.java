@@ -175,7 +175,7 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
             mHolder.devices_state.setText("亮度: "+getFromSharedPreferences.getLight());
         } else if (mDevices.getmDeviceId() == DataHelper.TEMPTURE_SENSOR_DEVICETYPE) {
 //            mHolder.devices_state.setText("温度: "+mDevices.getmValue()+"°C\n湿度: "+mDevices.getHumidityValue()+"%");
-            mHolder.devices_state.setText("温度: "+getFromSharedPreferences.getTemperature()+"\n湿度: "+getFromSharedPreferences.getHumidity());
+            mHolder.devices_state.setText("温度: "+getFromSharedPreferences.getTemperature()+"\n湿度: "+getFromSharedPreferences.getHumidity()+"RH");
         }else if(mDevices.getmModelId().indexOf(
 				DataHelper.One_key_operator) == 0){
 //        	mHolder.devices_state.setText("一键操作");
