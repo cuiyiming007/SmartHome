@@ -739,7 +739,8 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 				int m = getDevicesPostion(data.getIeee(), data.getEp(), temList);
 				if (m != -1) {
 					String temperature = String.valueOf(Float.valueOf(data
-							.getParam1()) / 1000+"°C");
+							.getParam1().substring(0, data
+									.getParam1().length()-2)) / 10+"°C");
 					getFromSharedPreferences.setTemperature(temperature);
 					temList.get(m).setmValue(temperature);
 					if (UiUtils.ENVIRONMENTAL_CONTROL == mListIndex) {
@@ -810,7 +811,8 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 				int m = getDevicesPostion(data.getIeee(), data.getEp(), temList);
 				if (m != -1) {
 					String humidity = String.valueOf(Float.valueOf(data
-							.getParam1()) / 1000);
+							.getParam1().substring(0, data
+									.getParam1().length()-2)) / 10);
 					getFromSharedPreferences.setHumidity(humidity);
 					temList.get(m).setHumidityValue(humidity);
 

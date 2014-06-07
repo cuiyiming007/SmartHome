@@ -773,7 +773,8 @@ public class DevicesListWithGroup extends BaseFragment implements
 						mEneronmentControl);
 				if (m != -1) {
 					mEneronmentControl.get(m).setmValue1(
-							(int) (Float.valueOf(data.getParam1()) / 1000));
+							(int) (Float.valueOf(data.getParam1().substring(0, data
+									.getParam1().length()-2)) / 10));
 					if (expan_postion == 3) {
 						EneronmentControlllay.post(new Runnable() {
 							@Override
@@ -798,7 +799,8 @@ public class DevicesListWithGroup extends BaseFragment implements
 						mEneronmentControl);
 				if (m != -1) {
 					mEneronmentControl.get(m).setmValue2(
-							(int) (Float.valueOf(data.getParam1()) / 1000));
+							(int) (Float.valueOf(data.getParam1().substring(0, data
+									.getParam1().length()-2)) / 10));
 					if (expan_postion == 3) {
 						EneronmentControlllay.post(new Runnable() {
 							@Override

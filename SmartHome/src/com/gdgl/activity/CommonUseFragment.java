@@ -942,7 +942,8 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 
 				SimpleResponseData data = (SimpleResponseData) event.getData();
 				String temperature = String.valueOf(Float.valueOf(data
-						.getParam1()) / 1000 + "°C");
+						.getParam1().substring(0, data
+						.getParam1().length()-2)) / 10 + "°C");
 				getFromSharedPreferences.setTemperature(temperature);
 				devAdap.notifyDataSetChanged();
 			} else {
@@ -952,7 +953,8 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 			if (event.isSuccess()) {
 				SimpleResponseData data = (SimpleResponseData) event.getData();
 				String humidity = String.valueOf(Float.valueOf(data
-						.getParam1()) / 1000);
+						.getParam1().substring(0, data
+								.getParam1().length()-2)) / 10);
 				getFromSharedPreferences.setHumidity(humidity);
 				devAdap.notifyDataSetChanged();
 			}
