@@ -95,7 +95,7 @@ public class JoinNetDevicesListFragment extends BaseFragment implements
 
 	public void setList(List<DevicesModel> list) {
 		mDevList = list;
-		if(null!=mJoinNetAdapter){
+		if (null != mJoinNetAdapter) {
 			mJoinNetAdapter.setList(mDevList);
 			mJoinNetAdapter.notifyDataSetChanged();
 		}
@@ -210,24 +210,25 @@ public class JoinNetDevicesListFragment extends BaseFragment implements
 		}
 		mRefreshData = (refreshData) activity;
 	}
-	
-	public int isInList(String iee,String ep){
-		if(null==mDevList || mDevList.size()==0){
+
+	public int isInList(String iee, String ep) {
+		if (null == mDevList || mDevList.size() == 0) {
 			return -1;
 		}
-		if(iee==null || ep==null){
+		if (iee == null || ep == null) {
 			return -1;
 		}
 		DevicesModel sd;
-		for(int m=0;m<mDevList.size();m++){
-			sd=mDevList.get(m);
-			if(iee.trim().equals(sd.getmIeee().trim()) && ep.trim().equals(sd.getmEP().trim())){
+		for (int m = 0; m < mDevList.size(); m++) {
+			sd = mDevList.get(m);
+			if (iee.trim().equals(sd.getmIeee().trim())
+					&& ep.trim().equals(sd.getmEP().trim())) {
 				return m;
 			}
 		}
 		return -1;
 	}
-	
+
 	@Override
 	public void update(Manger observer, Object object) {
 		// TODO Auto-generated method stub
@@ -238,13 +239,13 @@ public class JoinNetDevicesListFragment extends BaseFragment implements
 				// data maybe null
 				CallbackResponseType2 data = (CallbackResponseType2) event
 						.getData();
-				int m=isInList(data.getDeviceIeee(), data.getDeviceEp());
-				if(-1!=m){
-					if(null!=data.getValue()){
+				int m = isInList(data.getDeviceIeee(), data.getDeviceEp());
+				if (-1 != m) {
+					if (null != data.getValue()) {
 						mDevList.get(m).setmOnOffStatus(data.getValue());
 						mJoinNetAdapter.setList(mDevList);
 						mView.post(new Runnable() {
-							
+
 							@Override
 							public void run() {
 								mJoinNetAdapter.notifyDataSetChanged();
@@ -302,9 +303,9 @@ public class JoinNetDevicesListFragment extends BaseFragment implements
 	}
 
 	public class JoinNetAdapter extends BaseAdapter {
-		
+
 		List<DevicesModel> mdev;
-		
+
 		@Override
 		public int getCount() {
 			// TODO Auto-generated method stub
@@ -331,12 +332,12 @@ public class JoinNetDevicesListFragment extends BaseFragment implements
 			}
 			return position;
 		}
-		
-		public void setList(List<DevicesModel> ml){
-			mdev=null;
-			mdev=ml;
+
+		public void setList(List<DevicesModel> ml) {
+			mdev = null;
+			mdev = ml;
 		}
-		
+
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			// TODO Auto-generated method stub
@@ -363,14 +364,14 @@ public class JoinNetDevicesListFragment extends BaseFragment implements
 			} else {
 				mHolder = (ViewHolder) mView.getTag();
 			}
-
+			Log.e("devices_name", mDevices.getmUserDefineName());
 			mHolder.devices_name.setText(mDevices.getmUserDefineName().replace(
 					" ", ""));
 			mHolder.devices_region.setText(mDevices.getmDeviceRegion().replace(
 					" ", ""));
-			
+
 			int devModeleId = Integer.parseInt(mDevices.getmDeviceId());
-			
+
 			if (DataHelper.IAS_ZONE_DEVICETYPE == devModeleId
 					|| DataHelper.IAS_ACE_DEVICETYPE == devModeleId) {
 
@@ -407,9 +408,12 @@ public class JoinNetDevicesListFragment extends BaseFragment implements
 					mHolder.devices_state.setText("撤防");
 				}
 			} else if (devModeleId == DataHelper.LIGHT_SENSOR_DEVICETYPE) {
-				 mHolder.devices_state.setText("亮度: "+getFromSharedPreferences.getLight());
+				mHolder.devices_state.setText("亮度: "
+						+ getFromSharedPreferences.getLight());
 			} else if (devModeleId == DataHelper.TEMPTURE_SENSOR_DEVICETYPE) {
-	            mHolder.devices_state.setText("温度: "+getFromSharedPreferences.getTemperature()+"\n湿度: "+getFromSharedPreferences.getHumidity()+"RH");
+				mHolder.devices_state.setText("温度: "
+						+ getFromSharedPreferences.getTemperature() + "\n湿度: "
+						+ getFromSharedPreferences.getHumidity() + "RH");
 			} else {
 				if (mDevices.getmOnOffStatus().trim().equals("1")) {
 					mHolder.devices_state.setText("开");
