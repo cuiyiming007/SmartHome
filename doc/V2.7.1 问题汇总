@@ -92,3 +92,6 @@ g)【场景】数据
 h)【常用】数据
 应该考虑哪些数据由callback提供，哪些数据需要主动读取。
  
+ 
+ 
+ 判断客户端和网关是否处于同一局域网的功能是由bcast_daemon完成的，UDP端口为5000。Client发送"Who is smart gateway?"，发送正确网关回复"I am smart gateway."，发送错误回复"Wrong request."。
