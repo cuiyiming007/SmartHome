@@ -54,7 +54,7 @@ public class WarnManager {
 		String detailmessage;
 	DataHelper	dh = new DataHelper(ApplicationController.getInstance());
 		SQLiteDatabase db = dh.getSQLiteDatabase();
-		DevicesModel device= DataUtil.getDeviceModelByIeee(message.getCie_ieee(), dh, db);
+		DevicesModel device= DataUtil.getDeviceModelByIeee(message.getZone_ieee(), dh, db);
 		if (message.getW_description().equals("Doorbell")) {
 			detailmessage = "门铃响了";
 		}else{

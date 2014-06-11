@@ -12,6 +12,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.gdgl.app.ApplicationController;
+import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.DeviceLearnedParam;
 import com.gdgl.mydata.Event;
@@ -127,10 +128,10 @@ public class LightManager extends Manger {
 		simpleVolleyRequset(url, EventType.UNBINDDEVICE);
 	}
 
-	public void getBindList(SimpleDevicesModel outModel) {
+	public void getBindList(DevicesModel devicesModel) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
-		paraMap.put("ieee", outModel.getmIeee());
-		paraMap.put("ep", outModel.getmEP());
+		paraMap.put("ieee", devicesModel.getmIeee());
+		paraMap.put("ep", devicesModel.getmEP());
 		String param = hashMap2ParamString(paraMap);
 		String url = NetUtil.getInstance().getCumstomURL(
 				NetUtil.getInstance().IP, "getBindList.cgi", param);

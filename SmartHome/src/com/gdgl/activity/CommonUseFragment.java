@@ -875,16 +875,16 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 			Log.i("tag", "tag->" + state);
 			view.setText(state);
 		} else if (s.getmDeviceId() == DataHelper.IAS_ZONE_DEVICETYPE) {
-			if (s.getmOnOffStatus().trim().equals("1")) {
-				view.setText("布防");
+			if (s.getmOnOffStatus().trim().equals("0")) {
+				view.setText("已布防");
 			} else {
-				view.setText("撤防");
+				view.setText("已撤防");
 			}
 		} else if (s.getmDeviceId() == DataHelper.LIGHT_SENSOR_DEVICETYPE) {
 			view.setText("亮度: " + getFromSharedPreferences.getLight());
 		} else if (s.getmDeviceId() == DataHelper.TEMPTURE_SENSOR_DEVICETYPE) {
 			view.setText("温度: " + getFromSharedPreferences.getTemperature()
-					+ "\n湿度: " + getFromSharedPreferences.getHumidity()+"RH");
+					+ "\n湿度: " + getFromSharedPreferences.getHumidity()+"%");
 		} else {
 			if (s.getmOnOffStatus().trim().equals("1")) {
 				view.setText("开");

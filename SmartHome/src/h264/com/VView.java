@@ -112,7 +112,7 @@ public class VView extends View implements Runnable {
 //		scaleHeight = scaleWidth*9/16;
 	}
 
-	// ����
+	//竖直方向
 	private void setPortrait() {
 		this.newWidth = this.gdeviceWith;// ���ſ�ȵ����豸���
 		// ���ź�ĸ�=ԭͼ���x���ű���

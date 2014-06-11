@@ -150,10 +150,10 @@ public class SceneDevicesListAdapter extends BaseAdapter implements Dialogcallba
             mHolder.devices_state.setText(state);
             mHolder.devices_scene_state.setText(mDevicesGp.getDevicesState()?"开":"关");
         } else if (mDevices.getmDeviceId() == DataHelper.IAS_ZONE_DEVICETYPE) {
-            if (mDevices.getmOnOffStatus().trim().equals("1")) {
-                mHolder.devices_state.setText("布防");
+            if (mDevices.getmOnOffStatus().trim().equals("0")) {
+                mHolder.devices_state.setText("已布防");
             } else {
-                mHolder.devices_state.setText("撤防");
+                mHolder.devices_state.setText("已撤防");
             }
             mHolder.devices_scene_state.setText(mDevicesGp.getDevicesState()?"布防":"撤防");
         } else if (mDevices.getmDeviceId() == DataHelper.LIGHT_SENSOR_DEVICETYPE) {
@@ -162,7 +162,7 @@ public class SceneDevicesListAdapter extends BaseAdapter implements Dialogcallba
             mHolder.devices_scene_state.setText(mDevicesGp.getDevicesState()?"布防":"撤防");
         } else if (mDevices.getmDeviceId() == DataHelper.TEMPTURE_SENSOR_DEVICETYPE) {
         	mHolder.scene_stste.setVisibility(View.GONE);
-            mHolder.devices_state.setText("温度: "+getFromSharedPreferences.getTemperature()+"\n湿度: "+getFromSharedPreferences.getHumidity()+"RH");
+            mHolder.devices_state.setText("温度: "+getFromSharedPreferences.getTemperature()+"\n湿度: "+getFromSharedPreferences.getHumidity()+"%");
             mHolder.devices_scene_state.setText(mDevicesGp.getDevicesState()?"布防":"撤防");
         } else {
         	mHolder.scene_stste.setVisibility(View.VISIBLE);

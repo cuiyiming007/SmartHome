@@ -121,7 +121,7 @@ public class BindControlFragment extends BaseFragment {
 			SimpleDevicesModel mSimpleDevicesModel = new SimpleDevicesModel();
 			mSimpleDevicesModel.setmIeee(mdevices.getmIeee());
 			mSimpleDevicesModel.setmEP(mdevices.getmEP());
-			mLightManager.getBindList(mSimpleDevicesModel);
+//			mLightManager.getBindList(mSimpleDevicesModel);
 
 			if (!bindId.trim().equals("")) {
 				String[] ids = bindId.trim().split("##");

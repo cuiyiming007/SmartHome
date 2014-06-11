@@ -63,22 +63,22 @@ public class JoinNetFragment extends Fragment implements UIListener {
 	/***
 	 * 从服务器获得的所有device列表
 	 */
-	ArrayList<ResponseParamsEndPoint> allList;
+//	ArrayList<ResponseParamsEndPoint> allList;
 
-	List<DevicesModel> mDevList;
+//	List<DevicesModel> mDevList;
+//	List<DevicesModel> mNewDevList;
+
 	/***
 	 * 扫描到的设备
 	 */
-	List<DevicesModel> mNewDevList;
-
 	List<DevicesModel> scapedDeviveList;
 
 	/***
 	 * 从数据库中读出的设备列表
 	 */
-	List<SimpleDevicesModel> mInnetListFromDB;
+//	List<SimpleDevicesModel> mInnetListFromDB;
 
-	List<SimpleDevicesModel> mList;
+//	List<SimpleDevicesModel> mList;
 
 	DataHelper mDH;
 	Context c;
@@ -103,8 +103,8 @@ public class JoinNetFragment extends Fragment implements UIListener {
 
 	private void initView() {
 		// TODO Auto-generated method stub
-		mInnetListFromDB = DataUtil.getDevices(c, mDH, null, null, false);
-		mNewDevList = new ArrayList<DevicesModel>();
+//		mInnetListFromDB = DataUtil.getDevices(c, mDH, null, null, false);
+//		mNewDevList = new ArrayList<DevicesModel>();
 		scapedDeviveList = new ArrayList<DevicesModel>();
 		cb = (CircleProgressBar) mView.findViewById(R.id.seek_time);
 		cb.setText("扫描完毕");
@@ -134,9 +134,9 @@ public class JoinNetFragment extends Fragment implements UIListener {
 				// TODO Auto-generated method stub
 				if (!isScape) {
 					isScape = true;
-					if (null != allList) {
-						allList.clear();
-					}
+//					if (null != allList) {
+//						allList.clear();
+//					}
 					LightManager.getInstance().setPermitJoinOn(
 							"00137A000000B657");
 					text_result.setText("正在扫描...");
@@ -176,18 +176,18 @@ public class JoinNetFragment extends Fragment implements UIListener {
 		});
 	}
 
-	public boolean isInDB(DevicesModel s) {
-
-		for (SimpleDevicesModel sd : mInnetListFromDB) {
-			if (sd.getmIeee().trim().equals(s.getmIeee().trim())
-					&& sd.getmEP().trim().equals(s.getmEP().trim())) {
-				return true;
-			}
-		}
-		Log.i("new enroll device",
-				"ieee: " + s.getmIeee() + " ep:" + s.getmEP());
-		return false;
-	}
+//	public boolean isInDB(DevicesModel s) {
+//
+//		for (SimpleDevicesModel sd : mInnetListFromDB) {
+//			if (sd.getmIeee().trim().equals(s.getmIeee().trim())
+//					&& sd.getmEP().trim().equals(s.getmEP().trim())) {
+//				return true;
+//			}
+//		}
+//		Log.i("new enroll device",
+//				"ieee: " + s.getmIeee() + " ep:" + s.getmEP());
+//		return false;
+//	}
 
 	@Override
 	public void onDestroy() {

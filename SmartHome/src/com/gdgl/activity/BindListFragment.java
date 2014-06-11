@@ -3,12 +3,19 @@ package com.gdgl.activity;
 import java.util.List;
 
 import com.gdgl.activity.BindControlFragment.backAction;
+import com.gdgl.activity.BindControlFragment.updateDevTask;
 import com.gdgl.activity.BindControlFragment.updateList;
 import com.gdgl.activity.JoinNetFragment.ChangeFragment;
+import com.gdgl.manager.BindManager;
 import com.gdgl.manager.LightManager;
+import com.gdgl.manager.Manger;
+import com.gdgl.manager.UIListener;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
+import com.gdgl.mydata.Event;
+import com.gdgl.mydata.EventType;
+import com.gdgl.mydata.binding.BindingDataEntity;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.UiUtils;
 
@@ -28,7 +35,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class BindListFragment extends Fragment implements updateList{
+public class BindListFragment extends Fragment implements updateList,UIListener{
 
 	private View mView;
 	List<DevicesModel> mList;
@@ -36,7 +43,7 @@ public class BindListFragment extends Fragment implements updateList{
 	ViewGroup no_dev;
 	Button mBack;
 
-	LinearLayout ch_pwd;
+//	LinearLayout ch_pwd;
 	LinearLayout deviceslist;
 
 	ListView bindList;
@@ -92,12 +99,12 @@ public class BindListFragment extends Fragment implements updateList{
 
 	private void initView() {
 		// TODO Auto-generated method stub
-		ch_pwd = (LinearLayout) mView.findViewById(R.id.ch_pwd);
-		LinearLayout.LayoutParams mLayoutParams = new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.MATCH_PARENT,
-				LinearLayout.LayoutParams.MATCH_PARENT);
-
-		ch_pwd.setLayoutParams(mLayoutParams);
+//		ch_pwd = (LinearLayout) mView.findViewById(R.id.ch_pwd);
+//		LinearLayout.LayoutParams mLayoutParams = new LinearLayout.LayoutParams(
+//				LinearLayout.LayoutParams.MATCH_PARENT,
+//				LinearLayout.LayoutParams.MATCH_PARENT);
+//
+//		ch_pwd.setLayoutParams(mLayoutParams);
 		no_dev = (ViewGroup) mView.findViewById(R.id.no_dev);
 
 		deviceslist = (LinearLayout) mView.findViewById(R.id.deviceslist);
@@ -238,5 +245,19 @@ public class BindListFragment extends Fragment implements updateList{
 			mBindAdapter.notifyDataSetChanged();
 		}
 		
+	}
+
+	@Override
+	public void update(Manger observer, Object object) {
+		final Event event = (Event) object;
+		 if (EventType.GETBINDLIST == event.getType()) {
+			if (event.isSuccess() == true) {
+				BindingDataEntity data = (BindingDataEntity) event.getData();
+				BindManager.getInstance().setBindInfoMap(data);
+			} else {
+				// if failed,prompt a Toast
+
+			}
+		}
 	}
 }
