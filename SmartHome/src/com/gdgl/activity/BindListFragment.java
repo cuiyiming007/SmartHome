@@ -35,7 +35,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class BindListFragment extends Fragment implements updateList,UIListener{
+public class BindListFragment extends Fragment implements updateList,
+		UIListener {
 
 	private View mView;
 	List<DevicesModel> mList;
@@ -43,20 +44,20 @@ public class BindListFragment extends Fragment implements updateList,UIListener{
 	ViewGroup no_dev;
 	Button mBack;
 
-//	LinearLayout ch_pwd;
+	// LinearLayout ch_pwd;
 	LinearLayout deviceslist;
 
 	ListView bindList;
 	DataHelper dh;
-	
+
 	BindAdapter mBindAdapter;
-	LightManager mLightManager;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		initData();
+		LightManager.getInstance().addObserver(this);
 	}
 
 	private void initData() {
@@ -64,8 +65,8 @@ public class BindListFragment extends Fragment implements updateList,UIListener{
 		dh = new DataHelper((Context) getActivity());
 		new getDataTask().execute(1);
 	}
-	
-	public class getDataTask extends AsyncTask<Integer, Integer, Integer>{
+
+	public class getDataTask extends AsyncTask<Integer, Integer, Integer> {
 
 		@Override
 		protected Integer doInBackground(Integer... params) {
@@ -73,49 +74,41 @@ public class BindListFragment extends Fragment implements updateList,UIListener{
 			mList = DataUtil.getBindDevices((Context) getActivity(), dh);
 			return 1;
 		}
+
 		@Override
 		protected void onPostExecute(Integer result) {
-			// TODO Auto-generated method stub
+			BindManager.getInstance().initalBindInfoMapFromServer(mList);
 			initView();
-//			SimpleDevicesModel mSimpleDevicesModel;
-//			if(null!=mList && mList.size()>0){
-//				for (DevicesModel dm : mList) {
-//					mSimpleDevicesModel=new SimpleDevicesModel();
-//					mSimpleDevicesModel.setmIeee(dm.getmIeee());
-//					mSimpleDevicesModel.setmEP(dm.getmEP());
-//					mLightManager.getBindList(mSimpleDevicesModel);
-//				}
-//			}
 		}
 	}
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		mView = inflater.inflate(R.layout.bind_list, null);
 		return mView;
 	}
 
 	private void initView() {
 		// TODO Auto-generated method stub
-//		ch_pwd = (LinearLayout) mView.findViewById(R.id.ch_pwd);
-//		LinearLayout.LayoutParams mLayoutParams = new LinearLayout.LayoutParams(
-//				LinearLayout.LayoutParams.MATCH_PARENT,
-//				LinearLayout.LayoutParams.MATCH_PARENT);
-//
-//		ch_pwd.setLayoutParams(mLayoutParams);
+		// ch_pwd = (LinearLayout) mView.findViewById(R.id.ch_pwd);
+		// LinearLayout.LayoutParams mLayoutParams = new
+		// LinearLayout.LayoutParams(
+		// LinearLayout.LayoutParams.MATCH_PARENT,
+		// LinearLayout.LayoutParams.MATCH_PARENT);
+		//
+		// ch_pwd.setLayoutParams(mLayoutParams);
 		no_dev = (ViewGroup) mView.findViewById(R.id.no_dev);
 
 		deviceslist = (LinearLayout) mView.findViewById(R.id.deviceslist);
-		
-		bindList=(ListView)mView.findViewById(R.id.devices_list);
-		
+
+		bindList = (ListView) mView.findViewById(R.id.devices_list);
+
 		if (null == mList || mList.size() == 0) {
 			no_dev.setVisibility(View.VISIBLE);
 			deviceslist.setVisibility(View.GONE);
 		} else {
-			mBindAdapter=new BindAdapter();
+			mBindAdapter = new BindAdapter();
 			bindList.setAdapter(mBindAdapter);
 			bindList.setOnItemClickListener(new OnItemClickListener() {
 
@@ -123,20 +116,23 @@ public class BindListFragment extends Fragment implements updateList,UIListener{
 				public void onItemClick(AdapterView<?> parent, View view,
 						int position, long id) {
 					// TODO Auto-generated method stub
-					Bundle extra=new Bundle();
-					extra.putInt(BindControlFragment.DevicesId, mList.get(position).getID());
-//					int bindId=mList.get(position).getmBindTo()==null || mList.get(position).getmBindTo().trim().equals("")?-1:Integer.parseInt(mList.get(position).getmBindTo().trim());
-//					extra.putInt(BindControlFragment.BindId, bindId);
+					Bundle extra = new Bundle();
+					extra.putInt(BindControlFragment.DevicesId,
+							mList.get(position).getID());
+					// int bindId=mList.get(position).getmBindTo()==null ||
+					// mList.get(position).getmBindTo().trim().equals("")?-1:Integer.parseInt(mList.get(position).getmBindTo().trim());
+					// extra.putInt(BindControlFragment.BindId, bindId);
 					ChangeFragment c = (ChangeFragment) getActivity();
 					BindControlFragment mBindControlFragment = new BindControlFragment();
 					mBindControlFragment.setUplist(BindListFragment.this);
-					mBindControlFragment.setBackAction((backAction)getActivity());
+					mBindControlFragment
+							.setBackAction((backAction) getActivity());
 					mBindControlFragment.setArguments(extra);
 					c.setFragment(mBindControlFragment);
 				}
 			});
 		}
-		
+
 	}
 
 	public class BindAdapter extends BaseAdapter {
@@ -193,8 +189,9 @@ public class BindListFragment extends Fragment implements updateList,UIListener{
 
 			mHolder.devices_name.setText(mDevices.getmUserDefineName().replace(
 					" ", ""));
-			if (null != mDevices.getmBindTo()
-					&& !mDevices.getmBindTo().trim().equals("")) {
+			// if (null != mDevices.getmBindTo()
+			// && !mDevices.getmBindTo().trim().equals("")) {
+			if (BindManager.getInstance().hasBinded(mDevices)) {
 				mHolder.devices_state.setText("已绑定");
 			} else {
 				mHolder.devices_state.setText("未绑定到任何设备");
@@ -229,33 +226,39 @@ public class BindListFragment extends Fragment implements updateList,UIListener{
 
 	@Override
 	public void upList(DevicesModel dm, String id) {
-		// TODO Auto-generated method stub
-		int postion = 0;
-		if (null != mList && mList.size() > 0) {
-			for (int i = 0; i < mList.size(); i++) {
-				if (mList.get(i).getmIeee().trim()
-						.equals(dm.getmIeee().trim())
-						&& mList.get(i).getmEP().trim()
-								.equals(dm.getmEP().trim())) {
-					postion=i;
+//		// TODO Auto-generated method stub
+//		int postion = 0;
+//		if (null != mList && mList.size() > 0) {
+//			for (int i = 0; i < mList.size(); i++) {
+//				if (mList.get(i).getmIeee().trim().equals(dm.getmIeee().trim())
+//						&& mList.get(i).getmEP().trim()
+//								.equals(dm.getmEP().trim())) {
+//					postion = i;
+//
+//				}
+//			}
+//			mList.get(postion).setmBindTo(id);
+//			mBindAdapter.notifyDataSetChanged();
+//		}
 
-				}
-			}
-			mList.get(postion).setmBindTo(id);
-			mBindAdapter.notifyDataSetChanged();
-		}
-		
+	}
+
+	@Override
+	public void onDestroy() {
+		LightManager.getInstance().deleteObserver(this);
+		super.onDestroy();
 	}
 
 	@Override
 	public void update(Manger observer, Object object) {
 		final Event event = (Event) object;
-		 if (EventType.GETBINDLIST == event.getType()) {
+		if (EventType.GETBINDLIST == event.getType()) {
 			if (event.isSuccess() == true) {
 				BindingDataEntity data = (BindingDataEntity) event.getData();
 				BindManager.getInstance().setBindInfoMap(data);
+				BindManager.getInstance().addInitialedDeviceNum();
+				mBindAdapter.notifyDataSetChanged();
 			} else {
-				// if failed,prompt a Toast
 
 			}
 		}

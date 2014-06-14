@@ -3,6 +3,7 @@ package com.gdgl.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gdgl.manager.BindManager;
 import com.gdgl.manager.LightManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
@@ -45,7 +46,7 @@ public class BindControlFragment extends BaseFragment {
 	public static final String BindId = "bind_id";
 
 	private View mView;
-	List<DevicesModel> mList;
+	List<DevicesModel> canbeBindDevicesList;
 
 	ViewGroup no_dev;
 	Button mBack;
@@ -61,7 +62,6 @@ public class BindControlFragment extends BaseFragment {
 	public Dialog mDialog;
 
 	private int devId = -1;
-	private String bindId = "";
 	private DevicesModel willBindDevices;
 	private DevicesModel mdevices;
 	private List<DevicesModel> mBindDev;
@@ -69,7 +69,7 @@ public class BindControlFragment extends BaseFragment {
 	LightManager mLightManager;
 	private int mPostion;
 
-	SimpleDevicesModel minModel;
+//	SimpleDevicesModel minModel;
 	public static final int FINISH_DLG = 1;
 
 	BindAdapter mBindAdapter;
@@ -89,7 +89,6 @@ public class BindControlFragment extends BaseFragment {
 		Bundle b = getArguments();
 		if (null != b) {
 			devId = b.getInt(DevicesId, -1);
-			bindId = b.getString(BindId, "");
 		}
 		mBindDev = new ArrayList<DevicesModel>();
 		new getDataTask().execute(1);
@@ -118,25 +117,25 @@ public class BindControlFragment extends BaseFragment {
 			if (devId != -1) {
 				mdevices = DataUtil.getDeviceModelById(devId, dh, db);
 			}
-			SimpleDevicesModel mSimpleDevicesModel = new SimpleDevicesModel();
-			mSimpleDevicesModel.setmIeee(mdevices.getmIeee());
-			mSimpleDevicesModel.setmEP(mdevices.getmEP());
+//			SimpleDevicesModel mSimpleDevicesModel = new SimpleDevicesModel();
+//			mSimpleDevicesModel.setmIeee(mdevices.getmIeee());
+//			mSimpleDevicesModel.setmEP(mdevices.getmEP());
 //			mLightManager.getBindList(mSimpleDevicesModel);
 
-			if (!bindId.trim().equals("")) {
-				String[] ids = bindId.trim().split("##");
-				DevicesModel dm;
-				for (String string : ids) {
-					if (!string.trim().equals("")) {
-						dm = DataUtil.getDeviceModelById(
-								Integer.parseInt(string), dh, db);
-						if (null != dm) {
-							mBindDev.add(dm);
-						}
-					}
-				}
-			}
-			mList = DataUtil.getCanbeBindDevices((Context) getActivity(), dh,
+//			if (!bindId.trim().equals("")) {
+//				String[] ids = bindId.trim().split("##");
+//				DevicesModel dm;
+//				for (String string : ids) {
+//					if (!string.trim().equals("")) {
+//						dm = DataUtil.getDeviceModelById(
+//								Integer.parseInt(string), dh, db);
+//						if (null != dm) {
+//							mBindDev.add(dm);
+//						}
+//					}
+//				}
+//			}
+			canbeBindDevicesList = DataUtil.getCanbeBindDevices((Context) getActivity(), dh,
 					db, mdevices.getmClusterID());
 			dh.close(db);
 
@@ -146,10 +145,10 @@ public class BindControlFragment extends BaseFragment {
 		@Override
 		protected void onPostExecute(Integer result) {
 			// TODO Auto-generated method stub
-			minModel = new SimpleDevicesModel();
-			minModel.setmIeee(mdevices.getmIeee());
-			minModel.setmEP(mdevices.getmEP());
-			minModel.setmClusterID(mdevices.getmClusterID());
+//			minModel = new SimpleDevicesModel();
+//			minModel.setmIeee(mdevices.getmIeee());
+//			minModel.setmEP(mdevices.getmEP());
+//			minModel.setmClusterID(mdevices.getmClusterID());
 			initView();
 		}
 	}
@@ -184,7 +183,7 @@ public class BindControlFragment extends BaseFragment {
 
 		bindList = (ListView) mView.findViewById(R.id.devices_list);
 
-		if (null == mList || mList.size() == 0) {
+		if (null == canbeBindDevicesList || canbeBindDevicesList.size() == 0) {
 			no_dev.setVisibility(View.VISIBLE);
 			deviceslist.setVisibility(View.GONE);
 		} else {
@@ -278,7 +277,7 @@ public class BindControlFragment extends BaseFragment {
 				for (DevicesModel dm : mNewBindList) {
 					int m = getPostionInList(dm.getmIeee(), dm.getmEP());
 					if (-1 != m) {
-						String ids = mList.get(m).getmBindTo();
+						String ids = canbeBindDevicesList.get(m).getmBindTo();
 						String newIds = "";
 						String[] idArrary;
 						if (null != ids && !ids.trim().equals("")) {
@@ -292,7 +291,7 @@ public class BindControlFragment extends BaseFragment {
 						} else {
 							newIds = mdevices.getID() + "##";
 						}
-						mList.get(m).setmBindTo(newIds);
+						canbeBindDevicesList.get(m).setmBindTo(newIds);
 					}
 				}
 				mBindAdapter.notifyDataSetChanged();
@@ -301,14 +300,14 @@ public class BindControlFragment extends BaseFragment {
 	}
 
 	public int getPostionInList(String ieee, String ep) {
-		if (null == mList || null == ieee || null == ep) {
+		if (null == canbeBindDevicesList || null == ieee || null == ep) {
 			return -1;
 		}
 		if (ieee.trim().equals("") || ep.trim().equals("")) {
 			return -1;
 		}
-		for (int i = 0; i < mList.size(); i++) {
-			DevicesModel dm = mList.get(i);
+		for (int i = 0; i < canbeBindDevicesList.size(); i++) {
+			DevicesModel dm = canbeBindDevicesList.get(i);
 			if (ieee.trim().equals(dm.getmIeee().trim())
 					&& ep.trim().equals(dm.getmEP().trim())) {
 				return i;
@@ -339,8 +338,8 @@ public class BindControlFragment extends BaseFragment {
 		@Override
 		public int getCount() {
 			// TODO Auto-generated method stub
-			if (null != mList && mList.size() > 0) {
-				return mList.size();
+			if (null != canbeBindDevicesList && canbeBindDevicesList.size() > 0) {
+				return canbeBindDevicesList.size();
 			}
 			return 0;
 		}
@@ -348,8 +347,8 @@ public class BindControlFragment extends BaseFragment {
 		@Override
 		public Object getItem(int position) {
 			// TODO Auto-generated method stub
-			if (null != mList && mList.size() > 0) {
-				return mList.get(position);
+			if (null != canbeBindDevicesList && canbeBindDevicesList.size() > 0) {
+				return canbeBindDevicesList.get(position);
 			}
 			return null;
 		}
@@ -357,8 +356,8 @@ public class BindControlFragment extends BaseFragment {
 		@Override
 		public long getItemId(int position) {
 			// TODO Auto-generated method stub
-			if (null != mList && mList.size() > 0) {
-				return mList.get(position).getID();
+			if (null != canbeBindDevicesList && canbeBindDevicesList.size() > 0) {
+				return canbeBindDevicesList.get(position).getID();
 			}
 			return 0;
 		}
@@ -370,7 +369,7 @@ public class BindControlFragment extends BaseFragment {
 
 			View mView = convertView;
 			ViewHolder mHolder;
-			final DevicesModel mDevices = (DevicesModel) getItem(position);
+			final DevicesModel currentPositionDevice = (DevicesModel) getItem(position);
 
 			if (null == mView) {
 				mHolder = new ViewHolder();
@@ -388,34 +387,44 @@ public class BindControlFragment extends BaseFragment {
 				mHolder = (ViewHolder) mView.getTag();
 			}
 
-			mHolder.devices_name.setText(mDevices.getmUserDefineName().replace(
+			mHolder.devices_name.setText(currentPositionDevice.getmUserDefineName().replace(
 					" ", ""));
-			String bindto = mDevices.getmBindTo();
-			String[] ids;
-			if (null != bindto && !bindto.trim().equals("")) {
-				ids = bindto.trim().split("##");
-				for (String string : ids) {
-					if (null != string && string.trim().equals(devId + "")) {
-						mHolder.bindBtn.setText("解除绑定");
-						mHolder.devices_state.setText("已绑定");
-					} else {
-						mHolder.bindBtn.setText("绑定");
-						mHolder.devices_state.setText("未绑定");
-					}
-				}
+			
+			
+			if (BindManager.getInstance().isBindtoBind(mdevices,currentPositionDevice)) {
+				mHolder.bindBtn.setText("解除绑定");
+				mHolder.devices_state.setText("已绑定");
 			} else {
-				mHolder.devices_state.setText("未绑定");
 				mHolder.bindBtn.setText("绑定");
+				mHolder.devices_state.setText("未绑定");
 			}
-			int devModeleId = Integer.parseInt(mDevices.getmDeviceId());
+			
+//			String bindto = currentPositionDevice.getmBindTo();
+//			String[] ids;
+//			if (null != bindto && !bindto.trim().equals("")) {
+//				ids = bindto.trim().split("##");
+//				for (String string : ids) {
+//					if (null != string && string.trim().equals(devId + "")) {
+//						mHolder.bindBtn.setText("解除绑定");
+//						mHolder.devices_state.setText("已绑定");
+//					} else {
+//						mHolder.bindBtn.setText("绑定");
+//						mHolder.devices_state.setText("未绑定");
+//					}
+//				}
+//			} else {
+//				mHolder.devices_state.setText("未绑定");
+//				mHolder.bindBtn.setText("绑定");
+//			}
+			int devModeleId = Integer.parseInt(currentPositionDevice.getmDeviceId());
 
 			if (DataHelper.IAS_ZONE_DEVICETYPE == devModeleId
 					|| DataHelper.IAS_ACE_DEVICETYPE == devModeleId) {
 
 				mHolder.devices_img.setImageResource(UiUtils
-						.getDevicesSmallIconByModelId(mDevices.getmModelId()
+						.getDevicesSmallIconByModelId(currentPositionDevice.getmModelId()
 								.trim()));
-			} else if (mDevices.getmModelId().indexOf(
+			} else if (currentPositionDevice.getmModelId().indexOf(
 					DataHelper.Multi_key_remote_control) == 0) {
 				mHolder.devices_img.setImageResource(UiUtils
 						.getDevicesSmallIconForRemote(devModeleId));
@@ -424,9 +433,9 @@ public class BindControlFragment extends BaseFragment {
 						.getDevicesSmallIcon(devModeleId));
 			}
 			final SimpleDevicesModel moutModel = new SimpleDevicesModel();
-			moutModel.setmIeee(mDevices.getmIeee());
-			moutModel.setmEP(mDevices.getmEP());
-			moutModel.setmClusterID(mDevices.getmClusterID());
+			moutModel.setmIeee(currentPositionDevice.getmIeee());
+			moutModel.setmEP(currentPositionDevice.getmEP());
+			moutModel.setmClusterID(currentPositionDevice.getmClusterID());
 			mHolder.bindBtn.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -442,16 +451,16 @@ public class BindControlFragment extends BaseFragment {
 					} else {
 						mDialog.show();
 					}
-					willBindDevices = mDevices;
+					willBindDevices = currentPositionDevice;
 					// btn.setEnabled(false);
 					mPostion = position;
 					if (s.equals("解除绑定")) {
 						// 解除绑定
-						mLightManager.unbindDevice(moutModel, minModel);
+						mLightManager.unbindDevice(moutModel, mdevices);
 						// unBinddev();
 					} else {
 						// 绑定
-						mLightManager.bindDevice(moutModel, minModel);
+						mLightManager.bindDevice(moutModel, mdevices);
 						// bindDev();
 					}
 					mHandler.sendEmptyMessageDelayed(FINISH_DLG, 3000);
@@ -516,7 +525,7 @@ public class BindControlFragment extends BaseFragment {
 
 		dh.close(db);
 
-		mList.get(mPostion).setmBindTo(newids);
+		canbeBindDevicesList.get(mPostion).setmBindTo(newids);
 		if (null != mBindAdapter) {
 			mBindAdapter.notifyDataSetChanged();
 		}
@@ -566,7 +575,7 @@ public class BindControlFragment extends BaseFragment {
 
 		dh.close(db);
 
-		mList.get(mPostion).setmBindTo(newunBindId);
+		canbeBindDevicesList.get(mPostion).setmBindTo(newunBindId);
 		if (null != mBindAdapter) {
 			mBindAdapter.notifyDataSetChanged();
 		}
@@ -583,8 +592,9 @@ public class BindControlFragment extends BaseFragment {
 		if (EventType.BINDDEVICE == event.getType()) {
 
 			if (event.isSuccess() == true) {
-				// data maybe null
-				bindDev();
+//				bindDev();
+				BindManager.getInstance().setBinded(mdevices, willBindDevices);
+				mBindAdapter.notifyDataSetChanged();
 
 			} else {
 				// if failed,prompt a Toast
@@ -593,8 +603,9 @@ public class BindControlFragment extends BaseFragment {
 		} else if (EventType.UNBINDDEVICE == event.getType()) {
 
 			if (event.isSuccess() == true) {
-				// data maybe null
-				unBinddev();
+//				unBinddev();
+				BindManager.getInstance().removeBinded(mdevices, willBindDevices);
+				mBindAdapter.notifyDataSetChanged();
 
 			} else {
 				// if failed,prompt a Toast

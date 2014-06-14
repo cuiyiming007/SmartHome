@@ -278,9 +278,12 @@ public class VolleyOperation {
 		JsonObject paramsoJsonObject=jsonObject.getAsJsonObject("response_params");
 		
 		Binding_response_params params=new Binding_response_params();
-		params.setIeee(paramsoJsonObject.get("ieee").toString());
-		params.setCount(paramsoJsonObject.get("count").toString());
-		params.setEp(paramsoJsonObject.get("ep").toString());
+		String ieeeString=paramsoJsonObject.get("ieee").getAsString();
+		params.setIeee(ieeeString);
+		String countString=paramsoJsonObject.get("count").getAsString();
+		params.setCount(countString);
+		String ep=paramsoJsonObject.get("ep").getAsString();
+		params.setEp(ep);
 		
 		JsonArray jsonArray = paramsoJsonObject.getAsJsonArray("list");
 		for (int i = 0; i < jsonArray.size(); i++) {

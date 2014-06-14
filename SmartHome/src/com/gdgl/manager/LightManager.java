@@ -62,15 +62,15 @@ public class LightManager extends Manger {
 	 * 1.4BindDevice
 	 * 
 	 * @param outModel
-	 * @param inModel
+	 * @param mdevices
 	 */
 	public void bindDevice(SimpleDevicesModel outModel,
-			SimpleDevicesModel inModel) {
+			DevicesModel mdevices) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("devout_ieee", outModel.getmIeee());
 		paraMap.put("devout_ep", outModel.getmEP());
-		paraMap.put("devin_ieee", inModel.getmIeee());
-		paraMap.put("devin_ep", inModel.getmEP());
+		paraMap.put("devin_ieee", mdevices.getmIeee());
+		paraMap.put("devin_ep", mdevices.getmEP());
 		paraMap.put("cluster_id", "0006");
 		String param = hashMap2ParamString(paraMap);
 
@@ -110,12 +110,12 @@ public class LightManager extends Manger {
 	}
 
 	public void unbindDevice(SimpleDevicesModel outModel,
-			SimpleDevicesModel inModel) {
+			DevicesModel mDevices) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("devout_ieee", outModel.getmIeee());
 		paraMap.put("devout_ep", outModel.getmEP());
-		paraMap.put("devin_ieee", inModel.getmIeee());
-		paraMap.put("devin_ep", inModel.getmEP());
+		paraMap.put("devin_ieee", mDevices.getmIeee());
+		paraMap.put("devin_ep", mDevices.getmEP());
 		// paraMap.put("devout_ieee", "00137A000001122A");
 		// paraMap.put("devout_ep", "03");
 		// paraMap.put("devin_ieee", "00137A0000010AB5");

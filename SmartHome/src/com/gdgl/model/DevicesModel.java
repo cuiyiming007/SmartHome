@@ -550,4 +550,33 @@ public class DevicesModel implements DevicesBaseColumns {
 	public void setmBindTo(String mBindTo) {
 		this.mBindTo = mBindTo;
 	}
+
+	@Override
+	public String toString() {
+		return "DevicesModel [ID=" + ID + ", mAllCount=" + mAllCount
+				+ ", mCurCount=" + mCurCount + ", mDeviceId=" + mDeviceId
+				+ ", mRid=" + mRid + ", mPicName=" + mPicName + ", mProfileId="
+				+ mProfileId + ", mPowerResource=" + mPowerResource
+				+ ", mCurPowerResource=" + mCurPowerResource + ", mIeee="
+				+ mIeee + ", mNWKAddr=" + mNWKAddr + ", mNodeENNAme="
+				+ mNodeENNAme + ", mClusterID=" + mClusterID + ", mBindTo="
+				+ mBindTo + ", mManufactory=" + mManufactory + ", mZCLVersion="
+				+ mZCLVersion + ", mStackVerstion=" + mStackVerstion
+				+ ", mAppVersion=" + mAppVersion + ", mHwVersion=" + mHwVersion
+				+ ", mDateCode=" + mDateCode + ", mModelId=" + mModelId
+				+ ", mNodeType=" + mNodeType + ", mEP=" + mEP + ", mName="
+				+ mName + ", mCurrent=" + mCurrent + ", mEnergy=" + mEnergy
+				+ ", mPower=" + mPower + ", mVoltage=" + mVoltage
+				+ ", mOnOffStatus=" + mOnOffStatus + ", mEPModelId="
+				+ mEPModelId + ", mCurrentMin=" + mCurrentMin
+				+ ", mCurrentMax=" + mCurrentMax + ", mVoltageMin="
+				+ mVoltageMin + ", mVoltageMax=" + mVoltageMax
+				+ ", mEnergyMin=" + mEnergyMin + ", mEnergyMax=" + mEnergyMax
+				+ ", mDeviceRegion=" + mDeviceRegion + ", mLastDateTime="
+				+ mLastDateTime + ", mOnOffLine=" + mOnOffLine
+				+ ", mUserDefineName=" + mUserDefineName + ", mValue1="
+				+ mValue1 + ", mValue2=" + mValue2 + "]";
+	}
+	
+	
 }

@@ -78,7 +78,7 @@ public class LockFragment extends BaseControlFragment {
 	private void initstate() {
 		// TODO Auto-generated method stub
 		if (null != mDevices) {
-			if (mDevices.getmOnOffStatus().trim().equals("1")) {
+			if (mDevices.getmOnOffStatus().trim().equals("0")) {
 				status = true;
 			}
 			Ieee = mDevices.getmIeee().trim();
@@ -188,10 +188,10 @@ public class LockFragment extends BaseControlFragment {
 		final Event event = (Event) object;
 		if (EventType.LOCALIASCIEBYPASSZONE == event.getType()||EventType.LOCALIASCIEUNBYPASSZONE==event.getType()) {
 			if (event.isSuccess()) {
-				mDevices.setmOnOffStatus(status ? "1" : "o");
+				mDevices.setmOnOffStatus(status ? "0" : "1");
 				updateStatusOnUIThread();
 				ContentValues c = new ContentValues();
-				c.put(DevicesModel.ON_OFF_STATUS, status ? "1" : "o");
+				c.put(DevicesModel.ON_OFF_STATUS, status ? "0" : "1");
 				mUpdateDevice.updateDevices(mDevices, c);
 				DeviceManager.getInstance().getLocalCIEList();
 			}else
