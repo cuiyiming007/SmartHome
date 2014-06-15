@@ -21,6 +21,7 @@ import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.ResponseParamsEndPoint;
 import com.gdgl.reciever.HeartReceiver;
+import com.gdgl.util.NetUtil;
 
 public class SmartService extends Service {
 
@@ -34,6 +35,12 @@ public class SmartService extends Service {
 	}
 
 	public void initial() {
+		
+		//判断网关是否和客户端在同一局域网下面
+		NetUtil.getInstance().connectServerWithUDPSocket();
+		NetUtil.getInstance().recieveFromUdp();
+		
+		
 		// =============================server======================
 		 DeviceManager.getInstance().getDeviceList();
 		 VideoManager.getInstance().getIPClist();
