@@ -8,6 +8,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.IBinder;
 import android.os.SystemClock;
@@ -37,8 +38,15 @@ public class SmartService extends Service {
 	public void initial() {
 		
 		//判断网关是否和客户端在同一局域网下面
-		NetUtil.getInstance().connectServerWithUDPSocket();
-		NetUtil.getInstance().recieveFromUdp();
+		new AsyncTask<Object, Object, Object>() {
+
+			@Override
+			protected Object doInBackground(Object... params) {
+				NetUtil.getInstance().connectServerWithUDPSocket();
+				NetUtil.getInstance().recieveFromUdp();
+				return null;
+			}
+		}.execute(0);
 		
 		
 		// =============================server======================

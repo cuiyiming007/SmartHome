@@ -105,7 +105,7 @@ public class VView extends View implements Runnable {
 	// �������ű���
 	private void setScale() {
 		scaleWidth = ((float) newWidth) / h264Width;
-		scaleHeight = ((float) newHeight) / h264Height;
+		scaleHeight = ((float) newWidth) / h264Width /16*14;
 //		scaleWidth = (float)16/9;
 //		scaleHeight = scaleWidth;
 //		scaleWidth = (float)1.3;
@@ -118,7 +118,7 @@ public class VView extends View implements Runnable {
 		// ���ź�ĸ�=ԭͼ���x���ű���
 		this.newHeight = (h264Height * newWidth / h264Width);
 		// top = (this.gdeviceHeight - newHeight) / 2 - 50;
-		top = 80;
+		top=100;
 		left = 0;
 		setScale();
 	}
@@ -411,4 +411,8 @@ public class VView extends View implements Runnable {
 		ComUtil.creatVideoFile(picName);
 		return ComUtil.savePic(newbm, ComUtil.picturePath+"/"+picName);
 	}
+	public static int px2dip(Context context, float pxValue) {  
+	    final float scale = context.getResources().getDisplayMetrics().density;  
+	    return (int) (pxValue / scale + 0.5f);  
+	}  
 }
