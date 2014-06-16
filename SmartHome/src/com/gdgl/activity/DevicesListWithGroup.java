@@ -9,6 +9,7 @@ import com.gdgl.manager.DeviceManager;
 import com.gdgl.manager.LightManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
+import com.gdgl.manager.WarnManager;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.DataHelper;
@@ -614,8 +615,8 @@ public class DevicesListWithGroup extends BaseFragment implements
 						.findViewById(R.id.devices_name);
 				mViewHolder.devRegion = (TextView) convertView
 						.findViewById(R.id.devices_region);
-				mViewHolder.devOnOffLine = (TextView) convertView
-						.findViewById(R.id.on_off_line);
+//				mViewHolder.devOnOffLine = (TextView) convertView
+//						.findViewById(R.id.on_off_line);
 				mViewHolder.devEnergy = (TextView) convertView
 						.findViewById(R.id.enerry);
 				mViewHolder.devAlarm = (TextView) convertView
@@ -657,7 +658,10 @@ public class DevicesListWithGroup extends BaseFragment implements
 			}
 			
 			mViewHolder.devAlarm.setVisibility(View.GONE);
-			if (expan_postion == 2) {
+			SimpleDevicesModel simpleDevicesModel=new SimpleDevicesModel();
+			simpleDevicesModel.setmIeee(ds.getmIeee());
+			simpleDevicesModel.setmEP(ds.getmEP());
+			if (expan_postion == 2&&WarnManager.getInstance().isDeviceWarning(simpleDevicesModel)) {
 				mViewHolder.devAlarm.setVisibility(View.VISIBLE);
 				//
 			}
@@ -676,7 +680,7 @@ public class DevicesListWithGroup extends BaseFragment implements
 			ImageView devImg;
 			TextView devName;
 			TextView devRegion;
-			TextView devOnOffLine;
+//			TextView devOnOffLine;
 			TextView devEnergy;
 			TextView devAlarm;
 		}

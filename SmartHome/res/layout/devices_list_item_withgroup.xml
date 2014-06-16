@@ -63,7 +63,7 @@
                 android:layout_weight="1"
                 android:orientation="horizontal" >
 
-                <TextView
+                <!-- <TextView
                     android:id="@+id/on_off_line"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -73,7 +73,7 @@
                     android:text="在线"
                     android:textColor="#27408B"
                     android:textSize="15dp" />
-                
+ -->                
                 <TextView
                     android:id="@+id/enerry"
                     android:layout_width="wrap_content"
