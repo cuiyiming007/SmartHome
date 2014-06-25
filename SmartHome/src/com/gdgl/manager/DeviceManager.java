@@ -160,12 +160,12 @@ public class DeviceManager extends Manger {
 					mSQLiteDatabase, DataHelper.DEVICES_TABLE, null, null,
 					null, null, null, null, null);
 			// 是否数据个数有更新
-			if (mList.size() != devDataList.size()) {
+//			if (mList.size() != devDataList.size()) {
 				mDateHelper.emptyTable(mSQLiteDatabase,
 						DataHelper.DEVICES_TABLE);
 				mDateHelper.insertList(mSQLiteDatabase,
 						DataHelper.DEVICES_TABLE, null, devDataList);
-			}
+//			}
 			// mDateHelper.close(mSQLiteDatabase);
 			// [TODO]transfer to SimpleDevicesModel
 			return devDataList;

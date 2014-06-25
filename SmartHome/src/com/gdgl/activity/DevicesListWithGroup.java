@@ -664,13 +664,16 @@ public class DevicesListWithGroup extends BaseFragment implements
 			if (expan_postion == 2&&WarnManager.getInstance().isDeviceWarning(simpleDevicesModel)) {
 				mViewHolder.devAlarm.setVisibility(View.VISIBLE);
 				//
+			}else {
+				mViewHolder.devAlarm.setVisibility(View.INVISIBLE);
 			}
 			
 			if(UiUtils.isHaveBattery(ds.getmModelId())){
 				mViewHolder.devEnergy.setVisibility(View.VISIBLE);
+				mViewHolder.devEnergy.setText("剩余电量"+ds.getCurpowersourcelevel()+"%");
 				//
 			}else{
-				mViewHolder.devEnergy.setVisibility(View.GONE);
+				mViewHolder.devEnergy.setVisibility(View.INVISIBLE);
 			}
 			
 			return convertView;

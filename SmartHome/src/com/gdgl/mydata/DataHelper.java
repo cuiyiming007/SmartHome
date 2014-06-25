@@ -104,6 +104,7 @@ public class DataHelper extends SQLiteOpenHelper {
 		mStringBuilder.append(DevicesModel.ALL_COUNT + " VARCHAR,");
 		mStringBuilder.append(DevicesModel.APP_VERSTION + " VARCHAR,");
 		mStringBuilder.append(DevicesModel.CUR_POWER_RESOURCE + " VARCHAR,");
+		mStringBuilder.append(DevicesModel.CURPOWERSOURCELEVEL + " VARCHAR,");
 		mStringBuilder.append(DevicesModel.CURCOUNT + " VARCHAR,");
 		mStringBuilder.append(DevicesModel.CURRENT + " VARCHAR,");
 		mStringBuilder.append(DevicesModel.CURRENT_MAX + " VARCHAR,");
@@ -256,8 +257,7 @@ public class DataHelper extends SQLiteOpenHelper {
 		db.beginTransaction();
 		try {
 			for (DevicesModel devicesModel : mList) {
-				if (devicesModel.getmIeee().trim().equals("00137A0000010264")
-						&& devicesModel.getmEP().trim().equals("0A")) {
+				if (isFilterDevice(devicesModel)) {
 					continue;
 				}
 				ContentValues c = devicesModel.convertContentValues();
@@ -274,6 +274,22 @@ public class DataHelper extends SQLiteOpenHelper {
 			db.close();
 		}
 		return result;
+	}
+
+	private boolean isFilterDevice(DevicesModel devicesModel) {
+		boolean ret=false;
+		//多键遥控器只显示一个
+		if (devicesModel.getmIeee().trim().equals("00137A0000010264")
+				&& devicesModel.getmEP().trim().equals("0A")) {
+			ret=true;
+		} 
+		//门窗感应开关只显示一个
+		if (devicesModel.getmIeee().trim().equals("00137A0000011598")
+				&& devicesModel.getmEP().trim().equals("01")) {
+			ret=true;
+		} 
+		 return ret;
+		
 	}
 	/***
 	 * insert a list which implement the ContentValuesListener
@@ -503,6 +519,8 @@ public class DataHelper extends SQLiteOpenHelper {
 					.getColumnIndex(DevicesModel.APP_VERSTION)));
 			mDevicesModel.setmCurCount(c.getString(c
 					.getColumnIndex(DevicesModel.CUR_POWER_RESOURCE)));
+			mDevicesModel.setCurpowersourcelevel(c.getString(c
+					.getColumnIndex(DevicesModel.CURPOWERSOURCELEVEL)));
 			mDevicesModel.setmCurPowerResource(c.getString(c
 					.getColumnIndex(DevicesModel.CURCOUNT)));
 			mDevicesModel.setmCurrent(c.getString(c

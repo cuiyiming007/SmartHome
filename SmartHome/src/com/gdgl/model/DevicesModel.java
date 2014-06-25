@@ -21,6 +21,7 @@ interface DevicesBaseColumns extends BaseColumns {
 	public static final String PROFILE_ID = "profileid";
 	public static final String POWER_RESOURCE = "powersource";
 	public static final String CUR_POWER_RESOURCE = "curpowersource";
+	public static final String CURPOWERSOURCELEVEL = "curpowersourcelevel";
 	public static final String IEEE = "ieee";
 	public static final String NWK_ADDR = "nwk_addr";
 	public static final String NODE_EN_NAME = "node_en_name";
@@ -72,6 +73,7 @@ public class DevicesModel implements DevicesBaseColumns {
 	private String mProfileId = "0104";
 	private String mPowerResource = "";
 	private String mCurPowerResource = "";
+	private String curpowersourcelevel = "";
 	private String mIeee = "";
 	private String mNWKAddr = "";
 	private String mNodeENNAme = "";
@@ -422,6 +424,8 @@ public class DevicesModel implements DevicesBaseColumns {
 		mContentValues.put(DevicesBaseColumns.APP_VERSTION, getmAppVersion());
 		mContentValues.put(DevicesBaseColumns.CUR_POWER_RESOURCE,
 				getmCurPowerResource());
+		mContentValues.put(DevicesBaseColumns.CURPOWERSOURCELEVEL,
+				getCurpowersourcelevel());
 		mContentValues.put(DevicesBaseColumns.CURCOUNT, getmCurCount());
 		mContentValues.put(DevicesBaseColumns.CURRENT, getmCurrent());
 		mContentValues.put(DevicesBaseColumns.CURRENT_MAX, getmCurrentMax());
@@ -483,6 +487,7 @@ public class DevicesModel implements DevicesBaseColumns {
 		setmAppVersion(n.getApp_version());
 		setmCurCount(r.getCurcount());
 		setmCurPowerResource(r.getCurpowersource());
+		setCurpowersourcelevel(r.getCurpowersourcelevel());
 		setmCurrent(d.getCurrent());
 		setmCurrentMax(d.getCurrentmax());
 		setmCurrentMin(d.getCurrentmin());
@@ -576,6 +581,14 @@ public class DevicesModel implements DevicesBaseColumns {
 				+ mLastDateTime + ", mOnOffLine=" + mOnOffLine
 				+ ", mUserDefineName=" + mUserDefineName + ", mValue1="
 				+ mValue1 + ", mValue2=" + mValue2 + "]";
+	}
+
+	public String getCurpowersourcelevel() {
+		return curpowersourcelevel;
+	}
+
+	public void setCurpowersourcelevel(String curpowersourcelevel) {
+		this.curpowersourcelevel = curpowersourcelevel;
 	}
 	
 	
