@@ -38,6 +38,11 @@ public class SmartService extends Service {
 	public void initial() {
 		
 		//判断网关是否和客户端在同一局域网下面
+		/***
+		 * 执行这个语句，在没网的情况下，会导致设备模块里面读取数据库的AsyncTask.doInBackground方法不执行，估计是线程池中线程已经满了
+		 * 在没网的情况下，该任务会阻塞线程
+		 * http://blog.csdn.net/mddy2001/article/details/17127065
+		 */
 		new AsyncTask<Object, Object, Object>() {
 
 			@Override
@@ -74,9 +79,7 @@ public class SmartService extends Service {
 //		}.run();
 
 		CallbackManager.getInstance().startConnectServerByTCPTask();
-//		CallbackManager.getInstance().connectAndRecieveFromCallback();
 		startHB();
-//		 CallbackManager.getInstance().startCallbackTask();
 	}
 
 	public class MsgBinder extends Binder {

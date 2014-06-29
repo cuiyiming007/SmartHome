@@ -155,9 +155,9 @@ public class LockFragment extends BaseControlFragment {
 					mDialog.show();
 				}
 				if (status) {
-					mLightManager.LocalIASCIEUnByPassZone(mDevices, -1);
+					mLightManager.LocalIASCIEByPassZone(mDevices, -1);
 				}else {
-					mLightManager.LocalIASCIEByPassZone(mDevices,-1);
+					mLightManager.LocalIASCIEUnByPassZone(mDevices,-1);
 				}
 				status=!status;
 			}

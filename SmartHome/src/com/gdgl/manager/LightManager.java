@@ -582,7 +582,7 @@ public class LightManager extends Manger {
 	}
 
 	/***
-	 * 2.17窗磁撤防LocalIASCIE ByPassZone
+	 * 2.17安防设备撤防LocalIASCIE ByPassZone
 	 * 
 	 */
 	public void LocalIASCIEUnByPassZone(SimpleDevicesModel model,

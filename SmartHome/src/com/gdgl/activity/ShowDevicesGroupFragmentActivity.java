@@ -104,7 +104,12 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 	DataHelper mDataHelper;
 
 	public boolean isTop = true;
-
+/***
+ * 
+ * 从数据库获取设备数据
+ * 但是在没连上服务器的时候，居然doInBackground不执行。不知道为什么
+ *
+ */
 	public class getDataInBackgroundTask extends
 			AsyncTask<Integer, Integer, Integer> {
 		@Override
