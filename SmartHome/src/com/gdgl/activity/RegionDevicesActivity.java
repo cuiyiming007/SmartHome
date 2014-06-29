@@ -37,6 +37,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -118,20 +119,26 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 		mAddList=null;
 		List<SimpleDevicesModel> mTempList = DataUtil.getDevices(
 				RegionDevicesActivity.this, mDh, null, null);
-		if (null == mList || mList.size() == 0) {
-			mAddList = mTempList;
-		} else {
+//		if (null == mList || mList.size() == 0) {
+//			mAddList = mTempList;
+//		} else {
 			mAddList = new ArrayList<SimpleDevicesModel>();
 			for (SimpleDevicesModel simpleDevicesModel : mTempList) {
-				if (!isInList(simpleDevicesModel)) {
+				if (!isInList(simpleDevicesModel)&&TextUtils.isEmpty(simpleDevicesModel.getmDeviceRegion())) {
 					if(simpleDevicesModel.getmDeviceRegion().trim().equals("")){
 						mAddList.add(simpleDevicesModel);
 					}
 				}
 			}
-		}
+//		}
 	}
 
+	public void isInRegion(SimpleDevicesModel devicesModel) {
+
+		if (TextUtils.isEmpty(devicesModel.getmDeviceRegion())) {
+			
+		}
+	}
 	private boolean isInList(SimpleDevicesModel simpleDevicesModel) {
 
 		for (SimpleDevicesModel msimpleDevicesModel : mList) {
