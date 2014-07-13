@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.gdgl.manager.LightManager;
+import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
 import com.gdgl.model.RemoteControl;
@@ -59,7 +59,7 @@ public class KongtiaoTvControlActivity extends Activity implements UIListener,Di
 	int currentPostion = 1;
 	boolean b = false;
 
-	LightManager mLightManager;
+	CGIManager mLightManager;
 	SimpleDevicesModel mControlModel;
 	Dialog mDialog;
 	public static final int FINISH_DLG = 1;
@@ -97,7 +97,7 @@ public class KongtiaoTvControlActivity extends Activity implements UIListener,Di
 		mControlModel.setmModelId("Z211");
 		mControlModel.setmDeviceId(8);
 
-		mLightManager = LightManager.getInstance();
+		mLightManager = CGIManager.getInstance();
 		mLightManager.addObserver(this);
 		mLightManager.getDeviceLearnedIRDataInformation(mControlModel);
 		mHandler.sendEmptyMessageDelayed(FINISH_GETDATA, 3000);

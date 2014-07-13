@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gdgl.manager.BindManager;
-import com.gdgl.manager.LightManager;
+import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
 import com.gdgl.model.DevicesModel;
@@ -66,7 +66,7 @@ public class BindControlFragment extends BaseFragment {
 	private DevicesModel mdevices;
 	private List<DevicesModel> mBindDev;
 
-	LightManager mLightManager;
+	CGIManager mLightManager;
 	private int mPostion;
 
 //	SimpleDevicesModel minModel;
@@ -92,7 +92,7 @@ public class BindControlFragment extends BaseFragment {
 		}
 		mBindDev = new ArrayList<DevicesModel>();
 		new getDataTask().execute(1);
-		mLightManager = LightManager.getInstance();
+		mLightManager = CGIManager.getInstance();
 		mLightManager.addObserver(this);
 
 	}

@@ -3,7 +3,7 @@ package com.gdgl.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gdgl.manager.LightManager;
+import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
 import com.gdgl.model.DevicesModel;
@@ -48,7 +48,7 @@ public class RemoteControlActivity extends Activity implements UIListener,
 	ViewGroup nodevices;
 	Button addButton;
 	LinearLayout goback;
-	LightManager mLightManager;
+	CGIManager mLightManager;
 	SimpleDevicesModel mControlModel;
 	RemoteControlAdapter mAdapter;
 	
@@ -164,7 +164,7 @@ public class RemoteControlActivity extends Activity implements UIListener,
 
 	private void initData() {
 		// TODO Auto-generated method stub
-		mLightManager = LightManager.getInstance();
+		mLightManager = CGIManager.getInstance();
 		mLightManager.addObserver(this);
 
 		mRemoteControl = new ArrayList<RemoteControl>();

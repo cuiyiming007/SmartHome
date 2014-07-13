@@ -1,6 +1,6 @@
 package com.gdgl.activity;
 
-import com.gdgl.manager.LightManager;
+import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
 import com.gdgl.model.SimpleDevicesModel;
@@ -52,7 +52,7 @@ public class ShadeControlFragment extends Fragment implements UIListener{
 
 	SimpleDevicesModel mDevices;
 	
-	LightManager mLightManager;
+	CGIManager mLightManager;
 
 	@SuppressLint("NewApi")
 	@Override
@@ -87,7 +87,7 @@ public class ShadeControlFragment extends Fragment implements UIListener{
 
     private void initView() {
         // TODO Auto-generated method stub
-    	mLightManager=LightManager.getInstance();
+    	mLightManager=CGIManager.getInstance();
     	mLightManager.addObserver(ShadeControlFragment.this);
         mOpen = (Button) mView.findViewById(R.id.btn_open);
         mClose = (Button) mView.findViewById(R.id.btn_close);
@@ -110,7 +110,7 @@ public class ShadeControlFragment extends Fragment implements UIListener{
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-            	LightManager.getInstance().shadeOperation(mDevices, operatortype.TurnOn);
+            	CGIManager.getInstance().shadeOperation(mDevices, operatortype.TurnOn);
                 if (mProgress == 0) {
                     txtClose.setText("关闭窗帘");
                 }
@@ -160,7 +160,7 @@ public class ShadeControlFragment extends Fragment implements UIListener{
             @Override
             public void onClick(View v) {
             	
-            	LightManager.getInstance().shadeOperation(mDevices, operatortype.TurnOff);
+            	CGIManager.getInstance().shadeOperation(mDevices, operatortype.TurnOff);
             	
                 // TODO Auto-generated method stub
                 if (mProgress == 100) {

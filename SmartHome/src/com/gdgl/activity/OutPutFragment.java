@@ -17,7 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.gdgl.activity.BaseControlFragment.UpdateDevice;
-import com.gdgl.manager.LightManager;
+import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
@@ -50,7 +50,7 @@ public class OutPutFragment extends BaseControlFragment {
 
 	String ep = "";
 
-	LightManager mLightManager;
+	CGIManager mLightManager;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -93,7 +93,7 @@ public class OutPutFragment extends BaseControlFragment {
 			OnOffImg = extras.getIntArray(DevicesListFragment.PASS_ONOFFIMG);
 		}
 
-		mLightManager = LightManager.getInstance();
+		mLightManager = CGIManager.getInstance();
 		mLightManager.addObserver(OutPutFragment.this);
 		initstate();
 	}

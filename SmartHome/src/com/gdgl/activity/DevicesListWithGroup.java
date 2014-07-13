@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.gdgl.activity.ShowDevicesGroupFragmentActivity.UpdateDatabaseTask;
 import com.gdgl.manager.DeviceManager;
-import com.gdgl.manager.LightManager;
+import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
 import com.gdgl.manager.WarnManager;
@@ -93,7 +93,7 @@ public class DevicesListWithGroup extends BaseFragment implements
 
 	DataHelper mDh;
 
-	LightManager temptureManager;
+	CGIManager temptureManager;
 	DeviceManager mDeviceManager;
 
 	@Override
@@ -107,7 +107,7 @@ public class DevicesListWithGroup extends BaseFragment implements
 	private void initData() {
 		// TODO Auto-generated method stub
 
-		temptureManager = LightManager.getInstance();
+		temptureManager = CGIManager.getInstance();
 		temptureManager.addObserver(this);
 
 		mDeviceManager = DeviceManager.getInstance();
@@ -698,7 +698,7 @@ public class DevicesListWithGroup extends BaseFragment implements
 	public void dialogdo() {
 		// TODO Auto-generated method stub
 		DevicesModel ds = mCurrentList.get(currentpostion);
-		LightManager.getInstance().deleteNode(ds.getmIeee().trim());
+		CGIManager.getInstance().deleteNode(ds.getmIeee().trim());
 		int result = mDh.delete((Context) getActivity(),
 				mDh.getSQLiteDatabase(), DataHelper.DEVICES_TABLE, " ieee=? ",
 				new String[] { ds.getmIeee().trim() });

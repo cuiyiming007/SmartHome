@@ -27,7 +27,7 @@ import android.widget.TextView;
 
 import com.gdgl.activity.BaseControlFragment.UpdateDevice;
 import com.gdgl.activity.UIinterface.IFragmentCallbak;
-import com.gdgl.manager.LightManager;
+import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
 import com.gdgl.model.DevicesModel;
@@ -51,7 +51,7 @@ public class SafeSimpleOperation extends BaseControlFragment implements UIListen
 
 	Button btn_on, btn_off;
 	Animation loadAnim;
-	LightManager mLightManager;
+	CGIManager mLightManager;
 
 	TextView load_message;
 	SimpleDevicesModel mDevices;
@@ -92,7 +92,7 @@ public class SafeSimpleOperation extends BaseControlFragment implements UIListen
 
 		Context c = (Context) getActivity();
 
-		mLightManager = LightManager.getInstance();
+		mLightManager = CGIManager.getInstance();
 		mLightManager.addObserver(SafeSimpleOperation.this);
 
 		mDh = new DataHelper(c);

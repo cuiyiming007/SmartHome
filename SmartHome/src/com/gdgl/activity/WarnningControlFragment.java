@@ -13,7 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.gdgl.manager.CallbackManager;
-import com.gdgl.manager.LightManager;
+import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.WarnManager;
 import com.gdgl.model.DevicesModel;
@@ -48,7 +48,7 @@ public class WarnningControlFragment extends BaseControlFragment {
 
 	String ep = "";
 
-	LightManager mLightManager;
+	CGIManager mLightManager;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -98,7 +98,7 @@ public class WarnningControlFragment extends BaseControlFragment {
 		}
 
 		initstate();
-		mLightManager = LightManager.getInstance();
+		mLightManager = CGIManager.getInstance();
 		mLightManager.addObserver(WarnningControlFragment.this);
 		CallbackManager.getInstance().addObserver(this);
 	}

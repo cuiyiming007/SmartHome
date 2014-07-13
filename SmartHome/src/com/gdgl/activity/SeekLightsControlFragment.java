@@ -15,7 +15,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 import com.gdgl.activity.BaseControlFragment.UpdateDevice;
-import com.gdgl.manager.LightManager;
+import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
@@ -95,7 +95,7 @@ public class SeekLightsControlFragment extends BaseControlFragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		LightManager.getInstance().addObserver(this);
+		CGIManager.getInstance().addObserver(this);
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 	}
@@ -133,7 +133,7 @@ public class SeekLightsControlFragment extends BaseControlFragment {
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
 				// TODO Auto-generated method stub
-				LightManager.getInstance().dimmableLightOperation(mDevices,operatortype.MoveToLevel,currentProgress*255/100);
+				CGIManager.getInstance().dimmableLightOperation(mDevices,operatortype.MoveToLevel,currentProgress*255/100);
 			}
 			
 			@Override
@@ -185,7 +185,7 @@ public class SeekLightsControlFragment extends BaseControlFragment {
 	}
 	@Override
 	public void onDestroy() {
-		LightManager.getInstance().deleteObserver(this);
+		CGIManager.getInstance().deleteObserver(this);
 		super.onDestroy();
 	}
 	public static class operatortype {

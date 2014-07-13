@@ -22,7 +22,7 @@ import android.widget.TextView;
 import com.gdgl.adapter.ViewPagerAdapter;
 import com.gdgl.app.ApplicationController;
 import com.gdgl.manager.CallbackManager;
-import com.gdgl.manager.LightManager;
+import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
 import com.gdgl.manager.WarnManager;

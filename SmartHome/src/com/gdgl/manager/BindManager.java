@@ -40,7 +40,7 @@ public class BindManager {
 		if (initialedMap==false) {
 			for (Iterator iterator = devicesModels.iterator(); iterator.hasNext();) {
 				DevicesModel devicesModel = (DevicesModel) iterator.next();
-				LightManager.getInstance().getBindList(devicesModel);
+				CGIManager.getInstance().getBindList(devicesModel);
 			}
 		}
 	}

@@ -43,15 +43,15 @@ public class SmartService extends Service {
 		 * 在没网的情况下，该任务会阻塞线程
 		 * http://blog.csdn.net/mddy2001/article/details/17127065
 		 */
-		new AsyncTask<Object, Object, Object>() {
-
-			@Override
-			protected Object doInBackground(Object... params) {
-				NetUtil.getInstance().connectServerWithUDPSocket();
-				NetUtil.getInstance().recieveFromUdp();
-				return null;
-			}
-		}.execute(0);
+//		new AsyncTask<Object, Object, Object>() {
+//
+//			@Override
+//			protected Object doInBackground(Object... params) {
+//				NetUtil.getInstance().connectServerWithUDPSocket();
+//				NetUtil.getInstance().recieveFromUdp();
+//				return null;
+//			}
+//		}.execute(0);
 		
 		
 		// =============================server======================

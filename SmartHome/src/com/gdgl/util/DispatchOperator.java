@@ -8,17 +8,17 @@ import com.gdgl.activity.OutLetControlFragment;
 import com.gdgl.activity.SceneDevicesActivity;
 import com.gdgl.activity.SeekLightsControlFragment;
 import com.gdgl.activity.ShadeControlFragment;
-import com.gdgl.manager.LightManager;
+import com.gdgl.manager.CGIManager;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.DataHelper;
 
 public class DispatchOperator {
 
-	private LightManager mLightManager;
+	private CGIManager mLightManager;
 	private List<SceneDevicesActivity.OperatorDevices> mList;
 	
 	public DispatchOperator(Context c,List<SceneDevicesActivity.OperatorDevices> list){
-		mLightManager=new LightManager();
+		mLightManager=new CGIManager();
 		mList=list;
 	}
 	
@@ -38,12 +38,12 @@ public class DispatchOperator {
 			mLightManager.OnOffOutputOperation(sd, getChangeValue(s.state));
 			break;
 		case DataHelper.TEMPTURE_SENSOR_DEVICETYPE:
-			LightManager.getInstance().temperatureSensorOperation(sd, 0);
-			LightManager.getInstance().temperatureSensorOperation(sd, 1);
+			CGIManager.getInstance().temperatureSensorOperation(sd, 0);
+			CGIManager.getInstance().temperatureSensorOperation(sd, 1);
 
 			break;
 		case DataHelper.LIGHT_SENSOR_DEVICETYPE:
-			LightManager.getInstance().lightSensorOperation(sd, 0);
+			CGIManager.getInstance().lightSensorOperation(sd, 0);
 			break;
 		case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:
 		case DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE:
@@ -66,7 +66,7 @@ public class DispatchOperator {
 			mLightManager.dimmableLightOperation(sd,SeekLightsControlFragment.operatortype.MoveToLevel,s.value*255/100);
 			break;
 		case DataHelper.SHADE_DEVICETYPE:
-			LightManager.getInstance().shadeOperation(sd, ShadeControlFragment.operatortype.TurnOn);
+			CGIManager.getInstance().shadeOperation(sd, ShadeControlFragment.operatortype.TurnOn);
 			break;
 	
 		default:

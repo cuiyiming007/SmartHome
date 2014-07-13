@@ -307,6 +307,9 @@ public class UiUtils {
 		if (modelId.indexOf(DataHelper.Doorbell_button) == 0) { // 可燃气体探测器（天然气)
 			imgId = R.drawable.doorbell;
 		}
+		if (modelId.indexOf(DataHelper.Siren) == 0) { // 可燃气体探测器（天然气)
+			imgId = R.drawable.alarm_small;
+		}
 		return imgId;
 	}
 

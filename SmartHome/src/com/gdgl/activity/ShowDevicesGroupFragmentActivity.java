@@ -13,7 +13,7 @@ import com.gdgl.adapter.ViewGroupAdapter;
 import com.gdgl.adapter.DevicesBaseAdapter.DevicesObserver;
 import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.DeviceManager;
-import com.gdgl.manager.LightManager;
+import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
 import com.gdgl.manager.WarnManager;
@@ -99,7 +99,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 	// Button mDelete;
 	Button set;
 
-	LightManager temptureManager;
+	CGIManager temptureManager;
 	DeviceManager mDeviceManager;
 	DataHelper mDataHelper;
 
@@ -360,7 +360,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		tags = UiUtils.getTagsByType(UiUtils.SECURITY_CONTROL);
 		types = UiUtils.getType(UiUtils.SECURITY_CONTROL);
 
-		temptureManager = LightManager.getInstance();
+		temptureManager = CGIManager.getInstance();
 		temptureManager.addObserver(this);
 
 		mDeviceManager = DeviceManager.getInstance();

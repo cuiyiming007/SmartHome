@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.gdgl.manager.DeviceManager;
-import com.gdgl.manager.LightManager;
+import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
 import com.gdgl.model.DevicesModel;
@@ -119,7 +119,7 @@ public class JoinNetFragment extends Fragment implements UIListener {
 
 		mDeviceManager = DeviceManager.getInstance();
 		mDeviceManager.addObserver(JoinNetFragment.this);
-		LightManager.getInstance().addObserver(this);
+		CGIManager.getInstance().addObserver(this);
 
 		btn_scape = (Button) mView.findViewById(R.id.scape);
 		btn_close = (Button) mView.findViewById(R.id.close);
@@ -137,7 +137,7 @@ public class JoinNetFragment extends Fragment implements UIListener {
 //					if (null != allList) {
 //						allList.clear();
 //					}
-					LightManager.getInstance().setPermitJoinOn(
+					CGIManager.getInstance().setPermitJoinOn(
 							"00137A000000B657");
 					text_result.setText("正在扫描...");
 					text_result.setVisibility(View.VISIBLE);
@@ -194,7 +194,7 @@ public class JoinNetFragment extends Fragment implements UIListener {
 		// TODO Auto-generated method stub
 		super.onDestroy();
 		mDeviceManager.deleteObserver(JoinNetFragment.this);
-		LightManager.getInstance().deleteObserver(this);
+		CGIManager.getInstance().deleteObserver(this);
 	}
 
 	Handler mHandler = new Handler() {

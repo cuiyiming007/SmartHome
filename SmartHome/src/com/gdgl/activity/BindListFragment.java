@@ -7,7 +7,7 @@ import com.gdgl.activity.BindControlFragment.updateDevTask;
 import com.gdgl.activity.BindControlFragment.updateList;
 import com.gdgl.activity.JoinNetFragment.ChangeFragment;
 import com.gdgl.manager.BindManager;
-import com.gdgl.manager.LightManager;
+import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
 import com.gdgl.model.DevicesModel;
@@ -57,7 +57,7 @@ public class BindListFragment extends Fragment implements updateList,
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		initData();
-		LightManager.getInstance().addObserver(this);
+		CGIManager.getInstance().addObserver(this);
 	}
 
 	private void initData() {
@@ -245,7 +245,7 @@ public class BindListFragment extends Fragment implements updateList,
 
 	@Override
 	public void onDestroy() {
-		LightManager.getInstance().deleteObserver(this);
+		CGIManager.getInstance().deleteObserver(this);
 		super.onDestroy();
 	}
 

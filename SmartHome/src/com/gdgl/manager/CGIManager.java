@@ -45,15 +45,15 @@ import com.google.gson.Gson;
  *         Operation 0x0402 IASZone 2.18 IASZone Operation 0x0302
  *         TemperatureSensor 2.19 TemperatureSensor Operation
  */
-public class LightManager extends Manger {
+public class CGIManager extends Manger {
 
 	private final static String TAG = "LightManager";
 
-	private static LightManager instance;
+	private static CGIManager instance;
 
-	public static LightManager getInstance() {
+	public static CGIManager getInstance() {
 		if (instance == null) {
-			instance = new LightManager();
+			instance = new CGIManager();
 		}
 		return instance;
 	}

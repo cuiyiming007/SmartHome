@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.gdgl.manager.LightManager;
+import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.DataHelper;
@@ -54,7 +54,7 @@ public class ShowTemptureFragment extends BaseControlFragment {
 		// TODO Auto-generated method stub
 		mSeekBar = (SeekBar) mView.findViewById(R.id.devices_seek);
 		mSeekBar.setEnabled(false);
-      LightManager.getInstance().temperatureSensorOperation(mDevices, 0);
+      CGIManager.getInstance().temperatureSensorOperation(mDevices, 0);
 		// txt_devices_name, txt_devices_region,txt_title,txt_value
 		txt_devices_name = (TextView) mView.findViewById(R.id.txt_devices_name);
 		txt_devices_region = (TextView) mView

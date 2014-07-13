@@ -3,7 +3,7 @@ package com.gdgl.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gdgl.manager.LightManager;
+import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
 import com.gdgl.model.DevicesModel;
@@ -42,7 +42,7 @@ public class SwitchControlFragment extends BaseControlFragment implements
 	int mCount;
 	SimpleDevicesModel mDevices;
 
-	LightManager mLightManager;
+	CGIManager mLightManager;
 
 	TextView txt_devices_name, txt_devices_region;
 
@@ -70,7 +70,7 @@ public class SwitchControlFragment extends BaseControlFragment implements
 
 	private void initstate() {
 		// TODO Auto-generated method stub
-		mLightManager = LightManager.getInstance();
+		mLightManager = CGIManager.getInstance();
 		mLightManager.addObserver(SwitchControlFragment.this);
 		if (null != mDevices) {
 			String s = mDevices.getmOnOffStatus();

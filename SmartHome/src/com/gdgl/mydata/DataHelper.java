@@ -43,7 +43,7 @@ public class DataHelper extends SQLiteOpenHelper {
 	public static final String Combustible_Gas_Detector_CO = "ZA01C"; // ��ȼ����̽������һ����̼)
 	public static final String Combustible_Gas_Detector_Natural_gas = "ZA01D"; // ��ȼ����̽��������Ȼ��)
 	public static final String Wireless_Intelligent_valve_switch = "ZA10"; // �������ܷ��ſ���
-	public static final String Siren = "Z602A"; // ZigBee������
+	public static final String Siren = "Z602A"; // ZigBee警报器
 	public static final String Wall_switch_touch = "ZB02A"; // ZigBeeǽ�濪�أ�����
 	public static final String Wall_switch_double = "ZB02B"; // ǽ�濪�أ�˫��)
 	public static final String Wall_switch_triple = "ZB02C"; // ZigBee��ǽ�濪�أ����
