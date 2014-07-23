@@ -10,6 +10,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import video_decoder.H264;
+
 import com.gdgl.util.ComUtil;
 
 //import android.app.AlertDialog;
@@ -66,6 +68,7 @@ public class VView extends View implements Runnable {
 	Bitmap newbm;
 	int mTrans = 0x0F0F0F0F;
 
+	/*
 	public native int InitDecoder(int width, int height);
 
 	public native int UninitDecoder();
@@ -75,6 +78,8 @@ public class VView extends View implements Runnable {
 	static {
 		System.loadLibrary("H264Android");
 	}
+	*/
+	public H264 ffmpeg = new H264();
 
 	public VView(final VideoActivity context, int deviceWidth, int deviceheight) {
 		super(context);
@@ -322,7 +327,8 @@ public class VView extends View implements Runnable {
 		byte[] decoderInBuf = new byte[81920]; // 80k
 		byte[] buffFromSocket = new byte[2048];
 
-		InitDecoder(h264Width, h264Height);
+		//InitDecoder(h264Width, h264Height);
+		ffmpeg.Init_H264Decoder(h264Width, h264Height);
 
 		while (!Thread.currentThread().isInterrupted()&&getIsVideoRun()) {
 			try {
@@ -370,7 +376,9 @@ public class VView extends View implements Runnable {
 								break;
 							}
 						}
-						iTemp = DecoderNal(decoderInBuf, NalBufUsed - 4, mPixel);
+						//iTemp = DecoderNal(decoderInBuf, NalBufUsed - 4, mPixel);
+						iTemp = ffmpeg.Decoder_H264Nal(decoderInBuf,
+								NalBufUsed-4, mPixel);
 						if (iTemp > 0)
 							postInvalidate();
 
@@ -385,7 +393,8 @@ public class VView extends View implements Runnable {
 				}
 			}
 		}
-		UninitDecoder();
+		//UninitDecoder();
+		ffmpeg.Uninit_H264Decoder();
 	}
 
 	public void handleError() {
