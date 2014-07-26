@@ -1,5 +1,7 @@
 package com.gdgl.manager;
-
+/***
+ * 登录，修改密码，修改别名操作
+ */
 import java.util.HashMap;
 
 import org.json.JSONException;

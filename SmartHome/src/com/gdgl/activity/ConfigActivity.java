@@ -1,5 +1,7 @@
 package com.gdgl.activity;
-
+/***
+ * 设置列表界面
+ */
 import java.util.List;
 
 import com.gdgl.activity.BindControlFragment.backAction;

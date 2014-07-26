@@ -1,6 +1,8 @@
 /gen
 /bin
 /.settings
+/R
+/library/bin*
 # Android generated
 bin/
 gen/
@@ -25,3 +27,4 @@ release.properties
 *.iws
 .idea/
 out/
+/project.properties

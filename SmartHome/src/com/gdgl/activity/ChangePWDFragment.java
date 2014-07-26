@@ -1,11 +1,14 @@
 package com.gdgl.activity;
-
+/***
+ * 修改密码界面
+ */
 import com.gdgl.manager.LoginManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
 import com.gdgl.mydata.AccountInfo;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
+import com.gdgl.mydata.LoginResponse;
 import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.smarthome.R;
 
@@ -20,6 +23,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ChangePWDFragment extends Fragment implements UIListener {
 
@@ -27,7 +31,6 @@ public class ChangePWDFragment extends Fragment implements UIListener {
 
 	EditText old_pwd, new_pwd, new_again;
 	Button btn_commit;
-	TextView error_message;
 
 	String odlPwd, name;
 	String oldpwd, newpwd, newagain;
@@ -68,7 +71,6 @@ public class ChangePWDFragment extends Fragment implements UIListener {
 
 		ch_pwd.setLayoutParams(mLayoutParams);
 
-		error_message = (TextView) mView.findViewById(R.id.error_message);
 		btn_commit = (Button) mView.findViewById(R.id.commit);
 
 		mLoginManager = LoginManager.getInstance();
@@ -82,43 +84,40 @@ public class ChangePWDFragment extends Fragment implements UIListener {
 				newpwd = new_pwd.getText().toString();
 				newagain = new_again.getText().toString();
 
-				if (null == oldpwd || oldpwd.trim().equals("")) {
-					error_message.setText("请输入原密码");
-					error_message.setVisibility(View.VISIBLE);
+				if (null == oldpwd || oldpwd.length()<=0) {
+					Toast.makeText(getActivity(), "请输入原密码", Toast.LENGTH_SHORT).show();
 					old_pwd.requestFocus();
 					return;
 				} else if (!oldpwd.trim().equals(odlPwd)) {
-					error_message.setText("原密码有误");
-					error_message.setVisibility(View.VISIBLE);
+					Toast.makeText(getActivity(), "原密码错误，请重新输入", Toast.LENGTH_SHORT).show();
 					old_pwd.requestFocus();
 					return;
-				} else if (null == newpwd || newpwd.trim().equals("")) {
-					error_message.setText("新密码不能为空");
-					error_message.setVisibility(View.VISIBLE);
-					new_pwd.requestFocus();
-					return;
-				} else if (null == newagain || newagain.trim().equals("")) {
-					error_message.setText("请确认新密码");
-					error_message.setVisibility(View.VISIBLE);
-					new_again.requestFocus();
-					return;
-				} else if (!newagain.trim().equals(newpwd)) {
-					error_message.setText("两次输入不相符,请确认");
-					error_message.setVisibility(View.VISIBLE);
-					new_again.requestFocus();
-					return;
+				} else {
+					if (null == newpwd || newpwd.length()<=0) {
+						Toast.makeText(getActivity(), "新密码不能为空", Toast.LENGTH_SHORT).show();
+						new_pwd.requestFocus();
+						return;
+					} else if (newpwd.length()>5 && newpwd.length()<17) {
+						if (null == newagain || newagain.length()<=0) {
+							Toast.makeText(getActivity(), "请再次输入新密码", Toast.LENGTH_SHORT).show();
+							new_again.requestFocus();
+							return;
+						} else if (!newagain.trim().equals(newpwd)) {
+							Toast.makeText(getActivity(), "两次输入密码不相符,请重新输入", Toast.LENGTH_SHORT).show();
+							new_again.requestFocus();
+							return;
+						} else {
+							AccountInfo account = new AccountInfo();
+							account.setAccount(name);
+							account.setPassword(odlPwd);
+							mLoginManager.ModifyPassword(account, newpwd);
+						}
+					} else {
+						Toast.makeText(getActivity(), "新密码应为6-16字符", Toast.LENGTH_SHORT).show();
+					}
 				}
-
-				error_message.setVisibility(View.INVISIBLE);
-
-				AccountInfo account = new AccountInfo();
-				account.setAccount(name);
-				account.setPassword(odlPwd);
-				mLoginManager.ModifyPassword(account, newpwd);
-
 			}
 		});
-
 	}
 
 	@Override
@@ -137,17 +136,29 @@ public class ChangePWDFragment extends Fragment implements UIListener {
 
 			if (event.isSuccess() == true) {
 				// data maybe null
-				error_message.setVisibility(View.VISIBLE);
-				error_message.setText("修改成功");
-
-				getFromSharedPreferences
-						.setharedPreferences((Context) getActivity());
+				LoginResponse response=(LoginResponse) event.getData();
+				changePWDSwitch(response);
+				getFromSharedPreferences.setharedPreferences((Context) getActivity());
 				getFromSharedPreferences.setPwd(newpwd.trim());
 			} else {
 				// if failed,prompt a Toast
-				error_message.setText("修改失败");
-				error_message.setVisibility(View.VISIBLE);
+				Toast.makeText(getActivity(), "连接网关失败", Toast.LENGTH_SHORT).show();
 			}
+		}
+	}
+	
+	private void changePWDSwitch(LoginResponse response) {
+		int i=Integer.parseInt(response.getResponse_params().getStatus());
+		switch (i) {
+		case 0:
+			Toast.makeText(getActivity(), "修改成功", Toast.LENGTH_SHORT).show();
+			break;
+		case 29:
+			Toast.makeText(getActivity(), "原密码错误，请重新输入", Toast.LENGTH_SHORT).show();
+			break;
+		default:
+			Toast.makeText(getActivity(), "修改失败", Toast.LENGTH_SHORT).show();
+			break;
 		}
 	}
 

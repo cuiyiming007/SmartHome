@@ -56,21 +56,7 @@
         android:layout_centerHorizontal="true"
         android:orientation="vertical" >
 
-        <TextView
-            android:id="@+id/error_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="15dp"
-            android:background="@null"
-            android:gravity="center"
-            android:paddingBottom="5dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingTop="5dp"
-            android:textColor="#EE3B3B"
-            android:textSize="18dp"
-            android:visibility="invisible" />
+
 
         <Button
             android:id="@+id/commit"
@@ -80,7 +66,7 @@
             android:layout_marginBottom="40dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="40dp"
             android:alpha="0.75"
             android:background="@drawable/add_devices_btn_style"
             android:gravity="center"
