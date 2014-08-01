@@ -1,5 +1,7 @@
 package h264.com;
-
+/***
+ * 视频处理
+ */
 import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -81,7 +83,7 @@ public class VView extends View implements Runnable {
 	*/
 	public H264 ffmpeg = new H264();
 
-	public VView(final VideoActivity context, int deviceWidth, int deviceheight) {
+	public VView(final VideoActivity context, int deviceWidth, int deviceheight, int flag) {
 		super(context);
 		this.context = context;
 		videoActivity=context;
@@ -89,7 +91,12 @@ public class VView extends View implements Runnable {
 		setFocusable(true);
 		this.gdeviceHeight = deviceheight;
 		this.gdeviceWith = deviceWidth;
-		setPortrait();
+		
+		if(flag==1)
+			setPortrait();
+		else 
+			setLandScape();
+
 		int i = 0;
 		for (i = 0; i < mPixel.length; i++) {
 			mPixel[i] = (byte) 0x00;
@@ -108,9 +115,18 @@ public class VView extends View implements Runnable {
 	}
 
 	// �������ű���
-	private void setScale() {
+	private void setScalePortrait() {
 		scaleWidth = ((float) newWidth) / h264Width;
 		scaleHeight = ((float) newWidth) / h264Width /16*14;
+//		scaleWidth = (float)16/9;
+//		scaleHeight = scaleWidth;
+//		scaleWidth = (float)1.3;
+//		scaleHeight = scaleWidth*9/16;
+	}
+	
+	private void setScaleLandScape() {
+		scaleWidth = ((float) newWidth) / h264Width *16/14;
+		scaleHeight = ((float) newWidth) / h264Width;
 //		scaleWidth = (float)16/9;
 //		scaleHeight = scaleWidth;
 //		scaleWidth = (float)1.3;
@@ -123,18 +139,18 @@ public class VView extends View implements Runnable {
 		// ���ź�ĸ�=ԭͼ���x���ű���
 		this.newHeight = (h264Height * newWidth / h264Width);
 		// top = (this.gdeviceHeight - newHeight) / 2 - 50;
-		top=100;
+		top=120;
 		left = 0;
-		setScale();
+		setScalePortrait();
 	}
-
-	// �M��
+	
+	// 横屏方向，changed by CYM
 	private void setLandScape() {
-		this.newHeight = this.gdeviceWith - 50;// �����������Ĵ�Ÿ߶�
-		this.newWidth = h264Width * this.newHeight / h264Height + 100;
+		this.newHeight = this.gdeviceHeight;// �����������Ĵ�Ÿ߶�
+		this.newWidth = h264Width * this.newHeight / h264Height;
 		top = 0;
-		left = (this.gdeviceHeight - newWidth) / 2;
-		setScale();
+		left = (this.gdeviceWith - newWidth) / 2-50;
+		setScaleLandScape();
 	}
 
 	// �Զ���ת������

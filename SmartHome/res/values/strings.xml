@@ -61,5 +61,5 @@
 	<string name="One_key_operator"> "安防控制中心"</string>
 	
 	<drawable name="background">#ffffff</drawable>
-
+	<drawable name="backgroundblack">#000000</drawable>
 </resources>

@@ -1,5 +1,7 @@
 package h264.com;
-
+/***
+ * 视频列表界面
+ */
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -22,6 +24,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -43,12 +46,13 @@ import com.gdgl.mydata.video.VideoNode;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.ComUtil;
 
-public class VideoActivity extends FragmentActivity implements UIListener{
+public class VideoActivity extends FragmentActivity implements UIListener {
 	private final static String TAG = "VideoActivity";
 	public static int ipc_channel = -1;
 	public Button captureImageBtn;
 	Display display;
 	VView decodeh264;
+	int flag;
 	public static int ret = 0;
 	VideoNode mVideoNode;
 	private boolean isVisible = false;
@@ -76,20 +80,23 @@ public class VideoActivity extends FragmentActivity implements UIListener{
 		if (null != mVideoNode) {
 			ipc_channel = Integer.parseInt(mVideoNode.getId());
 		}
+		
 		Resources res = getResources();
 		Drawable backDrawable = res.getDrawable(R.drawable.new_bacg);
 		this.getWindow().setBackgroundDrawable(backDrawable);
-
+		
+		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		// getWindow().setBackgroundDrawableResource(R.drawable.new_bacg);
 		Display display = getWindowManager().getDefaultDisplay();
 		Point size = new Point();
 		display.getSize(size);
 		int screenWidth = size.x;
 		int screenHeight = size.y;
-
+		flag=screenHeight>screenWidth?1:0;
+		addBackground();
 		// 获取屏幕宽度和高度
 		// display = getWindowManager().getDefaultDisplay();
-		decodeh264 = new VView(this, screenWidth, screenHeight);
+		decodeh264 = new VView(this, screenWidth, screenHeight, flag);
 		setContentView(decodeh264);// ���ò���
 		addTitle();
 		addRecordBtn();
@@ -99,12 +106,27 @@ public class VideoActivity extends FragmentActivity implements UIListener{
 	@Override
 	protected void onDestroy() {
 		CallbackManager.getInstance().deleteObserver(this);
+		decodeh264.setIsVideoRun(false);
+		decodeh264.initalThread();
+		isVisible = false;
+		Network.closeVideoSocket();
 		super.onDestroy();
 	}
 
+	private void addBackground() {
+		if(flag==0) {
+			Resources res = getResources();
+			Drawable backDrawable = res.getDrawable(R.drawable.backgroundblack);
+			this.getWindow().setBackgroundDrawable(backDrawable);
+			this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		}
+	}
+	
 	private void addRecordBtn() {
 		captureImageBtn = new Button(this);
 		captureImageBtn.setId(0);
+		if(flag==0)
+			captureImageBtn.setVisibility(View.GONE);
 		FrameLayout.LayoutParams params = setPortrait();
 		captureImageBtn.setText("截图");
 		captureImageBtn.setOnClickListener(new OnClickListener() {
@@ -121,6 +143,8 @@ public class VideoActivity extends FragmentActivity implements UIListener{
 		LayoutInflater layoutInflater = LayoutInflater.from(this);
 		View viewTitle = layoutInflater.inflate(R.layout.toptitle, null);
 		TextView title = (TextView) viewTitle.findViewById(R.id.title);
+		if(flag==0)
+			viewTitle.setVisibility(View.GONE);
 		String name = "";
 		name = mVideoNode.getAliases();
 		title.setText(name);
@@ -172,10 +196,6 @@ public class VideoActivity extends FragmentActivity implements UIListener{
 	public void finish() {
 		// TODO Auto-generated method stub
 		Log.i(TAG, "finish video ipc_channel=" + String.valueOf(ipc_channel));
-		decodeh264.setIsVideoRun(false);
-		decodeh264.initalThread();
-		isVisible = false;
-		Network.closeVideoSocket();
 		super.finish();
 	}
 

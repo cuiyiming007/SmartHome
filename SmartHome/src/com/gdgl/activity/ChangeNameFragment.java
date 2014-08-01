@@ -29,11 +29,12 @@ public class ChangeNameFragment extends Fragment implements UIListener{
 
 	private View mView;
 
+	EditText old_name;
 	EditText new_name;
 	Button btn_commit;
 
 	String odlPwd,name;
-	String newName;
+	String newName,oldName;
 	String id;
 	LoginManager mLoginManager;
 	
@@ -61,7 +62,9 @@ public class ChangeNameFragment extends Fragment implements UIListener{
 		name=getFromSharedPreferences.getName();
 		id=getFromSharedPreferences.getUid();
 		new_name = (EditText) mView.findViewById(R.id.new_name);
-		new_name.setText(name);
+		
+		old_name = (EditText) mView.findViewById(R.id.old_name);
+		old_name.setText(name);
 		
 		btn_commit = (Button) mView.findViewById(R.id.commit);
 
@@ -77,27 +80,36 @@ public class ChangeNameFragment extends Fragment implements UIListener{
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				oldName = old_name.getText().toString();
 				newName = new_name.getText().toString();
 				
-				if (newName.trim().equals(name)) {
-					Toast.makeText(getActivity(), "别名未做任何修改", Toast.LENGTH_SHORT).show();
-					new_name.requestFocus();
+				if (null == oldName || oldName.length()<=0) {
+					Toast.makeText(getActivity(), "请输入旧用户名", Toast.LENGTH_SHORT).show();
+					old_name.requestFocus();
 					return;
-				} else if (null == newName || newName.length()<=0) {
-					Toast.makeText(getActivity(), "请输入新用户名", Toast.LENGTH_SHORT).show();
-					new_name.requestFocus();
-					return;
-				} else if (newName.length()>5 && newName.length()<17) {
-					AccountInfo account=new AccountInfo();
-					account.setAccount(name);
-					account.setPassword(odlPwd);
-					account.setId(id);
-					account.setAlias(name);
-					mLoginManager.modifyAlias(account, newName);
+				} else if (oldName.length()>5 && oldName.length()<17) {
+					
+					if (null == newName || newName.length()<=0) {
+						Toast.makeText(getActivity(), "请输入新用户名", Toast.LENGTH_SHORT).show();
+						new_name.requestFocus();
+						return;
+					} else if (newName.length()>5 && newName.length()<17) {
+						AccountInfo account=new AccountInfo();
+						account.setAccount(oldName);
+						account.setPassword(odlPwd);
+						account.setId(id);
+						account.setAlias(oldName);
+						mLoginManager.modifyAlias(account, newName);
+					} else {
+						Toast.makeText(getActivity(), "新用户名应为6-16字符", Toast.LENGTH_SHORT).show();
+						new_name.requestFocus();
+						return;
+					}
 				} else {
-					Toast.makeText(getActivity(), "新用户名应为6-16字符", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getActivity(), "旧用户名应为6-16字符", Toast.LENGTH_SHORT).show();
+					old_name.requestFocus();
+					return;
 				}
-			
 			}
 		});
 
@@ -118,7 +130,7 @@ public class ChangeNameFragment extends Fragment implements UIListener{
 		
 		
 		final Event event = (Event) object;
-		if (EventType.MODIFYPASSWORD == event.getType()) {
+		if (EventType.MODIFYALIAS == event.getType()) {
 			
 			if (event.isSuccess()==true) {
 				// data maybe null
@@ -142,6 +154,9 @@ public class ChangeNameFragment extends Fragment implements UIListener{
 			break;
 		case 39:
 			Toast.makeText(getActivity(), "原用户名错误，请重新输入", Toast.LENGTH_SHORT).show();
+			break;
+		case 44:
+			Toast.makeText(getActivity(), "用户名未做任何修改", Toast.LENGTH_SHORT).show();
 			break;
 		default:
 			Toast.makeText(getActivity(), "修改失败", Toast.LENGTH_SHORT).show();

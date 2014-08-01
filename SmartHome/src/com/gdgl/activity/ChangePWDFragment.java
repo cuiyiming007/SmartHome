@@ -88,10 +88,6 @@ public class ChangePWDFragment extends Fragment implements UIListener {
 					Toast.makeText(getActivity(), "请输入原密码", Toast.LENGTH_SHORT).show();
 					old_pwd.requestFocus();
 					return;
-				} else if (!oldpwd.trim().equals(odlPwd)) {
-					Toast.makeText(getActivity(), "原密码错误，请重新输入", Toast.LENGTH_SHORT).show();
-					old_pwd.requestFocus();
-					return;
 				} else {
 					if (null == newpwd || newpwd.length()<=0) {
 						Toast.makeText(getActivity(), "新密码不能为空", Toast.LENGTH_SHORT).show();
@@ -109,11 +105,13 @@ public class ChangePWDFragment extends Fragment implements UIListener {
 						} else {
 							AccountInfo account = new AccountInfo();
 							account.setAccount(name);
-							account.setPassword(odlPwd);
+							account.setPassword(oldpwd);
 							mLoginManager.ModifyPassword(account, newpwd);
 						}
 					} else {
 						Toast.makeText(getActivity(), "新密码应为6-16字符", Toast.LENGTH_SHORT).show();
+						new_pwd.requestFocus();
+						return;
 					}
 				}
 			}
