@@ -378,7 +378,7 @@ public class SmartHome extends FragmentActivity implements
 	@Override
 	public void update(Manger observer, Object object) {
 		Event data=(Event) object;
-		if (EventType.WARM==data.getType()) {
+		if (EventType.WARN==data.getType()) {
 			notifyButton.post(new Runnable() {
 				
 				@Override

@@ -1,4 +1,5 @@
 package h264.com;
+
 /***
  * 视频列表界面
  */
@@ -21,6 +22,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -80,19 +82,21 @@ public class VideoActivity extends FragmentActivity implements UIListener {
 		if (null != mVideoNode) {
 			ipc_channel = Integer.parseInt(mVideoNode.getId());
 		}
-		
+
 		Resources res = getResources();
 		Drawable backDrawable = res.getDrawable(R.drawable.new_bacg);
 		this.getWindow().setBackgroundDrawable(backDrawable);
-		
-		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+		this.getWindow().setFlags(
+				WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
+				WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		// getWindow().setBackgroundDrawableResource(R.drawable.new_bacg);
 		Display display = getWindowManager().getDefaultDisplay();
 		Point size = new Point();
 		display.getSize(size);
 		int screenWidth = size.x;
 		int screenHeight = size.y;
-		flag=screenHeight>screenWidth?1:0;
+		flag = screenHeight > screenWidth ? 1 : 0;
 		addBackground();
 		// 获取屏幕宽度和高度
 		// display = getWindowManager().getDefaultDisplay();
@@ -103,6 +107,7 @@ public class VideoActivity extends FragmentActivity implements UIListener {
 		CallbackManager.getInstance().addObserver(this);
 		new playVideoTask().execute(ipc_channel);
 	}
+
 	@Override
 	protected void onDestroy() {
 		CallbackManager.getInstance().deleteObserver(this);
@@ -114,18 +119,20 @@ public class VideoActivity extends FragmentActivity implements UIListener {
 	}
 
 	private void addBackground() {
-		if(flag==0) {
+		if (flag == 0) {
 			Resources res = getResources();
 			Drawable backDrawable = res.getDrawable(R.drawable.backgroundblack);
 			this.getWindow().setBackgroundDrawable(backDrawable);
-			this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+			this.getWindow().setFlags(
+					WindowManager.LayoutParams.FLAG_FULLSCREEN,
+					WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		}
 	}
-	
+
 	private void addRecordBtn() {
 		captureImageBtn = new Button(this);
 		captureImageBtn.setId(0);
-		if(flag==0)
+		if (flag == 0)
 			captureImageBtn.setVisibility(View.GONE);
 		FrameLayout.LayoutParams params = setPortrait();
 		captureImageBtn.setText("截图");
@@ -143,15 +150,15 @@ public class VideoActivity extends FragmentActivity implements UIListener {
 		LayoutInflater layoutInflater = LayoutInflater.from(this);
 		View viewTitle = layoutInflater.inflate(R.layout.toptitle, null);
 		TextView title = (TextView) viewTitle.findViewById(R.id.title);
-		if(flag==0)
+		if (flag == 0)
 			viewTitle.setVisibility(View.GONE);
 		String name = "";
 		name = mVideoNode.getAliases();
 		title.setText(name);
 		LinearLayout.LayoutParams params = setTitlePortrait();
 		addContentView(viewTitle, params);
-		addButton=(Button) findViewById(R.id.add);
-		setButton=(Button) findViewById(R.id.set);
+		addButton = (Button) findViewById(R.id.add);
+		setButton = (Button) findViewById(R.id.set);
 		addButton.setVisibility(View.GONE);
 		setButton.setVisibility(View.GONE);
 		notifyButton = (Button) findViewById(R.id.alarm_btn);
@@ -197,31 +204,6 @@ public class VideoActivity extends FragmentActivity implements UIListener {
 		// TODO Auto-generated method stub
 		Log.i(TAG, "finish video ipc_channel=" + String.valueOf(ipc_channel));
 		super.finish();
-	}
-
-	// ��ʾ�������ӷ�����
-	public void showMessage(int type) {
-		Builder dl = new AlertDialog.Builder(VideoActivity.this);
-		dl.setTitle(R.string.sure);
-		if (type == 2) {
-			dl.setMessage(R.string.ipc_offline);
-		} else if (type == 3) {
-			dl.setMessage(R.string.faile);
-		}
-
-		dl.setPositiveButton(R.string.back,
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int whichButton) {
-						dialog.cancel();// ȷ����ȥ��ǰ����
-					}
-				});
-		dl.setNegativeButton(R.string.close,
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int whichButton) {
-						VideoActivity.this.finish();// ȡ�����˳�����
-					}
-				});
-		dl.show();
 	}
 
 	class captureImageTask extends AsyncTask<Integer, Object, Boolean> {
@@ -274,14 +256,7 @@ public class VideoActivity extends FragmentActivity implements UIListener {
 		protected void onPostExecute(Boolean result) {
 			super.onPostExecute(result);
 			if (result) {
-				new Thread(new Runnable() {
-
-					@Override
-					public void run() {
-						// TODO Auto-generated method stub
-						decodeh264.PlayVideo();
-					}
-				}).start();
+				decodeh264.PlayVideo();
 			} else {
 				handleError();
 			}
@@ -308,7 +283,6 @@ public class VideoActivity extends FragmentActivity implements UIListener {
 		updateMessageNum();
 		super.onResume();
 	}
-
 	@Override
 	protected void onPause() {
 		isVisible = false;
@@ -325,62 +299,19 @@ public class VideoActivity extends FragmentActivity implements UIListener {
 			unreadMessageView.setText(String.valueOf(messageNum));
 		}
 	}
-	
+
 	@Override
 	public void update(Manger observer, Object object) {
-		Event data=(Event) object;
-		if (EventType.WARM==data.getType()) {
+		Event data = (Event) object;
+		if (EventType.WARN == data.getType()) {
 			notifyButton.post(new Runnable() {
-				
+
 				@Override
 				public void run() {
 					updateMessageNum();
 				}
 			});
 		}
-		
+
 	}
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.app.Activity#onActivityResult(int, int,
-	 * android.content.Intent)
-	 */
-	/*
-	 * @Override protected void onActivityResult(int requestCode, int
-	 * resultCode, Intent data) { // TODO Auto-generated method stub if
-	 * (resultCode == RESULT_OK) { Uri uri = data.getData(); String
-	 * filPath=uri.getPath(); try { FileInputStream fileIS = new
-	 * FileInputStream(filPath); DataInputStream inputStream=new
-	 * DataInputStream(fileIS); vv.playLocalVideo(inputStream);
-	 * 
-	 * } catch (IOException e) { Log.e(TAG,
-	 * "onActivityResult IOException"+e.getMessage()); return; } }
-	 * super.onActivityResult(requestCode, resultCode, data); }
-	 */
-
-	
-
-	/*
-	 * private FrameLayout.LayoutParams setPortrait() { FrameLayout.LayoutParams
-	 * params = new FrameLayout.LayoutParams(
-	 * FrameLayout.LayoutParams.MATCH_PARENT,
-	 * FrameLayout.LayoutParams.WRAP_CONTENT); // ���ù����ֵ�λ��(���ڶ���)
-	 * params.bottomMargin = 0; //params.rightMargin = display.getWidth() / 2;
-	 * params.gravity = Gravity.TOP | Gravity.LEFT; return params; }
-	 * 
-	 * @Override public void onConfigurationChanged(Configuration newConfig) {
-	 * // TODO Auto-generated method stub
-	 * 
-	 * if (this.getResources().getConfiguration().orientation ==
-	 * Configuration.ORIENTATION_LANDSCAPE) { FrameLayout.LayoutParams params =
-	 * new FrameLayout.LayoutParams(70, FrameLayout.LayoutParams.MATCH_PARENT);
-	 * // ���ù����ֵ�λ��(���ڵײ�) params.bottomMargin = 0;
-	 * 
-	 * } else if (this.getResources().getConfiguration().orientation ==
-	 * Configuration.ORIENTATION_PORTRAIT) { FrameLayout.LayoutParams params =
-	 * setPortrait(); }
-	 * 
-	 * super.onConfigurationChanged(newConfig); }
-	 */
 }

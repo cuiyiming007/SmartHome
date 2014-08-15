@@ -47,7 +47,7 @@ import com.google.gson.Gson;
  */
 public class CGIManager extends Manger {
 
-	private final static String TAG = "LightManager";
+	private final static String TAG = "CGIManager";
 
 	private static CGIManager instance;
 
@@ -78,7 +78,7 @@ public class CGIManager extends Manger {
 			@Override
 			public void onResponse(String response) {
 				response = UiUtils.formatResponseString(response);
-				Log.i("LightManager bindDevice Response:%n %s", response);
+				Log.i("CGIManager bindDevice Response:%n %s", response);
 				Gson gson = new Gson();
 				BindResponseData statusData = gson.fromJson(
 						response.toString(), BindResponseData.class);
@@ -89,7 +89,7 @@ public class CGIManager extends Manger {
 		};
 		String url = NetUtil.getInstance().getCumstomURL(
 				NetUtil.getInstance().IP, "bindDevice.cgi", param);
-		Log.i("LightManager bindDevice Request:%n %s", url);
+		Log.i("CGIManager bindDevice Request:%n %s", url);
 		StringRequest req = new StringRequest(url, responseListener,
 				new Response.ErrorListener() {
 					@Override
@@ -640,7 +640,7 @@ public class CGIManager extends Manger {
 			@Override
 			public void onResponse(String response) {
 				response = UiUtils.formatResponseString(response);
-				Log.i("LightManager iASZoneOperationCommon Response:%n %s",
+				Log.i("CGIManager iASZoneOperationCommon Response:%n %s",
 						response);
 				Gson gson = new Gson();
 				ResponseDataEntityForStatus statusData = gson.fromJson(
@@ -652,7 +652,7 @@ public class CGIManager extends Manger {
 		};
 		String url = NetUtil.getInstance().getCumstomURL(
 				NetUtil.getInstance().IP, "iasZoneOperation.cgi", param);
-		Log.i("LightManager iASZoneOperationCommon Request:%n %s", url);
+		Log.i("CGIManager iASZoneOperationCommon Request:%n %s", url);
 		StringRequest req = new StringRequest(url, responseListener,
 				new Response.ErrorListener() {
 					@Override
@@ -812,18 +812,18 @@ public class CGIManager extends Manger {
 			@Override
 			public void onResponse(String response) {
 				response = UiUtils.formatResponseString(response);
-				Log.i("LightManager beginLearnIR Response:%n %s", response);
+				Log.i("CGIManager beginLearnIR Response:%n %s", response);
 				Gson gson = new Gson();
 				BindResponseData statusData = gson.fromJson(
 						response.toString(), BindResponseData.class);
-				Event event = new Event(EventType.BEGINLEARNIR, true);
-				event.setData(statusData);
-				notifyObservers(event);
+//				Event event = new Event(EventType.BEGINLEARNIR, true);
+//				event.setData(statusData);
+//				notifyObservers(event);
 			}
 		};
 		String url = NetUtil.getInstance().getCumstomURL(
 				NetUtil.getInstance().IP, "BeginLearnIR.cgi", param);
-		Log.i("LightManager beginLearnIR Request:%n %s", url);
+		Log.i("CGIManager beginLearnIR Request:%n %s", url);
 		StringRequest req = new StringRequest(url, responseListener,
 				new Response.ErrorListener() {
 					@Override
@@ -862,7 +862,7 @@ public class CGIManager extends Manger {
 			@Override
 			public void onResponse(String response) {
 				response = UiUtils.formatResponseString(response);
-				Log.i("LightManager beginApplyIR Response:%n %s", response);
+				Log.i("CGIManager beginApplyIR Response:%n %s", response);
 				Gson gson = new Gson();
 				BindResponseData statusData = gson.fromJson(
 						response.toString(), BindResponseData.class);
@@ -873,7 +873,7 @@ public class CGIManager extends Manger {
 		};
 		String url = NetUtil.getInstance().getCumstomURL(
 				NetUtil.getInstance().IP, "BeginApplyIR.cgi", param);
-		Log.i("LightManager beginApplyIR Request:%n %s", url);
+		Log.i("CGIManager beginApplyIR Request:%n %s", url);
 		StringRequest req = new StringRequest(url, responseListener,
 				new Response.ErrorListener() {
 					@Override
@@ -893,6 +893,50 @@ public class CGIManager extends Manger {
 		ApplicationController.getInstance().addToRequestQueue(req);
 
 	}
+	
+	public void DeleteIR(SimpleDevicesModel model, int index) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("ieee", model.getmIeee());
+		paraMap.put("ep", model.getmEP());
+		paraMap.put("hadaemonindex", String.valueOf(index));
+		String param = hashMap2ParamString(paraMap);
+		
+		String url = NetUtil.getInstance().getCumstomURL(
+				NetUtil.getInstance().IP, "DeleteIR.cgi", param);
+		Log.i("CGIManager DeleteIR Request:%n %s", url);
+		
+		StringRequest req = new StringRequest(url, 
+				new Response.Listener<String>() {
+
+					@Override
+					public void onResponse(String response) {
+						response = UiUtils.formatResponseString(response);
+						Log.i("CGIManager DeleteIR Response:%n %s", response);
+						Gson gson = new Gson();
+						BindResponseData statusData = gson.fromJson(
+								response.toString(), BindResponseData.class);
+						Event event = new Event(EventType.DELETEIR, true);
+						event.setData(statusData);
+						notifyObservers(event);
+					}
+				},
+				new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+						String errorString = null;
+						if (error != null && error.getMessage() != null) {
+							VolleyLog.e("Error: ", error.getMessage());
+							errorString = VolleyErrorHelper.getMessage(error,
+									ApplicationController.getInstance());
+						}
+						Event event = new Event(EventType.DELETEIR, false);
+						event.setData(errorString);
+						notifyObservers(event);
+					}
+				});
+		// add the request object to the queue to be executed
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
 
 	public void getDeviceLearnedIRDataInformation(SimpleDevicesModel model) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
@@ -903,7 +947,7 @@ public class CGIManager extends Manger {
 		Listener<String> responseListener = new Listener<String>() {
 			@Override
 			public void onResponse(String response) {
-				Log.i("LightManager GetDeviceLearnedIRDataInformation Response:%n %s",
+				Log.i("CGIManager GetDeviceLearnedIRDataInformation Response:%n %s",
 						response);
 				new GetDeviceLearnedTast().execute(response);
 			}
@@ -911,7 +955,7 @@ public class CGIManager extends Manger {
 		String url = NetUtil.getInstance().getCumstomURL(
 				NetUtil.getInstance().IP,
 				"GetDeviceLearnedIRDataInformation.cgi", param);
-		Log.i("LightManager GetDeviceLearnedIRDataInformation Request:%n %s",
+		Log.i("CGIManager GetDeviceLearnedIRDataInformation Request:%n %s",
 				url);
 		StringRequest req = new StringRequest(url, responseListener,
 				new Response.ErrorListener() {

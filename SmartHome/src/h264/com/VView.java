@@ -293,7 +293,7 @@ public class VView extends View implements Runnable {
 	// public void PlayVideo(int channelNum) //ok
 	public void PlayVideo() {
 		decodethread = new Thread(this);
-		decodethread.run();
+		decodethread.start();
 	}
 
 	// ////////////////jiang test///////////////////////

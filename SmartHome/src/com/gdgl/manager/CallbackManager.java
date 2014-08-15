@@ -19,10 +19,11 @@ import com.gdgl.app.ApplicationController;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
+import com.gdgl.mydata.Callback.CallbackBeginLearnIRMessage;
 import com.gdgl.mydata.Callback.CallbackEnrollMessage;
 import com.gdgl.mydata.Callback.CallbackResponseCommon;
 import com.gdgl.mydata.Callback.CallbackResponseType2;
-import com.gdgl.mydata.Callback.CallbackWarmMessage;
+import com.gdgl.mydata.Callback.CallbackWarnMessage;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.NetUtil;
 import com.gdgl.util.UiUtils;
@@ -99,10 +100,10 @@ public class CallbackManager extends Manger {
 				break;
 			case 3:
 				Log.i(TAG, "Callback msgType=" + msgType + "warm message");
-				CallbackWarmMessage warmmessage = gson.fromJson(response,
-						CallbackWarmMessage.class);
+				CallbackWarnMessage warmmessage = gson.fromJson(response,
+						CallbackWarnMessage.class);
 				Log.i(TAG, warmmessage.toString());
-				handlerWarmMessage(warmmessage);
+				handlerWarnMessage(warmmessage);
 				break;
 			case 4:
 				Log.i(TAG, "Callback msgType=" + msgType + "doorlock");
@@ -124,7 +125,7 @@ public class CallbackManager extends Manger {
 				Log.i(TAG, "Callback msgType=" + msgType + "DimmerSwitch");
 				break;
 			case 7:
-				Log.i(TAG, "Callback msgType=" + msgType + "OnOffLightSwitch");
+				//Log.i(TAG, "Callback msgType=" + msgType + "OnOffLightSwitch");
 				break;
 			case 8:
 				CallbackResponseCommon IASWarmingDevice = gson.fromJson(
@@ -154,6 +155,11 @@ public class CallbackManager extends Manger {
 				break;
 			case 12:
 				Log.i(TAG, "Callback msgType=" + msgType + "Brand Style");
+				CallbackBeginLearnIRMessage learnIR=gson.fromJson(response, CallbackBeginLearnIRMessage.class);
+				Log.i("CallbackManager BeginLearnIR Response:%n %s", learnIR.toString());
+				Event event1 = new Event(EventType.BEGINLEARNIR, true);
+				event1.setData(learnIR);
+				notifyObservers(event1);
 				break;
 			case 13:
 				Log.i(TAG, "Callback msgType=" + msgType
@@ -192,22 +198,22 @@ public class CallbackManager extends Manger {
 
 	}
 
-	private void handlerWarmMessage(CallbackWarmMessage warmmessage) {
+	private void handlerWarnMessage(CallbackWarnMessage warnmessage) {
 		
-		warmmessage=WarnManager.getInstance().setWarnDetailMessage(warmmessage);
-		WarnManager.getInstance().setCurrentWarnInfo(warmmessage);
+		warnmessage=WarnManager.getInstance().setWarnDetailMessage(warnmessage);
+		WarnManager.getInstance().setCurrentWarnInfo(warnmessage);
 		
-		new UpdateDBTask().execute(warmmessage);
+		new UpdateDBTask().execute(warnmessage);
 		Intent i = new Intent(ApplicationController.getInstance(),
 				ShowDevicesGroupFragmentActivity.class);
 		i.putExtra(ShowDevicesGroupFragmentActivity.ACTIVITY_SHOW_DEVICES_TYPE,
 				UiUtils.SECURITY_CONTROL);
-		makeNotify(i, warmmessage.getW_description(), warmmessage.toString());
+		makeNotify(i, warnmessage.getW_description(), warnmessage.toString());
 		
 		
 
-		Event event = new Event(EventType.WARM, true);
-		event.setData(warmmessage);
+		Event event = new Event(EventType.WARN, true);
+		event.setData(warnmessage);
 		notifyObservers(event);
 	}
 
@@ -288,7 +294,7 @@ public class CallbackManager extends Manger {
 		nm.notify(R.string.app_name, noti);
 	}
 
-	void makeWarmNotify(Intent i, CallbackWarmMessage warmmessage) {
+	void makeWarmNotify(Intent i, CallbackWarnMessage warmmessage) {
 
 		NotificationManager nm = (NotificationManager) ApplicationController
 				.getInstance().getSystemService(Context.NOTIFICATION_SERVICE);
@@ -317,8 +323,8 @@ public class CallbackManager extends Manger {
 			DataHelper mDateHelper = new DataHelper(
 					ApplicationController.getInstance());
 			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
-			ArrayList<CallbackWarmMessage> callbackWarmMessages = new ArrayList<CallbackWarmMessage>();
-			callbackWarmMessages.add((CallbackWarmMessage) params[0]);
+			ArrayList<CallbackWarnMessage> callbackWarmMessages = new ArrayList<CallbackWarnMessage>();
+			callbackWarmMessages.add((CallbackWarnMessage) params[0]);
 			mDateHelper.insertMessageList(mSQLiteDatabase,
 					DataHelper.MESSAGE_TABLE, null, callbackWarmMessages);
 			return null;

@@ -66,35 +66,38 @@
         android:layout_marginBottom="-5dp"
         android:layout_marginLeft="-5dp"
         android:layout_marginRight="-5dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="1dp"
         android:layout_weight="1"
-        android:alpha="0.85"
-        android:background="@drawable/white"
+        android:alpha="0.95"
+        android:background="#3f80db"
         android:orientation="vertical" >
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="1dp"
             android:orientation="horizontal" >
-
-            <TextView
-                android:id="@+id/kongtiao_text"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/dlg_button_press"
-                android:gravity="center"
-                android:text="空调"
-                android:textColor="#000000"
-                android:textSize="16dp" />
 
             <TextView
                 android:id="@+id/tv_text"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginRight="8dp"
                 android:layout_weight="1"
+                android:background="@drawable/dlg_button_press"
                 android:gravity="center"
                 android:text="电视"
+                android:textColor="#000000"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/kongtiao_text"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="空调"
                 android:textColor="#000000"
                 android:textSize="16dp" />
         </LinearLayout>
@@ -105,12 +108,343 @@
             android:layout_marginTop="3dp"
             android:background="@drawable/divider_color" />
 
+        <ScrollView
+            android:id="@+id/tv_control"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:orientation="vertical" >
+
+                <TableLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.0dip"
+                    android:layout_weight="1.0"
+                    android:gravity="center"
+                    android:orientation="vertical" >
+
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:gravity="center"
+                        android:orientation="horizontal" >
+
+                        <ImageButton
+                            android:id="@+id/btn_mute"
+                            android:layout_width="80dp"
+                            android:layout_height="45dp"
+                            android:background="@drawable/ir_tv_mute_notlearned"
+                            android:clickable="true"
+                            android:padding="0dp"
+                            android:scaleType="fitCenter" />
+
+                        <ImageButton
+                            android:id="@+id/btn_lock"
+                            android:layout_width="80dp"
+                            android:layout_height="45dp"
+                            android:layout_marginLeft="10.0dip"
+                            android:layout_marginRight="10.0dip"
+                            android:background="@drawable/ir_tv_lock_notlearned"
+                            android:clickable="true"
+                            android:padding="0dp"
+                            android:scaleType="fitCenter" />
+
+                        <ImageButton
+                            android:id="@+id/btn_power"
+                            android:layout_width="80dp"
+                            android:layout_height="45dp"
+                            android:background="@drawable/ir_tv_power_notlearned"
+                            android:clickable="true"
+                            android:padding="0dp"
+                            android:scaleType="fitCenter" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginTop="5.0dip"
+                        android:gravity="center"
+                        android:orientation="horizontal" >
+
+                        <ImageButton
+                            android:id="@+id/btn_num_1"
+                            android:layout_width="80dp"
+                            android:layout_height="45dp"
+                            android:background="@drawable/ir_1_notlearned"
+                            android:clickable="true"
+                            android:padding="0dp"
+                            android:scaleType="fitCenter" />
+
+                        <ImageButton
+                            android:id="@+id/btn_num_2"
+                            android:layout_width="80dp"
+                            android:layout_height="45dp"
+                            android:layout_marginLeft="10.0dip"
+                            android:layout_marginRight="10.0dip"
+                            android:background="@drawable/ir_2_notlearned"
+                            android:clickable="true"
+                            android:padding="0dp"
+                            android:scaleType="fitCenter" />
+
+                        <ImageButton
+                            android:id="@+id/btn_num_3"
+                            android:layout_width="80dp"
+                            android:layout_height="45dp"
+                            android:background="@drawable/ir_3_notlearned"
+                            android:clickable="true"
+                            android:padding="0dp"
+                            android:scaleType="fitCenter" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginTop="5.0dip"
+                        android:gravity="center"
+                        android:orientation="horizontal" >
+
+                        <ImageButton
+                            android:id="@+id/btn_num_4"
+                            android:layout_width="80dp"
+                            android:layout_height="45dp"
+                            android:background="@drawable/ir_4_notlearned"
+                            android:clickable="true"
+                            android:padding="0dp"
+                            android:scaleType="fitCenter" />
+
+                        <ImageButton
+                            android:id="@+id/btn_num_5"
+                            android:layout_width="80dp"
+                            android:layout_height="45dp"
+                            android:layout_marginLeft="10.0dip"
+                            android:layout_marginRight="10.0dip"
+                            android:background="@drawable/ir_5_notlearned"
+                            android:clickable="true"
+                            android:padding="0dp"
+                            android:scaleType="fitCenter" />
+
+                        <ImageButton
+                            android:id="@+id/btn_num_6"
+                            android:layout_width="80dp"
+                            android:layout_height="45dp"
+                            android:background="@drawable/ir_6_notlearned"
+                            android:clickable="true"
+                            android:padding="0dp"
+                            android:scaleType="fitCenter" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginTop="5.0dip"
+                        android:gravity="center"
+                        android:orientation="horizontal" >
+
+                        <ImageButton
+                            android:id="@+id/btn_num_7"
+                            android:layout_width="80dp"
+                            android:layout_height="45dp"
+                            android:background="@drawable/ir_7_notlearned"
+                            android:clickable="true"
+                            android:padding="0dp"
+                            android:scaleType="fitCenter" />
+
+                        <ImageButton
+                            android:id="@+id/btn_num_8"
+                            android:layout_width="80dp"
+                            android:layout_height="45dp"
+                            android:layout_marginLeft="10.0dip"
+                            android:layout_marginRight="10.0dip"
+                            android:background="@drawable/ir_8_notlearned"
+                            android:clickable="true"
+                            android:padding="0dp"
+                            android:scaleType="fitCenter" />
+
+                        <ImageButton
+                            android:id="@+id/btn_num_9"
+                            android:layout_width="80dp"
+                            android:layout_height="45dp"
+                            android:background="@drawable/ir_9_notlearned"
+                            android:clickable="true"
+                            android:padding="0dp"
+                            android:scaleType="fitCenter" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginTop="5.0dip"
+                        android:background="#00000000"
+                        android:gravity="center"
+                        android:orientation="horizontal" >
+
+                        <ImageButton
+                            android:id="@+id/btn_mutil"
+                            android:layout_width="80dp"
+                            android:layout_height="45dp"
+                            android:background="@drawable/ir_mutil_notlearned"
+                            android:clickable="true"
+                            android:padding="0dp"
+                            android:scaleType="fitCenter" />
+
+                        <ImageButton
+                            android:id="@+id/btn_num_0"
+                            android:layout_width="80dp"
+                            android:layout_height="45dp"
+                            android:layout_marginLeft="10.0dip"
+                            android:layout_marginRight="10.0dip"
+                            android:background="@drawable/ir_0_notlearned"
+                            android:clickable="true"
+                            android:padding="0dp"
+                            android:scaleType="fitXY" />
+
+                        <ImageButton
+                            android:id="@+id/btn_repeat"
+                            android:layout_width="80dp"
+                            android:layout_height="45dp"
+                            android:background="@drawable/ir_tv_repeat_notlearned"
+                            android:clickable="true"
+                            android:padding="0dp"
+                            android:scaleType="fitCenter" />
+                    </TableRow>
+                </TableLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal" >
+
+                    <LinearLayout
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="8.0dip"
+                        android:orientation="vertical" >
+
+                        <ImageButton
+                            android:id="@+id/btn_vedio_top"
+                            android:layout_width="fill_parent"
+                            android:layout_height="50dp"
+                            android:layout_weight="1.0"
+                            android:background="@drawable/ir_tv_up_notlearned"
+                            android:clickable="true"
+                            android:scaleType="fitCenter" />
+
+                        <ImageButton
+                            android:layout_width="fill_parent"
+                            android:layout_height="15dp"
+                            android:layout_marginLeft="5.0dip"
+                            android:layout_marginRight="5.0dip"
+                            android:layout_weight="1.0"
+                            android:background="#00000000"
+                            android:clickable="true"
+                            android:scaleType="fitCenter" />
+
+                        <ImageButton
+                            android:id="@+id/btn__vedio_down"
+                            android:layout_width="fill_parent"
+                            android:layout_height="50dp"
+                            android:layout_weight="1.0"
+                            android:background="@drawable/ir_tv_down_notlearned"
+                            android:clickable="true"
+                            android:scaleType="fitCenter" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="150.0dip"
+                        android:layout_height="150.0dip"
+                        android:layout_marginTop="5.0dip"
+                        android:background="@drawable/adv_ir_lrtbc_background" >
+
+                        <include layout="@layout/kongtiao_tv_top_bottom_left_right" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8.0dip"
+                        android:orientation="vertical" >
+
+                        <ImageButton
+                            android:id="@+id/btn_vol_up"
+                            android:layout_width="fill_parent"
+                            android:layout_height="50dp"
+                            android:layout_weight="1.0"
+                            android:background="@drawable/ir_tv_vol_up_notlearned"
+                            android:clickable="true"
+                            android:scaleType="fitCenter" />
+
+                        <ImageButton
+                            android:layout_width="fill_parent"
+                            android:layout_height="15dp"
+                            android:layout_marginLeft="5.0dip"
+                            android:layout_marginRight="5.0dip"
+                            android:layout_weight="1.0"
+                            android:background="#00000000"
+                            android:clickable="true"
+                            android:scaleType="fitCenter" />
+
+                        <ImageButton
+                            android:id="@+id/btn_vol_down"
+                            android:layout_width="fill_parent"
+                            android:layout_height="50dp"
+                            android:layout_weight="1.0"
+                            android:background="@drawable/ir_tv_vol_down_notlearned"
+                            android:clickable="true"
+                            android:scaleType="fitCenter" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="60.0dip"
+                    android:layout_marginLeft="20.0dip"
+                    android:layout_marginRight="20.0dip"
+                    android:gravity="center" >
+
+                    <ImageButton
+                        android:id="@+id/btn_menu"
+                        android:layout_width="50dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1.0"
+                        android:background="@drawable/ir_tv_menu_notlearned"
+                        android:clickable="true"
+                        android:scaleType="fitXY" />
+
+                    <ImageButton
+                        android:layout_width="70dp"
+                        android:layout_height="fill_parent"
+                        android:layout_marginLeft="10.0dip"
+                        android:layout_marginRight="10.0dip"
+                        android:layout_weight="1.0"
+                        android:background="#00000000"
+                        android:clickable="true"
+                        android:scaleType="fitXY" />
+
+                    <ImageButton
+                        android:id="@+id/btn_vedio"
+                        android:layout_width="45dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1.0"
+                        android:background="@drawable/ir_tv_adv_vedio_notlearned"
+                        android:clickable="true"
+                        android:scaleType="fitXY" />
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
         <LinearLayout
             android:id="@+id/kongtiao_control"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:visibility="gone" >
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -122,9 +456,9 @@
                     android:layout_height="wrap_content"
                     android:layout_above="@+id/divder"
                     android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="15dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:layout_marginBottom="15dp"
                     android:background="@drawable/corners_remotr" >
 
                     <TextView
@@ -154,19 +488,19 @@
                         android:layout_marginRight="20dp"
                         android:src="@drawable/signal3" />
                 </RelativeLayout>
-				
-                <View 
+
+                <View
                     android:id="@+id/divder"
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:layout_centerInParent="true"/>
-                
+                    android:layout_centerInParent="true" />
+
                 <RelativeLayout
-                    android:layout_marginTop="15dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/divder"
                     android:layout_centerHorizontal="true"
-                    android:layout_below="@+id/divder" >
+                    android:layout_marginTop="15dp" >
 
                     <Button
                         android:id="@+id/btn_up"
@@ -180,7 +514,7 @@
                         android:textSize="30dp" />
 
                     <Button
-                        android:id="@+id/btn_down"
+                        android:id="@+id/btn_down_ac"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -201,56 +535,7 @@
             </RelativeLayout>
         </LinearLayout>
 
-        <RelativeLayout
-            android:id="@+id/tv_control"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:visibility="gone" >
-
-            <Button
-                android:id="@+id/btn_tv_power"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:background="@drawable/power_learned_btn_style" />
-
-            <Button
-                android:id="@+id/btn_jian"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
-                android:layout_toLeftOf="@+id/btn_tv_power"
-                android:background="@drawable/jian_learned_btn_style" />
-
-            <Button
-                android:id="@+id/btn_jia"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@+id/btn_tv_power"
-                android:background="@drawable/jia_learned_btn_style" />
-
-            <Button
-                android:id="@+id/btn_increment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/btn_tv_power"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/increment_learned_btn_style" />
-
-            <Button
-                android:id="@+id/btn_decress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/btn_tv_power"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/decress_learned_btn_style" />
-        </RelativeLayout>
+      
     </LinearLayout>
 
 </LinearLayout>

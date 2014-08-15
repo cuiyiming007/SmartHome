@@ -21,7 +21,7 @@ import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.SimpleResponseData;
-import com.gdgl.mydata.Callback.CallbackWarmMessage;
+import com.gdgl.mydata.Callback.CallbackWarnMessage;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyDlg;
 
@@ -35,7 +35,7 @@ public class WarnningControlFragment extends BaseControlFragment {
 	View mView;
 	SimpleDevicesModel mDevices;
 
-	CallbackWarmMessage currentWarmMessage;
+	CallbackWarnMessage currentWarmMessage;
 
 	TextView txt_devices_name, txt_devices_region;
 	RelativeLayout mError;
@@ -187,10 +187,10 @@ public class WarnningControlFragment extends BaseControlFragment {
 				// if failed,prompt a Toast
 				mError.setVisibility(View.VISIBLE);
 			}
-		} else if (EventType.WARM == event.getType()) {
+		} else if (EventType.WARN == event.getType()) {
 			if (event.isSuccess() == true) {
 				// data maybe null
-				final CallbackWarmMessage data = (CallbackWarmMessage) event
+				final CallbackWarnMessage data = (CallbackWarnMessage) event
 						.getData();
 				mView.post(new Runnable() {
 					@Override
@@ -210,7 +210,7 @@ public class WarnningControlFragment extends BaseControlFragment {
 		super.onResume();
 	}
 
-	private void updateWarnMessage(CallbackWarmMessage data, boolean isWarning) {
+	private void updateWarnMessage(CallbackWarnMessage data, boolean isWarning) {
 		status = isWarning;
 		setImagRes(on_off, status);
 		if (isWarning && data != null) {

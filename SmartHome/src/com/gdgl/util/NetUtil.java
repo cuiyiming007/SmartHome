@@ -69,7 +69,7 @@ public class NetUtil {
 	public OutputStream outputStream;
 	
 	
-	public int broadcastPort=5000;
+	public int broadcastPort=5002;
 	DatagramSocket udpSocket;
 
 	public static NetUtil getInstance() {

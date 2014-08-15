@@ -14,7 +14,7 @@ import android.util.Log;
 import com.gdgl.model.DevicesGroup;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
-import com.gdgl.mydata.Callback.CallbackWarmMessage;
+import com.gdgl.mydata.Callback.CallbackWarnMessage;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.UiUtils;
 
@@ -333,48 +333,48 @@ public class DataUtil {
 		return listDevicesModel;
 
 	}
-	public static List<CallbackWarmMessage> getWarmMessage(Context c, DataHelper dh) {
+	public static List<CallbackWarnMessage> getWarmMessage(Context c, DataHelper dh) {
 		
-		List<CallbackWarmMessage> mList = new ArrayList<CallbackWarmMessage>();
+		List<CallbackWarnMessage> mList = new ArrayList<CallbackWarnMessage>();
 		Cursor cursor = null;
 		SQLiteDatabase db=dh.getSQLiteDatabase();
 		cursor = db.query(DataHelper.MESSAGE_TABLE, null, null,
 				null, null, null, null, null);
-		CallbackWarmMessage message;
+		CallbackWarnMessage message;
 		while (cursor.moveToNext()) {
-			message = new CallbackWarmMessage();
+			message = new CallbackWarnMessage();
 			message.setId(cursor.getString(cursor
-					.getColumnIndex(CallbackWarmMessage._ID)));
+					.getColumnIndex(CallbackWarnMessage._ID)));
 			message.setCie_ep(cursor.getString(cursor
-					.getColumnIndex(CallbackWarmMessage.CIE_EP)));
+					.getColumnIndex(CallbackWarnMessage.CIE_EP)));
 			message.setCie_ieee(cursor.getString(cursor
-					.getColumnIndex(CallbackWarmMessage.CIE_IEEE)));
+					.getColumnIndex(CallbackWarnMessage.CIE_IEEE)));
 			message.setCie_name(cursor.getString(cursor
-					.getColumnIndex(CallbackWarmMessage.CIE_NAME)));
+					.getColumnIndex(CallbackWarnMessage.CIE_NAME)));
 			message.setHome_id(cursor.getString(cursor
-					.getColumnIndex(CallbackWarmMessage.HOME_ID)));
+					.getColumnIndex(CallbackWarnMessage.HOME_ID)));
 			message.setHome_name(cursor.getString(cursor
-					.getColumnIndex(CallbackWarmMessage.HOME_NAME)));
+					.getColumnIndex(CallbackWarnMessage.HOME_NAME)));
 			message.setHouseIEEE(cursor.getString(cursor
-					.getColumnIndex(CallbackWarmMessage.HOUSEIEEE)));
+					.getColumnIndex(CallbackWarnMessage.HOUSEIEEE)));
 			message.setMsgtype(cursor.getString(cursor
-					.getColumnIndex(CallbackWarmMessage.MSGTYPE)));
+					.getColumnIndex(CallbackWarnMessage.MSGTYPE)));
 			message.setRoomId(cursor.getString(cursor
-					.getColumnIndex(CallbackWarmMessage.ROOMID)));
+					.getColumnIndex(CallbackWarnMessage.ROOMID)));
 			message.setTime(cursor.getString(cursor
-					.getColumnIndex(CallbackWarmMessage.TIME)));
+					.getColumnIndex(CallbackWarnMessage.TIME)));
 			message.setW_description(cursor.getString(cursor
-					.getColumnIndex(CallbackWarmMessage.W_DESCRIPTION)));
+					.getColumnIndex(CallbackWarnMessage.W_DESCRIPTION)));
 			message.setDetailmessage(cursor.getString(cursor
-					.getColumnIndex(CallbackWarmMessage.DETAILMESSAGE)));
+					.getColumnIndex(CallbackWarnMessage.DETAILMESSAGE)));
 			message.setW_mode(cursor.getString(cursor
-					.getColumnIndex(CallbackWarmMessage.W_MODE)));
+					.getColumnIndex(CallbackWarnMessage.W_MODE)));
 			message.setZone_ep(cursor.getString(cursor
-					.getColumnIndex(CallbackWarmMessage.ZONE_EP)));
+					.getColumnIndex(CallbackWarnMessage.ZONE_EP)));
 			message.setZone_ieee(cursor.getString(cursor
-					.getColumnIndex(CallbackWarmMessage.ZONE_IEEE)));
+					.getColumnIndex(CallbackWarnMessage.ZONE_IEEE)));
 			message.setZone_name(cursor.getString(cursor
-					.getColumnIndex(CallbackWarmMessage.ZONE_NAME)));
+					.getColumnIndex(CallbackWarnMessage.ZONE_NAME)));
 			mList.add(message);
 		}
 		cursor.close();

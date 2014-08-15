@@ -12,7 +12,7 @@ import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.mydata.Callback.CallbackResponseType2;
-import com.gdgl.mydata.Callback.CallbackWarmMessage;
+import com.gdgl.mydata.Callback.CallbackWarnMessage;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.UiUtils;
 

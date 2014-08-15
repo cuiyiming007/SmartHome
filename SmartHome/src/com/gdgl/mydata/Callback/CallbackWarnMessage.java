@@ -5,7 +5,7 @@ import com.gdgl.model.ContentValuesListener;
 import android.content.ContentValues;
 import android.provider.BaseColumns;
 
-interface CallbackWarmMessageColumns extends BaseColumns {
+interface CallbackWarnMessageColumns extends BaseColumns {
 	public static final String _ID = "_id";
 	public static final String CIE_EP = "cie_ep";
 	public static final String ROOMID = "roomId";
@@ -25,7 +25,7 @@ interface CallbackWarmMessageColumns extends BaseColumns {
 
 }
 
-public class CallbackWarmMessage implements CallbackWarmMessageColumns,
+public class CallbackWarnMessage implements CallbackWarnMessageColumns,
 		ContentValuesListener {
 	// {"cie_ep":"0A","roomId":"-1","cie_ieee":"00137A00000101D1","cie_name":"NULL","home_id":"00",
 	// "time":"2000-01-13 13:37:21","houseIEEE":"00137A00000101D1","w_mode":"1","zone_ieee":"00137A0000011598","zone_name":"","msgtype":3,"room_name":"","w_description":"Burglar","home_name":"","zone_ep":"02"}
@@ -194,27 +194,27 @@ public class CallbackWarmMessage implements CallbackWarmMessageColumns,
 	public ContentValues convertContentValues() {
 		ContentValues mContentValues = new ContentValues();
 
-		mContentValues.put(CallbackWarmMessageColumns.CIE_EP, getCie_ep());
-		mContentValues.put(CallbackWarmMessageColumns.CIE_IEEE, getCie_ieee());
-		mContentValues.put(CallbackWarmMessageColumns.CIE_NAME, getCie_name());
-		mContentValues.put(CallbackWarmMessageColumns.HOME_ID, getHome_id());
+		mContentValues.put(CallbackWarnMessageColumns.CIE_EP, getCie_ep());
+		mContentValues.put(CallbackWarnMessageColumns.CIE_IEEE, getCie_ieee());
+		mContentValues.put(CallbackWarnMessageColumns.CIE_NAME, getCie_name());
+		mContentValues.put(CallbackWarnMessageColumns.HOME_ID, getHome_id());
 		mContentValues
-				.put(CallbackWarmMessageColumns.HOME_NAME, getHome_name());
+				.put(CallbackWarnMessageColumns.HOME_NAME, getHome_name());
 		mContentValues
-				.put(CallbackWarmMessageColumns.HOUSEIEEE, getHouseIEEE());
-		mContentValues.put(CallbackWarmMessageColumns.MSGTYPE, getMsgtype());
-		mContentValues.put(CallbackWarmMessageColumns.ROOMID, getRoomId());
-		mContentValues.put(CallbackWarmMessageColumns.TIME, getTime());
-		mContentValues.put(CallbackWarmMessageColumns.W_DESCRIPTION,
+				.put(CallbackWarnMessageColumns.HOUSEIEEE, getHouseIEEE());
+		mContentValues.put(CallbackWarnMessageColumns.MSGTYPE, getMsgtype());
+		mContentValues.put(CallbackWarnMessageColumns.ROOMID, getRoomId());
+		mContentValues.put(CallbackWarnMessageColumns.TIME, getTime());
+		mContentValues.put(CallbackWarnMessageColumns.W_DESCRIPTION,
 				getW_description());
-		mContentValues.put(CallbackWarmMessageColumns.DETAILMESSAGE,
+		mContentValues.put(CallbackWarnMessageColumns.DETAILMESSAGE,
 				getDetailmessage());
-		mContentValues.put(CallbackWarmMessageColumns.W_MODE, getW_mode());
-		mContentValues.put(CallbackWarmMessageColumns.ZONE_EP, getZone_ep());
+		mContentValues.put(CallbackWarnMessageColumns.W_MODE, getW_mode());
+		mContentValues.put(CallbackWarnMessageColumns.ZONE_EP, getZone_ep());
 		mContentValues
-				.put(CallbackWarmMessageColumns.ZONE_IEEE, getZone_ieee());
+				.put(CallbackWarnMessageColumns.ZONE_IEEE, getZone_ieee());
 		mContentValues
-				.put(CallbackWarmMessageColumns.ZONE_NAME, getZone_name());
+				.put(CallbackWarnMessageColumns.ZONE_NAME, getZone_name());
 
 		return mContentValues;
 	}

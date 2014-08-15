@@ -9,13 +9,13 @@ import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
-import com.gdgl.mydata.Callback.CallbackWarmMessage;
+import com.gdgl.mydata.Callback.CallbackWarnMessage;
 import com.gdgl.mydata.getlocalcielist.elserec;
 
 public class WarnManager {
 	private static WarnManager instance;
 	private boolean isWarnning;
-	private CallbackWarmMessage currentWarmmessage;
+	private CallbackWarnMessage currentWarmmessage;
 	private int messageNum=0;
 
 	public static WarnManager getInstance() {
@@ -34,7 +34,7 @@ public class WarnManager {
 		currentWarmmessage=null;
 		messageNum=0;
 	}
-	public void setCurrentWarnInfo(CallbackWarmMessage currentWarmmessage)
+	public void setCurrentWarnInfo(CallbackWarnMessage currentWarmmessage)
 	{
 		messageNum++;
 		isWarnning=true;
@@ -50,7 +50,7 @@ public class WarnManager {
 	}
 	
 	
-	public CallbackWarmMessage  setWarnDetailMessage(CallbackWarmMessage message) {
+	public CallbackWarnMessage  setWarnDetailMessage(CallbackWarnMessage message) {
 		String detailmessage;
 	DataHelper	dh = new DataHelper(ApplicationController.getInstance());
 		SQLiteDatabase db = dh.getSQLiteDatabase();
@@ -82,11 +82,11 @@ public class WarnManager {
 		this.isWarnning = isWarnning;
 	}
 
-	public CallbackWarmMessage getCurrentWarmmessage() {
+	public CallbackWarnMessage getCurrentWarmmessage() {
 		return currentWarmmessage;
 	}
 
-	public void setCurrentWarmmessage(CallbackWarmMessage currentWarmmessage) {
+	public void setCurrentWarmmessage(CallbackWarnMessage currentWarmmessage) {
 		this.currentWarmmessage = currentWarmmessage;
 	}
 	

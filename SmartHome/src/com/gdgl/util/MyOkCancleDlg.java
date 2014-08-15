@@ -31,7 +31,7 @@ public class MyOkCancleDlg {
 			public void onClick(View v) {
 				dialogcallback.dialogdo();
 				dismiss();
-
+				
 			}
 		});
 

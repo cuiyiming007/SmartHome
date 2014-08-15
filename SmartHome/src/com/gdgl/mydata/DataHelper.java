@@ -6,7 +6,7 @@ import java.util.List;
 import com.gdgl.model.ContentValuesListener;
 import com.gdgl.model.DevicesGroup;
 import com.gdgl.model.DevicesModel;
-import com.gdgl.mydata.Callback.CallbackWarmMessage;
+import com.gdgl.mydata.Callback.CallbackWarnMessage;
 import com.gdgl.mydata.video.VideoNode;
 import com.gdgl.util.UiUtils;
 
@@ -163,23 +163,23 @@ public class DataHelper extends SQLiteOpenHelper {
 		
 		//message table create string
 		messageStringBuilder.append("CREATE TABLE " + MESSAGE_TABLE + " (");
-		messageStringBuilder.append(CallbackWarmMessage._ID
+		messageStringBuilder.append(CallbackWarnMessage._ID
 				+ " INTEGER PRIMARY KEY AUTOINCREMENT,");
-		messageStringBuilder.append(CallbackWarmMessage.CIE_EP + " VARCHAR(16),");
-		messageStringBuilder.append(CallbackWarmMessage.CIE_IEEE + " VARCHAR(16),");
-		messageStringBuilder.append(CallbackWarmMessage.CIE_NAME + " VARCHAR(48),");
-		messageStringBuilder.append(CallbackWarmMessage.HOME_ID + " VARCHAR(16),");
-		messageStringBuilder.append(CallbackWarmMessage.HOME_NAME + " VARCHAR(16),");
-		messageStringBuilder.append(CallbackWarmMessage.HOUSEIEEE + " VARCHAR(16),");
-		messageStringBuilder.append(CallbackWarmMessage.MSGTYPE + " INTEGER,");
-		messageStringBuilder.append(CallbackWarmMessage.ROOMID + " VARCHAR(16),");
-		messageStringBuilder.append(CallbackWarmMessage.TIME + " VARCHAR(16),");
-		messageStringBuilder.append(CallbackWarmMessage.W_DESCRIPTION + " VARCHAR(64),");
-		messageStringBuilder.append(CallbackWarmMessage.DETAILMESSAGE + " VARCHAR(64),");
-		messageStringBuilder.append(CallbackWarmMessage.W_MODE + " VARCHAR(16),");
-		messageStringBuilder.append(CallbackWarmMessage.ZONE_EP + " VARCHAR(16),");
-		messageStringBuilder.append(CallbackWarmMessage.ZONE_IEEE + " VARCHAR(16),");
-		messageStringBuilder.append(CallbackWarmMessage.ZONE_NAME + " VARCHAR(16))");
+		messageStringBuilder.append(CallbackWarnMessage.CIE_EP + " VARCHAR(16),");
+		messageStringBuilder.append(CallbackWarnMessage.CIE_IEEE + " VARCHAR(16),");
+		messageStringBuilder.append(CallbackWarnMessage.CIE_NAME + " VARCHAR(48),");
+		messageStringBuilder.append(CallbackWarnMessage.HOME_ID + " VARCHAR(16),");
+		messageStringBuilder.append(CallbackWarnMessage.HOME_NAME + " VARCHAR(16),");
+		messageStringBuilder.append(CallbackWarnMessage.HOUSEIEEE + " VARCHAR(16),");
+		messageStringBuilder.append(CallbackWarnMessage.MSGTYPE + " INTEGER,");
+		messageStringBuilder.append(CallbackWarnMessage.ROOMID + " VARCHAR(16),");
+		messageStringBuilder.append(CallbackWarnMessage.TIME + " VARCHAR(16),");
+		messageStringBuilder.append(CallbackWarnMessage.W_DESCRIPTION + " VARCHAR(64),");
+		messageStringBuilder.append(CallbackWarnMessage.DETAILMESSAGE + " VARCHAR(64),");
+		messageStringBuilder.append(CallbackWarnMessage.W_MODE + " VARCHAR(16),");
+		messageStringBuilder.append(CallbackWarnMessage.ZONE_EP + " VARCHAR(16),");
+		messageStringBuilder.append(CallbackWarnMessage.ZONE_IEEE + " VARCHAR(16),");
+		messageStringBuilder.append(CallbackWarnMessage.ZONE_NAME + " VARCHAR(16))");
 		
 	}
 
@@ -323,7 +323,7 @@ public class DataHelper extends SQLiteOpenHelper {
 		return result;
 	}
 	public long insertMessageList(SQLiteDatabase db, String table,
-			String nullColumnHack, ArrayList<CallbackWarmMessage> arrayList) {
+			String nullColumnHack, ArrayList<CallbackWarnMessage> arrayList) {
 		
 		long result = -100;
 //		List<DevicesModel> mList = convertToDevicesModel(r);

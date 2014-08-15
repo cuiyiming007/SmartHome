@@ -51,7 +51,8 @@ public class EventType {
 	public static final EventType GETBINDLIST;
 	public static final EventType BEGINLEARNIR;
 	public static final EventType BEGINAPPLYIR;
-	public static final EventType WARM;
+	public static final EventType DELETEIR;
+	public static final EventType WARN;
 	public static final EventType GETDEVICELEARNED;
 	public static final EventType SCAPEDDEVICE;
 	
@@ -97,7 +98,8 @@ public class EventType {
 		GETBINDLIST=new EventType("getBindList", nextId());
 		BEGINLEARNIR=new EventType("beginLearnIR", nextId());
 		BEGINAPPLYIR=new EventType("beginApplyIR", nextId());
-		WARM=new EventType("warm", nextId());
+		DELETEIR=new EventType("deleteIR", nextId());
+		WARN=new EventType("warm", nextId());
 		GETDEVICELEARNED=new EventType("GetDeviceLearned", nextId());
 		SCAPEDDEVICE=new EventType("ScapedDevice", nextId());
 		

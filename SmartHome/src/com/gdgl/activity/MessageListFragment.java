@@ -31,13 +31,13 @@ import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
-import com.gdgl.mydata.Callback.CallbackWarmMessage;
+import com.gdgl.mydata.Callback.CallbackWarnMessage;
 import com.gdgl.smarthome.R;
 
 public class MessageListFragment extends BaseFragment implements UIListener {
 
 	private View mView;
-	List<CallbackWarmMessage> mList;
+	List<CallbackWarnMessage> mList;
 
 	ViewGroup no_dev;
 	Button mBack;
@@ -48,7 +48,7 @@ public class MessageListFragment extends BaseFragment implements UIListener {
 	DataHelper dh;
 
 	MessageAdapter messageAdapter;
-	CallbackWarmMessage currentMessage;
+	CallbackWarnMessage currentMessage;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -184,7 +184,7 @@ public class MessageListFragment extends BaseFragment implements UIListener {
 
 			View mView = convertView;
 			ViewHolder mHolder;
-			final CallbackWarmMessage message = (CallbackWarmMessage) getItem(position);
+			final CallbackWarnMessage message = (CallbackWarnMessage) getItem(position);
 
 			if (null == mView) {
 				mHolder = new ViewHolder();
@@ -249,8 +249,8 @@ public class MessageListFragment extends BaseFragment implements UIListener {
 	@Override
 	public void update(Manger observer, Object object) {
 		final Event event = (Event) object;
-		if (EventType.WARM == event.getType()) {
-			CallbackWarmMessage data = (CallbackWarmMessage) event.getData();
+		if (EventType.WARN == event.getType()) {
+			CallbackWarnMessage data = (CallbackWarnMessage) event.getData();
 			mList.add(data);
 			messageListView.post(new Runnable() {
 				@Override

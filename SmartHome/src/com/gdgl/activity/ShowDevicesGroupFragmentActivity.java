@@ -25,7 +25,7 @@ import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.SimpleResponseData;
 import com.gdgl.mydata.getFromSharedPreferences;
-import com.gdgl.mydata.Callback.CallbackWarmMessage;
+import com.gdgl.mydata.Callback.CallbackWarnMessage;
 import com.gdgl.mydata.getlocalcielist.CIEresponse_params;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.EditDevicesDlg.EditDialogcallback;
@@ -799,7 +799,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 				}
 
 			}
-		} else if (EventType.WARM == event.getType()) {
+		} else if (EventType.WARN == event.getType()) {
 			title.post(new Runnable() {
 
 				@Override
