@@ -21,6 +21,7 @@ import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.ResponseParamsEndPoint;
+import com.gdgl.network.ChannalManager;
 import com.gdgl.reciever.HeartReceiver;
 import com.gdgl.util.NetUtil;
 
@@ -80,6 +81,14 @@ public class SmartService extends Service {
 
 		CallbackManager.getInstance().startConnectServerByTCPTask();
 		startHB();
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				ChannalManager.getInstace(SmartService.this).init();
+			}
+		}).start();
+	
 	}
 
 	public class MsgBinder extends Binder {
