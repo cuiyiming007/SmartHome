@@ -16,6 +16,7 @@ import com.gdgl.adapter.DevicesBaseAdapter;
 import com.gdgl.adapter.DevicesBaseAdapter.DevicesObserver;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
+import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.getFromSharedPreferences;
@@ -256,7 +257,7 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 					.beginTransaction();
 			mDevicesListFragment = new DevicesListFragment();
 			Bundle extras = new Bundle();
-			extras.putInt(DevicesListFragment.OPERATOR, DevicesListFragment.WITH_OPERATE);
+			extras.putInt(Constants.OPERATOR, DevicesListFragment.WITH_OPERATE);
 			mDevicesListFragment.setArguments(extras);
 			fragmentTransaction.replace(R.id.devices_control_fragment,
 					mDevicesListFragment, "LightsControlFragment");

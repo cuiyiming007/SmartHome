@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.model.SimpleDevicesModel;
+import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
@@ -42,7 +43,7 @@ public class TemperatureSensorFragment extends BaseControlFragment {
 		Bundle extras = getArguments();
 		if (null != extras) {
 			mDevices = (SimpleDevicesModel) extras
-					.getParcelable(DevicesListFragment.PASS_OBJECT);
+					.getParcelable(Constants.PASS_OBJECT);
 		}
 
 	}

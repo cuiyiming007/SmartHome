@@ -4,6 +4,7 @@ import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
 import com.gdgl.model.SimpleDevicesModel;
+import com.gdgl.mydata.Constants;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.CircleProgressBar;
 
@@ -70,7 +71,7 @@ public class ShadeControlFragment extends Fragment implements UIListener{
 		Bundle extras = getArguments();
 		if (null != extras) {
 			mDevices = (SimpleDevicesModel) extras
-					.getParcelable(DevicesListFragment.PASS_OBJECT);
+					.getParcelable(Constants.PASS_OBJECT);
 		}
 		mProgress = 30;
 	}

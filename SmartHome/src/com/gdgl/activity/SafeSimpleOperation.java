@@ -32,6 +32,7 @@ import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
+import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.Event;
@@ -80,7 +81,7 @@ public class SafeSimpleOperation extends BaseControlFragment implements UIListen
 		Bundle extras = getArguments();
 		if (null != extras) {
 			mDevices = (SimpleDevicesModel) extras
-					.getParcelable(DevicesListFragment.PASS_OBJECT);
+					.getParcelable(Constants.PASS_OBJECT);
 		}
 
 		initData();

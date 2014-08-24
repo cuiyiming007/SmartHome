@@ -8,6 +8,7 @@ import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
+import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.ResponseParamsEndPoint;
@@ -63,7 +64,7 @@ public class SwitchControlFragment extends BaseControlFragment implements
 		Bundle extras = getArguments();
 		if (null != extras) {
 			mDevices = (SimpleDevicesModel) extras
-					.getParcelable(DevicesListFragment.PASS_OBJECT);
+					.getParcelable(Constants.PASS_OBJECT);
 		}
 		initstate();
 	}

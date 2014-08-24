@@ -10,6 +10,7 @@ import com.gdgl.app.ApplicationController;
 import com.gdgl.manager.Manger;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
+import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.Event;
@@ -49,7 +50,8 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 
-public class DevicesListFragment extends BaseFragment implements adapterSeter,IFragmentCallbak {
+public class DevicesListFragment extends BaseFragment implements adapterSeter,
+		IFragmentCallbak {
 
 	private static final String TAG = "DevicesListFragment";
 	private View mView;
@@ -57,16 +59,19 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,IF
 	private setData setDataActivity;
 	SimpleDevicesModel mSimpleDevicesModel;
 	int refreshTag = 0;
-
+	/***
+	 * 列表上的ui的adapter
+	 * 跟ShowDevicesGroupFragmentActivity的DevicesBaseAdapter对应，父类引用指向子类对象
+	 */
 	BaseAdapter mBaseAdapter;
 	private refreshData mRefreshData;
 	LinearLayout list_root;
 
-	public static final String PASS_OBJECT = "pass_object";
-
-	public static final String PASS_ONOFFIMG = "pass_on_off_img";
-
-	public static final String OPERATOR = "with_or_not_operator";
+//	public static final String PASS_OBJECT = "pass_object";
+//
+//	public static final String PASS_ONOFFIMG = "pass_on_off_img";
+//
+//	public static final String OPERATOR = "with_or_not_operator";
 
 	Context mContext;
 
@@ -78,7 +83,7 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,IF
 	private int type = 1;
 
 	List<SimpleDevicesModel> mList;
-	//一键布撤防的设备 ieee=00137A00000121F0
+	// 一键布撤防的设备 ieee=00137A00000121F0
 	DevicesModel totalControlDevice;
 
 	@Override
@@ -87,7 +92,7 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,IF
 		super.onCreate(savedInstanceState);
 		Bundle extras = getArguments();
 		if (null != extras) {
-			type = extras.getInt(OPERATOR, WITH_OPERATE);
+			type = extras.getInt(Constants.OPERATOR, WITH_OPERATE);
 		}
 		new intialDataTask().execute(0);
 	}
@@ -152,9 +157,12 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,IF
 							.getDeviceModle(position - 1);
 					mRefreshData.setDevicesId(mSimpleDevicesModel.getmIeee());
 
-
-					if (totalControlDevice!=null&&totalControlDevice.getmOnOffStatus().equals("0")&&mSimpleDevicesModel.getmModelId()
-							.indexOf(DataHelper.One_key_operator) != 0 && DataUtil.isSecrity(mSimpleDevicesModel.getmModelId())) {
+					// 判断是安防界面，且mSimpleDevicesModel是安防控制中心，且状态是关闭的
+					if (DataUtil.isSecrity(mSimpleDevicesModel.getmModelId())
+							&& totalControlDevice != null
+							&& mSimpleDevicesModel.getmModelId().indexOf(
+									DataHelper.One_key_operator) != 0
+							&& totalControlDevice.getmOnOffStatus().equals("0")) {
 						VersionDlg vd = new VersionDlg((Context) getActivity());
 						vd.setContent("安防设备已关闭");
 						vd.show();
@@ -166,13 +174,13 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,IF
 							intent.setClass((Context) getActivity(),
 									KongtiaoTvControlActivity.class);
 							startActivity(intent);
-						}else if (mSimpleDevicesModel.getmIeee().equals(
+						} else if (mSimpleDevicesModel.getmIeee().equals(
 								"00137A0000010264")) {
 							Intent intent = new Intent();
 							intent.setClass((Context) getActivity(),
 									RemoteControlActivity.class);
 							startActivity(intent);
-						}else {
+						} else {
 							Fragment mFragment = null;
 
 							if (mSimpleDevicesModel.getmModelId().indexOf(
@@ -192,9 +200,10 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,IF
 							} else if (mSimpleDevicesModel.getmModelId()
 									.indexOf(DataHelper.One_key_operator) == 0) {
 								Bundle extras = new Bundle();
-								extras.putParcelable(PASS_OBJECT,
+								extras.putParcelable(Constants.PASS_OBJECT,
 										mSimpleDevicesModel);
-								mFragment = new SafeSimpleOperation(DevicesListFragment.this);
+								mFragment = new SafeSimpleOperation(
+										DevicesListFragment.this);
 
 								mFragment.setArguments(extras);
 							} else {
@@ -204,26 +213,13 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,IF
 							}
 							if (null != mFragment) {
 								Bundle extras = new Bundle();
-								if (DataHelper.IAS_ZONE_DEVICETYPE == mSimpleDevicesModel
-										.getmDeviceId()
-										|| DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE == mSimpleDevicesModel
-												.getmDeviceId()
-										|| DataHelper.ON_OFF_OUTPUT_DEVICETYPE == mSimpleDevicesModel
-												.getmDeviceId()
-										|| DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE == mSimpleDevicesModel
-												.getmDeviceId()
-										|| DataHelper.MAINS_POWER_OUTLET_DEVICETYPE == mSimpleDevicesModel
-												.getmDeviceId()
-										|| mSimpleDevicesModel
-												.getmModelId()
-												.indexOf(
-														DataHelper.Doors_and_windows_sensor_switch) == 0) {
+								if (isSimpleOnOffDevice()) {
 									int[] OnOffImg = { R.drawable.bufang_on,
 											R.drawable.chefang_off };
-									extras.putIntArray(PASS_ONOFFIMG, OnOffImg);
+									extras.putIntArray(Constants.PASS_ONOFFIMG, OnOffImg);
 								}
 								// PASS_OBKECT
-								extras.putParcelable(PASS_OBJECT,
+								extras.putParcelable(Constants.PASS_OBJECT,
 										mSimpleDevicesModel);
 								mFragment.setArguments(extras);
 								mRefreshData.setFragment(mFragment,
@@ -235,6 +231,27 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,IF
 
 			});
 		}
+	}
+
+	/***
+	 * 判断设备mSimpleDevicesModel是否只有简单开关点击操作
+	 * 
+	 * @return
+	 */
+
+	private boolean isSimpleOnOffDevice() {
+		return DataHelper.IAS_ZONE_DEVICETYPE == mSimpleDevicesModel
+				.getmDeviceId()
+				|| DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE == mSimpleDevicesModel
+						.getmDeviceId()
+				|| DataHelper.ON_OFF_OUTPUT_DEVICETYPE == mSimpleDevicesModel
+						.getmDeviceId()
+				|| DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE == mSimpleDevicesModel
+						.getmDeviceId()
+				|| DataHelper.MAINS_POWER_OUTLET_DEVICETYPE == mSimpleDevicesModel
+						.getmDeviceId()
+				|| mSimpleDevicesModel.getmModelId().indexOf(
+						DataHelper.Doors_and_windows_sensor_switch) == 0;
 	}
 
 	public void initList() {
@@ -419,20 +436,22 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,IF
 			}
 		}
 	}
-	
-	class intialDataTask extends AsyncTask<Object, Object, Object>{
+
+	class intialDataTask extends AsyncTask<Object, Object, Object> {
 
 		@Override
 		protected Object doInBackground(Object... params) {
-			DataHelper	dh = new DataHelper(ApplicationController.getInstance());
+			DataHelper dh = new DataHelper(ApplicationController.getInstance());
 			SQLiteDatabase db = dh.getSQLiteDatabase();
-			 totalControlDevice= DataUtil.getDeviceModelByIeee("00137A00000121F0", dh, db);
+			totalControlDevice = DataUtil.getDeviceModelByIeee(
+					"00137A00000121F0", dh, db);
 			return null;
-		}}
+		}
+	}
 
 	@Override
 	public void onFragmentResult(int requsetId, boolean result, Object data) {
-		String  status=(String) data;
+		String status = (String) data;
 		totalControlDevice.setmOnOffStatus(status);
 	}
 

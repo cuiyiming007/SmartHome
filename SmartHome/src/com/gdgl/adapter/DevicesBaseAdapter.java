@@ -32,6 +32,11 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+/***
+ * 列表上的ui的adapter
+ * @author Administrator
+ *
+ */
 public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 
     protected Context mContext;

@@ -14,6 +14,7 @@ import com.gdgl.adapter.SceneDevicesListAdapter.DevicesObserver;
 import com.gdgl.model.DevicesGroup;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
+import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.getFromSharedPreferences;
@@ -271,7 +272,7 @@ public class SceneDevicesActivity extends Activity implements DevicesObserver,
 			Bundle extras = new Bundle();
 			FragmentTransaction fragmentTransaction = fragmentManager
 					.beginTransaction();
-			extras.putInt(DevicesListFragment.OPERATOR, DevicesListFragment.WITHOUT_OPERATE);
+			extras.putInt(Constants.OPERATOR, DevicesListFragment.WITHOUT_OPERATE);
 			mDevicesListFragment = new DevicesListFragment();
 			mDevicesListFragment.setArguments(extras);
 			fragmentTransaction.replace(R.id.devices_control_fragment,

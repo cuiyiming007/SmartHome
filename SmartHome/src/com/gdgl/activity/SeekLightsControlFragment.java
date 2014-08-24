@@ -19,6 +19,7 @@ import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
+import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.SimpleResponseData;
@@ -52,7 +53,7 @@ public class SeekLightsControlFragment extends BaseControlFragment {
 		Bundle extras = getArguments();
 		if (null != extras) {
 			mDevices = (SimpleDevicesModel) extras
-					.getParcelable(DevicesListFragment.PASS_OBJECT);
+					.getParcelable(Constants.PASS_OBJECT);
 			if(null!=mDevices && mDevices.getmValue().trim().equals("")){
 				mDevices.setmValue("0");
 			}

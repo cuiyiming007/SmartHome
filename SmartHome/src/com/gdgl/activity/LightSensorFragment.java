@@ -13,12 +13,17 @@ import android.widget.Toast;
 import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.model.SimpleDevicesModel;
+import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.SimpleResponseData;
 import com.gdgl.smarthome.R;
-
+/***
+ * 亮度感应器
+ * @author Administrator
+ *
+ */
 public class LightSensorFragment extends BaseControlFragment {
 
 	View mView;
@@ -41,7 +46,7 @@ public class LightSensorFragment extends BaseControlFragment {
 		Bundle extras = getArguments();
 		if (null != extras) {
 			mDevices = (SimpleDevicesModel) extras
-					.getParcelable(DevicesListFragment.PASS_OBJECT);
+					.getParcelable(Constants.PASS_OBJECT);
 		}
 
 	}

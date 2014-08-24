@@ -91,4 +91,10 @@ public class Constants {
 	public static final String ACTION_START_HEART = "startheart";
 	public static final String ACTION_HEARTBEAT = "Heartbeat";
 	public static final String ACTION_STOP_HEART = "stopheart";
+	
+	public static final String PASS_OBJECT = "pass_object";
+
+	public static final String PASS_ONOFFIMG = "pass_on_off_img";
+
+	public static final String OPERATOR = "with_or_not_operator";
 }

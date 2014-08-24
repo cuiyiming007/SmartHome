@@ -18,6 +18,7 @@ import com.gdgl.manager.Manger;
 import com.gdgl.manager.WarnManager;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
+import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.SimpleResponseData;
@@ -93,8 +94,8 @@ public class WarnningControlFragment extends BaseControlFragment {
 		Bundle extras = getArguments();
 		if (null != extras) {
 			mDevices = (SimpleDevicesModel) extras
-					.getParcelable(DevicesListFragment.PASS_OBJECT);
-			OnOffImg = extras.getIntArray(DevicesListFragment.PASS_ONOFFIMG);
+					.getParcelable(Constants.PASS_OBJECT);
+			OnOffImg = extras.getIntArray(Constants.PASS_ONOFFIMG);
 		}
 
 		initstate();

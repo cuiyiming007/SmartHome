@@ -107,7 +107,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 /***
  * 
  * 从数据库获取设备数据
- * 但是在没连上服务器的时候，居然doInBackground不执行。不知道为什么
+ *
  *
  */
 	public class getDataInBackgroundTask extends
@@ -767,10 +767,11 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 				List<SimpleDevicesModel> safeList = mDevicesListCache
 						.get(UiUtils.SECURITY_CONTROL);
 
-				List<SimpleDevicesModel> updatsLis = new ArrayList<SimpleDevicesModel>();
+				List<SimpleDevicesModel> updatsLis = new ArrayList<SimpleDevicesModel>();//需要刷新的集合
 				if (null != devDataList && devDataList.size() > 0) {
 					for (int i = 0; i < devDataList.size(); i++) {
 						CIEresponse_params cp = devDataList.get(i);
+						
 						int m = getDevicesPostion(cp.getCie().getIeee(), cp
 								.getCie().getEp(), safeList);
 						if (-1 != m) {
@@ -864,19 +865,25 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		}
 
 	}
-
+/***
+ * 根据ieee和ep确定该设备在界面对应的列表里面的位置
+ * @param ieee
+ * @param ep
+ * @param deviceList
+ * @return
+ */
 	private int getDevicesPostion(String ieee, String ep,
-			List<SimpleDevicesModel> temList) {
+			List<SimpleDevicesModel> deviceList) {
 		if (null == ieee || null == ep) {
 			return -1;
 		}
 		if (ieee.trim().equals("") || ep.trim().equals("")) {
 			return -1;
 		}
-		if (null != temList && temList.size() > 0) {
-			for (int m = 0; m < temList.size(); m++) {
-				if (ieee.trim().equals(temList.get(m).getmIeee())
-						&& ep.trim().equals(temList.get(m).getmEP())) {
+		if (null != deviceList && deviceList.size() > 0) {
+			for (int m = 0; m < deviceList.size(); m++) {
+				if (ieee.trim().equals(deviceList.get(m).getmIeee())
+						&& ep.trim().equals(deviceList.get(m).getmEP())) {
 					return m;
 				}
 			}

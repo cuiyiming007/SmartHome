@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.gdgl.manager.Manger;
 import com.gdgl.model.SimpleDevicesModel;
+import com.gdgl.mydata.Constants;
 import com.gdgl.smarthome.R;
 
 public class DoorBellFragment extends BaseControlFragment {
@@ -48,7 +49,7 @@ public class DoorBellFragment extends BaseControlFragment {
 		Bundle extras = getArguments();
 		if (null != extras) {
 			mDevices = (SimpleDevicesModel) extras
-					.getParcelable(DevicesListFragment.PASS_OBJECT);
+					.getParcelable(Constants.PASS_OBJECT);
 		}
 
 	}

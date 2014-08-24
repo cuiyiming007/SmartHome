@@ -29,6 +29,12 @@ public abstract class BaseControlFragment extends Fragment implements
 	public interface UpdateDevice {
 		public void saveDevicesName(String name);
 
+		/***
+		 * 更新数据库
+		 * @param sd
+		 * @param c
+		 * @return
+		 */
 		public boolean updateDevices(SimpleDevicesModel sd, ContentValues c);
 	}
 
