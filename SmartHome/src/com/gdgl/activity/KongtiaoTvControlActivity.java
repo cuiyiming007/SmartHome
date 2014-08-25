@@ -643,6 +643,7 @@ public class KongtiaoTvControlActivity extends Activity implements UIListener,
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
+		CallbackManager.getInstance().deleteObserver(KongtiaoTvControlActivity.this);
 		cgiManager.deleteObserver(KongtiaoTvControlActivity.this);
 	}
 

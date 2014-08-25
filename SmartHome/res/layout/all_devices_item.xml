@@ -68,16 +68,15 @@
             android:layout_marginTop="3dp"
             android:background="#999999" />
 
-        <CheckBox
-            android:id="@+id/selected"
-            style="@style/AddCustomCheckboxTheme"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+        <Switch
+            android:id="@+id/switch_btn"
+            style="android:switchStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="2dp"
-            android:clickable="false"
-            android:focusable="false" />
+            android:layout_marginRight="2dp" />
+
     </LinearLayout>
 
 </LinearLayout>

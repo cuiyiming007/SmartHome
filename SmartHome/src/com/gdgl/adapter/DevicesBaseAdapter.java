@@ -30,6 +30,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 /***
@@ -230,6 +231,7 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
         TextView warn_state;
         TextView devices_region;
         TextView devices_state;
+        Switch devices_switch;
     }
 
     public interface DevicesObserver {
