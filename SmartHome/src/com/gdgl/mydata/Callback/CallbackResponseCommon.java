@@ -10,7 +10,7 @@ public class CallbackResponseCommon {
 	private String callbackType;
 	private String IEEE;
 	private String EP;
-	private String Value;
+	private String value;
 	public String getDeviceID() {
 		return deviceID;
 	}
@@ -36,10 +36,10 @@ public class CallbackResponseCommon {
 		IEEE = iEEE;
 	}
 	public String getValue() {
-		return Value;
+		return value;
 	}
-	public void setValue(String value) {
-		Value = value;
+	public void setValue(String Value) {
+		value = Value;
 	}
 	public String getEP() {
 		return EP;
@@ -51,7 +51,7 @@ public class CallbackResponseCommon {
 	public String toString() {
 		return "IASZone [deviceID=" + deviceID + ", msgtype=" + msgtype
 				+ ", callbackType=" + callbackType + ", IEEE=" + IEEE + ", EP="
-				+ EP + ", Value=" + Value + "]";
+				+ EP + ", value=" + value + "]";
 	}
 	
 	

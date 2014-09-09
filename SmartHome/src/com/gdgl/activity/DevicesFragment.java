@@ -1,5 +1,7 @@
 package com.gdgl.activity;
-
+/***
+ * 最外层设备菜单
+ */
 import com.gdgl.adapter.GridviewAdapter;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.UiUtils;

@@ -17,8 +17,8 @@
             android:layout_height="40dp"
             android:layout_gravity="center"
             android:layout_marginBottom="2dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
             android:layout_marginTop="2dp"
             android:src="@drawable/seek_light" />
 
@@ -26,7 +26,7 @@
             android:layout_width="2dp"
             android:layout_height="match_parent"
             android:layout_marginBottom="5dp"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="5dp"
             android:layout_marginTop="3dp"
             android:background="#999999" />
 
@@ -40,7 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:orientation="vertical" >
 
@@ -48,7 +48,7 @@
                     android:id="@+id/devices_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginLeft="5dp"
                     android:layout_weight="1"
                     android:text="Light1"
                     android:textColor="#000000"
@@ -59,7 +59,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:orientation="horizontal" >
 
@@ -67,20 +67,20 @@
                     android:id="@+id/devices_state"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginLeft="5dp"
                     android:layout_marginTop="15dp"
                     android:layout_weight="1"
                     android:text="开"
                     android:textColor="#1E90FF"
                     android:textSize="15dp" />
-                
-                 <TextView
+
+                <TextView
                     android:id="@+id/warn_state"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginLeft="5dp"
                     android:layout_marginTop="15dp"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:text=""
                     android:textColor="#1E90FF"
                     android:textSize="15dp" />
@@ -89,65 +89,91 @@
                     android:id="@+id/devices_region"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginRight="0dp"
                     android:layout_marginTop="15dp"
                     android:gravity="right"
                     android:text="厨房"
                     android:textColor="#27408B"
                     android:textSize="15dp" />
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/seekbar_state"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:orientation="horizontal" >
+
+                <SeekBar
+                    android:id="@+id/devices_seek_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:focusable="false"
+                    android:maxHeight="5dp"
+                    android:minHeight="5dp"
+                    android:progress="50"
+                    android:progressDrawable="@drawable/seekbar_progress"
+                    android:thumb="@drawable/tuodong_btn"
+                    android:thumbOffset="0dp" />
+            </LinearLayout>
         </LinearLayout>
 
-        <!--
-             <CheckBox
-            android:id="@+id/expandable_toggle_button"
-            style="@style/ExpandCheckboxTheme"
+        <LinearLayout
+            android:id="@+id/switch_layout"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="2dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:checked="true"
-            android:layout_marginTop="2dp" />
-        -->
+            android:layout_height="match_parent"
+            android:orientation="horizontal" >
 
+            <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="3dp"
+                android:background="#999999" />
+
+            <Switch
+                android:id="@+id/switch_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:focusable="false" />
+        </LinearLayout>
+        
+        <LinearLayout
+            android:id="@+id/button_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:visibility="gone" >
+
+            <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="3dp"
+                android:background="#999999" />
+
+            <Button 
+                android:id="@+id/button_device"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="2dp"
+                android:focusable="false"
+                android:text="关闭"
+                android:textColor="#1E90FF"
+                android:textSize="15dp"
+                android:clickable="false" />"
+        </LinearLayout>
     </LinearLayout>
-
-    <!--
-    <LinearLayout
-        android:id="@+id/expandable"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:alpha="0.65"
-        android:orientation="horizontal"
-        android:visibility="gone" >
-
-        <Button
-            android:id="@+id/btn_edit"
-            android:layout_width="wrap_content"
-            android:layout_height="45dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/function_btn_style"
-            android:text="编辑"
-            android:textSize="15dp" />
-
-        <Button
-            android:id="@+id/btn_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="45dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/function_btn_style"
-            android:text="删除"
-            android:textSize="15dp" />
-    </LinearLayout>
-    -->
 
 </LinearLayout>

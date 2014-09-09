@@ -43,6 +43,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 public class RegionDevicesActivity extends Activity implements DevicesObserver,
@@ -75,6 +76,7 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 	DevicesBaseAdapter mDevicesBaseAdapter;
 
 	TextView mNoDevices,region_name;
+	SeekBar seekbar;
 	Button mAdd,delete;
 	
 	DataHelper mDataHelper;
@@ -160,6 +162,7 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 		mNoDevices = (TextView) findViewById(R.id.no_devices);
 		mAdd = (Button) findViewById(R.id.add_devices);
 		delete = (Button) findViewById(R.id.delete);
+		seekbar=(SeekBar)findViewById(R.id.devices_seek_bar);
 		region_name=(TextView) findViewById(R.id.region_name);
 		
 		region_name.setText(mRegion);

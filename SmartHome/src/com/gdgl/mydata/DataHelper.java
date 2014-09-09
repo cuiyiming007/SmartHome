@@ -19,20 +19,20 @@ import android.util.Log;
 
 public class DataHelper extends SQLiteOpenHelper {
 
-	public static final int ON_OFF_SWITCH_DEVICETYPE = 0;
-	public static final int ON_OFF_OUTPUT_DEVICETYPE = 2;
-	public static final int REMOTE_CONTROL_DEVICETYPE = 6;
-	public static final int COMBINED_INTERFACE_DEVICETYPE = 7;
-	public static final int RANGE_EXTENDER_DEVICETYPE = 8;
-	public static final int MAINS_POWER_OUTLET_DEVICETYPE = 9;
-	public static final int DIMEN_LIGHTS_DEVICETYPE = 257;
-	public static final int DIMEN_SWITCH_DEVICETYPE = 260;
-	public static final int LIGHT_SENSOR_DEVICETYPE = 262;
-	public static final int SHADE_DEVICETYPE = 512;
-	public static final int TEMPTURE_SENSOR_DEVICETYPE = 770;
-	public static final int IAS_ACE_DEVICETYPE = 1025;
-	public static final int IAS_ZONE_DEVICETYPE = 1026;
-	public static final int IAS_WARNNING_DEVICE_DEVICETYPE = 1027;
+	public static final int ON_OFF_SWITCH_DEVICETYPE = 0; //开关（如“三键开关”、“双键开关”）
+	public static final int ON_OFF_OUTPUT_DEVICETYPE = 2; //无线智能阀门
+	public static final int REMOTE_CONTROL_DEVICETYPE = 6; //多键遥控器
+	public static final int COMBINED_INTERFACE_DEVICETYPE = 7; //协调器(即一键布防)
+	public static final int RANGE_EXTENDER_DEVICETYPE = 8; //红外控制器
+	public static final int MAINS_POWER_OUTLET_DEVICETYPE = 9; //开关模块（单路）、中规电能检测墙面插座、电能检测插座
+	public static final int DIMEN_LIGHTS_DEVICETYPE = 257; //吸顶电能检测调光模块
+	public static final int DIMEN_SWITCH_DEVICETYPE = 260; //调光开关(开关模块）
+	public static final int LIGHT_SENSOR_DEVICETYPE = 262; //光线感应器
+	public static final int SHADE_DEVICETYPE = 512; //幕帘控制开关
+	public static final int TEMPTURE_SENSOR_DEVICETYPE = 770; //室内型温湿度感应器
+	public static final int IAS_ACE_DEVICETYPE = 1025; //门铃按键、多键遥控器
+	public static final int IAS_ZONE_DEVICETYPE = 1026; //烟雾感应器、可燃气体探测器（煤气）、（天然气）、（一氧化碳）、窗磁、门窗感应开关、紧急按钮、动作感应器
+	public static final int IAS_WARNNING_DEVICE_DEVICETYPE = 1027; //警报器
 
 	public static final String Motion_Sensor = "ZB11A"; // ZigBee������Ӧ��
 	public static final String Magnetic_Window = "Z311A"; // ZigBee����
@@ -269,6 +269,8 @@ public class DataHelper extends SQLiteOpenHelper {
 			}
 			db.setTransactionSuccessful();
 //			db.close();
+		} catch(Exception e) {
+			e.printStackTrace();
 		} finally {
 			db.endTransaction();
 			db.close();
@@ -316,6 +318,8 @@ public class DataHelper extends SQLiteOpenHelper {
 			}
 			db.setTransactionSuccessful();
 //			db.close();
+		} catch(Exception e) {
+			e.printStackTrace();
 		} finally {
 			db.endTransaction();
 			db.close();
@@ -339,6 +343,8 @@ public class DataHelper extends SQLiteOpenHelper {
 			}
 			db.setTransactionSuccessful();
 //			db.close();
+		} catch(Exception e) {
+			e.printStackTrace();
 		} finally {
 			db.endTransaction();
 			db.close();

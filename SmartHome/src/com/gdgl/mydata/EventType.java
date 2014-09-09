@@ -19,6 +19,7 @@ public class EventType {
 	public static final EventType ONOFFLIGHTOPERATION;
 	public static final  EventType ONOFFLIGHTSWITCHOPERATION;
 	public static final EventType ONOFFOUTPUTOPERATION;
+	public static final EventType ONOFFOUTPUTCALLBACK;
 	public static final EventType ONOFFSWITCHOPERATION;
 	
 	public static final EventType DOORLOCKOPERATION;
@@ -66,6 +67,7 @@ public class EventType {
 		ONOFFLIGHTOPERATION=new EventType("onofflightoperation", nextId());
 		ONOFFLIGHTSWITCHOPERATION=new EventType("onofflightswitchoperation", nextId());
 		ONOFFOUTPUTOPERATION=new EventType("onOffOutputOperation", nextId());
+		ONOFFOUTPUTCALLBACK=new EventType("onOffOutputCallback", nextId());
 		ONOFFSWITCHOPERATION=new EventType("onOffSwitchOperation", nextId());
 		INTITIALDVIVCEDATA=new EventType("initialDiviceData",nextId());
 		GETICELIST=new EventType("getICEList",nextId());

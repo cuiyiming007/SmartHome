@@ -101,7 +101,6 @@ public class WarnningControlFragment extends BaseControlFragment {
 		initstate();
 		mLightManager = CGIManager.getInstance();
 		mLightManager.addObserver(WarnningControlFragment.this);
-		CallbackManager.getInstance().addObserver(this);
 	}
 
 	@Override

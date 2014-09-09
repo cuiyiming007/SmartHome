@@ -261,7 +261,7 @@ public class SafeSimpleOperation extends BaseControlFragment implements UIListen
 		final Event event = (Event) object;
 		if (EventType.LOCALIASCIEOPERATION == event.getType()) {
 			if (event.isSuccess() == true) {
-				int data = (Integer) event.getData();
+				int data = Integer.parseInt((String)event.getData());
 				if (data == 7) {
 					new UpdateSafeControlDevices().execute(true);
 				} else if (data == 6) {
@@ -275,5 +275,4 @@ public class SafeSimpleOperation extends BaseControlFragment implements UIListen
 	public void editDevicesName() {
 		
 	}
-
 }

@@ -96,7 +96,7 @@ public class CallbackManager extends Manger {
 						CallbackResponseType2.class);
 				handleAttribute(common);
 
-				// Log.i(TAG, "Callback msgType=" + msgType + "energy");
+				//Log.i(TAG, "Callback msgType=" + msgType + "energy"+common.toString());
 				break;
 			case 3:
 				Log.i(TAG, "Callback msgType=" + msgType + "warm message");
@@ -137,7 +137,13 @@ public class CallbackManager extends Manger {
 				Log.i(TAG, "Callback msgType=" + msgType + "OnOffSwitch");
 				break;
 			case 10:
-				Log.i(TAG, "Callback msgType=" + msgType + "OnOffOutPut");
+				CallbackResponseCommon onoff_outputDevice = gson.fromJson(response,
+						CallbackResponseCommon.class);
+				Log.i(TAG, "Callback msgType=" + msgType + "OnOffOutPut"+onoff_outputDevice.toString());
+//				Event event2 = new Event(EventType.ONOFFOUTPUTCALLBACK, true);
+//				event2.setData(onoff_outputDevice);
+//				notifyObservers(event2);
+				
 				break;
 			// need to distinguish with type 5
 			case 11:
@@ -154,8 +160,8 @@ public class CallbackManager extends Manger {
 
 				break;
 			case 12:
-				Log.i(TAG, "Callback msgType=" + msgType + "Brand Style");
 				CallbackBeginLearnIRMessage learnIR=gson.fromJson(response, CallbackBeginLearnIRMessage.class);
+				Log.i(TAG, "Callback msgType=" + msgType + "Brand Style"+learnIR.toString());
 				Log.i("CallbackManager BeginLearnIR Response:%n %s", learnIR.toString());
 				Event event1 = new Event(EventType.BEGINLEARNIR, true);
 				event1.setData(learnIR);
@@ -172,9 +178,9 @@ public class CallbackManager extends Manger {
 				Log.i(TAG, "Callback msgType=" + msgType + " UnBind result");
 				break;
 			case 16:
-				Log.i(TAG, "Callback msgType=" + msgType + " Enroll");
 				CallbackEnrollMessage enrollMessage = gson.fromJson(response,
 						CallbackEnrollMessage.class);
+				Log.i(TAG, "Callback msgType=" + msgType + " Enroll"+enrollMessage.toString());
 				Event event = new Event(EventType.ENROLL, true);
 				event.setData(enrollMessage);
 				notifyObservers(event);
@@ -231,6 +237,7 @@ public class CallbackManager extends Manger {
 		switch (attributeId) {
 		case 0:
 			if (6 == clusterId) {
+				Log.i(TAG, "Callback msgType=" + 2 + "energy"+common.toString());
 				Event event = new Event(EventType.ON_OFF_STATUS, true);
 				event.setData(common);
 				notifyObservers(event);

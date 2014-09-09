@@ -194,49 +194,11 @@ public class LockFragment extends BaseControlFragment {
 				ContentValues c = new ContentValues();
 				c.put(DevicesModel.ON_OFF_STATUS, status ? "0" : "1");
 				mUpdateDevice.updateDevices(mDevices, c);
-				/***
-				 * 有可能是冗余代码，需验证
-				 */
-				DeviceManager.getInstance().getLocalCIEList();
 			}else
 			{
 				Toast.makeText(getActivity(), "操作失败", Toast.LENGTH_SHORT);
 			}
-		} else if (EventType.GETICELIST == event.getType()) {
-			if (event.isSuccess()) {
-				ArrayList<CIEresponse_params> devDataList = (ArrayList<CIEresponse_params>) event
-						.getData();
-				updateStatusByList(devDataList);
-			}
 		}
-//		else if (EventType.ON_OFF_STATUS == event.getType()) {
-//			if (event.isSuccess() == true) {
-//				// data maybe null
-//				CallbackResponseType2 data = (CallbackResponseType2) event
-//						.getData();
-//				List<DevicesModel> mList;
-//				DataHelper mDh = new DataHelper((Context) getActivity());
-//				String where = " ieee=? and ep=? ";
-//				String[] args = {
-//						mDevices.getmIeee() == null ? "" : mDevices.getmIeee()
-//								.trim(),
-//						mDevices.getmEP() == null ? "" : mDevices.getmEP()
-//								.trim() };
-//				mList = mDh.queryForList(mDh.getSQLiteDatabase(),
-//						DataHelper.DEVICES_TABLE, null, where, args, null,
-//						null, null, null);
-//				boolean result = false;
-//				if (null != data.getValue()) {
-//					result = data.getValue().trim().equals("1");
-//					status = result;
-//					setImagRes(on_off, status);
-//				}
-//				ProcessUpdate(data, mList);
-//			} else {
-//				// if failed,prompt a Toast
-//				// mError.setVisibility(View.VISIBLE);
-//			}
-//		}
 	}
 
 	private void updateStatusByList(ArrayList<CIEresponse_params> devDataList) {

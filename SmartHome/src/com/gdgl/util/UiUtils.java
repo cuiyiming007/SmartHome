@@ -18,7 +18,7 @@ import android.view.animation.TranslateAnimation;
 import android.widget.Toast;
 
 import com.gdgl.activity.LockFragment;
-import com.gdgl.activity.ShadeControlFragment;
+import com.gdgl.activity.CurtainControlFragment;
 import com.gdgl.activity.OutLetControlFragment;
 import com.gdgl.activity.LightSensorFragment;
 import com.gdgl.activity.SeekLightsControlFragment;
@@ -403,7 +403,6 @@ public class UiUtils {
 		case DataHelper.LIGHT_SENSOR_DEVICETYPE:
 			mFragment = null;
 			break;
-		case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:
 		case DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE:
 			mFragment = new WarnningControlFragment();
 			break;
@@ -419,7 +418,7 @@ public class UiUtils {
 			mFragment = new SeekLightsControlFragment();
 			break;
 		case DataHelper.SHADE_DEVICETYPE:
-			mFragment = new ShadeControlFragment();
+			mFragment = new CurtainControlFragment();
 			break;
 
 		default:

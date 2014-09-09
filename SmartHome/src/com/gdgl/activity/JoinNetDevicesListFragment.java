@@ -351,7 +351,7 @@ public class JoinNetDevicesListFragment extends BaseFragment implements
 			if (null == mView) {
 				mHolder = new ViewHolder();
 				mView = LayoutInflater.from((Context) getActivity()).inflate(
-						R.layout.devices_list_item, null);
+						R.layout.devices_list_item_nooperator, null);
 				mHolder.devices_img = (ImageView) mView
 						.findViewById(R.id.devices_img);
 				mHolder.devices_name = (TextView) mView

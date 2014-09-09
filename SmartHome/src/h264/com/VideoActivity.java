@@ -110,11 +110,6 @@ public class VideoActivity extends FragmentActivity implements UIListener {
 
 	@Override
 	protected void onDestroy() {
-		CallbackManager.getInstance().deleteObserver(this);
-		decodeh264.setIsVideoRun(false);
-		decodeh264.initalThread();
-		isVisible = false;
-		Network.closeVideoSocket();
 		super.onDestroy();
 	}
 
@@ -193,7 +188,14 @@ public class VideoActivity extends FragmentActivity implements UIListener {
 		params.gravity = Gravity.TOP;
 		return params;
 	}
-
+	
+	//按手机返回键
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		finish();
+		super.onBackPressed();
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -203,6 +205,11 @@ public class VideoActivity extends FragmentActivity implements UIListener {
 	public void finish() {
 		// TODO Auto-generated method stub
 		Log.i(TAG, "finish video ipc_channel=" + String.valueOf(ipc_channel));
+		CallbackManager.getInstance().deleteObserver(this);
+		decodeh264.setIsVideoRun(false);
+		decodeh264.initalThread();
+		isVisible = false;
+		Network.closeVideoSocket();
 		super.finish();
 	}
 

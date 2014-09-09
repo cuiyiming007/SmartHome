@@ -506,7 +506,7 @@ public class CGIManager extends Manger {
 	}
 
 	/***
-	 * 2.17全局布撤防， operatortype=6 布防 operatortype=7 撤防 operatortype=5 全局布防状态
+	 * 2.17全局布撤防， operatortype=6 撤防 operatortype=7 布防 operatortype=5 全局布防状态
 	 * 查看当前全局布防状态（通过Param1的值判断）： 0：全部撤防 1：白天布防模式 2：夜间布防模式 3：全部布防
 	 * 
 	 */
@@ -530,14 +530,19 @@ public class CGIManager extends Manger {
 					Gson gson = new Gson();
 					LocalIASCIEOperationResponseData data = gson.fromJson(
 							jsonString, LocalIASCIEOperationResponseData.class);
-					String status = data.getResponse_params().getParam1();
+					String status = data.getResponse_params().getParam1().trim();
 					Log.i(TAG,
 							"LocalIASCIEOperation get status is "
 									+ String.valueOf(status));
+					Event event = new Event(EventType.LOCALIASCIEOPERATION, true);
+					event.setData(status);
+					notifyObservers(event);
+				}else {
+					String status=String.valueOf(operationType);
+					Event event = new Event(EventType.LOCALIASCIEOPERATION, true);
+					event.setData(status);
+					notifyObservers(event);
 				}
-				Event event = new Event(EventType.LOCALIASCIEOPERATION, true);
-				event.setData(operationType);
-				notifyObservers(event);
 			}
 		};
 

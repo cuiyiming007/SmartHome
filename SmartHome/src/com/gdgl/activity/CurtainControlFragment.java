@@ -1,5 +1,7 @@
 package com.gdgl.activity;
-
+/***
+ * 窗帘控制
+ */
 import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
@@ -25,7 +27,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 @SuppressLint("NewApi")
-public class ShadeControlFragment extends Fragment implements UIListener{
+public class CurtainControlFragment extends Fragment implements UIListener{
 
     String mCurtainsId;
     double mCurtainState;
@@ -89,7 +91,7 @@ public class ShadeControlFragment extends Fragment implements UIListener{
     private void initView() {
         // TODO Auto-generated method stub
     	mLightManager=CGIManager.getInstance();
-    	mLightManager.addObserver(ShadeControlFragment.this);
+    	mLightManager.addObserver(CurtainControlFragment.this);
         mOpen = (Button) mView.findViewById(R.id.btn_open);
         mClose = (Button) mView.findViewById(R.id.btn_close);
         txtOpen = (TextView) mView.findViewById(R.id.txt_open);
@@ -387,7 +389,7 @@ public class ShadeControlFragment extends Fragment implements UIListener{
             mCloseThread.onPause();
             mCloseThread.interrupt();
         }
-        mLightManager.deleteObserver(ShadeControlFragment.this);
+        mLightManager.deleteObserver(CurtainControlFragment.this);
         super.onDestroy();
     }
     public static class operatortype {
