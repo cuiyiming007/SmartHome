@@ -374,8 +374,7 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 							}
 							if (mDevices.getmDeviceId() == DataHelper.IAS_ZONE_DEVICETYPE) {
 								// 烟雾感应器、可燃气体探测器（煤气）、（天然气）、（一氧化碳）、门窗感应开关、窗磁、紧急按钮、动作感应器
-								mcgiManager.LocalIASCIEUnByPassZone(mDevices,
-										-1);
+								mcgiManager.LocalIASCIEUnByPassZone(mDevices);
 							}
 						} else {
 							if (mDevices
@@ -396,7 +395,7 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 								mcgiManager.shadeOperation(mDevices, 1);
 							}
 							if (mDevices.getmDeviceId() == DataHelper.IAS_ZONE_DEVICETYPE) {
-								mcgiManager.LocalIASCIEByPassZone(mDevices, -1);
+								mcgiManager.LocalIASCIEByPassZone(mDevices);
 							}
 						}
 					}

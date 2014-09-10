@@ -25,6 +25,11 @@ import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 
+/***
+ * 最外层区域菜单
+ * @author Trice
+ *
+ */
 public class RegionsFragment extends Fragment implements refreshAdapter,Dialogcallback{
 
 	GridView content_view;

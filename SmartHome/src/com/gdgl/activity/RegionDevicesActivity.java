@@ -46,6 +46,11 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+/***
+ * 区域设备列表
+ * @author Trice
+ *
+ */
 public class RegionDevicesActivity extends Activity implements DevicesObserver,
 		AddChecked, refreshData, UpdateDevice, EditDialogcallback,
 		Dialogcallback,setData{
@@ -76,7 +81,6 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 	DevicesBaseAdapter mDevicesBaseAdapter;
 
 	TextView mNoDevices,region_name;
-	SeekBar seekbar;
 	Button mAdd,delete;
 	
 	DataHelper mDataHelper;
@@ -162,7 +166,6 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 		mNoDevices = (TextView) findViewById(R.id.no_devices);
 		mAdd = (Button) findViewById(R.id.add_devices);
 		delete = (Button) findViewById(R.id.delete);
-		seekbar=(SeekBar)findViewById(R.id.devices_seek_bar);
 		region_name=(TextView) findViewById(R.id.region_name);
 		
 		region_name.setText(mRegion);
@@ -515,6 +518,9 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 				finish();
 			}
 		}
+		mAdd.setText("添加设备");
+		mAdd.setTextColor(Color.BLACK);
+		currentState=INLIST;
 	}
 
 

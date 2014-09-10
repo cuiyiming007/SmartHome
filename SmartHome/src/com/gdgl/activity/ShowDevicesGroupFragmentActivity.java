@@ -475,8 +475,8 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 			}
 		} else if (UiUtils.SECURITY_CONTROL == postion) {
 			mDeviceManager.getLocalCIEList();
-			mcgiManager.LocalIASCIEOperation(null, 5);
 		}
+		mcgiManager.LocalIASCIEOperation(null, 5);
 	}
 
 	public void changeForCoverFlow(int p) {

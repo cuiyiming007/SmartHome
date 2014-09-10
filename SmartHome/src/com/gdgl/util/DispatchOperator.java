@@ -55,9 +55,9 @@ public class DispatchOperator {
 			break;
 		case DataHelper.IAS_ZONE_DEVICETYPE:
 			if (s.state) {
-				mLightManager.LocalIASCIEByPassZone(sd, -1);
+				mLightManager.LocalIASCIEByPassZone(sd);
 			}else {
-				mLightManager.LocalIASCIEUnByPassZone(sd,-1);
+				mLightManager.LocalIASCIEUnByPassZone(sd);
 			}
 			break;
 		case DataHelper.DIMEN_SWITCH_DEVICETYPE:

@@ -72,8 +72,11 @@ public class CGIManager extends Manger {
 		paraMap.put("devin_ieee", mdevices.getmIeee());
 		paraMap.put("devin_ep", mdevices.getmEP());
 		paraMap.put("cluster_id", "0006");
+		
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
 		String param = hashMap2ParamString(paraMap);
-
 		Listener<String> responseListener = new Listener<String>() {
 			@Override
 			public void onResponse(String response) {
@@ -116,11 +119,11 @@ public class CGIManager extends Manger {
 		paraMap.put("devout_ep", outModel.getmEP());
 		paraMap.put("devin_ieee", mDevices.getmIeee());
 		paraMap.put("devin_ep", mDevices.getmEP());
-		// paraMap.put("devout_ieee", "00137A000001122A");
-		// paraMap.put("devout_ep", "03");
-		// paraMap.put("devin_ieee", "00137A0000010AB5");
-		// paraMap.put("devin_ep", "0A");
 		paraMap.put("cluster_id", "0006");
+		
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
 		String param = hashMap2ParamString(paraMap);
 
 		String url = NetUtil.getInstance().getCumstomURL(
@@ -132,6 +135,10 @@ public class CGIManager extends Manger {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", devicesModel.getmIeee());
 		paraMap.put("ep", devicesModel.getmEP());
+		
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
 		String param = hashMap2ParamString(paraMap);
 		String url = NetUtil.getInstance().getCumstomURL(
 				NetUtil.getInstance().IP, "getBindList.cgi", param);
@@ -166,6 +173,10 @@ public class CGIManager extends Manger {
 	public void deleteNode(String ieee) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", ieee);
+		
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
 		String param = hashMap2ParamString(paraMap);
 
 		String url = NetUtil.getInstance().getCumstomURL(
@@ -184,6 +195,10 @@ public class CGIManager extends Manger {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", ieee);
 		paraMap.put("second", String.valueOf(250));
+		
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
 		String param = hashMap2ParamString(paraMap);
 
 		String url = NetUtil.getInstance().getCumstomURL(
@@ -204,6 +219,10 @@ public class CGIManager extends Manger {
 		paraMap.put("param1", "1");
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
+		
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
 		String param = hashMap2ParamString(paraMap);
 
 		String url = NetUtil.getInstance().getCumstomURL(
@@ -231,6 +250,10 @@ public class CGIManager extends Manger {
 		paraMap.put("param1", String.valueOf(param1));
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
+		
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
 		String param = hashMap2ParamString(paraMap);
 
 		String url = NetUtil.getInstance().getCumstomURL(
@@ -251,8 +274,19 @@ public class CGIManager extends Manger {
 	 * 
 	 */
 	public void onOffLightOperation() {
-
-		String param = "ieee=00137A0000010AB5&ep=0A&operatortype=2&param1=1&param2=2&param3=3";
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("ieee", "00137A0000010AB5");
+		paraMap.put("ep", "0A");
+		paraMap.put("operatortype", "2");
+		paraMap.put("param1", "1");
+		paraMap.put("param2", "2");
+		paraMap.put("param3", "3");
+		
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
+		String param = hashMap2ParamString(paraMap);
+		
 		String url = NetUtil.getInstance().getCumstomURL(
 				NetUtil.getInstance().IP, "onOffLightOperation.cgi", param);
 		EventType type = EventType.ONOFFLIGHTOPERATION;
@@ -290,6 +324,10 @@ public class CGIManager extends Manger {
 		paraMap.put("param1", "1");
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
+		
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
 		String param = hashMap2ParamString(paraMap);
 
 		String url = NetUtil.getInstance().getCumstomURL(
@@ -335,6 +373,10 @@ public class CGIManager extends Manger {
 		paraMap.put("param1", "1");
 		paraMap.put("param2", "2");
 		paraMap.put("operatortype", "1");
+		
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
 		String param = hashMap2ParamString(paraMap);
 
 		String url = NetUtil.getInstance().getCumstomURL(
@@ -361,6 +403,10 @@ public class CGIManager extends Manger {
 		paraMap.put("param1", String.valueOf(param1));
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
+		
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
 		String param = hashMap2ParamString(paraMap);
 
 		String url = NetUtil.getInstance().getCumstomURL(
@@ -398,6 +444,10 @@ public class CGIManager extends Manger {
 		paraMap.put("param1", "1");
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
+		
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
 		String param = hashMap2ParamString(paraMap);
 
 		String url = NetUtil.getInstance().getCumstomURL(
@@ -418,6 +468,10 @@ public class CGIManager extends Manger {
 		paraMap.put("param1", "1");
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
+		
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
 		String param = hashMap2ParamString(paraMap);
 
 		String url = NetUtil.getInstance().getCumstomURL(
@@ -455,6 +509,10 @@ public class CGIManager extends Manger {
 		paraMap.put("param1", "1");
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
+		
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
 		String param = hashMap2ParamString(paraMap);
 
 		String url = NetUtil.getInstance().getCumstomURL(
@@ -476,13 +534,17 @@ public class CGIManager extends Manger {
 		paraMap.put("param1", "1");
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
+		
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
 		String param = hashMap2ParamString(paraMap);
 
 		String url = NetUtil.getInstance()
 				.getCumstomURL(NetUtil.getInstance().IP,
 						"shadeControllerOperation.cgi", param);
 
-		simpleVolleyRequset(url, EventType.SHADEcONTROLLEROPERATION);
+		simpleVolleyRequset(url, EventType.SHADECONTROLLEROPERATION);
 	}
 
 	/***
@@ -496,6 +558,10 @@ public class CGIManager extends Manger {
 		paraMap.put("param1", "1");
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
+		
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
 		String param = hashMap2ParamString(paraMap);
 
 		String url = NetUtil.getInstance().getCumstomURL(
@@ -517,6 +583,10 @@ public class CGIManager extends Manger {
 		paraMap.put("param1", "1");
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
+		
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
 		String param = hashMap2ParamString(paraMap);
 
 		String url = NetUtil.getInstance().getCumstomURL(
@@ -566,18 +636,17 @@ public class CGIManager extends Manger {
 	}
 
 	/***
-	 * 2.17窗磁布防LocalIASCIE ByPassZone
+	 * 2.1安防设备布防LocalIASCIE ByPassZone
 	 * 
 	 */
-	public void LocalIASCIEByPassZone(SimpleDevicesModel model,
-			int operationType) {
+	public void LocalIASCIEByPassZone(SimpleDevicesModel model) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("zone_ieee", model.getmIeee());
 		paraMap.put("zone_ep", model.getmEP());
-		// paraMap.put("operatortype", String.valueOf(operationType));
-		// paraMap.put("param1", "1");
-		// paraMap.put("param2", "2");
-		// paraMap.put("param3", "3");
+		
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
 		String param = hashMap2ParamString(paraMap);
 
 		String url = NetUtil.getInstance().getCumstomURL(
@@ -590,17 +659,14 @@ public class CGIManager extends Manger {
 	 * 2.17安防设备撤防LocalIASCIE ByPassZone
 	 * 
 	 */
-	public void LocalIASCIEUnByPassZone(SimpleDevicesModel model,
-			int operationType) {
+	public void LocalIASCIEUnByPassZone(SimpleDevicesModel model) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("zone_ieee", model.getmIeee());
 		paraMap.put("zone_ep", model.getmEP());
-		if (operationType != -1) {
-			paraMap.put("operatortype", String.valueOf(operationType));
-		}
-		// paraMap.put("param1", "1");
-		// paraMap.put("param2", "2");
-		// paraMap.put("param3", "3");
+		
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
 		String param = hashMap2ParamString(paraMap);
 
 		String url = NetUtil.getInstance().getCumstomURL(
@@ -639,6 +705,10 @@ public class CGIManager extends Manger {
 		paraMap.put("param1", String.valueOf(param1));
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
+		
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
 		String param = hashMap2ParamString(paraMap);
 
 		Listener<String> responseListener = new Listener<String>() {
@@ -715,6 +785,10 @@ public class CGIManager extends Manger {
 		paraMap.put("param1", "1");
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
+		
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
 		String param = hashMap2ParamString(paraMap);
 
 		String url = NetUtil.getInstance().getCumstomURL(
@@ -743,6 +817,10 @@ public class CGIManager extends Manger {
 		paraMap.put("param1", "1");
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
+		
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
 		String param = hashMap2ParamString(paraMap);
 
 		String url = NetUtil.getInstance().getCumstomURL(
@@ -770,6 +848,10 @@ public class CGIManager extends Manger {
 		paraMap.put("param1", "1");
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
+		
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
 		String param = hashMap2ParamString(paraMap);
 
 		String url = NetUtil.getInstance().getCumstomURL(
@@ -789,6 +871,10 @@ public class CGIManager extends Manger {
 		paraMap.put("param1", "1");
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
+		
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
 		String param = hashMap2ParamString(paraMap);
 
 		String url = NetUtil.getInstance().getCumstomURL(
@@ -811,6 +897,10 @@ public class CGIManager extends Manger {
 		paraMap.put("ep", model.getmEP());
 		paraMap.put("hadaemonindex", String.valueOf(index));
 		paraMap.put("irdisplayname", operation);
+		
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
 		String param = hashMap2ParamString(paraMap);
 
 		Listener<String> responseListener = new Listener<String>() {
@@ -818,9 +908,8 @@ public class CGIManager extends Manger {
 			public void onResponse(String response) {
 				response = UiUtils.formatResponseString(response);
 				Log.i("CGIManager beginLearnIR Response:%n %s", response);
-				Gson gson = new Gson();
-				BindResponseData statusData = gson.fromJson(
-						response.toString(), BindResponseData.class);
+//				Gson gson = new Gson();
+//				BindResponseData statusData = gson.fromJson(response.toString(), BindResponseData.class);
 //				Event event = new Event(EventType.BEGINLEARNIR, true);
 //				event.setData(statusData);
 //				notifyObservers(event);
@@ -861,6 +950,10 @@ public class CGIManager extends Manger {
 		paraMap.put("ieee", model.getmIeee());
 		paraMap.put("ep", model.getmEP());
 		paraMap.put("hadaemonindex", String.valueOf(index));
+		
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
 		String param = hashMap2ParamString(paraMap);
 
 		Listener<String> responseListener = new Listener<String>() {
@@ -904,6 +997,10 @@ public class CGIManager extends Manger {
 		paraMap.put("ieee", model.getmIeee());
 		paraMap.put("ep", model.getmEP());
 		paraMap.put("hadaemonindex", String.valueOf(index));
+		
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
 		String param = hashMap2ParamString(paraMap);
 		
 		String url = NetUtil.getInstance().getCumstomURL(
@@ -947,6 +1044,10 @@ public class CGIManager extends Manger {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", model.getmIeee());
 		paraMap.put("ep", model.getmEP());
+		
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
 		String param = hashMap2ParamString(paraMap);
 
 		Listener<String> responseListener = new Listener<String>() {
@@ -981,6 +1082,236 @@ public class CGIManager extends Manger {
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
 
+	/***
+	 * 区域设置：得到房间信息
+	 */
+	public void GetAllRoomInfo() {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
+		String param = hashMap2ParamString(paraMap);
+		
+		String url = NetUtil.getInstance().getCumstomURL(
+				NetUtil.getInstance().IP, "getAllRoomInfo.cgi",param);
+		
+		StringRequest req = new StringRequest(url, 
+				new Response.Listener<String>() {
+					@Override
+					public void onResponse(String response) {
+//						response = UiUtils.formatResponseString(response);
+//						Log.i("CGIManager GetAllRoomInfo Response:%n %s", response);
+//						Gson gson = new Gson();
+//						BindResponseData statusData = gson.fromJson(
+//								response.toString(), BindResponseData.class);
+//						Event event = new Event(EventType.DELETEIR, true);
+//						event.setData(statusData);
+//						notifyObservers(event);
+					}
+				},
+				new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+//						String errorString = null;
+//						if (error != null && error.getMessage() != null) {
+//							VolleyLog.e("Error: ", error.getMessage());
+//							errorString = VolleyErrorHelper.getMessage(error,
+//									ApplicationController.getInstance());
+//						}
+//						Event event = new Event(EventType.DELETEIR, false);
+//						event.setData(errorString);
+//						notifyObservers(event);
+					}
+				});
+		// add the request object to the queue to be executed
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
+	
+	/***
+	 * 获取指定房间的设备EP信息
+	 * @param rid
+	 */
+	public void GetEPByRoomIndex(String rid) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("rid", rid);
+		
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
+		String param = hashMap2ParamString(paraMap);
+		
+		String url = NetUtil.getInstance().getCumstomURL(
+				NetUtil.getInstance().IP, "getEPByRoomIndex.cgi",param);
+		
+		StringRequest req = new StringRequest(url, 
+				new Response.Listener<String>() {
+					@Override
+					public void onResponse(String response) {
+//						response = UiUtils.formatResponseString(response);
+//						Log.i("CGIManager GetAllRoomInfo Response:%n %s", response);
+//						Gson gson = new Gson();
+//						BindResponseData statusData = gson.fromJson(
+//								response.toString(), BindResponseData.class);
+//						Event event = new Event(EventType.DELETEIR, true);
+//						event.setData(statusData);
+//						notifyObservers(event);
+					}
+				},
+				new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+//						String errorString = null;
+//						if (error != null && error.getMessage() != null) {
+//							VolleyLog.e("Error: ", error.getMessage());
+//							errorString = VolleyErrorHelper.getMessage(error,
+//									ApplicationController.getInstance());
+//						}
+//						Event event = new Event(EventType.DELETEIR, false);
+//						event.setData(errorString);
+//						notifyObservers(event);
+					}
+				});
+		// add the request object to the queue to be executed
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
+	
+	public void ZBAddRoomDataMain(String rid, String roomname, String roompic) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("rid", rid);
+		paraMap.put("roomname", roomname);
+		paraMap.put("roompic", roompic);
+		
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
+		String param = hashMap2ParamString(paraMap);
+		
+		String url = NetUtil.getInstance().getCumstomURL(
+				NetUtil.getInstance().IP, "zbAddRoomDataMain.cgi",param);
+		
+		StringRequest req = new StringRequest(url, 
+				new Response.Listener<String>() {
+					@Override
+					public void onResponse(String response) {
+//						response = UiUtils.formatResponseString(response);
+//						Log.i("CGIManager GetAllRoomInfo Response:%n %s", response);
+//						Gson gson = new Gson();
+//						BindResponseData statusData = gson.fromJson(
+//								response.toString(), BindResponseData.class);
+//						Event event = new Event(EventType.DELETEIR, true);
+//						event.setData(statusData);
+//						notifyObservers(event);
+					}
+				},
+				new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+//						String errorString = null;
+//						if (error != null && error.getMessage() != null) {
+//							VolleyLog.e("Error: ", error.getMessage());
+//							errorString = VolleyErrorHelper.getMessage(error,
+//									ApplicationController.getInstance());
+//						}
+//						Event event = new Event(EventType.DELETEIR, false);
+//						event.setData(errorString);
+//						notifyObservers(event);
+					}
+				});
+		// add the request object to the queue to be executed
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
+	
+	public void ZBDeleteRoomDataMainByID(String rid) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("rid", rid);
+		
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
+		String param = hashMap2ParamString(paraMap);
+		
+		String url = NetUtil.getInstance().getCumstomURL(
+				NetUtil.getInstance().IP, "zbDeleteRoomDataMainByID.cgi",param);
+		
+		StringRequest req = new StringRequest(url, 
+				new Response.Listener<String>() {
+					@Override
+					public void onResponse(String response) {
+//						response = UiUtils.formatResponseString(response);
+//						Log.i("CGIManager GetAllRoomInfo Response:%n %s", response);
+//						Gson gson = new Gson();
+//						BindResponseData statusData = gson.fromJson(
+//								response.toString(), BindResponseData.class);
+//						Event event = new Event(EventType.DELETEIR, true);
+//						event.setData(statusData);
+//						notifyObservers(event);
+					}
+				},
+				new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+//						String errorString = null;
+//						if (error != null && error.getMessage() != null) {
+//							VolleyLog.e("Error: ", error.getMessage());
+//							errorString = VolleyErrorHelper.getMessage(error,
+//									ApplicationController.getInstance());
+//						}
+//						Event event = new Event(EventType.DELETEIR, false);
+//						event.setData(errorString);
+//						notifyObservers(event);
+					}
+				});
+		// add the request object to the queue to be executed
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
+	
+	public void ModifyDeviceRoomId(SimpleDevicesModel model, String new_roomid) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("ieee", model.getmIeee());
+		paraMap.put("ep", model.getmEP());
+		paraMap.put("new_roomid", new_roomid);
+		
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
+		String param = hashMap2ParamString(paraMap);
+		
+		String url = NetUtil.getInstance().getCumstomURL(
+				NetUtil.getInstance().IP, "ModifyDeviceRoomId.cgi",param);
+		
+		StringRequest req = new StringRequest(url, 
+				new Response.Listener<String>() {
+					@Override
+					public void onResponse(String response) {
+//						response = UiUtils.formatResponseString(response);
+//						Log.i("CGIManager GetAllRoomInfo Response:%n %s", response);
+//						Gson gson = new Gson();
+//						BindResponseData statusData = gson.fromJson(
+//								response.toString(), BindResponseData.class);
+//						Event event = new Event(EventType.DELETEIR, true);
+//						event.setData(statusData);
+//						notifyObservers(event);
+					}
+				},
+				new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+//						String errorString = null;
+//						if (error != null && error.getMessage() != null) {
+//							VolleyLog.e("Error: ", error.getMessage());
+//							errorString = VolleyErrorHelper.getMessage(error,
+//									ApplicationController.getInstance());
+//						}
+//						Event event = new Event(EventType.DELETEIR, false);
+//						event.setData(errorString);
+//						notifyObservers(event);
+					}
+				});
+		// add the request object to the queue to be executed
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
+	
 	class GetBindingTast extends AsyncTask<String, Object, Object> {
 		@Override
 		protected Object doInBackground(String... params) {
@@ -996,7 +1327,7 @@ public class CGIManager extends Manger {
 			notifyObservers(event);
 		}
 	}
-
+	
 	class GetDeviceLearnedTast extends AsyncTask<String, Object, Object> {
 
 		@Override
@@ -1013,5 +1344,6 @@ public class CGIManager extends Manger {
 			notifyObservers(event);
 		}
 	}
-
+	
+	
 }

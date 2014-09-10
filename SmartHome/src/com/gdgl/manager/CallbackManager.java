@@ -96,7 +96,7 @@ public class CallbackManager extends Manger {
 						CallbackResponseType2.class);
 				handleAttribute(common);
 
-				//Log.i(TAG, "Callback msgType=" + msgType + "energy"+common.toString());
+//				Log.i(TAG, "Callback msgType=" + msgType + "energy"+common.toString());
 				break;
 			case 3:
 				Log.i(TAG, "Callback msgType=" + msgType + "warm message");
@@ -139,11 +139,7 @@ public class CallbackManager extends Manger {
 			case 10:
 				CallbackResponseCommon onoff_outputDevice = gson.fromJson(response,
 						CallbackResponseCommon.class);
-				Log.i(TAG, "Callback msgType=" + msgType + "OnOffOutPut"+onoff_outputDevice.toString());
-//				Event event2 = new Event(EventType.ONOFFOUTPUTCALLBACK, true);
-//				event2.setData(onoff_outputDevice);
-//				notifyObservers(event2);
-				
+//				Log.i(TAG, "Callback msgType=" + msgType + "OnOffOutPut"+onoff_outputDevice.toString());		
 				break;
 			// need to distinguish with type 5
 			case 11:

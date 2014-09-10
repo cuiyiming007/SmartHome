@@ -1,6 +1,7 @@
 package com.gdgl.manager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import android.database.sqlite.SQLiteDatabase;
@@ -30,6 +31,7 @@ import com.gdgl.mydata.getlocalcielist.CIEresponse_params;
 import com.gdgl.network.CustomRequest;
 import com.gdgl.network.VolleyErrorHelper;
 import com.gdgl.network.VolleyOperation;
+import com.gdgl.util.NetUtil;
 
 public class DeviceManager extends Manger {
 	private static DeviceManager instance;
@@ -73,6 +75,16 @@ public class DeviceManager extends Manger {
 	}
 
 	public void getLocalCIEList() {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
+		String param = hashMap2ParamString(paraMap);
+		
+		String url = NetUtil.getInstance().getCumstomURL(
+				NetUtil.getInstance().IP, "GetLocalCIEList.cgi",param);
+		
 		Listener<String> responseListener = new Listener<String>() {
 			@Override
 			public void onResponse(String response) {
@@ -88,20 +100,31 @@ public class DeviceManager extends Manger {
 			}
 		};
 
-		StringRequest req = new StringRequest(Constants.getLocalCIEList,
+		StringRequest req = new StringRequest(url,
 				responseListener, errorListener);
 
 		// add the request object to the queue to be executed
-		Log.i("request url", Constants.getLocalCIEList);
+		Log.i("request url", url);
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
 
 	/***
+	 * getEndPoint
 	 * url=http://192.168.1.184/cgi-bin/rest/network/getZBNode.cgi?user_name=
 	 * aaaa&callback=1234&enco demethod=NONE&sign=AAA
 	 */
 	// 1,更新数据 2，组网管理
 	public void getDeviceList(int type) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
+		String param = hashMap2ParamString(paraMap);
+		
+		String url = NetUtil.getInstance().getCumstomURL(
+				NetUtil.getInstance().IP, "getendpoint.cgi",param);
+		
 		Listener<String> responseListener = null;
 		if (1 == type) {
 			responseListener = new Listener<String>() {
@@ -133,7 +156,7 @@ public class DeviceManager extends Manger {
 			}
 		};
 
-		StringRequest req = new StringRequest(Constants.getEndPointURl,
+		StringRequest req = new StringRequest(url,
 				responseListener, errorListener);
 
 		// add the request object to the queue to be executed

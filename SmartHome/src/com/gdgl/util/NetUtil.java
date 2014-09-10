@@ -86,13 +86,12 @@ public class NetUtil {
  * @param param
  * @return
  */
-	public String getVideoURL(String serverIP, String resource, String param) 
+	public String getVideoURL(String serverIP, String resource) 
 	{
-		return HTTPHeadStr + serverIP + URLDir + resource + "?" + param;
+		return HTTPHeadStr + serverIP + URLDir + resource;
 	}
 	public String getCumstomURL(String serverIP, String resource, String param) {
-		return HTTPHeadStr + serverIP + URLDir + resource + "?" + param
-				+ encodeStr;
+		return HTTPHeadStr + serverIP + URLDir + resource + "?" + param;
 	}
 
 	public void connectServerWithTCPSocket() throws Exception {

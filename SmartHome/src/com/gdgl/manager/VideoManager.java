@@ -48,7 +48,8 @@ public class VideoManager extends Manger{
 		return instance;
 	}
 	public void getIPClist() {
-
+		String url = NetUtil.getInstance().getVideoURL(NetUtil.getInstance().IP, "getIPClist.cgi");
+		
 		Listener<String> responseListener = new Listener<String>() {
 			@Override
 			public void onResponse(String response) {
@@ -65,7 +66,7 @@ public class VideoManager extends Manger{
 					}
 			}
 		};
-		StringRequest req = new StringRequest(Constants.getVideoListURL, responseListener,
+		StringRequest req = new StringRequest(url, responseListener,
 				errorListener);
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
@@ -115,7 +116,7 @@ public class VideoManager extends Manger{
 				notifyObservers(event);
 			}
 		};
-		String url = NetUtil.getInstance().getVideoURL(
+		String url = NetUtil.getInstance().getCumstomURL(
 				NetUtil.getInstance().IP, "addIPC.cgi", param);
 		StringRequest req = new StringRequest(url, responseListener,
 				errorListener);
@@ -162,7 +163,7 @@ public class VideoManager extends Manger{
 				notifyObservers(event);
 			}
 		};
-		String url = NetUtil.getInstance().getVideoURL(
+		String url = NetUtil.getInstance().getCumstomURL(
 				NetUtil.getInstance().IP, "editIPC.cgi", param);
 		
 		StringRequest req = new StringRequest(url, responseListener,
@@ -218,7 +219,7 @@ public class VideoManager extends Manger{
 				notifyObservers(event);
 			}
 		};
-		String url = NetUtil.getInstance().getVideoURL(
+		String url = NetUtil.getInstance().getCumstomURL(
 				NetUtil.getInstance().IP, "deleteIPC.cgi", param);
 		StringRequest req = new StringRequest(url, responseListener,
 				errorListener);

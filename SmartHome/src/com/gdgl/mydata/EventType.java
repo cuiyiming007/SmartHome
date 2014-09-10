@@ -19,14 +19,13 @@ public class EventType {
 	public static final EventType ONOFFLIGHTOPERATION;
 	public static final  EventType ONOFFLIGHTSWITCHOPERATION;
 	public static final EventType ONOFFOUTPUTOPERATION;
-	public static final EventType ONOFFOUTPUTCALLBACK;
 	public static final EventType ONOFFSWITCHOPERATION;
 	
 	public static final EventType DOORLOCKOPERATION;
 	public static final EventType  INTITIALDVIVCEDATA;
 	public static final EventType  LIGHTSENSOROPERATION;
 	public static final EventType IASWARNINGDEVICOPERATION;
-	public static final EventType SHADEcONTROLLEROPERATION;
+	public static final EventType SHADECONTROLLEROPERATION;
 	public static final EventType SHADEOPERATION;
 	public static final EventType IASZONEOPERATION;
 	public static final EventType TEMPERATURESENSOROPERATION;
@@ -67,14 +66,13 @@ public class EventType {
 		ONOFFLIGHTOPERATION=new EventType("onofflightoperation", nextId());
 		ONOFFLIGHTSWITCHOPERATION=new EventType("onofflightswitchoperation", nextId());
 		ONOFFOUTPUTOPERATION=new EventType("onOffOutputOperation", nextId());
-		ONOFFOUTPUTCALLBACK=new EventType("onOffOutputCallback", nextId());
 		ONOFFSWITCHOPERATION=new EventType("onOffSwitchOperation", nextId());
 		INTITIALDVIVCEDATA=new EventType("initialDiviceData",nextId());
 		GETICELIST=new EventType("getICEList",nextId());
 		LIGHTSENSOROPERATION=new EventType("lightSensorOperation",nextId());
 		DOORLOCKOPERATION=new EventType("doorLockOperation", nextId());
 		IASWARNINGDEVICOPERATION=new EventType("iasWarningDeviceOperation", nextId());
-		SHADEcONTROLLEROPERATION=new EventType("shadeControllerOperation", nextId());
+		SHADECONTROLLEROPERATION=new EventType("shadeControllerOperation", nextId());
 
 		SHADEOPERATION=new EventType("shadeOperation", nextId());
 		IASZONEOPERATION=new EventType("iasZoneOperation", nextId());

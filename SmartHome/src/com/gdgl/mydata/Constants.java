@@ -36,9 +36,11 @@ public class Constants {
 
 	// 1. GetZBNode
 	// http://192.168.1.239/cgi-bin/rest/network/getZBNode.cgi?callback=1234&encodemethod=NONE&sign=AAA
-	public static String getLocalCIEList = "http://192.168.1.237/cgi-bin/rest/network/GetLocalCIEList.cgi?callback=1234&encodemethod=NONE&sign=AAA";
+	// public static String getLocalCIEList =
+	// "http://192.168.1.237/cgi-bin/rest/network/GetLocalCIEList.cgi?callback=1234&encodemethod=NONE&sign=AAA";
 	// 2. GetEndPoint
-	public static String getEndPointURl = " http://192.168.1.237/cgi-bin/rest/network/getendpoint.cgi?callback=1234&encodemethod=NONE&sign=AAA";
+	// public static String getEndPointURl =
+	// " http://192.168.1.237/cgi-bin/rest/network/getendpoint.cgi?callback=1234&encodemethod=NONE&sign=AAA";
 
 	// 3. ZBGetZBNodeCount
 	public static String getZBGetZBNodeCountURl = "http://192.168.1.237/cgi-bin/rest/network/zbGetZBNodeCount.cgi?callback=1234&encodemethod=NONE&sign=AAA";
@@ -67,31 +69,38 @@ public class Constants {
 	// ===================================================================================
 
 	// 1. MainsOutLet Operation
-	public static String getMainsOutLetURl = " http://192.168.1.237/cgi-bin/rest/network/mainsOutLetOperation.cgi?ieee=00137A000000B657&ep=01&operatortype=2&param1=1&param2=2&param3=3&callback=1234&encodemethod=NONE&sign=AAA";
+	// public static String getMainsOutLetURl =
+	// " http://192.168.1.237/cgi-bin/rest/network/mainsOutLetOperation.cgi?ieee=00137A000000B657&ep=01&operatortype=2&param1=1&param2=2&param3=3&callback=1234&encodemethod=NONE&sign=AAA";
 
 	// 2. DimmableLight Operation £®≤Ÿ◊˜ ß∞‹£©
-	public static String getDimmableLightURl = "  http://192.168.1.237/cgi-bin/rest/network/dimmableLightOperation.cgi?ieee=00137A00000EE66&ep=01&operatortype=2&param1=1&param2=2&param3=3&callback=1234&encodemethod=NONE&sign=AAA";
+	// public static String getDimmableLightURl =
+	// "  http://192.168.1.237/cgi-bin/rest/network/dimmableLightOperation.cgi?ieee=00137A00000EE66&ep=01&operatortype=2&param1=1&param2=2&param3=3&callback=1234&encodemethod=NONE&sign=AAA";
 	// public static String getMainsOutLet="
 	// http://192.168.1.239/cgi-bin/rest/network/dimmableLightOperation.cgi?ieee=00137A00000EE66&ep=01&operatortype=7&param1=50&param2=2&param3=3&callback=1234&encodemethod=NONE&sign=AAA
 
 	// 3. OnOffLight Operation
-	public static String getOnOffLightURl = " http://192.168.1.237/cgi-bin/rest/network/onOffLightOperation.cgi?ieee=00137A0000010AB5&ep=0A&operatortype=2&param1=1&param2=2&param3=3&callback=1234&encodemethod=NONE&sign=AAA";
+	// public static String getOnOffLightURl =
+	// " http://192.168.1.237/cgi-bin/rest/network/onOffLightOperation.cgi?ieee=00137A0000010AB5&ep=0A&operatortype=2&param1=1&param2=2&param3=3&callback=1234&encodemethod=NONE&sign=AAA";
 
 	// 4. OnOffOutput Operation
-	public static String getOnOffOutputURl = "  http://192.168.1.237/cgi-bin/rest/network/onOffOutputOperation.cgi?ieee=00137A0000010AB5&ep=0A&operatortype=2&param1=1&param2=2&param3=3&callback=1234&encodemethod=NONE&sign=AAA";
+	// public static String getOnOffOutputURl =
+	// "  http://192.168.1.237/cgi-bin/rest/network/onOffOutputOperation.cgi?ieee=00137A0000010AB5&ep=0A&operatortype=2&param1=1&param2=2&param3=3&callback=1234&encodemethod=NONE&sign=AAA";
 
 	// 5. Shade Operation
-	public static String getShadeURl = " http://192.168.1.237/cgi-bin/rest/network/shadeOperation.cgi?ieee=00137A0000010516&ep=01&operatortype=1&param1=1&param2=2&param3=3&callback=1234&encodemethod=NONE&sign=AAA";
+	// public static String getShadeURl =
+	// " http://192.168.1.237/cgi-bin/rest/network/shadeOperation.cgi?ieee=00137A0000010516&ep=01&operatortype=1&param1=1&param2=2&param3=3&callback=1234&encodemethod=NONE&sign=AAA";
 
 	// ===================================================================================
-    public static String getVideoListURL="http://192.168.1.237/cgi-bin/rest/network/getIPClist.cgi";
+	// public static String getVideoListURL =
+	// "http://192.168.1.237/cgi-bin/rest/network/getIPClist.cgi";
 	// 1. TemperatureSensor Operation
-	public static String getTemperatureSensorURl = "http://192.168.1.237/cgi-bin/rest/network/temperatureSensorOperation.cgi?ieee=00137A00000121C2&ep=0A&operatortype=1&param1=1&param2=2&param3=3&callback=1234&encodemethod=NONE&sign=AAA";
+	// public static String getTemperatureSensorURl =
+	// "http://192.168.1.237/cgi-bin/rest/network/temperatureSensorOperation.cgi?ieee=00137A00000121C2&ep=0A&operatortype=1&param1=1&param2=2&param3=3&callback=1234&encodemethod=NONE&sign=AAA";
 
 	public static final String ACTION_START_HEART = "startheart";
 	public static final String ACTION_HEARTBEAT = "Heartbeat";
 	public static final String ACTION_STOP_HEART = "stopheart";
-	
+
 	public static final String PASS_OBJECT = "pass_object";
 
 	public static final String PASS_ONOFFIMG = "pass_on_off_img";
