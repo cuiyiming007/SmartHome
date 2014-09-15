@@ -66,7 +66,7 @@ public abstract class BaseFragment extends Fragment implements UIListener{
 			// TODO Auto-generated method stub
 			int result = 0;
 			mDh = new DataHelper((Context) getActivity());
-			mDevList = mDh.queryForList(mDh.getSQLiteDatabase(),
+			mDevList = mDh.queryForDevicesList(mDh.getSQLiteDatabase(),
 					DataHelper.DEVICES_TABLE, null, null, null, null, null,
 					null, null);
 			CallbackResponseType2 cr = params[0];
@@ -76,7 +76,7 @@ public abstract class BaseFragment extends Fragment implements UIListener{
 			String[] argss = {
 					cr.getDeviceIeee() == null ? "" : cr.getDeviceIeee().trim(),
 					cr.getDeviceEp() == null ? "" : cr.getDeviceEp().trim() };
-			mList = mDh.queryForList(mDh.getSQLiteDatabase(),
+			mList = mDh.queryForDevicesList(mDh.getSQLiteDatabase(),
 					DataHelper.DEVICES_TABLE, null, where, argss, null, null, null,
 					null);
 			if(null!=mList && mList.size()>0){
@@ -97,7 +97,7 @@ public abstract class BaseFragment extends Fragment implements UIListener{
 				result = mDh.update(mDh.getSQLiteDatabase(),
 						DataHelper.DEVICES_TABLE, v, Where, args);
 			} else {
-				long ll = mDh.insert(mDh.getSQLiteDatabase(),
+				long ll = mDh.insertDevice(mDh.getSQLiteDatabase(),
 						DataHelper.DEVICES_TABLE, null, dm);
 				result = (int) ll;
 			}

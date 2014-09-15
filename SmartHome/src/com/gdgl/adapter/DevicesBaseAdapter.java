@@ -275,6 +275,9 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 		} else if (mDevices.getmModelId().indexOf(
 				DataHelper.Energy_detection_dimming_module) == 0) { // 调光模块
 			String state = mDevices.getmValue();
+			if(null!=mDevices && mDevices.getmValue().trim().equals("")){
+				mDevices.setmValue("0");
+			}
 			devices_seek_bar.setProgress(Integer.parseInt(state));
 			if (null == state || state.trim().equals("")
 					|| state.trim().equals("0")) {

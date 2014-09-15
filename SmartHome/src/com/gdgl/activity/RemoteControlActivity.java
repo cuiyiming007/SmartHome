@@ -158,7 +158,7 @@ public class RemoteControlActivity extends Activity implements UIListener,
 	private void writeLearnListToSharedPreferences() {
 		// TODO Auto-generated method stub
 		getFromSharedPreferences
-				.setharedPreferences(RemoteControlActivity.this);
+				.setsharedPreferences(RemoteControlActivity.this);
 		getFromSharedPreferences.addRemoteControlList(mRemoteControl);
 	}
 
@@ -176,7 +176,7 @@ public class RemoteControlActivity extends Activity implements UIListener,
 		mControlModel.setmDeviceId(DataHelper.REMOTE_CONTROL_DEVICETYPE);
 
 		getFromSharedPreferences
-				.setharedPreferences(RemoteControlActivity.this);
+				.setsharedPreferences(RemoteControlActivity.this);
 		mRemoteControl = getFromSharedPreferences.getRemoteControl();
 
 		mLightManager.getDeviceLearnedIRDataInformation(mControlModel);
@@ -343,7 +343,7 @@ public class RemoteControlActivity extends Activity implements UIListener,
 	public void refreshdata() {
 		// TODO Auto-generated method stub
 		getFromSharedPreferences
-				.setharedPreferences(RemoteControlActivity.this);
+				.setsharedPreferences(RemoteControlActivity.this);
 		mRemoteControl = getFromSharedPreferences.getRemoteControl();
 		if (null == mAdapter) {
 			updateData();

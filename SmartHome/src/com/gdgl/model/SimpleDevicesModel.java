@@ -20,7 +20,7 @@ public class SimpleDevicesModel implements Parcelable{
 	private String mValue = "";
 	//湿度
 	private String humidityValue="";
-
+	private String rid="";
 	// 自定义
 	private String mDeviceRegion = "";
 	private long mLastDateTime;
@@ -101,7 +101,14 @@ public class SimpleDevicesModel implements Parcelable{
 		this.mOnOffStatus = mOnOffStatus;
 	}
 
-
+	public String getmRid() {
+		return rid;
+	}
+	
+	public void setmRid(String mRid) {
+		this.rid=mRid;
+	}
+	
 	public String getmDeviceRegion() {
 		return mDeviceRegion;
 	}
@@ -152,6 +159,7 @@ public class SimpleDevicesModel implements Parcelable{
 			mDevicesModel.setID(source.readInt());
 			mDevicesModel.setmDeviceId(source.readInt());
 			mDevicesModel.setmDeviceRegion(source.readString());
+			mDevicesModel.setmRid(source.readString());
 			mDevicesModel.setmEP(source.readString());
 			mDevicesModel.setmIeee(source.readString());
 			mDevicesModel.setmLastDateTime(source.readLong());
@@ -180,6 +188,7 @@ public class SimpleDevicesModel implements Parcelable{
 		parcel.writeInt(ID);
 		parcel.writeInt(mDeviceId);
 		parcel.writeString(mDeviceRegion);
+		parcel.writeString(rid);
 		parcel.writeString(mEP);
 		parcel.writeString(mIeee);
 		parcel.writeLong(mLastDateTime);

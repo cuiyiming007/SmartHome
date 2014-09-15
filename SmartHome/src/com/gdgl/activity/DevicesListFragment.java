@@ -170,8 +170,7 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 							Log.i(TAG, "tagzgs->position=" + position);
 							mSimpleDevicesModel = mRefreshData
 									.getDeviceModle(position - 1);
-							mRefreshData.setDevicesId(mSimpleDevicesModel
-									.getmIeee());
+							mRefreshData.setDevicesId(mSimpleDevicesModel);
 
 							// 判断是除气体感应器及紧急按钮以外的安防设备，且安防控制中心状态是关闭的
 							if (mSimpleDevicesModel.getmModelId().indexOf(
@@ -333,7 +332,7 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 				+ " item.getItemId()" + item.getItemId());
 		if (type == WITH_OPERATE) {
 			if (1 == menuIndex) {
-				mRefreshData.setDevicesId(mSimpleDevicesModel.getmIeee());
+				mRefreshData.setDevicesId(mSimpleDevicesModel);
 				MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
 						(Context) getActivity());
 				mMyOkCancleDlg.setDialogCallback((Dialogcallback) mRefreshData);
@@ -344,7 +343,7 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 			}
 		} else if (type == WITHOUT_OPERATE) {
 			if (1 == menuIndex) {
-				mRefreshData.setDevicesId(mSimpleDevicesModel.getmIeee());
+				mRefreshData.setDevicesId(mSimpleDevicesModel);
 				MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
 						(Context) getActivity());
 				mMyOkCancleDlg.setDialogCallback((Dialogcallback) mRefreshData);
@@ -375,7 +374,7 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 
 		public void setFragment(Fragment mFragment, int postion);
 
-		public void setDevicesId(String id);
+		public void setDevicesId(SimpleDevicesModel simpleDevicesModel);
 	}
 
 	@Override

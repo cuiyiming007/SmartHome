@@ -116,7 +116,7 @@ public class LoginActivity extends Activity implements OnClickListener ,UIListen
 		switch (i) {
 		case 0:
 			accountInfo.setId(response.getId());
-			getFromSharedPreferences.setharedPreferences(LoginActivity.this);
+			getFromSharedPreferences.setsharedPreferences(LoginActivity.this);
 			getFromSharedPreferences.setLogin(accountInfo, false, false);
 //					getFromSharedPreferences.setharedPreferences(this);
 //					getFromSharedPreferences.setName(newName.trim());

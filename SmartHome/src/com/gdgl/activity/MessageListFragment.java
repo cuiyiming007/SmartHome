@@ -88,7 +88,7 @@ public class MessageListFragment extends BaseFragment implements UIListener {
 					String[] args = { currentMessage.getId() };
 
 					SQLiteDatabase mSQLiteDatabase = dh.getSQLiteDatabase();
-					dh.deleteGroup(mSQLiteDatabase, DataHelper.MESSAGE_TABLE,
+					dh.delete(mSQLiteDatabase, DataHelper.MESSAGE_TABLE,
 							where, args);
 					return null;
 				}

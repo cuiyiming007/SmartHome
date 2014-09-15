@@ -202,7 +202,7 @@ public class OutLetControlFragment extends BaseControlFragment {
 				String[] args = {
 						mDevices.getmIeee() == null ? "" : mDevices.getmIeee().trim(),
 								mDevices.getmEP() == null ? "" : mDevices.getmEP().trim() };
-				mList = mDh.queryForList(mDh.getSQLiteDatabase(),
+				mList = mDh.queryForDevicesList(mDh.getSQLiteDatabase(),
 						DataHelper.DEVICES_TABLE, null, where, args, null, null, null,
 						null);
 				boolean result=false;

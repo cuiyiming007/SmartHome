@@ -5,13 +5,30 @@ import java.util.List;
 
 import com.gdgl.activity.SmartHome.refreshAdapter;
 import com.gdgl.adapter.GridviewAdapter;
+import com.gdgl.app.ApplicationController;
+import com.gdgl.manager.CGIManager;
+import com.gdgl.manager.Manger;
+import com.gdgl.manager.UIListener;
+import com.gdgl.model.DevicesModel;
+import com.gdgl.mydata.DataHelper;
+import com.gdgl.mydata.Event;
+import com.gdgl.mydata.EventType;
+import com.gdgl.mydata.RespondDataEntity;
+import com.gdgl.mydata.ResponseParamsEndPoint;
 import com.gdgl.mydata.getFromSharedPreferences;
+import com.gdgl.mydata.Region.GetRoomInfo_response;
+import com.gdgl.mydata.Region.Room;
+import com.gdgl.network.VolleyOperation;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.UiUtils;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 
+import android.R.bool;
+import android.R.integer;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -30,39 +47,43 @@ import android.widget.GridView;
  * @author Trice
  *
  */
-public class RegionsFragment extends Fragment implements refreshAdapter,Dialogcallback{
+public class RegionsFragment extends Fragment implements refreshAdapter,Dialogcallback,UIListener{
 
 	GridView content_view;
 	View mView;
-	List<String> mregions;
+	List<Room> mregions;
 	CustomeAdapter mCustomeAdapter;
-	
 	ViewGroup nodevices;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		CGIManager.getInstance().addObserver(RegionsFragment.this);
 		initData();
 
 	}
 
 	private void initData() {
 		// TODO Auto-generated method stub
-		mregions=new ArrayList<String>();
-		getFromSharedPreferences.setharedPreferences((Context)getActivity());
-		String[] mregion = null;
-		String reg=getFromSharedPreferences.getRegion();
-		if(null!=reg && !reg.trim().equals("")){
-			mregion=reg.split("@@");
-		}
-		if(null!=mregion){
-			for (String string : mregion) {
-	        	if(!string.equals("")){
-	        		mregions.add(string);
-	        	}
-			}
-		}
+		mregions=new ArrayList<Room>();
+		CGIManager.getInstance().GetAllRoomInfo();
+		DataHelper mDateHelper = new DataHelper((Context)getActivity());
+		SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
+		mregions=mDateHelper.queryForRoomList(getActivity(), mSQLiteDatabase, DataHelper.ROOMINFO_TABLE, null, null, null, null, null, null, null);
+		
+//		GetRoomInfo_response mregion=null;
+//		String reg=getFromSharedPreferences.getRegion();
+//		if(null!=reg && !reg.trim().equals("")){
+//			mregion=reg.split("@@");
+//		}
+//		if(null!=mregion){
+//			for (String string : mregion) {
+//	        	if(!string.equals("")){
+//	        		mregions.add(string);
+//	        	}
+//			}
+//		}
 	}
 
 	@Override
@@ -79,16 +100,17 @@ public class RegionsFragment extends Fragment implements refreshAdapter,Dialogca
 		nodevices=(ViewGroup)mView.findViewById(R.id.nodevices);
 		content_view = (GridView) mView.findViewById(R.id.content_view);
 		mCustomeAdapter=new CustomeAdapter();
-		mCustomeAdapter.setString(mregions);
+		mCustomeAdapter.setList(mregions);
 		content_view.setAdapter(mCustomeAdapter);
 		content_view.setLayoutAnimation(UiUtils.getAnimationController((Context)getActivity()));
 		content_view.setOnItemClickListener(new OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+			public void onItemClick(AdapterView<?> arg0, View view, int index,
 					long arg3) {
 				// TODO Auto-generated method stub
 				Intent i=new Intent((Context)getActivity(),RegionDevicesActivity.class);
-				i.putExtra(RegionDevicesActivity.REGION_NAME, mregions.get(arg2).trim());
+				i.putExtra(RegionDevicesActivity.REGION_NAME, mregions.get(index).getroom_name());
+				i.putExtra(RegionDevicesActivity.REGION_ID, mregions.get(index).getroom_id());
 				startActivity(i);
 			}
 
@@ -132,43 +154,37 @@ public class RegionsFragment extends Fragment implements refreshAdapter,Dialogca
 	public void onResume() {
 		// TODO Auto-generated method stub
 		content_view.setVisibility(View.VISIBLE);
-		initData();
-		if(null==mregions || mregions.size()==0){
-			nodevices.setVisibility(View.VISIBLE);
-		}else{
-			nodevices.setVisibility(View.GONE);
-		}
-		mCustomeAdapter=new CustomeAdapter();
-		mCustomeAdapter.setString(mregions);
-		content_view.setAdapter(mCustomeAdapter);
-		content_view.setLayoutAnimation(UiUtils.getAnimationController((Context)getActivity()));
+		refreshFragment();
 		super.onResume();
 	}
 
 	
-
 	private class CustomeAdapter extends BaseAdapter{
 		
-		private List<String> mString;
+		private List<Room> mRoomList;
 		
 		public CustomeAdapter(){}
 		
 		@Override
 		public int getCount() {
 			// TODO Auto-generated method stub
-			return mString.size();
+			return mRoomList.size();
 		}
 
 		@Override
 		public Object getItem(int position) {
 			// TODO Auto-generated method stub
-			return mString.get(position);
+			return mRoomList.get(position);
 		}
-
+		
+		public String getItemName(int position) {
+			return mRoomList.get(position).getroom_name();
+		}
+		
 		@Override
 		public long getItemId(int position) {
 			// TODO Auto-generated method stub
-			return position;
+			return mRoomList.get(position).getroom_id();
 		}
 
 		@Override
@@ -188,7 +204,7 @@ public class RegionsFragment extends Fragment implements refreshAdapter,Dialogca
 				mViewHolder = (ViewHolder) convertView.getTag();
 			}
 			mViewHolder.funcImg.setImageResource(R.drawable.region);
-			mViewHolder.funcText.setText(mString.get(position));
+			mViewHolder.funcText.setText(getItemName(position));
 			return convertView;
 		}
 		
@@ -197,9 +213,9 @@ public class RegionsFragment extends Fragment implements refreshAdapter,Dialogca
 			TextView funcText;
 		}
 		
-		public void setString(List<String> s){
-			mString=null;
-			mString=s;
+		public void setList(List<Room> s){
+			mRoomList=null;
+			mRoomList=s;
 		}
 	}
 
@@ -214,16 +230,32 @@ public class RegionsFragment extends Fragment implements refreshAdapter,Dialogca
 			nodevices.setVisibility(View.GONE);
 		}
 		Log.i("zgs", "refreshFragment->mregions.size()="+mregions.size());
-		mCustomeAdapter.setString(mregions);
+		mCustomeAdapter.setList(mregions);
 		content_view.setAdapter(mCustomeAdapter);
 //		mCustomeAdapter.notifyDataSetChanged();
 		content_view.setLayoutAnimation(UiUtils.getAnimationController((Context)getActivity()));
 	}
 
 	@Override
+	public void update(Manger observer, Object object) {
+		// TODO Auto-generated method stub
+//		final Event event = (Event) object;
+//		if (EventType.GETALLROOM == event.getType()) {
+//			// data maybe null
+//			if (event.isSuccess()) {
+//				String string=(String)event.getData();
+//				new GetAllRoomInfoTask().execute(string);
+//			}
+//		} else {
+//			
+//		}
+//		
+	}
+	
+	@Override
 	public void dialogdo() {
 		// TODO Auto-generated method stub
 		
 	}
-
+	
 }

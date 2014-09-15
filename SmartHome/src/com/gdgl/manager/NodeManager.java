@@ -35,7 +35,7 @@ public class NodeManager extends Manger{
         Listener<String> responseListener = new Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                VolleyOperation.handleResponseString(response);
+                VolleyOperation.handleEndPointString(response);
                 notifyObservers();
                     }
                 };

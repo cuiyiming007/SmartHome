@@ -1,10 +1,12 @@
 package com.gdgl.mydata.Region;
 
+import android.content.ContentValues;
+
 public class Room {
 
-	private String room_name;
-	private String romm_id;
-	private String room_pic;
+	private String room_name="";
+	private int romm_id;
+	private String room_pic="";
 
 	public String getroom_name() {
 		return room_name;
@@ -14,11 +16,11 @@ public class Room {
 		this.room_name = name;
 	}
 
-	public String getroom_id() {
+	public int getroom_id() {
 		return romm_id;
 	}
 
-	public void setroom_id(String id) {
+	public void setroom_id(int id) {
 		this.romm_id = id;
 	}
 
@@ -28,5 +30,14 @@ public class Room {
 
 	public void setroom_pic(String pic) {
 		this.room_pic = pic;
+	}
+	
+	public ContentValues convertContentValues() {
+		ContentValues mContentValues = new ContentValues();
+
+		mContentValues.put(GetRoomInfo_response.ROOM_ID,getroom_id());
+		mContentValues.put(GetRoomInfo_response.ROOM_NAME,getroom_name());
+		mContentValues.put(GetRoomInfo_response.ROOM_PIC,getroompic());
+		return mContentValues;
 	}
 }

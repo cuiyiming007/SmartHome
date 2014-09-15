@@ -31,7 +31,7 @@ public class StartActivity extends Activity {
 
     private void initParem() {
         // TODO Auto-generated method stub
-    	getFromSharedPreferences.setharedPreferences(StartActivity.this);
+    	getFromSharedPreferences.setsharedPreferences(StartActivity.this);
         
         mIsRem=getFromSharedPreferences.getIsRemerber();
         mIsAuto=getFromSharedPreferences.getIsAutoLoging();

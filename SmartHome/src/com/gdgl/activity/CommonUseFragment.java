@@ -121,7 +121,7 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 
 	private void initDevdata() {
 		// TODO Auto-generated method stub
-		getFromSharedPreferences.setharedPreferences((Context) getActivity());
+		getFromSharedPreferences.setsharedPreferences((Context) getActivity());
 		if (null != mIeees) {
 			mIeees = null;
 
@@ -166,7 +166,7 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 
 	private void initScenedata() {
 		// TODO Auto-generated method stub
-		getFromSharedPreferences.setharedPreferences((Context) getActivity());
+		getFromSharedPreferences.setsharedPreferences((Context) getActivity());
 		if (null != mScene) {
 			mScene = null;
 		}
@@ -190,7 +190,7 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 
 	private void initRegiondata() {
 		// TODO Auto-generated method stub
-		getFromSharedPreferences.setharedPreferences((Context) getActivity());
+		getFromSharedPreferences.setsharedPreferences((Context) getActivity());
 		if (null != mRegion) {
 			mRegion = null;
 		}
@@ -819,7 +819,7 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 	@Override
 	public void dialogdo() {
 		// TODO Auto-generated method stub
-		getFromSharedPreferences.setharedPreferences((Context) getActivity());
+		getFromSharedPreferences.setsharedPreferences((Context) getActivity());
 		StringBuilder sb = new StringBuilder();
 		String sR = getFromSharedPreferences.getCommonUsed();
 		String deleteString = "";

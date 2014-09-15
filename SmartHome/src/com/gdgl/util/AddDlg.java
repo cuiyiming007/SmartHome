@@ -5,15 +5,20 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.gdgl.manager.CGIManager;
 import com.gdgl.model.DevicesGroup;
 import com.gdgl.model.RemoteControl;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.getFromSharedPreferences;
+import com.gdgl.mydata.Region.GetRoomInfo_response;
+import com.gdgl.mydata.Region.Room;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.EditDevicesDlg.EditDialogcallback;
 
+import android.R.integer;
 import android.app.Dialog;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -89,7 +94,7 @@ public class AddDlg {
 
 	protected void saveRemoteControl(String trim) {
 		// TODO Auto-generated method stub
-		getFromSharedPreferences.setharedPreferences(mContext);
+		getFromSharedPreferences.setsharedPreferences(mContext);
 		RemoteControl rc=new RemoteControl();
 		rc.Name=trim;
 		rc.Index=getFromSharedPreferences.getRemoteControlId()+"";
@@ -104,7 +109,7 @@ public class AddDlg {
 
 	protected void saveScene(String trim) {
 		// TODO Auto-generated method stub
-		getFromSharedPreferences.setharedPreferences(mContext);
+		getFromSharedPreferences.setsharedPreferences(mContext);
 		DevicesGroup dg=new DevicesGroup(mContext);
 		dg.setDevicesState(false);
 		dg.setEp("");
@@ -123,28 +128,38 @@ public class AddDlg {
 
 	protected void saveRegion(String mN) {
 		// TODO Auto-generated method stub
-		List<String> mList = new ArrayList<String>();
-		String[] mregions = null;
-		getFromSharedPreferences.setharedPreferences(mContext);
-		String reg = getFromSharedPreferences.getRegion();
-		if (null != reg && !reg.trim().equals("")) {
-			mregions = reg.split("@@");
-		}
-		if (null != mregions) {
-			for (String string : mregions) {
-				if (!string.equals("")) {
-					mList.add(string);
+		List<Room> mList = new ArrayList<Room>();
+		
+		DataHelper mDateHelper = new DataHelper(mContext);
+		SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
+		mList=mDateHelper.queryForRoomList(mContext, mSQLiteDatabase, DataHelper.ROOMINFO_TABLE, null, null, null, null, null, null, null);
+		
+		//加入新的roomid
+		int roomid=1;
+		if (mList.size()>0) {
+			while(true) {
+				int i=0;
+				for (;i<mList.size();) {
+					if(roomid==mList.get(i).getroom_id()) {
+						roomid++;
+						i++;
+						continue;
+					}
+					i++;
+				}
+				if(i==mList.size()) {
+					CGIManager.getInstance().ZBAddRoomDataMain(Integer.toString(roomid), mN, "");
+					ArrayList<Room> addList=new ArrayList<Room>();
+					Room addroomdata=new Room();
+					addroomdata.setroom_id(roomid);
+					addroomdata.setroom_name(mN);
+					addroomdata.setroom_pic("");
+					addList.add(addroomdata);
+					mDateHelper.insertAddRoomInfo(mSQLiteDatabase, DataHelper.ROOMINFO_TABLE, null, addList);
+					break;
 				}
 			}
 		}
-		if (!mList.contains(mN)) {
-			mList.add(mN);
-		}
-		StringBuilder ms = new StringBuilder();
-		for (String string : mList) {
-			ms.append(string + "@@");
-		}
-		getFromSharedPreferences.setRegion(ms.toString());
 	}
 
 	public void setContent(String content) {

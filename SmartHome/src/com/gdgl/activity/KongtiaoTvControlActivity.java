@@ -108,7 +108,7 @@ public class KongtiaoTvControlActivity extends Activity implements UIListener,
 	private void initData() {
 		// TODO Auto-generated method stub
 		getFromSharedPreferences
-				.setharedPreferences(KongtiaoTvControlActivity.this);
+				.setsharedPreferences(KongtiaoTvControlActivity.this);
 		mKongtiaoControl = getFromSharedPreferences
 				.getTvKongtiaoRemoteControl(1);
 		mtvControl = getFromSharedPreferences.getTvKongtiaoRemoteControl(2);
@@ -662,7 +662,7 @@ public class KongtiaoTvControlActivity extends Activity implements UIListener,
 	private void writeLearnListToSharedPreferences(int type) {
 		// TODO Auto-generated method stub
 		getFromSharedPreferences
-				.setharedPreferences(KongtiaoTvControlActivity.this);
+				.setsharedPreferences(KongtiaoTvControlActivity.this);
 		if (1 == type) {
 			getFromSharedPreferences.addTvKongtiaoRemoteControlList(
 					mKongtiaoControl, 1);

@@ -51,7 +51,7 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 		setSlideRole(R.layout.fragment_content);
 		setSlideRole(R.layout.config_menu);
 
-		getFromSharedPreferences.setharedPreferences(ConfigActivity.this);
+		getFromSharedPreferences.setsharedPreferences(ConfigActivity.this);
 		String name = getFromSharedPreferences.getName().trim();
 		if (null == name || name.trim().equals("")) {
 			name = "Adminstartor";

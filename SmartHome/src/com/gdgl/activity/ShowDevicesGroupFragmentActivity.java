@@ -92,7 +92,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 	TextView mContent;
 
 	private int type;
-	private String devicesIeee = "";
+	private SimpleDevicesModel getModel;
 
 	public static final String ACTIVITY_SHOW_DEVICES_TYPE = "activity_show_devices_type";
 	boolean isDelete = false;
@@ -331,16 +331,16 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		CallbackManager.getInstance().deleteObserver(this);
 	}
 
-	public SimpleDevicesModel getCurrentDeviceByIeee(String iee) {
-		if (null != mCurrentList) {
-			for (SimpleDevicesModel mSimpleDevicesModel : mCurrentList) {
-				if (iee == mSimpleDevicesModel.getmIeee()) {
-					return mSimpleDevicesModel;
-				}
-			}
-		}
-		return null;
-	}
+//	public SimpleDevicesModel getCurrentDeviceByIeee(String iee) {
+//		if (null != mCurrentList) {
+//			for (SimpleDevicesModel mSimpleDevicesModel : mCurrentList) {
+//				if (iee == mSimpleDevicesModel.getmIeee()) {
+//					return mSimpleDevicesModel;
+//				}
+//			}
+//		}
+//		return null;
+//	}
 
 	public void showSetWindow() {
 		mSetWindow = new SelectPicPopupWindow(
@@ -483,7 +483,6 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		if (isTop) {
 			if (mListIndex != p) {
 				mListIndex = p;
-				devicesIeee = "";
 
 				requestData(mListIndex);
 				refreshAdapter(mListIndex);
@@ -517,9 +516,9 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 	}
 
 	@Override
-	public void setDevicesId(String id) {
+	public void setDevicesId(SimpleDevicesModel simpleDevicesModel) {
 		// TODO Auto-generated method stub
-		devicesIeee = id;
+		getModel=simpleDevicesModel;
 	}
 
 	@Override
@@ -533,7 +532,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		// fragmentTransaction.addToBackStack(null);
 		fragmentTransaction.commit();
 		isTop = false;
-		initTitleByDevices(devicesIeee);
+		title.setText(getModel.getmUserDefineName().replace(" ", ""));
 	}
 
 	public void initTitleByTag(int postion) {
@@ -542,15 +541,15 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		// devices_need.setVisibility(View.GONE);
 	}
 
-	public void initTitleByDevices(String devicesId) {
-		SimpleDevicesModel ms = getCurrentDeviceByIeee(devicesIeee);
-		if (null != ms) {
-			title.setText(ms.getmUserDefineName().replace(" ", ""));
-			// parents_need.setVisibility(View.GONE);
-			// devices_need.setVisibility(View.VISIBLE);
-		}
-
-	}
+//	public void initTitleByDevices(String devicesId) {
+//		SimpleDevicesModel ms = getModel;
+//		if (null != ms) {
+//			title.setText(ms.getmUserDefineName().replace(" ", ""));
+//			// parents_need.setVisibility(View.GONE);
+//			// devices_need.setVisibility(View.VISIBLE);
+//		}
+//
+//	}
 
 	public interface EditDevicesName {
 		public void editDevicesName();

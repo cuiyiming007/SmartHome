@@ -14,6 +14,8 @@ import com.gdgl.adapter.AllDevicesAdapter;
 import com.gdgl.adapter.AllDevicesAdapter.AddChecked;
 import com.gdgl.adapter.DevicesBaseAdapter;
 import com.gdgl.adapter.DevicesBaseAdapter.DevicesObserver;
+import com.gdgl.manager.CGIManager;
+import com.gdgl.manager.DeviceManager;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.Constants;
@@ -39,6 +41,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.TextUtils.StringSplitter;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -55,14 +58,16 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 		AddChecked, refreshData, UpdateDevice, EditDialogcallback,
 		Dialogcallback,setData{
 	public static final String REGION_NAME = "region_name";
+	public static final String REGION_ID="region_id";
 	
 	public static final int INLIST=1;
 	public static final int INCONTROL=2;
 	public static final int INADD=3;
 
-	private String mRegion = "";
+	private String mRoomname = "";
+	private String mRoomid = "";
 
-	String where = " device_region=? ";
+	//String where = " device_region=? ";
 
 	List<SimpleDevicesModel> mList;
 
@@ -84,8 +89,7 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 	Button mAdd,delete;
 	
 	DataHelper mDataHelper;
-	
-	private String devicesIeee = "";
+	private SimpleDevicesModel getModel;
 	private boolean deleteType=false;
 	private boolean isAdd=false;
 	private boolean isControl=false;
@@ -103,7 +107,8 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 		if (null != i) {
 			Bundle extras = i.getExtras();
 			if (null != extras) {
-				mRegion = extras.getString(REGION_NAME, "");
+				mRoomname = extras.getString(REGION_NAME, "");
+				mRoomid=Integer.toString(extras.getInt(REGION_ID));
 			}
 		}
 		mDataHelper=new DataHelper(RegionDevicesActivity.this);
@@ -114,8 +119,9 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 	
 	private void initRegionDevicesList(){
 		mList=null;
-		String[] args = { mRegion };
-		if (!mRegion.trim().equals("")) {
+		String[] args = { mRoomid };
+		String where = " rid=? ";
+		if (!mRoomid.trim().equals("")) {
 			mDh = new DataHelper(RegionDevicesActivity.this);
 			mList = DataUtil.getDevices(RegionDevicesActivity.this, mDh, args,
 					where);
@@ -131,21 +137,14 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 //		} else {
 			mAddList = new ArrayList<SimpleDevicesModel>();
 			for (SimpleDevicesModel simpleDevicesModel : mTempList) {
-				if (!isInList(simpleDevicesModel)&&TextUtils.isEmpty(simpleDevicesModel.getmDeviceRegion())) {
-					if(simpleDevicesModel.getmDeviceRegion().trim().equals("")){
+//				if (!isInList(simpleDevicesModel)&&TextUtils.isEmpty(simpleDevicesModel.getmDeviceRegion())) {
+				if(simpleDevicesModel.getmRid().equals("-1")) {
 						mAddList.add(simpleDevicesModel);
-					}
 				}
 			}
 //		}
 	}
 
-	public void isInRegion(SimpleDevicesModel devicesModel) {
-
-		if (TextUtils.isEmpty(devicesModel.getmDeviceRegion())) {
-			
-		}
-	}
 	private boolean isInList(SimpleDevicesModel simpleDevicesModel) {
 
 		for (SimpleDevicesModel msimpleDevicesModel : mList) {
@@ -168,7 +167,7 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 		delete = (Button) findViewById(R.id.delete);
 		region_name=(TextView) findViewById(R.id.region_name);
 		
-		region_name.setText(mRegion);
+		region_name.setText(mRoomname);
 		
 		if(null!=mList && mList.size()>0){
 			mNoDevices.setVisibility(View.GONE);
@@ -180,9 +179,10 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				if(currentState==INLIST){
+					isAdd=true;
 					mAdd.setText("添加");
 					mAdd.setTextColor(Color.RED);
-					initRegionDevicesList();
+					//initRegionDevicesList();
 					initAddFragmentDevicesList();
 					mAllDevicesFragment = new AllDevicesFragment();
 					AllDevicesAdapter mAllDevicesAdapter = new AllDevicesAdapter(
@@ -192,11 +192,15 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 					setFragment(mAllDevicesFragment, -1);
 					currentState=INADD;
 				}else if(currentState==INADD){
-					String[] args = { mRegion };
+					isAdd=false;
+					String[] args = { mRoomname };
 					ContentValues c = new ContentValues();
-					c.put(DevicesModel.DEVICE_REGION, mRegion);
+					c.put(DevicesModel.DEVICE_REGION, mRoomname);
+					c.put(DevicesModel.R_ID, mRoomid);
 					for (SimpleDevicesModel s : mAddToRegionList) {
-						s.setmDeviceRegion(mRegion);
+						CGIManager.getInstance().ModifyDeviceRoomId(s, mRoomid);
+						s.setmDeviceRegion(mRoomname);
+						s.setmRid(mRoomid);
 						updateDevices(s, c);
 						mList.add(s);
 					}
@@ -231,7 +235,7 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 				MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
 						RegionDevicesActivity.this);
 				mMyOkCancleDlg.setDialogCallback(RegionDevicesActivity.this);
-				mMyOkCancleDlg.setContent("确定要删除区域  " + mRegion + " 吗?");
+				mMyOkCancleDlg.setContent("确定要删除区域  " + mRoomname + " 吗?");
 				mMyOkCancleDlg.show();
 				deleteType=true;
 			}
@@ -243,7 +247,6 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 		// TODO Auto-generated method stub
 		
 		fragmentManager = getFragmentManager();
-		
 		initRegionDevicesList();
 		initAddToRegionDevicesList();
 		mDevicesBaseAdapter = new DevicesBaseAdapter(
@@ -334,9 +337,9 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 	}
 
 	@Override
-	public void setDevicesId(String id) {
+	public void setDevicesId(SimpleDevicesModel simpleDevicesModel) {
 		// TODO Auto-generated method stub
-		devicesIeee = id;
+		getModel=simpleDevicesModel;
 	}
 
 	private class GetDataTask extends
@@ -422,44 +425,24 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 	public void dialogdo() {
 		// TODO Auto-generated method stub
 		if(deleteType){
+			//删除设备中的区域信息
 			String where = " ieee = ? ";
+			SQLiteDatabase mSQLiteDatabase = mDataHelper.getSQLiteDatabase();
 			for (SimpleDevicesModel s : mList) {
 				ContentValues c = new ContentValues();
 				c.put(DevicesModel.DEVICE_REGION, "");
+				c.put(DevicesModel.R_ID, "-1");
 				String[] args = { s.getmIeee() };
-				SQLiteDatabase mSQLiteDatabase = mDataHelper
-						.getSQLiteDatabase();
 				mDataHelper.update(mSQLiteDatabase, DataHelper.DEVICES_TABLE,
 						c, where, args);
 			}
-			List<String> mregions = new ArrayList<String>();
-			getFromSharedPreferences
-					.setharedPreferences(RegionDevicesActivity.this);
-			String[] mregion = null;
-			String reg=getFromSharedPreferences.getRegion();
-			if(null!=reg && !reg.trim().equals("")){
-				mregion=reg.split("@@");
-			}
-			if(null!=mregion){
-				for (String string : mregion) {
-		        	if(!string.equals("")){
-		        		mregions.add(string);
-		        	}
-				}
-			}
-			int index=0;
-			for (; index < mregions.size(); index++) {
-				if(mregions.get(index).trim().equals(mRegion)){
-					break;
-				}
-			}
-			mregions.remove(index);
-			StringBuilder ms = new StringBuilder();
-			for (String string : mregions) {
-				ms.append(string + "@@");
-			}
-			getFromSharedPreferences.setRegion(ms.toString());
-
+			//删除所选区域
+			CGIManager.getInstance().ZBDeleteRoomDataMainByID(mRoomid);
+			String[] strings=new String[] {mRoomid};
+			mDataHelper.delete(mSQLiteDatabase, DataHelper.ROOMINFO_TABLE, " room_id = ? ", strings);
+			//删除常用中对应的区域名称
+			getFromSharedPreferences.setsharedPreferences(RegionDevicesActivity.this);
+			
 			List<String> mreg=new ArrayList<String>();
  			String comm = getFromSharedPreferences.getCommonUsed();
 			if (null != comm && !comm.trim().equals("")) {
@@ -470,8 +453,8 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 					}
 				}
 			}
-			if(mreg.contains(UiUtils.REGION_FLAG+mRegion)){
-				mreg.remove(UiUtils.REGION_FLAG+mRegion);
+			if(mreg.contains(UiUtils.REGION_FLAG+mRoomname)){
+				mreg.remove(UiUtils.REGION_FLAG+mRoomname);
 				StringBuilder sb=new StringBuilder();
 				if(null!=mreg && mreg.size()>0){
 					for (String s : mreg) {
@@ -485,12 +468,13 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 			this.finish();
 		}else{
 			String where = " ieee = ? ";
-			String[] args = { devicesIeee };
+			String[] args = { getModel.getmIeee() };
 
 			ContentValues c = new ContentValues();
 			c.put(DevicesModel.DEVICE_REGION, "");
-			
+			c.put(DevicesModel.R_ID, "-1");
 			SQLiteDatabase mSQLiteDatabase = mDataHelper.getSQLiteDatabase();
+			CGIManager.getInstance().ModifyDeviceRoomId(getModel, "-1");
 			int result = mDataHelper.update(mSQLiteDatabase,
 					DataHelper.DEVICES_TABLE, c, where, args);
 			if (result >= 0) {
@@ -518,9 +502,6 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 				finish();
 			}
 		}
-		mAdd.setText("添加设备");
-		mAdd.setTextColor(Color.BLACK);
-		currentState=INLIST;
 	}
 
 

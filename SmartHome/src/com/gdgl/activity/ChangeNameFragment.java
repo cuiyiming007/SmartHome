@@ -57,7 +57,7 @@ public class ChangeNameFragment extends Fragment implements UIListener{
 	private void initView() {
 		// TODO Auto-generated method stub
 		
-		getFromSharedPreferences.setharedPreferences((Context) getActivity());
+		getFromSharedPreferences.setsharedPreferences((Context) getActivity());
 		odlPwd = getFromSharedPreferences.getPwd();
 		name=getFromSharedPreferences.getName();
 		id=getFromSharedPreferences.getUid();
@@ -137,7 +137,7 @@ public class ChangeNameFragment extends Fragment implements UIListener{
 				LoginResponse response=(LoginResponse) event.getData();
 				changeNameSwitch(response);
 
-				getFromSharedPreferences.setharedPreferences((Context) getActivity());
+				getFromSharedPreferences.setsharedPreferences((Context) getActivity());
 				getFromSharedPreferences.setName(newName.trim());
 			}else {
 				//if failed,prompt a Toast

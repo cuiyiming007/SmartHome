@@ -67,7 +67,7 @@ public class DeviceManager extends Manger {
 	 */
 	public ArrayList<ResponseParamsEndPoint> getDeviceListFromLocalString() {
 		RespondDataEntity<ResponseParamsEndPoint> data = VolleyOperation
-				.handleResponseString(Constants.jsonStringforEndpointNew);
+				.handleEndPointString(Constants.jsonStringforEndpointNew);
 		ArrayList<ResponseParamsEndPoint> devDataList = data
 				.getResponseparamList();
 
@@ -172,21 +172,21 @@ public class DeviceManager extends Manger {
 		@Override
 		protected Object doInBackground(String... params) {
 			RespondDataEntity data = VolleyOperation
-					.handleResponseString(params[0]);
+					.handleEndPointString(params[0]);
 			ArrayList<ResponseParamsEndPoint> devDataList = data
 					.getResponseparamList();
 
 			DataHelper mDateHelper = new DataHelper(
 					ApplicationController.getInstance());
 			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
-			List<DevicesModel> mList = mDateHelper.queryForList(
+			List<DevicesModel> mList = mDateHelper.queryForDevicesList(
 					mSQLiteDatabase, DataHelper.DEVICES_TABLE, null, null,
 					null, null, null, null, null);
 			// 是否数据个数有更新
 //			if (mList.size() != devDataList.size()) {
 				mDateHelper.emptyTable(mSQLiteDatabase,
 						DataHelper.DEVICES_TABLE);
-				mDateHelper.insertList(mSQLiteDatabase,
+				mDateHelper.insertEndPointList(mSQLiteDatabase,
 						DataHelper.DEVICES_TABLE, null, devDataList);
 //			}
 			// mDateHelper.close(mSQLiteDatabase);
@@ -207,7 +207,7 @@ public class DeviceManager extends Manger {
 		@Override
 		protected Object doInBackground(String... params) {
 			RespondDataEntity data = VolleyOperation
-					.handleResponseString(params[0]);
+					.handleEndPointString(params[0]);
 			ArrayList<ResponseParamsEndPoint> devDataList = data
 					.getResponseparamList();
 			DataHelper mDH = new DataHelper(ApplicationController.getInstance());
@@ -334,6 +334,7 @@ public class DeviceManager extends Manger {
 				sd.setmEP(dm.getmEP());
 				sd.setmDeviceId(Integer.parseInt(dm.getmDeviceId()));
 				sd.setmDeviceRegion(dm.getmDeviceRegion());
+				sd.setmRid(dm.getmRid());
 				sd.setmUserDefineName(dm.getmUserDefineName());
 				sd.setmModelId(dm.getmModelId());
 				sd.setmName(dm.getmName());

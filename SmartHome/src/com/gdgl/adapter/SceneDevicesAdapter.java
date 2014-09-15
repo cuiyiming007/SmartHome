@@ -68,7 +68,7 @@ public class SceneDevicesAdapter extends BaseAdapter {
 			DevicesValue.put(i, 50);
 		}
 		GroupName=groupname;
-		getFromSharedPreferences.setharedPreferences(c);
+		getFromSharedPreferences.setsharedPreferences(c);
 		GroupId=getFromSharedPreferences.getSceneId();
 	}
 

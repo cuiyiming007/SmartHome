@@ -1,7 +1,9 @@
 package com.gdgl.manager;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -14,11 +16,15 @@ import com.android.volley.toolbox.StringRequest;
 import com.gdgl.app.ApplicationController;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
+import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DeviceLearnedParam;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.RespondDataEntity;
 import com.gdgl.mydata.ResponseDataEntityForStatus;
+import com.gdgl.mydata.ResponseParamsEndPoint;
+import com.gdgl.mydata.Region.GetRoomInfo_response;
+import com.gdgl.mydata.Region.RoomData_response_params;
 import com.gdgl.mydata.bind.BindResponseData;
 import com.gdgl.mydata.binding.BindingDataEntity;
 import com.gdgl.mydata.getlocalcielist.LocalIASCIEOperationResponseData;
@@ -145,7 +151,7 @@ public class CGIManager extends Manger {
 		Listener<String> responseListener = new Listener<String>() {
 			@Override
 			public void onResponse(String response) {
-				new GetBindingTast().execute(response);
+				new GetBindingTask().execute(response);
 			}
 		};
 
@@ -1055,7 +1061,7 @@ public class CGIManager extends Manger {
 			public void onResponse(String response) {
 				Log.i("CGIManager GetDeviceLearnedIRDataInformation Response:%n %s",
 						response);
-				new GetDeviceLearnedTast().execute(response);
+				new GetDeviceLearnedTask().execute(response);
 			}
 		};
 		String url = NetUtil.getInstance().getCumstomURL(
@@ -1100,28 +1106,21 @@ public class CGIManager extends Manger {
 				new Response.Listener<String>() {
 					@Override
 					public void onResponse(String response) {
-//						response = UiUtils.formatResponseString(response);
-//						Log.i("CGIManager GetAllRoomInfo Response:%n %s", response);
-//						Gson gson = new Gson();
-//						BindResponseData statusData = gson.fromJson(
-//								response.toString(), BindResponseData.class);
-//						Event event = new Event(EventType.DELETEIR, true);
-//						event.setData(statusData);
-//						notifyObservers(event);
+						new GetAllRoomInfoTask().execute(response);
 					}
 				},
 				new Response.ErrorListener() {
 					@Override
 					public void onErrorResponse(VolleyError error) {
-//						String errorString = null;
-//						if (error != null && error.getMessage() != null) {
-//							VolleyLog.e("Error: ", error.getMessage());
-//							errorString = VolleyErrorHelper.getMessage(error,
-//									ApplicationController.getInstance());
-//						}
-//						Event event = new Event(EventType.DELETEIR, false);
-//						event.setData(errorString);
-//						notifyObservers(event);
+						String errorString = null;
+						if (error != null && error.getMessage() != null) {
+							VolleyLog.e("Error: ", error.getMessage());
+							errorString = VolleyErrorHelper.getMessage(error,
+									ApplicationController.getInstance());
+						}
+						Event event = new Event(EventType.GETALLROOM, false);
+						event.setData(errorString);
+						notifyObservers(event);
 					}
 				});
 		// add the request object to the queue to be executed
@@ -1148,14 +1147,7 @@ public class CGIManager extends Manger {
 				new Response.Listener<String>() {
 					@Override
 					public void onResponse(String response) {
-//						response = UiUtils.formatResponseString(response);
-//						Log.i("CGIManager GetAllRoomInfo Response:%n %s", response);
-//						Gson gson = new Gson();
-//						BindResponseData statusData = gson.fromJson(
-//								response.toString(), BindResponseData.class);
-//						Event event = new Event(EventType.DELETEIR, true);
-//						event.setData(statusData);
-//						notifyObservers(event);
+						new GetEPbyRoomIndexTask().execute(response);
 					}
 				},
 				new Response.ErrorListener() {
@@ -1176,6 +1168,13 @@ public class CGIManager extends Manger {
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
 	
+	
+	/**
+	 * 添加房间
+	 * @param rid
+	 * @param roomname
+	 * @param roompic
+	 */
 	public void ZBAddRoomDataMain(String rid, String roomname, String roompic) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("rid", rid);
@@ -1194,34 +1193,39 @@ public class CGIManager extends Manger {
 				new Response.Listener<String>() {
 					@Override
 					public void onResponse(String response) {
-//						response = UiUtils.formatResponseString(response);
-//						Log.i("CGIManager GetAllRoomInfo Response:%n %s", response);
-//						Gson gson = new Gson();
-//						BindResponseData statusData = gson.fromJson(
-//								response.toString(), BindResponseData.class);
-//						Event event = new Event(EventType.DELETEIR, true);
-//						event.setData(statusData);
-//						notifyObservers(event);
+						response = UiUtils.formatResponseString(response);
+						Log.i("CGIManager AddRoomData Response:%n %s", response);
+						Gson gson = new Gson();
+						RoomData_response_params data = gson.fromJson(
+								response.toString(), RoomData_response_params.class);
+						String status=data.getstatus();
+						Event event = new Event(EventType.ROOMDATAMAIN, true);
+						event.setData(status);
+						notifyObservers(event);
 					}
 				},
 				new Response.ErrorListener() {
 					@Override
 					public void onErrorResponse(VolleyError error) {
-//						String errorString = null;
-//						if (error != null && error.getMessage() != null) {
-//							VolleyLog.e("Error: ", error.getMessage());
-//							errorString = VolleyErrorHelper.getMessage(error,
-//									ApplicationController.getInstance());
-//						}
-//						Event event = new Event(EventType.DELETEIR, false);
-//						event.setData(errorString);
-//						notifyObservers(event);
+						String errorString = null;
+						if (error != null && error.getMessage() != null) {
+							VolleyLog.e("Error: ", error.getMessage());
+							errorString = VolleyErrorHelper.getMessage(error,
+									ApplicationController.getInstance());
+						}
+						Event event = new Event(EventType.ROOMDATAMAIN, false);
+						event.setData(errorString);
+						notifyObservers(event);
 					}
 				});
 		// add the request object to the queue to be executed
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
 	
+	/***
+	 * 删除指定房间
+	 * @param rid
+	 */
 	public void ZBDeleteRoomDataMainByID(String rid) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("rid", rid);
@@ -1238,34 +1242,40 @@ public class CGIManager extends Manger {
 				new Response.Listener<String>() {
 					@Override
 					public void onResponse(String response) {
-//						response = UiUtils.formatResponseString(response);
-//						Log.i("CGIManager GetAllRoomInfo Response:%n %s", response);
-//						Gson gson = new Gson();
-//						BindResponseData statusData = gson.fromJson(
-//								response.toString(), BindResponseData.class);
-//						Event event = new Event(EventType.DELETEIR, true);
-//						event.setData(statusData);
-//						notifyObservers(event);
+						response = UiUtils.formatResponseString(response);
+						Log.i("CGIManager DeleteRoomData Response:%n %s", response);
+						Gson gson = new Gson();
+						RoomData_response_params data = gson.fromJson(
+								response.toString(), RoomData_response_params.class);
+						String status=data.getstatus();
+						Event event = new Event(EventType.ROOMDATAMAIN, true);
+						event.setData(status);
+						notifyObservers(event);
 					}
 				},
 				new Response.ErrorListener() {
 					@Override
 					public void onErrorResponse(VolleyError error) {
-//						String errorString = null;
-//						if (error != null && error.getMessage() != null) {
-//							VolleyLog.e("Error: ", error.getMessage());
-//							errorString = VolleyErrorHelper.getMessage(error,
-//									ApplicationController.getInstance());
-//						}
-//						Event event = new Event(EventType.DELETEIR, false);
-//						event.setData(errorString);
-//						notifyObservers(event);
+						String errorString = null;
+						if (error != null && error.getMessage() != null) {
+							VolleyLog.e("Error: ", error.getMessage());
+							errorString = VolleyErrorHelper.getMessage(error,
+									ApplicationController.getInstance());
+						}
+						Event event = new Event(EventType.ROOMDATAMAIN, false);
+						event.setData(errorString);
+						notifyObservers(event);
 					}
 				});
 		// add the request object to the queue to be executed
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
 	
+	/**
+	 * 修改设备的room id
+	 * @param model
+	 * @param new_roomid
+	 */
 	public void ModifyDeviceRoomId(SimpleDevicesModel model, String new_roomid) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", model.getmIeee());
@@ -1284,35 +1294,36 @@ public class CGIManager extends Manger {
 				new Response.Listener<String>() {
 					@Override
 					public void onResponse(String response) {
-//						response = UiUtils.formatResponseString(response);
-//						Log.i("CGIManager GetAllRoomInfo Response:%n %s", response);
-//						Gson gson = new Gson();
-//						BindResponseData statusData = gson.fromJson(
-//								response.toString(), BindResponseData.class);
-//						Event event = new Event(EventType.DELETEIR, true);
-//						event.setData(statusData);
-//						notifyObservers(event);
+						response = UiUtils.formatResponseString(response);
+						Log.i("CGIManager ModifyDeviceRoomId Response:%n %s", response);
+						Gson gson = new Gson();
+						RoomData_response_params data = gson.fromJson(
+								response.toString(), RoomData_response_params.class);
+						String status=data.getstatus();
+						Event event = new Event(EventType.MODIFYDEVICEROOMID, true);
+						event.setData(status);
+						notifyObservers(event);
 					}
 				},
 				new Response.ErrorListener() {
 					@Override
 					public void onErrorResponse(VolleyError error) {
-//						String errorString = null;
-//						if (error != null && error.getMessage() != null) {
-//							VolleyLog.e("Error: ", error.getMessage());
-//							errorString = VolleyErrorHelper.getMessage(error,
-//									ApplicationController.getInstance());
-//						}
-//						Event event = new Event(EventType.DELETEIR, false);
-//						event.setData(errorString);
-//						notifyObservers(event);
+						String errorString = null;
+						if (error != null && error.getMessage() != null) {
+							VolleyLog.e("Error: ", error.getMessage());
+							errorString = VolleyErrorHelper.getMessage(error,
+									ApplicationController.getInstance());
+						}
+						Event event = new Event(EventType.MODIFYDEVICEROOMID, false);
+						event.setData(errorString);
+						notifyObservers(event);
 					}
 				});
 		// add the request object to the queue to be executed
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
 	
-	class GetBindingTast extends AsyncTask<String, Object, Object> {
+	class GetBindingTask extends AsyncTask<String, Object, Object> {
 		@Override
 		protected Object doInBackground(String... params) {
 			BindingDataEntity data = VolleyOperation
@@ -1328,7 +1339,7 @@ public class CGIManager extends Manger {
 		}
 	}
 	
-	class GetDeviceLearnedTast extends AsyncTask<String, Object, Object> {
+	class GetDeviceLearnedTask extends AsyncTask<String, Object, Object> {
 
 		@Override
 		protected Object doInBackground(String... params) {
@@ -1345,5 +1356,59 @@ public class CGIManager extends Manger {
 		}
 	}
 	
+	class GetAllRoomInfoTask extends AsyncTask<String, Object, Object> {
+		@Override
+		protected Object doInBackground(String... params) {
+			RespondDataEntity data = VolleyOperation.handleRoomInfoString(params[0]);
+			ArrayList<GetRoomInfo_response> roomList = data.getResponseparamList();
+			
+			DataHelper mDateHelper = new DataHelper(
+					ApplicationController.getInstance());
+			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
+			
+			mDateHelper.emptyTable(mSQLiteDatabase, DataHelper.ROOMINFO_TABLE);
+			mDateHelper.insertRoomInfoList(mSQLiteDatabase, DataHelper.ROOMINFO_TABLE, null, roomList);
+			
+			return roomList;
+		}
+
+		@Override
+		protected void onPostExecute(Object result) {
+//			Event event = new Event(EventType.GETALLROOM, true);
+//			event.setData(result);
+//			notifyObservers(event);
+		}
+	}
 	
+	class GetEPbyRoomIndexTask extends AsyncTask<String, Object, Object> {
+		@Override
+		protected Object doInBackground(String... params) {
+			RespondDataEntity data = VolleyOperation
+					.handleEndPointString(params[0]);
+			ArrayList<ResponseParamsEndPoint> devDataList = data
+					.getResponseparamList();
+
+//			DataHelper mDateHelper = new DataHelper(
+//					ApplicationController.getInstance());
+//			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
+//			List<DevicesModel> mList = mDateHelper.queryForDevicesList(
+//					mSQLiteDatabase, DataHelper.DEVICES_TABLE, null, null,
+//					null, null, null, null, null);
+//			
+//			mDateHelper.emptyTable(mSQLiteDatabase,DataHelper.DEVICES_TABLE);
+//			mDateHelper.insertEndPointList(mSQLiteDatabase,DataHelper.DEVICES_TABLE, null, devDataList);
+
+			// mDateHelper.close(mSQLiteDatabase);
+			// [TODO]transfer to SimpleDevicesModel
+			return devDataList;
+		}
+
+		@Override
+		protected void onPostExecute(Object result) {
+			Event event = new Event(EventType.GETEPBYROOMINDEX, true);
+			event.setData(result);
+			notifyObservers(event);
+		}
+
+	}
 }

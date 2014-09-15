@@ -56,7 +56,7 @@ public class ChangePWDFragment extends Fragment implements UIListener {
 	private void initView() {
 		// TODO Auto-generated method stub
 
-		getFromSharedPreferences.setharedPreferences((Context) getActivity());
+		getFromSharedPreferences.setsharedPreferences((Context) getActivity());
 		odlPwd = getFromSharedPreferences.getPwd();
 		name = getFromSharedPreferences.getName();
 
@@ -136,7 +136,7 @@ public class ChangePWDFragment extends Fragment implements UIListener {
 				// data maybe null
 				LoginResponse response=(LoginResponse) event.getData();
 				changePWDSwitch(response);
-				getFromSharedPreferences.setharedPreferences((Context) getActivity());
+				getFromSharedPreferences.setsharedPreferences((Context) getActivity());
 				getFromSharedPreferences.setPwd(newpwd.trim());
 			} else {
 				// if failed,prompt a Toast

@@ -56,6 +56,11 @@ public class EventType {
 	public static final EventType GETDEVICELEARNED;
 	public static final EventType SCAPEDDEVICE;
 	
+	public static final EventType GETALLROOM;
+	public static final EventType GETEPBYROOMINDEX;
+	public static final EventType ROOMDATAMAIN;
+	public static final EventType MODIFYDEVICEROOMID;
+	
 
 	
 	static
@@ -103,6 +108,10 @@ public class EventType {
 		GETDEVICELEARNED=new EventType("GetDeviceLearned", nextId());
 		SCAPEDDEVICE=new EventType("ScapedDevice", nextId());
 		
+		GETALLROOM=new EventType("getAllRoomInfo", nextId());
+		GETEPBYROOMINDEX=new EventType("getEPByRoomIndex", nextId());
+		ROOMDATAMAIN=new EventType("roomDataMain", nextId());
+		MODIFYDEVICEROOMID=new EventType("modifyDeviceRoomId", nextId());
 	}
 	
 	private static int nextId()

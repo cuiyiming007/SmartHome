@@ -1,6 +1,6 @@
 package com.gdgl.mydata.Region;
 
-public class ZBRoomData_response_params {
+public class RoomData_response_params {
 	private String status;
 	private String status_msg;
 	

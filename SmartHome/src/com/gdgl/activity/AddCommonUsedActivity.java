@@ -100,7 +100,7 @@ public class AddCommonUsedActivity extends Activity {
 				// TODO Auto-generated method stub
 				StringBuilder sb = new StringBuilder();
 				getFromSharedPreferences
-						.setharedPreferences(AddCommonUsedActivity.this);
+						.setsharedPreferences(AddCommonUsedActivity.this);
 				String sR = getFromSharedPreferences.getCommonUsed();
 				List<String> rs=new ArrayList<String>();
 				if (!(null == sR || sR.trim().equals(""))) {
@@ -283,7 +283,7 @@ public class AddCommonUsedActivity extends Activity {
 		mDevices = new ArrayList<String>();
 		mExitDevices = new ArrayList<String>();
 		getFromSharedPreferences
-				.setharedPreferences(AddCommonUsedActivity.this);
+				.setsharedPreferences(AddCommonUsedActivity.this);
 		String comm = getFromSharedPreferences.getCommonUsed();
 		if (null != comm && !comm.trim().equals("")) {
 			String[] result = comm.split("@@");
@@ -343,7 +343,7 @@ public class AddCommonUsedActivity extends Activity {
 		mExitScene = new ArrayList<String>();
 
 		getFromSharedPreferences
-				.setharedPreferences(AddCommonUsedActivity.this);
+				.setsharedPreferences(AddCommonUsedActivity.this);
 		String comm = getFromSharedPreferences.getCommonUsed();
 		if (null != comm && !comm.trim().equals("")) {
 			String[] result = comm.split("@@");
@@ -389,7 +389,7 @@ public class AddCommonUsedActivity extends Activity {
 		mRegion = new ArrayList<String>();
 		mExitRegion = new ArrayList<String>();
 		getFromSharedPreferences
-				.setharedPreferences(AddCommonUsedActivity.this);
+				.setsharedPreferences(AddCommonUsedActivity.this);
 		String comm = getFromSharedPreferences.getCommonUsed();
 		if (null != comm && !comm.trim().equals("")) {
 			String[] result = comm.split("@@");

@@ -234,7 +234,7 @@ public class BindControlFragment extends BaseFragment {
 					args = new String[2];
 					args[0] = bindingDivice.getIeee();
 					args[1] = bindingDivice.getEp();
-					tempList = dh.queryForList(db, DataHelper.DEVICES_TABLE,
+					tempList = dh.queryForDevicesList(db, DataHelper.DEVICES_TABLE,
 							null, where, args, null, null, null, null);
 					if (null != tempList && tempList.size() > 0) {
 						mDevList.add(tempList.get(0));

@@ -699,7 +699,7 @@ public class DevicesListWithGroup extends BaseFragment implements
 		// TODO Auto-generated method stub
 		DevicesModel ds = mCurrentList.get(currentpostion);
 		CGIManager.getInstance().deleteNode(ds.getmIeee().trim());
-		int result = mDh.delete((Context) getActivity(),
+		int result = mDh.deleteDeviceWithGroup((Context) getActivity(),
 				mDh.getSQLiteDatabase(), DataHelper.DEVICES_TABLE, " ieee=? ",
 				new String[] { ds.getmIeee().trim() });
 

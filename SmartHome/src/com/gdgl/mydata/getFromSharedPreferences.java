@@ -16,7 +16,7 @@ public class getFromSharedPreferences {
 	private static SharedPreferences mSharedPreferences = null;
 	private static SharedPreferences.Editor mEditor = null;
 
-	public static void setharedPreferences(Context context) {
+	public static void setsharedPreferences(Context context) {
 		mSharedPreferences = context.getSharedPreferences(
 				UiUtils.SharedPreferences_SETTING_INFOS, context.MODE_PRIVATE);
 	}

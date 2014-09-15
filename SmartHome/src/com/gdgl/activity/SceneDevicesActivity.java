@@ -74,7 +74,7 @@ public class SceneDevicesActivity extends Activity implements DevicesObserver,
 	Button mAdd,delete;
 	DataHelper mDataHelper;
 	
-	private String devicesIeee = "";
+	private SimpleDevicesModel getModel;
 	private boolean deleteType=false;
 	private boolean isAdd=false;
 	CheckBox mSceneOn;
@@ -338,9 +338,9 @@ public class SceneDevicesActivity extends Activity implements DevicesObserver,
 	}
 
 	@Override
-	public void setDevicesId(String id) {
+	public void setDevicesId(SimpleDevicesModel simpleDevicesModel) {
 		// TODO Auto-generated method stub
-		devicesIeee = id;
+		getModel=simpleDevicesModel;
 	}
 
 	private class GetDataTask extends
@@ -421,7 +421,7 @@ public class SceneDevicesActivity extends Activity implements DevicesObserver,
 			String[] args = { mScene };
 			
 			SQLiteDatabase mSQLiteDatabase = mDataHelper.getSQLiteDatabase();
-			mDataHelper.deleteGroup(mSQLiteDatabase,
+			mDataHelper.delete(mSQLiteDatabase,
 					DataHelper.GROUP_TABLE,  where, args);
 			
 			List<String> mreg=new ArrayList<String>();
@@ -450,9 +450,9 @@ public class SceneDevicesActivity extends Activity implements DevicesObserver,
 			finish();
 		}else{
 			String where = " group_name = ? and devices_ieee=? ";
-			String[] args = { mScene,devicesIeee};
+			String[] args = { mScene,getModel.getmIeee()};
 			SQLiteDatabase mSQLiteDatabase = mDataHelper.getSQLiteDatabase();
-			int result=mDataHelper.deleteGroup(mSQLiteDatabase,
+			int result=mDataHelper.delete(mSQLiteDatabase,
 					DataHelper.GROUP_TABLE,  where, args);
 			if (result >= 0) {
 				initSceneDevicesList();

@@ -21,6 +21,7 @@ import com.gdgl.mydata.DeviceLearnedParam;
 import com.gdgl.mydata.RespondDataEntity;
 import com.gdgl.mydata.ResponseParams;
 import com.gdgl.mydata.ResponseParamsEndPoint;
+import com.gdgl.mydata.Region.GetRoomInfo_response;
 import com.gdgl.mydata.binding.BindingDataEntity;
 import com.gdgl.mydata.binding.BindingDivice;
 import com.gdgl.mydata.binding.Binding_response_params;
@@ -114,7 +115,7 @@ public class VolleyOperation {
 
 			@Override
 			public void onResponse(String response) {
-				handleResponseString(response);
+				handleEndPointString(response);
 			}
 		};
 
@@ -139,7 +140,7 @@ public class VolleyOperation {
 	 * 
 	 * @param response
 	 */
-	public static RespondDataEntity<ResponseParamsEndPoint> handleResponseString(String response) {
+	public static RespondDataEntity<ResponseParamsEndPoint> handleEndPointString(String response) {
 		// format response string to standard json string
 		response = UiUtils.formatResponseString(response);
 
@@ -147,6 +148,11 @@ public class VolleyOperation {
 		//return parseJSON2EndPoint(response);
 		return parseJSON2EndPoint(response);
 
+	}
+	
+	public static RespondDataEntity<GetRoomInfo_response> handleRoomInfoString(String response) {
+		response=UiUtils.formatResponseString(response);
+		return parseJSON2RoomInfo(response);
 	}
 	
 	public static RespondDataEntity<CIEresponse_params> handleCIEString(String response) {
@@ -236,6 +242,28 @@ public class VolleyOperation {
 		return dataEntity;
 	}
 	
+	/***
+	 * revert String to RespondDataEntity <GetRoomInfo_response>
+	 * @param s
+	 * @return
+	 */
+	public static RespondDataEntity<GetRoomInfo_response> parseJSON2RoomInfo(String s) {
+		Gson gson = new Gson();
+		JsonParser parser=new JsonParser();
+		ArrayList<GetRoomInfo_response> list =new ArrayList<GetRoomInfo_response>();
+		JsonObject jsonObject=parser.parse(s).getAsJsonObject();
+		RespondDataEntity<GetRoomInfo_response> dataEntity=new RespondDataEntity<GetRoomInfo_response>();
+		JsonElement idElement=jsonObject.get("request_id");
+		dataEntity.setRequest_id(idElement.toString());
+		JsonArray jsonArray = jsonObject.getAsJsonArray("response_params");
+		for (int i = 0; i < jsonArray.size(); i++) {
+			JsonElement el = jsonArray.get(i);
+			GetRoomInfo_response tmp = gson.fromJson(el, GetRoomInfo_response.class);
+			list.add(tmp);
+		}
+		dataEntity.setResponseparamList(list);
+		return dataEntity;
+	}
 	/***
 	 * revert String to RespondDataEntity <CIEresponse_params>
 	 * @param <T>

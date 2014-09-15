@@ -137,7 +137,7 @@ public class DataUtil {
         args = DataUtil.getArgs(UiUtils.LIGHTS_MANAGER);
 
 		
-		listDevicesModel = dh.queryForList(db, DataHelper.DEVICES_TABLE, null,
+		listDevicesModel = dh.queryForDevicesList(db, DataHelper.DEVICES_TABLE, null,
 				where, args, null, null, null, null);
 		int n = 0;
 		for (int m = 0; m < listDevicesModel.size(); m++) {
@@ -256,7 +256,7 @@ public class DataUtil {
 		if (null == where || null == args) {
 			return null;
 		}
-		listDevicesModel = dh.queryForList(db, DataHelper.DEVICES_TABLE, null,
+		listDevicesModel = dh.queryForDevicesList(db, DataHelper.DEVICES_TABLE, null,
 				where, args, null, null, null, null);
 		DevicesModel mDevicesModel;
 		for (int m = 0; m < listDevicesModel.size(); m++) {
@@ -316,7 +316,7 @@ public class DataUtil {
 
 		List<DevicesModel> listDevicesModel = new ArrayList<DevicesModel>();
 		SQLiteDatabase db=dh.getSQLiteDatabase();
-		listDevicesModel = dh.queryForList(db,
+		listDevicesModel = dh.queryForDevicesList(db,
 				DataHelper.DEVICES_TABLE, null, where, args, null, null, null,
 				null);
 		dh.close(db);
@@ -424,7 +424,7 @@ public class DataUtil {
 
 		List<DevicesModel> listDevicesModel = new ArrayList<DevicesModel>();
 
-		listDevicesModel = dh.queryForList(db,
+		listDevicesModel = dh.queryForDevicesList(db,
 				DataHelper.DEVICES_TABLE, null, where, args, null, null, null,
 				null);
 		if (null != listDevicesModel && listDevicesModel.size() > 0) {
@@ -444,7 +444,7 @@ public class DataUtil {
 	public static DevicesModel getDeviceModelById(int id,DataHelper dh,SQLiteDatabase db){
 		String where=" _id=? ";
 		String[] args={id+""};
-		List<DevicesModel> mList=dh.queryForList(db, DataHelper.DEVICES_TABLE, null, where, args, null, null, null, null);
+		List<DevicesModel> mList=dh.queryForDevicesList(db, DataHelper.DEVICES_TABLE, null, where, args, null, null, null, null);
 		if(null!=mList && mList.size()>0){
 			return mList.get(0);
 		}
@@ -453,7 +453,7 @@ public class DataUtil {
 	public static DevicesModel getDeviceModelByIeee(String ieee,DataHelper dh,SQLiteDatabase db){
 		String where=" ieee=? ";
 		String[] args={ieee+""};
-		List<DevicesModel> mList=dh.queryForList(db, DataHelper.DEVICES_TABLE, null, where, args, null, null, null, null);
+		List<DevicesModel> mList=dh.queryForDevicesList(db, DataHelper.DEVICES_TABLE, null, where, args, null, null, null, null);
 		if(null!=mList && mList.size()>0){
 			return mList.get(0);
 		}
@@ -483,7 +483,7 @@ public class DataUtil {
 		if (null == where || null == args) {
 			return null;
 		}
-		listDevicesModel = dh.queryForList(dh.getSQLiteDatabase(),
+		listDevicesModel = dh.queryForDevicesList(dh.getSQLiteDatabase(),
 				DataHelper.DEVICES_TABLE, null, where, args, null, null, null,
 				null);
 		if (null != listDevicesModel && listDevicesModel.size() > 0) {
@@ -609,7 +609,7 @@ public class DataUtil {
 		Set<String> region = new HashSet<String>();
 
 		SQLiteDatabase db = dh.getSQLiteDatabase();
-		listDevicesModel = dh.queryForList(db, DataHelper.DEVICES_TABLE, null,
+		listDevicesModel = dh.queryForDevicesList(db, DataHelper.DEVICES_TABLE, null,
 				null, null, null, null, null, null);
 
 		for (int m = 0; m < listDevicesModel.size(); m++) {
@@ -630,7 +630,7 @@ public class DataUtil {
 		List<SimpleDevicesModel> list = new ArrayList<SimpleDevicesModel>();
 
 		SQLiteDatabase db = dh.getSQLiteDatabase();
-		listDevicesModel = dh.queryForList(db, DataHelper.DEVICES_TABLE, null,
+		listDevicesModel = dh.queryForDevicesList(db, DataHelper.DEVICES_TABLE, null,
 				where, args, null, null, null, null);
 
 		if (b) {
@@ -643,6 +643,7 @@ public class DataUtil {
 							.parseInt(mDevicesModel.getmDeviceId()));
 					mSimpleDevicesModel.setmDeviceRegion(mDevicesModel
 							.getmDeviceRegion());
+					mSimpleDevicesModel.setmRid(mDevicesModel.getmRid());
 					mSimpleDevicesModel.setmEP(mDevicesModel.getmEP());
 					mSimpleDevicesModel.setmIeee(mDevicesModel.getmIeee());
 					mSimpleDevicesModel.setmLastDateTime(mDevicesModel
@@ -678,6 +679,7 @@ public class DataUtil {
 						.getmDeviceId()));
 				mSimpleDevicesModel.setmDeviceRegion(mDevicesModel
 						.getmDeviceRegion());
+				mSimpleDevicesModel.setmRid(mDevicesModel.getmRid());
 				mSimpleDevicesModel.setmEP(mDevicesModel.getmEP());
 				mSimpleDevicesModel.setmIeee(mDevicesModel.getmIeee());
 				mSimpleDevicesModel.setmLastDateTime(mDevicesModel
