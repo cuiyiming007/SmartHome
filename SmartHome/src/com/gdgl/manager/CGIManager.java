@@ -2,6 +2,7 @@ package com.gdgl.manager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
@@ -10,6 +11,7 @@ import android.util.Log;
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
+import com.android.volley.AuthFailureError;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
@@ -28,6 +30,7 @@ import com.gdgl.mydata.Region.RoomData_response_params;
 import com.gdgl.mydata.bind.BindResponseData;
 import com.gdgl.mydata.binding.BindingDataEntity;
 import com.gdgl.mydata.getlocalcielist.LocalIASCIEOperationResponseData;
+import com.gdgl.network.StringRequestChina;
 import com.gdgl.network.VolleyErrorHelper;
 import com.gdgl.network.VolleyOperation;
 import com.gdgl.util.NetUtil;
@@ -1102,10 +1105,11 @@ public class CGIManager extends Manger {
 		String url = NetUtil.getInstance().getCumstomURL(
 				NetUtil.getInstance().IP, "getAllRoomInfo.cgi",param);
 		
-		StringRequest req = new StringRequest(url, 
+		StringRequestChina req = new StringRequestChina(url, 
 				new Response.Listener<String>() {
 					@Override
 					public void onResponse(String response) {
+						Log.i("CGIManager GetRoomInfo Response:%n %s", response);
 						new GetAllRoomInfoTask().execute(response);
 					}
 				},
@@ -1188,7 +1192,6 @@ public class CGIManager extends Manger {
 		
 		String url = NetUtil.getInstance().getCumstomURL(
 				NetUtil.getInstance().IP, "zbAddRoomDataMain.cgi",param);
-		
 		StringRequest req = new StringRequest(url, 
 				new Response.Listener<String>() {
 					@Override
@@ -1217,7 +1220,19 @@ public class CGIManager extends Manger {
 						event.setData(errorString);
 						notifyObservers(event);
 					}
-				});
+				}) {
+			@Override
+			public Map<String, String> getHeaders()
+					throws AuthFailureError {
+				// TODO Auto-generated method stub
+				HashMap<String, String> headers = new HashMap<String, String>();  
+				//headers.put("Charset", "UTF-8");  
+				headers.put("Content-Type", "application/json; charset=UTF-8");  
+				headers.put("Accept-Encoding", "gzip,deflate,sdch");  
+				headers.put("Accept-Language", "zh-CN,zh;q=0.8");
+				return headers;  
+			}
+		};
 		// add the request object to the queue to be executed
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}

@@ -58,6 +58,7 @@ public class SmartService extends Service {
 		
 		// =============================server======================
 		 DeviceManager.getInstance().getDeviceList();
+		 CGIManager.getInstance().GetAllRoomInfo();
 		 VideoManager.getInstance().getIPClist();
 		// ===============================loacl=====================
 //		new Thread() {

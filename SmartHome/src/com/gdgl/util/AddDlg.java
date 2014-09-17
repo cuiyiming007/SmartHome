@@ -1,5 +1,6 @@
 package com.gdgl.util;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -10,15 +11,13 @@ import com.gdgl.model.DevicesGroup;
 import com.gdgl.model.RemoteControl;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.getFromSharedPreferences;
-import com.gdgl.mydata.Region.GetRoomInfo_response;
 import com.gdgl.mydata.Region.Room;
 import com.gdgl.smarthome.R;
-import com.gdgl.util.EditDevicesDlg.EditDialogcallback;
 
-import android.R.integer;
 import android.app.Dialog;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -148,7 +147,8 @@ public class AddDlg {
 					i++;
 				}
 				if(i==mList.size()) {
-					CGIManager.getInstance().ZBAddRoomDataMain(Integer.toString(roomid), mN, "");
+					String name=Uri.encode(mN);
+					CGIManager.getInstance().ZBAddRoomDataMain(Integer.toString(roomid), name, "");
 					ArrayList<Room> addList=new ArrayList<Room>();
 					Room addroomdata=new Room();
 					addroomdata.setroom_id(roomid);

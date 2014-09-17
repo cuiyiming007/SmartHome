@@ -187,7 +187,8 @@ public class DataHelper extends SQLiteOpenHelper {
 		messageStringBuilder.append(CallbackWarnMessage.ZONE_NAME + " VARCHAR(16))");
 		
 		roominfoStringBuilder.append("CREATE TABLE " + ROOMINFO_TABLE + " (");
-		roominfoStringBuilder.append(GetRoomInfo_response.ROOM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,");
+		roominfoStringBuilder.append(GetRoomInfo_response._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,");
+		roominfoStringBuilder.append(GetRoomInfo_response.ROOM_ID + " INTEGER,");
 		roominfoStringBuilder.append(GetRoomInfo_response.ROOM_NAME + " TEXT,");
 		roominfoStringBuilder.append(GetRoomInfo_response.ROOM_PIC + " VARCHAR(48))");
 	}
