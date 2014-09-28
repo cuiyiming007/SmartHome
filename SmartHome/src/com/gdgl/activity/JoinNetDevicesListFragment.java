@@ -3,17 +3,11 @@ package com.gdgl.activity;
 import java.util.HashMap;
 import java.util.List;
 
-import com.gdgl.activity.AllDevicesListFragment.DevicesAdapter.ViewHolder;
 import com.gdgl.manager.Manger;
-import com.gdgl.manager.UIListener;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
-import com.gdgl.mydata.Event;
-import com.gdgl.mydata.EventType;
-import com.gdgl.mydata.getFromSharedPreferences;
-import com.gdgl.mydata.Callback.CallbackResponseType2;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.UiUtils;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -39,25 +33,24 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-
-public class JoinNetDevicesListFragment extends BaseFragment implements
-		UIListener {
+/***
+ * 组网后获得的新设备列表
+ * @author Trice
+ *
+ */
+public class JoinNetDevicesListFragment extends BaseFragment {
 
 	private View mView;
 
-	LinearLayout ch_pwd;
+	LinearLayout join_net_listLayout;
 	PullToRefreshListView devices_list;
 	int refreshTag = 0;
 	refreshData mRefreshData;
 
-	List<SimpleDevicesModel> mInnetList;
 	List<DevicesModel> mDevList;
-	// List<SimpleDevicesModel> mDevList;
 	DataHelper mDH;
 	JoinNetAdapter mJoinNetAdapter;
 
-	HashMap<DevicesModel, View> mViewGroupMap;
-	HashMap<View, DevicesModel> mViewToIees;
 	ViewGroup no_dev;
 	Button mBack;
 	TextView mNoContent;
@@ -78,9 +71,6 @@ public class JoinNetDevicesListFragment extends BaseFragment implements
 		// TODO Auto-generated method stub
 		Context c = (Context) getActivity();
 		mDH = new DataHelper(c);
-		mInnetList = DataUtil.getDevices(c, mDH, null, null);
-		mViewGroupMap = new HashMap<DevicesModel, View>();
-		mViewToIees = new HashMap<View, DevicesModel>();
 		mJoinNetAdapter = new JoinNetAdapter();
 	}
 
@@ -101,39 +91,39 @@ public class JoinNetDevicesListFragment extends BaseFragment implements
 		}
 	}
 
-	public boolean isInNet(DevicesModel s) {
+//	public boolean isInNet(DevicesModel s) {
+//
+//		for (SimpleDevicesModel sd : mInnetList) {
+//			if (sd.getmIeee().equals(s.getmIeee())
+//					&& sd.getmEP().equals(s.getmEP())) {
+//				return true;
+//			}
+//		}
+//		return false;
+//	}
 
-		for (SimpleDevicesModel sd : mInnetList) {
-			if (sd.getmIeee().equals(s.getmIeee())
-					&& sd.getmEP().equals(s.getmEP())) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	protected SimpleDevicesModel getDevicesByIeee(String iee, String EP) {
-		// TODO Auto-generated method stub
-		String[] args = { iee, EP };
-		String where = " ieee=? and ep=? ";
-		Context c = (Context) getActivity();
-		List<SimpleDevicesModel> ls = DataUtil.getDevices(c, new DataHelper(c),
-				args, where);
-		SimpleDevicesModel smd = null;
-		if (null != ls && ls.size() > 0) {
-			smd = ls.get(0);
-		}
-		return smd;
-	}
+//	protected SimpleDevicesModel getDevicesByIeee(String iee, String EP) {
+//		// TODO Auto-generated method stub
+//		String[] args = { iee, EP };
+//		String where = " ieee=? and ep=? ";
+//		Context c = (Context) getActivity();
+//		List<SimpleDevicesModel> ls = DataUtil.getDevices(c, new DataHelper(c),
+//				args, where);
+//		SimpleDevicesModel smd = null;
+//		if (null != ls && ls.size() > 0) {
+//			smd = ls.get(0);
+//		}
+//		return smd;
+//	}
 
 	private void initView() {
 		// TODO Auto-generated method stub
-		ch_pwd = (LinearLayout) mView.findViewById(R.id.ch_pwd);
+		join_net_listLayout = (LinearLayout) mView.findViewById(R.id.join_net_list);
 		LinearLayout.LayoutParams mLayoutParams = new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.MATCH_PARENT,
 				LinearLayout.LayoutParams.MATCH_PARENT);
 
-		ch_pwd.setLayoutParams(mLayoutParams);
+		join_net_listLayout.setLayoutParams(mLayoutParams);
 		no_dev = (ViewGroup) mView.findViewById(R.id.no_dev);
 
 		deviceslist = (LinearLayout) mView.findViewById(R.id.deviceslist);
@@ -211,54 +201,54 @@ public class JoinNetDevicesListFragment extends BaseFragment implements
 		mRefreshData = (refreshData) activity;
 	}
 
-	public int isInList(String iee, String ep) {
-		if (null == mDevList || mDevList.size() == 0) {
-			return -1;
-		}
-		if (iee == null || ep == null) {
-			return -1;
-		}
-		DevicesModel sd;
-		for (int m = 0; m < mDevList.size(); m++) {
-			sd = mDevList.get(m);
-			if (iee.trim().equals(sd.getmIeee().trim())
-					&& ep.trim().equals(sd.getmEP().trim())) {
-				return m;
-			}
-		}
-		return -1;
-	}
+//	public int isInList(String iee, String ep) {
+//		if (null == mDevList || mDevList.size() == 0) {
+//			return -1;
+//		}
+//		if (iee == null || ep == null) {
+//			return -1;
+//		}
+//		DevicesModel sd;
+//		for (int m = 0; m < mDevList.size(); m++) {
+//			sd = mDevList.get(m);
+//			if (iee.trim().equals(sd.getmIeee().trim())
+//					&& ep.trim().equals(sd.getmEP().trim())) {
+//				return m;
+//			}
+//		}
+//		return -1;
+//	}
 
 	@Override
 	public void update(Manger observer, Object object) {
 		// TODO Auto-generated method stub
-
-		final Event event = (Event) object;
-		if (EventType.ON_OFF_STATUS == event.getType()) {
-			if (event.isSuccess() == true) {
-				// data maybe null
-				CallbackResponseType2 data = (CallbackResponseType2) event
-						.getData();
-				int m = isInList(data.getDeviceIeee(), data.getDeviceEp());
-				if (-1 != m) {
-					if (null != data.getValue()) {
-						mDevList.get(m).setmOnOffStatus(data.getValue());
-						mJoinNetAdapter.setList(mDevList);
-						mView.post(new Runnable() {
-
-							@Override
-							public void run() {
-								mJoinNetAdapter.notifyDataSetChanged();
-							}
-						});
-					}
-				}
-				ProcessUpdate(data);
-			} else {
-				// if failed,prompt a Toast
-				// mError.setVisibility(View.VISIBLE);
-			}
-		}
+//
+//		final Event event = (Event) object;
+//		if (EventType.ON_OFF_STATUS == event.getType()) {
+//			if (event.isSuccess() == true) {
+//				// data maybe null
+//				CallbackResponseType2 data = (CallbackResponseType2) event
+//						.getData();
+//				int m = isInList(data.getDeviceIeee(), data.getDeviceEp());
+//				if (-1 != m) {
+//					if (null != data.getValue()) {
+//						mDevList.get(m).setmOnOffStatus(data.getValue());
+//						mJoinNetAdapter.setList(mDevList);
+//						mView.post(new Runnable() {
+//
+//							@Override
+//							public void run() {
+//								mJoinNetAdapter.notifyDataSetChanged();
+//							}
+//						});
+//					}
+//				}
+//				ProcessUpdate(data);
+//			} else {
+//				// if failed,prompt a Toast
+//				// mError.setVisibility(View.VISIBLE);
+//			}
+//		}
 	}
 
 	public interface refreshData {
@@ -288,19 +278,19 @@ public class JoinNetDevicesListFragment extends BaseFragment implements
 		};
 	};
 
-	public DevicesModel getDevicesByIeeeAndEp(String ieee, String ep) {
-		if (null == ieee || ep == null || null == mDevList) {
-			return null;
-		}
-
-		for (DevicesModel ds : mDevList) {
-			if (ds.getmIeee().trim().equals(ieee.trim())
-					&& ds.getmEP().trim().equals(ep.trim())) {
-				return ds;
-			}
-		}
-		return null;
-	}
+//	public DevicesModel getDevicesByIeeeAndEp(String ieee, String ep) {
+//		if (null == ieee || ep == null || null == mDevList) {
+//			return null;
+//		}
+//
+//		for (DevicesModel ds : mDevList) {
+//			if (ds.getmIeee().trim().equals(ieee.trim())
+//					&& ds.getmEP().trim().equals(ep.trim())) {
+//				return ds;
+//			}
+//		}
+//		return null;
+//	}
 
 	public class JoinNetAdapter extends BaseAdapter {
 
@@ -367,9 +357,7 @@ public class JoinNetDevicesListFragment extends BaseFragment implements
 			Log.e("devices_name", mDevices.getmUserDefineName());
 			mHolder.devices_name.setText(mDevices.getmUserDefineName().replace(
 					" ", ""));
-			mHolder.devices_region.setText(mDevices.getmDeviceRegion().replace(
-					" ", ""));
-
+			
 			int devModeleId = Integer.parseInt(mDevices.getmDeviceId());
 
 			if (DataHelper.IAS_ZONE_DEVICETYPE == devModeleId
@@ -386,41 +374,9 @@ public class JoinNetDevicesListFragment extends BaseFragment implements
 				mHolder.devices_img.setImageResource(UiUtils
 						.getDevicesSmallIcon(devModeleId));
 			}
-
-			if (devModeleId == DataHelper.ON_OFF_SWITCH_DEVICETYPE) {
-				String state = "";
-				String s = mDevices.getmOnOffStatus();
-				Log.i("tag", "tag->" + s);
-				String[] result = s.split(",");
-				for (String string : result) {
-					if (string.trim().equals("1")) {
-						state += "开 ";
-					} else {
-						state += "关 ";
-					}
-				}
-				Log.i("tag", "tag->" + state);
-				mHolder.devices_state.setText(state);
-			} else if (devModeleId == DataHelper.IAS_ZONE_DEVICETYPE) {
-				if (mDevices.getmOnOffStatus().trim().equals("0")) {
-					mHolder.devices_state.setText("已布防");
-				} else {
-					mHolder.devices_state.setText("已撤防");
-				}
-			} else if (devModeleId == DataHelper.LIGHT_SENSOR_DEVICETYPE) {
-				mHolder.devices_state.setText("亮度: "
-						+ getFromSharedPreferences.getLight());
-			} else if (devModeleId == DataHelper.TEMPTURE_SENSOR_DEVICETYPE) {
-				mHolder.devices_state.setText("温度: "
-						+ getFromSharedPreferences.getTemperature() + "\n湿度: "
-						+ getFromSharedPreferences.getHumidity() + "%");
-			} else {
-				if (mDevices.getmOnOffStatus().trim().equals("1")) {
-					mHolder.devices_state.setText("开");
-				} else {
-					mHolder.devices_state.setText("关");
-				}
-			}
+			
+			mHolder.devices_region.setVisibility(View.INVISIBLE);
+			mHolder.devices_state.setVisibility(View.INVISIBLE);
 
 			return mView;
 		}

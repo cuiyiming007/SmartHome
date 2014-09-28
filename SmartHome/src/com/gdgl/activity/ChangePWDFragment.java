@@ -136,8 +136,6 @@ public class ChangePWDFragment extends Fragment implements UIListener {
 				// data maybe null
 				LoginResponse response=(LoginResponse) event.getData();
 				changePWDSwitch(response);
-				getFromSharedPreferences.setsharedPreferences((Context) getActivity());
-				getFromSharedPreferences.setPwd(newpwd.trim());
 			} else {
 				// if failed,prompt a Toast
 				Toast.makeText(getActivity(), "连接网关失败", Toast.LENGTH_SHORT).show();
@@ -150,6 +148,8 @@ public class ChangePWDFragment extends Fragment implements UIListener {
 		switch (i) {
 		case 0:
 			Toast.makeText(getActivity(), "修改成功", Toast.LENGTH_SHORT).show();
+			getFromSharedPreferences.setsharedPreferences((Context) getActivity());
+			getFromSharedPreferences.setPwd(newpwd.trim());
 			break;
 		case 29:
 			Toast.makeText(getActivity(), "原密码错误，请重新输入", Toast.LENGTH_SHORT).show();

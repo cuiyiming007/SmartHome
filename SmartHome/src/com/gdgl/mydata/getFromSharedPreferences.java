@@ -106,6 +106,17 @@ public class getFromSharedPreferences {
 		return mEditor.commit();
 	}
 
+	public static String getJoinNetTime() {
+		return mSharedPreferences.getString(UiUtils.JOINNETTIME, UiUtils.EMPTY_STR);
+	}
+	
+	public static boolean setJoinNetTime(String time) {
+		mEditor=mSharedPreferences.edit();
+		mEditor.putString(UiUtils.JOINNETTIME, time);
+		
+		return mEditor.commit();
+	}
+	
 	public static boolean setRegion(String mSet) {
 		mEditor = mSharedPreferences.edit();
 		mEditor.putString(UiUtils.REGION, mSet);

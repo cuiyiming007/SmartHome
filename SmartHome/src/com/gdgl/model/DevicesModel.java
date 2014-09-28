@@ -519,8 +519,8 @@ public class DevicesModel implements DevicesBaseColumns {
 		setmZCLVersion(n.getZcl_version());
 		setmDeviceRegion("");
 		setmLastDateTime(System.currentTimeMillis());
-		setmClusterID(UiUtils.getClusterIdByIeee(n.getIeee()));
-		setmBindTo("");
+		setmClusterID(UiUtils.getClusterIdByDeviceid_Modelid(n.getModel_id(),d.getEp()));
+		setmBindTo("未绑定");
 		setmOnOffLine(DEVICE_ON_LINE);
 	}
 

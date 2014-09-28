@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -25,6 +26,8 @@ import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.RespondDataEntity;
 import com.gdgl.mydata.ResponseDataEntityForStatus;
 import com.gdgl.mydata.ResponseParamsEndPoint;
+import com.gdgl.mydata.Callback.CallbackBindListDevices;
+import com.gdgl.mydata.Callback.CallbackBindListMessage;
 import com.gdgl.mydata.Region.GetRoomInfo_response;
 import com.gdgl.mydata.Region.RoomData_response_params;
 import com.gdgl.mydata.bind.BindResponseData;
@@ -68,19 +71,24 @@ public class CGIManager extends Manger {
 	}
 
 	/***
-	 * 1.4BindDevice
-	 * 
-	 * @param outModel
-	 * @param mdevices
+	 * addBindData
+	 * @param bindtype  0 为正常绑定，1 为虚拟EP绑定
+	 * @param devout_ieee
+	 * @param devout_ep
+	 * @param mDevices
+	 * @param cluster_id
 	 */
-	public void bindDevice(SimpleDevicesModel outModel,
-			DevicesModel mdevices) {
+	public void addBindData(String bindtype,String devout_ieee,String devout_ep,
+			DevicesModel mDevices,String cluster_id) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
-		paraMap.put("devout_ieee", outModel.getmIeee());
-		paraMap.put("devout_ep", outModel.getmEP());
-		paraMap.put("devin_ieee", mdevices.getmIeee());
-		paraMap.put("devin_ep", mdevices.getmEP());
-		paraMap.put("cluster_id", "0006");
+		paraMap.put("bindtype", bindtype);
+		paraMap.put("sourceieee", devout_ieee);
+		paraMap.put("sourceep", devout_ep);
+		paraMap.put("destieee", mDevices.getmIeee());
+		paraMap.put("destep", mDevices.getmEP());
+		paraMap.put("clusterid", cluster_id);
+		paraMap.put("hasbind", "0");
+		paraMap.put("desttype", "3");
 		
 		paraMap.put("callback", "1234");
 		paraMap.put("encodemethod", "NONE");
@@ -100,7 +108,7 @@ public class CGIManager extends Manger {
 			}
 		};
 		String url = NetUtil.getInstance().getCumstomURL(
-				NetUtil.getInstance().IP, "bindDevice.cgi", param);
+				NetUtil.getInstance().IP, "AddBindData.cgi", param);
 		Log.i("CGIManager bindDevice Request:%n %s", url);
 		StringRequest req = new StringRequest(url, responseListener,
 				new Response.ErrorListener() {
@@ -121,14 +129,17 @@ public class CGIManager extends Manger {
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
 
-	public void unbindDevice(SimpleDevicesModel outModel,
-			DevicesModel mDevices) {
+	public void delBindData(String bindtype,String devout_ieee,String devout_ep,
+			DevicesModel mDevices,String cluster_id) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
-		paraMap.put("devout_ieee", outModel.getmIeee());
-		paraMap.put("devout_ep", outModel.getmEP());
-		paraMap.put("devin_ieee", mDevices.getmIeee());
-		paraMap.put("devin_ep", mDevices.getmEP());
-		paraMap.put("cluster_id", "0006");
+		paraMap.put("bindtype", bindtype);
+		paraMap.put("sourceieee", devout_ieee);
+		paraMap.put("sourceep", devout_ep);
+		paraMap.put("destieee", mDevices.getmIeee());
+		paraMap.put("destep", mDevices.getmEP());
+		paraMap.put("clusterid", cluster_id);
+		paraMap.put("hasbind", "0");
+		paraMap.put("desttype", "3");
 		
 		paraMap.put("callback", "1234");
 		paraMap.put("encodemethod", "NONE");
@@ -136,24 +147,23 @@ public class CGIManager extends Manger {
 		String param = hashMap2ParamString(paraMap);
 
 		String url = NetUtil.getInstance().getCumstomURL(
-				NetUtil.getInstance().IP, "unbindDevice.cgi", param);
+				NetUtil.getInstance().IP, "DelBindData.cgi", param);
 		simpleVolleyRequset(url, EventType.UNBINDDEVICE);
 	}
 
-	public void getBindList(DevicesModel devicesModel) {
+	public void GetAllBindList() {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
-		paraMap.put("ieee", devicesModel.getmIeee());
-		paraMap.put("ep", devicesModel.getmEP());
 		
 		paraMap.put("callback", "1234");
 		paraMap.put("encodemethod", "NONE");
 		paraMap.put("sign", "AAA");
 		String param = hashMap2ParamString(paraMap);
 		String url = NetUtil.getInstance().getCumstomURL(
-				NetUtil.getInstance().IP, "getBindList.cgi", param);
+				NetUtil.getInstance().IP, "GetAllBindList.cgi", param);
 		Listener<String> responseListener = new Listener<String>() {
 			@Override
 			public void onResponse(String response) {
+				Log.i("CGIManager getBindList Response:%n %s",response);
 				new GetBindingTask().execute(response);
 			}
 		};
@@ -162,7 +172,12 @@ public class CGIManager extends Manger {
 
 			@Override
 			public void onErrorResponse(VolleyError error) {
-				// Log.e("Error: ", error.getMessage());
+				if(error!=null&&error.getMessage()!=null) {
+					Log.e("getBindList Error: ", error.getMessage());
+				} else {
+					Log.e("getBindList Error: ", "Volley error!");
+				}
+				
 			}
 		};
 
@@ -200,10 +215,10 @@ public class CGIManager extends Manger {
 	 * @param model
 	 */
 
-	public void setPermitJoinOn(String ieee) {
+	public void setPermitJoinOn(String ieee,int time) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", ieee);
-		paraMap.put("second", String.valueOf(250));
+		paraMap.put("second", String.valueOf(time));
 		
 		paraMap.put("callback", "1234");
 		paraMap.put("encodemethod", "NONE");
@@ -212,6 +227,21 @@ public class CGIManager extends Manger {
 
 		String url = NetUtil.getInstance().getCumstomURL(
 				NetUtil.getInstance().IP, "setPermitJoinOn.cgi", param);
+
+		simpleVolleyRequset(url, EventType.SETPERMITJOINON);
+	}
+	
+	public void setAllPermitJoinOn(int time) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("second", String.valueOf(time));
+		
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
+		String param = hashMap2ParamString(paraMap);
+
+		String url = NetUtil.getInstance().getCumstomURL(
+				NetUtil.getInstance().IP, "SetAllPermitJoinOn.cgi", param);
 
 		simpleVolleyRequset(url, EventType.SETPERMITJOINON);
 	}
@@ -1343,14 +1373,46 @@ public class CGIManager extends Manger {
 		protected Object doInBackground(String... params) {
 			BindingDataEntity data = VolleyOperation
 					.handleBindingString(params[0]);
-			return data;
+			if(data!=null) {
+				ArrayList<CallbackBindListMessage> bindingInfo=data.getResponse_paramsList();
+				
+				DataHelper mDateHelper = new DataHelper(
+						ApplicationController.getInstance());
+				SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
+				
+				mSQLiteDatabase.beginTransaction();
+				try {
+					mSQLiteDatabase.delete(DataHelper.BIND_TABLE, null, null);
+					for(CallbackBindListMessage bindingParam:bindingInfo) {
+						ArrayList<CallbackBindListDevices> mBindedDevicesList= bindingParam.getList();
+						if(mBindedDevicesList!=null&&mBindedDevicesList.size()>0) {
+							for(CallbackBindListDevices bindingDivice:mBindedDevicesList) {
+								ContentValues c = new ContentValues();
+								c.put(BindingDataEntity.DEVOUT_IEEE,bindingParam.getIeee());
+								c.put(BindingDataEntity.DEVOUT_EP,bindingParam.getEp());
+								c.put(BindingDataEntity.DEVIN_IEEE,bindingDivice.getIeee());
+								c.put(BindingDataEntity.DEVIN_EP,bindingDivice.getEp());
+								c.put(BindingDataEntity.CLUSTER,bindingDivice.getCid());
+								
+								mSQLiteDatabase.insert(DataHelper.BIND_TABLE, null, c);
+							}
+						}
+					}
+					mSQLiteDatabase.setTransactionSuccessful();
+				} catch (Exception e) {
+					// TODO: handle exception
+					e.printStackTrace();
+				} finally {
+					mSQLiteDatabase.endTransaction();
+					mSQLiteDatabase.close();
+				}
+			}
+			return 1;
 		}
 
 		@Override
 		protected void onPostExecute(Object result) {
-			Event event = new Event(EventType.GETBINDLIST, true);
-			event.setData(result);
-			notifyObservers(event);
+			
 		}
 	}
 	
@@ -1374,7 +1436,7 @@ public class CGIManager extends Manger {
 	class GetAllRoomInfoTask extends AsyncTask<String, Object, Object> {
 		@Override
 		protected Object doInBackground(String... params) {
-			RespondDataEntity data = VolleyOperation.handleRoomInfoString(params[0]);
+			RespondDataEntity<GetRoomInfo_response> data = VolleyOperation.handleRoomInfoString(params[0]);
 			ArrayList<GetRoomInfo_response> roomList = data.getResponseparamList();
 			
 			DataHelper mDateHelper = new DataHelper(
@@ -1398,7 +1460,7 @@ public class CGIManager extends Manger {
 	class GetEPbyRoomIndexTask extends AsyncTask<String, Object, Object> {
 		@Override
 		protected Object doInBackground(String... params) {
-			RespondDataEntity data = VolleyOperation
+			RespondDataEntity<ResponseParamsEndPoint> data = VolleyOperation
 					.handleEndPointString(params[0]);
 			ArrayList<ResponseParamsEndPoint> devDataList = data
 					.getResponseparamList();

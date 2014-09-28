@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -20,10 +21,15 @@ import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.Callback.CallbackBeginLearnIRMessage;
+import com.gdgl.mydata.Callback.CallbackBindListDevices;
+import com.gdgl.mydata.Callback.CallbackBindListMessage;
 import com.gdgl.mydata.Callback.CallbackEnrollMessage;
+import com.gdgl.mydata.Callback.CallbackJoinNetMessage;
 import com.gdgl.mydata.Callback.CallbackResponseCommon;
 import com.gdgl.mydata.Callback.CallbackResponseType2;
 import com.gdgl.mydata.Callback.CallbackWarnMessage;
+import com.gdgl.mydata.binding.BindingDataEntity;
+import com.gdgl.network.VolleyOperation;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.NetUtil;
 import com.gdgl.util.UiUtils;
@@ -159,9 +165,9 @@ public class CallbackManager extends Manger {
 				CallbackBeginLearnIRMessage learnIR=gson.fromJson(response, CallbackBeginLearnIRMessage.class);
 				Log.i(TAG, "Callback msgType=" + msgType + "Brand Style"+learnIR.toString());
 				Log.i("CallbackManager BeginLearnIR Response:%n %s", learnIR.toString());
-				Event event1 = new Event(EventType.BEGINLEARNIR, true);
-				event1.setData(learnIR);
-				notifyObservers(event1);
+				Event event12 = new Event(EventType.BEGINLEARNIR, true);
+				event12.setData(learnIR);
+				notifyObservers(event12);
 				break;
 			case 13:
 				Log.i(TAG, "Callback msgType=" + msgType
@@ -177,9 +183,9 @@ public class CallbackManager extends Manger {
 				CallbackEnrollMessage enrollMessage = gson.fromJson(response,
 						CallbackEnrollMessage.class);
 				Log.i(TAG, "Callback msgType=" + msgType + " Enroll"+enrollMessage.toString());
-				Event event = new Event(EventType.ENROLL, true);
-				event.setData(enrollMessage);
-				notifyObservers(event);
+				Event event16 = new Event(EventType.ENROLL, true);
+				event16.setData(enrollMessage);
+				notifyObservers(event16);
 				break;
 			case 17:
 				Log.i(TAG, "Callback msgType=" + msgType + " unEnroll");
@@ -190,12 +196,21 @@ public class CallbackManager extends Manger {
 			case 19:
 				Log.i(TAG, "Callback msgType=" + msgType + " ScenceSelector");
 				break;
+			case 28:
+				Log.i(TAG, "Callback msgType=" + msgType + response);
+				new CallbackBindTask().execute(response);
+				break;
+			case 29:
+				CallbackJoinNetMessage joinNetMessage=gson.fromJson(response, CallbackJoinNetMessage.class);
+				Log.i(TAG, "Callback msgType=" + msgType + " jionnet"+joinNetMessage.toString());
+				DeviceManager.getInstance().getNewJoinNetDevice(joinNetMessage);
+				break;
 			default:
 				break;
 			}
-		} catch (JSONException e) {
+		} catch (Exception e) {
 			Log.e(TAG, "error callback json: " + response);
-			// e.printStackTrace();
+			e.printStackTrace();
 		}
 
 	}
@@ -265,6 +280,53 @@ public class CallbackManager extends Manger {
 			break;
 		}
 
+	}
+	
+	class CallbackBindTask extends AsyncTask<String, Object, Object> {
+		@Override
+		protected Object doInBackground(String... params) {
+			CallbackBindListMessage data = VolleyOperation
+					.handleCallbackBindListString(params[0]);
+			ArrayList<CallbackBindListDevices> mBindedDevicesList= data.getList();
+			
+			DataHelper mDateHelper = new DataHelper(
+					ApplicationController.getInstance());
+			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
+			String where=" devout_ieee=? and devout_ep=? ";
+			String[] args={data.getIeee(),data.getEp()};
+			
+			mSQLiteDatabase.beginTransaction();
+			try {
+				mSQLiteDatabase.delete(DataHelper.BIND_TABLE, where, args);
+				
+				if(mBindedDevicesList!=null&&mBindedDevicesList.size()>0) {
+					for(CallbackBindListDevices bindingDivice:mBindedDevicesList) {
+						ContentValues c = new ContentValues();
+						c.put(BindingDataEntity.DEVOUT_IEEE,data.getIeee());
+						c.put(BindingDataEntity.DEVOUT_EP,data.getEp());
+						c.put(BindingDataEntity.DEVIN_IEEE,bindingDivice.getIeee());
+						c.put(BindingDataEntity.DEVIN_EP,bindingDivice.getEp());
+						c.put(BindingDataEntity.CLUSTER,bindingDivice.getCid());
+						
+						mSQLiteDatabase.insert(DataHelper.BIND_TABLE, null, c);
+					}
+					mSQLiteDatabase.setTransactionSuccessful();
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			} finally {
+				mSQLiteDatabase.endTransaction();
+				mSQLiteDatabase.close();
+			}
+			return 1;
+		}
+
+		@Override
+		protected void onPostExecute(Object result) {
+			Event event = new Event(EventType.GETBINDLIST, true);
+			notifyObservers(event);
+		}
 	}
 
 	void makeNotify(Intent i, String title, String message) {

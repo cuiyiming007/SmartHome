@@ -3,10 +3,7 @@ package com.gdgl.activity;
 import java.util.List;
 
 import com.gdgl.activity.BindControlFragment.backAction;
-import com.gdgl.activity.BindControlFragment.updateDevTask;
-import com.gdgl.activity.BindControlFragment.updateList;
 import com.gdgl.activity.JoinNetFragment.ChangeFragment;
-import com.gdgl.manager.BindManager;
 import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
@@ -15,12 +12,12 @@ import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
-import com.gdgl.mydata.binding.BindingDataEntity;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.UiUtils;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -35,8 +32,12 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class BindListFragment extends Fragment implements updateList,
-		UIListener {
+/***
+ * 绑定菜单
+ * @author Trice
+ *
+ */
+public class BindListFragment extends Fragment implements UIListener {
 
 	private View mView;
 	List<DevicesModel> mList;
@@ -45,13 +46,13 @@ public class BindListFragment extends Fragment implements updateList,
 	Button mBack;
 
 	// LinearLayout ch_pwd;
-	LinearLayout deviceslist;
+	LinearLayout deviceslistLayout;
 
-	ListView bindList;
+	ListView bindListView;
 	DataHelper dh;
 
 	BindAdapter mBindAdapter;
-
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -77,7 +78,6 @@ public class BindListFragment extends Fragment implements updateList,
 
 		@Override
 		protected void onPostExecute(Integer result) {
-			BindManager.getInstance().initalBindInfoMapFromServer(mList);
 			initView();
 		}
 	}
@@ -91,40 +91,32 @@ public class BindListFragment extends Fragment implements updateList,
 
 	private void initView() {
 		// TODO Auto-generated method stub
-		// ch_pwd = (LinearLayout) mView.findViewById(R.id.ch_pwd);
-		// LinearLayout.LayoutParams mLayoutParams = new
-		// LinearLayout.LayoutParams(
-		// LinearLayout.LayoutParams.MATCH_PARENT,
-		// LinearLayout.LayoutParams.MATCH_PARENT);
-		//
-		// ch_pwd.setLayoutParams(mLayoutParams);
+		
 		no_dev = (ViewGroup) mView.findViewById(R.id.no_dev);
 
-		deviceslist = (LinearLayout) mView.findViewById(R.id.deviceslist);
+		deviceslistLayout = (LinearLayout) mView.findViewById(R.id.deviceslist);
 
-		bindList = (ListView) mView.findViewById(R.id.devices_list);
+		bindListView = (ListView) mView.findViewById(R.id.devices_list);
 
 		if (null == mList || mList.size() == 0) {
 			no_dev.setVisibility(View.VISIBLE);
-			deviceslist.setVisibility(View.GONE);
+			deviceslistLayout.setVisibility(View.GONE);
 		} else {
 			mBindAdapter = new BindAdapter();
-			bindList.setAdapter(mBindAdapter);
-			bindList.setOnItemClickListener(new OnItemClickListener() {
+			bindListView.setAdapter(mBindAdapter);
+			bindListView.setOnItemClickListener(new OnItemClickListener() {
 
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view,
 						int position, long id) {
 					// TODO Auto-generated method stub
 					Bundle extra = new Bundle();
-					extra.putInt(BindControlFragment.DevicesId,
-							mList.get(position).getID());
-					// int bindId=mList.get(position).getmBindTo()==null ||
-					// mList.get(position).getmBindTo().trim().equals("")?-1:Integer.parseInt(mList.get(position).getmBindTo().trim());
-					// extra.putInt(BindControlFragment.BindId, bindId);
+					extra.putString(DevicesModel.IEEE, mList.get(position).getmIeee());
+					extra.putString(DevicesModel.EP, mList.get(position).getmEP());
+					extra.putString(DevicesModel.CLUSTER_ID, mList.get(position).getmClusterID().substring(0, 4));
+					
 					ChangeFragment c = (ChangeFragment) getActivity();
 					BindControlFragment mBindControlFragment = new BindControlFragment();
-					mBindControlFragment.setUplist(BindListFragment.this);
 					mBindControlFragment
 							.setBackAction((backAction) getActivity());
 					mBindControlFragment.setArguments(extra);
@@ -170,8 +162,14 @@ public class BindListFragment extends Fragment implements updateList,
 
 			View mView = convertView;
 			ViewHolder mHolder;
-			final DevicesModel mDevices = (DevicesModel) getItem(position);
-
+			DevicesModel mDevices = (DevicesModel) getItem(position);
+			
+			List<DevicesModel> mBindedDeviceList;
+			SQLiteDatabase db = dh.getSQLiteDatabase();
+			String where = " devout_ieee=? and devout_ep=? and cluster=? ";
+			String[] args = {mDevices.getmIeee(), mDevices.getmEP(),mDevices.getmClusterID().substring(0,4)};
+			mBindedDeviceList=dh.queryForBindDevicesList(db, DataHelper.BIND_TABLE, where, args);
+			
 			if (null == mView) {
 				mHolder = new ViewHolder();
 				mView = LayoutInflater.from((Context) getActivity()).inflate(
@@ -189,12 +187,17 @@ public class BindListFragment extends Fragment implements updateList,
 
 			mHolder.devices_name.setText(mDevices.getmUserDefineName().replace(
 					" ", ""));
-			// if (null != mDevices.getmBindTo()
-			// && !mDevices.getmBindTo().trim().equals("")) {
-			if (BindManager.getInstance().hasBinded(mDevices)) {
-				mHolder.devices_state.setText("已绑定");
+			
+			int i;
+			if(mBindedDeviceList==null) {
+				i=0;
 			} else {
-				mHolder.devices_state.setText("未绑定到任何设备");
+				i=mBindedDeviceList.size();
+			}
+			if (i>0) {
+				mHolder.devices_state.setText("已绑定"+i+"个设备");
+			} else {
+				mHolder.devices_state.setText("未绑定任何设备");
 			}
 
 			int devModeleId = Integer.parseInt(mDevices.getmDeviceId());
@@ -225,25 +228,6 @@ public class BindListFragment extends Fragment implements updateList,
 	}
 
 	@Override
-	public void upList(DevicesModel dm, String id) {
-//		// TODO Auto-generated method stub
-//		int postion = 0;
-//		if (null != mList && mList.size() > 0) {
-//			for (int i = 0; i < mList.size(); i++) {
-//				if (mList.get(i).getmIeee().trim().equals(dm.getmIeee().trim())
-//						&& mList.get(i).getmEP().trim()
-//								.equals(dm.getmEP().trim())) {
-//					postion = i;
-//
-//				}
-//			}
-//			mList.get(postion).setmBindTo(id);
-//			mBindAdapter.notifyDataSetChanged();
-//		}
-
-	}
-
-	@Override
 	public void onDestroy() {
 		CGIManager.getInstance().deleteObserver(this);
 		super.onDestroy();
@@ -254,9 +238,6 @@ public class BindListFragment extends Fragment implements updateList,
 		final Event event = (Event) object;
 		if (EventType.GETBINDLIST == event.getType()) {
 			if (event.isSuccess() == true) {
-				BindingDataEntity data = (BindingDataEntity) event.getData();
-				BindManager.getInstance().setBindInfoMap(data);
-				BindManager.getInstance().addInitialedDeviceNum();
 				mBindAdapter.notifyDataSetChanged();
 			} else {
 

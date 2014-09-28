@@ -9,6 +9,7 @@ import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.Callback.CallbackWarnMessage;
 import com.gdgl.mydata.Region.GetRoomInfo_response;
 import com.gdgl.mydata.Region.Room;
+import com.gdgl.mydata.binding.BindingDataEntity;
 import com.gdgl.mydata.video.VideoNode;
 import com.gdgl.util.UiUtils;
 
@@ -70,6 +71,7 @@ public class DataHelper extends SQLiteOpenHelper {
 	public static final String VIDEO_TABLE = "video";
 	public static final String MESSAGE_TABLE = "message_table";
 	public static final String ROOMINFO_TABLE = "roominfo_table";
+	public static final String BIND_TABLE = "bind_table";
 	public static final int DATEBASE_VERSTION = 1;
 
 	public StringBuilder mStringBuilder;
@@ -77,6 +79,7 @@ public class DataHelper extends SQLiteOpenHelper {
 	public StringBuilder videoStringBuilder;
 	public StringBuilder messageStringBuilder;
 	public StringBuilder roominfoStringBuilder;
+	public StringBuilder bindStringBuilder;
 
 	// public SQLiteDatabase db;
 
@@ -87,6 +90,7 @@ public class DataHelper extends SQLiteOpenHelper {
 		videoStringBuilder=new StringBuilder();
 		messageStringBuilder=new StringBuilder();
 		roominfoStringBuilder=new StringBuilder();
+		bindStringBuilder=new StringBuilder();
 		// db = getWritableDatabase();
 		// TODO Auto-generated constructor stub
 	}
@@ -191,6 +195,14 @@ public class DataHelper extends SQLiteOpenHelper {
 		roominfoStringBuilder.append(GetRoomInfo_response.ROOM_ID + " INTEGER,");
 		roominfoStringBuilder.append(GetRoomInfo_response.ROOM_NAME + " TEXT,");
 		roominfoStringBuilder.append(GetRoomInfo_response.ROOM_PIC + " VARCHAR(48))");
+		
+		bindStringBuilder.append("CREATE TABLE " + BIND_TABLE + " (");
+		bindStringBuilder.append(BindingDataEntity._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,");
+		bindStringBuilder.append(BindingDataEntity.DEVOUT_IEEE + " VARCHAR(16),");
+		bindStringBuilder.append(BindingDataEntity.DEVOUT_EP + " VARCHAR(2),");
+		bindStringBuilder.append(BindingDataEntity.DEVIN_IEEE + " VARCHAR(16),");
+		bindStringBuilder.append(BindingDataEntity.DEVIN_EP + " VARCHAR(2),");
+		bindStringBuilder.append(BindingDataEntity.CLUSTER + " VARCHAR)");
 	}
 
 	@Override
@@ -204,6 +216,7 @@ public class DataHelper extends SQLiteOpenHelper {
 		db.execSQL(videoStringBuilder.toString());
 		db.execSQL(messageStringBuilder.toString());
 		db.execSQL(roominfoStringBuilder.toString());
+		db.execSQL(bindStringBuilder.toString());
 		Log.i("roominfoStringBuilder", "zgs-> " + roominfoStringBuilder.toString());
 	}
 
@@ -215,6 +228,7 @@ public class DataHelper extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE IF EXISTS " + VIDEO_TABLE);
 		db.execSQL("DROP TABLE IF EXISTS " + MESSAGE_TABLE);
 		db.execSQL("DROP TABLE IF EXISTS " + ROOMINFO_TABLE);
+		db.execSQL("DROP TABLE IF EXISTS " + BIND_TABLE);
 		onCreate(db);
 	}
 
@@ -270,9 +284,6 @@ public class DataHelper extends SQLiteOpenHelper {
 		db.beginTransaction();
 		try {
 			for (DevicesModel devicesModel : mList) {
-				if (isFilterDevice(devicesModel)) {
-					continue;
-				}
 				ContentValues c = devicesModel.convertContentValues();
 				long m = db.insert(table, nullColumnHack, c);
 				if (-1 == m) {
@@ -404,7 +415,6 @@ public class DataHelper extends SQLiteOpenHelper {
 				if (-1 == m) {
 					result = m;
 				}
-
 			}
 			db.setTransactionSuccessful();
 		} catch(Exception e) {
@@ -553,6 +563,26 @@ public class DataHelper extends SQLiteOpenHelper {
 //		db.close();
 		return mList;
 
+	}
+	
+	public List<DevicesModel> queryForBindDevicesList(SQLiteDatabase db, String table,
+			String selection, String[] selectionArgs) {
+
+		List<DevicesModel> mList = new ArrayList<DevicesModel>();
+		DevicesModel mDevicesModel = null;
+		Cursor c = db.query(table, null, selection, selectionArgs, null,
+				null, null, null);
+		while (c.moveToNext()) {
+			mDevicesModel = new DevicesModel();
+			mDevicesModel.setmIeee(c.getString(c
+					.getColumnIndex(BindingDataEntity.DEVIN_IEEE)));
+			mDevicesModel.setmEP(c.getString(c.getColumnIndex(BindingDataEntity.DEVIN_EP)));
+			
+			mList.add(mDevicesModel);
+		}
+		c.close();
+//		db.close();
+		return mList;
 	}
 	
 	public List<DevicesModel> queryForDevicesList(SQLiteDatabase db, String table,

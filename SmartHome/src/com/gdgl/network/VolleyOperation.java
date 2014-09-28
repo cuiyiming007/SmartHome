@@ -21,6 +21,8 @@ import com.gdgl.mydata.DeviceLearnedParam;
 import com.gdgl.mydata.RespondDataEntity;
 import com.gdgl.mydata.ResponseParams;
 import com.gdgl.mydata.ResponseParamsEndPoint;
+import com.gdgl.mydata.Callback.CallbackBindListDevices;
+import com.gdgl.mydata.Callback.CallbackBindListMessage;
 import com.gdgl.mydata.Region.GetRoomInfo_response;
 import com.gdgl.mydata.binding.BindingDataEntity;
 import com.gdgl.mydata.binding.BindingDivice;
@@ -164,7 +166,7 @@ public class VolleyOperation {
 	public static BindingDataEntity handleBindingString(String response) {
 		// format response string to standard json string
 		response = UiUtils.formatResponseString(response);
-		return parseJSON2GetBindingList(response);
+		return parseJSON2GetAllBindingList(response);
 
 	}
 	public static RespondDataEntity<DeviceLearnedParam> handleDeviceLearnedString(String response) {
@@ -173,7 +175,10 @@ public class VolleyOperation {
 		return parseJSON2GetGeviceLearned(response);
 		
 	}
-
+	public static CallbackBindListMessage handleCallbackBindListString(String response) {
+		response = UiUtils.formatResponseString(response);
+		return parseJSON2CallBindList(response);
+	}
 	/***
 	 * 
 	 * @param s
@@ -289,39 +294,74 @@ public class VolleyOperation {
 	}
 	
 	/***
-	 * revert String to RespondDataEntity <CIEresponse_params>
-	 * @param <T>
-	 * 
+	 * revert String to BindingDataEntity
 	 * @param s
+	 * @return
 	 */
-	public static BindingDataEntity parseJSON2GetBindingList(String s) {
+	public static BindingDataEntity parseJSON2GetAllBindingList(String s) {
 		Gson gson = new Gson();
-		JsonParser parser = new JsonParser();
-		ArrayList<BindingDivice> list = new ArrayList<BindingDivice>();
-		JsonObject jsonObject = parser.parse(s).getAsJsonObject();
 		BindingDataEntity dataEntity = new BindingDataEntity();
+		ArrayList<CallbackBindListMessage> response_params =new ArrayList<CallbackBindListMessage>();
+		
+		JsonParser parser = new JsonParser();
+		JsonObject jsonObject = parser.parse(s).getAsJsonObject();
 		JsonElement idElement=jsonObject.get("request_id");
 		dataEntity.setRequest_id(idElement.toString());
-//		JsonElement paElement=jsonObject.get("response_params");
-		JsonObject paramsoJsonObject=jsonObject.getAsJsonObject("response_params");
+		JsonArray response_paramsArray=jsonObject.getAsJsonArray("response_params");
+		if(response_paramsArray==null) {
+			return dataEntity;
+		}
+		for(int j=0;j<response_paramsArray.size();j++) {
+			CallbackBindListMessage binding_params=new CallbackBindListMessage();
+			ArrayList<CallbackBindListDevices> list = new ArrayList<CallbackBindListDevices>();
+			JsonElement paramsElement=response_paramsArray.get(j);
+			JsonObject paramsObject=paramsElement.getAsJsonObject();
+			
+			String msgtypeString=paramsObject.get("msgtype").getAsString();
+			binding_params.setIeee(msgtypeString);
+			String ieeeString=paramsObject.get("IEEE").getAsString();
+			binding_params.setIeee(ieeeString);
+			String ep=paramsObject.get("EP").getAsString();
+			binding_params.setEp(ep);
+			String countString=paramsObject.get("count").getAsString();
+			binding_params.setCount(countString);
+			
+			JsonArray jsonArray = paramsObject.getAsJsonArray("list");
+			for (int i = 0; i < jsonArray.size(); i++) {
+				JsonElement el = jsonArray.get(i);
+				CallbackBindListDevices tmp = gson.fromJson(el, CallbackBindListDevices.class);
+				list.add(tmp);
+			}
+			binding_params.setList(list);
+			response_params.add(binding_params);
+		}
 		
-		Binding_response_params params=new Binding_response_params();
-		String ieeeString=paramsoJsonObject.get("ieee").getAsString();
-		params.setIeee(ieeeString);
-		String countString=paramsoJsonObject.get("count").getAsString();
-		params.setCount(countString);
-		String ep=paramsoJsonObject.get("ep").getAsString();
-		params.setEp(ep);
-		
-		JsonArray jsonArray = paramsoJsonObject.getAsJsonArray("list");
-		for (int i = 0; i < jsonArray.size(); i++) {
-			JsonElement el = jsonArray.get(i);
-			BindingDivice tmp = gson.fromJson(el, BindingDivice.class);
+		dataEntity.setResponse_paramsList(response_params);
+		return dataEntity;
+	}
+	
+	public static CallbackBindListMessage parseJSON2CallBindList(String s) {
+		Gson gson = new Gson();
+		JsonParser parser =new JsonParser();
+		ArrayList<CallbackBindListDevices> list = new ArrayList<CallbackBindListDevices>();
+		JsonObject jsonObject =parser.parse(s).getAsJsonObject();
+		CallbackBindListMessage bindMassage =new CallbackBindListMessage();
+		JsonElement element1=jsonObject.get("msgtype");
+		bindMassage.setmsgtype(element1.toString());
+		JsonElement element2=jsonObject.get("IEEE");
+		bindMassage.setIeee(element2.toString().substring(1, 17));
+		JsonElement element3=jsonObject.get("EP");
+		bindMassage.setEp(element3.toString().substring(1, 3));
+		JsonElement element4=jsonObject.get("count");
+		bindMassage.setCount(element4.toString());
+		JsonArray jsonArray=jsonObject.getAsJsonArray("list");
+		for(int i=0;i<jsonArray.size();i++) {
+			JsonElement el=jsonArray.get(i);
+			CallbackBindListDevices tmp=gson.fromJson(el, CallbackBindListDevices.class);
 			list.add(tmp);
 		}
-		params.setList(list);
-		dataEntity.setResponse_params(params);
-		return dataEntity;
+		bindMassage.setList(list);
+		return bindMassage;
 	}
 	
 	public static RespondDataEntity<DeviceLearnedParam> parseJSON2GetGeviceLearned(String s) {

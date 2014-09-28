@@ -299,20 +299,11 @@ public class DataUtil {
 
 	public static List<DevicesModel> getBindDevices(Context c, DataHelper dh) {
 
-		String[] args = new String[12];
-		args[0] = "00137A000000F55A";
-		args[1] = "00137A000000B657";
-		args[2] = "00137A0000010516";
-		args[3] = "00137A0000010AB5";
-		args[4] = "00137A000000EE66";
-		args[5] = "00137A000000DC86";
-		args[6] = "00137A000000ECBD";
-		args[7] = "00137A000001184B";
-		args[8] = "00137A000001122A";
-		args[9] = "00137A000000BF13";
-		args[10] = "00137A0000011949";
-		args[11] = "00137A0000011F8C";
-		String where = " ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? or ieee = ? ";
+		String[] args = new String[3];
+		args[0] = "0006OUT";
+		args[1] = "0008OUT";
+		args[2] = "0502OUT";
+		String where = " cluster_id = ? or cluster_id = ? or cluster_id = ? ";
 
 		List<DevicesModel> listDevicesModel = new ArrayList<DevicesModel>();
 		SQLiteDatabase db=dh.getSQLiteDatabase();
@@ -383,73 +374,6 @@ public class DataUtil {
 		
 	}
 	
-	public static List<DevicesModel> getCanbeBindDevices(Context c, DataHelper dh,SQLiteDatabase db,String type) {
-		
-		String[] args = null;
-		String where = null;
-		if(null==type || type.trim().equals("")){
-			return null;
-		}
-		if(type.trim().equals("0006IN")){
-			args = new String[3];
-			args[0] = "00137A000000ECBD";
-			args[1] = "00137A000001184B";
-			args[2] = "00137A000001122A";
-			where = " ieee = ? or ieee = ? or ieee = ? ";
-		}else if(type.trim().equals("0008IN")){
-			args = new String[1];
-			args[0]="00137A000000BF13";
-			where = " ieee = ? ";
-		}else if(type.trim().equals("0006OUT")){
-			args = new String[4];
-			args[0]="00137A000000F55A";
-			args[1]="00137A000000B657";
-			args[2]="00137A0000010AB5";
-			args[3]="00137A000000DC86";
-			where = " ieee = ? or ieee = ? or ieee = ?  or ieee = ? ";
-		}else if(type.trim().equals("0008OUT")){
-			args = new String[2];
-			args[0]="00137A0000010516";
-			args[1]="00137A000000EE66";
-			where = " ieee = ? or ieee = ? ";
-		}else if(type.trim().equals("0502IN")){
-			args = new String[1];
-			args[0]="00137A0000011F8C";
-			where = " ieee = ? ";
-		}else if(type.trim().equals("0502OUT")){
-			args = new String[1];
-			args[0]="00137A0000011949";
-			where = " ieee = ? ";
-		}
-
-		List<DevicesModel> listDevicesModel = new ArrayList<DevicesModel>();
-
-		listDevicesModel = dh.queryForDevicesList(db,
-				DataHelper.DEVICES_TABLE, null, where, args, null, null, null,
-				null);
-		if (null != listDevicesModel && listDevicesModel.size() > 0) {
-			for (DevicesModel devicesModel : listDevicesModel) {
-				if (null == devicesModel.getmUserDefineName()
-						|| devicesModel.getmUserDefineName().trim().equals("")) {
-					devicesModel.setmUserDefineName(getDefaultUserDefinname(c,
-							devicesModel.getmModelId()));
-				}
-			}
-		}
-
-		return listDevicesModel;
-
-	}
-	
-	public static DevicesModel getDeviceModelById(int id,DataHelper dh,SQLiteDatabase db){
-		String where=" _id=? ";
-		String[] args={id+""};
-		List<DevicesModel> mList=dh.queryForDevicesList(db, DataHelper.DEVICES_TABLE, null, where, args, null, null, null, null);
-		if(null!=mList && mList.size()>0){
-			return mList.get(0);
-		}
-		return null;
-	}
 	public static DevicesModel getDeviceModelByIeee(String ieee,DataHelper dh,SQLiteDatabase db){
 		String where=" ieee=? ";
 		String[] args={ieee+""};
@@ -498,7 +422,7 @@ public class DataUtil {
 
 		return listDevicesModel;
 	}
-
+	
     public static String getDefaultUserDefinname(Context c, String modelID) {
         String result = "";
 
@@ -604,22 +528,22 @@ public class DataUtil {
 
 	}
 
-	public static Set<String> getRegions(Context c, DataHelper dh) {
-		List<DevicesModel> listDevicesModel = new ArrayList<DevicesModel>();
-		Set<String> region = new HashSet<String>();
-
-		SQLiteDatabase db = dh.getSQLiteDatabase();
-		listDevicesModel = dh.queryForDevicesList(db, DataHelper.DEVICES_TABLE, null,
-				null, null, null, null, null, null);
-
-		for (int m = 0; m < listDevicesModel.size(); m++) {
-			String mRegion = listDevicesModel.get(m).getmDeviceRegion();
-			if (!region.contains(mRegion)) {
-				region.add(mRegion);
-			}
-		}
-		return region;
-	}
+//	public static Set<String> getRegions(Context c, DataHelper dh) {
+//		List<DevicesModel> listDevicesModel = new ArrayList<DevicesModel>();
+//		Set<String> region = new HashSet<String>();
+//
+//		SQLiteDatabase db = dh.getSQLiteDatabase();
+//		listDevicesModel = dh.queryForDevicesList(db, DataHelper.DEVICES_TABLE, null,
+//				null, null, null, null, null, null);
+//
+//		for (int m = 0; m < listDevicesModel.size(); m++) {
+//			String mRegion = listDevicesModel.get(m).getmDeviceRegion();
+//			if (!region.contains(mRegion)) {
+//				region.add(mRegion);
+//			}
+//		}
+//		return region;
+//	}
 
 	public static List<SimpleDevicesModel> getDevices(Context c, DataHelper dh,
 			String[] args, String where, boolean b) {
@@ -636,7 +560,9 @@ public class DataUtil {
 		if (b) {
 			for (int m = 0; m < listDevicesModel.size(); m++) {
 				DevicesModel mDevicesModel = listDevicesModel.get(m);
-				if (Integer.parseInt(mDevicesModel.getmDeviceId()) != DataHelper.ON_OFF_SWITCH_DEVICETYPE) {
+				if (Integer.parseInt(mDevicesModel.getmDeviceId()) != DataHelper.ON_OFF_SWITCH_DEVICETYPE&&
+						Integer.parseInt(mDevicesModel.getmDeviceId()) != DataHelper.DIMEN_SWITCH_DEVICETYPE&&
+						mDevicesModel.getmModelId().indexOf(DataHelper.Multi_key_remote_control)!=0) {
 					mSimpleDevicesModel = new SimpleDevicesModel();
 					mSimpleDevicesModel.setID(mDevicesModel.getID());
 					mSimpleDevicesModel.setmDeviceId(Integer
@@ -711,7 +637,7 @@ public class DataUtil {
 		}
 		return list;
 	}
-
+	
 	public static List<SimpleDevicesModel> getDevices(Context c, DataHelper dh,
 			String[] args, String where) {
 		return getDevices(c, dh, args, where, true);

@@ -27,6 +27,7 @@ import com.gdgl.activity.TemperatureSensorFragment;
 import com.gdgl.activity.WarnningControlFragment;
 import com.gdgl.adapter.SceneDevicesAdapter;
 import com.gdgl.mydata.DataHelper;
+import com.gdgl.mydata.getlocalcielist.elserec;
 import com.gdgl.smarthome.R;
 
 public class UiUtils {
@@ -51,6 +52,8 @@ public class UiUtils {
 	public static final String SCENE_FLAG = "SCENE";
 	public static final String DEVICES_FLAG = "DEVICE";
 
+	public static final String JOINNETTIME="Joinnettime";
+	
 	public static final String EMPTY_STR = "";
 
 	public static final String REM_PWD_ACT = "remeber_pwd";
@@ -81,23 +84,26 @@ public class UiUtils {
 	public static final int OTHER = 5;
 
 	
-	public static Map<String,String> mMap;
+	public static Map<String,String> clusterMap;
 	static{
-		mMap=new HashMap<String, String>();
-		mMap.put("00137A000000F55A", "0006IN");
-		mMap.put("00137A000000ECBD", "0006OUT");
-		mMap.put("00137A000001184B", "0006OUT");
-		mMap.put("00137A000001122A", "0006OUT");
-		mMap.put("00137A000000BF13", "0008OUT");
-		mMap.put("00137A000000B657", "0006IN");
-		mMap.put("00137A0000010516", "0008IN");
-		mMap.put("00137A00000121C2", "0402OUT@@@0405OUT");
-		mMap.put("00137A000001181F", "0400OUT");
-		mMap.put("00137A0000010AB5", "0006IN");
-		mMap.put("00137A000000EE66", "0008IN");
-		mMap.put("00137A000000DC86", "0006IN");
-		mMap.put("00137A0000011949", "0502IN");
-		mMap.put("00137A0000011F8C", "0502OUT");
+		clusterMap=new HashMap<String, String>();
+		clusterMap.put("ZB02A", "0006OUT"); //墙面开关（单键）
+		clusterMap.put("ZB02B", "0006OUT"); //墙面开关（双键）
+		clusterMap.put("ZB02C", "0006OUT"); //墙面开关（三键）
+		clusterMap.put("Z311J", "0006OUT"); //门窗感应开关
+		clusterMap.put("Z302J", "0006OUT"); //门窗感应开关
+		clusterMap.put("ZB02F", "0008OUT"); //调光开关
+		clusterMap.put("Z312", "0502OUT"); //门铃按键
+		
+		clusterMap.put("ZA10", "0006IN"); //无线智能阀门开关
+		clusterMap.put("Z805B", "0006IN"); //开关模块（单路）
+		clusterMap.put("Z806", "0006IN"); //开关模块（双路）
+		clusterMap.put("Z809A", "0006IN"); //电能检测插座
+		clusterMap.put("Z811", "0006IN"); //开关模块（四路）
+		clusterMap.put("Z816H", "0006IN"); //中规电能检测墙面插座
+		clusterMap.put("Z817B", "0008IN"); //吸顶电能检测调光模块
+		clusterMap.put("Z815N", "0008IN"); //幕帘控制开关
+		clusterMap.put("Z602A", "0502IN"); //警报器
 	}
 	
 	public static int getDevicesSmallIcon(int type) {
@@ -171,14 +177,43 @@ public class UiUtils {
 		return tags;
 	}
 	
-	public static String getClusterIdByIeee(String Ieee){
-		if(null==Ieee){
+	public static String getClusterIdByDeviceid_Modelid(String model_id,String Ep){
+		if(model_id.indexOf("ZB02A")==0){
+			return clusterMap.get("ZB02A");
+		} else if (model_id.indexOf("ZB02B")==0) {
+			return clusterMap.get("ZB02B");
+		} else if (model_id.indexOf("ZB02C")==0) {
+			return clusterMap.get("ZB02C");
+		} else if (model_id.indexOf("Z311J")==0 && Ep.equals("01")) {
+			return clusterMap.get("Z311J");
+		} else if (model_id.indexOf("Z302J")==0 && Ep.equals("01")) {
+			return clusterMap.get("Z302J");
+		} else if (model_id.indexOf("ZB02F")==0) {
+			return clusterMap.get("ZB02F");
+		} else if (model_id.indexOf("Z312")==0) {
+			return clusterMap.get("Z312");
+			
+		} else if (model_id.indexOf("ZA10")==0) {
+			return clusterMap.get("ZA10");
+		} else if (model_id.indexOf("Z805B")==0) {
+			return clusterMap.get("Z805B");
+		} else if (model_id.indexOf("Z806")==0) {
+			return clusterMap.get("Z806");
+		} else if (model_id.indexOf("Z809A")==0) {
+			return clusterMap.get("Z809A");
+		} else if (model_id.indexOf("Z811")==0) {
+			return clusterMap.get("Z811");
+		} else if (model_id.indexOf("Z816H")==0) {
+			return clusterMap.get("Z816H");
+		} else if (model_id.indexOf("Z817B")==0) {
+			return clusterMap.get("Z817B");
+		} else if (model_id.indexOf("Z815N")==0) {
+			return clusterMap.get("Z815N");
+		} else if (model_id.indexOf("Z602A")==0) {
+			return clusterMap.get("Z602A");
+		} else {
 			return "";
 		}
-		if(!mMap.containsKey(Ieee.trim())){
-			return "";
-		}
-		return mMap.get(Ieee.trim());
 	}
 	
 	public static int[] getImgByType(int type) {

@@ -6,29 +6,24 @@ import java.util.List;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.android.volley.VolleyError;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.StringRequest;
-import com.gdgl.activity.SmartHome;
-import com.gdgl.activity.JoinNetFragment.InsertTask;
 import com.gdgl.app.ApplicationController;
 import com.gdgl.model.DevicesModel;
-import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
-import com.gdgl.mydata.DevParam;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
-import com.gdgl.mydata.Node;
 import com.gdgl.mydata.RespondDataEntity;
 import com.gdgl.mydata.ResponseParamsEndPoint;
-import com.gdgl.mydata.Weather;
+import com.gdgl.mydata.Callback.CallbackJoinNetMessage;
 import com.gdgl.mydata.getlocalcielist.CIEresponse_params;
-import com.gdgl.network.CustomRequest;
 import com.gdgl.network.VolleyErrorHelper;
 import com.gdgl.network.VolleyOperation;
 import com.gdgl.util.NetUtil;
@@ -45,16 +40,6 @@ public class DeviceManager extends Manger {
 	 */
 	List<DevicesModel> mDevList;
 	
-//	/***
-//	 * 扫描到的设备
-//	 */
-//	List<DevicesModel> mNewDevList;
-	
-	/***
-	 * 从数据库中读出的设备列表
-	 */
-	List<SimpleDevicesModel> mInnetListFromDB;
-
 	public static DeviceManager getInstance() {
 		if (instance == null) {
 			instance = new DeviceManager();
@@ -110,11 +95,51 @@ public class DeviceManager extends Manger {
 
 	/***
 	 * getEndPoint
-	 * url=http://192.168.1.184/cgi-bin/rest/network/getZBNode.cgi?user_name=
+	 * url=http://192.168.1.184/cgi-bin/rest/network/getendpoint.cgi?user_name=
 	 * aaaa&callback=1234&enco demethod=NONE&sign=AAA
 	 */
-	// 1,更新数据 2，组网管理
-	public void getDeviceList(int type) {
+	// 更新数据 
+	public void getDeviceEndPoint() {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
+		String param = hashMap2ParamString(paraMap);
+		
+		String url = NetUtil.getInstance().getCumstomURL(
+				NetUtil.getInstance().IP, "getendpoint.cgi",param);
+		
+		Listener<String> responseListener = new Listener<String>() {
+			@Override
+			public void onResponse(String response) {
+				// Time-consuming operation need to use AsyncTask
+				new GetEndPointTask().execute(response);
+			}
+		};
+		
+		ErrorListener errorListener = new ErrorListener() {
+
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				if (error != null && error.getMessage() != null) {
+					Log.e("ResponseError: ", error.getMessage());
+					VolleyErrorHelper.getMessage(error,
+							ApplicationController.getInstance());
+				}
+			}
+		};
+
+		StringRequest req = new StringRequest(url,responseListener, errorListener);
+
+		// add the request object to the queue to be executed
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
+	//组网管理得到新入网的设备
+	public void getNewJoinNetDevice(CallbackJoinNetMessage joinNetMessage) {
+		// callback listener29
+		final String newdeviceieee=joinNetMessage.getDevice().getieee();
+		final String newdeviceEp=joinNetMessage.getDevice().getEP();
+		
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		
 		paraMap.put("callback", "1234");
@@ -125,24 +150,17 @@ public class DeviceManager extends Manger {
 		String url = NetUtil.getInstance().getCumstomURL(
 				NetUtil.getInstance().IP, "getendpoint.cgi",param);
 		
-		Listener<String> responseListener = null;
-		if (1 == type) {
-			responseListener = new Listener<String>() {
-				@Override
-				public void onResponse(String response) {
-					// Time-consuming operation need to use AsyncTask
-					new InitialDataTask().execute(response);
-				}
-			};
-		} else if (2 == type) {
-			responseListener = new Listener<String>() {
-				@Override
-				public void onResponse(String response) {
-					// Time-consuming operation need to use AsyncTask
-					new InitialDataTaskWithNoInsert().execute(response);
-				}
-			};
-		}
+		Listener<String> responseListener = new Listener<String>() {
+			@Override
+			public void onResponse(String response) {
+				Bundle bundle=new Bundle();
+				bundle.putString("devicelist", response);
+				bundle.putString("newdeviceieee", newdeviceieee);
+				bundle.putString("newdeviceep", newdeviceEp);
+				// Time-consuming operation need to use AsyncTask
+				new GetJoinNetDeviceTask().execute(bundle);
+			}
+		};
 
 		ErrorListener errorListener = new ErrorListener() {
 
@@ -163,12 +181,7 @@ public class DeviceManager extends Manger {
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
 
-	public void getDeviceList() {
-		// callbakc listener
-		getDeviceList(1);
-	}
-
-	class InitialDataTask extends AsyncTask<String, Object, Object> {
+	class GetEndPointTask extends AsyncTask<String, Object, Object> {
 		@Override
 		protected Object doInBackground(String... params) {
 			RespondDataEntity data = VolleyOperation
@@ -179,18 +192,9 @@ public class DeviceManager extends Manger {
 			DataHelper mDateHelper = new DataHelper(
 					ApplicationController.getInstance());
 			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
-			List<DevicesModel> mList = mDateHelper.queryForDevicesList(
-					mSQLiteDatabase, DataHelper.DEVICES_TABLE, null, null,
-					null, null, null, null, null);
-			// 是否数据个数有更新
-//			if (mList.size() != devDataList.size()) {
-				mDateHelper.emptyTable(mSQLiteDatabase,
-						DataHelper.DEVICES_TABLE);
-				mDateHelper.insertEndPointList(mSQLiteDatabase,
-						DataHelper.DEVICES_TABLE, null, devDataList);
-//			}
-			// mDateHelper.close(mSQLiteDatabase);
-			// [TODO]transfer to SimpleDevicesModel
+
+			mDateHelper.emptyTable(mSQLiteDatabase,DataHelper.DEVICES_TABLE);
+			mDateHelper.insertEndPointList(mSQLiteDatabase,DataHelper.DEVICES_TABLE, null, devDataList);
 			return devDataList;
 		}
 
@@ -203,35 +207,30 @@ public class DeviceManager extends Manger {
 
 	}
 
-	class InitialDataTaskWithNoInsert extends AsyncTask<String, Object, Object> {
+	class GetJoinNetDeviceTask extends AsyncTask<Bundle, Object, Object> {
 		@Override
-		protected Object doInBackground(String... params) {
+		protected Object doInBackground(Bundle... params) {
+			Bundle bundle=params[0];
+			String newDeviceIeee=bundle.getString("newdeviceieee");
+			String newDeviceEp=bundle.getString("newdeviceep");
+			
 			RespondDataEntity data = VolleyOperation
-					.handleEndPointString(params[0]);
+					.handleEndPointString(bundle.getString("devicelist"));
 			ArrayList<ResponseParamsEndPoint> devDataList = data
 					.getResponseparamList();
-			DataHelper mDH = new DataHelper(ApplicationController.getInstance());
-			mInnetListFromDB = DataUtil.getDevices(ApplicationController.getInstance(), mDH, null, null, false);
-//			mNewDevList = new ArrayList<DevicesModel>();
-//			mAddDevList = new ArrayList<DevicesModel>();
 			
-			if (null == allList || allList.size() == 0) {
-				Log.i("scape devices", "SCAPDEV-> the first scape,get "
-						+ devDataList.size() + " result");
-				allList = devDataList;
-			} else {
-				for (ResponseParamsEndPoint responseParamsEndPoint : devDataList) {
-					if (!isInAllList(responseParamsEndPoint)) {
-						Log.i("scape devices",
-								"SCAPDEV-> get a devices not in allList,add");
-						allList.add(responseParamsEndPoint);
-					}
+			List<DevicesModel> devModelList=DataHelper.convertToDevicesModel(devDataList);
+			
+			ArrayList<DevicesModel> scapedList=new ArrayList<DevicesModel>();
+			
+			for (DevicesModel devicesModel : devModelList) {
+				if(devicesModel.getmIeee().equals(newDeviceIeee)&&devicesModel.getmEP().equals(newDeviceEp)) {
+					devicesModel.setmUserDefineName(DataUtil.getDefaultUserDefinname(
+							ApplicationController.getInstance(), devicesModel.getmModelId()));
+					scapedList.add(devicesModel);
 				}
 			}
-			//对比数据库，返回新增的设备列表
-			ArrayList<DevicesModel> scapedList=getNewDeviceListByCompareDB();
-			
-
+		
 			return scapedList;
 		}
 
@@ -267,98 +266,4 @@ public class DeviceManager extends Manger {
 		}
 
 	}
-	/***
-	 * 判断该设备是否在之前读到的服务器列表allList里面
-	 * @param responseParamsEndPoint
-	 * @return
-	 */
-	public boolean isInAllList(ResponseParamsEndPoint responseParamsEndPoint) {
-		if (null == allList || allList.size() == 0) {
-			return false;
-		}
-		for (ResponseParamsEndPoint rp : allList) {
-			if (rp.getDevparam()
-					.getNode()
-					.getIeee()
-					.equals(responseParamsEndPoint.getDevparam().getNode()
-							.getIeee())
-					&& rp.getDevparam()
-							.getEp()
-							.equals(responseParamsEndPoint.getDevparam()
-									.getEp())) {
-				return true;
-			}
-		}
-		return false;
-	}
-	public void scapeDevice(ArrayList<ResponseParamsEndPoint> devDataList)
-	{
-		for (ResponseParamsEndPoint responseParamsEndPoint : devDataList) {
-			if (!isInAllList(responseParamsEndPoint)) {
-				Log.i("scape devices",
-						"SCAPDEV-> get a devices not in allList,add");
-				allList.add(responseParamsEndPoint);
-			}
-		}
-	}
-	
-	private ArrayList<DevicesModel> getNewDeviceListByCompareDB() {
-		/***
-		 * 扫描到的设备
-		 */
-		ArrayList<DevicesModel> newDevList=new ArrayList<DevicesModel>();
-		if (null != allList && allList.size() > 0) {
-			mDevList = DataHelper.convertToDevicesModel(allList);
-		}
-		
-		newDevList.clear();
-		if (null != mDevList && mDevList.size() > 0) {
-			for (DevicesModel dm : mDevList) {
-				if (!isInDB(dm)) {
-					if (!(dm.getmIeee().trim().equals("00137A0000010264") && dm
-							.getmEP().trim().equals("0A"))) {
-						dm.setmUserDefineName(DataUtil.getDefaultUserDefinname(
-								ApplicationController.getInstance(), dm.getmModelId()));
-						newDevList.add(dm);
-//						mAddDevList.add(dm);
-					}
-				}
-			}
-		}
-		if (newDevList.size() > 0) {
-//			totlaDevices += mNewDevList.size();
-			SimpleDevicesModel sd;
-			for (DevicesModel dm : newDevList) {
-				sd = new SimpleDevicesModel();
-				sd.setmIeee(dm.getmIeee());
-				sd.setmEP(dm.getmEP());
-				sd.setmDeviceId(Integer.parseInt(dm.getmDeviceId()));
-				sd.setmDeviceRegion(dm.getmDeviceRegion());
-				sd.setmRid(dm.getmRid());
-				sd.setmUserDefineName(dm.getmUserDefineName());
-				sd.setmModelId(dm.getmModelId());
-				sd.setmName(dm.getmName());
-				sd.setmNodeENNAme(dm.getmNodeENNAme());
-				sd.setmOnOffLine(dm.getmOnOffLine());
-				mInnetListFromDB.add(sd);
-			}
-//			new InsertTask().execute(mNewDevList);
-		}
-		return newDevList;
-
-	}
-	
-	public boolean isInDB(DevicesModel s) {
-
-		for (SimpleDevicesModel sd : mInnetListFromDB) {
-			if (sd.getmIeee().trim().equals(s.getmIeee().trim())
-					&& sd.getmEP().trim().equals(s.getmEP().trim())) {
-				return true;
-			}
-		}
-		Log.i("new enroll device",
-				"ieee: " + s.getmIeee() + " ep:" + s.getmEP());
-		return false;
-	}
-
 }

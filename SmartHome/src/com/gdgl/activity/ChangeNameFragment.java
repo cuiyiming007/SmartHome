@@ -38,7 +38,7 @@ public class ChangeNameFragment extends Fragment implements UIListener{
 	String id;
 	LoginManager mLoginManager;
 	
-	RelativeLayout ch_pwd;
+	RelativeLayout ch_name;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -68,10 +68,10 @@ public class ChangeNameFragment extends Fragment implements UIListener{
 		
 		btn_commit = (Button) mView.findViewById(R.id.commit);
 
-		ch_pwd=(RelativeLayout)mView.findViewById(R.id.ch_pwd);
+		ch_name=(RelativeLayout)mView.findViewById(R.id.ch_name);
 		RelativeLayout.LayoutParams mLayoutParams=new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
 		
-		ch_pwd.setLayoutParams(mLayoutParams);
+		ch_name.setLayoutParams(mLayoutParams);
 		
 		mLoginManager=LoginManager.getInstance();
 		mLoginManager.addObserver(ChangeNameFragment.this);
@@ -136,9 +136,6 @@ public class ChangeNameFragment extends Fragment implements UIListener{
 				// data maybe null
 				LoginResponse response=(LoginResponse) event.getData();
 				changeNameSwitch(response);
-
-				getFromSharedPreferences.setsharedPreferences((Context) getActivity());
-				getFromSharedPreferences.setName(newName.trim());
 			}else {
 				//if failed,prompt a Toast
 				Toast.makeText(getActivity(), "连接网关失败", Toast.LENGTH_SHORT).show();
@@ -151,6 +148,8 @@ public class ChangeNameFragment extends Fragment implements UIListener{
 		switch (i) {
 		case 0:
 			Toast.makeText(getActivity(), "修改成功", Toast.LENGTH_SHORT).show();
+			getFromSharedPreferences.setsharedPreferences((Context) getActivity());
+			getFromSharedPreferences.setName(newName.trim());
 			break;
 		case 39:
 			Toast.makeText(getActivity(), "原用户名错误，请重新输入", Toast.LENGTH_SHORT).show();

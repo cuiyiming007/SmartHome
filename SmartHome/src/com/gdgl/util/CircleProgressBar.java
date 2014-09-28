@@ -10,8 +10,8 @@ import android.util.AttributeSet;
 import android.view.View;
  
 public class CircleProgressBar extends View {
-	private int maxProgress = 250;
-	private int progress = 250;
+	private int maxProgress = 60;
+	private int progress = 60;
 	private int progressStrokeWidth = 20;
 	//画圆所在的距形区域
 	RectF oval;
@@ -82,6 +82,7 @@ public class CircleProgressBar extends View {
  
 	public void setMaxProgress(int maxProgress) {
 		this.maxProgress = maxProgress;
+		this.progress=maxProgress;
 	}
  
 	public void setProgress(int progress) {

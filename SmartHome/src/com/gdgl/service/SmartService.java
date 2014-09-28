@@ -1,14 +1,9 @@
 package com.gdgl.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.IBinder;
 import android.os.SystemClock;
@@ -18,13 +13,9 @@ import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.DeviceManager;
 import com.gdgl.manager.VideoManager;
-import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.Constants;
-import com.gdgl.mydata.DataHelper;
-import com.gdgl.mydata.ResponseParamsEndPoint;
 import com.gdgl.network.ChannalManager;
 import com.gdgl.reciever.HeartReceiver;
-import com.gdgl.util.NetUtil;
 
 public class SmartService extends Service {
 
@@ -57,8 +48,9 @@ public class SmartService extends Service {
 		
 		
 		// =============================server======================
-		 DeviceManager.getInstance().getDeviceList();
+		 DeviceManager.getInstance().getDeviceEndPoint();
 		 CGIManager.getInstance().GetAllRoomInfo();
+		 CGIManager.getInstance().GetAllBindList();
 		 VideoManager.getInstance().getIPClist();
 		// ===============================loacl=====================
 //		new Thread() {
