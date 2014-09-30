@@ -8,7 +8,6 @@ import com.gdgl.manager.UIListener;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.Constants;
 import com.gdgl.smarthome.R;
-import com.gdgl.util.CircleProgressBar;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

@@ -1,6 +1,5 @@
 package com.gdgl.activity;
 
-import java.util.HashMap;
 import java.util.List;
 
 import com.gdgl.manager.Manger;
@@ -22,7 +21,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -71,7 +69,9 @@ public class JoinNetDevicesListFragment extends BaseFragment {
 		// TODO Auto-generated method stub
 		Context c = (Context) getActivity();
 		mDH = new DataHelper(c);
-		mJoinNetAdapter = new JoinNetAdapter();
+		if(mJoinNetAdapter==null) {
+			mJoinNetAdapter = new JoinNetAdapter();
+		}
 	}
 
 	@Override
@@ -354,9 +354,14 @@ public class JoinNetDevicesListFragment extends BaseFragment {
 			} else {
 				mHolder = (ViewHolder) mView.getTag();
 			}
-			Log.e("devices_name", mDevices.getmUserDefineName());
-			mHolder.devices_name.setText(mDevices.getmUserDefineName().replace(
-					" ", ""));
+			
+			if (mDevices.getmUserDefineName() == null || mDevices.getmUserDefineName().trim().equals("")) {
+				mDevices.setmUserDefineName(DataUtil.getDefaultUserDefinname(
+						getActivity(), mDevices.getmModelId()));
+			}
+			mHolder.devices_name.setText(mDevices.getmUserDefineName().replace(" ", ""));
+//			Log.e("devices_name", mDevices.getmUserDefineName());
+			
 			
 			int devModeleId = Integer.parseInt(mDevices.getmDeviceId());
 

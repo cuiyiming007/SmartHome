@@ -12,7 +12,6 @@ import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.SlideMenu;
 
-import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.AsyncTask;
@@ -23,9 +22,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 public class ConfigActivity extends BaseSlideMenuActivity implements

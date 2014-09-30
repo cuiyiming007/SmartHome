@@ -7,7 +7,6 @@ import android.app.Dialog;
 import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 

@@ -2,9 +2,7 @@ package com.gdgl.activity;
 
 import com.gdgl.activity.DevicesListFragment.refreshData;
 import com.gdgl.activity.ShowDevicesGroupFragmentActivity.adapterSeter;
-import com.gdgl.adapter.SceneDevicesAdapter;
 import com.gdgl.adapter.SceneDevicesAdapter.AddChecked;
-import com.gdgl.adapter.SceneDevicesAdapter.ViewHolder;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.smarthome.R;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -19,8 +17,6 @@ import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;

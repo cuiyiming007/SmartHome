@@ -1,6 +1,5 @@
 package com.gdgl.manager;
 
-import android.os.AsyncTask;
 import android.util.Log;
 
 import com.android.volley.VolleyError;

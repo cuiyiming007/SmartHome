@@ -2,7 +2,6 @@ package com.gdgl.adapter;
 
 import java.util.List;
 
-import com.gdgl.activity.SafeSimpleOperation;
 import com.gdgl.app.ApplicationController;
 import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.WarnManager;
@@ -12,31 +11,21 @@ import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.smarthome.R;
-import com.gdgl.util.EditDevicesDlg;
-import com.gdgl.util.ExpandCollapseAnimation;
-import com.gdgl.util.VersionDlg;
-import com.gdgl.util.EditDevicesDlg.EditDialogcallback;
-import com.gdgl.util.MyOkCancleDlg;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 import com.gdgl.util.UiUtils;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.animation.Animation;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Switch;
@@ -74,9 +63,6 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 		public boolean[] state;
 
 	}
-
-	private String index;
-	private ListView listView;
 
 	public DevicesBaseAdapter(Context c, DevicesObserver mObserver) {
 		mContext = c;
@@ -136,7 +122,8 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 		if (devicesid == DataHelper.IAS_ZONE_DEVICETYPE) {
 			String modelid = mDevicesList.get(position).getmModelId();
 			String str = modelid.substring(0, 4);
-			if (str.trim().equals("ZA01")||modelid.indexOf("Z302D")==0) {
+			//如果为各种气体探测器或紧急按钮
+			if (str.trim().equals("ZA01")||modelid.indexOf(DataHelper.Emergency_Button)==0) {
 				return NO_OPERATOR;
 			} else {
 				return ON_OFF;
@@ -216,7 +203,7 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 				warn_state.setText("正在报警!");
 			}
 			if (WarnManager.getInstance().isWarnning()
-					&& mDevices.getmIeee().trim().equals("00137A0000011949")) {
+					&& mDevices.getmModelId().indexOf(DataHelper.Siren)==0) {
 				warn_state.setText("报警器响!");
 			}
 			devices_img
@@ -406,14 +393,6 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 		return mView;
 	}
 
-	// public void updateItem()
-	// {
-	// //得到第1个可显示控件的位置,记住是第1个可显示控件噢。而不是第1个控件
-	// int visiblePosition = mDevicesList.getFirstVisiblePosition();
-	// //得到你需要更新item的View
-	// View view = listView.getChildAt(itemIndex - visiblePosition);
-	// }
-
 	public void setList(List<SimpleDevicesModel> list) {
 		mDevicesList = null;
 		mDevicesList = list;
@@ -445,8 +424,8 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 		protected Object doInBackground(Object... params) {
 			DataHelper dh = new DataHelper(ApplicationController.getInstance());
 			SQLiteDatabase db = dh.getSQLiteDatabase();
-			oneKeyOperatorDevice = DataUtil.getDeviceModelByIeee(
-					"00137A00000121F0", dh, db);
+			oneKeyOperatorDevice = DataUtil.getDeviceModelByModelid(
+					DataHelper.One_key_operator, dh, db);
 			db.close();
 			return null;
 		}

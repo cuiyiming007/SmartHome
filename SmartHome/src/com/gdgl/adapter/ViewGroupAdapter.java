@@ -6,7 +6,6 @@ import com.gdgl.smarthome.R.color;
 import com.gdgl.util.BitmapUtil;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;

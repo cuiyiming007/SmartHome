@@ -1,7 +1,6 @@
 package com.gdgl.activity;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import com.gdgl.manager.DeviceManager;
@@ -9,28 +8,21 @@ import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
 import com.gdgl.model.DevicesModel;
-import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.DataHelper;
-import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
-import com.gdgl.mydata.ResponseParamsEndPoint;
 import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.AddDlg.AddDialogcallback;
 import com.gdgl.util.CircleProgressBar;
 import com.gdgl.util.JoinNetTimeDlg;
-import com.gdgl.util.UiUtils;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -233,25 +225,25 @@ public class JoinNetFragment extends Fragment implements UIListener,
 		text_result.setText("扫描到" + scapedDeviveList.size() + "个设备");
 		text_result.setVisibility(View.VISIBLE);
 		btn_look.setEnabled(true);
-		new InsertTask().execute(newscapedList);
+//		new InsertTask().execute(newscapedList);
 	}
 
-	public class InsertTask extends
-			AsyncTask<List<DevicesModel>, Integer, Integer> {
-
-		@Override
-		protected Integer doInBackground(List<DevicesModel>... params) {
-			// TODO Auto-generated method stub
-			List<DevicesModel> list = params[0];
-			if (null == list || list.size() == 0) {
-				return 1;
-			}
-			mDH.insertDevList(mDH.getSQLiteDatabase(),
-					DataHelper.DEVICES_TABLE, null, list);
-			return 1;
-		}
-
-	}
+//	public class InsertTask extends
+//			AsyncTask<List<DevicesModel>, Integer, Integer> {
+//
+//		@Override
+//		protected Integer doInBackground(List<DevicesModel>... params) {
+//			// TODO Auto-generated method stub
+//			List<DevicesModel> list = params[0];
+//			if (null == list || list.size() == 0) {
+//				return 1;
+//			}
+//			mDH.insertDevList(mDH.getSQLiteDatabase(),
+//					DataHelper.DEVICES_TABLE, null, list);
+//			return 1;
+//		}
+//
+//	}
 
 	public interface ChangeFragment {
 		public void setFragment(Fragment f);

@@ -1,9 +1,7 @@
 package com.gdgl.mydata;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import com.gdgl.model.RemoteControl;
 import com.gdgl.util.UiUtils;

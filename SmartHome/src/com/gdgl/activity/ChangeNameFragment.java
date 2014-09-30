@@ -1,4 +1,5 @@
 package com.gdgl.activity;
+
 /***
  * 修改用户名界面
  */
@@ -22,10 +23,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
-public class ChangeNameFragment extends Fragment implements UIListener{
+public class ChangeNameFragment extends Fragment implements UIListener {
 
 	private View mView;
 
@@ -33,12 +33,13 @@ public class ChangeNameFragment extends Fragment implements UIListener{
 	EditText new_name;
 	Button btn_commit;
 
-	String odlPwd,name;
-	String newName,oldName;
+	String odlPwd, name;
+	String newName, oldName;
 	String id;
 	LoginManager mLoginManager;
-	
+
 	RelativeLayout ch_name;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -56,24 +57,26 @@ public class ChangeNameFragment extends Fragment implements UIListener{
 
 	private void initView() {
 		// TODO Auto-generated method stub
-		
+
 		getFromSharedPreferences.setsharedPreferences((Context) getActivity());
 		odlPwd = getFromSharedPreferences.getPwd();
-		name=getFromSharedPreferences.getName();
-		id=getFromSharedPreferences.getUid();
+		name = getFromSharedPreferences.getName();
+		id = getFromSharedPreferences.getUid();
 		new_name = (EditText) mView.findViewById(R.id.new_name);
-		
+
 		old_name = (EditText) mView.findViewById(R.id.old_name);
 		old_name.setText(name);
-		
+
 		btn_commit = (Button) mView.findViewById(R.id.commit);
 
-		ch_name=(RelativeLayout)mView.findViewById(R.id.ch_name);
-		RelativeLayout.LayoutParams mLayoutParams=new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
-		
+		ch_name = (RelativeLayout) mView.findViewById(R.id.ch_name);
+		RelativeLayout.LayoutParams mLayoutParams = new RelativeLayout.LayoutParams(
+				RelativeLayout.LayoutParams.MATCH_PARENT,
+				RelativeLayout.LayoutParams.MATCH_PARENT);
+
 		ch_name.setLayoutParams(mLayoutParams);
-		
-		mLoginManager=LoginManager.getInstance();
+
+		mLoginManager = LoginManager.getInstance();
 		mLoginManager.addObserver(ChangeNameFragment.this);
 		btn_commit.setOnClickListener(new OnClickListener() {
 
@@ -82,31 +85,35 @@ public class ChangeNameFragment extends Fragment implements UIListener{
 				// TODO Auto-generated method stub
 				oldName = old_name.getText().toString();
 				newName = new_name.getText().toString();
-				
-				if (null == oldName || oldName.length()<=0) {
-					Toast.makeText(getActivity(), "请输入旧用户名", Toast.LENGTH_SHORT).show();
+
+				if (null == oldName || oldName.length() <= 0) {
+					Toast.makeText(getActivity(), "请输入旧用户名", Toast.LENGTH_SHORT)
+							.show();
 					old_name.requestFocus();
 					return;
-				} else if (oldName.length()>5 && oldName.length()<17) {
-					
-					if (null == newName || newName.length()<=0) {
-						Toast.makeText(getActivity(), "请输入新用户名", Toast.LENGTH_SHORT).show();
+				} else if (oldName.length() > 5 && oldName.length() < 17) {
+
+					if (null == newName || newName.length() <= 0) {
+						Toast.makeText(getActivity(), "请输入新用户名",
+								Toast.LENGTH_SHORT).show();
 						new_name.requestFocus();
 						return;
-					} else if (newName.length()>5 && newName.length()<17) {
-						AccountInfo account=new AccountInfo();
+					} else if (newName.length() > 5 && newName.length() < 17) {
+						AccountInfo account = new AccountInfo();
 						account.setAccount(oldName);
 						account.setPassword(odlPwd);
 						account.setId(id);
 						account.setAlias(oldName);
 						mLoginManager.modifyAlias(account, newName);
 					} else {
-						Toast.makeText(getActivity(), "新用户名应为6-16字符", Toast.LENGTH_SHORT).show();
+						Toast.makeText(getActivity(), "新用户名应为6-16字符",
+								Toast.LENGTH_SHORT).show();
 						new_name.requestFocus();
 						return;
 					}
 				} else {
-					Toast.makeText(getActivity(), "旧用户名应为6-16字符", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getActivity(), "旧用户名应为6-16字符",
+							Toast.LENGTH_SHORT).show();
 					old_name.requestFocus();
 					return;
 				}
@@ -114,9 +121,7 @@ public class ChangeNameFragment extends Fragment implements UIListener{
 		});
 
 	}
-	
-	
-	
+
 	@Override
 	public void onDestroy() {
 		// TODO Auto-generated method stub
@@ -127,35 +132,38 @@ public class ChangeNameFragment extends Fragment implements UIListener{
 	@Override
 	public void update(Manger observer, Object object) {
 		// TODO Auto-generated method stub
-		
-		
+
 		final Event event = (Event) object;
 		if (EventType.MODIFYALIAS == event.getType()) {
-			
-			if (event.isSuccess()==true) {
+
+			if (event.isSuccess() == true) {
 				// data maybe null
-				LoginResponse response=(LoginResponse) event.getData();
+				LoginResponse response = (LoginResponse) event.getData();
 				changeNameSwitch(response);
-			}else {
-				//if failed,prompt a Toast
-				Toast.makeText(getActivity(), "连接网关失败", Toast.LENGTH_SHORT).show();
+			} else {
+				// if failed,prompt a Toast
+				Toast.makeText(getActivity(), "连接网关失败", Toast.LENGTH_SHORT)
+						.show();
 			}
 		}
 	}
 
 	private void changeNameSwitch(LoginResponse response) {
-		int i=Integer.parseInt(response.getResponse_params().getStatus());
+		int i = Integer.parseInt(response.getResponse_params().getStatus());
 		switch (i) {
 		case 0:
 			Toast.makeText(getActivity(), "修改成功", Toast.LENGTH_SHORT).show();
-			getFromSharedPreferences.setsharedPreferences((Context) getActivity());
+			getFromSharedPreferences
+					.setsharedPreferences((Context) getActivity());
 			getFromSharedPreferences.setName(newName.trim());
 			break;
 		case 39:
-			Toast.makeText(getActivity(), "原用户名错误，请重新输入", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getActivity(), "原用户名错误，请重新输入", Toast.LENGTH_SHORT)
+					.show();
 			break;
 		case 44:
-			Toast.makeText(getActivity(), "用户名未做任何修改", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getActivity(), "用户名未做任何修改", Toast.LENGTH_SHORT)
+					.show();
 			break;
 		default:
 			Toast.makeText(getActivity(), "修改失败", Toast.LENGTH_SHORT).show();

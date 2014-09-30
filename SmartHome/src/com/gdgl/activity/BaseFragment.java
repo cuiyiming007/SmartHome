@@ -3,11 +3,9 @@ package com.gdgl.activity;
 
 import java.util.List;
 
-import com.gdgl.activity.BaseControlFragment.updateDeviceStatus;
 import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.UIListener;
 import com.gdgl.model.DevicesModel;
-import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.Callback.CallbackResponseType2;
 

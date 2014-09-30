@@ -1,14 +1,14 @@
 package com.gdgl.model;
 
+import com.gdgl.app.ApplicationController;
+import com.gdgl.mydata.DataHelper;
+import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.DevParam;
 import com.gdgl.mydata.Node;
 import com.gdgl.mydata.ResponseParamsEndPoint;
 import com.gdgl.util.UiUtils;
 
 import android.content.ContentValues;
-import android.database.Cursor;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.provider.BaseColumns;
 
 interface DevicesBaseColumns extends BaseColumns {
@@ -57,6 +57,7 @@ interface DevicesBaseColumns extends BaseColumns {
 	public static final String LAST_UPDATE_TIME = "last_update_time";
 	public static final String ON_OFF_LINE = "on_off_line";
 	public static final String USER_DEFINE_NAME = "user_define_name";
+	public static final String DEVICE_SORT = "device_sort";
 }
 
 public class DevicesModel implements DevicesBaseColumns {
@@ -467,9 +468,50 @@ public class DevicesModel implements DevicesBaseColumns {
 		mContentValues.put(DevicesBaseColumns.VOLTAGE_MAX, getmVoltageMax());
 		mContentValues.put(DevicesBaseColumns.VOLTAGE_MIN, getmVoltageMin());
 		mContentValues.put(DevicesBaseColumns.ZCL_VERSTION, getmZCLVersion());
-		mContentValues.put(DevicesBaseColumns.USER_DEFINE_NAME, getmUserDefineName());
 		mContentValues.put(DevicesBaseColumns.CLUSTER_ID, getmClusterID());
 		mContentValues.put(DevicesBaseColumns.BIND_TO, getmBindTo());
+		
+		//设置设备名称
+		if (getmUserDefineName() == null || getmUserDefineName().trim().equals("")) {
+			setmUserDefineName(DataUtil.getDefaultUserDefinname(
+					ApplicationController.getInstance(), getmModelId()));
+		}
+		mContentValues.put(DevicesBaseColumns.USER_DEFINE_NAME, getmUserDefineName());
+		
+		//设备分类
+		if(Integer.valueOf(getmDeviceId())==DataHelper.ON_OFF_SWITCH_DEVICETYPE) {
+			mContentValues.put(DevicesBaseColumns.DEVICE_SORT, UiUtils.SWITCH_DEVICE);
+		} else if(Integer.valueOf(getmDeviceId())==DataHelper.ON_OFF_OUTPUT_DEVICETYPE) {
+			mContentValues.put(DevicesBaseColumns.DEVICE_SORT, UiUtils.SECURITY_CONTROL);
+		} else if(Integer.valueOf(getmDeviceId())==DataHelper.REMOTE_CONTROL_DEVICETYPE) {
+			mContentValues.put(DevicesBaseColumns.DEVICE_SORT, UiUtils.SWITCH_DEVICE);
+		} else if (Integer.valueOf(getmDeviceId())==DataHelper.COMBINED_INTERFACE_DEVICETYPE) {
+			mContentValues.put(DevicesBaseColumns.DEVICE_SORT, UiUtils.SECURITY_CONTROL);
+		} else if (Integer.valueOf(getmDeviceId())==DataHelper.RANGE_EXTENDER_DEVICETYPE) {
+			mContentValues.put(DevicesBaseColumns.DEVICE_SORT, UiUtils.ELECTRICAL_MANAGER);
+		} else if (Integer.valueOf(getmDeviceId())==DataHelper.MAINS_POWER_OUTLET_DEVICETYPE) {
+			if(getmModelId().indexOf(DataHelper.Switch_Module_Single)==0) {
+				mContentValues.put(DevicesBaseColumns.DEVICE_SORT, UiUtils.LIGHTS_MANAGER);
+			} else {
+				mContentValues.put(DevicesBaseColumns.DEVICE_SORT, UiUtils.ELECTRICAL_MANAGER);
+			}
+		} else if (Integer.valueOf(getmDeviceId())==DataHelper.DIMEN_LIGHTS_DEVICETYPE) {
+			mContentValues.put(DevicesBaseColumns.DEVICE_SORT, UiUtils.LIGHTS_MANAGER);
+		} else if (Integer.valueOf(getmDeviceId())==DataHelper.DIMEN_SWITCH_DEVICETYPE) {
+			mContentValues.put(DevicesBaseColumns.DEVICE_SORT, UiUtils.SWITCH_DEVICE);
+		} else if (Integer.valueOf(getmDeviceId())==DataHelper.LIGHT_SENSOR_DEVICETYPE) {
+			mContentValues.put(DevicesBaseColumns.DEVICE_SORT, UiUtils.ENVIRONMENTAL_CONTROL);
+		} else if (Integer.valueOf(getmDeviceId())==DataHelper.SHADE_DEVICETYPE) {
+			mContentValues.put(DevicesBaseColumns.DEVICE_SORT, UiUtils.ELECTRICAL_MANAGER);
+		} else if (Integer.valueOf(getmDeviceId())==DataHelper.TEMPTURE_SENSOR_DEVICETYPE) {
+			mContentValues.put(DevicesBaseColumns.DEVICE_SORT, UiUtils.ENVIRONMENTAL_CONTROL);
+		} else if (Integer.valueOf(getmDeviceId())==DataHelper.IAS_ACE_DEVICETYPE) {
+			mContentValues.put(DevicesBaseColumns.DEVICE_SORT, UiUtils.SWITCH_DEVICE);
+		} else if (Integer.valueOf(getmDeviceId())==DataHelper.IAS_ZONE_DEVICETYPE) {
+			mContentValues.put(DevicesBaseColumns.DEVICE_SORT, UiUtils.SECURITY_CONTROL);
+		} else if (Integer.valueOf(getmDeviceId())==DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE) {
+			mContentValues.put(DevicesBaseColumns.DEVICE_SORT, UiUtils.SECURITY_CONTROL);
+		}
 
 		return mContentValues;
 	}
@@ -520,7 +562,7 @@ public class DevicesModel implements DevicesBaseColumns {
 		setmDeviceRegion("");
 		setmLastDateTime(System.currentTimeMillis());
 		setmClusterID(UiUtils.getClusterIdByDeviceid_Modelid(n.getModel_id(),d.getEp()));
-		setmBindTo("未绑定");
+		setmBindTo("");
 		setmOnOffLine(DEVICE_ON_LINE);
 	}
 

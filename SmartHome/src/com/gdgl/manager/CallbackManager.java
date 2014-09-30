@@ -2,7 +2,6 @@ package com.gdgl.manager;
 
 import java.util.ArrayList;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Notification;
@@ -71,21 +70,25 @@ public class CallbackManager extends Manger {
 		}
 	}
 
-	// class CallbackTask extends Thread {
-	//
-	// @Override
-	// public void run() {
-	// try {
-	// NetUtil.getInstance().recieveFromCallback();
-	//
-	// } catch (IOException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// }
-	//
-	// }
-	//
-	// }
+	public void classifyCallbackResponse(String message) {
+		if (message.contains("}{")) {
+			String messages[] = message.split("\\}\\{");
+			for (int i = 0; i < messages.length; i++) {
+				String json = null;
+				if (i == 0) {
+					json = messages[i] + "}";
+				} else if (i == messages.length - 1) {
+					json = "{" + messages[i];
+				} else {
+					json = "{" + messages[i] + "}";
+				}
+//				Log.i("json", json);
+				handleCallbackResponse(json);
+			}
+		} else {
+			handleCallbackResponse(message);
+		}
+	}
 
 	public void handleCallbackResponse(String response) {
 		try {
@@ -102,7 +105,8 @@ public class CallbackManager extends Manger {
 						CallbackResponseType2.class);
 				handleAttribute(common);
 
-//				Log.i(TAG, "Callback msgType=" + msgType + "energy"+common.toString());
+				// Log.i(TAG, "Callback msgType=" + msgType +
+				// "energy"+common.toString());
 				break;
 			case 3:
 				Log.i(TAG, "Callback msgType=" + msgType + "warm message");
@@ -131,7 +135,8 @@ public class CallbackManager extends Manger {
 				Log.i(TAG, "Callback msgType=" + msgType + "DimmerSwitch");
 				break;
 			case 7:
-				//Log.i(TAG, "Callback msgType=" + msgType + "OnOffLightSwitch");
+				// Log.i(TAG, "Callback msgType=" + msgType +
+				// "OnOffLightSwitch");
 				break;
 			case 8:
 				CallbackResponseCommon IASWarmingDevice = gson.fromJson(
@@ -143,9 +148,10 @@ public class CallbackManager extends Manger {
 				Log.i(TAG, "Callback msgType=" + msgType + "OnOffSwitch");
 				break;
 			case 10:
-				CallbackResponseCommon onoff_outputDevice = gson.fromJson(response,
-						CallbackResponseCommon.class);
-//				Log.i(TAG, "Callback msgType=" + msgType + "OnOffOutPut"+onoff_outputDevice.toString());		
+				//CallbackResponseCommon onoff_outputDevice = gson.fromJson(
+					//	response, CallbackResponseCommon.class);
+				// Log.i(TAG, "Callback msgType=" + msgType +
+				// "OnOffOutPut"+onoff_outputDevice.toString());
 				break;
 			// need to distinguish with type 5
 			case 11:
@@ -162,9 +168,12 @@ public class CallbackManager extends Manger {
 
 				break;
 			case 12:
-				CallbackBeginLearnIRMessage learnIR=gson.fromJson(response, CallbackBeginLearnIRMessage.class);
-				Log.i(TAG, "Callback msgType=" + msgType + "Brand Style"+learnIR.toString());
-				Log.i("CallbackManager BeginLearnIR Response:%n %s", learnIR.toString());
+				CallbackBeginLearnIRMessage learnIR = gson.fromJson(response,
+						CallbackBeginLearnIRMessage.class);
+				Log.i(TAG, "Callback msgType=" + msgType + "Brand Style"
+						+ learnIR.toString());
+				Log.i("CallbackManager BeginLearnIR Response:%n %s",
+						learnIR.toString());
 				Event event12 = new Event(EventType.BEGINLEARNIR, true);
 				event12.setData(learnIR);
 				notifyObservers(event12);
@@ -182,7 +191,8 @@ public class CallbackManager extends Manger {
 			case 16:
 				CallbackEnrollMessage enrollMessage = gson.fromJson(response,
 						CallbackEnrollMessage.class);
-				Log.i(TAG, "Callback msgType=" + msgType + " Enroll"+enrollMessage.toString());
+				Log.i(TAG, "Callback msgType=" + msgType + " Enroll"
+						+ enrollMessage.toString());
 				Event event16 = new Event(EventType.ENROLL, true);
 				event16.setData(enrollMessage);
 				notifyObservers(event16);
@@ -201,8 +211,10 @@ public class CallbackManager extends Manger {
 				new CallbackBindTask().execute(response);
 				break;
 			case 29:
-				CallbackJoinNetMessage joinNetMessage=gson.fromJson(response, CallbackJoinNetMessage.class);
-				Log.i(TAG, "Callback msgType=" + msgType + " jionnet"+joinNetMessage.toString());
+				CallbackJoinNetMessage joinNetMessage = gson.fromJson(response,
+						CallbackJoinNetMessage.class);
+				Log.i(TAG, "Callback msgType=" + msgType + " jionnet"
+						+ joinNetMessage.toString());
 				DeviceManager.getInstance().getNewJoinNetDevice(joinNetMessage);
 				break;
 			default:
@@ -216,25 +228,22 @@ public class CallbackManager extends Manger {
 	}
 
 	private void handlerWarnMessage(CallbackWarnMessage warnmessage) {
-		
-		warnmessage=WarnManager.getInstance().setWarnDetailMessage(warnmessage);
+
+		warnmessage = WarnManager.getInstance().setWarnDetailMessage(
+				warnmessage);
 		WarnManager.getInstance().setCurrentWarnInfo(warnmessage);
-		
+
 		new UpdateDBTask().execute(warnmessage);
 		Intent i = new Intent(ApplicationController.getInstance(),
 				ShowDevicesGroupFragmentActivity.class);
 		i.putExtra(ShowDevicesGroupFragmentActivity.ACTIVITY_SHOW_DEVICES_TYPE,
 				UiUtils.SECURITY_CONTROL);
 		makeNotify(i, warnmessage.getW_description(), warnmessage.toString());
-		
-		
 
 		Event event = new Event(EventType.WARN, true);
 		event.setData(warnmessage);
 		notifyObservers(event);
 	}
-
-	
 
 	/***
 	 * 根据attributeId 和clusterId来确定操作是什么，发送event，刷新UI
@@ -248,7 +257,8 @@ public class CallbackManager extends Manger {
 		switch (attributeId) {
 		case 0:
 			if (6 == clusterId) {
-				Log.i(TAG, "Callback msgType=" + 2 + "energy"+common.toString());
+				Log.i(TAG,
+						"Callback msgType=" + 2 + "energy" + common.toString());
 				Event event = new Event(EventType.ON_OFF_STATUS, true);
 				event.setData(common);
 				notifyObservers(event);
@@ -281,33 +291,35 @@ public class CallbackManager extends Manger {
 		}
 
 	}
-	
+
 	class CallbackBindTask extends AsyncTask<String, Object, Object> {
 		@Override
 		protected Object doInBackground(String... params) {
 			CallbackBindListMessage data = VolleyOperation
 					.handleCallbackBindListString(params[0]);
-			ArrayList<CallbackBindListDevices> mBindedDevicesList= data.getList();
-			
+			ArrayList<CallbackBindListDevices> mBindedDevicesList = data
+					.getList();
+
 			DataHelper mDateHelper = new DataHelper(
 					ApplicationController.getInstance());
 			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
-			String where=" devout_ieee=? and devout_ep=? ";
-			String[] args={data.getIeee(),data.getEp()};
-			
+			String where = " devout_ieee=? and devout_ep=? ";
+			String[] args = { data.getIeee(), data.getEp() };
+
 			mSQLiteDatabase.beginTransaction();
 			try {
 				mSQLiteDatabase.delete(DataHelper.BIND_TABLE, where, args);
-				
-				if(mBindedDevicesList!=null&&mBindedDevicesList.size()>0) {
-					for(CallbackBindListDevices bindingDivice:mBindedDevicesList) {
+
+				if (mBindedDevicesList != null && mBindedDevicesList.size() > 0) {
+					for (CallbackBindListDevices bindingDivice : mBindedDevicesList) {
 						ContentValues c = new ContentValues();
-						c.put(BindingDataEntity.DEVOUT_IEEE,data.getIeee());
-						c.put(BindingDataEntity.DEVOUT_EP,data.getEp());
-						c.put(BindingDataEntity.DEVIN_IEEE,bindingDivice.getIeee());
-						c.put(BindingDataEntity.DEVIN_EP,bindingDivice.getEp());
-						c.put(BindingDataEntity.CLUSTER,bindingDivice.getCid());
-						
+						c.put(BindingDataEntity.DEVOUT_IEEE, data.getIeee());
+						c.put(BindingDataEntity.DEVOUT_EP, data.getEp());
+						c.put(BindingDataEntity.DEVIN_IEEE,
+								bindingDivice.getIeee());
+						c.put(BindingDataEntity.DEVIN_EP, bindingDivice.getEp());
+						c.put(BindingDataEntity.CLUSTER, bindingDivice.getCid());
+
 						mSQLiteDatabase.insert(DataHelper.BIND_TABLE, null, c);
 					}
 					mSQLiteDatabase.setTransactionSuccessful();

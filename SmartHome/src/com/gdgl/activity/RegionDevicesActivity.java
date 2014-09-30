@@ -4,10 +4,7 @@ package com.gdgl.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.entity.mime.MinimalField;
-
 import com.gdgl.activity.BaseControlFragment.UpdateDevice;
-import com.gdgl.activity.DevicesListFragment.deleteDevicesFromGroup;
 import com.gdgl.activity.DevicesListFragment.refreshData;
 import com.gdgl.activity.DevicesListFragment.setData;
 import com.gdgl.adapter.AllDevicesAdapter;
@@ -15,7 +12,6 @@ import com.gdgl.adapter.AllDevicesAdapter.AddChecked;
 import com.gdgl.adapter.DevicesBaseAdapter;
 import com.gdgl.adapter.DevicesBaseAdapter.DevicesObserver;
 import com.gdgl.manager.CGIManager;
-import com.gdgl.manager.DeviceManager;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.Constants;
@@ -34,19 +30,15 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.text.TextUtils.StringSplitter;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
 /***
@@ -92,7 +84,6 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 	private SimpleDevicesModel getModel;
 	private boolean deleteType=false;
 	private boolean isAdd=false;
-	private boolean isControl=false;
 	
 	private int currentState=INLIST;
 
@@ -145,16 +136,16 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 //		}
 	}
 
-	private boolean isInList(SimpleDevicesModel simpleDevicesModel) {
-
-		for (SimpleDevicesModel msimpleDevicesModel : mList) {
-			if (msimpleDevicesModel.getmIeee().equals(
-					simpleDevicesModel.getmIeee())) {
-				return true;
-			}
-		}
-		return false;
-	}
+//	private boolean isInList(SimpleDevicesModel simpleDevicesModel) {
+//
+//		for (SimpleDevicesModel msimpleDevicesModel : mList) {
+//			if (msimpleDevicesModel.getmIeee().equals(
+//					simpleDevicesModel.getmIeee())) {
+//				return true;
+//			}
+//		}
+//		return false;
+//	}
 	
 	private void initAddToRegionDevicesList(){
 		mAddToRegionList=new ArrayList<SimpleDevicesModel>();
@@ -193,7 +184,6 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 					currentState=INADD;
 				}else if(currentState==INADD){
 					isAdd=false;
-					String[] args = { mRoomname };
 					ContentValues c = new ContentValues();
 					c.put(DevicesModel.DEVICE_REGION, mRoomname);
 					c.put(DevicesModel.R_ID, mRoomid);

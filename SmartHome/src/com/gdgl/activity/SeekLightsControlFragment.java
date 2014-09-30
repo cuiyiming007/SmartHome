@@ -1,6 +1,5 @@
 package com.gdgl.activity;
 
-import android.R.integer;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
@@ -14,7 +13,6 @@ import android.widget.Toast;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
-import com.gdgl.activity.BaseControlFragment.UpdateDevice;
 import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.model.DevicesModel;

@@ -1,8 +1,5 @@
 package com.gdgl.mydata;
 
-import android.R.integer;
-
-
 public class EventType {
 	
 	private static int id=0;

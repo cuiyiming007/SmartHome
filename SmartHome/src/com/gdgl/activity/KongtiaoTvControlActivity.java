@@ -1,10 +1,7 @@
 package com.gdgl.activity;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.CallbackManager;
@@ -12,40 +9,32 @@ import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
 import com.gdgl.model.RemoteControl;
 import com.gdgl.model.SimpleDevicesModel;
+import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.DeviceLearnedParam;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.RespondDataEntity;
 import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.mydata.Callback.CallbackBeginLearnIRMessage;
-import com.gdgl.mydata.getlocalcielist.elserec;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyDlg;
 import com.gdgl.util.MyOkCancleDlg;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
-import com.tencent.weibo.api.PrivateAPI;
 
-import android.R.anim;
-import android.R.integer;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.StaticLayout;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnFocusChangeListener;
 import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -102,6 +91,8 @@ public class KongtiaoTvControlActivity extends Activity implements UIListener,
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.kongtiao_tv_control);
+		Intent intent=getIntent();
+		mControlModel=intent.getParcelableExtra(Constants.PASS_OBJECT);
 		initData();
 	}
 
@@ -119,11 +110,11 @@ public class KongtiaoTvControlActivity extends Activity implements UIListener,
 			mtvControl = new ArrayList<RemoteControl>();
 		}
 
-		mControlModel = new SimpleDevicesModel();
-		mControlModel.setmIeee("00137A0000010148");
-		mControlModel.setmEP("01");
-		mControlModel.setmModelId("Z211");
-		mControlModel.setmDeviceId(8);
+//		mControlModel = new SimpleDevicesModel();
+//		mControlModel.setmIeee("00137A0000010148");
+//		mControlModel.setmEP("01");
+//		mControlModel.setmModelId("Z211");
+//		mControlModel.setmDeviceId(8);
 
 		CallbackManager.getInstance().addObserver(
 				KongtiaoTvControlActivity.this);

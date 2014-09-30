@@ -164,7 +164,9 @@ public class CGIManager extends Manger {
 			@Override
 			public void onResponse(String response) {
 				Log.i("CGIManager getBindList Response:%n %s",response);
-				new GetBindingTask().execute(response);
+				if(response!=null&&response.length()>0) {
+					new GetBindingTask().execute(response);
+				}
 			}
 		};
 

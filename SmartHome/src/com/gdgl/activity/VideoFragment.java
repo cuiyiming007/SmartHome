@@ -3,8 +3,6 @@ package com.gdgl.activity;
 import h264.com.VideoActivity;
 import h264.com.VideoInfoDialog;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import android.content.Context;
@@ -26,7 +24,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.gdgl.activity.SmartHome.refreshAdapter;
 import com.gdgl.activity.UIinterface.IFragmentCallbak;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
@@ -34,12 +31,9 @@ import com.gdgl.manager.VideoManager;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
-import com.gdgl.mydata.getlocalcielist.elserec;
 import com.gdgl.mydata.video.VideoNode;
 import com.gdgl.mydata.video.VideoResponse;
 import com.gdgl.smarthome.R;
-import com.gdgl.util.AddDlg.AddDialogcallback;
-import com.gdgl.util.EditDevicesDlg;
 import com.gdgl.util.MyOkCancleDlg;
 import com.gdgl.util.UiUtils;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;

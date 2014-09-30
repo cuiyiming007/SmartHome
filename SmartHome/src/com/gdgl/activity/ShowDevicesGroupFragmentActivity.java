@@ -28,14 +28,10 @@ import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.SimpleResponseData;
 import com.gdgl.mydata.getFromSharedPreferences;
-import com.gdgl.mydata.Callback.CallbackResponseCommon;
-import com.gdgl.mydata.Callback.CallbackWarnMessage;
 import com.gdgl.mydata.getlocalcielist.CIEresponse_params;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.EditDevicesDlg.EditDialogcallback;
-import com.gdgl.util.MyOkCancleDlg;
 import com.gdgl.util.SelectPicPopupWindow;
-import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 import com.gdgl.util.UiUtils;
 
 import android.annotation.SuppressLint;
@@ -57,7 +53,6 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.TextView;
@@ -116,25 +111,25 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 	 * 
 	 * 
 	 */
-	public class getDataInBackgroundTask extends
+	public class GetDevicesInSortTask extends
 			AsyncTask<Integer, Integer, Integer> {
 		@Override
 		protected Integer doInBackground(Integer... params) {
 			// TODO Auto-generated method stub
 			SQLiteDatabase db = mDataHelper.getSQLiteDatabase();
-			List<SimpleDevicesModel> temPlist;
-			temPlist = mDevicesListCache.get(UiUtils.ENVIRONMENTAL_CONTROL);
-			if (null == temPlist) {
-				temPlist = DataUtil.getOtherManagementDevices(
+			//环境监测
+			List<SimpleDevicesModel> enviromentlist = mDevicesListCache.get(UiUtils.ENVIRONMENTAL_CONTROL);
+			if (null == enviromentlist) {
+				enviromentlist = DataUtil.getSortManagementDevices(
 						ShowDevicesGroupFragmentActivity.this, mDataHelper, db,
 						UiUtils.ENVIRONMENTAL_CONTROL);
-				mDevicesListCache.put(UiUtils.ENVIRONMENTAL_CONTROL, temPlist);
+				mDevicesListCache.put(UiUtils.ENVIRONMENTAL_CONTROL, enviromentlist);
 			}
-
+			//安全防护
 			List<SimpleDevicesModel> safeList = mDevicesListCache
 					.get(UiUtils.SECURITY_CONTROL);
 			if (null == safeList) {
-				safeList = DataUtil.getOtherManagementDevices(
+				safeList = DataUtil.getSortManagementDevices(
 						ShowDevicesGroupFragmentActivity.this, mDataHelper, db,
 						UiUtils.SECURITY_CONTROL);
 
@@ -157,37 +152,40 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 				}
 				mDevicesListCache.put(UiUtils.SECURITY_CONTROL, safeList);
 			}
-
+			//照明管理
 			List<SimpleDevicesModel> LightList = mDevicesListCache
 					.get(UiUtils.LIGHTS_MANAGER);
 			if (null == LightList) {
-				LightList = DataUtil.getLightingManagementDevices(
-						ShowDevicesGroupFragmentActivity.this, mDataHelper, db);
+//				LightList = DataUtil.getLightingManagementDevices(
+//						ShowDevicesGroupFragmentActivity.this, mDataHelper, db);
+				LightList = DataUtil.getSortManagementDevices(
+						ShowDevicesGroupFragmentActivity.this, mDataHelper, db,
+						UiUtils.LIGHTS_MANAGER);
 				mDevicesListCache.put(UiUtils.LIGHTS_MANAGER, LightList);
 			}
-
+			//电器控制
 			List<SimpleDevicesModel> ElecList = mDevicesListCache
 					.get(UiUtils.ELECTRICAL_MANAGER);
 			if (null == ElecList) {
-				ElecList = DataUtil.getOtherManagementDevices(
+				ElecList = DataUtil.getSortManagementDevices(
 						ShowDevicesGroupFragmentActivity.this, mDataHelper, db,
 						UiUtils.ELECTRICAL_MANAGER);
 				mDevicesListCache.put(UiUtils.ELECTRICAL_MANAGER, ElecList);
 			}
-
+			//节能
 			List<SimpleDevicesModel> envList = mDevicesListCache
 					.get(UiUtils.ENERGY_CONSERVATION);
 			if (null == envList) {
-				envList = DataUtil.getOtherManagementDevices(
+				envList = DataUtil.getSortManagementDevices(
 						ShowDevicesGroupFragmentActivity.this, mDataHelper, db,
 						UiUtils.ENERGY_CONSERVATION);
 				mDevicesListCache.put(UiUtils.ENERGY_CONSERVATION, envList);
 			}
-
+			//其他
 			List<SimpleDevicesModel> anoList = mDevicesListCache
 					.get(UiUtils.OTHER);
 			if (null == anoList) {
-				anoList = DataUtil.getOtherManagementDevices(
+				anoList = DataUtil.getSortManagementDevices(
 						ShowDevicesGroupFragmentActivity.this, mDataHelper, db,
 						UiUtils.OTHER);
 				mDevicesListCache.put(UiUtils.OTHER, anoList);
@@ -377,7 +375,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 
 		fragmentManager = this.getFragmentManager();
 
-		new getDataInBackgroundTask().execute(1);
+		new GetDevicesInSortTask().execute(1);
 
 	}
 
@@ -826,7 +824,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 				
 				List<SimpleDevicesModel> updatsLis = new ArrayList<SimpleDevicesModel>();
 				
-				int m = getDevicesPostion("00137A00000121F0", "0A", safeList);
+				int m = getDevicesPostion(DataHelper.One_key_operator, "0A", safeList);
 				if (-1 != m) {
 					String status=null;
 					switch (data) {
@@ -928,22 +926,22 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 	/***
 	 * 根据ieee和ep确定该设备在界面对应的列表里面的位置
 	 * 
-	 * @param ieee
+	 * @param modelid
 	 * @param ep
 	 * @param deviceList
 	 * @return
 	 */
-	private int getDevicesPostion(String ieee, String ep,
+	private int getDevicesPostion(String modelid, String ep,
 			List<SimpleDevicesModel> deviceList) {
-		if (null == ieee || null == ep) {
+		if (null == modelid || null == ep) {
 			return -1;
 		}
-		if (ieee.trim().equals("") || ep.trim().equals("")) {
+		if (modelid.trim().equals("") || ep.trim().equals("")) {
 			return -1;
 		}
 		if (null != deviceList && deviceList.size() > 0) {
 			for (int m = 0; m < deviceList.size(); m++) {
-				if (ieee.trim().equals(deviceList.get(m).getmIeee())
+				if (modelid.trim().indexOf(modelid)==0
 						&& ep.trim().equals(deviceList.get(m).getmEP())) {
 					return m;
 				}

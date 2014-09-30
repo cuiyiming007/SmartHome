@@ -6,17 +6,14 @@ import java.util.List;
 import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
-import com.gdgl.model.DevicesModel;
 import com.gdgl.model.RemoteControl;
 import com.gdgl.model.SimpleDevicesModel;
-import com.gdgl.mydata.DataHelper;
+import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.DeviceLearnedParam;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.RespondDataEntity;
-import com.gdgl.mydata.SimpleResponseData;
 import com.gdgl.mydata.getFromSharedPreferences;
-import com.gdgl.mydata.bind.BindResponseData;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.AddDlg;
 import com.gdgl.util.MyDlg;
@@ -24,11 +21,9 @@ import com.gdgl.util.AddDlg.AddDialogcallback;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.ContentValues;
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -61,6 +56,8 @@ public class RemoteControlActivity extends Activity implements UIListener,
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.remote_control_activity);
+		Intent intent=getIntent();
+		mControlModel=intent.getParcelableExtra(Constants.PASS_OBJECT);
 		initData();
 		initView();
 	}
@@ -167,13 +164,13 @@ public class RemoteControlActivity extends Activity implements UIListener,
 		mLightManager = CGIManager.getInstance();
 		mLightManager.addObserver(this);
 
-		mRemoteControl = new ArrayList<RemoteControl>();
-
-		mControlModel = new SimpleDevicesModel();
-		mControlModel.setmIeee("00137A0000010264");
-		mControlModel.setmEP("0F");
-		mControlModel.setmModelId("Z503");
-		mControlModel.setmDeviceId(DataHelper.REMOTE_CONTROL_DEVICETYPE);
+//		mRemoteControl = new ArrayList<RemoteControl>();
+//
+//		mControlModel = new SimpleDevicesModel();
+//		mControlModel.setmIeee("00137A0000010264");
+//		mControlModel.setmEP("0F");
+//		mControlModel.setmModelId("Z503");
+//		mControlModel.setmDeviceId(DataHelper.REMOTE_CONTROL_DEVICETYPE);
 
 		getFromSharedPreferences
 				.setsharedPreferences(RemoteControlActivity.this);

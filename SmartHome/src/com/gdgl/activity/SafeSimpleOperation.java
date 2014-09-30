@@ -1,11 +1,8 @@
 package com.gdgl.activity;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -21,11 +18,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.gdgl.activity.BaseControlFragment.UpdateDevice;
 import com.gdgl.activity.UIinterface.IFragmentCallbak;
 import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.Manger;
@@ -37,9 +31,7 @@ import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
-import com.gdgl.mydata.SimpleResponseData;
 import com.gdgl.smarthome.R;
-import com.gdgl.util.MyDlg;
 import com.gdgl.util.UiUtils;
 
 public class SafeSimpleOperation extends BaseControlFragment implements UIListener {
@@ -105,7 +97,7 @@ public class SafeSimpleOperation extends BaseControlFragment implements UIListen
 		protected Integer doInBackground(Integer... params) {
 			// TODO Auto-generated method stub
 			SQLiteDatabase db = mDh.getSQLiteDatabase();
-			mList = DataUtil.getOtherManagementDevices((Context) getActivity(),
+			mList = DataUtil.getSortManagementDevices((Context) getActivity(),
 					mDh, db, UiUtils.SECURITY_CONTROL);
 			mDh.close(db);
 			return 1;

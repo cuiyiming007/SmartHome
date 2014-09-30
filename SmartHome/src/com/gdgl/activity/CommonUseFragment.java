@@ -893,7 +893,6 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 	public void update(Manger observer, Object object) {
 		// TODO Auto-generated method stub
 		final Event event = (Event) object;
-		EventType e = event.getType();
 
 		if (EventType.ONOFFOUTPUTOPERATION == event.getType()
 				|| EventType.IASWARNINGDEVICOPERATION == event.getType()
@@ -942,7 +941,7 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 				getFromSharedPreferences.setTemperature(temperature);
 				devAdap.notifyDataSetChanged();
 			} else {
-				Toast.makeText(getActivity(), "获取温度失败", 3000).show();
+				Toast.makeText(getActivity(), "获取温度失败", Toast.LENGTH_SHORT).show();
 			}
 		} else if (EventType.HUMIDITY == event.getType()) {
 			if (event.isSuccess()) {

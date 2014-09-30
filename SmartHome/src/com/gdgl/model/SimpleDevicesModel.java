@@ -2,7 +2,6 @@ package com.gdgl.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.Parcelable.Creator;
 
 public class SimpleDevicesModel implements Parcelable{
 	

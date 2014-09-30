@@ -1,8 +1,5 @@
 package com.gdgl.adapter;
 
-
-import com.gdgl.smarthome.R;
-
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;

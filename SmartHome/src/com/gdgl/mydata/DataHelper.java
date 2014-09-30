@@ -37,33 +37,33 @@ public class DataHelper extends SQLiteOpenHelper {
 	public static final int IAS_ZONE_DEVICETYPE = 1026; //烟雾感应器、可燃气体探测器（煤气）、（天然气）、（一氧化碳）、窗磁、门窗感应开关、紧急按钮、动作感应器
 	public static final int IAS_WARNNING_DEVICE_DEVICETYPE = 1027; //警报器
 
-	public static final String Motion_Sensor = "ZB11A"; // ZigBee������Ӧ��
-	public static final String Magnetic_Window = "Z311A"; // ZigBee����
-	public static final String Emergency_Button = "Z302D"; // ZigBee������ť
-	public static final String Doors_and_windows_sensor_switch = "Z302J"; // �Ŵ���Ӧ����
-	public static final String Smoke_Detectors = "ZA01A"; // �����Ӧ��
-	public static final String Combustible_Gas_Detector_Gas = "ZA01B"; // ��ȼ����̽������ú��)
-	public static final String Combustible_Gas_Detector_CO = "ZA01C"; // ��ȼ����̽������һ����̼)
-	public static final String Combustible_Gas_Detector_Natural_gas = "ZA01D"; // ��ȼ����̽��������Ȼ��)
-	public static final String Wireless_Intelligent_valve_switch = "ZA10"; // �������ܷ��ſ���
+	public static final String Motion_Sensor = "ZB11A"; // ZigBee动作感应器
+	public static final String Magnetic_Window = "Z311A"; // ZigBee窗磁
+	public static final String Emergency_Button = "Z302D"; // ZigBee紧急按钮
+	public static final String Doors_and_windows_sensor_switch = "Z302J"; // 门窗感应开关
+	public static final String Smoke_Detectors = "ZA01A"; // 烟雾感应器
+	public static final String Combustible_Gas_Detector_Gas = "ZA01B"; // 可燃气体探测器（煤气）
+	public static final String Combustible_Gas_Detector_CO = "ZA01C"; // 可燃气体探测器（一氧化碳）
+	public static final String Combustible_Gas_Detector_Natural_gas = "ZA01D"; // 可燃气体探测器（天然气）
+	public static final String Wireless_Intelligent_valve_switch = "ZA10"; // 无线智能阀门开关
 	public static final String Siren = "Z602A"; // ZigBee警报器
-	public static final String Wall_switch_touch = "ZB02A"; // ZigBeeǽ�濪�أ�����
-	public static final String Wall_switch_double = "ZB02B"; // ǽ�濪�أ�˫��)
-	public static final String Wall_switch_triple = "ZB02C"; // ZigBee��ǽ�濪�أ����
-	public static final String Dimmer_Switch = "ZB02F"; // ZigBee���⿪��
-	public static final String Power_detect_wall = "Z816H"; // �й���ܼ��ǽ�����
-	public static final String Curtain_control_switch = "Z815N"; // ZigBeeĻ�����ƿ���
-	public static final String Infrared_controller = "Z211"; // ZigBee���������
-	public static final String Indoor_temperature_sensor = "Z711"; // ZigBee��������ʪ�ȸ�Ӧ��
-	public static final String Light_Sensor = "Z311G"; // ZigBee���߸�Ӧ��
-	public static final String Multi_key_remote_control = "Z503"; // ZigBee���ң����
-	public static final String Doorbell_button = "Z312"; // ZigBee���尴��
-	public static final String Switch_Module_Single = "Z805B"; // ZigBee����ģ�飨��·��
-	public static final String Energy_detection_dimming_module = "Z817B"; // ����ܼ�����ģ��
+	public static final String Wall_switch_touch = "ZB02A"; // ZigBee墙面开关（单键）
+	public static final String Wall_switch_double = "ZB02B"; // ZigBee墙面开关（双键）
+	public static final String Wall_switch_triple = "ZB02C"; // ZigBee墙面开关（三键）
+	public static final String Dimmer_Switch = "ZB02F"; // ZigBee调光开关
+	public static final String Power_detect_wall = "Z816H"; // 中规电能检测墙面插座
+	public static final String Curtain_control_switch = "Z815N"; // ZigBee幕帘控制开关
+	public static final String Infrared_controller = "Z211"; // ZigBee红外控制器
+	public static final String Indoor_temperature_sensor = "Z711"; // ZigBee室内型温湿度感应器
+	public static final String Light_Sensor = "Z311G"; // ZigBee光线感应器
+	public static final String Multi_key_remote_control = "Z503"; // ZigBee多键遥控器
+	public static final String Doorbell_button = "Z312"; // ZigBee门铃按键
+	public static final String Switch_Module_Single = "Z805B"; // ZigBee开关模块（单路）
+	public static final String Energy_detection_dimming_module = "Z817B"; // 吸顶电能检测调光模块
 	public static final String Pro_RF = "Z100BI"; // ZigBee Pro RF ģ��
-	public static final String RS232_adapter = "ZL01A"; // ��ҵ��ZigBee RS232������
-	public static final String Power_detect_socket = "Z809A"; // ZigBee ���ܼ�����
-	public static final String One_key_operator = "Z103AE3C"; // 一键布防撤防
+	public static final String RS232_adapter = "ZL01A"; // ��ҵ��ZigBee RS232适配器
+	public static final String Power_detect_socket = "Z809A"; // ZigBee电能检测插座
+	public static final String One_key_operator = "Z103A"; // 安防中心
 
 	public static final String DATABASE_NAME = "smarthome";
 	public static final String DEVICES_TABLE = "devices";
@@ -130,7 +130,6 @@ public class DataHelper extends SQLiteOpenHelper {
 		mStringBuilder.append(DevicesModel.LAST_UPDATE_TIME + " INTEGER,");
 		mStringBuilder.append(DevicesModel.MANUFACTORY + " VARCHAR,");
 		
-		
 		mStringBuilder.append(DevicesModel.NODE_TYPE + " VARCHAR,");
 		mStringBuilder.append(DevicesModel.NWK_ADDR + " VARCHAR,");
 		mStringBuilder.append(DevicesModel.ON_OFF_LINE + " INTEGER,");
@@ -144,7 +143,8 @@ public class DataHelper extends SQLiteOpenHelper {
 		mStringBuilder.append(DevicesModel.VOLTAGE + " VARCHAR,");
 		mStringBuilder.append(DevicesModel.VOLTAGE_MAX + " VARCHAR,");
 		mStringBuilder.append(DevicesModel.VOLTAGE_MIN + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.ZCL_VERSTION + " VARCHAR )");
+		mStringBuilder.append(DevicesModel.ZCL_VERSTION + " VARCHAR,");
+		mStringBuilder.append(DevicesModel.DEVICE_SORT + " INTEGER )");
 		
 		mAStringBuilder.append("CREATE TABLE " + GROUP_TABLE + " (");
 		mAStringBuilder.append(DevicesGroup._ID
@@ -284,6 +284,9 @@ public class DataHelper extends SQLiteOpenHelper {
 		db.beginTransaction();
 		try {
 			for (DevicesModel devicesModel : mList) {
+				if(isFilterDevice(devicesModel)) {
+					continue;
+				}
 				ContentValues c = devicesModel.convertContentValues();
 				long m = db.insert(table, nullColumnHack, c);
 				if (-1 == m) {
@@ -305,17 +308,11 @@ public class DataHelper extends SQLiteOpenHelper {
 	private boolean isFilterDevice(DevicesModel devicesModel) {
 		boolean ret=false;
 		//多键遥控器只显示一个
-		if (devicesModel.getmIeee().trim().equals("00137A0000010264")
+		if (devicesModel.getmModelId().indexOf(Multi_key_remote_control)==0
 				&& devicesModel.getmEP().trim().equals("0A")) {
 			ret=true;
-		} 
-		//门窗感应开关只显示一个
-		if (devicesModel.getmIeee().trim().equals("00137A0000011598")
-				&& devicesModel.getmEP().trim().equals("01")) {
-			ret=true;
-		} 
-		 return ret;
-		
+		}
+		return ret;
 	}
 	/***
 	 * insert a list which implement the ContentValuesListener

@@ -5,7 +5,6 @@ import java.util.Map;
 
 import android.app.Fragment;
 import android.content.Context;
-import android.provider.ContactsContract.Contacts.Data;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,20 +13,16 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
-import android.view.animation.TranslateAnimation;
 import android.widget.Toast;
 
 import com.gdgl.activity.LockFragment;
 import com.gdgl.activity.CurtainControlFragment;
 import com.gdgl.activity.OutLetControlFragment;
-import com.gdgl.activity.LightSensorFragment;
 import com.gdgl.activity.SeekLightsControlFragment;
 import com.gdgl.activity.SwitchControlFragment;
-import com.gdgl.activity.TemperatureSensorFragment;
 import com.gdgl.activity.WarnningControlFragment;
 import com.gdgl.adapter.SceneDevicesAdapter;
 import com.gdgl.mydata.DataHelper;
-import com.gdgl.mydata.getlocalcielist.elserec;
 import com.gdgl.smarthome.R;
 
 public class UiUtils {
@@ -82,6 +77,7 @@ public class UiUtils {
 	public static final int ENVIRONMENTAL_CONTROL = 3;
 	public static final int ENERGY_CONSERVATION = 4;
 	public static final int OTHER = 5;
+	public static final int SWITCH_DEVICE = 6;
 
 	
 	public static Map<String,String> clusterMap;

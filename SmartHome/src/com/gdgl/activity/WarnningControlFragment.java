@@ -1,7 +1,6 @@
 package com.gdgl.activity;
 
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,7 +15,6 @@ import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.WarnManager;
-import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.Event;

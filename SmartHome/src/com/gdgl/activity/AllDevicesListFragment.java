@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.gdgl.activity.DevicesListFragment.refreshData;
 import com.gdgl.manager.Manger;
-import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
@@ -12,7 +11,6 @@ import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.mydata.Callback.CallbackResponseType2;
-import com.gdgl.mydata.Callback.CallbackWarnMessage;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.UiUtils;
 

@@ -4,25 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gdgl.activity.SmartHome.refreshAdapter;
-import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
-import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.smarthome.R;
-import com.gdgl.util.MyOkCancleDlg;
 import com.gdgl.util.UiUtils;
-import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;

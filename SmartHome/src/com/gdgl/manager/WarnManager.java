@@ -1,7 +1,5 @@
 package com.gdgl.manager;
 
-import android.R.integer;
-import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.gdgl.app.ApplicationController;
@@ -10,7 +8,6 @@ import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.Callback.CallbackWarnMessage;
-import com.gdgl.mydata.getlocalcielist.elserec;
 
 public class WarnManager {
 	private static WarnManager instance;

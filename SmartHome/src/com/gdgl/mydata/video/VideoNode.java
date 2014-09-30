@@ -6,7 +6,6 @@ import com.gdgl.model.ContentValuesListener;
 import android.content.ContentValues;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.Parcelable.Creator;
 import android.provider.BaseColumns;
 
 interface VideoNodeColumns extends BaseColumns

@@ -158,6 +158,7 @@ public class DeviceManager extends Manger {
 				bundle.putString("newdeviceieee", newdeviceieee);
 				bundle.putString("newdeviceep", newdeviceEp);
 				// Time-consuming operation need to use AsyncTask
+//				Log.i("getNewJoinNetDeviceresponse", response);
 				new GetJoinNetDeviceTask().execute(bundle);
 			}
 		};
@@ -184,7 +185,7 @@ public class DeviceManager extends Manger {
 	class GetEndPointTask extends AsyncTask<String, Object, Object> {
 		@Override
 		protected Object doInBackground(String... params) {
-			RespondDataEntity data = VolleyOperation
+			RespondDataEntity<ResponseParamsEndPoint> data = VolleyOperation
 					.handleEndPointString(params[0]);
 			ArrayList<ResponseParamsEndPoint> devDataList = data
 					.getResponseparamList();
@@ -206,15 +207,15 @@ public class DeviceManager extends Manger {
 		}
 
 	}
-
-	class GetJoinNetDeviceTask extends AsyncTask<Bundle, Object, Object> {
+	
+	class GetJoinNetDeviceTask extends AsyncTask<Bundle, Object, ArrayList<DevicesModel>> {
 		@Override
-		protected Object doInBackground(Bundle... params) {
+		protected ArrayList<DevicesModel> doInBackground(Bundle... params) {
 			Bundle bundle=params[0];
 			String newDeviceIeee=bundle.getString("newdeviceieee");
 			String newDeviceEp=bundle.getString("newdeviceep");
 			
-			RespondDataEntity data = VolleyOperation
+			RespondDataEntity<ResponseParamsEndPoint> data = VolleyOperation
 					.handleEndPointString(bundle.getString("devicelist"));
 			ArrayList<ResponseParamsEndPoint> devDataList = data
 					.getResponseparamList();
@@ -225,21 +226,23 @@ public class DeviceManager extends Manger {
 			
 			for (DevicesModel devicesModel : devModelList) {
 				if(devicesModel.getmIeee().equals(newDeviceIeee)&&devicesModel.getmEP().equals(newDeviceEp)) {
-					devicesModel.setmUserDefineName(DataUtil.getDefaultUserDefinname(
-							ApplicationController.getInstance(), devicesModel.getmModelId()));
+//					devicesModel.setmUserDefineName(DataUtil.getDefaultUserDefinname(
+//							ApplicationController.getInstance(), devicesModel.getmModelId()));
+					
 					scapedList.add(devicesModel);
 				}
 			}
-		
+			DataHelper mDateHelper = new DataHelper(ApplicationController.getInstance());
+			mDateHelper.insertDevList(mDateHelper.getSQLiteDatabase(),
+					DataHelper.DEVICES_TABLE, null, scapedList);
 			return scapedList;
 		}
 
 		@Override
-		protected void onPostExecute(Object result) {
+		protected void onPostExecute(ArrayList<DevicesModel> result) {
 			ArrayList<DevicesModel> scapedList=(ArrayList<DevicesModel>) result;
 			//扫描到设备
 			if (null != scapedList && scapedList.size() > 0) {
-//				updateScapeSuccessful();
 				Event event = new Event(EventType.SCAPEDDEVICE, true);
 				event.setData(scapedList);
 				notifyObservers(event);

@@ -1,10 +1,8 @@
 package com.gdgl.activity;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-import com.gdgl.activity.ShowDevicesGroupFragmentActivity.UpdateDatabaseTask;
 import com.gdgl.manager.DeviceManager;
 import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.Manger;
@@ -45,7 +43,11 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
+/***
+ * 设置菜单，设备列表
+ * @author Trice
+ *
+ */
 public class DevicesListWithGroup extends BaseFragment implements
 		Dialogcallback, UIListener, EditDialogcallback {
 
@@ -117,44 +119,44 @@ public class DevicesListWithGroup extends BaseFragment implements
 		new getDataInBackgroundTask().execute(1);
 	}
 
-	private void InitOther() {
+	private void InitOther() { //开关等设备
 		// TODO Auto-generated method stub
-		mOther = DataUtil.getDevices((Context) getActivity(), mDh,
-				UiUtils.OTHER);
+		mOther = DataUtil.getSortManagementDevices((Context) getActivity(), mDh,
+				UiUtils.SWITCH_DEVICE);
 		OtherAdap = new CustomeAdapter((Context) getActivity());
 	}
 
 	private void InitEnergy() {
 		// TODO Auto-generated method stub
-		mEnergy = DataUtil.getDevices((Context) getActivity(), mDh,
+		mEnergy = DataUtil.getSortManagementDevices((Context) getActivity(), mDh,
 				UiUtils.ENERGY_CONSERVATION);
 		EnergyAdap = new CustomeAdapter((Context) getActivity());
 	}
 
 	private void InitEneronmentControll() {
 		// TODO Auto-generated method stub
-		mEneronmentControl = DataUtil.getDevices((Context) getActivity(), mDh,
+		mEneronmentControl = DataUtil.getSortManagementDevices((Context) getActivity(), mDh,
 				UiUtils.ENVIRONMENTAL_CONTROL);
 		EneronmentControllAdap = new CustomeAdapter((Context) getActivity());
 	}
 
 	private void InitSecurityControl() {
 		// TODO Auto-generated method stub
-		mSecurityControl = DataUtil.getDevices((Context) getActivity(), mDh,
+		mSecurityControl = DataUtil.getSortManagementDevices((Context) getActivity(), mDh,
 				UiUtils.SECURITY_CONTROL);
 		SecurityControlAdap = new CustomeAdapter((Context) getActivity());
 	}
 
 	private void InitElecManager() {
 		// TODO Auto-generated method stub
-		mElecManager = DataUtil.getDevices((Context) getActivity(), mDh,
+		mElecManager = DataUtil.getSortManagementDevices((Context) getActivity(), mDh,
 				UiUtils.ELECTRICAL_MANAGER);
 		ElecManagerAdap = new CustomeAdapter((Context) getActivity());
 	}
 
 	private void InitLightManager() {
 		// TODO Auto-generated method stub
-		mLightManager = DataUtil.getDevices((Context) getActivity(), mDh,
+		mLightManager = DataUtil.getSortManagementDevices((Context) getActivity(), mDh,
 				UiUtils.LIGHTS_MANAGER);
 		LightManagerAdap = new CustomeAdapter((Context) getActivity());
 	}

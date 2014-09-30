@@ -3,7 +3,6 @@ package com.gdgl.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.text.InputFilter.LengthFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -111,9 +110,9 @@ public class TemperatureSensorFragment extends BaseControlFragment {
 				
 				SimpleResponseData data = (SimpleResponseData) event.getData();
 				
-				Toast.makeText(getActivity(), "当前温度"+Float.valueOf(data.getParam1())/1000,3000).show();
+				Toast.makeText(getActivity(), "当前温度"+Float.valueOf(data.getParam1())/1000,Toast.LENGTH_SHORT).show();
 			}else {
-				Toast.makeText(getActivity(), "获取温度失败",3000).show();
+				Toast.makeText(getActivity(), "获取温度失败",Toast.LENGTH_SHORT).show();
 			}
 		}
 

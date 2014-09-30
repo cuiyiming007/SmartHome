@@ -10,12 +10,9 @@ import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.LoginResponse;
 import com.gdgl.mydata.getFromSharedPreferences;
-import com.gdgl.mydata.getlocalcielist.elserec;
 import com.gdgl.smarthome.R;
 
-import android.R.integer;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -32,7 +29,6 @@ public class LoginActivity extends Activity implements OnClickListener ,UIListen
 	private CheckBox mRem;
 	private CheckBox mAut;
 	private Button mLogin;
-	private Button mCancle;
 	private AccountInfo accountInfo;
 
 	@Override

@@ -6,7 +6,6 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
@@ -17,13 +16,9 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.StringRequest;
 import com.gdgl.app.ApplicationController;
-import com.gdgl.model.DevicesModel;
-import com.gdgl.model.SimpleDevicesModel;
-import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
-import com.gdgl.mydata.getlocalcielist.LocalIASCIEOperationResponseData;
 import com.gdgl.mydata.video.VideoNode;
 import com.gdgl.mydata.video.VideoResponse;
 import com.gdgl.mydata.video.VideoResponseParams;
@@ -275,7 +270,7 @@ public class VideoManager extends Manger{
 		}
 		private ArrayList<VideoNode> decodeAlias2Chinese(VideoResponse response) {
 			ArrayList<VideoNode> videoNodesFromSever=response.getList();
-			for (Iterator iterator = videoNodesFromSever.iterator(); iterator
+			for (Iterator<VideoNode> iterator = videoNodesFromSever.iterator(); iterator
 					.hasNext();) {
 				VideoNode videoNode = (VideoNode) iterator.next();
 				try {

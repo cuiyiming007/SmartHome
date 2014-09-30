@@ -12,7 +12,6 @@ import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.Constants;
-import com.gdgl.mydata.DataHelper;
 import com.gdgl.smarthome.R;
 
 public class ShowTemptureFragment extends BaseControlFragment {

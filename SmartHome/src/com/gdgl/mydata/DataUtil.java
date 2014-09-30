@@ -1,72 +1,20 @@
 package com.gdgl.mydata;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.gdgl.model.DevicesGroup;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.Callback.CallbackWarnMessage;
 import com.gdgl.smarthome.R;
-import com.gdgl.util.UiUtils;
 
 public class DataUtil {
 
-	public static String[] getArgs(int type) {
-		String[] args = null;
-		switch (type) {
-		case UiUtils.LIGHTS_MANAGER:
-			args = new String[2];
-			args[0] = DataHelper.Energy_detection_dimming_module + "%";
-			args[1] = DataHelper.Switch_Module_Single + "%";
-			break;
-		case UiUtils.ELECTRICAL_MANAGER:
-			args = new String[4];
-			args[0] = DataHelper.Power_detect_wall + "%";
-			args[1] = DataHelper.Power_detect_socket + "%";
-			args[2] = DataHelper.Curtain_control_switch + "%";
-			args[3] = DataHelper.Infrared_controller + "%";
-			break;
-		case UiUtils.SECURITY_CONTROL:
-			args = new String[11];
-			args[0] = DataHelper.Motion_Sensor + "%";
-			args[1] = DataHelper.Magnetic_Window + "%";
-			args[2] = DataHelper.Emergency_Button + "%";
-			args[3] = DataHelper.Doors_and_windows_sensor_switch + "%";
-			args[4] = DataHelper.Smoke_Detectors + "%";
-			args[5] = DataHelper.Combustible_Gas_Detector_Gas + "%";
-			args[6] = DataHelper.Combustible_Gas_Detector_CO + "%";
-			args[7] = DataHelper.Combustible_Gas_Detector_Natural_gas + "%";
-			args[8] = DataHelper.Wireless_Intelligent_valve_switch + "%";
-			args[9] = DataHelper.Siren + "%";
-			args[10] = DataHelper.One_key_operator + "%";
-			break;
-		case UiUtils.ENVIRONMENTAL_CONTROL:
-			args = new String[2];
-			args[0] = DataHelper.Indoor_temperature_sensor + "%";
-			args[1] = DataHelper.Light_Sensor + "%";
-			break;
-		case UiUtils.ENERGY_CONSERVATION:
-			break;
-		case UiUtils.OTHER:
-			args = new String[1];
-			args[0] = DataHelper.Multi_key_remote_control + "%";
-			break;
-		default:
-			break;
-
-		}
-		return args;
-	}
-	
 	public static boolean isSecrity(String modelID){
 		if(null==modelID || modelID.trim().equals("")){
 			return false;
@@ -82,34 +30,6 @@ public class DataUtil {
 		
 	}
 	
-	public static String getWhere(int type) {
-		String where = "";
-		switch (type) {
-		case UiUtils.LIGHTS_MANAGER:
-			where = "  model_id like ? or model_id like ?  ";
-			break;
-		case UiUtils.ELECTRICAL_MANAGER:
-			where = "  model_id like ? or model_id like ? or  model_id like ? or model_id like ?  ";
-			break;
-		case UiUtils.SECURITY_CONTROL:
-			where = " model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? ";
-			break;
-		case UiUtils.ENVIRONMENTAL_CONTROL:
-			where = "  model_id like ? or model_id like ?  ";
-			;
-			break;
-		case UiUtils.ENERGY_CONSERVATION:
-
-			break;
-		case UiUtils.OTHER:
-			where = " model_id like ? ";
-			break;
-		default:
-			break;
-		}
-		return where;
-	}
-
     public static List<DevicesModel> convertToDevicesModel(
             RespondDataEntity<ResponseParamsEndPoint> r) {
         List<DevicesModel> mList = new ArrayList<DevicesModel>();
@@ -124,138 +44,38 @@ public class DataUtil {
         return mList;
     }
 
-    public static List<SimpleDevicesModel> getLightingManagementDevices(
-            Context c, DataHelper dh,SQLiteDatabase db) {
+    public static List<DevicesModel> getSortManagementDevices(Context c, DataHelper dh,
+			int type) {
 
-        String[] args;
-        HashMap<String, Integer> mMap = new HashMap<String, Integer>();
-        List<String> sList = new ArrayList<String>();
-        String where = DataUtil.getWhere(UiUtils.LIGHTS_MANAGER);
-        SimpleDevicesModel mSimpleDevicesModel;
-        List<DevicesModel> listDevicesModel = new ArrayList<DevicesModel>();
-        List<SimpleDevicesModel> list = new ArrayList<SimpleDevicesModel>();
-        args = DataUtil.getArgs(UiUtils.LIGHTS_MANAGER);
-
-		
-		listDevicesModel = dh.queryForDevicesList(db, DataHelper.DEVICES_TABLE, null,
-				where, args, null, null, null, null);
-		int n = 0;
-		for (int m = 0; m < listDevicesModel.size(); m++) {
-			DevicesModel mDevicesModel = listDevicesModel.get(m);
-
-			if (Integer.parseInt(mDevicesModel.getmDeviceId()) == DataHelper.ON_OFF_SWITCH_DEVICETYPE) {
-				if (mMap.containsKey(mDevicesModel.getmIeee())) {
-
-					SimpleDevicesModel aSimpleDevicesModel = list.get(mMap
-							.get(mDevicesModel.getmIeee()));
-					String OnOffStatus = aSimpleDevicesModel.getmOnOffStatus();
-					String NodeENNAme = aSimpleDevicesModel.getmNodeENNAme();
-					String EP = aSimpleDevicesModel.getmEP();
-					aSimpleDevicesModel.setmNodeENNAme(NodeENNAme + ","
-							+ mDevicesModel.getmNodeENNAme());
-					aSimpleDevicesModel.setmOnOffStatus(OnOffStatus + ","
-							+ mDevicesModel.getmOnOffStatus());
-					aSimpleDevicesModel.setmEP(EP + ","
-							+ mDevicesModel.getmEP());
-				} else {
-					mSimpleDevicesModel = new SimpleDevicesModel();
-					mSimpleDevicesModel.setID(mDevicesModel.getID());
-					mSimpleDevicesModel.setmDeviceId(Integer
-							.parseInt(mDevicesModel.getmDeviceId()));
-					mSimpleDevicesModel.setmDeviceRegion(mDevicesModel
-							.getmDeviceRegion());
-					mSimpleDevicesModel.setmEP(mDevicesModel.getmEP());
-					mSimpleDevicesModel.setmIeee(mDevicesModel.getmIeee());
-					mSimpleDevicesModel.setmLastDateTime(mDevicesModel
-							.getmLastDateTime());
-					mSimpleDevicesModel
-							.setmModelId(mDevicesModel.getmModelId());
-					mSimpleDevicesModel.setmName(mDevicesModel.getmName());
-					mSimpleDevicesModel.setmNodeENNAme(mDevicesModel
-							.getmNodeENNAme());
-					mSimpleDevicesModel.setmOnOffLine(mDevicesModel
-							.getmOnOffLine());
-					mSimpleDevicesModel.setmOnOffStatus(mDevicesModel
-							.getmOnOffStatus());
-					if (mDevicesModel.getmUserDefineName() == null
-							|| mDevicesModel.getmUserDefineName().trim()
-									.equals("")) {
-						mSimpleDevicesModel
-								.setmUserDefineName(getDefaultUserDefinname(c,
-										mSimpleDevicesModel.getmModelId()));
-					} else {
-						mSimpleDevicesModel.setmUserDefineName(mDevicesModel
-								.getmUserDefineName());
-					}
-					if (mDevicesModel.getmCurrent() != null
-							&& !mDevicesModel.getmCurrent().trim().equals("")) {
-						mSimpleDevicesModel.setmValue(mDevicesModel
-								.getmCurrent().trim());
-					}
-
-					list.add(mSimpleDevicesModel);
-					mMap.put(mDevicesModel.getmIeee(), n);
-					n++;
+		List<DevicesModel> listDevicesModel = new ArrayList<DevicesModel>();
+		String where=" device_sort=? ";
+		String[] args={Integer.toString(type)};
+		listDevicesModel = dh.queryForDevicesList(dh.getSQLiteDatabase(),
+				DataHelper.DEVICES_TABLE, null, where, args, null, null, null,
+				null);
+		if (null != listDevicesModel && listDevicesModel.size() > 0) {
+			for (DevicesModel devicesModel : listDevicesModel) {
+				if (null == devicesModel.getmUserDefineName()
+						|| devicesModel.getmUserDefineName().trim().equals("")) {
+					devicesModel.setmUserDefineName(getDefaultUserDefinname(c,
+							devicesModel.getmModelId()));
 				}
-			} else {
-				mSimpleDevicesModel = new SimpleDevicesModel();
-				mSimpleDevicesModel.setID(mDevicesModel.getID());
-				mSimpleDevicesModel.setmDeviceId(Integer.parseInt(mDevicesModel
-						.getmDeviceId()));
-				mSimpleDevicesModel.setmDeviceRegion(mDevicesModel
-						.getmDeviceRegion());
-				mSimpleDevicesModel.setmEP(mDevicesModel.getmEP());
-				mSimpleDevicesModel.setmIeee(mDevicesModel.getmIeee());
-				mSimpleDevicesModel.setmLastDateTime(mDevicesModel
-						.getmLastDateTime());
-				mSimpleDevicesModel.setmModelId(mDevicesModel.getmModelId());
-				mSimpleDevicesModel.setmName(mDevicesModel.getmName());
-				mSimpleDevicesModel.setmNodeENNAme(mDevicesModel
-						.getmNodeENNAme());
-				mSimpleDevicesModel
-						.setmOnOffLine(mDevicesModel.getmOnOffLine());
-				mSimpleDevicesModel.setmOnOffStatus(mDevicesModel
-						.getmOnOffStatus());
-				if (mDevicesModel.getmUserDefineName() == null
-						|| mDevicesModel.getmUserDefineName().trim().equals("")) {
-					mSimpleDevicesModel
-							.setmUserDefineName(getDefaultUserDefinname(c,
-									mSimpleDevicesModel.getmModelId()));
-				} else {
-					mSimpleDevicesModel.setmUserDefineName(mDevicesModel
-							.getmUserDefineName());
-				}
-				if (mDevicesModel.getmCurrent() != null
-						&& !mDevicesModel.getmCurrent().trim().equals("")) {
-					mSimpleDevicesModel.setmValue(mDevicesModel.getmCurrent()
-							.trim());
-				}
-
-				n++;
-				list.add(mSimpleDevicesModel);
 			}
 		}
-		for (SimpleDevicesModel simpleDevicesModel : list) {
-			Log.i("", "tagzgs->" + simpleDevicesModel.getmOnOffLine() + " "
-					+ simpleDevicesModel.getmModelId());
-		}
-		return list;
-	}
 
-	public static List<SimpleDevicesModel> getOtherManagementDevices(Context c,
+		return listDevicesModel;
+	}
+    
+	public static List<SimpleDevicesModel> getSortManagementDevices(Context c,
 			DataHelper dh,SQLiteDatabase db,int type) {
 
-		String[] args;
-		List<String> sList = new ArrayList<String>();
-		String where = DataUtil.getWhere(type);
+		String where=" device_sort=? ";
+		String[] args={Integer.toString(type)};
+		
 		SimpleDevicesModel mSimpleDevicesModel;
 		List<DevicesModel> listDevicesModel = new ArrayList<DevicesModel>();
 		List<SimpleDevicesModel> list = new ArrayList<SimpleDevicesModel>();
-		args = DataUtil.getArgs(type);
 
-		if (null == where || null == args) {
-			return null;
-		}
 		listDevicesModel = dh.queryForDevicesList(db, DataHelper.DEVICES_TABLE, null,
 				where, args, null, null, null, null);
 		DevicesModel mDevicesModel;
@@ -383,46 +203,17 @@ public class DataUtil {
 		}
 		return null;
 	}
-
-	public static List<DevicesModel> getDevices(Context c, DataHelper dh,
-			int type) {
-
-		String[] args;
-		List<String> sList = new ArrayList<String>();
-		String where = DataUtil.getWhere(type);
-		args = DataUtil.getArgs(type);
-		if (UiUtils.LIGHTS_MANAGER == type) {
-			where = " model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? or model_id like ? ";
-			args = new String[6];
-			args[0] = DataHelper.Energy_detection_dimming_module + "%";
-			args[1] = DataHelper.Switch_Module_Single + "%";
-			args[2] = DataHelper.Wall_switch_touch + "%";
-			args[3] = DataHelper.Wall_switch_double + "%";
-			args[4] = DataHelper.Wall_switch_triple + "%";
-			args[5] = DataHelper.Dimmer_Switch + "%";
-		}
-
-		List<DevicesModel> listDevicesModel = new ArrayList<DevicesModel>();
-
-		if (null == where || null == args) {
-			return null;
-		}
-		listDevicesModel = dh.queryForDevicesList(dh.getSQLiteDatabase(),
-				DataHelper.DEVICES_TABLE, null, where, args, null, null, null,
-				null);
-		if (null != listDevicesModel && listDevicesModel.size() > 0) {
-			for (DevicesModel devicesModel : listDevicesModel) {
-				if (null == devicesModel.getmUserDefineName()
-						|| devicesModel.getmUserDefineName().trim().equals("")) {
-					devicesModel.setmUserDefineName(getDefaultUserDefinname(c,
-							devicesModel.getmModelId()));
-				}
-			}
-		}
-
-		return listDevicesModel;
-	}
 	
+	public static DevicesModel getDeviceModelByModelid(String modelid,DataHelper dh,SQLiteDatabase db){
+		String where=" model_id like ? ";
+		String[] args={modelid+"%"};
+		List<DevicesModel> mList=dh.queryForDevicesList(db, DataHelper.DEVICES_TABLE, null, where, args, null, null, null, null);
+		if(null!=mList && mList.size()>0){
+			return mList.get(0);
+		}
+		return null;
+	}
+
     public static String getDefaultUserDefinname(Context c, String modelID) {
         String result = "";
 
@@ -547,8 +338,6 @@ public class DataUtil {
 
 	public static List<SimpleDevicesModel> getDevices(Context c, DataHelper dh,
 			String[] args, String where, boolean b) {
-		HashMap<String, Integer> mMap = new HashMap<String, Integer>();
-		List<String> sList = new ArrayList<String>();
 		SimpleDevicesModel mSimpleDevicesModel;
 		List<DevicesModel> listDevicesModel = new ArrayList<DevicesModel>();
 		List<SimpleDevicesModel> list = new ArrayList<SimpleDevicesModel>();

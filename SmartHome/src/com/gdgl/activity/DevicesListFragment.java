@@ -8,7 +8,6 @@ import java.util.List;
 
 import com.gdgl.activity.ShowDevicesGroupFragmentActivity.adapterSeter;
 import com.gdgl.activity.UIinterface.IFragmentCallbak;
-import com.gdgl.adapter.DevicesBaseAdapter;
 import com.gdgl.app.ApplicationController;
 import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.Manger;
@@ -21,9 +20,7 @@ import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.Callback.CallbackResponseType2;
 import com.gdgl.smarthome.R;
-import com.gdgl.util.EditDevicesDlg;
 import com.gdgl.util.VersionDlg;
-import com.gdgl.util.EditDevicesDlg.EditDialogcallback;
 import com.gdgl.util.MyOkCancleDlg;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 import com.gdgl.util.UiUtils;
@@ -33,7 +30,6 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -173,34 +169,30 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 							mRefreshData.setDevicesId(mSimpleDevicesModel);
 
 							// 判断是除气体感应器及紧急按钮以外的安防设备，且安防控制中心状态是关闭的
-							if (mSimpleDevicesModel.getmModelId().indexOf(
-									"ZA01") != 0
-									&& mSimpleDevicesModel
-											.getmModelId()
-											.indexOf(
-													DataHelper.Emergency_Button) != 0
+							if (mSimpleDevicesModel.getmModelId().indexOf("ZA01") != 0
+									&& mSimpleDevicesModel.getmModelId().indexOf(
+										DataHelper.Emergency_Button) != 0
 									&& mSimpleDevicesModel.getmDeviceId() == DataHelper.IAS_ZONE_DEVICETYPE
 									&& totalControlDevice != null
-									&& totalControlDevice.getmOnOffStatus()
-											.equals("0")) {
+									&& totalControlDevice.getmOnOffStatus().equals("0")) {
 								VersionDlg vd = new VersionDlg(
 										(Context) getActivity());
 								vd.setContent("安防设备已关闭");
 								vd.show();
 							} else {
-								if (mSimpleDevicesModel.getmIeee().equals(
-										"00137A0000010148")
-										&& mSimpleDevicesModel.getmEP().equals(
-												"01")) { // 红外遥控器
+								if (mSimpleDevicesModel.getmModelId().indexOf(DataHelper
+										.Infrared_controller)==0) { // 红外遥控器
 									Intent intent = new Intent();
 									intent.setClass((Context) getActivity(),
 											KongtiaoTvControlActivity.class);
+									intent.putExtra(Constants.PASS_OBJECT, mSimpleDevicesModel);
 									startActivity(intent);
-								} else if (mSimpleDevicesModel.getmIeee()
-										.equals("00137A0000010264")) { // 多键遥控器
+								} else if (mSimpleDevicesModel.getmModelId()
+										.indexOf(DataHelper.Multi_key_remote_control)==0) { // 多键遥控器
 									Intent intent = new Intent();
 									intent.setClass((Context) getActivity(),
 											RemoteControlActivity.class);
+									intent.putExtra(Constants.PASS_OBJECT, mSimpleDevicesModel);
 									startActivity(intent);
 								} else {
 									Fragment mFragment = null;
@@ -216,8 +208,7 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 										mFragment = new OutPutFragment();
 									} else if (mSimpleDevicesModel
 											.getmModelId()
-											.indexOf(
-													DataHelper.One_key_operator) == 0) {
+											.indexOf(DataHelper.One_key_operator) == 0) {
 										Bundle extras = new Bundle();
 										extras.putParcelable(
 												Constants.PASS_OBJECT,
@@ -227,9 +218,8 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 
 										mFragment.setArguments(extras);
 									} else {
-										mFragment = UiUtils
-												.getFragment(mSimpleDevicesModel
-														.getmDeviceId());
+										mFragment = UiUtils.getFragment(mSimpleDevicesModel
+													.getmDeviceId());
 									}
 									if (null != mFragment) {
 										Bundle extras = new Bundle();
@@ -489,8 +479,8 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 		protected Object doInBackground(Object... params) {
 			DataHelper dh = new DataHelper(ApplicationController.getInstance());
 			SQLiteDatabase db = dh.getSQLiteDatabase();
-			totalControlDevice = DataUtil.getDeviceModelByIeee(
-					"00137A00000121F0", dh, db);
+			totalControlDevice = DataUtil.getDeviceModelByModelid(
+					DataHelper.One_key_operator, dh, db);
 			db.close();
 			return null;
 		}

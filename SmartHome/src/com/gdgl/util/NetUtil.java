@@ -37,10 +37,6 @@ import com.gdgl.mydata.Node;
 import com.gdgl.mydata.RespondDataEntity;
 import com.gdgl.mydata.ResponseParams;
 import com.gdgl.mydata.getlocalcielist.elserec;
-//import com.gdgl.mydata.meituan.FenleiEntity;
-//import com.gdgl.mydata.meituan.LocationData;
-//import com.gdgl.mydata.meituan.Page;
-//import com.gdgl.mydata.meituan.meituan;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -123,7 +119,7 @@ public class NetUtil {
 		while (true) {
 			if (inputStream != null && inputStream.available() > 0) {
 				handleInputStream(inputStream);
-				//Log.i("callbakcSocket recieve", inputStream.toString());
+				// Log.i("callbakcSocket recieve", inputStream.toString());
 			}
 
 		}
@@ -135,33 +131,11 @@ public class NetUtil {
 		int readBytes = 0;
 		while ((readBytes = inputStream.read(buffer)) > 0) {
 			String message = new String(buffer, 0, readBytes);
-			message=UiUtils.formatResponseString(message);
-			//Log.i("message", message);
-//			String messages[] = message.split("\\}");
-//			for (int i = 0; i < messages.length; i++) {
-//				String json = null;
-//				int num = messages[i].split("\\{", -1).length - 1;
-//				// 如果‘{‘有2个，那么type=7，是个嵌套2层的json格式，需多加一个’}‘在后面
-//				if (num > 1) {
-//					json = messages[i] + "}}";
-//					i++;
-//				} else if (num == 1) {
-//					json = messages[i] + "}";
-//				} else {
-//					continue;
-//				}
-
-				// Log.d(TAG, json);
-				CallbackManager.getInstance().handleCallbackResponse(message);
-//			}
+			message = UiUtils.formatResponseString(message);
+//			Log.i("message", message);
+			CallbackManager.getInstance().classifyCallbackResponse(message);
 		}
 	}
-
-	// public static String[] splitMessage(String message,String regular) {
-	// String messages[]=message.split("}");
-	// return messages;
-	//
-	// }
 
 	public boolean isConnectedCallback() {
 
