@@ -15,6 +15,7 @@ import com.gdgl.manager.DeviceManager;
 import com.gdgl.manager.VideoManager;
 import com.gdgl.mydata.Constants;
 import com.gdgl.network.ChannalManager;
+import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.reciever.HeartReceiver;
 
 public class SmartService extends Service {
@@ -29,60 +30,32 @@ public class SmartService extends Service {
 	}
 
 	public void initial() {
-		
-		//判断网关是否和客户端在同一局域网下面
-		/***
-		 * 执行这个语句，在没网的情况下，会导致设备模块里面读取数据库的AsyncTask.doInBackground方法不执行，估计是线程池中线程已经满了
-		 * 在没网的情况下，该任务会阻塞线程
-		 * http://blog.csdn.net/mddy2001/article/details/17127065
-		 */
-//		new AsyncTask<Object, Object, Object>() {
-//
-//			@Override
-//			protected Object doInBackground(Object... params) {
-//				NetUtil.getInstance().connectServerWithUDPSocket();
-//				NetUtil.getInstance().recieveFromUdp();
-//				return null;
-//			}
-//		}.execute(0);
-		
-		
-		// =============================server======================
-		 DeviceManager.getInstance().getDeviceEndPoint();
-		 CGIManager.getInstance().GetAllRoomInfo();
-		 CGIManager.getInstance().GetAllBindList();
-		 VideoManager.getInstance().getIPClist();
-		// ===============================loacl=====================
-//		new Thread() {
-//			@Override
-//			public void run() {
-//				DataHelper mDateHelper = new DataHelper(SmartService.this);
-//				SQLiteDatabase mSQLiteDatabase = mDateHelper
-//						.getSQLiteDatabase();
-//				List<DevicesModel> mList = mDateHelper.queryForList(
-//						mSQLiteDatabase, DataHelper.DEVICES_TABLE, null, null,
-//						null, null, null, null, null);
-//				if (mList.size() <= 0) {
-//					ArrayList<ResponseParamsEndPoint> devDataList = DeviceManager
-//							.getInstance().getDeviceListFromLocalString();
-//
-//					mDateHelper.insertList(mSQLiteDatabase,
-//							DataHelper.DEVICES_TABLE, null, devDataList);
-//				}
-//				mDateHelper.close(mSQLiteDatabase);
-//			}
-//		}.run();
 
-		CallbackManager.getInstance().startConnectServerByTCPTask();
-		startHB();
-		new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
-				ChannalManager.getInstace(SmartService.this).init();
-			}
-		}).start();
-	
+		// 判断网关是否和客户端在同一局域网下面
+		int networkStatus = NetworkConnectivity.getInstance()
+				.getConnecitivityNetwork();
+		switch (networkStatus) {
+		case NetworkConnectivity.NO_NETWORK:
+			stopSelf();
+			break;
+		case NetworkConnectivity.INTERNET:
+			stopSelf();
+			break;
+		case NetworkConnectivity.LAN:
+			startLANService();
+			break;
+		default:
+			break;
+		}
+
+		// new Thread(new Runnable() {
+		//
+		// @Override
+		// public void run() {
+		// ChannalManager.getInstace(SmartService.this).init();
+		// }
+		// }).start();
+
 	}
 
 	public class MsgBinder extends Binder {
@@ -105,14 +78,26 @@ public class SmartService extends Service {
 		return super.onStartCommand(intent, flags, startId);
 	}
 
+	public void startLANService() {
+		// =============================server======================
+		DeviceManager.getInstance().getDeviceEndPoint();
+		CGIManager.getInstance().GetAllRoomInfo();
+		CGIManager.getInstance().GetAllBindList();
+		VideoManager.getInstance().getIPClist();
+		// ===============================loacl=====================
+		CallbackManager.getInstance().startConnectServerByTCPTask();
+		startHB();
+	}
+
 	public void startHB() {
 		AlarmManager mAlarmManager;
 		PendingIntent mPendingIntent;
 
 		mAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-		Intent intent=new Intent(this,HeartReceiver.class);
+		Intent intent = new Intent(this, HeartReceiver.class);
 		intent.setAction(Constants.ACTION_HEARTBEAT);
-		mPendingIntent = PendingIntent.getBroadcast(this, 0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
+		mPendingIntent = PendingIntent.getBroadcast(this, 0, intent,
+				PendingIntent.FLAG_UPDATE_CURRENT);
 
 		// 启动心跳定时器
 		long triggerAtTime = SystemClock.elapsedRealtime() + HEARTBEAT_INTERVAL;

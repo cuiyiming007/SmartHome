@@ -1,6 +1,5 @@
 package com.gdgl.reciever;
 
-import com.gdgl.manager.CallbackManager;
 import com.gdgl.util.NetUtil;
 
 import android.content.BroadcastReceiver;

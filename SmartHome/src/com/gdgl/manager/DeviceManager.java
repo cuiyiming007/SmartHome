@@ -17,7 +17,6 @@ import com.gdgl.app.ApplicationController;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.DataHelper;
-import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.RespondDataEntity;
