@@ -39,7 +39,7 @@ public class NetworkConnectivity {
 		NetworkInfo networkInfo = connManager.getActiveNetworkInfo();
 
 		// 判断有无网络连接
-		if (!networkInfo.isConnected()) {
+		if (networkInfo==null||!networkInfo.isConnected()) {
 			Toast.makeText(mContext, "未连接任何网络...", Toast.LENGTH_SHORT).show();
 			return NO_NETWORK;
 		} else {
