@@ -98,7 +98,7 @@ public class SelectPicPopupWindow extends PopupWindow implements Dialogcallback{
 	@Override
 	public void dialogdo() {
 		// TODO Auto-generated method stub
-		System.exit(1);
+		System.exit(0);
 	}
 
 }

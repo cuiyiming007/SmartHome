@@ -48,7 +48,7 @@ public class NetworkConnectivity {
 						.show();
 				return INTERNET;
 			} else if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
-				Toast.makeText(mContext, "当前为Wifi网络", Toast.LENGTH_SHORT)
+				Toast.makeText(mContext, "当前为WiFi网络", Toast.LENGTH_SHORT)
 						.show();
 				String addrress = getWIFILocalIpAdress(mContext);
 				String subAddrress = addrress.substring(0,

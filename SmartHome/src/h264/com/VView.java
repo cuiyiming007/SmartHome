@@ -3,12 +3,9 @@ package h264.com;
  * 视频处理
  */
 import java.io.DataInputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.ByteBuffer;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -16,15 +13,12 @@ import video_decoder.H264;
 
 import com.gdgl.util.ComUtil;
 
-//import android.app.AlertDialog;
-//import android.app.AlertDialog.Builder;
 import android.content.Context;
-//import android.content.DialogInterface;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Bitmap.Config;
+import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -138,8 +132,10 @@ public class VView extends View implements Runnable {
 		this.newWidth = this.gdeviceWith;// ���ſ�ȵ����豸���
 		// ���ź�ĸ�=ԭͼ���x���ű���
 		this.newHeight = (h264Height * newWidth / h264Width);
-		// top = (this.gdeviceHeight - newHeight) / 2 - 50;
-		top=120;
+		float density=getResources().getDisplayMetrics().density;
+		Rect rect = new Rect();
+		this.getWindowVisibleDisplayFrame(rect);
+		top=(int)(density*60+0.5);
 		left = 0;
 		setScalePortrait();
 	}
@@ -342,40 +338,45 @@ public class VView extends View implements Runnable {
 		int SockBufUsed = 0;
 		byte[] decoderInBuf = new byte[81920]; // 80k
 		byte[] buffFromSocket = new byte[2048];
-
 		//InitDecoder(h264Width, h264Height);
 		ffmpeg.Init_H264Decoder(h264Width, h264Height);
-
-		while (!Thread.currentThread().isInterrupted()&&getIsVideoRun()) {
+		while (!Thread.interrupted()&&getIsVideoRun()) 
+		{	
 			try {
+				Log.d(TAG, "==============> 01");
 				bytesReadFromSocketNum = dataInputStream.read(buffFromSocket,
 						0, 2048);
+				Log.d(TAG, "==============> 02");
 			} catch (IOException e) {
 				handleError();
-				Log.e(TAG, "bytesReadFromSocketNum error" + e.getMessage());
+				Log.e(TAG, "bytesReadFromSocketNum error:" + e.getMessage());
 			}
 
 			if (bytesReadFromSocketNum <= 0) {
 				Log.d("DecodeH264 run", "have not recieved data!");
 				break;
 			}
+			
 
 			SockBufUsed = 0;
-
-			while (bytesReadFromSocketNum - SockBufUsed > 0) {
+			Log.d(TAG, "debug3");
+			while (bytesReadFromSocketNum - SockBufUsed > 0) 
+			{
 				nalLen = MergeBuffer(decoderInBuf, NalBufUsed, buffFromSocket,
 						SockBufUsed, bytesReadFromSocketNum - SockBufUsed);
-
+				Log.d(TAG, "debug4");
 				NalBufUsed += nalLen;
 				SockBufUsed += nalLen;
 
-				while (mTrans == 1) {
+				while (mTrans == 1) 
+				{
 					mTrans = 0xFFFFFFFF;
 
 					if (bFirst == true) // the first start flag
 					{
 						bFirst = false;
-					} else // a complete NAL data, include 0x00000001 trail.
+					} 
+					else // a complete NAL data, include 0x00000001 trail.
 					{
 						if (bFindPPS == true) // true
 						{
@@ -392,14 +393,15 @@ public class VView extends View implements Runnable {
 								break;
 							}
 						}
+						Log.d(TAG, "debug5");
 						//iTemp = DecoderNal(decoderInBuf, NalBufUsed - 4, mPixel);
 						iTemp = ffmpeg.Decoder_H264Nal(decoderInBuf,
 								NalBufUsed-4, mPixel);
+						Log.d(TAG, "debug6");
 						if (iTemp > 0)
 							postInvalidate();
-
 					}
-
+					Log.d(TAG, "debug7");
 					decoderInBuf[0] = 0;
 					decoderInBuf[1] = 0;
 					decoderInBuf[2] = 0;

@@ -17,12 +17,14 @@ import java.util.Timer;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.gdgl.util.NetUtil;
+
 import android.provider.SyncStateContract.Constants;
 import android.util.Log;
 
 public class Network {
-	private final static String TAG = "NetWorkUtil";
-	public static String IPserver = "192.168.1.237";
+	private final static String TAG = "VedioNetWorkUtil";
+	public static String IPserver = NetUtil.getInstance().IP;
 	// private static int udpPort = 5000;
 	public static int tcpPort = 5012;
 	public static Socket socket; // tcpSocket
@@ -61,19 +63,17 @@ public class Network {
 		 */
 	}
 
-	public static void getIPMessage(String ip, int port) {
+	public static void setIPMessage(String ip, int port) {
 		IPserver = ip;
 		tcpPort = port;
 	}
 
-	public static boolean connectServer(String ip, int port) {
+	public static void connectServer() {
 		Socket so = null;
-		IPserver = ip;
-		tcpPort = port;
 		try {
 			// so = new Socket(ip, Integer.parseInt(port));
 			so = new Socket();
-			InetSocketAddress isa = new InetSocketAddress(ip, port);
+			InetSocketAddress isa = new InetSocketAddress(IPserver, tcpPort);
 			so.connect(isa, 5000);
 			if (null != so) {
 				Network.socket = so;
@@ -81,16 +81,11 @@ public class Network {
 			}
 		} catch (NumberFormatException e) {
 			Log.e(TAG, "NumberFormatException:" + e.getMessage());
-			return false;
 		} catch (UnknownHostException e) {
 			Log.e(TAG, "UnknownHostException:" + e.getMessage());
-			return false;
 		} catch (IOException e) {
 			Log.e(TAG, "IO:" + e.getMessage());
-			return false;
 		}
-
-		return true;
 	}
 
 	public static boolean isVideoSocketConnect() {
@@ -142,33 +137,33 @@ public class Network {
 		}
 	}
 
-	public static void connectServerWithTCPSocket() {
-		String heartbeat = "0200070007";
-		Socket socket;
-		try {// 创建一个Socket对象，并指定服务端的IP及端口号
-			socket = new Socket("192.168.1.239", 5002);
-			OutputStream outputStream = socket.getOutputStream();
-			byte buffer[] = heartbeat.getBytes();
-			int temp = 0;
-			outputStream.write(buffer, 0, buffer.length);
-			// 发送读取的数据到服务端
-			outputStream.flush();
-
-			InputStream inputStream = socket.getInputStream();
-			ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-			byte[] data = new byte[1024];
-			int count = -1;
-			while ((count = inputStream.read(data, 0, 1024)) != -1) {
-				outStream.write(data, 0, count);
-			}
-			data = null;
-			String result = new String(outStream.toByteArray());
-			Log.i("socket recieve", result);
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-	}
+//	public static void connectServerWithTCPSocket() {
+//		String heartbeat = "0200070007";
+//		Socket socket;
+//		try {// 创建一个Socket对象，并指定服务端的IP及端口号
+//			socket = new Socket("192.168.1.239", 5002);
+//			OutputStream outputStream = socket.getOutputStream();
+//			byte buffer[] = heartbeat.getBytes();
+//			int temp = 0;
+//			outputStream.write(buffer, 0, buffer.length);
+//			// 发送读取的数据到服务端
+//			outputStream.flush();
+//
+//			InputStream inputStream = socket.getInputStream();
+//			ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+//			byte[] data = new byte[1024];
+//			int count = -1;
+//			while ((count = inputStream.read(data, 0, 1024)) != -1) {
+//				outStream.write(data, 0, count);
+//			}
+//			data = null;
+//			String result = new String(outStream.toByteArray());
+//			Log.i("socket recieve", result);
+//		} catch (UnknownHostException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//
+//	}
 }

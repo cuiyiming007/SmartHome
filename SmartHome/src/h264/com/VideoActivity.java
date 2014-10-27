@@ -5,12 +5,7 @@ package h264.com;
  */
 import java.io.DataInputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Point;
@@ -18,11 +13,9 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -34,19 +27,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gdgl.activity.ConfigActivity;
-import com.gdgl.activity.DevicesListFragment;
-import com.gdgl.activity.SmartHome;
 import com.gdgl.activity.VideoFragment;
 import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
 import com.gdgl.manager.WarnManager;
-import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.video.VideoNode;
 import com.gdgl.smarthome.R;
-import com.gdgl.util.ComUtil;
 
 public class VideoActivity extends FragmentActivity implements UIListener {
 	private final static String TAG = "VideoActivity";
@@ -74,6 +63,7 @@ public class VideoActivity extends FragmentActivity implements UIListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		Log.i(TAG, "onCreate" + String.valueOf(ipc_channel));
 		Bundle extras_ipc_channel = getIntent().getExtras();
 		if (null != extras_ipc_channel) {
 			mVideoNode = (VideoNode) extras_ipc_channel
@@ -110,6 +100,8 @@ public class VideoActivity extends FragmentActivity implements UIListener {
 
 	@Override
 	protected void onDestroy() {
+		Log.i(TAG, "onDestroy" + String.valueOf(ipc_channel));
+		closeTheThread();
 		super.onDestroy();
 	}
 
@@ -204,15 +196,19 @@ public class VideoActivity extends FragmentActivity implements UIListener {
 	@Override
 	public void finish() {
 		// TODO Auto-generated method stub
+		closeTheThread();
+		super.finish();
+	}
+	
+	public void closeTheThread() {
 		Log.i(TAG, "finish video ipc_channel=" + String.valueOf(ipc_channel));
 		CallbackManager.getInstance().deleteObserver(this);
 		decodeh264.setIsVideoRun(false);
 		decodeh264.initalThread();
 		isVisible = false;
 		Network.closeVideoSocket();
-		super.finish();
 	}
-
+	
 	class captureImageTask extends AsyncTask<Integer, Object, Boolean> {
 
 		@Override
@@ -234,14 +230,70 @@ public class VideoActivity extends FragmentActivity implements UIListener {
 		}
 	}
 
+//	class playVideoTask extends AsyncTask<Integer, Object, Integer> {
+//
+//		@Override
+//		protected Integer doInBackground(Integer... params) {
+//			boolean isconnect = Network.isVideoSocketConnect();		
+//			if (isconnect == true) {
+//				if(decodeh264.dataInputStream==null) {
+//					decodeh264.dataInputStream=(DataInputStream)getLastCustomNonConfigurationInstance();
+//				}
+//				return 1;
+//			} else {
+//				// handleError();
+//				Log.i(TAG, "start video ipc_channel=" + String.valueOf(ipc_channel));
+//				decodeh264.initalThread();
+//				Network.connectServer();
+//				if (Network.isVideoSocketConnect() == true) {
+//					Network.sendVideoReq(ipc_channel);
+//					try {
+//						decodeh264.dataInputStream = new DataInputStream(
+//								Network.socket.getInputStream());
+//					} catch (IOException e1) {
+//						Log.e(TAG, "doInBackground:" + e1.getMessage());
+//						// handleError();
+//						return 3;
+//					}
+//				} else {
+//					return 3;
+//				}
+//				if(decodeh264.getStartFlag() == true) {
+//					return 2;
+//				}
+//				return 3;
+//			}
+//		}
+//
+//		@Override
+//		protected void onPostExecute(Integer result) {
+//			super.onPostExecute(result);
+//			switch (result) {
+//			case 2:
+//				decodeh264.PlayVideo();
+//				break;
+//			case 3:
+//				handleError();
+//				break;
+//			default:
+//				break;
+//			}
+////			if (result) {
+////				decodeh264.PlayVideo();
+////			} else {
+////				handleError();
+////			}
+//		}
+//	}
+	
 	class playVideoTask extends AsyncTask<Integer, Object, Boolean> {
 
 		@Override
 		protected Boolean doInBackground(Integer... params) {
 			Log.i(TAG, "start video ipc_channel=" + String.valueOf(ipc_channel));
 			decodeh264.initalThread();
-			boolean isconnect = Network.connectServer(Network.IPserver,
-					Network.tcpPort);
+			Network.connectServer();
+			boolean isconnect = Network.isVideoSocketConnect();
 			if (isconnect == true) {
 				Network.sendVideoReq(ipc_channel);
 				try {
@@ -286,12 +338,14 @@ public class VideoActivity extends FragmentActivity implements UIListener {
 
 	@Override
 	protected void onResume() {
+		Log.i(TAG, "onResume" + String.valueOf(ipc_channel));
 		isVisible = true;
 		updateMessageNum();
 		super.onResume();
 	}
 	@Override
 	protected void onPause() {
+		Log.i(TAG, "onPause" + String.valueOf(ipc_channel));
 		isVisible = false;
 		super.onPause();
 	}
@@ -321,4 +375,10 @@ public class VideoActivity extends FragmentActivity implements UIListener {
 		}
 
 	}
+//	@Override
+//	public Object onRetainCustomNonConfigurationInstance() {
+//		// TODO Auto-generated method stub
+//		DataInputStream inputStream=decodeh264.dataInputStream;
+//		return inputStream;
+//	}
 }
