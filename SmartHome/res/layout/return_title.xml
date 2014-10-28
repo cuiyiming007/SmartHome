@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:alpha="0.65"
-    android:background="#ffffff"
+    android:background="@drawable/ui_toptitle_bg"
     android:orientation="horizontal" >
 
     <LinearLayout
@@ -32,11 +31,11 @@
 
         <ImageView
             android:id="@+id/imageView1"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="114dp"
+            android:layout_height="20dp"
             android:layout_gravity="center"
             android:layout_marginLeft="2dp"
-            android:src="@drawable/icon" />
+            android:src="@drawable/ui_toptitle_logo" />
 
         <TextView
             android:id="@+id/title"
@@ -49,17 +48,17 @@
             android:text="照明管理"
             android:textColor="#000000"
             android:textSize="18dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="gone" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/parents_need"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:layout_alignParentRight="true"
         android:layout_gravity="center"
         android:orientation="horizontal" >
-        
+
         <FrameLayout
             android:layout_width="0.0dip"
             android:layout_height="fill_parent"
@@ -69,15 +68,14 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:gravity="bottom|center" >
+                android:gravity="center" >
 
                 <Button
                     android:id="@+id/alarm_in_device"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    android:background="@drawable/alarm_btn_style"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/ui_toptitle_alarm_btn_style"
                     android:gravity="center_vertical" />
-                        />
             </LinearLayout>
 
             <LinearLayout
@@ -90,34 +88,27 @@
                     android:id="@+id/unread_ms_device"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/unread_message_new"
+                    android:background="@drawable/ui_toptitle_alarm_message_new"
                     android:gravity="center"
                     android:text="0"
                     android:textColor="@android:color/white"
                     android:textSize="10.0dip"
                     android:visibility="visible" />
-
             </LinearLayout>
         </FrameLayout>
 
+        <Button
+            android:id="@+id/set"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dip"
+            android:layout_marginRight="10dip"
+            android:background="@drawable/ui_toptitle_set_btn_style"
+            android:gravity="center" />
+
+        <!--
         <LinearLayout
-            android:id="@+id/parent_need"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center" >
-
-            <Button
-                android:id="@+id/set"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="10dip"
-                android:layout_marginLeft="5dip"
-                android:layout_marginRight="10dip"
-                android:background="@drawable/more_btn_style"
-                android:gravity="center" />
-        </LinearLayout>
-
-       <!--  <LinearLayout
             android:id="@+id/devices_need"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -133,7 +124,8 @@
                 android:layout_marginRight="10dip"
                 android:background="@drawable/delete_btn_style"
                 android:gravity="center" />
-        </LinearLayout> -->
+        </LinearLayout>
+        -->
     </LinearLayout>
 
 </LinearLayout>

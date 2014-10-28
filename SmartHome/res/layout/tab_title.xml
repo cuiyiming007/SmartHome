@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:alpha="0.65"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -11,8 +10,8 @@
         android:layout_height="wrap_content"
         android:background="#F5F5F5"
         android:orientation="horizontal" >
-	
-                <LinearLayout
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -31,8 +30,8 @@
                 android:textColor="@color/green"
                 android:textSize="15dip" />
         </LinearLayout>
-        
-                <LinearLayout
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -52,7 +51,7 @@
                 android:textColor="@color/black"
                 android:textSize="15dip" />
         </LinearLayout>
-        
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -71,8 +70,6 @@
                 android:textColor="@color/black"
                 android:textSize="15dip" />
         </LinearLayout>
-
-        
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -93,9 +90,7 @@
                 android:textColor="@color/black"
                 android:textSize="15dip" />
         </LinearLayout>
-        
 
-        
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -115,7 +110,6 @@
                 android:textColor="@color/black"
                 android:textSize="15dip" />
         </LinearLayout>
-        
     </LinearLayout>
 
 </LinearLayout>

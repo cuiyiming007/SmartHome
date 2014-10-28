@@ -20,15 +20,16 @@ public class JoinNetTimeDlg {
 	TextView textTitle;
 	EditText setTime;
 	TextView text_name;
-	
+
 	AddDialogcallback mAddDialogcallback;
-	
+
 	public JoinNetTimeDlg(Context c) {
 		mContext = c;
 		dialog = new Dialog(mContext, R.style.MyDialog);
 		dialog.setContentView(R.layout.add_dlg);
 		textTitle = (TextView) dialog.findViewById(R.id.txt_title);
 		setTime = (EditText) dialog.findViewById(R.id.edit_name);
+		setTime.setText(null);
 		setTime.setHint("请输入时间(60~250)");
 		text_name = (TextView) dialog.findViewById(R.id.text_name);
 		save = (Button) dialog.findViewById(R.id.btn_save);
@@ -37,14 +38,20 @@ public class JoinNetTimeDlg {
 			@Override
 			public void onClick(View v) {
 				String time = setTime.getText().toString();
-				int t=Integer.valueOf(time);
-				if(t>59&&t<251) {
-					getFromSharedPreferences.setsharedPreferences(mContext);
-					getFromSharedPreferences.setJoinNetTime(time);
-					
-					mAddDialogcallback.refreshdata();
+				if (time != null && time.length() > 0) {
+					int t = Integer.valueOf(time);
+					if (t > 59 && t < 251) {
+						getFromSharedPreferences.setsharedPreferences(mContext);
+						getFromSharedPreferences.setJoinNetTime(time);
+
+						mAddDialogcallback.refreshdata();
+					} else {
+						Toast.makeText(mContext, "请输入60~250",
+								Toast.LENGTH_SHORT).show();
+					}
 				} else {
-					Toast.makeText(mContext, "请输入60~250", Toast.LENGTH_SHORT).show();
+					Toast.makeText(mContext, "请输入60~250", Toast.LENGTH_SHORT)
+							.show();
 				}
 				dismiss();
 			}
@@ -59,7 +66,7 @@ public class JoinNetTimeDlg {
 			}
 		});
 	}
-	
+
 	public void setTitle(String content) {
 		textTitle.setText(content);
 	}
