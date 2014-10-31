@@ -33,7 +33,7 @@ public class DataHelper extends SQLiteOpenHelper {
 	public static final int LIGHT_SENSOR_DEVICETYPE = 262; //光线感应器
 	public static final int SHADE_DEVICETYPE = 512; //幕帘控制开关
 	public static final int TEMPTURE_SENSOR_DEVICETYPE = 770; //室内型温湿度感应器
-	public static final int IAS_ACE_DEVICETYPE = 1025; //门铃按键、多键遥控器
+	public static final int IAS_ACE_DEVICETYPE = 1025; //门铃按键、多键遥控器(不可控制)
 	public static final int IAS_ZONE_DEVICETYPE = 1026; //烟雾感应器、可燃气体探测器（煤气）、（天然气）、（一氧化碳）、窗磁、门窗感应开关、紧急按钮、动作感应器
 	public static final int IAS_WARNNING_DEVICE_DEVICETYPE = 1027; //警报器
 

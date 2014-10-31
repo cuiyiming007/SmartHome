@@ -644,20 +644,21 @@ public class DevicesListWithGroup extends BaseFragment implements
 			}
 
 			int devcicesId = Integer.parseInt(ds.getmDeviceId());
-
-			if (DataHelper.IAS_ZONE_DEVICETYPE == devcicesId
-					|| DataHelper.IAS_ACE_DEVICETYPE == devcicesId) {
-
-				mViewHolder.devImg.setImageResource(UiUtils
-						.getDevicesSmallIconByModelId(ds.getmModelId().trim()));
-			} else if (ds.getmModelId().indexOf(
-					DataHelper.Multi_key_remote_control) == 0) {
-				mViewHolder.devImg.setImageResource(UiUtils
-						.getDevicesSmallIconForRemote(devcicesId));
-			} else {
-				mViewHolder.devImg.setImageResource(UiUtils
-						.getDevicesSmallIcon(devcicesId));
-			}
+			mViewHolder.devImg.setImageResource(UiUtils
+					.getDevicesSmallIcon(devcicesId,ds.getmModelId().trim()));
+//			if (DataHelper.IAS_ZONE_DEVICETYPE == devcicesId
+//					|| DataHelper.IAS_ACE_DEVICETYPE == devcicesId) {
+//
+//				mViewHolder.devImg.setImageResource(UiUtils
+//						.getDevicesSmallIconByModelId(ds.getmModelId().trim()));
+//			} else if (ds.getmModelId().indexOf(
+//					DataHelper.Multi_key_remote_control) == 0) {
+//				mViewHolder.devImg.setImageResource(UiUtils
+//						.getDevicesSmallIconForRemote(devcicesId));
+//			} else {
+//				mViewHolder.devImg.setImageResource(UiUtils
+//						.getDevicesSmallIcon(devcicesId));
+//			}
 			
 			mViewHolder.devAlarm.setVisibility(View.GONE);
 			SimpleDevicesModel simpleDevicesModel=new SimpleDevicesModel();

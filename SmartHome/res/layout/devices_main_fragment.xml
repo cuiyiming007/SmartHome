@@ -16,11 +16,11 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:scrollbars="none"
-        android:horizontalSpacing="10dp"
-        android:listSelector="@drawable/gridview_style"
+        android:horizontalSpacing="0dp"
+        android:verticalSpacing="5dp"
+        android:listSelector="#ffffff"
         android:numColumns="2"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="10dp" >
+        android:stretchMode="columnWidth">
     </GridView>
 
 </LinearLayout>

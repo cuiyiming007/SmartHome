@@ -161,21 +161,23 @@ public class AllDevicesListFragment extends BaseFragment {
 					" ", ""));
 			mHolder.devices_region.setText(mDevices.getmDeviceRegion().replace(
 					" ", ""));
-
-			if (DataHelper.IAS_ZONE_DEVICETYPE == mDevices.getmDeviceId()
-					|| DataHelper.IAS_ACE_DEVICETYPE == mDevices.getmDeviceId()) {
-
-				mHolder.devices_img.setImageResource(UiUtils
-						.getDevicesSmallIconByModelId(mDevices.getmModelId()
-								.trim()));
-			} else if (mDevices.getmModelId().indexOf(
-					DataHelper.Multi_key_remote_control) == 0) {
-				mHolder.devices_img.setImageResource(UiUtils
-						.getDevicesSmallIconForRemote(mDevices.getmDeviceId()));
-			} else {
-				mHolder.devices_img.setImageResource(UiUtils
-						.getDevicesSmallIcon(mDevices.getmDeviceId()));
-			}
+			
+			mHolder.devices_img.setImageResource(UiUtils
+					.getDevicesSmallIcon(mDevices.getmDeviceId(),mDevices.getmModelId().trim()));
+//			if (DataHelper.IAS_ZONE_DEVICETYPE == mDevices.getmDeviceId()
+//					|| DataHelper.IAS_ACE_DEVICETYPE == mDevices.getmDeviceId()) {
+//
+//				mHolder.devices_img.setImageResource(UiUtils
+//						.getDevicesSmallIconByModelId(mDevices.getmModelId()
+//								.trim()));
+//			} else if (mDevices.getmModelId().indexOf(
+//					DataHelper.Multi_key_remote_control) == 0) {
+//				mHolder.devices_img.setImageResource(UiUtils
+//						.getDevicesSmallIconForRemote(mDevices.getmDeviceId()));
+//			} else {
+//				mHolder.devices_img.setImageResource(UiUtils
+//						.getDevicesSmallIcon(mDevices.getmDeviceId()));
+//			}
 
 			if (mDevices.getmDeviceId() == DataHelper.ON_OFF_SWITCH_DEVICETYPE) {
 				String state = "";

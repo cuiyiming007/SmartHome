@@ -295,8 +295,8 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 			}
 		});
 
-		notifyBtn = (Button) findViewById(R.id.alarm_in_device);
-		notifyTextView = (TextView) findViewById(R.id.unread_ms_device);
+		notifyBtn = (Button) findViewById(R.id.alarm_btn_rt);
+		notifyTextView = (TextView) findViewById(R.id.unread_ms_rt);
 		notifyBtn.setOnClickListener(new OnClickListener() {
 
 			@Override

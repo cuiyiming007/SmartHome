@@ -122,8 +122,9 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 		if (devicesid == DataHelper.IAS_ZONE_DEVICETYPE) {
 			String modelid = mDevicesList.get(position).getmModelId();
 			String str = modelid.substring(0, 4);
-			//如果为各种气体探测器或紧急按钮
-			if (str.trim().equals("ZA01")||modelid.indexOf(DataHelper.Emergency_Button)==0) {
+			// 如果为各种气体探测器或紧急按钮
+			if (str.trim().equals("ZA01")
+					|| modelid.indexOf(DataHelper.Emergency_Button) == 0) {
 				return NO_OPERATOR;
 			} else {
 				return ON_OFF;
@@ -136,7 +137,7 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
 		new getOneKeyOperatorStatusTask().execute(0);
-		
+
 		if (null == mDevicesList) {
 			return convertView;
 		}
@@ -158,8 +159,8 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 		seekbar_statelayout = (LinearLayout) mView
 				.findViewById(R.id.seekbar_state);
 		devices_seek_bar = (SeekBar) mView.findViewById(R.id.devices_seek_bar);
-		btn_layout=(LinearLayout)mView.findViewById(R.id.button_layout);
-		devices_button=(Button)mView.findViewById(R.id.button_device);
+		btn_layout = (LinearLayout) mView.findViewById(R.id.button_layout);
+		devices_button = (Button) mView.findViewById(R.id.button_device);
 
 		switch (type) {
 		case ON_OFF:
@@ -177,7 +178,7 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 		default:
 			break;
 		}
-		
+
 		if (mDevices.getmModelId().indexOf("ZA01") != 0
 				&& mDevices.getmModelId().indexOf(DataHelper.Emergency_Button) != 0
 				&& mDevices.getmDeviceId() == DataHelper.IAS_ZONE_DEVICETYPE
@@ -203,23 +204,26 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 				warn_state.setText("正在报警!");
 			}
 			if (WarnManager.getInstance().isWarnning()
-					&& mDevices.getmModelId().indexOf(DataHelper.Siren)==0) {
+					&& mDevices.getmModelId().indexOf(DataHelper.Siren) == 0) {
 				warn_state.setText("报警器响!");
 			}
-			devices_img
-					.setImageResource(UiUtils
-							.getDevicesSmallIconByModelId(mDevices
-									.getmModelId().trim()));
-		} else if (mDevices.getmModelId().indexOf(
-				DataHelper.Multi_key_remote_control) == 0) { // 多键遥控器
-			devices_img.setImageResource(UiUtils
-					.getDevicesSmallIconForRemote(mDevices.getmDeviceId()));
-		} else {
-			devices_img.setImageResource(UiUtils.getDevicesSmallIcon(mDevices
-					.getmDeviceId()));
+//			devices_img
+//					.setImageResource(UiUtils
+//							.getDevicesSmallIconByModelId(mDevices
+//									.getmModelId().trim()));
+//		} else if (mDevices.getmModelId().indexOf(
+//				DataHelper.Multi_key_remote_control) == 0) { // 多键遥控器
+//			devices_img.setImageResource(UiUtils
+//					.getDevicesSmallIconForRemote(mDevices.getmDeviceId()));
+//		} else {
+//			devices_img.setImageResource(UiUtils.getDevicesSmallIcon(
+//					mDevices.getmDeviceId(), mDevices.getmModelId().trim()));
 		}
+		
+		devices_img.setImageResource(UiUtils.getDevicesSmallIcon(
+				mDevices.getmDeviceId(), mDevices.getmModelId().trim()));
 
-		if (mDevices.getmDeviceId() == DataHelper.ON_OFF_SWITCH_DEVICETYPE) { //开关（如“三键开关”、“双键开关”）
+		if (mDevices.getmDeviceId() == DataHelper.ON_OFF_SWITCH_DEVICETYPE) { // 开关（如“三键开关”、“双键开关”）
 			String state = "";
 			String s = mDevices.getmOnOffStatus();
 			Log.i("tag", "tag->" + s);
@@ -235,7 +239,7 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 			}
 			Log.i("tag", "tag->" + state);
 			devices_state.setText(state);
-		} else if (mDevices.getmDeviceId() == DataHelper.IAS_ZONE_DEVICETYPE) { //烟雾感应器、可燃气体探测器（煤气）、（天然气）、（一氧化碳）、窗磁、门窗感应开关、紧急按钮、动作感应器
+		} else if (mDevices.getmDeviceId() == DataHelper.IAS_ZONE_DEVICETYPE) { // 烟雾感应器、可燃气体探测器（煤气）、（天然气）、（一氧化碳）、窗磁、门窗感应开关、紧急按钮、动作感应器
 			if (mDevices.getmOnOffStatus().trim().equals("0")) {
 				devices_state.setText("已布防");
 				devices_switch.setChecked(true);
@@ -243,10 +247,10 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 				devices_state.setText("已撤防");
 				devices_switch.setChecked(false);
 			}
-		} else if (mDevices.getmDeviceId() == DataHelper.LIGHT_SENSOR_DEVICETYPE) { //光线感应器
+		} else if (mDevices.getmDeviceId() == DataHelper.LIGHT_SENSOR_DEVICETYPE) { // 光线感应器
 			// devices_state.setText("亮度: "+mDevices.getmValue());
 			devices_state.setText("亮度: " + getFromSharedPreferences.getLight());
-		} else if (mDevices.getmDeviceId() == DataHelper.TEMPTURE_SENSOR_DEVICETYPE) { //室内型温湿度感应器
+		} else if (mDevices.getmDeviceId() == DataHelper.TEMPTURE_SENSOR_DEVICETYPE) { // 室内型温湿度感应器
 			devices_state.setText("温度: "
 					+ getFromSharedPreferences.getTemperature() + "\n湿度: "
 					+ getFromSharedPreferences.getHumidity() + "%");
@@ -261,7 +265,7 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 			}
 		} else if (mDevices.getmModelId().indexOf(
 				DataHelper.Energy_detection_dimming_module) == 0) { // 调光模块
-			if(null!=mDevices && mDevices.getmValue().trim().equals("")){
+			if (null != mDevices && mDevices.getmValue().trim().equals("")) {
 				mDevices.setmValue("0");
 			}
 			String state = mDevices.getmValue();
@@ -306,14 +310,14 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 							}
 						}
 					});
-		} else if (mDevices.getmDeviceId()==DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE) { //警报器
+		} else if (mDevices.getmDeviceId() == DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE) { // 警报器
 			devices_state.setVisibility(View.GONE);
 			btn_layout.setVisibility(View.VISIBLE);
 			if (WarnManager.getInstance().isWarnning()) {
 				devices_button.setClickable(true);
 			}
 			devices_button.setOnClickListener(new OnClickListener() {
-				
+
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
@@ -323,7 +327,8 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 					devices_button.setClickable(false);
 				}
 			});
-		} else if (mDevices.getmModelId().indexOf("Z503")==0||mDevices.getmDeviceId()==DataHelper.RANGE_EXTENDER_DEVICETYPE) {
+		} else if (mDevices.getmModelId().indexOf("Z503") == 0
+				|| mDevices.getmDeviceId() == DataHelper.RANGE_EXTENDER_DEVICETYPE) {
 			devices_state.setVisibility(View.INVISIBLE);
 		} else {
 			if (mDevices.getmOnOffStatus().trim().equals("1")) {
@@ -417,7 +422,7 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 		public void deleteDevices(String id);
 
 	}
-	
+
 	class getOneKeyOperatorStatusTask extends AsyncTask<Object, Object, Object> {
 
 		@Override

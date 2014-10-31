@@ -133,8 +133,8 @@ public class VView extends View implements Runnable {
 		// ���ź�ĸ�=ԭͼ���x���ű���
 		this.newHeight = (h264Height * newWidth / h264Width);
 		float density=getResources().getDisplayMetrics().density;
-		Rect rect = new Rect();
-		this.getWindowVisibleDisplayFrame(rect);
+		//Rect rect = new Rect();
+		//this.getWindowVisibleDisplayFrame(rect);
 		top=(int)(density*60+0.5);
 		left = 0;
 		setScalePortrait();

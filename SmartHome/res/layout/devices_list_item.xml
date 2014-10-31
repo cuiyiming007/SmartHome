@@ -3,44 +3,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-
+	
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingBottom="10dip"
-        android:paddingTop="10dip" >
-
+        android:background="@color/blue_default"
+        android:paddingBottom="5dip"
+        android:paddingTop="5dip" >
+		<!--android:background="@color/blue_default"-->
         <ImageView
             android:id="@+id/devices_img"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_gravity="center"
-            android:layout_marginBottom="2dp"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp"
-            android:layout_marginTop="2dp"
-            android:src="@drawable/seek_light" />
-
-        <View
-            android:layout_width="2dp"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="3dp"
-            android:background="#999999" />
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ui_environmentalcontrol_lightsensor" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_gravity="center_vertical"
             android:orientation="vertical" >
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:orientation="vertical" >
 
@@ -50,16 +39,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_weight="1"
-                    android:text="Light1"
-                    android:textColor="#000000"
+                    android:text="吸顶电能调光模块"
+                    android:textColor="#ffffff"
                     android:textSize="15dp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:orientation="horizontal" >
 
@@ -68,33 +56,30 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginTop="15dp"
                     android:layout_weight="1"
                     android:text="开"
-                    android:textColor="#1E90FF"
-                    android:textSize="15dp" />
+                    android:textColor="#ffffff"
+                    android:textSize="14dp" />
 
                 <TextView
                     android:id="@+id/warn_state"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginTop="15dp"
                     android:layout_weight="2"
-                    android:text=""
-                    android:textColor="#1E90FF"
-                    android:textSize="15dp" />
+                    android:text="baojing"
+                    android:textColor="#ffffff"
+                    android:textSize="14dp" />
 
                 <TextView
                     android:id="@+id/devices_region"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="0dp"
-                    android:layout_marginTop="15dp"
                     android:gravity="right"
                     android:text="厨房"
-                    android:textColor="#27408B"
-                    android:textSize="15dp" />
+                    android:textColor="#ffffff"
+                    android:textSize="14dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -103,6 +88,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_weight="1"
+                android:visibility="gone"
                 android:orientation="horizontal" >
 
                 <SeekBar
@@ -110,7 +96,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="10dp"
                     android:layout_marginLeft="5dp"
                     android:focusable="false"
                     android:maxHeight="5dp"
@@ -128,24 +113,18 @@
             android:layout_height="match_parent"
             android:orientation="horizontal" >
 
-            <View
-                android:layout_width="2dp"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="3dp"
-                android:background="#999999" />
-
             <Switch
                 android:id="@+id/switch_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"
-                android:focusable="false" />
+                android:focusable="false"
+                android:scaleX="0.6"
+                android:scaleY="0.51"
+                android:thumb="@drawable/ui_switch_insidepoint"
+                android:track="@drawable/ui_switch_style" />
         </LinearLayout>
-        
+
         <LinearLayout
             android:id="@+id/button_layout"
             android:layout_width="wrap_content"
@@ -161,18 +140,18 @@
                 android:layout_marginTop="3dp"
                 android:background="#999999" />
 
-            <Button 
+            <Button
                 android:id="@+id/button_device"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="2dp"
+                android:clickable="false"
                 android:focusable="false"
                 android:text="关闭"
                 android:textColor="#1E90FF"
-                android:textSize="15dp"
-                android:clickable="false" />"
+                android:textSize="15dp" />
         </LinearLayout>
     </LinearLayout>
 

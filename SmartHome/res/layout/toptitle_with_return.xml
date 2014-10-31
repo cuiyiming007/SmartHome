@@ -15,19 +15,13 @@
 
         <ImageView
             android:id="@+id/imageView2"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_gravity="center"
-            android:layout_marginLeft="5dp"
-            android:src="@drawable/back" />
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ui_toptitle_return" />
 
-        <View
-            android:layout_width="2px"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="2dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/divider_color" />
+       
 
         <ImageView
             android:id="@+id/imageView1"
@@ -35,7 +29,8 @@
             android:layout_height="20dp"
             android:layout_gravity="center"
             android:layout_marginLeft="2dp"
-            android:src="@drawable/ui_toptitle_logo" />
+            android:src="@drawable/ui_toptitle_logo"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/title"
@@ -46,10 +41,9 @@
             android:layout_weight="1"
             android:singleLine="true"
             android:text="照明管理"
-            android:textColor="#000000"
-            android:textSize="18dp"
-            android:textStyle="bold"
-            android:visibility="gone" />
+            android:textColor="#ffffff"
+            android:textSize="20dp"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
@@ -71,7 +65,7 @@
                 android:gravity="center" >
 
                 <Button
-                    android:id="@+id/alarm_in_device"
+                    android:id="@+id/alarm_btn_rt"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@drawable/ui_toptitle_alarm_btn_style"
@@ -85,7 +79,7 @@
                 android:paddingRight="10.0dip" >
 
                 <TextView
-                    android:id="@+id/unread_ms_device"
+                    android:id="@+id/unread_ms_rt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/ui_toptitle_alarm_message_new"

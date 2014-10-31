@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/new_bacg"
+    android:background="#ffffff"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -13,20 +13,19 @@
 
         <include
             android:id="@+id/include1"
-            layout="@layout/return_title" />
+            layout="@layout/toptitle_with_return" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/devices_control_fragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="15dp"
         android:layout_weight="1"
-        android:alpha="0.65"
-        android:background="@drawable/white"
+        android:background="@drawable/ui_devices_devicelist_bgwithcorners"
         android:orientation="vertical" >
 
         <include

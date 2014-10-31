@@ -20,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,8 +39,8 @@ import com.gdgl.util.MyOkCancleDlg;
 import com.gdgl.util.UiUtils;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 
-public class VideoFragment extends Fragment implements UIListener,Dialogcallback,
-		IFragmentCallbak {
+public class VideoFragment extends Fragment implements UIListener,
+		Dialogcallback, IFragmentCallbak {
 	GridView content_view;
 	View mView;
 	ViewGroup nodevices;
@@ -66,17 +67,18 @@ public class VideoFragment extends Fragment implements UIListener,Dialogcallback
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		mView = inflater.inflate(R.layout.main_fragment, null);
+		mView = inflater.inflate(R.layout.devices_main_fragment, null);
 		initview();
 		VideoManager.getInstance().addObserver(this);
 		return mView;
 	}
+
 	@Override
 	public void setUserVisibleHint(boolean isVisibleToUser) {
 		super.setUserVisibleHint(isVisibleToUser);
-		 if (isVisibleToUser == true) {
-	            VideoManager.getInstance().getIPClist();
-	        }
+		if (isVisibleToUser == true) {
+			VideoManager.getInstance().getIPClist();
+		}
 	}
 
 	private void initview() {
@@ -84,7 +86,7 @@ public class VideoFragment extends Fragment implements UIListener,Dialogcallback
 		nodevices = (ViewGroup) mView.findViewById(R.id.nodevices);
 		nodevices.setVisibility(View.GONE);
 		content_view = (GridView) mView.findViewById(R.id.content_view);
-		adapter=new CustomeAdapter();
+		adapter = new CustomeAdapter();
 		content_view.setAdapter(adapter);
 		content_view.setLayoutAnimation(UiUtils
 				.getAnimationController((Context) getActivity()));
@@ -161,7 +163,8 @@ public class VideoFragment extends Fragment implements UIListener,Dialogcallback
 		@Override
 		public long getItemId(int position) {
 			// TODO Auto-generated method stub
-			if (null != mList&&!TextUtils.isEmpty(mList.get(position).getId())) {
+			if (null != mList
+					&& !TextUtils.isEmpty(mList.get(position).getId())) {
 				return Integer.parseInt(mList.get(position).getId());
 			}
 			return position;
@@ -174,7 +177,7 @@ public class VideoFragment extends Fragment implements UIListener,Dialogcallback
 			if (null == convertView) {
 				mViewHolder = new ViewHolder();
 				convertView = LayoutInflater.from((Context) getActivity())
-						.inflate(R.layout.gridview_item, null);
+						.inflate(R.layout.video_gridview_item, null);
 				mViewHolder.funcImg = (ImageView) convertView
 						.findViewById(R.id.func_img);
 				mViewHolder.funcText = (TextView) convertView
@@ -183,7 +186,7 @@ public class VideoFragment extends Fragment implements UIListener,Dialogcallback
 			} else {
 				mViewHolder = (ViewHolder) convertView.getTag();
 			}
-			mViewHolder.funcImg.setImageResource(R.drawable.video3);
+			//mViewHolder.funcImg.setImageResource(R.drawable.video3);
 			mViewHolder.funcText.setText(mList.get(position).getAliases());
 			return convertView;
 		}
@@ -214,9 +217,10 @@ public class VideoFragment extends Fragment implements UIListener,Dialogcallback
 
 		if (1 == menuIndex) {
 			VideoInfoDialog videoInfoDialog = new VideoInfoDialog(
-					getActivity(), VideoInfoDialog.Edit, this,currentvVideoNode);
+					getActivity(), VideoInfoDialog.Edit, this,
+					currentvVideoNode);
 			videoInfoDialog.setContent("编辑" + currentvVideoNode.getAliases());
-			 videoInfoDialog.show();
+			videoInfoDialog.show();
 		}
 		if (2 == menuIndex) {
 			MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
@@ -241,24 +245,26 @@ public class VideoFragment extends Fragment implements UIListener,Dialogcallback
 				}
 				adapter.notifyDataSetChanged();
 			}
-		}else if (event.getType() == EventType.DELETEIPC) {
+		} else if (event.getType() == EventType.DELETEIPC) {
 			if (event.isSuccess()) {
-				Toast.makeText(getActivity(), "删除成功!", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity(), "删除成功!", Toast.LENGTH_SHORT)
+						.show();
 				updateDeleteVideoList(currentvVideoNode);
-			}else {
-				Toast.makeText(getActivity(), "删除失败!", Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(getActivity(), "删除失败!", Toast.LENGTH_SHORT)
+						.show();
 			}
 		}
 	}
 
 	public void updateAddVideoList(VideoNode videoNode) {
-		//如果在列表中已经存在该摄像头，就返回，不添加
+		// 如果在列表中已经存在该摄像头，就返回，不添加
 		for (VideoNode node : mList) {
 			if (node.getId().equals(videoNode.getId())) {
 				return;
 			}
 		}
-		
+
 		mList.add(videoNode);
 		adapter.notifyDataSetChanged();
 	}
@@ -269,8 +275,9 @@ public class VideoFragment extends Fragment implements UIListener,Dialogcallback
 		}
 		adapter.notifyDataSetChanged();
 	}
+
 	public void updateEditVideoList(VideoNode videoNode) {
-		String id=videoNode.getId();
+		String id = videoNode.getId();
 		for (VideoNode v : mList) {
 			if (v.getId().equals(id)) {
 				mList.remove(v);
@@ -280,11 +287,13 @@ public class VideoFragment extends Fragment implements UIListener,Dialogcallback
 		}
 		adapter.notifyDataSetChanged();
 	}
+
 	@Override
 	public void onFragmentResult(int requsetId, boolean result, Object data) {
 		if (requsetId == VideoInfoDialog.Add && result) {
 			updateAddVideoList((VideoNode) data);
-		}if (requsetId==VideoInfoDialog.Edit&&result) {
+		}
+		if (requsetId == VideoInfoDialog.Edit && result) {
 			updateEditVideoList((VideoNode) data);
 		}
 	}

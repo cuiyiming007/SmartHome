@@ -715,7 +715,7 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 					break;
 				case SCENE:
 					convertView = LayoutInflater.from(mContext).inflate(
-							R.layout.scene_grid_item, null);
+							R.layout.commonuse_scene_grid_item, null);
 					mViewHolder.funcImg = (ImageView) convertView
 							.findViewById(R.id.dev_img);
 					mViewHolder.funcText = (TextView) convertView
@@ -726,7 +726,7 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 					break;
 				case DEV:
 					convertView = LayoutInflater.from(mContext).inflate(
-							R.layout.devices_grid_item, null);
+							R.layout.commonuse_devices_grid_item, null);
 					mViewHolder.funcImg = (ImageView) convertView
 							.findViewById(R.id.dev_img);
 					mViewHolder.funcText = (TextView) convertView
@@ -758,22 +758,24 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 					smd = ls.get(0);
 				}
 				if (null != smd) {
-					if (DataHelper.IAS_ZONE_DEVICETYPE == smd.getmDeviceId()
-							|| DataHelper.IAS_ACE_DEVICETYPE == smd
-									.getmDeviceId()) {
-
-						mViewHolder.funcImg.setImageResource(UiUtils
-								.getDevicesSmallIconByModelId(smd.getmModelId()
-										.trim()));
-					} else if (smd.getmModelId().indexOf(
-							DataHelper.Multi_key_remote_control) == 0) {
-						mViewHolder.funcImg.setImageResource(UiUtils
-								.getDevicesSmallIconForRemote(smd
-										.getmDeviceId()));
-					} else {
-						mViewHolder.funcImg.setImageResource(UiUtils
-								.getDevicesSmallIcon(smd.getmDeviceId()));
-					}
+					mViewHolder.funcImg.setImageResource(UiUtils
+							.getDevicesSmallIcon(smd.getmDeviceId(),smd.getmModelId().trim()));
+//					if (DataHelper.IAS_ZONE_DEVICETYPE == smd.getmDeviceId()
+//							|| DataHelper.IAS_ACE_DEVICETYPE == smd
+//									.getmDeviceId()) {
+//
+//						mViewHolder.funcImg.setImageResource(UiUtils
+//								.getDevicesSmallIconByModelId(smd.getmModelId()
+//										.trim()));
+//					} else if (smd.getmModelId().indexOf(
+//							DataHelper.Multi_key_remote_control) == 0) {
+//						mViewHolder.funcImg.setImageResource(UiUtils
+//								.getDevicesSmallIconForRemote(smd
+//										.getmDeviceId()));
+//					} else {
+//						mViewHolder.funcImg.setImageResource(UiUtils
+//								.getDevicesSmallIcon(smd.getmDeviceId()));
+//					}
 
 					setTextViewContent(smd, mViewHolder.devState);
 					mViewHolder.funcText.setText(smd.getmUserDefineName()

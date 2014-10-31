@@ -74,7 +74,7 @@ public class VideoActivity extends FragmentActivity implements UIListener {
 		}
 
 		Resources res = getResources();
-		Drawable backDrawable = res.getDrawable(R.drawable.new_bacg);
+		Drawable backDrawable = res.getDrawable(R.color.white);
 		this.getWindow().setBackgroundDrawable(backDrawable);
 
 		this.getWindow().setFlags(
@@ -135,7 +135,7 @@ public class VideoActivity extends FragmentActivity implements UIListener {
 
 	private void addTitle() {
 		LayoutInflater layoutInflater = LayoutInflater.from(this);
-		View viewTitle = layoutInflater.inflate(R.layout.toptitle, null);
+		View viewTitle = layoutInflater.inflate(R.layout.toptitle_with_return, null);
 		TextView title = (TextView) viewTitle.findViewById(R.id.title);
 		if (flag == 0)
 			viewTitle.setVisibility(View.GONE);
@@ -144,12 +144,10 @@ public class VideoActivity extends FragmentActivity implements UIListener {
 		title.setText(name);
 		LinearLayout.LayoutParams params = setTitlePortrait();
 		addContentView(viewTitle, params);
-		addButton = (Button) findViewById(R.id.add);
 		setButton = (Button) findViewById(R.id.set);
-		addButton.setVisibility(View.GONE);
 		setButton.setVisibility(View.GONE);
-		notifyButton = (Button) findViewById(R.id.alarm_btn);
-		unreadMessageView = (TextView) findViewById(R.id.unread_tv);
+		notifyButton = (Button) findViewById(R.id.alarm_btn_rt);
+		unreadMessageView = (TextView) findViewById(R.id.unread_ms_rt);
 		notifyButton.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -173,9 +171,9 @@ public class VideoActivity extends FragmentActivity implements UIListener {
 	}
 
 	private LinearLayout.LayoutParams setTitlePortrait() {
+		float density=getResources().getDisplayMetrics().density;
 		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.MATCH_PARENT,
-				LinearLayout.LayoutParams.WRAP_CONTENT);
+				LinearLayout.LayoutParams.MATCH_PARENT,(int)(density*60+0.5));
 		params.topMargin = 0;
 		params.gravity = Gravity.TOP;
 		return params;

@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:alpha="0.65"
     android:orientation="vertical" >
 
     <ImageView
@@ -11,19 +10,19 @@
         android:layout_margin="5dp"
         android:layout_gravity="center"
         android:gravity="center"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:src="@drawable/light_manage" />
+        android:layout_width="130dp"
+        android:layout_height="106dp"
+        android:src="@drawable/ui_devices_lightmanage" />
 
     <TextView
         android:id="@+id/func_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_gravity="bottom|center"
         android:gravity="center"
-        android:layout_marginBottom="5dp"
-        android:textColor="#1C1C1C"
-        android:textSize="16dp"
-        android:text="TextView" />
+        android:layout_marginBottom="17dp"
+        android:textColor="#ffffff"
+        android:textSize="17dp"
+        android:text="照明管理" />
 
-</LinearLayout>
+</FrameLayout>

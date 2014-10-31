@@ -505,24 +505,26 @@ public class AddCommonUsedActivity extends Activity {
 			} else if (type == SCENE) {
 				mViewHolder.use_img.setImageResource(R.drawable.scene);
 			} else if (type == DEVICES) {
-				mViewHolder.use_img.setImageResource(R.drawable.scene);
-				if (DataHelper.IAS_ZONE_DEVICETYPE == sModel.getmDeviceId()
-						|| DataHelper.IAS_ACE_DEVICETYPE == sModel
-								.getmDeviceId()) {
-
-					mViewHolder.use_img.setImageResource(UiUtils
-							.getDevicesSmallIconByModelId(sModel.getmModelId()
-									.trim()));
-				} else if (sModel.getmModelId().indexOf(
-						DataHelper.Multi_key_remote_control) == 0) {
-					mViewHolder.use_img
-							.setImageResource(UiUtils
-									.getDevicesSmallIconForRemote(sModel
-											.getmDeviceId()));
-				} else {
-					mViewHolder.use_img.setImageResource(UiUtils
-							.getDevicesSmallIcon(sModel.getmDeviceId()));
-				}
+				mViewHolder.use_img.setImageResource(UiUtils
+						.getDevicesSmallIcon(sModel.getmDeviceId(),sModel.getmModelId().trim()));
+//				mViewHolder.use_img.setImageResource(R.drawable.scene);
+//				if (DataHelper.IAS_ZONE_DEVICETYPE == sModel.getmDeviceId()
+//						|| DataHelper.IAS_ACE_DEVICETYPE == sModel
+//								.getmDeviceId()) {
+//
+//					mViewHolder.use_img.setImageResource(UiUtils
+//							.getDevicesSmallIconByModelId(sModel.getmModelId()
+//									.trim()));
+//				} else if (sModel.getmModelId().indexOf(
+//						DataHelper.Multi_key_remote_control) == 0) {
+//					mViewHolder.use_img
+//							.setImageResource(UiUtils
+//									.getDevicesSmallIconForRemote(sModel
+//											.getmDeviceId()));
+//				} else {
+//					mViewHolder.use_img.setImageResource(UiUtils
+//							.getDevicesSmallIcon(sModel.getmDeviceId()));
+//				}
 			}
 			mViewHolder.selected
 					.setOnCheckedChangeListener(new OnCheckedChangeListener() {

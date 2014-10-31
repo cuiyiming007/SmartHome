@@ -52,7 +52,7 @@ public class ScenesFragment extends Fragment implements refreshAdapter{
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		mView = inflater.inflate(R.layout.main_fragment, null);
+		mView = inflater.inflate(R.layout.devices_main_fragment, null);
 		initview();
 		return mView;
 	}

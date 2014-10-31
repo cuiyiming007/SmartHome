@@ -7,8 +7,9 @@
     <LinearLayout
         android:id="@+id/lllayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#F5F5F5"
+        android:layout_height="45dp"
+        android:gravity="center_vertical"
+        android:background="@drawable/ui_tabtitle_bg"
         android:orientation="horizontal" >
 
         <LinearLayout

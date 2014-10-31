@@ -77,7 +77,7 @@ public class RegionsFragment extends Fragment implements refreshAdapter,Dialogca
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		mView = inflater.inflate(R.layout.main_fragment, null);
+		mView = inflater.inflate(R.layout.devices_main_fragment, null);
 		initview();
 		return mView;
 	}
@@ -190,7 +190,7 @@ public class RegionsFragment extends Fragment implements refreshAdapter,Dialogca
 			} else {
 				mViewHolder = (ViewHolder) convertView.getTag();
 			}
-			mViewHolder.funcImg.setImageResource(R.drawable.region);
+			mViewHolder.funcImg.setImageResource(R.drawable.ui_region_default_style);
 			mViewHolder.funcText.setText(getItemName(position));
 			return convertView;
 		}

@@ -3,6 +3,7 @@ package com.gdgl.util;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.R.string;
 import android.app.Fragment;
 import android.content.Context;
 import android.view.Gravity;
@@ -34,11 +35,11 @@ public class UiUtils {
 	public static final String UID = "UserID";
 	public static final String IS_REMERBER_PWD = "RemerberPwd";
 	public static final String IS_AUTO_LOGIN = "AutoLogin";
-	
+
 	public static final String REMOTE_CONTROL = "RemoteControl";
-	
-	public static final String KONGTIAO="kongtiao";
-	public static final String TV="tv";
+
+	public static final String KONGTIAO = "kongtiao";
+	public static final String TV = "tv";
 
 	public static final String REGION = "RegionName";
 	public static final String SCENE = "SceneId";
@@ -47,8 +48,8 @@ public class UiUtils {
 	public static final String SCENE_FLAG = "SCENE";
 	public static final String DEVICES_FLAG = "DEVICE";
 
-	public static final String JOINNETTIME="Joinnettime";
-	
+	public static final String JOINNETTIME = "Joinnettime";
+
 	public static final String EMPTY_STR = "";
 
 	public static final String REM_PWD_ACT = "remeber_pwd";
@@ -79,70 +80,102 @@ public class UiUtils {
 	public static final int OTHER = 5;
 	public static final int SWITCH_DEVICE = 6;
 
-	
-	public static Map<String,String> clusterMap;
-	static{
-		clusterMap=new HashMap<String, String>();
-		clusterMap.put("ZB02A", "0006OUT"); //墙面开关（单键）
-		clusterMap.put("ZB02B", "0006OUT"); //墙面开关（双键）
-		clusterMap.put("ZB02C", "0006OUT"); //墙面开关（三键）
-		clusterMap.put("Z311J", "0006OUT"); //门窗感应开关
-		clusterMap.put("Z302J", "0006OUT"); //门窗感应开关
-		clusterMap.put("ZB02F", "0008OUT"); //调光开关
-		clusterMap.put("Z312", "0502OUT"); //门铃按键
-		
-		clusterMap.put("ZA10", "0006IN"); //无线智能阀门开关
-		clusterMap.put("Z805B", "0006IN"); //开关模块（单路）
-		clusterMap.put("Z806", "0006IN"); //开关模块（双路）
-		clusterMap.put("Z809A", "0006IN"); //电能检测插座
-		clusterMap.put("Z811", "0006IN"); //开关模块（四路）
-		clusterMap.put("Z816H", "0006IN"); //中规电能检测墙面插座
-		clusterMap.put("Z817B", "0008IN"); //吸顶电能检测调光模块
-		clusterMap.put("Z815N", "0008IN"); //幕帘控制开关
-		clusterMap.put("Z602A", "0502IN"); //警报器
+	public static Map<String, String> clusterMap;
+	static {
+		clusterMap = new HashMap<String, String>();
+		clusterMap.put("ZB02A", "0006OUT"); // 墙面开关（单键）
+		clusterMap.put("ZB02B", "0006OUT"); // 墙面开关（双键）
+		clusterMap.put("ZB02C", "0006OUT"); // 墙面开关（三键）
+		clusterMap.put("Z311J", "0006OUT"); // 门窗感应开关
+		clusterMap.put("Z302J", "0006OUT"); // 门窗感应开关
+		clusterMap.put("ZB02F", "0008OUT"); // 调光开关
+		clusterMap.put("Z312", "0502OUT"); // 门铃按键
+
+		clusterMap.put("ZA10", "0006IN"); // 无线智能阀门开关
+		clusterMap.put("Z805B", "0006IN"); // 开关模块（单路）
+		clusterMap.put("Z806", "0006IN"); // 开关模块（双路）
+		clusterMap.put("Z809A", "0006IN"); // 电能检测插座
+		clusterMap.put("Z811", "0006IN"); // 开关模块（四路）
+		clusterMap.put("Z816H", "0006IN"); // 中规电能检测墙面插座
+		clusterMap.put("Z817B", "0008IN"); // 吸顶电能检测调光模块
+		clusterMap.put("Z815N", "0008IN"); // 幕帘控制开关
+		clusterMap.put("Z602A", "0502IN"); // 警报器
 	}
-	
-	public static int getDevicesSmallIcon(int type) {
+
+	public static int getDevicesSmallIcon(int deviceId,String modelId) {
 		int result = 0;
-		switch (type) {
-		case DataHelper.DIMEN_LIGHTS_DEVICETYPE:
-			result = R.drawable.seek_light;
-			break;
+		switch (deviceId) {
 		case DataHelper.ON_OFF_SWITCH_DEVICETYPE:
 			result = R.drawable.switch_small;
+			break;
+		case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:
+			result = R.drawable.ui_securitycontrol_valveswitch;
+			break;
+		case DataHelper.REMOTE_CONTROL_DEVICETYPE:
+			result = R.drawable.tv_control;
+			break;
+		case DataHelper.COMBINED_INTERFACE_DEVICETYPE:
+			result = R.drawable.ui_securitycontrol_securitycenter;
+			break;
+		case DataHelper.RANGE_EXTENDER_DEVICETYPE:
+			result = R.drawable.ui_electricalcontrol_infraredcontroller;
+			break;
+		case DataHelper.MAINS_POWER_OUTLET_DEVICETYPE:
+			if (modelId.indexOf(DataHelper.Switch_Module_Single) == 0) { // ZigBee开关模块（单路）
+				result = R.drawable.ui_lightmanage_switchmodule;
+			} else {
+				result=R.drawable.ui_electricalcontrol_electricalsocket;
+			}
+			break;
+		case DataHelper.DIMEN_LIGHTS_DEVICETYPE:
+			result = R.drawable.ui_lightmanage_lightdimming;
 			break;
 		case DataHelper.DIMEN_SWITCH_DEVICETYPE:
 			result = R.drawable.dimmable_switch;
 			break;
 		case DataHelper.LIGHT_SENSOR_DEVICETYPE:
-			result = R.drawable.light_sensor;
+			result = R.drawable.ui_environmentalcontrol_lightsensor;
 			break;
 		case DataHelper.SHADE_DEVICETYPE:
-			result = R.drawable.curtain;
+			result = R.drawable.ui_electricalcontrol_curtaincontrol;
 			break;
-		case DataHelper.MAINS_POWER_OUTLET_DEVICETYPE:
-			result = R.drawable.wall_socket;
-			break;
-		case DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE:
-			result = R.drawable.alarm_small;
-			break;
-		case DataHelper.REMOTE_CONTROL_DEVICETYPE:
-			result = R.drawable.remote_control;
+		case DataHelper.TEMPTURE_SENSOR_DEVICETYPE:
+			result=R.drawable.ui_environmentalcontrol_temperaturesensor;
 			break;
 		case DataHelper.IAS_ACE_DEVICETYPE:
-			result = R.drawable.tv_control;
+			result = R.drawable.doorbell;;
 			break;
-		case DataHelper.RANGE_EXTENDER_DEVICETYPE:
-			result = R.drawable.range_extender;
+		case DataHelper.IAS_ZONE_DEVICETYPE:
+			if (modelId.indexOf(DataHelper.Motion_Sensor) == 0) { // ZigBee动作感应器
+				result = R.drawable.ui_securitycontrol_motionsensor;
+			}
+			if (modelId.indexOf(DataHelper.Magnetic_Window) == 0) { // ZigBee窗磁
+				result = R.drawable.ui_securitycontrol_windowmagnetic;
+			}
+			if (modelId.indexOf(DataHelper.Doors_and_windows_sensor_switch) == 0) { // ZigBee警报器
+				result = R.drawable.ui_securitycontrol_doormagnetic;
+			}
+			if (modelId.indexOf(DataHelper.Emergency_Button) == 0) { // 门窗感应开关
+				result = R.drawable.ui_securitycontrol_emergencybutton;
+			}
+			if (modelId.indexOf(DataHelper.Smoke_Detectors) == 0) { // 烟雾感应器
+				result = R.drawable.ui_securitycontrol_detectorsmoke;
+			}
+			if (modelId.indexOf(DataHelper.Combustible_Gas_Detector_Gas) == 0) { // 可燃气体探测器（煤气)器
+				result = R.drawable.ui_securitycontrol_detectorgas;
+			}
+			if (modelId.indexOf(DataHelper.Combustible_Gas_Detector_CO) == 0) { // 可燃气体探测器（一氧化碳)
+				result = R.drawable.ui_securitycontrol_detectorco;
+			}
+			if (modelId.indexOf(DataHelper.Combustible_Gas_Detector_Natural_gas) == 0) { // 可燃气体探测器（天然气)
+				result = R.drawable.ui_securitycontrol_detectornaturalgas;
+			}
 			break;
-		case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:
-			result = R.drawable.on_off_output;
-			break;
-		case DataHelper.COMBINED_INTERFACE_DEVICETYPE:
-			result = R.drawable.the_adapter;
+		case DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE:
+			result = R.drawable.ui_securitycontrol_alarm;
 			break;
 		default:
-			result = R.drawable.tempture;
+			result = R.drawable.ui_lightmanage_switchmodule;
 			break;
 		}
 		return result;
@@ -172,46 +205,47 @@ public class UiUtils {
 		}
 		return tags;
 	}
-	
-	public static String getClusterIdByDeviceid_Modelid(String model_id,String Ep){
-		if(model_id.indexOf("ZB02A")==0){
+
+	public static String getClusterIdByDeviceid_Modelid(String model_id,
+			String Ep) {
+		if (model_id.indexOf("ZB02A") == 0) {
 			return clusterMap.get("ZB02A");
-		} else if (model_id.indexOf("ZB02B")==0) {
+		} else if (model_id.indexOf("ZB02B") == 0) {
 			return clusterMap.get("ZB02B");
-		} else if (model_id.indexOf("ZB02C")==0) {
+		} else if (model_id.indexOf("ZB02C") == 0) {
 			return clusterMap.get("ZB02C");
-		} else if (model_id.indexOf("Z311J")==0 && Ep.equals("01")) {
+		} else if (model_id.indexOf("Z311J") == 0 && Ep.equals("01")) {
 			return clusterMap.get("Z311J");
-		} else if (model_id.indexOf("Z302J")==0 && Ep.equals("01")) {
+		} else if (model_id.indexOf("Z302J") == 0 && Ep.equals("01")) {
 			return clusterMap.get("Z302J");
-		} else if (model_id.indexOf("ZB02F")==0) {
+		} else if (model_id.indexOf("ZB02F") == 0) {
 			return clusterMap.get("ZB02F");
-		} else if (model_id.indexOf("Z312")==0) {
+		} else if (model_id.indexOf("Z312") == 0) {
 			return clusterMap.get("Z312");
-			
-		} else if (model_id.indexOf("ZA10")==0) {
+
+		} else if (model_id.indexOf("ZA10") == 0) {
 			return clusterMap.get("ZA10");
-		} else if (model_id.indexOf("Z805B")==0) {
+		} else if (model_id.indexOf("Z805B") == 0) {
 			return clusterMap.get("Z805B");
-		} else if (model_id.indexOf("Z806")==0) {
+		} else if (model_id.indexOf("Z806") == 0) {
 			return clusterMap.get("Z806");
-		} else if (model_id.indexOf("Z809A")==0) {
+		} else if (model_id.indexOf("Z809A") == 0) {
 			return clusterMap.get("Z809A");
-		} else if (model_id.indexOf("Z811")==0) {
+		} else if (model_id.indexOf("Z811") == 0) {
 			return clusterMap.get("Z811");
-		} else if (model_id.indexOf("Z816H")==0) {
+		} else if (model_id.indexOf("Z816H") == 0) {
 			return clusterMap.get("Z816H");
-		} else if (model_id.indexOf("Z817B")==0) {
+		} else if (model_id.indexOf("Z817B") == 0) {
 			return clusterMap.get("Z817B");
-		} else if (model_id.indexOf("Z815N")==0) {
+		} else if (model_id.indexOf("Z815N") == 0) {
 			return clusterMap.get("Z815N");
-		} else if (model_id.indexOf("Z602A")==0) {
+		} else if (model_id.indexOf("Z602A") == 0) {
 			return clusterMap.get("Z602A");
 		} else {
 			return "";
 		}
 	}
-	
+
 	public static int[] getImgByType(int type) {
 		int[] imgs = null;
 		switch (type) {
@@ -251,28 +285,31 @@ public class UiUtils {
 		}
 		return imgs;
 	}
- 
-	public static boolean isHaveBattery(String modelid){
-		
-		if(null==modelid || modelid.trim().equals("")){
+
+	public static boolean isHaveBattery(String modelid) {
+
+		if (null == modelid || modelid.trim().equals("")) {
 			return false;
 		}
-		
-		String[] mHasBattery={DataHelper.Motion_Sensor,DataHelper.Magnetic_Window,DataHelper.Emergency_Button,DataHelper.Doors_and_windows_sensor_switch,
-				DataHelper.Siren,DataHelper.Wall_switch_touch,DataHelper.Wall_switch_double,DataHelper.Wall_switch_triple,
-				DataHelper.Dimmer_Switch,DataHelper.Indoor_temperature_sensor,DataHelper.Light_Sensor,DataHelper.Multi_key_remote_control,
-				DataHelper.Doorbell_button}; 
-		
+
+		String[] mHasBattery = { DataHelper.Motion_Sensor,
+				DataHelper.Magnetic_Window, DataHelper.Emergency_Button,
+				DataHelper.Doors_and_windows_sensor_switch, DataHelper.Siren,
+				DataHelper.Wall_switch_touch, DataHelper.Wall_switch_double,
+				DataHelper.Wall_switch_triple, DataHelper.Dimmer_Switch,
+				DataHelper.Indoor_temperature_sensor, DataHelper.Light_Sensor,
+				DataHelper.Multi_key_remote_control, DataHelper.Doorbell_button };
+
 		for (int i = 0; i < mHasBattery.length; i++) {
-			if(modelid.trim().indexOf(mHasBattery[i])==0){
+			if (modelid.trim().indexOf(mHasBattery[i]) == 0) {
 				return true;
 			}
 		}
-		
+
 		return false;
-		
+
 	}
-	
+
 	public static int[] getType(int type) {
 		int[] imgs = null;
 		switch (type) {
@@ -335,10 +372,10 @@ public class UiUtils {
 		if (modelId.indexOf(DataHelper.Combustible_Gas_Detector_Natural_gas) == 0) { // 可燃气体探测器（天然气)
 			imgId = R.drawable.detector_ano;
 		}
-		if (modelId.indexOf(DataHelper.Doorbell_button) == 0) { // 可燃气体探测器（天然气)
+		if (modelId.indexOf(DataHelper.Doorbell_button) == 0) { // ZigBee门铃按键
 			imgId = R.drawable.doorbell;
 		}
-		if (modelId.indexOf(DataHelper.Siren) == 0) { // 可燃气体探测器（天然气)
+		if (modelId.indexOf(DataHelper.Siren) == 0) { // ZigBee警报器
 			imgId = R.drawable.alarm_small;
 		}
 		return imgId;
@@ -389,11 +426,15 @@ public class UiUtils {
 		return R.drawable.l_off_forreg;
 	}
 
-	public static int[] DEVICES_MANAGER_IMAGES = { R.drawable.light_manage,
-			R.drawable.electrical_control, R.drawable.safe,
-			R.drawable.huanjing_jiance, R.drawable.jieneng ,R.drawable.other};
+	public static int[] DEVICES_MANAGER_IMAGES = {
+			R.drawable.ui_devices_lightmanage_style,
+			R.drawable.ui_devices_electricalcontrol_style,
+			R.drawable.ui_devices_securitycontrol_style,
+			R.drawable.ui_devices_environmentalcontrol_style,
+			R.drawable.ui_devices_energyconservation_style,
+			R.drawable.ui_devices_others_style };
 	public static String[] DEVICES_MANAGER_TAGS = { "照明管理", "电器控制", "安全防护",
-			"环境监测", "节能","其它" };
+			"环境监测", "节能", "其它" };
 
 	public static int[] getImagResource(int type) {
 		int[] mresult = null;
@@ -467,8 +508,8 @@ public class UiUtils {
 	}
 
 	public static String customString(String s) {
-//		s = s.substring(s.indexOf("{"), s.length() - 1);
-		s = s.substring(s.indexOf("{"), s.lastIndexOf("}")+1);
+		// s = s.substring(s.indexOf("{"), s.length() - 1);
+		s = s.substring(s.indexOf("{"), s.lastIndexOf("}") + 1);
 		return s;
 	}
 

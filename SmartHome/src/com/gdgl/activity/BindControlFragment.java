@@ -300,20 +300,22 @@ public class BindControlFragment extends BaseFragment implements UIListener {
 			
 
 			int devId = Integer.parseInt(currentPositionDevice.getmDeviceId());
-			if (DataHelper.IAS_ZONE_DEVICETYPE == devId
-					|| DataHelper.IAS_ACE_DEVICETYPE == devId) {
-
-				mHolder.devices_img.setImageResource(UiUtils
-						.getDevicesSmallIconByModelId(currentPositionDevice.getmModelId()
-								.trim()));
-			} else if (currentPositionDevice.getmModelId().indexOf(
-					DataHelper.Multi_key_remote_control) == 0) {
-				mHolder.devices_img.setImageResource(UiUtils
-						.getDevicesSmallIconForRemote(devId));
-			} else {
-				mHolder.devices_img.setImageResource(UiUtils
-						.getDevicesSmallIcon(devId));
-			}
+			mHolder.devices_img.setImageResource(UiUtils
+					.getDevicesSmallIcon(devId,currentPositionDevice.getmModelId().trim()));
+//			if (DataHelper.IAS_ZONE_DEVICETYPE == devId
+//					|| DataHelper.IAS_ACE_DEVICETYPE == devId) {
+//
+//				mHolder.devices_img.setImageResource(UiUtils
+//						.getDevicesSmallIconByModelId(currentPositionDevice.getmModelId()
+//								.trim()));
+//			} else if (currentPositionDevice.getmModelId().indexOf(
+//					DataHelper.Multi_key_remote_control) == 0) {
+//				mHolder.devices_img.setImageResource(UiUtils
+//						.getDevicesSmallIconForRemote(devId));
+//			} else {
+//				mHolder.devices_img.setImageResource(UiUtils
+//						.getDevicesSmallIcon(devId));
+//			}
 			
 			mHolder.bindBtn.setOnClickListener(new OnClickListener() {
 
