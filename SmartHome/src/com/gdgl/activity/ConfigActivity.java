@@ -1,4 +1,5 @@
 package com.gdgl.activity;
+
 /***
  * 设置列表界面
  */
@@ -31,7 +32,8 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 	int mSelectedColor = 0xffEE3B3B;
 	int mUnSelectedColor = 0xff20B2AA;
 
-	TextView modify_pwd, modify_name, join_net, all_dev, bind_control,messagemenu;
+	TextView modify_pwd, modify_name, join_net, all_dev, bind_control,
+			messagemenu;
 
 	// TextView safe_center;
 	TextView config_name, user_name;
@@ -40,12 +42,12 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 
 	BaseFragment mFragment;
 
-	LinearLayout mfragment_continer;
+	LinearLayout mfragment_continer, parents_need_Layout;
 
 	@Override
 	public void onContentChanged() {
 		super.onContentChanged();
-		setSlideRole(R.layout.fragment_content);
+		setSlideRole(R.layout.config_content);
 		setSlideRole(R.layout.config_menu);
 
 		getFromSharedPreferences.setsharedPreferences(ConfigActivity.this);
@@ -61,14 +63,16 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 		mSlideMenu.setPrimaryShadowWidth(100);
 		mSlideMenu.setEdgetSlideWidth(50);
 		mfragment_continer = (LinearLayout) findViewById(R.id.fragment_continer);
-		config_name = (TextView) findViewById(R.id.config_name);
+		parents_need_Layout=(LinearLayout)findViewById(R.id.parents_need);
+		parents_need_Layout.setVisibility(View.GONE);
+		config_name = (TextView) findViewById(R.id.title);
 		user_name = (TextView) findViewById(R.id.user_name);
 		messagemenu = (TextView) findViewById(R.id.message_menu);
 		user_name.setText(name);
 		modify_pwd = (TextView) findViewById(R.id.modify_pwd);
-		clearMessageImageButton=(Button) findViewById(R.id.clear_message);
+		clearMessageImageButton = (Button) findViewById(R.id.clear_message);
 		clearMessageImageButton.setVisibility(View.GONE);
-		
+
 		modify_pwd.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -95,8 +99,12 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if (mSlideMenu.isOpen()) {
-					mSlideMenu.close(true);
+//				if (mSlideMenu.isOpen()) {
+//					mSlideMenu.close(true);
+//					return;
+//				}
+				if (!mSlideMenu.isOpen()) {
+					mSlideMenu.open(false, true);
 					return;
 				}
 				finish();
@@ -132,7 +140,7 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				TextView tv = (TextView) v;
-				DevicesListWithGroup mAllDevicesListFragment = new DevicesListWithGroup();
+				ConfigDevicesListWithGroup mAllDevicesListFragment = new ConfigDevicesListWithGroup();
 				mFragment = mAllDevicesListFragment;
 				changeFragment(tv, mAllDevicesListFragment);
 			}
@@ -140,35 +148,35 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 		messagemenu.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				MessageListFragment messageListFragment=new MessageListFragment();
-				mFragment=messageListFragment;
+				MessageListFragment messageListFragment = new MessageListFragment();
+				mFragment = messageListFragment;
 				changeFragment((TextView) v, messageListFragment);
-				
+
 			}
 		});
 		initFragment();
-		
+
 		mHandler.sendEmptyMessageDelayed(1, 150);
 	}
 
 	private void initFragment() {
 		// TODO Auto-generated method stub
 		config_name.setText(all_dev.getText().toString());
-		if(null==fragmentManager){
-			fragmentManager=this.getFragmentManager();
+		if (null == fragmentManager) {
+			fragmentManager = this.getFragmentManager();
 		}
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
 		Bundle mBundle = getIntent().getExtras();
-		//通过点击通知传过来的，进入消息管理界面
-		if (mBundle!=null&&mBundle.getInt("fragid",-1)==1) {
-			MessageListFragment f=new MessageListFragment();
+		// 通过点击通知传过来的，进入消息管理界面
+		if (mBundle != null && mBundle.getInt("fragid", -1) == 1) {
+			MessageListFragment f = new MessageListFragment();
 			config_name.setText(messagemenu.getText().toString());
 			showClearMesssageBtn(f);
 			fragmentTransaction.replace(R.id.fragment_continer, f);
-		}else
-		{
-			fragmentTransaction.replace(R.id.fragment_continer, 	new DevicesListWithGroup());
+		} else {
+			fragmentTransaction.replace(R.id.fragment_continer,
+					new ConfigDevicesListWithGroup());
 		}
 
 		fragmentTransaction.commit();
@@ -196,7 +204,7 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 	private void showClearMesssageBtn(final Fragment f) {
 		clearMessageImageButton.setVisibility(View.VISIBLE);
 		clearMessageImageButton.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				((MessageListFragment) f).dialog();
@@ -274,10 +282,10 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 	@Override
 	public void back() {
 		// TODO Auto-generated method stub
-//		LayoutParams mLayoutParams = new LayoutParams(
-//				LinearLayout.LayoutParams.MATCH_PARENT,
-//				LinearLayout.LayoutParams.MATCH_PARENT);
-//		mfragment_continer.setLayoutParams(mLayoutParams);
+		// LayoutParams mLayoutParams = new LayoutParams(
+		// LinearLayout.LayoutParams.MATCH_PARENT,
+		// LinearLayout.LayoutParams.MATCH_PARENT);
+		// mfragment_continer.setLayoutParams(mLayoutParams);
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
 

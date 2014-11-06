@@ -357,7 +357,7 @@ public class JoinNetDevicesListFragment extends BaseFragment {
 			
 			if (mDevices.getmUserDefineName() == null || mDevices.getmUserDefineName().trim().equals("")) {
 				mDevices.setmUserDefineName(DataUtil.getDefaultUserDefinname(
-						getActivity(), mDevices.getmModelId()));
+						getActivity(), mDevices.getmModelId(), mDevices.getmEP()));
 			}
 			mHolder.devices_name.setText(mDevices.getmUserDefineName().replace(" ", ""));
 //			Log.e("devices_name", mDevices.getmUserDefineName());

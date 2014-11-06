@@ -3,15 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-	
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@color/blue_default"
         android:paddingBottom="5dip"
         android:paddingTop="5dip" >
-		<!--android:background="@color/blue_default"-->
+
+        <!-- android:background="@color/blue_default" -->
+
         <ImageView
             android:id="@+id/devices_img"
             android:layout_width="60dp"
@@ -23,8 +24,8 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_gravity="center_vertical"
+            android:layout_weight="1"
             android:orientation="vertical" >
 
             <LinearLayout
@@ -88,8 +89,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_weight="1"
-                android:visibility="gone"
-                android:orientation="horizontal" >
+                android:orientation="horizontal"
+                android:visibility="gone" >
 
                 <SeekBar
                     android:id="@+id/devices_seek_bar"

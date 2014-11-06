@@ -65,7 +65,7 @@
             android:layout_height="40dp"
             android:layout_marginLeft="15dip"
             android:layout_marginRight="10dip"
-            android:background="@drawable/delete_btn_style"
+            android:background="@drawable/ui_toptitle_delete_style"
             android:gravity="center" />
     </LinearLayout>
 

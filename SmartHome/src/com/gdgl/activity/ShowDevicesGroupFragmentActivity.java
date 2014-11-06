@@ -26,7 +26,6 @@ import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
-import com.gdgl.mydata.SimpleResponseData;
 import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.mydata.getlocalcielist.CIEresponse_params;
 import com.gdgl.smarthome.R;
@@ -117,15 +116,17 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		protected Integer doInBackground(Integer... params) {
 			// TODO Auto-generated method stub
 			SQLiteDatabase db = mDataHelper.getSQLiteDatabase();
-			//环境监测
-			List<SimpleDevicesModel> enviromentlist = mDevicesListCache.get(UiUtils.ENVIRONMENTAL_CONTROL);
+			// 环境监测
+			List<SimpleDevicesModel> enviromentlist = mDevicesListCache
+					.get(UiUtils.ENVIRONMENTAL_CONTROL);
 			if (null == enviromentlist) {
 				enviromentlist = DataUtil.getSortManagementDevices(
 						ShowDevicesGroupFragmentActivity.this, mDataHelper, db,
 						UiUtils.ENVIRONMENTAL_CONTROL);
-				mDevicesListCache.put(UiUtils.ENVIRONMENTAL_CONTROL, enviromentlist);
+				mDevicesListCache.put(UiUtils.ENVIRONMENTAL_CONTROL,
+						enviromentlist);
 			}
-			//安全防护
+			// 安全防护
 			List<SimpleDevicesModel> safeList = mDevicesListCache
 					.get(UiUtils.SECURITY_CONTROL);
 			if (null == safeList) {
@@ -136,7 +137,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 				SimpleDevicesModel dm = null;
 				SimpleDevicesModel tempDevicesModel;
 				int index = -1;
-				if (null != safeList) {
+				if (null != safeList && safeList.size() > 0) {
 					tempDevicesModel = safeList.get(0);
 					for (int i = 0; i < safeList.size(); i++) {
 						if (safeList.get(i).getmModelId()
@@ -152,18 +153,18 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 				}
 				mDevicesListCache.put(UiUtils.SECURITY_CONTROL, safeList);
 			}
-			//照明管理
+			// 照明管理
 			List<SimpleDevicesModel> LightList = mDevicesListCache
 					.get(UiUtils.LIGHTS_MANAGER);
 			if (null == LightList) {
-//				LightList = DataUtil.getLightingManagementDevices(
-//						ShowDevicesGroupFragmentActivity.this, mDataHelper, db);
+				// LightList = DataUtil.getLightingManagementDevices(
+				// ShowDevicesGroupFragmentActivity.this, mDataHelper, db);
 				LightList = DataUtil.getSortManagementDevices(
 						ShowDevicesGroupFragmentActivity.this, mDataHelper, db,
 						UiUtils.LIGHTS_MANAGER);
 				mDevicesListCache.put(UiUtils.LIGHTS_MANAGER, LightList);
 			}
-			//电器控制
+			// 电器控制
 			List<SimpleDevicesModel> ElecList = mDevicesListCache
 					.get(UiUtils.ELECTRICAL_MANAGER);
 			if (null == ElecList) {
@@ -172,7 +173,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 						UiUtils.ELECTRICAL_MANAGER);
 				mDevicesListCache.put(UiUtils.ELECTRICAL_MANAGER, ElecList);
 			}
-			//节能
+			// 节能
 			List<SimpleDevicesModel> envList = mDevicesListCache
 					.get(UiUtils.ENERGY_CONSERVATION);
 			if (null == envList) {
@@ -181,7 +182,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 						UiUtils.ENERGY_CONSERVATION);
 				mDevicesListCache.put(UiUtils.ENERGY_CONSERVATION, envList);
 			}
-			//其他
+			// 其他
 			List<SimpleDevicesModel> anoList = mDevicesListCache
 					.get(UiUtils.OTHER);
 			if (null == anoList) {
@@ -206,27 +207,27 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 			initDevicesListFragment();
 
 			initTitleByTag(mListIndex);
-			
+
 			requestData(mListIndex);
-			
-//			mDeviceManager.getLocalCIEList();
-//
-//			if (1 == result) {
-//				List<SimpleDevicesModel> temPlist;
-//				temPlist = mDevicesListCache.get(UiUtils.ENVIRONMENTAL_CONTROL);
-//				if (null != temPlist && temPlist.size() > 0) {
-//					for (SimpleDevicesModel sd : temPlist) {
-//						if (sd.getmModelId().indexOf(
-//								DataHelper.Indoor_temperature_sensor) == 0) {
-//							temptureManager.temperatureSensorOperation(sd, 0);
-//							temptureManager.temperatureSensorOperation(sd, 1);
-//						} else if (sd.getmModelId().indexOf(
-//								DataHelper.Light_Sensor) == 0) {
-//							temptureManager.lightSensorOperation(sd, 0);
-//						}
-//					}
-//				}
-//			}
+
+			// mDeviceManager.getLocalCIEList();
+			//
+			// if (1 == result) {
+			// List<SimpleDevicesModel> temPlist;
+			// temPlist = mDevicesListCache.get(UiUtils.ENVIRONMENTAL_CONTROL);
+			// if (null != temPlist && temPlist.size() > 0) {
+			// for (SimpleDevicesModel sd : temPlist) {
+			// if (sd.getmModelId().indexOf(
+			// DataHelper.Indoor_temperature_sensor) == 0) {
+			// temptureManager.temperatureSensorOperation(sd, 0);
+			// temptureManager.temperatureSensorOperation(sd, 1);
+			// } else if (sd.getmModelId().indexOf(
+			// DataHelper.Light_Sensor) == 0) {
+			// temptureManager.lightSensorOperation(sd, 0);
+			// }
+			// }
+			// }
+			// }
 		}
 	}
 
@@ -329,16 +330,16 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		CallbackManager.getInstance().deleteObserver(this);
 	}
 
-//	public SimpleDevicesModel getCurrentDeviceByIeee(String iee) {
-//		if (null != mCurrentList) {
-//			for (SimpleDevicesModel mSimpleDevicesModel : mCurrentList) {
-//				if (iee == mSimpleDevicesModel.getmIeee()) {
-//					return mSimpleDevicesModel;
-//				}
-//			}
-//		}
-//		return null;
-//	}
+	// public SimpleDevicesModel getCurrentDeviceByIeee(String iee) {
+	// if (null != mCurrentList) {
+	// for (SimpleDevicesModel mSimpleDevicesModel : mCurrentList) {
+	// if (iee == mSimpleDevicesModel.getmIeee()) {
+	// return mSimpleDevicesModel;
+	// }
+	// }
+	// }
+	// return null;
+	// }
 
 	public void showSetWindow() {
 		mSetWindow = new SelectPicPopupWindow(
@@ -420,10 +421,12 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 	private void initFancyCoverFlow() {
 		// TODO Auto-generated method stub
 		fancyCoverFlow = (FancyCoverFlow) findViewById(R.id.devices_gallery);
+		float density = getResources().getDisplayMetrics().density;
 		fancyCoverFlow.setAdapter(new ViewGroupAdapter(getApplicationContext(),
-				images, tags, 250, 200));
+				images, tags, (int) (density * 100 + 0.5),
+				(int) (density * 100 + 0.5)));
 		fancyCoverFlow.setCallbackDuringFling(false);
-		fancyCoverFlow.setSpacing(50);
+		// fancyCoverFlow.setSpacing(50);
 		fancyCoverFlow.setSelection(mListIndex);
 		fancyCoverFlow.setOnItemSelectedListener(new OnItemSelectedListener() {
 
@@ -516,7 +519,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 	@Override
 	public void setDevicesId(SimpleDevicesModel simpleDevicesModel) {
 		// TODO Auto-generated method stub
-		getModel=simpleDevicesModel;
+		getModel = simpleDevicesModel;
 	}
 
 	@Override
@@ -539,15 +542,15 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		// devices_need.setVisibility(View.GONE);
 	}
 
-//	public void initTitleByDevices(String devicesId) {
-//		SimpleDevicesModel ms = getModel;
-//		if (null != ms) {
-//			title.setText(ms.getmUserDefineName().replace(" ", ""));
-//			// parents_need.setVisibility(View.GONE);
-//			// devices_need.setVisibility(View.VISIBLE);
-//		}
-//
-//	}
+	// public void initTitleByDevices(String devicesId) {
+	// SimpleDevicesModel ms = getModel;
+	// if (null != ms) {
+	// title.setText(ms.getmUserDefineName().replace(" ", ""));
+	// // parents_need.setVisibility(View.GONE);
+	// // devices_need.setVisibility(View.VISIBLE);
+	// }
+	//
+	// }
 
 	public interface EditDevicesName {
 		public void editDevicesName();
@@ -715,7 +718,6 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 
 			int type = types[mListIndex];
 			mDevicesListCache.put(type, list);
-
 		}
 		initTitleByTag(mListIndex);
 	}
@@ -727,13 +729,21 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		if (EventType.LIGHTSENSOROPERATION == event.getType()) {
 			// data maybe null
 			if (event.isSuccess()) {
-				SimpleResponseData data = (SimpleResponseData) event.getData();
+				Bundle bundle=(Bundle)event.getData();
 				List<SimpleDevicesModel> temList = mDevicesListCache
 						.get(UiUtils.ENVIRONMENTAL_CONTROL);
-				int m = getDevicesPostion(data.getIeee(), data.getEp(), temList);
+				int m = getDevicesPostion(bundle.getString("IEEE"), bundle.getString("EP"), temList);
 				if (m != -1) {
-					String light = data.getParam1() + "Lux";
+					String light = bundle.getString("PARAM") + "Lux";
 
+					
+//				SimpleResponseData data = (SimpleResponseData) event.getData();
+//				List<SimpleDevicesModel> temList = mDevicesListCache
+//						.get(UiUtils.ENVIRONMENTAL_CONTROL);
+//				int m = getDevicesPostion(data.getIeee(), data.getEp(), temList);
+//				if (m != -1) {
+//					String light = data.getParam1() + "Lux";
+//
 					getFromSharedPreferences.setLight(light);
 					temList.get(m).setmValue(light);
 
@@ -742,7 +752,8 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 						title.post(new Runnable() {
 							@Override
 							public void run() {
-								setdata(mCurrentList);
+//								setdata(mCurrentList);
+								mDevicesBaseAdapter.notifyDataSetChanged();
 							}
 						});
 					}
@@ -751,15 +762,12 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 			}
 		} else if (EventType.TEMPERATURESENSOROPERATION == event.getType()) {
 			if (event.isSuccess()) {
-				SimpleResponseData data = (SimpleResponseData) event.getData();
+				Bundle bundle=(Bundle)event.getData();
 				List<SimpleDevicesModel> temList = mDevicesListCache
 						.get(UiUtils.ENVIRONMENTAL_CONTROL);
-				int m = getDevicesPostion(data.getIeee(), data.getEp(), temList);
+				int m = getPostionInList(bundle.getString("IEEE"), bundle.getString("EP"), temList);
 				if (m != -1) {
-					String temperature = String.valueOf(Float.valueOf(data
-							.getParam1().substring(0,
-									data.getParam1().length() - 2))
-							/ 10 + "°C");
+					String temperature = bundle.getString("PARAM") + "°C";
 					getFromSharedPreferences.setTemperature(temperature);
 					temList.get(m).setmValue(temperature);
 					if (UiUtils.ENVIRONMENTAL_CONTROL == mListIndex) {
@@ -767,7 +775,31 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 						title.post(new Runnable() {
 							@Override
 							public void run() {
-								setdata(mCurrentList);
+//								setdata(mCurrentList);
+								mDevicesBaseAdapter.notifyDataSetChanged();
+							}
+						});
+					}
+				}
+			}
+		} else if (EventType.HUMIDITY == event.getType()) {
+			if (event.isSuccess()) {
+				Bundle bundle=(Bundle)event.getData();
+				List<SimpleDevicesModel> temList = mDevicesListCache
+						.get(UiUtils.ENVIRONMENTAL_CONTROL);
+				int m = getPostionInList(bundle.getString("IEEE"), bundle.getString("EP"), temList);
+				if (m != -1) {
+					String humidity = bundle.getString("PARAM");
+					getFromSharedPreferences.setHumidity(humidity);
+					temList.get(m).setHumidityValue(humidity);
+
+					if (UiUtils.ENVIRONMENTAL_CONTROL == mListIndex) {
+						mCurrentList = temList;
+						title.post(new Runnable() {
+							@Override
+							public void run() {
+//								setdata(mCurrentList);
+								mDevicesBaseAdapter.notifyDataSetChanged();
 							}
 						});
 					}
@@ -775,7 +807,8 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 			}
 		} else if (EventType.GETICELIST == event.getType()) {
 			if (event.isSuccess()) {
-				ArrayList<CIEresponse_params> devDataList = (ArrayList<CIEresponse_params>) event.getData();
+				ArrayList<CIEresponse_params> devDataList = (ArrayList<CIEresponse_params>) event
+						.getData();
 
 				List<SimpleDevicesModel> safeList = mDevicesListCache
 						.get(UiUtils.SECURITY_CONTROL);
@@ -812,37 +845,40 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 					}
 				}
 			}
-		} else if (EventType.LOCALIASCIEBYPASSZONE == event.getType()||EventType.LOCALIASCIEUNBYPASSZONE==event.getType()) {
+		} else if (EventType.LOCALIASCIEBYPASSZONE == event.getType()
+				|| EventType.LOCALIASCIEUNBYPASSZONE == event.getType()) {
 			if (event.isSuccess()) {
 				DeviceManager.getInstance().getLocalCIEList();
 			}
-		} else if (EventType.LOCALIASCIEOPERATION==event.getType()) {
+		} else if (EventType.LOCALIASCIEOPERATION == event.getType()) {
 			if (event.isSuccess() == true) {
 				int data = Integer.parseInt((String) event.getData());
-				
-				List<SimpleDevicesModel> safeList = mDevicesListCache.get(UiUtils.SECURITY_CONTROL);
-				
+
+				List<SimpleDevicesModel> safeList = mDevicesListCache
+						.get(UiUtils.SECURITY_CONTROL);
+
 				List<SimpleDevicesModel> updatsLis = new ArrayList<SimpleDevicesModel>();
-				
-				int m = getDevicesPostion(DataHelper.One_key_operator, "0A", safeList);
+
+				int m = getDevicesPostion(DataHelper.One_key_operator, "0A",
+						safeList);
 				if (-1 != m) {
-					String status=null;
+					String status = null;
 					switch (data) {
 					case 0:
 					case 6:
-						status="0";
+						status = "0";
 						break;
 					case 3:
 					case 7:
-						status="1";
+						status = "1";
 					default:
 						break;
 					}
-					
-					//if (!status.equals(safeList.get(m).getmOnOffStatus())) {
-						safeList.get(m).setmOnOffStatus(status);
-						updatsLis.add(safeList.get(m));
-					//}
+
+					// if (!status.equals(safeList.get(m).getmOnOffStatus())) {
+					safeList.get(m).setmOnOffStatus(status);
+					updatsLis.add(safeList.get(m));
+					// }
 				}
 				if (UiUtils.SECURITY_CONTROL == mListIndex) {
 					mCurrentList = safeList;
@@ -856,7 +892,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 				if (null != updatsLis && updatsLis.size() > 0) {
 					new UpdateDatabaseTask().execute(updatsLis);
 				}
-			}			
+			}
 		} else if (EventType.WARN == event.getType()) {
 			title.post(new Runnable() {
 
@@ -866,30 +902,6 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 					setdata(mCurrentList);
 				}
 			});
-		} else if (EventType.HUMIDITY == event.getType()) {
-			if (event.isSuccess()) {
-				SimpleResponseData data = (SimpleResponseData) event.getData();
-				List<SimpleDevicesModel> temList = mDevicesListCache
-						.get(UiUtils.ENVIRONMENTAL_CONTROL);
-				int m = getDevicesPostion(data.getIeee(), data.getEp(), temList);
-				if (m != -1) {
-					String humidity = String.valueOf(Float.valueOf(data
-							.getParam1().substring(0,
-									data.getParam1().length() - 2)) / 10);
-					getFromSharedPreferences.setHumidity(humidity);
-					temList.get(m).setHumidityValue(humidity);
-
-					if (UiUtils.ENVIRONMENTAL_CONTROL == mListIndex) {
-						mCurrentList = temList;
-						title.post(new Runnable() {
-							@Override
-							public void run() {
-								setdata(mCurrentList);
-							}
-						});
-					}
-				}
-			}
 		}
 
 	}
@@ -941,7 +953,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		}
 		if (null != deviceList && deviceList.size() > 0) {
 			for (int m = 0; m < deviceList.size(); m++) {
-				if (modelid.trim().indexOf(modelid)==0
+				if (modelid.trim().indexOf(modelid) == 0
 						&& ep.trim().equals(deviceList.get(m).getmEP())) {
 					return m;
 				}

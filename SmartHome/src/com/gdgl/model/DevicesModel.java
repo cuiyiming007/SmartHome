@@ -474,7 +474,7 @@ public class DevicesModel implements DevicesBaseColumns {
 		//设置设备名称
 		if (getmUserDefineName() == null || getmUserDefineName().trim().equals("")) {
 			setmUserDefineName(DataUtil.getDefaultUserDefinname(
-					ApplicationController.getInstance(), getmModelId()));
+					ApplicationController.getInstance(), getmModelId(), getmEP()));
 		}
 		mContentValues.put(DevicesBaseColumns.USER_DEFINE_NAME, getmUserDefineName());
 		

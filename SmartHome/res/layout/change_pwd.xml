@@ -45,8 +45,8 @@
                         android:layout_marginTop="2dp"
                         android:alpha="0.85"
                         android:gravity="center"
-                        android:text="        旧密码："
-                        android:textColor="#20B2AA"
+                        android:text="旧密码："
+                        android:textColor="#ffffff"
                         android:textSize="18dp" />
 
                     <EditText
@@ -82,8 +82,8 @@
                         android:layout_marginTop="2dp"
                         android:alpha="0.85"
                         android:gravity="center"
-                        android:text="        新密码："
-                        android:textColor="#20B2AA"
+                        android:text="新密码："
+                        android:textColor="#ffffff"
                         android:textSize="18dp" />
 
                     <EditText
@@ -117,8 +117,8 @@
                         android:layout_marginTop="2dp"
                         android:alpha="0.85"
                         android:gravity="center"
-                        android:text="确认新密码："
-                        android:textColor="#20B2AA"
+                        android:text="再确认："
+                        android:textColor="#ffffff"
                         android:textSize="18dp" />
 
                     <EditText

@@ -102,11 +102,22 @@ public class UiUtils {
 		clusterMap.put("Z602A", "0502IN"); // 警报器
 	}
 
-	public static int getDevicesSmallIcon(int deviceId,String modelId) {
+	public static int getDevicesSmallIcon(int deviceId, String modelId) {
 		int result = 0;
 		switch (deviceId) {
 		case DataHelper.ON_OFF_SWITCH_DEVICETYPE:
-			result = R.drawable.switch_small;
+			if (modelId.indexOf(DataHelper.Wall_switch_touch) == 0) { // ZigBee墙面开关（单键）
+				result = R.drawable.ui_others_singlestroke;
+			}
+			if (modelId.indexOf(DataHelper.Wall_switch_double) == 0) { // ZigBee墙面开关（双键）
+				result = R.drawable.ui_others_doublekeystroke;
+			}
+			if (modelId.indexOf(DataHelper.Wall_switch_triple) == 0) { // ZigBee墙面开关（三键）
+				result = R.drawable.ui_others_triplekeystroke;
+			}
+			if (modelId.indexOf(DataHelper.Doors_and_windows_sensor_switch) == 0) { // 门窗感应开关
+				result = R.drawable.ui_securitycontrol_doormagnetic;
+			}
 			break;
 		case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:
 			result = R.drawable.ui_securitycontrol_valveswitch;
@@ -124,14 +135,14 @@ public class UiUtils {
 			if (modelId.indexOf(DataHelper.Switch_Module_Single) == 0) { // ZigBee开关模块（单路）
 				result = R.drawable.ui_lightmanage_switchmodule;
 			} else {
-				result=R.drawable.ui_electricalcontrol_electricalsocket;
+				result = R.drawable.ui_electricalcontrol_electricalsocket;
 			}
 			break;
 		case DataHelper.DIMEN_LIGHTS_DEVICETYPE:
 			result = R.drawable.ui_lightmanage_lightdimming;
 			break;
 		case DataHelper.DIMEN_SWITCH_DEVICETYPE:
-			result = R.drawable.dimmable_switch;
+			result = R.drawable.ui_others_slidingblock;
 			break;
 		case DataHelper.LIGHT_SENSOR_DEVICETYPE:
 			result = R.drawable.ui_environmentalcontrol_lightsensor;
@@ -140,10 +151,10 @@ public class UiUtils {
 			result = R.drawable.ui_electricalcontrol_curtaincontrol;
 			break;
 		case DataHelper.TEMPTURE_SENSOR_DEVICETYPE:
-			result=R.drawable.ui_environmentalcontrol_temperaturesensor;
+			result = R.drawable.ui_environmentalcontrol_temperaturesensor;
 			break;
 		case DataHelper.IAS_ACE_DEVICETYPE:
-			result = R.drawable.doorbell;;
+			result = R.drawable.ui_others_doorbell;
 			break;
 		case DataHelper.IAS_ZONE_DEVICETYPE:
 			if (modelId.indexOf(DataHelper.Motion_Sensor) == 0) { // ZigBee动作感应器
@@ -167,7 +178,8 @@ public class UiUtils {
 			if (modelId.indexOf(DataHelper.Combustible_Gas_Detector_CO) == 0) { // 可燃气体探测器（一氧化碳)
 				result = R.drawable.ui_securitycontrol_detectorco;
 			}
-			if (modelId.indexOf(DataHelper.Combustible_Gas_Detector_Natural_gas) == 0) { // 可燃气体探测器（天然气)
+			if (modelId
+					.indexOf(DataHelper.Combustible_Gas_Detector_Natural_gas) == 0) { // 可燃气体探测器（天然气)
 				result = R.drawable.ui_securitycontrol_detectornaturalgas;
 			}
 			break;
@@ -250,37 +262,53 @@ public class UiUtils {
 		int[] imgs = null;
 		switch (type) {
 		case LIGHTS_MANAGER:
-			imgs = new int[] { R.drawable.electrical_control, R.drawable.safe,
-					R.drawable.light_manage, R.drawable.huanjing_jiance,
-					R.drawable.jieneng, R.drawable.other };
+			imgs = new int[] {
+					R.drawable.ui_cercleswitch_electricalcontrol_pressed,
+					R.drawable.ui_cercleswitch_securitycontrol_pressed,
+					R.drawable.ui_cercleswitch_lightmanage_pressed,
+					R.drawable.ui_cercleswitch_environmentalcontrol_pressed,
+					R.drawable.ui_cercleswitch_energyconservation_pressed,
+					R.drawable.ui_cercleswitch_others_pressed };
 			break;
 		case ELECTRICAL_MANAGER:
-			imgs = new int[] { R.drawable.light_manage, R.drawable.safe,
-					R.drawable.electrical_control, R.drawable.huanjing_jiance,
-					R.drawable.jieneng, R.drawable.other };
+			imgs = new int[] { R.drawable.ui_cercleswitch_lightmanage_pressed,
+					R.drawable.ui_cercleswitch_securitycontrol_pressed,
+					R.drawable.ui_cercleswitch_electricalcontrol_pressed,
+					R.drawable.ui_cercleswitch_environmentalcontrol_pressed,
+					R.drawable.ui_cercleswitch_energyconservation_pressed,
+					R.drawable.ui_cercleswitch_others_pressed };
 			break;
 		case SECURITY_CONTROL:
-			imgs = new int[] { R.drawable.light_manage,
-					R.drawable.electrical_control, R.drawable.safe,
-					R.drawable.huanjing_jiance, R.drawable.jieneng,
-					R.drawable.other };
+			imgs = new int[] { R.drawable.ui_cercleswitch_lightmanage_pressed,
+					R.drawable.ui_cercleswitch_electricalcontrol_pressed,
+					R.drawable.ui_cercleswitch_securitycontrol_pressed,
+					R.drawable.ui_cercleswitch_environmentalcontrol_pressed,
+					R.drawable.ui_cercleswitch_energyconservation_pressed,
+					R.drawable.ui_cercleswitch_others_pressed };
 			break;
 		case ENVIRONMENTAL_CONTROL:
-			imgs = new int[] { R.drawable.light_manage,
-					R.drawable.electrical_control, R.drawable.huanjing_jiance,
-					R.drawable.safe, R.drawable.jieneng, R.drawable.other };
+			imgs = new int[] { R.drawable.ui_cercleswitch_lightmanage_pressed,
+					R.drawable.ui_cercleswitch_electricalcontrol_pressed,
+					R.drawable.ui_cercleswitch_environmentalcontrol_pressed,
+					R.drawable.ui_cercleswitch_securitycontrol_pressed,
+					R.drawable.ui_cercleswitch_energyconservation_pressed,
+					R.drawable.ui_cercleswitch_others_pressed };
 			break;
 		case ENERGY_CONSERVATION:
-			imgs = new int[] { R.drawable.light_manage,
-					R.drawable.electrical_control, R.drawable.jieneng,
-					R.drawable.safe, R.drawable.huanjing_jiance,
-					R.drawable.other };
+			imgs = new int[] { R.drawable.ui_cercleswitch_lightmanage_pressed,
+					R.drawable.ui_cercleswitch_electricalcontrol_pressed,
+					R.drawable.ui_cercleswitch_energyconservation_pressed,
+					R.drawable.ui_cercleswitch_securitycontrol_pressed,
+					R.drawable.ui_cercleswitch_environmentalcontrol_pressed,
+					R.drawable.ui_cercleswitch_others_pressed };
 			break;
 		case OTHER:
-			imgs = new int[] { R.drawable.light_manage,
-					R.drawable.electrical_control, R.drawable.other,
-					R.drawable.jieneng, R.drawable.safe,
-					R.drawable.huanjing_jiance };
+			imgs = new int[] { R.drawable.ui_cercleswitch_lightmanage_pressed,
+					R.drawable.ui_cercleswitch_electricalcontrol_pressed,
+					R.drawable.ui_cercleswitch_others_pressed,
+					R.drawable.ui_cercleswitch_energyconservation_pressed,
+					R.drawable.ui_cercleswitch_securitycontrol_pressed,
+					R.drawable.ui_cercleswitch_environmentalcontrol_pressed };
 			break;
 		}
 		return imgs;
@@ -402,21 +430,6 @@ public class UiUtils {
 			}
 		}
 		return SceneDevicesAdapter.ON_OFF;
-	}
-
-	public static int getDevicesSmallIconForRemote(int type) {
-
-		int imgId = R.drawable.detector;
-
-		switch (type) {
-		case DataHelper.REMOTE_CONTROL_DEVICETYPE:
-			imgId = R.drawable.tv_control;
-			break;
-		case DataHelper.IAS_ACE_DEVICETYPE:
-			imgId = R.drawable.remote_control;
-			break;
-		}
-		return imgId;
 	}
 
 	public static int getLightsSmallIcon(boolean state) {

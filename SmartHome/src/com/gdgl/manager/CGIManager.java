@@ -7,6 +7,7 @@ import java.util.Map;
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.android.volley.Response;
@@ -26,6 +27,7 @@ import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.RespondDataEntity;
 import com.gdgl.mydata.ResponseDataEntityForStatus;
 import com.gdgl.mydata.ResponseParamsEndPoint;
+import com.gdgl.mydata.SimpleResponseData;
 import com.gdgl.mydata.Callback.CallbackBindListDevices;
 import com.gdgl.mydata.Callback.CallbackBindListMessage;
 import com.gdgl.mydata.Region.GetRoomInfo_response;
@@ -33,6 +35,7 @@ import com.gdgl.mydata.Region.RoomData_response_params;
 import com.gdgl.mydata.bind.BindResponseData;
 import com.gdgl.mydata.binding.BindingDataEntity;
 import com.gdgl.mydata.getlocalcielist.LocalIASCIEOperationResponseData;
+import com.gdgl.network.CustomRequest;
 import com.gdgl.network.StringRequestChina;
 import com.gdgl.network.VolleyErrorHelper;
 import com.gdgl.network.VolleyOperation;
@@ -559,7 +562,39 @@ public class CGIManager extends Manger {
 		String url = NetUtil.getInstance().getCumstomURL(
 				NetUtil.getInstance().IP, "lightSensorOperation.cgi", param);
 
-		simpleVolleyRequset(url, EventType.LIGHTSENSOROPERATION);
+		Listener<SimpleResponseData> respondListener = new Listener<SimpleResponseData>() {
+			@Override
+			public void onResponse(SimpleResponseData arg0) {
+				SimpleResponseData data = arg0;
+				Bundle bundle=new Bundle();
+				bundle.putString("IEEE", data.getIeee());
+				bundle.putString("EP", data.getEp());
+				bundle.putString("PARAM", data.getParam1());
+				Event event = new Event(EventType.LIGHTSENSOROPERATION, true);
+				event.setData(bundle);
+				notifyObservers(event);
+			}
+			
+		};
+		ErrorListener errorListener = new ErrorListener() {
+
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				if (error!=null&&error.getMessage()!=null) {
+				Log.e("ResponseError: ", error.getMessage());
+				VolleyErrorHelper.getMessage(error, ApplicationController.getInstance());
+				}
+				Event event = new Event(EventType.LIGHTSENSOROPERATION, false);
+				event.setData(error);
+				notifyObservers(event);
+			}
+		};
+		
+		CustomRequest<SimpleResponseData> request = new CustomRequest<SimpleResponseData>(
+				url, "response_params", SimpleResponseData.class,
+				respondListener, errorListener);
+		ApplicationController.getInstance().addToRequestQueue(request);
+//		simpleVolleyRequset(url, EventType.LIGHTSENSOROPERATION);
 
 	}
 
@@ -835,13 +870,47 @@ public class CGIManager extends Manger {
 		String url = NetUtil.getInstance().getCumstomURL(
 				NetUtil.getInstance().IP, "temperatureSensorOperation.cgi",
 				param);
-		EventType type;
+		final EventType type;
 		if (operationType == 0) {
 			type = EventType.TEMPERATURESENSOROPERATION;
 		} else {
 			type = EventType.HUMIDITY;
 		}
-		simpleVolleyRequset(url, type);
+		
+		Listener<SimpleResponseData> respondListener = new Listener<SimpleResponseData>() {
+			@Override
+			public void onResponse(SimpleResponseData arg0) {
+				SimpleResponseData data = arg0;
+				Bundle bundle=new Bundle();
+				bundle.putString("IEEE", data.getIeee());
+				bundle.putString("EP", data.getEp());
+				String value=String.valueOf(Float.valueOf(data.getParam1())/1000);
+				bundle.putString("PARAM", value);
+				Event event = new Event(type, true);
+				event.setData(bundle);
+				notifyObservers(event);
+			}
+			
+		};
+		ErrorListener errorListener = new ErrorListener() {
+
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				if (error!=null&&error.getMessage()!=null) {
+				Log.e("ResponseError: ", error.getMessage());
+				VolleyErrorHelper.getMessage(error, ApplicationController.getInstance());
+				}
+				Event event = new Event(type, false);
+				event.setData(error);
+				notifyObservers(event);
+			}
+		};
+		
+		CustomRequest<SimpleResponseData> request = new CustomRequest<SimpleResponseData>(
+				url, "response_params", SimpleResponseData.class,
+				respondListener, errorListener);
+		ApplicationController.getInstance().addToRequestQueue(request);
+//		simpleVolleyRequset(url, type);
 	}
 
 	/***

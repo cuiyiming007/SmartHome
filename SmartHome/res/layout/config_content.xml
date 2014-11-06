@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/config_fragment_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
@@ -17,7 +18,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/devices_control_fragment"
+        android:id="@+id/fragment_continer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="10dp"
@@ -27,26 +28,6 @@
         android:layout_weight="1"
         android:background="@drawable/ui_devices_devicelist_bgwithcorners"
         android:orientation="vertical" >
-
-        <include
-            android:id="@+id/nodevices_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            layout="@layout/no_devices"
-            android:visibility="gone" />
     </LinearLayout>
-
-    <com.gdgl.GalleryFlow.FancyCoverFlow
-        xmlns:fcf="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/devices_gallery"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:spacing="50dp"
-        fcf:maxRotation="45"
-        fcf:scaleDownGravity="0.5"
-        fcf:unselectedAlpha="0.3"
-        fcf:unselectedSaturation="0.0"
-        fcf:unselectedScale="0.4" />
 
 </LinearLayout>

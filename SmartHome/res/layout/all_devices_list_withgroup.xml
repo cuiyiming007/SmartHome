@@ -2,12 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="5dp"
-    android:layout_marginLeft="-5dp"
-    android:layout_marginRight="-5dp"
     android:layout_marginTop="15dp"
     android:layout_weight="1"
-    android:alpha="0.85"
     android:orientation="vertical" >
 
     <RelativeLayout
@@ -31,17 +27,15 @@
             android:layout_marginLeft="15dp"
             android:layout_toRightOf="@+id/up_down_light_manager"
             android:text="照明管理"
-            android:textColor="#000000"
+            android:textColor="#ffffff"
             android:textSize="16dp" />
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_height="1dp"
         android:layout_marginTop="3dp"
-        android:background="#20B2AA" />
+        android:background="#ffffff" />
 
     <LinearLayout
         android:id="@+id/light_manager_content"
@@ -57,7 +51,7 @@
             android:layout_marginTop="5dp"
             android:gravity="center"
             android:text="暂无设备"
-            android:textColor="#000000"
+            android:textColor="#ffffff"
             android:textSize="15dp"
             android:visibility="gone" />
 
@@ -65,9 +59,11 @@
             android:id="@+id/light_manager_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:divider="#ffffff"
+            android:dividerHeight="1dp"
             android:gravity="center"
             android:horizontalSpacing="10dp"
-            android:listSelector="@drawable/gridview_style"
+            android:listSelector="@drawable/ui_devices_devicelist_bgwithcorners_style"
             android:numColumns="2"
             android:scrollbars="none"
             android:stretchMode="columnWidth"
@@ -96,17 +92,15 @@
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/up_down_electrical_manager"
             android:text="电器控制"
-            android:textColor="#000000"
+            android:textColor="#ffffff"
             android:textSize="16dp" />
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_height="1dp"
         android:layout_marginTop="3dp"
-        android:background="#20B2AA" />
+        android:background="#ffffff" />
 
     <LinearLayout
         android:id="@+id/electrical_manager_content"
@@ -121,7 +115,7 @@
             android:layout_marginTop="5dp"
             android:gravity="center"
             android:text="暂无设备"
-            android:textColor="#000000"
+            android:textColor="#ffffff"
             android:textSize="15dp"
             android:visibility="gone" />
 
@@ -129,9 +123,11 @@
             android:id="@+id/electrical_manager_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:divider="#ffffff"
+            android:dividerHeight="1dp"
             android:gravity="center"
             android:horizontalSpacing="10dp"
-            android:listSelector="@drawable/gridview_style"
+            android:listSelector="@drawable/ui_devices_devicelist_bgwithcorners_style"
             android:numColumns="2"
             android:scrollbars="none"
             android:stretchMode="columnWidth"
@@ -160,17 +156,15 @@
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/up_down_security_control"
             android:text="安全防护"
-            android:textColor="#000000"
+            android:textColor="#ffffff"
             android:textSize="16dp" />
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_height="1dp"
         android:layout_marginTop="3dp"
-        android:background="#20B2AA" />
+        android:background="#ffffff" />
 
     <LinearLayout
         android:id="@+id/security_control_content"
@@ -186,7 +180,7 @@
             android:layout_marginTop="5dp"
             android:gravity="center"
             android:text="暂无设备"
-            android:textColor="#000000"
+            android:textColor="#ffffff"
             android:textSize="15dp"
             android:visibility="gone" />
 
@@ -194,9 +188,11 @@
             android:id="@+id/security_control_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:divider="#ffffff"
+            android:dividerHeight="1dp"
             android:gravity="center"
             android:horizontalSpacing="10dp"
-            android:listSelector="@drawable/gridview_style"
+            android:listSelector="@drawable/ui_devices_devicelist_bgwithcorners_style"
             android:numColumns="2"
             android:scrollbars="none"
             android:stretchMode="columnWidth"
@@ -225,17 +221,15 @@
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/up_down_environmrnt_control"
             android:text="环境监测"
-            android:textColor="#000000"
+            android:textColor="#ffffff"
             android:textSize="16dp" />
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_height="1dp"
         android:layout_marginTop="3dp"
-        android:background="#20B2AA" />
+        android:background="#ffffff" />
 
     <LinearLayout
         android:id="@+id/environmrnt_control_content"
@@ -251,7 +245,7 @@
             android:layout_marginTop="5dp"
             android:gravity="center"
             android:text="暂无设备"
-            android:textColor="#000000"
+            android:textColor="#ffffff"
             android:textSize="15dp"
             android:visibility="gone" />
 
@@ -259,9 +253,11 @@
             android:id="@+id/environmrnt_control_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:divider="#ffffff"
+            android:dividerHeight="1dp"
             android:gravity="center"
             android:horizontalSpacing="10dp"
-            android:listSelector="@drawable/gridview_style"
+            android:listSelector="@drawable/ui_devices_devicelist_bgwithcorners_style"
             android:numColumns="2"
             android:scrollbars="none"
             android:stretchMode="columnWidth"
@@ -290,17 +286,15 @@
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/up_down_energy"
             android:text="节能"
-            android:textColor="#000000"
+            android:textColor="#ffffff"
             android:textSize="16dp" />
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_height="1dp"
         android:layout_marginTop="3dp"
-        android:background="#20B2AA" />
+        android:background="#ffffff" />
 
     <LinearLayout
         android:id="@+id/energy_content"
@@ -316,7 +310,7 @@
             android:layout_marginTop="5dp"
             android:gravity="center"
             android:text="暂无设备"
-            android:textColor="#000000"
+            android:textColor="#ffffff"
             android:textSize="15dp"
             android:visibility="gone" />
 
@@ -324,9 +318,11 @@
             android:id="@+id/energy_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:divider="#ffffff"
+            android:dividerHeight="1dp"
             android:gravity="center"
             android:horizontalSpacing="10dp"
-            android:listSelector="@drawable/gridview_style"
+            android:listSelector="@drawable/ui_devices_devicelist_bgwithcorners_style"
             android:numColumns="2"
             android:scrollbars="none"
             android:stretchMode="columnWidth"
@@ -355,17 +351,15 @@
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/up_down_other"
             android:text="其它"
-            android:textColor="#000000"
+            android:textColor="#ffffff"
             android:textSize="16dp" />
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_height="1dp"
         android:layout_marginTop="3dp"
-        android:background="#20B2AA" />
+        android:background="#ffffff" />
 
     <LinearLayout
         android:id="@+id/other_content"
@@ -381,7 +375,7 @@
             android:layout_marginTop="5dp"
             android:gravity="center"
             android:text="暂无设备"
-            android:textColor="#000000"
+            android:textColor="#ffffff"
             android:textSize="15dp"
             android:visibility="gone" />
 
@@ -389,9 +383,11 @@
             android:id="@+id/other_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:divider="#ffffff"
+            android:dividerHeight="1dp"
             android:gravity="center"
             android:horizontalSpacing="10dp"
-            android:listSelector="@drawable/gridview_style"
+            android:listSelector="@drawable/ui_devices_devicelist_bgwithcorners_style"
             android:numColumns="2"
             android:scrollbars="none"
             android:stretchMode="columnWidth"

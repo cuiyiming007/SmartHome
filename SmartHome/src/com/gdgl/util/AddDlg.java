@@ -11,6 +11,7 @@ import com.gdgl.model.DevicesGroup;
 import com.gdgl.model.RemoteControl;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.getFromSharedPreferences;
+import com.gdgl.mydata.Region.GetRoomInfo_response;
 import com.gdgl.mydata.Region.Room;
 import com.gdgl.smarthome.R;
 
@@ -131,10 +132,11 @@ public class AddDlg {
 		
 		DataHelper mDateHelper = new DataHelper(mContext);
 		SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
-		mList=mDateHelper.queryForRoomList(mContext, mSQLiteDatabase, DataHelper.ROOMINFO_TABLE, null, null, null, null, null, null, null);
+		mList=mDateHelper.queryForRoomList(mContext, mSQLiteDatabase, DataHelper.ROOMINFO_TABLE, null, null, null, null, null, GetRoomInfo_response.ROOM_ID, null);
 		
 		//加入新的roomid
 		int roomid=1;
+		String name=Uri.encode(mN);
 		if (mList.size()>0) {
 			while(true) {
 				int i=0;
@@ -147,19 +149,19 @@ public class AddDlg {
 					i++;
 				}
 				if(i==mList.size()) {
-					String name=Uri.encode(mN);
-					CGIManager.getInstance().ZBAddRoomDataMain(Integer.toString(roomid), name, "");
-					ArrayList<Room> addList=new ArrayList<Room>();
-					Room addroomdata=new Room();
-					addroomdata.setroom_id(roomid);
-					addroomdata.setroom_name(mN);
-					addroomdata.setroom_pic("");
-					addList.add(addroomdata);
-					mDateHelper.insertAddRoomInfo(mSQLiteDatabase, DataHelper.ROOMINFO_TABLE, null, addList);
 					break;
 				}
 			}
 		}
+		CGIManager.getInstance().ZBAddRoomDataMain(Integer.toString(roomid), name, "");
+		ArrayList<Room> addList=new ArrayList<Room>();
+		Room addroomdata=new Room();
+		addroomdata.setroom_id(roomid);
+		addroomdata.setroom_name(mN);
+		addroomdata.setroom_pic("");
+		addList.add(addroomdata);
+		mDateHelper.insertAddRoomInfo(mSQLiteDatabase, DataHelper.ROOMINFO_TABLE, null, addList);	
+		
 	}
 
 	public void setContent(String content) {

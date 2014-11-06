@@ -86,7 +86,7 @@ public class ViewGroupAdapter extends FancyCoverFlowAdapter {
 		} else {
 			customViewGroup = new CustomViewGroup(mContext);
 			customViewGroup.setLayoutParams(new FancyCoverFlow.LayoutParams(
-					newWidth, newHeight + 50));
+					newWidth, newHeight));
 		}
 
 		LayoutParams mLayoutParams = new LayoutParams(
@@ -97,10 +97,11 @@ public class ViewGroupAdapter extends FancyCoverFlowAdapter {
 				getBitmap(this.getItem(position)));
 		customViewGroup.getImageView().setLayoutParams(mLayoutParams);
 
+		customViewGroup.getTextView().setVisibility(View.GONE);
 		customViewGroup.getTextView().setText(mTags[position]);
 		customViewGroup.getTextView().setTextColor(Color.BLUE);
 
-		customViewGroup.setBackgroundResource(R.drawable.corners);
+//		customViewGroup.setBackgroundResource(R.drawable.corners);
 
 		return customViewGroup;
 	}

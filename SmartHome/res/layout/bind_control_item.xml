@@ -8,38 +8,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingBottom="10dip"
-        android:paddingTop="10dip" >
+        android:paddingBottom="5dip"
+        android:paddingTop="5dip" >
 
         <ImageView
             android:id="@+id/devices_img"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_gravity="center"
-            android:layout_marginBottom="2dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="2dp"
+            android:layout_marginLeft="10dp"
             android:src="@drawable/seek_light" />
-
-        <View
-            android:layout_width="2dp"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="3dp"
-            android:background="#999999" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:orientation="vertical" >
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:orientation="vertical" >
@@ -48,18 +37,18 @@
                     android:id="@+id/devices_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginLeft="5dp"
                     android:layout_weight="1"
                     android:text="Light1"
-                    android:textColor="#000000"
+                    android:textColor="#ffffff"
                     android:textSize="15dp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
                 android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
                 android:layout_weight="1"
                 android:orientation="horizontal" >
 
@@ -67,36 +56,27 @@
                     android:id="@+id/devices_state"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="5dp"
                     android:layout_weight="1"
                     android:text="开"
-                    android:textColor="#27408B"
+                    android:textColor="#ffffff"
                     android:textSize="15dp" />
             </LinearLayout>
         </LinearLayout>
-
-        <View
-            android:layout_width="2dp"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="3dp"
-            android:background="#999999" />
 
         <Button
             android:id="@+id/btn_bind"
             android:layout_width="75dp"
             android:layout_height="35dp"
+            android:layout_gravity="center_vertical"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:layout_gravity="center_vertical"
             android:alpha="0.75"
-	        android:background="@drawable/add_devices_btn_style"
-	        android:gravity="center"
-	        android:textColor="#000000"
-	        android:textSize="15dp"
-            android:text="绑定" />
+            android:background="@drawable/add_devices_btn_style"
+            android:gravity="center"
+            android:text="绑定"
+            android:textColor="#000000"
+            android:textSize="15dp" />
     </LinearLayout>
 
 </LinearLayout>

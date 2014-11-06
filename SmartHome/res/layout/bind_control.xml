@@ -9,25 +9,20 @@
         android:id="@+id/deviceslist"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_weight="1"
-        android:alpha="0.7"
-        android:background="@drawable/white" >
+        android:layout_weight="1" >
 
         <ListView
             android:id="@+id/devices_list"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:cacheColorHint="#00000000"
-            android:divider="@drawable/divider_color"
+            android:divider="#ffffff"
             android:dividerHeight="1dp"
             android:fadingEdge="none"
             android:fastScrollEnabled="false"
             android:footerDividersEnabled="false"
             android:headerDividersEnabled="false"
-            android:listSelector="@drawable/corners"
+            android:listSelector="@drawable/ui_devices_devicelist_bgwithcorners_style"
             android:scrollbars="none"
             android:smoothScrollbar="true" >
         </ListView>

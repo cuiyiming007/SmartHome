@@ -64,11 +64,16 @@ public class NetUtil {
 		return HTTPHeadStr + serverIP + URLDir + resource + "?" + param;
 	}
 
-	public void connectServerWithTCPSocket() throws Exception {
-		callbakcSocket = new Socket(IP, 5002);
-		inputStream = callbakcSocket.getInputStream();
-		outputStream = callbakcSocket.getOutputStream();
-		Log.v(TAG, "callbakcSocket connect server successful");
+	public void connectServerWithTCPSocket() {
+		try {
+			callbakcSocket = new Socket(IP, 5002);
+			inputStream = callbakcSocket.getInputStream();
+			outputStream = callbakcSocket.getOutputStream();
+			Log.i(TAG, "callbakcSocket connect server successful");
+		} catch (Exception e) {
+			// TODO: handle exception
+			Log.e(TAG, "connectCallbackWithTCP error：" + e.getMessage());
+		}
 	}
 
 	public void sendHeartBeat() {
@@ -77,7 +82,7 @@ public class NetUtil {
 				outputStream.write(buffer, 0, buffer.length);
 				outputStream.flush();
 			} catch (IOException e) {
-				Log.e(TAG, "sendHeartBeat failed");
+				Log.e(TAG, "sendHeartBeat failed"+e.getMessage());
 				e.printStackTrace();
 				CallbackManager.getInstance().startConnectServerByTCPTask();
 			}
@@ -87,13 +92,17 @@ public class NetUtil {
 		}
 	}
 
-	public void recieveFromCallback() throws IOException {
-		while (true) {
-			if (inputStream != null && inputStream.available() > 0) {
-				handleInputStream(inputStream);
-				// Log.i("callbakcSocket recieve", inputStream.toString());
+	public void recieveFromCallback() {
+		try {
+			while (true) {
+				if (inputStream != null && inputStream.available() > 0) {
+					handleInputStream(inputStream);
+					// Log.i("callbakcSocket recieve", inputStream.toString());
+				}
 			}
-
+		} catch (Exception e) {
+			// TODO: handle exception
+			Log.e(TAG, "RecieveFromCallback error：" + e.getMessage());
 		}
 	}
 

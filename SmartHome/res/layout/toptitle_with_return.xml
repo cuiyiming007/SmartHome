@@ -21,8 +21,6 @@
             android:layout_marginLeft="10dp"
             android:src="@drawable/ui_toptitle_return" />
 
-       
-
         <ImageView
             android:id="@+id/imageView1"
             android:layout_width="114dp"
@@ -51,7 +49,8 @@
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:layout_gravity="center"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:visibility="gone" >
 
         <FrameLayout
             android:layout_width="0.0dip"
@@ -80,8 +79,8 @@
 
                 <TextView
                     android:id="@+id/unread_ms_rt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
                     android:background="@drawable/ui_toptitle_alarm_message_new"
                     android:gravity="center"
                     android:text="0"
@@ -118,8 +117,16 @@
                 android:layout_marginRight="10dip"
                 android:background="@drawable/delete_btn_style"
                 android:gravity="center" />
-        </LinearLayout>
-        -->
+        </LinearLayout>		-->
     </LinearLayout>
+
+    <Button
+        android:id="@+id/clear_message"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="10dip"
+        android:background="@drawable/ui_toptitle_delete_style"
+        android:visibility="gone" />
 
 </LinearLayout>

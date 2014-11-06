@@ -54,7 +54,7 @@ public class SmartHome extends FragmentActivity implements
 	TextView devices;
 	TextView region;
 	TextView scence;
-	TextView common_used;
+//	TextView common_used;
 	TextView video_urveillance;
 	List<TextView> mTextViewList = new ArrayList<TextView>();
 
@@ -83,14 +83,13 @@ public class SmartHome extends FragmentActivity implements
 		pull_refresh_viewpager.setOnRefreshListener(this);
 
 		mViewPager = pull_refresh_viewpager.getRefreshableView();
-		videoFragment = new VideoFragment();
 
 		mList = new ArrayList<TabInfo>();
-		mList.add(new TabInfo(new CommonUseFragment()));
+//		mList.add(new TabInfo(new CommonUseFragment()));
 		mList.add(new TabInfo(new DevicesFragment()));
 		mList.add(new TabInfo(new RegionsFragment()));
 		mList.add(new TabInfo(new ScenesFragment()));
-		mList.add(new TabInfo(videoFragment));
+		mList.add(new TabInfo(new VideoFragment()));
 
 		ViewPagerAdapter mViewPagerAdapter = new ViewPagerAdapter(
 				getSupportFragmentManager(), SmartHome.this, mList);
@@ -115,10 +114,10 @@ public class SmartHome extends FragmentActivity implements
 		devices = (TextView) findViewById(R.id.devices);
 		region = (TextView) findViewById(R.id.region);
 		scence = (TextView) findViewById(R.id.scence);
-		common_used = (TextView) findViewById(R.id.common_used);
+//		common_used = (TextView) findViewById(R.id.common_used);
 		video_urveillance = (TextView) findViewById(R.id.video_urveillance);
 
-		mTextViewList.add(common_used);
+//		mTextViewList.add(common_used);
 		mTextViewList.add(devices);
 		mTextViewList.add(region);
 		mTextViewList.add(scence);
@@ -139,23 +138,23 @@ public class SmartHome extends FragmentActivity implements
 
 			@Override
 			public void onClick(View v) {
-				if (2 == mCurrentTab) {
+				if (1 == mCurrentTab) {
 					AddDlg mAddDlg = new AddDlg(SmartHome.this, AddDlg.REGION);
 					mAddDlg.setContent("添加区域");
 					mAddDlg.setType("区域名称");
 					mAddDlg.setDialogCallback(SmartHome.this);
 					mAddDlg.show();
-				} else if (3 == mCurrentTab) {
+				} else if (2 == mCurrentTab) {
 					AddDlg mAddDlg = new AddDlg(SmartHome.this, AddDlg.SCENE);
 					mAddDlg.setContent("添加场景");
 					mAddDlg.setType("场景名称");
 					mAddDlg.setDialogCallback(SmartHome.this);
 					mAddDlg.show();
-				} else if (0 == mCurrentTab) {
-					Intent i = new Intent();
-					i.setClass(SmartHome.this, AddCommonUsedActivity.class);
-					startActivity(i);
-				} else if (4 == mCurrentTab) {
+//				} else if (0 == mCurrentTab) {
+//					Intent i = new Intent();
+//					i.setClass(SmartHome.this, AddCommonUsedActivity.class);
+//					startActivity(i);
+				} else if (3 == mCurrentTab) {
 					VideoInfoDialog mAddDlg = new VideoInfoDialog(
 							SmartHome.this, VideoInfoDialog.Add, videoFragment);
 					mAddDlg.setContent("添加");
@@ -336,7 +335,7 @@ public class SmartHome extends FragmentActivity implements
 		// TODO Auto-generated method stub
 		if (arg0 == ViewPager.SCROLL_STATE_IDLE) {
 			mLastTab = mCurrentTab;
-			if (mCurrentTab==1) {
+			if (mCurrentTab==0) {
 				mAdd.setVisibility(View.GONE);
 			}else
 			{
@@ -350,7 +349,7 @@ public class SmartHome extends FragmentActivity implements
 		// TODO Auto-generated method stub
 		mCurrentTab = arg0;
 		setMyTextColor(arg0);
-		if (mCurrentTab==1) {
+		if (mCurrentTab==0) {
 			mAdd.setVisibility(View.GONE);
 		}else
 		{

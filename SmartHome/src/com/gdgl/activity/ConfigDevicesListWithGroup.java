@@ -48,7 +48,7 @@ import android.widget.TextView;
  * @author Trice
  *
  */
-public class DevicesListWithGroup extends BaseFragment implements
+public class ConfigDevicesListWithGroup extends BaseFragment implements
 		Dialogcallback, UIListener, EditDialogcallback {
 
 	public static final int FINISH_GETDATA = 1;
@@ -610,7 +610,7 @@ public class DevicesListWithGroup extends BaseFragment implements
 			if (null == convertView) {
 				mViewHolder = new ViewHolder();
 				convertView = LayoutInflater.from(mContext).inflate(
-						R.layout.devices_list_item_withgroup, null);
+						R.layout.devices_list_item_config, null);
 				mViewHolder.devImg = (ImageView) convertView
 						.findViewById(R.id.devices_img);
 				mViewHolder.devName = (TextView) convertView

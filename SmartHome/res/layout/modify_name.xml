@@ -24,7 +24,7 @@
             android:alpha="0.85"
             android:gravity="center"
             android:text="旧别名："
-            android:textColor="#20B2AA"
+            android:textColor="#ffffff"
             android:textSize="18dp" />
 
         <EditText
@@ -62,7 +62,7 @@
             android:alpha="0.85"
             android:gravity="center"
             android:text="新别名："
-            android:textColor="#20B2AA"
+            android:textColor="#ffffff"
             android:textSize="18dp" />
 
         <EditText

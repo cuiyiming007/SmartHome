@@ -42,10 +42,13 @@
 	<string name="Combustible_Gas_Detector_Natural_gas"> "天然气探测器"</string> 
 	<string name="Wireless_Intelligent_valve_switch"> "阀门开关"</string> 
 	<string name="Siren"> "警报器"</string> 
-	<string name="Wall_switch_touch"> "墙面开关（单键）"</string> 
-	<string name="Wall_switch_double"> "墙面开关（双键)"</string> 
-	<string name="Wall_switch_triple"> "墙面开关（三键）"</string> 
-	<string name="Dimmer_Switch"> "调光开关（一路）"</string> 
+	<string name="Wall_switch_touch"> "墙面单键开关"</string> 
+	<string name="Wall_switch_double_R"> "墙面双键开关（右）"</string>
+	<string name="Wall_switch_double_L"> "墙面双键开关（左）"</string> 
+	<string name="Wall_switch_triple_R"> "墙面三键开关（右）"</string>
+	<string name="Wall_switch_triple_M"> "墙面三键开关（中）"</string>
+	<string name="Wall_switch_triple_L"> "墙面三键开关（左）"</string> 
+	<string name="Dimmer_Switch"> "调光开关"</string> 
 	<string name="Power_detect_wall"> "电能墙面插座"</string> 
 	<string name="Curtain_control_switch"> "窗帘"</string> 
 	<string name="Infrared_controller"> "红外转发器"</string> 

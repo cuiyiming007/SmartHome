@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.gdgl.activity.ShowDevicesGroupFragmentActivity;
@@ -60,14 +61,14 @@ public class CallbackManager extends Manger {
 	}
 
 	public void connectAndRecieveFromCallback() {
-		try {
+//		try {
 			Log.i(TAG, "start ConnectServerByTCPTask");
 			NetUtil.getInstance().initalCallbackSocket();
 			NetUtil.getInstance().connectServerWithTCPSocket();
 			NetUtil.getInstance().recieveFromCallback();
-		} catch (Exception e) {
-			Log.e(TAG, "connectAndRecieveFromCallback error：" + e.getMessage());
-		}
+//		} catch (Exception e) {
+//			Log.e(TAG, "connectAndRecieveFromCallback error：" + e.getMessage());
+//		}
 	}
 
 	public void classifyCallbackResponse(String message) {
@@ -82,7 +83,7 @@ public class CallbackManager extends Manger {
 				} else {
 					json = "{" + messages[i] + "}";
 				}
-//				Log.i("json", json);
+				// Log.i("json", json);
 				handleCallbackResponse(json);
 			}
 		} else {
@@ -148,8 +149,8 @@ public class CallbackManager extends Manger {
 				Log.i(TAG, "Callback msgType=" + msgType + "OnOffSwitch");
 				break;
 			case 10:
-				//CallbackResponseCommon onoff_outputDevice = gson.fromJson(
-					//	response, CallbackResponseCommon.class);
+				// CallbackResponseCommon onoff_outputDevice = gson.fromJson(
+				// response, CallbackResponseCommon.class);
 				// Log.i(TAG, "Callback msgType=" + msgType +
 				// "OnOffOutPut"+onoff_outputDevice.toString());
 				break;
@@ -256,11 +257,54 @@ public class CallbackManager extends Manger {
 		int clusterId = Integer.parseInt(common.getClusterId(), 16);
 		switch (attributeId) {
 		case 0:
-			if (6 == clusterId) {
+			if (clusterId == 6) {
 				Log.i(TAG,
-						"Callback msgType=" + 2 + "energy" + common.toString());
+						"Callback msgType=" + 2 + "on_off_status"
+								+ common.toString());
 				Event event = new Event(EventType.ON_OFF_STATUS, true);
 				event.setData(common);
+				notifyObservers(event);
+			}
+			if (clusterId == 8) {
+				Log.i(TAG,
+						"Callback msgType=" + 2 + "level"
+								+ common.toString());
+			}
+			if (clusterId == 1024) {
+//				Log.i(TAG,
+//						"Callback msgType=" + 2 + "brightness"
+//								+ common.toString());
+				Bundle bundle = new Bundle();
+				bundle.putString("IEEE", common.getDeviceIeee());
+				bundle.putString("EP", common.getDeviceEp());
+				bundle.putString("PARAM", common.getValue());
+				Event event = new Event(EventType.LIGHTSENSOROPERATION, true);
+				event.setData(bundle);
+				notifyObservers(event);
+			}
+			if (clusterId == 1026) {
+//				Log.i(TAG,
+//						"Callback msgType=" + 2 + "temperature"
+//								+ common.toString());
+				Bundle bundle = new Bundle();
+				bundle.putString("IEEE", common.getDeviceIeee());
+				bundle.putString("EP", common.getDeviceEp());
+				bundle.putString("PARAM", common.getValue().substring(0, 5));
+				Event event = new Event(EventType.TEMPERATURESENSOROPERATION,
+						true);
+				event.setData(bundle);
+				notifyObservers(event);
+			}
+			if (clusterId == 1029) {
+//				Log.i(TAG,
+//						"Callback msgType=" + 2 + "humidity"
+//								+ common.toString());
+				Bundle bundle = new Bundle();
+				bundle.putString("IEEE", common.getDeviceIeee());
+				bundle.putString("EP", common.getDeviceEp());
+				bundle.putString("PARAM", common.getValue().substring(0, 5));
+				Event event = new Event(EventType.HUMIDITY, true);
+				event.setData(bundle);
 				notifyObservers(event);
 			}
 			break;

@@ -249,11 +249,26 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 			}
 		} else if (mDevices.getmDeviceId() == DataHelper.LIGHT_SENSOR_DEVICETYPE) { // 光线感应器
 			// devices_state.setText("亮度: "+mDevices.getmValue());
-			devices_state.setText("亮度: " + getFromSharedPreferences.getLight());
+			if(mDevices.getmValue()==null||mDevices.getmValue().equals("")){
+				devices_state.setText(getFromSharedPreferences.getLight());
+			} else {
+				devices_state.setText("亮度: " + mDevices.getmValue());
+			}
 		} else if (mDevices.getmDeviceId() == DataHelper.TEMPTURE_SENSOR_DEVICETYPE) { // 室内型温湿度感应器
+			String temperature, humidity;
+			if(mDevices.getmValue()==null||mDevices.getmValue().equals("")){
+				temperature=getFromSharedPreferences.getTemperature();
+			} else {
+				temperature=mDevices.getmValue();
+			}
+			if(mDevices.getHumidityValue()==null||mDevices.getHumidityValue().equals("")){
+				humidity=getFromSharedPreferences.getHumidity();
+			} else {
+				humidity=mDevices.getHumidityValue();
+			}
 			devices_state.setText("温度: "
-					+ getFromSharedPreferences.getTemperature() + "\n湿度: "
-					+ getFromSharedPreferences.getHumidity() + "%");
+					+ temperature + "\n湿度: "
+					+ humidity + "%");
 		} else if (mDevices.getmModelId().indexOf(DataHelper.One_key_operator) == 0) {
 			// devices_state.setText("一键操作");
 			if (mDevices.getmOnOffStatus().trim().equals("1")) {
@@ -286,6 +301,7 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 						@Override
 						public void onStopTrackingTouch(SeekBar seekBar) {
 							// TODO Auto-generated method stub
+							notifyDataSetChanged();
 							mcgiManager.dimmableLightOperation(mDevices, 10,
 									currentProgress * 255 / 100);
 						}
@@ -301,13 +317,14 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 								int progress, boolean fromUser) {
 							// TODO Auto-generated method stub
 							currentProgress = progress;
-							if (progress == 0) {
-								devices_state.setText("关");
-							} else if (progress == 100) {
-								devices_state.setText("开");
-							} else {
-								devices_state.setText("开" + progress + "%");
-							}
+//							if (progress == 0) {
+//								devices_state.setText("关");
+//							} else if (progress == 100) {
+//								devices_state.setText("开");
+//							} else {
+//								devices_state.setText("开" + progress + "%");
+//							}
+							mDevices.setmValue(String.valueOf(currentProgress));
 						}
 					});
 		} else if (mDevices.getmDeviceId() == DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE) { // 警报器

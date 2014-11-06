@@ -8,7 +8,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="此项暂无任何内容，请添加"
+        android:text="此项暂无任何内容"
         android:textColor="#ffffff"
         android:textSize="16dp" />
 

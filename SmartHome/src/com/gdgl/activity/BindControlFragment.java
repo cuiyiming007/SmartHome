@@ -127,7 +127,7 @@ public class BindControlFragment extends BaseFragment implements UIListener {
 					if (null == devicesModel.getmUserDefineName()
 							|| devicesModel.getmUserDefineName().trim().equals("")) {
 						devicesModel.setmUserDefineName(DataUtil.getDefaultUserDefinname((Context) getActivity(),
-								devicesModel.getmModelId()));
+								devicesModel.getmModelId(), devicesModel.getmEP()));
 					}
 				}
 			}

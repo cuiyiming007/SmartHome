@@ -15,41 +15,51 @@ import com.gdgl.smarthome.R;
 
 public class DataUtil {
 
-	public static boolean isSecrity(String modelID){
-		if(null==modelID || modelID.trim().equals("")){
+	public static boolean isSecrity(String modelID) {
+		if (null == modelID || modelID.trim().equals("")) {
 			return false;
 		}
-		if(modelID.trim().indexOf(DataHelper.Motion_Sensor)==0 || modelID.trim().indexOf(DataHelper.Combustible_Gas_Detector_Natural_gas)==0
-				|| modelID.trim().indexOf(DataHelper.Magnetic_Window)==0 || modelID.trim().indexOf(DataHelper.Emergency_Button)==0 
-				|| modelID.trim().indexOf(DataHelper.Doors_and_windows_sensor_switch)==0 || modelID.trim().indexOf(DataHelper.Smoke_Detectors)==0
-				|| modelID.trim().indexOf(DataHelper.Combustible_Gas_Detector_Gas)==0 || modelID.trim().indexOf(DataHelper.Combustible_Gas_Detector_CO)==0
-				|| modelID.trim().indexOf(DataHelper.Wireless_Intelligent_valve_switch)==0 || modelID.trim().indexOf(DataHelper.Siren)==0){
+		if (modelID.trim().indexOf(DataHelper.Motion_Sensor) == 0
+				|| modelID.trim().indexOf(
+						DataHelper.Combustible_Gas_Detector_Natural_gas) == 0
+				|| modelID.trim().indexOf(DataHelper.Magnetic_Window) == 0
+				|| modelID.trim().indexOf(DataHelper.Emergency_Button) == 0
+				|| modelID.trim().indexOf(
+						DataHelper.Doors_and_windows_sensor_switch) == 0
+				|| modelID.trim().indexOf(DataHelper.Smoke_Detectors) == 0
+				|| modelID.trim().indexOf(
+						DataHelper.Combustible_Gas_Detector_Gas) == 0
+				|| modelID.trim().indexOf(
+						DataHelper.Combustible_Gas_Detector_CO) == 0
+				|| modelID.trim().indexOf(
+						DataHelper.Wireless_Intelligent_valve_switch) == 0
+				|| modelID.trim().indexOf(DataHelper.Siren) == 0) {
 			return true;
 		}
 		return false;
-		
-	}
-	
-    public static List<DevicesModel> convertToDevicesModel(
-            RespondDataEntity<ResponseParamsEndPoint> r) {
-        List<DevicesModel> mList = new ArrayList<DevicesModel>();
-        DevicesModel mDevicesModel = null;
-        for (ResponseParamsEndPoint mResponseParamsEndPoint : r
-                .getResponseparamList()) {
-            if (null != mResponseParamsEndPoint) {
-                mDevicesModel = new DevicesModel(mResponseParamsEndPoint);
-            }
-            mList.add(mDevicesModel);
-        }
-        return mList;
-    }
 
-    public static List<DevicesModel> getSortManagementDevices(Context c, DataHelper dh,
-			int type) {
+	}
+
+	public static List<DevicesModel> convertToDevicesModel(
+			RespondDataEntity<ResponseParamsEndPoint> r) {
+		List<DevicesModel> mList = new ArrayList<DevicesModel>();
+		DevicesModel mDevicesModel = null;
+		for (ResponseParamsEndPoint mResponseParamsEndPoint : r
+				.getResponseparamList()) {
+			if (null != mResponseParamsEndPoint) {
+				mDevicesModel = new DevicesModel(mResponseParamsEndPoint);
+			}
+			mList.add(mDevicesModel);
+		}
+		return mList;
+	}
+
+	public static List<DevicesModel> getSortManagementDevices(Context c,
+			DataHelper dh, int type) {
 
 		List<DevicesModel> listDevicesModel = new ArrayList<DevicesModel>();
-		String where=" device_sort=? ";
-		String[] args={Integer.toString(type)};
+		String where = " device_sort=? ";
+		String[] args = { Integer.toString(type) };
 		listDevicesModel = dh.queryForDevicesList(dh.getSQLiteDatabase(),
 				DataHelper.DEVICES_TABLE, null, where, args, null, null, null,
 				null);
@@ -58,26 +68,26 @@ public class DataUtil {
 				if (null == devicesModel.getmUserDefineName()
 						|| devicesModel.getmUserDefineName().trim().equals("")) {
 					devicesModel.setmUserDefineName(getDefaultUserDefinname(c,
-							devicesModel.getmModelId()));
+							devicesModel.getmModelId(), devicesModel.getmEP()));
 				}
 			}
 		}
 
 		return listDevicesModel;
 	}
-    
-	public static List<SimpleDevicesModel> getSortManagementDevices(Context c,
-			DataHelper dh,SQLiteDatabase db,int type) {
 
-		String where=" device_sort=? ";
-		String[] args={Integer.toString(type)};
-		
+	public static List<SimpleDevicesModel> getSortManagementDevices(Context c,
+			DataHelper dh, SQLiteDatabase db, int type) {
+
+		String where = " device_sort=? ";
+		String[] args = { Integer.toString(type) };
+
 		SimpleDevicesModel mSimpleDevicesModel;
 		List<DevicesModel> listDevicesModel = new ArrayList<DevicesModel>();
 		List<SimpleDevicesModel> list = new ArrayList<SimpleDevicesModel>();
 
-		listDevicesModel = dh.queryForDevicesList(db, DataHelper.DEVICES_TABLE, null,
-				where, args, null, null, null, null);
+		listDevicesModel = dh.queryForDevicesList(db, DataHelper.DEVICES_TABLE,
+				null, where, args, null, null, null, null);
 		DevicesModel mDevicesModel;
 		for (int m = 0; m < listDevicesModel.size(); m++) {
 			mDevicesModel = listDevicesModel.get(m);
@@ -100,7 +110,7 @@ public class DataUtil {
 			if (mDevicesModel.getmUserDefineName() == null
 					|| mDevicesModel.getmUserDefineName().trim().equals("")) {
 				mSimpleDevicesModel.setmUserDefineName(getDefaultUserDefinname(
-						c, mSimpleDevicesModel.getmModelId()));
+						c, mSimpleDevicesModel.getmModelId(), mSimpleDevicesModel.getmEP()));
 			} else {
 				mSimpleDevicesModel.setmUserDefineName(mDevicesModel
 						.getmUserDefineName());
@@ -126,17 +136,16 @@ public class DataUtil {
 		String where = " cluster_id = ? or cluster_id = ? or cluster_id = ? ";
 
 		List<DevicesModel> listDevicesModel = new ArrayList<DevicesModel>();
-		SQLiteDatabase db=dh.getSQLiteDatabase();
-		listDevicesModel = dh.queryForDevicesList(db,
-				DataHelper.DEVICES_TABLE, null, where, args, null, null, null,
-				null);
+		SQLiteDatabase db = dh.getSQLiteDatabase();
+		listDevicesModel = dh.queryForDevicesList(db, DataHelper.DEVICES_TABLE,
+				null, where, args, null, null, null, null);
 		dh.close(db);
 		if (null != listDevicesModel && listDevicesModel.size() > 0) {
 			for (DevicesModel devicesModel : listDevicesModel) {
 				if (null == devicesModel.getmUserDefineName()
 						|| devicesModel.getmUserDefineName().trim().equals("")) {
 					devicesModel.setmUserDefineName(getDefaultUserDefinname(c,
-							devicesModel.getmModelId()));
+							devicesModel.getmModelId(), devicesModel.getmEP()));
 				}
 			}
 		}
@@ -144,13 +153,15 @@ public class DataUtil {
 		return listDevicesModel;
 
 	}
-	public static List<CallbackWarnMessage> getWarmMessage(Context c, DataHelper dh) {
-		
+
+	public static List<CallbackWarnMessage> getWarmMessage(Context c,
+			DataHelper dh) {
+
 		List<CallbackWarnMessage> mList = new ArrayList<CallbackWarnMessage>();
 		Cursor cursor = null;
-		SQLiteDatabase db=dh.getSQLiteDatabase();
-		cursor = db.query(DataHelper.MESSAGE_TABLE, null, null,
-				null, null, null, null, null);
+		SQLiteDatabase db = dh.getSQLiteDatabase();
+		cursor = db.query(DataHelper.MESSAGE_TABLE, null, null, null, null,
+				null, null, null);
 		CallbackWarnMessage message;
 		while (cursor.moveToNext()) {
 			message = new CallbackWarnMessage();
@@ -189,152 +200,173 @@ public class DataUtil {
 			mList.add(message);
 		}
 		cursor.close();
-//		db.close();
+		// db.close();
 		return mList;
-		
+
 	}
-	
-	public static DevicesModel getDeviceModelByIeee(String ieee,DataHelper dh,SQLiteDatabase db){
-		String where=" ieee=? ";
-		String[] args={ieee+""};
-		List<DevicesModel> mList=dh.queryForDevicesList(db, DataHelper.DEVICES_TABLE, null, where, args, null, null, null, null);
-		if(null!=mList && mList.size()>0){
-			return mList.get(0);
-		}
-		return null;
-	}
-	
-	public static DevicesModel getDeviceModelByModelid(String modelid,DataHelper dh,SQLiteDatabase db){
-		String where=" model_id like ? ";
-		String[] args={modelid+"%"};
-		List<DevicesModel> mList=dh.queryForDevicesList(db, DataHelper.DEVICES_TABLE, null, where, args, null, null, null, null);
-		if(null!=mList && mList.size()>0){
+
+	public static DevicesModel getDeviceModelByIeee(String ieee, DataHelper dh,
+			SQLiteDatabase db) {
+		String where = " ieee=? ";
+		String[] args = { ieee + "" };
+		List<DevicesModel> mList = dh.queryForDevicesList(db,
+				DataHelper.DEVICES_TABLE, null, where, args, null, null, null,
+				null);
+		if (null != mList && mList.size() > 0) {
 			return mList.get(0);
 		}
 		return null;
 	}
 
-    public static String getDefaultUserDefinname(Context c, String modelID) {
-        String result = "";
+	public static DevicesModel getDeviceModelByModelid(String modelid,
+			DataHelper dh, SQLiteDatabase db) {
+		String where = " model_id like ? ";
+		String[] args = { modelid + "%" };
+		List<DevicesModel> mList = dh.queryForDevicesList(db,
+				DataHelper.DEVICES_TABLE, null, where, args, null, null, null,
+				null);
+		if (null != mList && mList.size() > 0) {
+			return mList.get(0);
+		}
+		return null;
+	}
 
-        if (modelID.indexOf(DataHelper.Motion_Sensor) == 0) {
-            result = c.getResources().getString(R.string.Motion_Sensor);
-        }
-        if (modelID.indexOf(DataHelper.Magnetic_Window) == 0) {
-            result = c.getResources().getString(R.string.Magnetic_Window);
-        }
-        if (modelID.indexOf(DataHelper.Emergency_Button) == 0) {
-            result = c.getResources().getString(R.string.Emergency_Button);
-        }
-        if (modelID.indexOf(DataHelper.Doors_and_windows_sensor_switch) == 0) {
-            result = c.getResources().getString(
-                    R.string.Doors_and_windows_sensor_switch);
-        }
-        if (modelID.indexOf(DataHelper.Smoke_Detectors) == 0) {
-            result = c.getResources().getString(R.string.Smoke_Detectors);
-        }
-        if (modelID.indexOf(DataHelper.Combustible_Gas_Detector_Gas) == 0) {
-            result = c.getResources().getString(
-                    R.string.Combustible_Gas_Detector_Gas);
-        }
+	public static String getDefaultUserDefinname(Context c, String modelID,
+			String ep) {
+		String result = "";
 
-        if (modelID.indexOf(DataHelper.Combustible_Gas_Detector_CO) == 0) {
-            result = c.getResources().getString(
-                    R.string.Combustible_Gas_Detector_CO);
-        }
-        if (modelID.indexOf(DataHelper.Combustible_Gas_Detector_Natural_gas) == 0) {
-            result = c.getResources().getString(
-                    R.string.Combustible_Gas_Detector_Natural_gas);
-        }
-        if (modelID.indexOf(DataHelper.Wireless_Intelligent_valve_switch) == 0) {
-            result = c.getResources().getString(
-                    R.string.Wireless_Intelligent_valve_switch);
-        }
-        if (modelID.indexOf(DataHelper.Siren) == 0) {
-            result = c.getResources().getString(R.string.Siren);
-        }
-        if (modelID.indexOf(DataHelper.Wall_switch_touch) == 0) {
-            result = c.getResources().getString(R.string.Wall_switch_touch);
-        }
-        if (modelID.indexOf(DataHelper.Wall_switch_double) == 0) {
-            result = c.getResources().getString(R.string.Wall_switch_double);
-        }
-        if (modelID.indexOf(DataHelper.Wall_switch_triple) == 0) {
-            result = c.getResources().getString(R.string.Wall_switch_triple);
-        }
-        if (modelID.indexOf(DataHelper.Dimmer_Switch) == 0) {
-            result = c.getResources().getString(R.string.Dimmer_Switch);
-        }
-        if (modelID.indexOf(DataHelper.Wall_switch_triple) == 0) {
-            result = c.getResources().getString(R.string.Wall_switch_triple);
-        }
-        if (modelID.indexOf(DataHelper.Wall_switch_triple) == 0) {
-            result = c.getResources().getString(R.string.Wall_switch_triple);
-        }
-        if (modelID.indexOf(DataHelper.Power_detect_wall) == 0) {
-            result = c.getResources().getString(R.string.Power_detect_wall);
-        }
-        if (modelID.indexOf(DataHelper.Curtain_control_switch) == 0) {
-            result = c.getResources()
-                    .getString(R.string.Curtain_control_switch);
-        }
+		if (modelID.indexOf(DataHelper.Motion_Sensor) == 0) { // ZigBee动作感应器
+			result = c.getResources().getString(R.string.Motion_Sensor);
+		}
+		if (modelID.indexOf(DataHelper.Magnetic_Window) == 0) { // ZigBee窗磁
+			result = c.getResources().getString(R.string.Magnetic_Window);
+		}
+		if (modelID.indexOf(DataHelper.Emergency_Button) == 0) { // ZigBee紧急按钮
+			result = c.getResources().getString(R.string.Emergency_Button);
+		}
+		if (modelID.indexOf(DataHelper.Doors_and_windows_sensor_switch) == 0) { // 门窗感应开关
+			result = c.getResources().getString(
+					R.string.Doors_and_windows_sensor_switch);
+		}
+		if (modelID.indexOf(DataHelper.Smoke_Detectors) == 0) { // 烟雾感应器
+			result = c.getResources().getString(R.string.Smoke_Detectors);
+		}
+		if (modelID.indexOf(DataHelper.Combustible_Gas_Detector_Gas) == 0) { // 可燃气体探测器（煤气）
+			result = c.getResources().getString(
+					R.string.Combustible_Gas_Detector_Gas);
+		}
 
-        if (modelID.indexOf(DataHelper.Indoor_temperature_sensor) == 0) {
-            result = c.getResources().getString(
-                    R.string.Indoor_temperature_sensor);
-        }
-        if (modelID.indexOf(DataHelper.Light_Sensor) == 0) {
-            result = c.getResources().getString(R.string.Light_Sensor);
-        }
-        if (modelID.indexOf(DataHelper.Multi_key_remote_control) == 0) {
-            result = c.getResources().getString(
-                    R.string.Multi_key_remote_control);
-        }
-        if (modelID.indexOf(DataHelper.Doorbell_button) == 0) {
-            result = c.getResources().getString(R.string.Doorbell_button);
-        }
-        if (modelID.indexOf(DataHelper.Switch_Module_Single) == 0) {
-            result = c.getResources().getString(R.string.Switch_Module_Single);
-        }
-        if (modelID.indexOf(DataHelper.Energy_detection_dimming_module) == 0) {
-            result = c.getResources().getString(
-                    R.string.Energy_detection_dimming_module);
-        }
-        if (modelID.indexOf(DataHelper.Pro_RF) == 0) {
-            result = c.getResources().getString(R.string.Pro_RF);
-        }
-        if (modelID.indexOf(DataHelper.RS232_adapter) == 0) {
-            result = c.getResources().getString(R.string.RS232_adapter);
-        }
-        if (modelID.indexOf(DataHelper.Power_detect_socket) == 0) {
-            result = c.getResources().getString(R.string.Power_detect_socket);
-        }
-        if (modelID.indexOf(DataHelper.Infrared_controller) == 0) {
-            result = c.getResources().getString(R.string.Infrared_controller);
-        }
-		if (modelID.indexOf(DataHelper.One_key_operator) == 0) {
+		if (modelID.indexOf(DataHelper.Combustible_Gas_Detector_CO) == 0) { // 可燃气体探测器（一氧化碳）
+			result = c.getResources().getString(
+					R.string.Combustible_Gas_Detector_CO);
+		}
+		if (modelID.indexOf(DataHelper.Combustible_Gas_Detector_Natural_gas) == 0) { // 可燃气体探测器（天然气）
+			result = c.getResources().getString(
+					R.string.Combustible_Gas_Detector_Natural_gas);
+		}
+		if (modelID.indexOf(DataHelper.Wireless_Intelligent_valve_switch) == 0) { // 无线智能阀门开关
+			result = c.getResources().getString(
+					R.string.Wireless_Intelligent_valve_switch);
+		}
+		if (modelID.indexOf(DataHelper.Siren) == 0) { // ZigBee警报器
+			result = c.getResources().getString(R.string.Siren);
+		}
+		if (modelID.indexOf(DataHelper.Wall_switch_touch) == 0) { // ZigBee墙面开关（单键）
+			result = c.getResources().getString(R.string.Wall_switch_touch);
+		}
+		if (modelID.indexOf(DataHelper.Wall_switch_double) == 0) { // ZigBee墙面开关（双键）
+			if (ep.equals("01")) {
+				result = c.getResources().getString(
+						R.string.Wall_switch_double_R);
+			}
+			if (ep.equals("02")) {
+				result = c.getResources().getString(
+						R.string.Wall_switch_double_L);
+			}
+		}
+		if (modelID.indexOf(DataHelper.Wall_switch_triple) == 0) { // ZigBee墙面开关（三键）
+			if (ep.equals("01")) {
+				result = c.getResources().getString(
+						R.string.Wall_switch_triple_R);
+			}
+			if (ep.equals("02")) {
+				result = c.getResources().getString(
+						R.string.Wall_switch_triple_M);
+			}
+			if (ep.equals("03")) {
+				result = c.getResources().getString(
+						R.string.Wall_switch_triple_L);
+			}
+		}
+		if (modelID.indexOf(DataHelper.Dimmer_Switch) == 0) { // ZigBee调光开关
+			result = c.getResources().getString(R.string.Dimmer_Switch);
+		}
+		if (modelID.indexOf(DataHelper.Power_detect_wall) == 0) { // 中规电能检测墙面插座
+			result = c.getResources().getString(R.string.Power_detect_wall);
+		}
+		if (modelID.indexOf(DataHelper.Curtain_control_switch) == 0) { // ZigBee幕帘控制开关
+			result = c.getResources()
+					.getString(R.string.Curtain_control_switch);
+		}
+		if (modelID.indexOf(DataHelper.Infrared_controller) == 0) { // ZigBee红外控制器
+			result = c.getResources().getString(R.string.Infrared_controller);
+		}
+		if (modelID.indexOf(DataHelper.Indoor_temperature_sensor) == 0) { // ZigBee室内型温湿度感应器
+			result = c.getResources().getString(
+					R.string.Indoor_temperature_sensor);
+		}
+		if (modelID.indexOf(DataHelper.Light_Sensor) == 0) { // ZigBee光线感应器
+			result = c.getResources().getString(R.string.Light_Sensor);
+		}
+		if (modelID.indexOf(DataHelper.Multi_key_remote_control) == 0) { // ZigBee多键遥控器
+			result = c.getResources().getString(
+					R.string.Multi_key_remote_control);
+		}
+		if (modelID.indexOf(DataHelper.Doorbell_button) == 0) { // ZigBee门铃按键
+			result = c.getResources().getString(R.string.Doorbell_button);
+		}
+		if (modelID.indexOf(DataHelper.Switch_Module_Single) == 0) { // ZigBee开关模块（单路）
+			result = c.getResources().getString(R.string.Switch_Module_Single);
+		}
+		if (modelID.indexOf(DataHelper.Energy_detection_dimming_module) == 0) { // 吸顶电能检测调光模块
+			result = c.getResources().getString(
+					R.string.Energy_detection_dimming_module);
+		}
+		if (modelID.indexOf(DataHelper.Pro_RF) == 0) { // ZigBee Pro RF ģ��
+			result = c.getResources().getString(R.string.Pro_RF);
+		}
+		if (modelID.indexOf(DataHelper.RS232_adapter) == 0) { // ��ҵ��ZigBee
+																// RS232适配器
+			result = c.getResources().getString(R.string.RS232_adapter);
+		}
+		if (modelID.indexOf(DataHelper.Power_detect_socket) == 0) { // ZigBee电能检测插座
+			result = c.getResources().getString(R.string.Power_detect_socket);
+		}
+
+		if (modelID.indexOf(DataHelper.One_key_operator) == 0) { // 安防中心
 			result = c.getResources().getString(R.string.One_key_operator);
 		}
 		return result;
 
 	}
 
-//	public static Set<String> getRegions(Context c, DataHelper dh) {
-//		List<DevicesModel> listDevicesModel = new ArrayList<DevicesModel>();
-//		Set<String> region = new HashSet<String>();
-//
-//		SQLiteDatabase db = dh.getSQLiteDatabase();
-//		listDevicesModel = dh.queryForDevicesList(db, DataHelper.DEVICES_TABLE, null,
-//				null, null, null, null, null, null);
-//
-//		for (int m = 0; m < listDevicesModel.size(); m++) {
-//			String mRegion = listDevicesModel.get(m).getmDeviceRegion();
-//			if (!region.contains(mRegion)) {
-//				region.add(mRegion);
-//			}
-//		}
-//		return region;
-//	}
+	// public static Set<String> getRegions(Context c, DataHelper dh) {
+	// List<DevicesModel> listDevicesModel = new ArrayList<DevicesModel>();
+	// Set<String> region = new HashSet<String>();
+	//
+	// SQLiteDatabase db = dh.getSQLiteDatabase();
+	// listDevicesModel = dh.queryForDevicesList(db, DataHelper.DEVICES_TABLE,
+	// null,
+	// null, null, null, null, null, null);
+	//
+	// for (int m = 0; m < listDevicesModel.size(); m++) {
+	// String mRegion = listDevicesModel.get(m).getmDeviceRegion();
+	// if (!region.contains(mRegion)) {
+	// region.add(mRegion);
+	// }
+	// }
+	// return region;
+	// }
 
 	public static List<SimpleDevicesModel> getDevices(Context c, DataHelper dh,
 			String[] args, String where, boolean b) {
@@ -343,15 +375,16 @@ public class DataUtil {
 		List<SimpleDevicesModel> list = new ArrayList<SimpleDevicesModel>();
 
 		SQLiteDatabase db = dh.getSQLiteDatabase();
-		listDevicesModel = dh.queryForDevicesList(db, DataHelper.DEVICES_TABLE, null,
-				where, args, null, null, null, null);
+		listDevicesModel = dh.queryForDevicesList(db, DataHelper.DEVICES_TABLE,
+				null, where, args, null, null, null, null);
 
 		if (b) {
 			for (int m = 0; m < listDevicesModel.size(); m++) {
 				DevicesModel mDevicesModel = listDevicesModel.get(m);
-				if (Integer.parseInt(mDevicesModel.getmDeviceId()) != DataHelper.ON_OFF_SWITCH_DEVICETYPE&&
-						Integer.parseInt(mDevicesModel.getmDeviceId()) != DataHelper.DIMEN_SWITCH_DEVICETYPE&&
-						mDevicesModel.getmModelId().indexOf(DataHelper.Multi_key_remote_control)!=0) {
+				if (Integer.parseInt(mDevicesModel.getmDeviceId()) != DataHelper.ON_OFF_SWITCH_DEVICETYPE
+						&& Integer.parseInt(mDevicesModel.getmDeviceId()) != DataHelper.DIMEN_SWITCH_DEVICETYPE
+						&& mDevicesModel.getmModelId().indexOf(
+								DataHelper.Multi_key_remote_control) != 0) {
 					mSimpleDevicesModel = new SimpleDevicesModel();
 					mSimpleDevicesModel.setID(mDevicesModel.getID());
 					mSimpleDevicesModel.setmDeviceId(Integer
@@ -377,7 +410,7 @@ public class DataUtil {
 									.equals("")) {
 						mSimpleDevicesModel
 								.setmUserDefineName(getDefaultUserDefinname(c,
-										mSimpleDevicesModel.getmModelId()));
+										mSimpleDevicesModel.getmModelId(), mSimpleDevicesModel.getmEP()));
 					} else {
 						mSimpleDevicesModel.setmUserDefineName(mDevicesModel
 								.getmUserDefineName());
@@ -411,7 +444,7 @@ public class DataUtil {
 						|| mDevicesModel.getmUserDefineName().trim().equals("")) {
 					mSimpleDevicesModel
 							.setmUserDefineName(getDefaultUserDefinname(c,
-									mSimpleDevicesModel.getmModelId()));
+									mSimpleDevicesModel.getmModelId(), mSimpleDevicesModel.getmEP()));
 				} else {
 					mSimpleDevicesModel.setmUserDefineName(mDevicesModel
 							.getmUserDefineName());
@@ -426,7 +459,7 @@ public class DataUtil {
 		}
 		return list;
 	}
-	
+
 	public static List<SimpleDevicesModel> getDevices(Context c, DataHelper dh,
 			String[] args, String where) {
 		return getDevices(c, dh, args, where, true);

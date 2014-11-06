@@ -442,7 +442,8 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 						mView.post(new Runnable() {
 							@Override
 							public void run() {
-								setDataActivity.setdata(mDeviceList);
+//								setDataActivity.setdata(mDeviceList);
+								mBaseAdapter.notifyDataSetChanged();
 							}
 						});
 					}
