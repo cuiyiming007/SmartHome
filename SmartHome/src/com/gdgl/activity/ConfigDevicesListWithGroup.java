@@ -534,7 +534,7 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 		mSimpleDevicesModel.setmIeee(mDevicesModel.getmIeee().trim());
 		mSimpleDevicesModel.setmEP(mDevicesModel.getmEP().trim());
 		mSimpleDevicesModel.setmUserDefineName(mDevicesModel
-				.getmUserDefineName().trim());
+				.getmDefaultDeviceName().trim());
 		int menuIndex = item.getItemId();
 
 		if (1 == menuIndex) {
@@ -543,7 +543,7 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 			mEditDevicesDlg.setDialogCallback(this);
 
 			mEditDevicesDlg.setContent("编辑"
-					+ mDevicesModel.getmUserDefineName().trim());
+					+ mDevicesModel.getmDefaultDeviceName().trim());
 			mEditDevicesDlg.show();
 		}
 		if (2 == menuIndex) {
@@ -551,7 +551,7 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 					(Context) getActivity());
 			mMyOkCancleDlg.setDialogCallback((Dialogcallback) this);
 			mMyOkCancleDlg.setContent("确定要删除"
-					+ mDevicesModel.getmUserDefineName().trim() + "吗?");
+					+ mDevicesModel.getmDefaultDeviceName().trim() + "吗?");
 			mMyOkCancleDlg.show();
 		}
 		return super.onContextItemSelected(item);
@@ -628,7 +628,7 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 				mViewHolder = (ViewHolder) convertView.getTag();
 			}
 
-			mViewHolder.devName.setText(ds.getmUserDefineName()
+			mViewHolder.devName.setText(ds.getmDefaultDeviceName()
 					.replace(" ", ""));
 			if (null != ds.getmDeviceRegion()
 					&& !ds.getmDeviceRegion().trim().equals("")) {
@@ -644,8 +644,8 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 			}
 
 			int devcicesId = Integer.parseInt(ds.getmDeviceId());
-			mViewHolder.devImg.setImageResource(UiUtils
-					.getDevicesSmallIcon(devcicesId,ds.getmModelId().trim()));
+			mViewHolder.devImg.setImageResource(DataUtil
+					.getDefaultDevicesSmallIcon(devcicesId,ds.getmModelId().trim()));
 //			if (DataHelper.IAS_ZONE_DEVICETYPE == devcicesId
 //					|| DataHelper.IAS_ACE_DEVICETYPE == devcicesId) {
 //
@@ -837,34 +837,34 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 		String[] args = { ieee };
 
 		ContentValues c = new ContentValues();
-		c.put(DevicesModel.USER_DEFINE_NAME, name);
+		c.put(DevicesModel.DEFAULT_DEVICE_NAME, name);
 
 		SQLiteDatabase mSQLiteDatabase = mDh.getSQLiteDatabase();
 		int result = mDh.update(mSQLiteDatabase, DataHelper.DEVICES_TABLE, c,
 				where, args);
 		if (result >= 0) {
 			if (LightManager_expn) {
-				mLightManager.get(currentpostion).setmUserDefineName(name);
+				mLightManager.get(currentpostion).setmDefaultDeviceName(name);
 				LightManagerAdap.setList(mLightManager);
 				LightManagerAdap.notifyDataSetChanged();
 			} else if (ElecManager_expn) {
-				mElecManager.get(currentpostion).setmUserDefineName(name);
+				mElecManager.get(currentpostion).setmDefaultDeviceName(name);
 				ElecManagerAdap.setList(mElecManager);
 				ElecManagerAdap.notifyDataSetChanged();
 			} else if (SecurityControl_expn) {
-				mSecurityControl.get(currentpostion).setmUserDefineName(name);
+				mSecurityControl.get(currentpostion).setmDefaultDeviceName(name);
 				SecurityControlAdap.setList(mSecurityControl);
 				SecurityControlAdap.notifyDataSetChanged();
 			} else if (Energy_expn) {
-				mEnergy.get(currentpostion).setmUserDefineName(name);
+				mEnergy.get(currentpostion).setmDefaultDeviceName(name);
 				EnergyAdap.setList(mEnergy);
 				EnergyAdap.notifyDataSetChanged();
 			} else if (EneronmentControll_expn) {
-				mEneronmentControl.get(currentpostion).setmUserDefineName(name);
+				mEneronmentControl.get(currentpostion).setmDefaultDeviceName(name);
 				EneronmentControllAdap.setList(mEneronmentControl);
 				EneronmentControllAdap.notifyDataSetChanged();
 			} else if (Other_expn) {
-				mOther.get(currentpostion).setmUserDefineName(name);
+				mOther.get(currentpostion).setmDefaultDeviceName(name);
 				OtherAdap.setList(mOther);
 				OtherAdap.notifyDataSetChanged();
 			}

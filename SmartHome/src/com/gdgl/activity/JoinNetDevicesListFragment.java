@@ -8,7 +8,6 @@ import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
 import com.gdgl.smarthome.R;
-import com.gdgl.util.UiUtils;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
@@ -355,17 +354,17 @@ public class JoinNetDevicesListFragment extends BaseFragment {
 				mHolder = (ViewHolder) mView.getTag();
 			}
 			
-			if (mDevices.getmUserDefineName() == null || mDevices.getmUserDefineName().trim().equals("")) {
-				mDevices.setmUserDefineName(DataUtil.getDefaultUserDefinname(
+			if (mDevices.getmDefaultDeviceName() == null || mDevices.getmDefaultDeviceName().trim().equals("")) {
+				mDevices.setmDefaultDeviceName(DataUtil.getDefaultDevicesName(
 						getActivity(), mDevices.getmModelId(), mDevices.getmEP()));
 			}
-			mHolder.devices_name.setText(mDevices.getmUserDefineName().replace(" ", ""));
+			mHolder.devices_name.setText(mDevices.getmDefaultDeviceName().replace(" ", ""));
 //			Log.e("devices_name", mDevices.getmUserDefineName());
 			
 			
 			int devModeleId = Integer.parseInt(mDevices.getmDeviceId());
-			mHolder.devices_img.setImageResource(UiUtils
-					.getDevicesSmallIcon(devModeleId,mDevices.getmModelId().trim()));
+			mHolder.devices_img.setImageResource(DataUtil
+					.getDefaultDevicesSmallIcon(devModeleId,mDevices.getmModelId().trim()));
 //			if (DataHelper.IAS_ZONE_DEVICETYPE == devModeleId
 //					|| DataHelper.IAS_ACE_DEVICETYPE == devModeleId) {
 //

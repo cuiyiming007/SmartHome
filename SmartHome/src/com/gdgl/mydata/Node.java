@@ -15,13 +15,13 @@ public class Node {
 	//}] 
     private  String ieee;
     private  String nwk_addr;
-    private  String hw_version;
     private  String name;
-    private  String date_code;
     private  String manufactory;
     private  String zcl_version;
     private  String stack_version;
     private  String app_version;
+    private  String hw_version;
+    private  String date_code;
     private  String model_id;
     private  String node_type;
     

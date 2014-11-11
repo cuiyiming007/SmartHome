@@ -394,7 +394,7 @@ public class SceneDevicesActivity extends Activity implements DevicesObserver,
 		String[] args = { ieee };
 
 		ContentValues c = new ContentValues();
-		c.put(DevicesModel.USER_DEFINE_NAME, name);
+		c.put(DevicesModel.DEFAULT_DEVICE_NAME, name);
 		
 		SQLiteDatabase mSQLiteDatabase = mDataHelper.getSQLiteDatabase();
 		int result = mDataHelper.update(mSQLiteDatabase,

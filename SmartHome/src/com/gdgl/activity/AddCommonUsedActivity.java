@@ -505,8 +505,8 @@ public class AddCommonUsedActivity extends Activity {
 			} else if (type == SCENE) {
 				mViewHolder.use_img.setImageResource(R.drawable.scene);
 			} else if (type == DEVICES) {
-				mViewHolder.use_img.setImageResource(UiUtils
-						.getDevicesSmallIcon(sModel.getmDeviceId(),sModel.getmModelId().trim()));
+				mViewHolder.use_img.setImageResource(DataUtil
+						.getDefaultDevicesSmallIcon(sModel.getmDeviceId(),sModel.getmModelId().trim()));
 //				mViewHolder.use_img.setImageResource(R.drawable.scene);
 //				if (DataHelper.IAS_ZONE_DEVICETYPE == sModel.getmDeviceId()
 //						|| DataHelper.IAS_ACE_DEVICETYPE == sModel

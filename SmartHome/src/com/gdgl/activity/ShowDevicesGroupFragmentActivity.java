@@ -415,6 +415,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 				mDevicesListFragment, "LightsControlFragment");
 		mDevicesListFragment.setAdapter(mDevicesBaseAdapter);
 		fragmentTransaction.commit();
+		fancyCoverFlow.setVisibility(View.VISIBLE);
 		initTitleByTag(mListIndex);
 	}
 
@@ -527,6 +528,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		// TODO Auto-generated method stub
 		Log.i(TAG, "zzz->setFragment postion=" + postion);
 		// mCurrentListItemPostion = postion;
+		fancyCoverFlow.setVisibility(View.GONE);
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
 		fragmentTransaction.replace(R.id.devices_control_fragment, mFragment);
@@ -541,16 +543,6 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		// parents_need.setVisibility(View.VISIBLE);
 		// devices_need.setVisibility(View.GONE);
 	}
-
-	// public void initTitleByDevices(String devicesId) {
-	// SimpleDevicesModel ms = getModel;
-	// if (null != ms) {
-	// title.setText(ms.getmUserDefineName().replace(" ", ""));
-	// // parents_need.setVisibility(View.GONE);
-	// // devices_need.setVisibility(View.VISIBLE);
-	// }
-	//
-	// }
 
 	public interface EditDevicesName {
 		public void editDevicesName();
@@ -687,7 +679,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		String[] args = { ieee };
 
 		ContentValues c = new ContentValues();
-		c.put(DevicesModel.USER_DEFINE_NAME, name);
+		c.put(DevicesModel.DEFAULT_DEVICE_NAME, name);
 		// c.put(DevicesModel.DEVICE_REGION, region);
 
 		SQLiteDatabase mSQLiteDatabase = mDataHelper.getSQLiteDatabase();

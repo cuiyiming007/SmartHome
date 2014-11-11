@@ -18,7 +18,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 public class DataHelper extends SQLiteOpenHelper {
 
@@ -97,55 +96,58 @@ public class DataHelper extends SQLiteOpenHelper {
 
 	private void initStringBuilder() {
 		// TODO Auto-generated method stub
+		//device table create string
 		mStringBuilder.append("CREATE TABLE " + DEVICES_TABLE + " (");
 		mStringBuilder.append(DevicesModel._ID
 				+ " INTEGER PRIMARY KEY AUTOINCREMENT,");
-		mStringBuilder.append(DevicesModel.IEEE + " VARCHAR(16),");
-		mStringBuilder.append(DevicesModel.EP + " VARCHAR(2),");
-		mStringBuilder.append(DevicesModel.NAME + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.NODE_EN_NAME + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.USER_DEFINE_NAME + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.MODEL_ID + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.DEVICE_ID + " VARCHAR(4),");
-		mStringBuilder.append(DevicesModel.DEVICE_REGION + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.CLUSTER_ID + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.BIND_TO + " VARCHAR,");
 		mStringBuilder.append(DevicesModel.ALL_COUNT + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.APP_VERSTION + " VARCHAR,");
+		mStringBuilder.append(DevicesModel.CURCOUNT + " VARCHAR,");
+		mStringBuilder.append(DevicesModel.DEVICE_ID + " VARCHAR(4),");
+		mStringBuilder.append(DevicesModel.R_ID + " VARCHAR,");
+		mStringBuilder.append(DevicesModel.PIC_NAME + " VARCHAR,");
+		mStringBuilder.append(DevicesModel.PROFILE_ID + " VARCHAR,");
+		mStringBuilder.append(DevicesModel.POWER_RESOURCE + " VARCHAR,");
 		mStringBuilder.append(DevicesModel.CUR_POWER_RESOURCE + " VARCHAR,");
 		mStringBuilder.append(DevicesModel.CURPOWERSOURCELEVEL + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.CURCOUNT + " VARCHAR,");
+		
+		mStringBuilder.append(DevicesModel.IEEE + " VARCHAR(16),");
+		mStringBuilder.append(DevicesModel.NWK_ADDR + " VARCHAR,");
+		mStringBuilder.append(DevicesModel.NODE_EN_NAME + " VARCHAR,");
+		mStringBuilder.append(DevicesModel.MANUFACTORY + " VARCHAR,");
+		mStringBuilder.append(DevicesModel.ZCL_VERSTION + " VARCHAR,");
+		mStringBuilder.append(DevicesModel.STACK_VERSTION + " VARCHAR,");
+		mStringBuilder.append(DevicesModel.APP_VERSTION + " VARCHAR,");
+		mStringBuilder.append(DevicesModel.HW_VERSTION + " VARCHAR,");
+		mStringBuilder.append(DevicesModel.DATE_CODE + " VARCHAR,");
+		mStringBuilder.append(DevicesModel.MODEL_ID + " VARCHAR,");
+		mStringBuilder.append(DevicesModel.NODE_TYPE + " VARCHAR,");
+		
+		mStringBuilder.append(DevicesModel.EP + " VARCHAR(2),");
+		mStringBuilder.append(DevicesModel.NAME + " VARCHAR,");
 		mStringBuilder.append(DevicesModel.CURRENT + " VARCHAR,");
+		mStringBuilder.append(DevicesModel.ENERGY + " VARCHAR,");
+		mStringBuilder.append(DevicesModel.POWER + " VARCHAR,");
+		mStringBuilder.append(DevicesModel.VOLTAGE + " VARCHAR,");
+		mStringBuilder.append(DevicesModel.LEVEL + " VARCHAR,");
+		mStringBuilder.append(DevicesModel.ON_OFF_STATUS + " VARCHAR(1),");
+		mStringBuilder.append(DevicesModel.EP_MODEL_ID + " VARCHAR(6),");
+		
 		mStringBuilder.append(DevicesModel.CURRENT_MAX + " VARCHAR,");
 		mStringBuilder.append(DevicesModel.CURRENT_MIN + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.DATE_CODE + " VARCHAR,");
-		
-		mStringBuilder.append(DevicesModel.ENERGY + " VARCHAR,");
+		mStringBuilder.append(DevicesModel.VOLTAGE_MAX + " VARCHAR,");
+		mStringBuilder.append(DevicesModel.VOLTAGE_MIN + " VARCHAR,");
 		mStringBuilder.append(DevicesModel.ENERGY_MAX + " VARCHAR,");
 		mStringBuilder.append(DevicesModel.ENERGY_MIN + " VARCHAR,");
 		
-		mStringBuilder.append(DevicesModel.EP_MODEL_ID + " VARCHAR(6),");
-		mStringBuilder.append(DevicesModel.HW_VERSTION + " VARCHAR,");
+		mStringBuilder.append(DevicesModel.CLUSTER_ID + " VARCHAR,");
+		mStringBuilder.append(DevicesModel.DEVICE_SORT + " INTEGER,");
+		mStringBuilder.append(DevicesModel.DEVICE_REGION + " VARCHAR,");
+		mStringBuilder.append(DevicesModel.DEFAULT_DEVICE_NAME + " VARCHAR,");
 		
 		mStringBuilder.append(DevicesModel.LAST_UPDATE_TIME + " INTEGER,");
-		mStringBuilder.append(DevicesModel.MANUFACTORY + " VARCHAR,");
+		mStringBuilder.append(DevicesModel.ON_OFF_LINE + " INTEGER )");
 		
-		mStringBuilder.append(DevicesModel.NODE_TYPE + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.NWK_ADDR + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.ON_OFF_LINE + " INTEGER,");
-		mStringBuilder.append(DevicesModel.ON_OFF_STATUS + " VARCHAR(1),");
-		mStringBuilder.append(DevicesModel.PIC_NAME + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.POWER + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.POWER_RESOURCE + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.PROFILE_ID + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.R_ID + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.STACK_VERSTION + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.VOLTAGE + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.VOLTAGE_MAX + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.VOLTAGE_MIN + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.ZCL_VERSTION + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.DEVICE_SORT + " INTEGER )");
-		
+		//group table create string
 		mAStringBuilder.append("CREATE TABLE " + GROUP_TABLE + " (");
 		mAStringBuilder.append(DevicesGroup._ID
 				+ " INTEGER PRIMARY KEY AUTOINCREMENT,");
@@ -169,7 +171,6 @@ public class DataHelper extends SQLiteOpenHelper {
 		videoStringBuilder.append(VideoNode.PASSWORD + " INTEGER,");
 		videoStringBuilder.append(VideoNode.RTSPORT + " INTEGER)");
 		
-		
 		//message table create string
 		messageStringBuilder.append("CREATE TABLE " + MESSAGE_TABLE + " (");
 		messageStringBuilder.append(CallbackWarnMessage._ID
@@ -190,12 +191,14 @@ public class DataHelper extends SQLiteOpenHelper {
 		messageStringBuilder.append(CallbackWarnMessage.ZONE_IEEE + " VARCHAR(16),");
 		messageStringBuilder.append(CallbackWarnMessage.ZONE_NAME + " VARCHAR(16))");
 		
+		//roominfo table create string
 		roominfoStringBuilder.append("CREATE TABLE " + ROOMINFO_TABLE + " (");
 		roominfoStringBuilder.append(GetRoomInfo_response._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,");
 		roominfoStringBuilder.append(GetRoomInfo_response.ROOM_ID + " INTEGER,");
 		roominfoStringBuilder.append(GetRoomInfo_response.ROOM_NAME + " TEXT,");
 		roominfoStringBuilder.append(GetRoomInfo_response.ROOM_PIC + " VARCHAR(48))");
 		
+		//bind table create string
 		bindStringBuilder.append("CREATE TABLE " + BIND_TABLE + " (");
 		bindStringBuilder.append(BindingDataEntity._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,");
 		bindStringBuilder.append(BindingDataEntity.DEVOUT_IEEE + " VARCHAR(16),");
@@ -217,7 +220,7 @@ public class DataHelper extends SQLiteOpenHelper {
 		db.execSQL(messageStringBuilder.toString());
 		db.execSQL(roominfoStringBuilder.toString());
 		db.execSQL(bindStringBuilder.toString());
-		Log.i("roominfoStringBuilder", "zgs-> " + roominfoStringBuilder.toString());
+//		Log.i("roominfoStringBuilder", "zgs-> " + roominfoStringBuilder.toString());
 	}
 
 	@Override
@@ -307,9 +310,8 @@ public class DataHelper extends SQLiteOpenHelper {
 
 	private boolean isFilterDevice(DevicesModel devicesModel) {
 		boolean ret=false;
-		//多键遥控器只显示一个
-		if (devicesModel.getmModelId().indexOf(Multi_key_remote_control)==0
-				&& devicesModel.getmEP().trim().equals("0A")) {
+		//多键遥控器不显示显示
+		if (devicesModel.getmModelId().indexOf(Multi_key_remote_control)==0) {
 			ret=true;
 		}
 		return ret;
@@ -594,72 +596,77 @@ public class DataHelper extends SQLiteOpenHelper {
 			mDevicesModel = new DevicesModel();
 			mDevicesModel.setmAllCount(c.getString(c
 					.getColumnIndex(DevicesModel.ALL_COUNT)));
-			mDevicesModel.setmAppVersion(c.getString(c
-					.getColumnIndex(DevicesModel.APP_VERSTION)));
 			mDevicesModel.setmCurCount(c.getString(c
 					.getColumnIndex(DevicesModel.CURCOUNT)));
-			mDevicesModel.setCurpowersourcelevel(c.getString(c
-					.getColumnIndex(DevicesModel.CURPOWERSOURCELEVEL)));
+			mDevicesModel.setmDeviceId(c.getString(c
+					.getColumnIndex(DevicesModel.DEVICE_ID)));
+			mDevicesModel.setmRid(c.getString(c
+					.getColumnIndex(DevicesModel.R_ID)));
+			mDevicesModel.setmPicName(c.getString(c
+					.getColumnIndex(DevicesModel.PIC_NAME)));
+			mDevicesModel.setmProfileId(c.getString(c
+					.getColumnIndex(DevicesModel.PROFILE_ID)));
+			mDevicesModel.setmPowerResource(c.getString(c
+					.getColumnIndex(DevicesModel.POWER_RESOURCE)));
 			mDevicesModel.setmCurPowerResource(c.getString(c
 					.getColumnIndex(DevicesModel.CUR_POWER_RESOURCE)));
+			mDevicesModel.setCurpowersourcelevel(c.getString(c
+					.getColumnIndex(DevicesModel.CURPOWERSOURCELEVEL)));
+			mDevicesModel.setmIeee(c.getString(c
+					.getColumnIndex(DevicesModel.IEEE)));
+			mDevicesModel.setmNWKAddr(c.getString(c
+					.getColumnIndex(DevicesModel.NWK_ADDR)));
+			mDevicesModel.setmNodeENNAme(c.getString(c
+					.getColumnIndex(DevicesModel.NODE_EN_NAME)));
+			mDevicesModel.setmManufactory(c.getString(c
+					.getColumnIndex(DevicesModel.MANUFACTORY)));
+			mDevicesModel.setmZCLVersion(c.getString(c
+					.getColumnIndex(DevicesModel.ZCL_VERSTION)));
+			mDevicesModel.setmStackVerstion(c.getString(c
+					.getColumnIndex(DevicesModel.STACK_VERSTION)));
+			mDevicesModel.setmAppVersion(c.getString(c
+					.getColumnIndex(DevicesModel.APP_VERSTION)));
+			mDevicesModel.setmHwVersion(c.getString(c
+					.getColumnIndex(DevicesModel.HW_VERSTION)));
+			mDevicesModel.setmDateCode(c.getString(c
+					.getColumnIndex(DevicesModel.DATE_CODE)));
+			mDevicesModel.setmModelId(c.getString(c
+					.getColumnIndex(DevicesModel.MODEL_ID)));
+			mDevicesModel.setmNodeType(c.getString(c
+					.getColumnIndex(DevicesModel.NODE_TYPE)));
+			mDevicesModel.setmEP(c.getString(c
+					.getColumnIndex(DevicesModel.EP)));
+			mDevicesModel.setmName(c.getString(c
+					.getColumnIndex(DevicesModel.NAME)));
 			mDevicesModel.setmCurrent(c.getString(c
 					.getColumnIndex(DevicesModel.CURRENT)));
+			mDevicesModel.setmEnergy(c.getString(c
+					.getColumnIndex(DevicesModel.ENERGY)));
+			mDevicesModel.setmPower(c.getString(c
+					.getColumnIndex(DevicesModel.POWER)));
+			mDevicesModel.setmVoltage(c.getString(c
+					.getColumnIndex(DevicesModel.VOLTAGE)));
+			mDevicesModel.setmLevel(c.getString(c
+					.getColumnIndex(DevicesModel.LEVEL)));
+			mDevicesModel.setmOnOffStatus(c.getString(c
+					.getColumnIndex(DevicesModel.ON_OFF_STATUS)));
+			mDevicesModel.setmEPModelId(c.getString(c
+					.getColumnIndex(DevicesModel.EP_MODEL_ID)));
 			mDevicesModel.setmCurrentMax(c.getString(c
 					.getColumnIndex(DevicesModel.CURRENT_MAX)));
 			mDevicesModel.setmCurrentMin(c.getString(c
 					.getColumnIndex(DevicesModel.CURRENT_MIN)));
-			mDevicesModel.setmDateCode(c.getString(c
-					.getColumnIndex(DevicesModel.DATE_CODE)));
-			mDevicesModel.setmDeviceId(c.getString(c
-					.getColumnIndex(DevicesModel.DEVICE_ID)));
-			mDevicesModel.setmEnergy(c.getString(c
-					.getColumnIndex(DevicesModel.ENERGY)));
-			mDevicesModel.setmEnergyMax(c.getString(c
-					.getColumnIndex(DevicesModel.ENERGY_MAX)));
-			mDevicesModel.setmEnergyMin(c.getString(c
-					.getColumnIndex(DevicesModel.ENERGY_MIN)));
-			mDevicesModel
-					.setmEP(c.getString(c.getColumnIndex(DevicesModel.EP)));
-			mDevicesModel.setmEPModelId(c.getString(c
-					.getColumnIndex(DevicesModel.EP_MODEL_ID)));
-			mDevicesModel.setmHwVersion(c.getString(c
-					.getColumnIndex(DevicesModel.HW_VERSTION)));
-			mDevicesModel.setmIeee(c.getString(c
-					.getColumnIndex(DevicesModel.IEEE)));
-			mDevicesModel.setmManufactory(c.getString(c
-					.getColumnIndex(DevicesModel.MANUFACTORY)));
-			mDevicesModel.setmModelId(c.getString(c
-					.getColumnIndex(DevicesModel.MODEL_ID)));
-			mDevicesModel.setmName(c.getString(c
-					.getColumnIndex(DevicesModel.NAME)));
-			mDevicesModel.setmNodeENNAme(c.getString(c
-					.getColumnIndex(DevicesModel.NODE_EN_NAME)));
-			mDevicesModel.setmNodeType(c.getString(c
-					.getColumnIndex(DevicesModel.NODE_TYPE)));
-			mDevicesModel.setmNWKAddr(c.getString(c
-					.getColumnIndex(DevicesModel.NWK_ADDR)));
-			mDevicesModel.setmOnOffStatus(c.getString(c
-					.getColumnIndex(DevicesModel.ON_OFF_STATUS)));
-			mDevicesModel.setmPicName(c.getString(c
-					.getColumnIndex(DevicesModel.PIC_NAME)));
-			mDevicesModel.setmPower(c.getString(c
-					.getColumnIndex(DevicesModel.POWER)));
-			mDevicesModel.setmPowerResource(c.getString(c
-					.getColumnIndex(DevicesModel.POWER_RESOURCE)));
-			mDevicesModel.setmProfileId(c.getString(c
-					.getColumnIndex(DevicesModel.PROFILE_ID)));
-			mDevicesModel.setmRid(c.getString(c
-					.getColumnIndex(DevicesModel.R_ID)));
-			mDevicesModel.setmStackVerstion(c.getString(c
-					.getColumnIndex(DevicesModel.STACK_VERSTION)));
-			mDevicesModel.setmVoltage(c.getString(c
-					.getColumnIndex(DevicesModel.VOLTAGE)));
 			mDevicesModel.setmVoltageMax(c.getString(c
 					.getColumnIndex(DevicesModel.VOLTAGE_MAX)));
 			mDevicesModel.setmVoltageMin(c.getString(c
 					.getColumnIndex(DevicesModel.VOLTAGE_MIN)));
-			mDevicesModel.setmZCLVersion(c.getString(c
-					.getColumnIndex(DevicesModel.ZCL_VERSTION)));
+			mDevicesModel.setmEnergyMax(c.getString(c
+					.getColumnIndex(DevicesModel.ENERGY_MAX)));
+			mDevicesModel.setmEnergyMin(c.getString(c
+					.getColumnIndex(DevicesModel.ENERGY_MIN)));
+			mDevicesModel.setmClusterID(c.getString(c.
+					getColumnIndex(DevicesModel.CLUSTER_ID)));
+			
 			mDevicesModel.setmDeviceRegion(c.getString(c
 					.getColumnIndex(DevicesModel.DEVICE_REGION)));
 			mDevicesModel.setmLastDateTime(c.getLong(c
@@ -667,9 +674,8 @@ public class DataHelper extends SQLiteOpenHelper {
 			mDevicesModel.setmOnOffLine(c.getShort(c
 					.getColumnIndex(DevicesModel.ON_OFF_LINE)));
 			mDevicesModel.setID(c.getInt(c.getColumnIndex(DevicesModel._ID)));
-			mDevicesModel.setmUserDefineName(c.getString(c.getColumnIndex(DevicesModel.USER_DEFINE_NAME)));
-			mDevicesModel.setmClusterID(c.getString(c.getColumnIndex(DevicesModel.CLUSTER_ID)));
-			mDevicesModel.setmBindTo(c.getString(c.getColumnIndex(DevicesModel.BIND_TO)));
+			mDevicesModel.setmDefaultDeviceName(c.getString(c.getColumnIndex(DevicesModel.DEFAULT_DEVICE_NAME)));
+			
 			mList.add(mDevicesModel);
 		}
 		c.close();

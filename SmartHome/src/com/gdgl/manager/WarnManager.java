@@ -55,7 +55,7 @@ public class WarnManager {
 		if (message.getW_description().equals("Doorbell")) {
 			detailmessage = "门铃响了";
 		}else{
-			String chineseName=DataUtil.getDefaultUserDefinname(ApplicationController.getInstance(), device.getmModelId(), device.getmEP());
+			String chineseName=DataUtil.getDefaultDevicesName(ApplicationController.getInstance(), device.getmModelId(), device.getmEP());
 			message.setW_description(chineseName);
 			detailmessage = message.getW_description() + "收到报警信息，请注意！";
 		}

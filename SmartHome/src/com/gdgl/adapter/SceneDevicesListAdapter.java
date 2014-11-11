@@ -9,7 +9,7 @@ import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
-import com.gdgl.util.UiUtils;
+
 
 
 
@@ -118,8 +118,8 @@ public class SceneDevicesListAdapter extends BaseAdapter implements Dialogcallba
         mHolder.devices_region.setText(mDevices.getmDeviceRegion().replace(" ",
                 ""));
 
-        mHolder.devices_img.setImageResource(UiUtils
-				.getDevicesSmallIcon(mDevices.getmDeviceId(),mDevices.getmModelId().trim()));
+        mHolder.devices_img.setImageResource(DataUtil
+				.getDefaultDevicesSmallIcon(mDevices.getmDeviceId(),mDevices.getmModelId().trim()));
 //        if (DataHelper.IAS_ZONE_DEVICETYPE == mDevices.getmDeviceId()
 //                || DataHelper.IAS_ACE_DEVICETYPE == mDevices.getmDeviceId()) {
 //

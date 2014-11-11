@@ -758,8 +758,8 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 					smd = ls.get(0);
 				}
 				if (null != smd) {
-					mViewHolder.funcImg.setImageResource(UiUtils
-							.getDevicesSmallIcon(smd.getmDeviceId(),smd.getmModelId().trim()));
+					mViewHolder.funcImg.setImageResource(DataUtil
+							.getDefaultDevicesSmallIcon(smd.getmDeviceId(),smd.getmModelId().trim()));
 //					if (DataHelper.IAS_ZONE_DEVICETYPE == smd.getmDeviceId()
 //							|| DataHelper.IAS_ACE_DEVICETYPE == smd
 //									.getmDeviceId()) {

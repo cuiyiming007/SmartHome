@@ -8,7 +8,6 @@ import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.smarthome.R;
-import com.gdgl.util.UiUtils;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -107,15 +106,15 @@ public class AllDevicesAdapter extends BaseAdapter {
 		}
 		
 		if(null==mDevices.getmUserDefineName() || mDevices.getmUserDefineName().trim().equals("")){
-			mHolder.devices_name.setText(DataUtil.getDefaultUserDefinname(mContext, mDevices.getmModelId(), mDevices.getmEP()));
+			mHolder.devices_name.setText(DataUtil.getDefaultDevicesName(mContext, mDevices.getmModelId(), mDevices.getmEP()));
 		}else{
 			mHolder.devices_name.setText(mDevices.getmUserDefineName().replace(" ",
 					""));
 		}
 		
 		
-		mHolder.devices_img.setImageResource(UiUtils
-						.getDevicesSmallIcon(mDevices.getmDeviceId(),mDevices.getmModelId().trim()));
+		mHolder.devices_img.setImageResource(DataUtil
+						.getDefaultDevicesSmallIcon(mDevices.getmDeviceId(),mDevices.getmModelId().trim()));
 //		if (DataHelper.IAS_ZONE_DEVICETYPE == mDevices.getmDeviceId()
 //				|| DataHelper.IAS_ACE_DEVICETYPE == mDevices.getmDeviceId()) {
 //

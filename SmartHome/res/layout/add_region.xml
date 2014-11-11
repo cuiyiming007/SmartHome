@@ -2,84 +2,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:alpha="0.75"
-    android:background="@drawable/new_bacg"
+    android:background="#ffffff"
     android:orientation="vertical" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="#ffffff"
         android:orientation="horizontal" >
 
-        <LinearLayout
-            android:id="@+id/goback"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal" >
-
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="5dp"
-                android:src="@drawable/back" />
-
-            <View
-                android:layout_width="2px"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="2dp"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/divider_color" />
-
-            <ImageView
-                android:id="@+id/imageView1"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="2dp"
-                android:src="@drawable/icon" />
-
-            <TextView
-                android:id="@+id/region_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="8dp"
-                android:layout_weight="1"
-                android:singleLine="true"
-                android:text="厨房"
-                android:textColor="#000000"
-                android:textSize="18dp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/delete"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="15dip"
-            android:layout_marginRight="10dip"
-            android:background="@drawable/ui_toptitle_delete_style"
-            android:gravity="center" />
+        <include layout="@layout/toptitle_with_return" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/devices_control_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="10dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="15dp"
         android:layout_weight="1"
-        android:alpha="0.85"
-        android:background="@drawable/white"
+        android:background="@drawable/ui_devices_devicelist_bgwithcorners"
         android:orientation="vertical" >
 
         <TextView
@@ -90,7 +34,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="暂无任何设备，请添加"
-            android:textColor="#000000"
+            android:textColor="#ffffff"
             android:textSize="16dp" />
     </LinearLayout>
 
@@ -101,7 +45,7 @@
         android:layout_marginBottom="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="5dp"
         android:alpha="0.75"
         android:background="@drawable/add_devices_btn_style"
         android:gravity="center"

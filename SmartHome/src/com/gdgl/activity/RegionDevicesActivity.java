@@ -155,8 +155,9 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 		// TODO Auto-generated method stub
 		mNoDevices = (TextView) findViewById(R.id.no_devices);
 		mAdd = (Button) findViewById(R.id.add_devices);
-		delete = (Button) findViewById(R.id.delete);
-		region_name=(TextView) findViewById(R.id.region_name);
+		delete = (Button) findViewById(R.id.clear_message);
+		delete.setVisibility(View.VISIBLE);
+		region_name=(TextView) findViewById(R.id.title);
 		
 		region_name.setText(mRoomname);
 		
@@ -394,7 +395,7 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 		String[] args = { ieee };
 
 		ContentValues c = new ContentValues();
-		c.put(DevicesModel.USER_DEFINE_NAME, name);
+		c.put(DevicesModel.DEFAULT_DEVICE_NAME, name);
 //		c.put(DevicesModel.DEVICE_REGION, region);
 		
 		SQLiteDatabase mSQLiteDatabase = mDataHelper.getSQLiteDatabase();

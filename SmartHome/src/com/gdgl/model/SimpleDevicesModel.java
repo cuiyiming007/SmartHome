@@ -26,7 +26,6 @@ public class SimpleDevicesModel implements Parcelable{
 	private int mOnOffLine = DevicesModel.DEVICE_ON_LINE;
 	
 	private String mClusterID="";
-	private String mBindTo="";
 	
 	public int getID() {
 		return ID;
@@ -170,7 +169,6 @@ public class SimpleDevicesModel implements Parcelable{
 			mDevicesModel.setmModelId(source.readString());
 			mDevicesModel.setmUserDefineName(source.readString());
 			mDevicesModel.setmClusterID(source.readString());
-			mDevicesModel.setmBindTo(source.readString());
 
 			return mDevicesModel;
 		}
@@ -199,7 +197,6 @@ public class SimpleDevicesModel implements Parcelable{
 		parcel.writeString(mModelId);
 		parcel.writeString(mUserDefineName);
 		parcel.writeString(mClusterID);
-		parcel.writeString(mBindTo);
 	}
 
 	@Override
@@ -222,13 +219,5 @@ public class SimpleDevicesModel implements Parcelable{
 
 	public void setmClusterID(String mClusterID) {
 		this.mClusterID = mClusterID;
-	}
-
-	public String getmBindTo() {
-		return mBindTo;
-	}
-
-	public void setmBindTo(String mBindTo) {
-		this.mBindTo = mBindTo;
 	}
 }

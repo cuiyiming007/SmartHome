@@ -1,26 +1,33 @@
 package com.gdgl.mydata;
 
 public class DevParam {
-	private String	 ep;
-	private String ep_model_id;
-	private String name;
 	private Node node;
-	
+	private String ep;
+	private String name;
 	private String current;
-	private String currentmax;
-	private String currentmin;
 	private String energy;
-	private String energymax;
-	private String energymin;
+	private String power;
+	private String voltage;
 	private String level;
 	private String on_off_status;
-	private String power;
+	private String ep_model_id;
+	
+	
+	private String currentmax;
+	private String currentmin;
+	
+	private String energymax;
+	private String energymin;
+	
 	private String powermax;
 	private String powermin;
-	private String trans_time;
-	private String voltage;
+	
 	private String voltagemax;
 	private String voltagemin;
+	
+	private String trans_time;
+	
+	
 	public String getEp() {
 		return ep;
 	}

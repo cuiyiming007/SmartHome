@@ -187,40 +187,34 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 											KongtiaoTvControlActivity.class);
 									intent.putExtra(Constants.PASS_OBJECT, mSimpleDevicesModel);
 									startActivity(intent);
-								} else if (mSimpleDevicesModel.getmModelId()
-										.indexOf(DataHelper.Multi_key_remote_control)==0) { // 多键遥控器
-									Intent intent = new Intent();
-									intent.setClass((Context) getActivity(),
-											RemoteControlActivity.class);
-									intent.putExtra(Constants.PASS_OBJECT, mSimpleDevicesModel);
-									startActivity(intent);
 								} else {
 									Fragment mFragment = null;
 
-									if (mSimpleDevicesModel
-											.getmModelId()
-											.indexOf(DataHelper.Doorbell_button) == 0) { // 门铃按键
-										mFragment = new DoorBellFragment();
-									} else if (mSimpleDevicesModel
-											.getmModelId()
-											.indexOf(
-													DataHelper.Wireless_Intelligent_valve_switch) == 0) { // 无线智能阀门开关
-										mFragment = new OutPutFragment();
-									} else if (mSimpleDevicesModel
-											.getmModelId()
-											.indexOf(DataHelper.One_key_operator) == 0) {
-										Bundle extras = new Bundle();
-										extras.putParcelable(
-												Constants.PASS_OBJECT,
-												mSimpleDevicesModel);
-										mFragment = new SafeSimpleOperation(
-												DevicesListFragment.this);
-
-										mFragment.setArguments(extras);
-									} else {
-										mFragment = UiUtils.getFragment(mSimpleDevicesModel
-													.getmDeviceId());
-									}
+									mFragment = new DeviceDtailFragment();
+//									if (mSimpleDevicesModel
+//											.getmModelId()
+//											.indexOf(DataHelper.Doorbell_button) == 0) { // 门铃按键
+//										mFragment = new DoorBellFragment();
+//									} else if (mSimpleDevicesModel
+//											.getmModelId()
+//											.indexOf(
+//													DataHelper.Wireless_Intelligent_valve_switch) == 0) { // 无线智能阀门开关
+//										mFragment = new OutPutFragment();
+//									} else if (mSimpleDevicesModel
+//											.getmModelId()
+//											.indexOf(DataHelper.One_key_operator) == 0) {
+//										Bundle extras = new Bundle();
+//										extras.putParcelable(
+//												Constants.PASS_OBJECT,
+//												mSimpleDevicesModel);
+//										mFragment = new SafeSimpleOperation(
+//												DevicesListFragment.this);
+//
+//										mFragment.setArguments(extras);
+//									} else {
+//										mFragment = UiUtils.getDeviceDetailFragment(mSimpleDevicesModel
+//													.getmDeviceId());
+//									}
 									if (null != mFragment) {
 										Bundle extras = new Bundle();
 										if (isSimpleOnOffDevice()) {

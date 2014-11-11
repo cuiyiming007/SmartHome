@@ -6,14 +6,16 @@ public class ResponseParamsEndPoint {
 	
 	private String allcount;
 	private String curcount;
+	private String device_id;
+	private String rid;
+	private String picname;
+	private String profileid;
+	private String powersource;
 	private String curpowersource;
 	private String curpowersourcelevel;
-	private String device_id;
 	private DevParam devparam;
-	private String picname;
-	private String powersource;
-	private String profileid;
-	private String rid;
+	
+	
 	public String getAllcount() {
 		return allcount;
 	}

@@ -13,7 +13,6 @@ import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyDlg;
-import com.gdgl.util.UiUtils;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -124,9 +123,9 @@ public class BindControlFragment extends BaseFragment implements UIListener {
 					null);
 			if (null != bindableDevicesLis && bindableDevicesLis.size() > 0) {
 				for (DevicesModel devicesModel : bindableDevicesLis) {
-					if (null == devicesModel.getmUserDefineName()
-							|| devicesModel.getmUserDefineName().trim().equals("")) {
-						devicesModel.setmUserDefineName(DataUtil.getDefaultUserDefinname((Context) getActivity(),
+					if (null == devicesModel.getmDefaultDeviceName()
+							|| devicesModel.getmDefaultDeviceName().trim().equals("")) {
+						devicesModel.setmDefaultDeviceName(DataUtil.getDefaultDevicesName((Context) getActivity(),
 								devicesModel.getmModelId(), devicesModel.getmEP()));
 					}
 				}
@@ -283,7 +282,7 @@ public class BindControlFragment extends BaseFragment implements UIListener {
 				mHolder = (ViewHolder) mView.getTag();
 			}
 
-			mHolder.devices_name.setText(currentPositionDevice.getmUserDefineName().replace(
+			mHolder.devices_name.setText(currentPositionDevice.getmDefaultDeviceName().replace(
 					" ", ""));
 			
 			
@@ -300,8 +299,8 @@ public class BindControlFragment extends BaseFragment implements UIListener {
 			
 
 			int devId = Integer.parseInt(currentPositionDevice.getmDeviceId());
-			mHolder.devices_img.setImageResource(UiUtils
-					.getDevicesSmallIcon(devId,currentPositionDevice.getmModelId().trim()));
+			mHolder.devices_img.setImageResource(DataUtil
+					.getDefaultDevicesSmallIcon(devId,currentPositionDevice.getmModelId().trim()));
 //			if (DataHelper.IAS_ZONE_DEVICETYPE == devId
 //					|| DataHelper.IAS_ACE_DEVICETYPE == devId) {
 //

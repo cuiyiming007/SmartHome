@@ -12,7 +12,6 @@ import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
-import com.gdgl.util.UiUtils;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -220,7 +219,7 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 //					mDevices.getmDeviceId(), mDevices.getmModelId().trim()));
 		}
 		
-		devices_img.setImageResource(UiUtils.getDevicesSmallIcon(
+		devices_img.setImageResource(DataUtil.getDefaultDevicesSmallIcon(
 				mDevices.getmDeviceId(), mDevices.getmModelId().trim()));
 
 		if (mDevices.getmDeviceId() == DataHelper.ON_OFF_SWITCH_DEVICETYPE) { // 开关（如“三键开关”、“双键开关”）

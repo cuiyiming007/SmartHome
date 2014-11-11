@@ -13,7 +13,6 @@ import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.smarthome.R;
-import com.gdgl.util.UiUtils;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -185,7 +184,7 @@ public class BindListFragment extends Fragment implements UIListener {
 				mHolder = (ViewHolder) mView.getTag();
 			}
 
-			mHolder.devices_name.setText(mDevices.getmUserDefineName().replace(
+			mHolder.devices_name.setText(mDevices.getmDefaultDeviceName().replace(
 					" ", ""));
 			
 			int i;
@@ -201,8 +200,8 @@ public class BindListFragment extends Fragment implements UIListener {
 			}
 
 			int devModeleId = Integer.parseInt(mDevices.getmDeviceId());
-			mHolder.devices_img.setImageResource(UiUtils
-					.getDevicesSmallIcon(devModeleId,mDevices.getmModelId().trim()));
+			mHolder.devices_img.setImageResource(DataUtil
+					.getDefaultDevicesSmallIcon(devModeleId,mDevices.getmModelId().trim()));
 //			if (DataHelper.IAS_ZONE_DEVICETYPE == devModeleId
 //					|| DataHelper.IAS_ACE_DEVICETYPE == devModeleId) {
 //

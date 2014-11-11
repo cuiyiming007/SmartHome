@@ -12,7 +12,6 @@ import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.mydata.Callback.CallbackResponseType2;
 import com.gdgl.smarthome.R;
-import com.gdgl.util.UiUtils;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -162,8 +161,8 @@ public class AllDevicesListFragment extends BaseFragment {
 			mHolder.devices_region.setText(mDevices.getmDeviceRegion().replace(
 					" ", ""));
 			
-			mHolder.devices_img.setImageResource(UiUtils
-					.getDevicesSmallIcon(mDevices.getmDeviceId(),mDevices.getmModelId().trim()));
+			mHolder.devices_img.setImageResource(DataUtil
+					.getDefaultDevicesSmallIcon(mDevices.getmDeviceId(),mDevices.getmModelId().trim()));
 //			if (DataHelper.IAS_ZONE_DEVICETYPE == mDevices.getmDeviceId()
 //					|| DataHelper.IAS_ACE_DEVICETYPE == mDevices.getmDeviceId()) {
 //
