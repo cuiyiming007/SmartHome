@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.UiUtils;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -41,7 +44,7 @@ public class AddCommonUsedActivity extends Activity {
 	List<String> mDevices;
 	List<String> mExitDevices;
 
-	HashMap<String, SimpleDevicesModel> devices_map;
+	HashMap<String, DevicesModel> devices_map;
 
 	Button mAdd;
 	TextView no_region, no_scene, no_devices;
@@ -270,7 +273,7 @@ public class AddCommonUsedActivity extends Activity {
 
 	private void initDevices() {
 		// TODO Auto-generated method stub
-		devices_map = new HashMap<String, SimpleDevicesModel>();
+		devices_map = new HashMap<String, DevicesModel>();
 		mDevices = new ArrayList<String>();
 		mExitDevices = new ArrayList<String>();
 		getFromSharedPreferences
@@ -288,13 +291,13 @@ public class AddCommonUsedActivity extends Activity {
 			}
 		}
 		
-		List<SimpleDevicesModel> mTempList = DataUtil.getDevices(
+		List<DevicesModel> mTempList = DataUtil.getDevices(
 				AddCommonUsedActivity.this, new DataHelper(
 						AddCommonUsedActivity.this), null, null);
-		for (SimpleDevicesModel simpleDevicesModel : mTempList) {
+		for (DevicesModel simpleDevicesModel : mTempList) {
 			if (null == mExitDevices || mExitDevices.size() == 0) {
-				mDevices.add(simpleDevicesModel.getmUserDefineName().trim());
-				devices_map.put(simpleDevicesModel.getmUserDefineName().trim(),
+				mDevices.add(simpleDevicesModel.getmDefaultDeviceName().trim());
+				devices_map.put(simpleDevicesModel.getmDefaultDeviceName().trim(),
 						simpleDevicesModel);
 			} else {
 				for (String s : mExitDevices) {
@@ -302,8 +305,8 @@ public class AddCommonUsedActivity extends Activity {
 				}
 				if (!mExitDevices.contains(simpleDevicesModel
 						.getmIeee().trim())) {
-					mDevices.add(simpleDevicesModel.getmUserDefineName().trim());
-					devices_map.put(simpleDevicesModel.getmUserDefineName()
+					mDevices.add(simpleDevicesModel.getmDefaultDeviceName().trim());
+					devices_map.put(simpleDevicesModel.getmDefaultDeviceName()
 							.trim(), simpleDevicesModel);
 				}
 			}
@@ -482,7 +485,7 @@ public class AddCommonUsedActivity extends Activity {
 				ViewGroup parent) {
 			// TODO Auto-generated method stub
 			final String s = mList.get(position);
-			final SimpleDevicesModel sModel = devices_map.get(s);
+			final DevicesModel sModel = devices_map.get(s);
 			ViewHolder mViewHolder;
 			if (null == convertView) {
 				mViewHolder = new ViewHolder();

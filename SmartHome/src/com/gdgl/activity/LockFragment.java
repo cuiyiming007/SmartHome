@@ -43,7 +43,7 @@ public class LockFragment extends BaseControlFragment {
 	public static final int OFF = 1;
 
 	View mView;
-	SimpleDevicesModel mDevices;
+	DevicesModel mDevices;
 
 	TextView txt_devices_name, txt_devices_region;
 	RelativeLayout mError;
@@ -94,9 +94,9 @@ public class LockFragment extends BaseControlFragment {
 		super.onCreate(savedInstanceState);
 		Bundle extras = getArguments();
 		if (null != extras) {
-			mDevices = (SimpleDevicesModel) extras
+			mDevices = (DevicesModel) extras
 					.getParcelable(Constants.PASS_OBJECT);
-			OnOffImg = extras.getIntArray(Constants.PASS_ONOFFIMG);
+//			OnOffImg = extras.getIntArray(Constants.PASS_ONOFFIMG);
 		}
 
 		mLightManager = CGIManager.getInstance();
@@ -127,7 +127,7 @@ public class LockFragment extends BaseControlFragment {
 		txt_devices_region = (TextView) mView
 				.findViewById(R.id.txt_devices_region);
 
-		txt_devices_name.setText(mDevices.getmUserDefineName().trim());
+		txt_devices_name.setText(mDevices.getmDefaultDeviceName().trim());
 		txt_devices_region.setText(mDevices.getmDeviceRegion().trim());
 
 		setImagRes(on_off, status);
@@ -185,7 +185,7 @@ public class LockFragment extends BaseControlFragment {
 				updateStatusOnUIThread();
 				ContentValues c = new ContentValues();
 				c.put(DevicesModel.ON_OFF_STATUS, status ? "0" : "1");
-				mUpdateDevice.updateDevices(mDevices, c);
+//				mUpdateDevice.updateDevices(mDevices, c);
 			}else
 			{
 				Toast.makeText(getActivity(), "操作失败", Toast.LENGTH_SHORT);

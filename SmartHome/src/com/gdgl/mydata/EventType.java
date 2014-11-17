@@ -13,16 +13,12 @@ public class EventType {
 	public static final  EventType LOGIN;
 	public static final  EventType MODIFYPASSWORD;
 	public static final  EventType	MODIFYALIAS;
-	public static final EventType ONOFFLIGHTOPERATION;
-	public static final  EventType ONOFFLIGHTSWITCHOPERATION;
 	public static final EventType ONOFFOUTPUTOPERATION;
-	public static final EventType ONOFFSWITCHOPERATION;
 	
 	public static final EventType DOORLOCKOPERATION;
 	public static final EventType  INTITIALDVIVCEDATA;
 	public static final EventType  LIGHTSENSOROPERATION;
 	public static final EventType IASWARNINGDEVICOPERATION;
-	public static final EventType SHADECONTROLLEROPERATION;
 	public static final EventType SHADEOPERATION;
 	public static final EventType IASZONEOPERATION;
 	public static final EventType TEMPERATURESENSOROPERATION;
@@ -38,6 +34,7 @@ public class EventType {
 	public static final EventType SETPERMITJOINON;
 	public static final EventType ENROLL;
 	public static final EventType ON_OFF_STATUS;
+	public static final EventType MOVE_TO_LEVEL;
 	public static final EventType HUMIDITY;
 	public static final EventType GETICELIST;
 	public static final EventType BINDDEVICE;
@@ -65,17 +62,12 @@ public class EventType {
 		LOGIN=new EventType("login",id);
 		MODIFYPASSWORD =new EventType("ModifyPassword", nextId());
 	    MODIFYALIAS=new EventType("modifyAlias", nextId());
-		ONOFFLIGHTOPERATION=new EventType("onofflightoperation", nextId());
-		ONOFFLIGHTSWITCHOPERATION=new EventType("onofflightswitchoperation", nextId());
 		ONOFFOUTPUTOPERATION=new EventType("onOffOutputOperation", nextId());
-		ONOFFSWITCHOPERATION=new EventType("onOffSwitchOperation", nextId());
 		INTITIALDVIVCEDATA=new EventType("initialDiviceData",nextId());
 		GETICELIST=new EventType("getICEList",nextId());
 		LIGHTSENSOROPERATION=new EventType("lightSensorOperation",nextId());
 		DOORLOCKOPERATION=new EventType("doorLockOperation", nextId());
 		IASWARNINGDEVICOPERATION=new EventType("iasWarningDeviceOperation", nextId());
-		SHADECONTROLLEROPERATION=new EventType("shadeControllerOperation", nextId());
-
 		SHADEOPERATION=new EventType("shadeOperation", nextId());
 		IASZONEOPERATION=new EventType("iasZoneOperation", nextId());
 		TEMPERATURESENSOROPERATION=new EventType("temperatureSensorOperation", nextId());
@@ -92,6 +84,7 @@ public class EventType {
 		SETPERMITJOINON=new EventType("setPermitJoinOn", nextId());
 		ENROLL=new EventType("enroll", nextId());
 		ON_OFF_STATUS=new EventType("on_off_status", nextId());
+		MOVE_TO_LEVEL=new EventType("move_to_level", nextId());
 		BINDDEVICE=new EventType("bindDevice", nextId());
 		UNBINDDEVICE=new EventType("unbindDevice", nextId());
 		ADDIPC=new EventType("addIPC", nextId());

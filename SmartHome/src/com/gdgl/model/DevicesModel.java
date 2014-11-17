@@ -45,6 +45,9 @@ interface DevicesBaseColumns extends BaseColumns {
 	public static final String VOLTAGE = "voltage";
 	public static final String LEVEL = "level";
 	public static final String ON_OFF_STATUS = "on_off_status";
+	public static final String TEMPERATURE = "temperature";
+	public static final String HUMIDITY = "humidity";
+	public static final String BRIGHTNESS = "brightness";
 	public static final String EP_MODEL_ID = "ep_model_id";
 
 	public static final String CURRENT_MIN = "current_min";
@@ -78,7 +81,7 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 	private int ID;
 	private String mAllCount = "";
 	private String mCurCount = "";
-	private String mDeviceId = "";
+	private int mDeviceId;
 	private String mRid = "-1";
 	private String mPicName = "";
 	private String mProfileId = "0104";
@@ -106,6 +109,9 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 	private String mVoltage = "";
 	private String mlevel = "";
 	private String mOnOffStatus = "";
+	private float mTemperature;
+	private float mHumidity;
+	private int mBrightness;
 	private String mEPModelId = "";
 
 	private String mCurrentMin = "";
@@ -151,11 +157,11 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 		this.mCurCount = mCurCount;
 	}
 
-	public String getmDeviceId() {
+	public int getmDeviceId() {
 		return mDeviceId;
 	}
 
-	public void setmDeviceId(String mDeviceId) {
+	public void setmDeviceId(int mDeviceId) {
 		this.mDeviceId = mDeviceId;
 	}
 
@@ -351,6 +357,30 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 		this.mOnOffStatus = mOnOffStatus;
 	}
 
+	public float getmTemperature() {
+		return mTemperature;
+	}
+
+	public void setmTemperature(float temp) {
+		this.mTemperature = temp;
+	}
+
+	public float getmHumidity() {
+		return mHumidity;
+	}
+
+	public void setmHumidity(float hum) {
+		this.mHumidity = hum;
+	}
+
+	public int getmBrightness() {
+		return mBrightness;
+	}
+
+	public void setmBrightness(int brightness) {
+		this.mBrightness = brightness;
+	}
+
 	public String getmEPModelId() {
 		return mEPModelId;
 	}
@@ -508,6 +538,9 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 		mContentValues.put(DevicesBaseColumns.VOLTAGE, getmVoltage());
 		mContentValues.put(DevicesBaseColumns.LEVEL, getmLevel());
 		mContentValues.put(DevicesBaseColumns.ON_OFF_STATUS, getmOnOffStatus());
+		mContentValues.put(DevicesBaseColumns.TEMPERATURE, getmTemperature());
+		mContentValues.put(DevicesBaseColumns.HUMIDITY, getmHumidity());
+		mContentValues.put(DevicesBaseColumns.BRIGHTNESS, getmBrightness());
 		mContentValues.put(DevicesBaseColumns.EP_MODEL_ID, getmEPModelId());
 
 		mContentValues.put(DevicesBaseColumns.CURRENT_MAX, getmCurrentMax());
@@ -542,7 +575,8 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 
 		setmAllCount(r.getAllcount());
 		setmCurCount(r.getCurcount());
-		setmDeviceId(r.getDevice_id() == null ? "" : r.getDevice_id());
+		setmDeviceId(r.getDevice_id() == null ? -1 : Integer.parseInt(r
+				.getDevice_id()));
 		setmRid(r.getRid());
 		setmPicName(r.getPicname());
 		setmProfileId(r.getProfileid());
@@ -571,6 +605,9 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 		setmLevel(d.getLevel());
 		setmOnOffStatus(d.getOn_off_status() == null ? "0" : d
 				.getOn_off_status());
+		setmTemperature(d.getTemp()==null?-100:Integer.parseInt(d.getTemp())/10000);
+		setmHumidity(d.getHum()==null?-100:Integer.parseInt(d.getHum()));
+		setmBrightness(d.getBrightness()==null?-100:Integer.parseInt(d.getBrightness()));
 		setmEPModelId(d.getEp_model_id() == null ? "" : d.getEp_model_id());
 
 		setmCurrentMax(d.getCurrentmax());

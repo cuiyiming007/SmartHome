@@ -103,7 +103,7 @@ public class Constants {
 
 	public static final String PASS_OBJECT = "pass_object";
 
-	public static final String PASS_ONOFFIMG = "pass_on_off_img";
+	public static final String PASS_DEVICE_ABOUT = "pass_device_about";
 
 	public static final String OPERATOR = "with_or_not_operator";
 }

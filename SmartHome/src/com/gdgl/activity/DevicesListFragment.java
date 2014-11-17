@@ -23,7 +23,6 @@ import com.gdgl.smarthome.R;
 import com.gdgl.util.VersionDlg;
 import com.gdgl.util.MyOkCancleDlg;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
-import com.gdgl.util.UiUtils;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
@@ -62,8 +61,8 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 	Switch switchBar;
 	SeekBar seekBar;
 	private setData setDataActivity;
-	SimpleDevicesModel mSimpleDevicesModel;
-	SimpleDevicesModel onekeyopratorModel;
+	DevicesModel mDevicesModel;
+	DevicesModel onekeyopratorModel;
 	int refreshTag = 0;
 	/***
 	 * 列表上的ui的adapter
@@ -90,9 +89,9 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 	/***
 	 * 用于存储当前列表的Item
 	 */
-	List<SimpleDevicesModel> mDeviceList;
+	List<DevicesModel> mDeviceList;
 	// 一键布撤防的设备 ieee=00137A00000121F0
-	DevicesModel totalControlDevice;
+	DevicesModel onekeyControlDevice;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -164,33 +163,38 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 								View view, int position, long id) {
 							// TODO Auto-generated method stub
 							Log.i(TAG, "tagzgs->position=" + position);
-							mSimpleDevicesModel = mRefreshData
+							mDevicesModel = mRefreshData
 									.getDeviceModle(position - 1);
-							mRefreshData.setDevicesId(mSimpleDevicesModel);
+							mRefreshData.setDevicesId(mDevicesModel);
 
 							// 判断是除气体感应器及紧急按钮以外的安防设备，且安防控制中心状态是关闭的
-							if (mSimpleDevicesModel.getmModelId().indexOf("ZA01") != 0
-									&& mSimpleDevicesModel.getmModelId().indexOf(
+							if (mDevicesModel.getmModelId().indexOf("ZA01") != 0
+									&& mDevicesModel.getmModelId().indexOf(
 										DataHelper.Emergency_Button) != 0
-									&& mSimpleDevicesModel.getmDeviceId() == DataHelper.IAS_ZONE_DEVICETYPE
-									&& totalControlDevice != null
-									&& totalControlDevice.getmOnOffStatus().equals("0")) {
+									&& mDevicesModel.getmDeviceId() == DataHelper.IAS_ZONE_DEVICETYPE
+									&& onekeyControlDevice != null
+									&& onekeyControlDevice.getmOnOffStatus().equals("0")) {
 								VersionDlg vd = new VersionDlg(
 										(Context) getActivity());
 								vd.setContent("安防设备已关闭");
 								vd.show();
 							} else {
-								if (mSimpleDevicesModel.getmModelId().indexOf(DataHelper
+								if (mDevicesModel.getmModelId().indexOf(DataHelper
 										.Infrared_controller)==0) { // 红外遥控器
 									Intent intent = new Intent();
 									intent.setClass((Context) getActivity(),
 											KongtiaoTvControlActivity.class);
-									intent.putExtra(Constants.PASS_OBJECT, mSimpleDevicesModel);
+									intent.putExtra(Constants.PASS_OBJECT, mDevicesModel);
 									startActivity(intent);
 								} else {
 									Fragment mFragment = null;
 
 									mFragment = new DeviceDtailFragment();
+									Bundle extras = new Bundle();
+									extras.putSerializable(Constants.PASS_OBJECT,mDevicesModel);
+									extras.putInt(Constants.PASS_DEVICE_ABOUT, DeviceDtailFragment.WITHOUT_DEVICE_ABOUT);
+									mFragment.setArguments(extras);
+									mRefreshData.setFragment(mFragment,position - 1);
 //									if (mSimpleDevicesModel
 //											.getmModelId()
 //											.indexOf(DataHelper.Doorbell_button) == 0) { // 门铃按键
@@ -215,24 +219,24 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 //										mFragment = UiUtils.getDeviceDetailFragment(mSimpleDevicesModel
 //													.getmDeviceId());
 //									}
-									if (null != mFragment) {
-										Bundle extras = new Bundle();
-										if (isSimpleOnOffDevice()) {
-											int[] OnOffImg = {
-													R.drawable.bufang_on,
-													R.drawable.chefang_off };
-											extras.putIntArray(
-													Constants.PASS_ONOFFIMG,
-													OnOffImg);
-										}
-										// PASS_OBKECT
-										extras.putParcelable(
-												Constants.PASS_OBJECT,
-												mSimpleDevicesModel);
-										mFragment.setArguments(extras);
-										mRefreshData.setFragment(mFragment,
-												position - 1);
-									}
+//									if (null != mFragment) {
+//										Bundle extras = new Bundle();
+//										if (isSimpleOnOffDevice()) {
+//											int[] OnOffImg = {
+//													R.drawable.bufang_on,
+//													R.drawable.chefang_off };
+//											extras.putIntArray(
+//													Constants.PASS_ONOFFIMG,
+//													OnOffImg);
+//										}
+//										// PASS_OBKECT
+//										extras.putSerializable(
+//												Constants.PASS_OBJECT,
+//												mDevicesModel);
+//										mFragment.setArguments(extras);
+//										mRefreshData.setFragment(mFragment,
+//												position - 1);
+//									}
 								}
 							}
 						}
@@ -249,17 +253,17 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 	 */
 
 	private boolean isSimpleOnOffDevice() {
-		return DataHelper.IAS_ZONE_DEVICETYPE == mSimpleDevicesModel
+		return DataHelper.IAS_ZONE_DEVICETYPE == mDevicesModel
 				.getmDeviceId()
-				|| DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE == mSimpleDevicesModel
+				|| DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE == mDevicesModel
 						.getmDeviceId()
-				|| DataHelper.ON_OFF_OUTPUT_DEVICETYPE == mSimpleDevicesModel
+				|| DataHelper.ON_OFF_OUTPUT_DEVICETYPE == mDevicesModel
 						.getmDeviceId()
-				|| DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE == mSimpleDevicesModel
+				|| DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE == mDevicesModel
 						.getmDeviceId()
-				|| DataHelper.MAINS_POWER_OUTLET_DEVICETYPE == mSimpleDevicesModel
+				|| DataHelper.MAINS_POWER_OUTLET_DEVICETYPE == mDevicesModel
 						.getmDeviceId()
-				|| mSimpleDevicesModel.getmModelId().indexOf(
+				|| mDevicesModel.getmModelId().indexOf(
 						DataHelper.Doors_and_windows_sensor_switch) == 0;
 	}
 
@@ -270,9 +274,9 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 		
 		if (null != mBaseAdapter) {
 			int m = mBaseAdapter.getCount();
-			mDeviceList = new ArrayList<SimpleDevicesModel>();
+			mDeviceList = new ArrayList<DevicesModel>();
 			for (int i = 0; i < m; i++) {
-				SimpleDevicesModel sd = (SimpleDevicesModel) mBaseAdapter
+				DevicesModel sd = (DevicesModel) mBaseAdapter
 						.getItem(i);
 				mDeviceList.add(sd);
 			}
@@ -310,29 +314,29 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
 				.getMenuInfo();
 		int position = info.position;
-		mSimpleDevicesModel = mRefreshData.getDeviceModle(position - 1);
+		mDevicesModel = mRefreshData.getDeviceModle(position - 1);
 		int menuIndex = item.getItemId();
 		Log.i(TAG, "tagzgs-> menuInfo.position=" + position
 				+ " item.getItemId()" + item.getItemId());
 		if (type == WITH_OPERATE) {
 			if (1 == menuIndex) {
-				mRefreshData.setDevicesId(mSimpleDevicesModel);
+				mRefreshData.setDevicesId(mDevicesModel);
 				MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
 						(Context) getActivity());
 				mMyOkCancleDlg.setDialogCallback((Dialogcallback) mRefreshData);
 				mMyOkCancleDlg.setContent("确定要从此区域删除"
-						+ mSimpleDevicesModel.getmUserDefineName().trim()
+						+ mDevicesModel.getmDefaultDeviceName().trim()
 						+ "吗?");
 				mMyOkCancleDlg.show();
 			}
 		} else if (type == WITHOUT_OPERATE) {
 			if (1 == menuIndex) {
-				mRefreshData.setDevicesId(mSimpleDevicesModel);
+				mRefreshData.setDevicesId(mDevicesModel);
 				MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
 						(Context) getActivity());
 				mMyOkCancleDlg.setDialogCallback((Dialogcallback) mRefreshData);
 				mMyOkCancleDlg.setContent("确定要从此场景删除"
-						+ mSimpleDevicesModel.getmUserDefineName().trim()
+						+ mDevicesModel.getmDefaultDeviceName().trim()
 						+ "吗?");
 				mMyOkCancleDlg.show();
 			}
@@ -354,11 +358,11 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 	public interface refreshData {
 		public void refreshListData();
 
-		public SimpleDevicesModel getDeviceModle(int postion);
+		public DevicesModel getDeviceModle(int postion);
 
 		public void setFragment(Fragment mFragment, int postion);
 
-		public void setDevicesId(SimpleDevicesModel simpleDevicesModel);
+		public void setDevicesId(DevicesModel DevicesModel);
 	}
 
 	@Override
@@ -405,7 +409,7 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 		if (iee == null || ep == null) {
 			return -1;
 		}
-		SimpleDevicesModel sd;
+		DevicesModel sd;
 		for (int m = 0; m < mDeviceList.size(); m++) {
 			sd = mDeviceList.get(m);
 			if (iee.trim().equals(sd.getmIeee().trim())
@@ -417,7 +421,7 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 	}
 
 	public interface setData {
-		public void setdata(List<SimpleDevicesModel> list);
+		public void setdata(List<DevicesModel> list);
 	}
 
 	@Override
@@ -474,7 +478,7 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 		protected Object doInBackground(Object... params) {
 			DataHelper dh = new DataHelper(ApplicationController.getInstance());
 			SQLiteDatabase db = dh.getSQLiteDatabase();
-			totalControlDevice = DataUtil.getDeviceModelByModelid(
+			onekeyControlDevice = DataUtil.getDeviceModelByModelid(
 					DataHelper.One_key_operator, dh, db);
 			db.close();
 			return null;
@@ -484,7 +488,7 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 	@Override
 	public void onFragmentResult(int requsetId, boolean result, Object data) {
 		String status = (String) data;
-		totalControlDevice.setmOnOffStatus(status);
+		onekeyControlDevice.setmOnOffStatus(status);
 	}
 
 }

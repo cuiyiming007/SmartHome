@@ -120,6 +120,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:focusable="false"
+                android:textOn="        "
+                android:textOff="        "
                 android:scaleX="0.6"
                 android:scaleY="0.51"
                 android:thumb="@drawable/ui_switch_insidepoint"
@@ -128,31 +130,23 @@
 
         <LinearLayout
             android:id="@+id/button_layout"
-            android:layout_width="wrap_content"
+            android:layout_width="110dp"
             android:layout_height="match_parent"
+            android:gravity="center"
             android:orientation="horizontal"
             android:visibility="gone" >
 
-            <View
-                android:layout_width="2dp"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="3dp"
-                android:background="#999999" />
-
             <Button
                 android:id="@+id/button_device"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="65dp"
+                android:layout_height="30dp"
                 android:layout_gravity="center"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="2dp"
+                android:background="@drawable/ui_button_green_small_style"
                 android:clickable="false"
                 android:focusable="false"
-                android:text="关闭"
-                android:textColor="#1E90FF"
-                android:textSize="15dp" />
+                android:text="停止报警"
+                android:textColor="#ffffff"
+                android:textSize="13sp" />
         </LinearLayout>
     </LinearLayout>
 

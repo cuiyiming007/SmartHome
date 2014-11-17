@@ -18,7 +18,7 @@
             android:layout_height="35dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:src="@drawable/xia" />
+            android:src="@drawable/ui_arrow_down_img" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -83,7 +83,7 @@
             android:layout_height="35dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:src="@drawable/xia" />
+            android:src="@drawable/ui_arrow_down_img" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -147,7 +147,7 @@
             android:layout_height="35dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:src="@drawable/xia" />
+            android:src="@drawable/ui_arrow_down_img" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -212,7 +212,7 @@
             android:layout_height="35dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:src="@drawable/xia" />
+            android:src="@drawable/ui_arrow_down_img" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -277,7 +277,7 @@
             android:layout_height="35dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:src="@drawable/xia" />
+            android:src="@drawable/ui_arrow_down_img" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -342,7 +342,7 @@
             android:layout_height="35dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:src="@drawable/xia" />
+            android:src="@drawable/ui_arrow_down_img" />
 
         <TextView
             android:layout_width="wrap_content"

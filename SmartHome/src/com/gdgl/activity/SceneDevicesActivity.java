@@ -54,9 +54,9 @@ public class SceneDevicesActivity extends Activity implements DevicesObserver,
 
 	String where = " device_region=? ";
 
-	List<SimpleDevicesModel> mList;
+	List<DevicesModel> mList;
 
-	List<SimpleDevicesModel> mAddList;
+	List<DevicesModel> mAddList;
 	
 	List<DevicesGroup> mAddToSceneList;
 
@@ -74,7 +74,7 @@ public class SceneDevicesActivity extends Activity implements DevicesObserver,
 	Button mAdd,delete;
 	DataHelper mDataHelper;
 	
-	private SimpleDevicesModel getModel;
+	private DevicesModel getModel;
 	private boolean deleteType=false;
 	private boolean isAdd=false;
 	CheckBox mSceneOn;
@@ -109,11 +109,11 @@ public class SceneDevicesActivity extends Activity implements DevicesObserver,
 	
 	private void initAddFragmentDevicesList(){
 		mAddList=null;
-		mAddList=new ArrayList<SimpleDevicesModel>();
-		List<SimpleDevicesModel> ls=new ArrayList<SimpleDevicesModel>();
+		mAddList=new ArrayList<DevicesModel>();
+		List<DevicesModel> ls=new ArrayList<DevicesModel>();
 		ls = DataUtil.getDevices(
 				SceneDevicesActivity.this, mDh, null, null);
-		for (SimpleDevicesModel simpleDevicesModel : ls) {
+		for (DevicesModel simpleDevicesModel : ls) {
 			if(!isInList(simpleDevicesModel)){
 				mAddList.add(simpleDevicesModel);
 			}
@@ -121,9 +121,9 @@ public class SceneDevicesActivity extends Activity implements DevicesObserver,
 	}
 	
 
-	private boolean isInList(SimpleDevicesModel simpleDevicesModel){
+	private boolean isInList(DevicesModel simpleDevicesModel){
 		
-		for (SimpleDevicesModel msimpleDevicesModel : mList) {
+		for (DevicesModel msimpleDevicesModel : mList) {
 			if(msimpleDevicesModel.getmIeee().equals(simpleDevicesModel.getmIeee())){
 				return true;
 			}
@@ -153,7 +153,7 @@ public class SceneDevicesActivity extends Activity implements DevicesObserver,
 				SceneDevicesActivity.OperatorDevices so;
 				List<SceneDevicesActivity.OperatorDevices> ml=new ArrayList<SceneDevicesActivity.OperatorDevices>();
 				if(isChecked){
-					for (SimpleDevicesModel sd : mList) {
+					for (DevicesModel sd : mList) {
 						DevicesGroup ds=getModelByID(sd.getmIeee());
 						if(null!=ds){
 							so=new SceneDevicesActivity.OperatorDevices(ds.getDevicesState(),ds.getDevicesValue(),sd);
@@ -161,7 +161,7 @@ public class SceneDevicesActivity extends Activity implements DevicesObserver,
 						}
 					}
 				}else{
-					for (SimpleDevicesModel sd : mList) {
+					for (DevicesModel sd : mList) {
 						DevicesGroup ds=getModelByID(sd.getmIeee());
 						if(null!=ds){
 							so=new SceneDevicesActivity.OperatorDevices(!ds.getDevicesState(),0,sd);
@@ -209,7 +209,7 @@ public class SceneDevicesActivity extends Activity implements DevicesObserver,
 				}else{
 					isAdd=false;
 					for (DevicesGroup s : mAddToSceneList) {
-						SimpleDevicesModel sd=new SimpleDevicesModel();
+						DevicesModel sd=new DevicesModel();
 						updateDevices(sd, s.convertContentValues());
 					}
 					mAddToSceneList.clear();
@@ -319,7 +319,7 @@ public class SceneDevicesActivity extends Activity implements DevicesObserver,
 	}
 
 	@Override
-	public SimpleDevicesModel getDeviceModle(int postion) {
+	public DevicesModel getDeviceModle(int postion) {
 		// TODO Auto-generated method stub
 		if (null != mList) {
 			return mList.get(postion);
@@ -338,16 +338,16 @@ public class SceneDevicesActivity extends Activity implements DevicesObserver,
 	}
 
 	@Override
-	public void setDevicesId(SimpleDevicesModel simpleDevicesModel) {
+	public void setDevicesId(DevicesModel simpleDevicesModel) {
 		// TODO Auto-generated method stub
 		getModel=simpleDevicesModel;
 	}
 
 	private class GetDataTask extends
-			AsyncTask<Void, Void, List<SimpleDevicesModel>> {
+			AsyncTask<Void, Void, List<DevicesModel>> {
 
 		@Override
-		protected List<SimpleDevicesModel> doInBackground(Void... params) {
+		protected List<DevicesModel> doInBackground(Void... params) {
 			// Simulates a background job.
 			try {
 				Thread.sleep(1000);
@@ -357,7 +357,7 @@ public class SceneDevicesActivity extends Activity implements DevicesObserver,
 		}
 
 		@Override
-		protected void onPostExecute(List<SimpleDevicesModel> result) {
+		protected void onPostExecute(List<DevicesModel> result) {
 			super.onPostExecute(result);
 			if(isAdd){
 				mAllDevicesFragment.stopRefresh();
@@ -374,8 +374,7 @@ public class SceneDevicesActivity extends Activity implements DevicesObserver,
 
 	}
 
-	@Override
-	public boolean updateDevices(SimpleDevicesModel sd, ContentValues c) {
+	public boolean updateDevices(DevicesModel sd, ContentValues c) {
 		// TODO Auto-generated method stub
 		int result=0;
 		SQLiteDatabase mSQLiteDatabase = mDataHelper.getSQLiteDatabase();
@@ -485,8 +484,8 @@ public class SceneDevicesActivity extends Activity implements DevicesObserver,
 	public static class OperatorDevices{
 		public boolean state;
 		public int value;
-		public SimpleDevicesModel sModel;
-		public OperatorDevices(boolean st,int v,SimpleDevicesModel s){
+		public DevicesModel sModel;
+		public OperatorDevices(boolean st,int v,DevicesModel s){
 			state=st;
 			value=v;
 			sModel=s;
@@ -494,7 +493,7 @@ public class SceneDevicesActivity extends Activity implements DevicesObserver,
 	}
 
 	@Override
-	public void setdata(List<SimpleDevicesModel> list) {
+	public void setdata(List<DevicesModel> list) {
 		// TODO Auto-generated method stub
 		
 	}

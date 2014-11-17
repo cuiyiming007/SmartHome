@@ -253,7 +253,7 @@ public class JoinNetDevicesListFragment extends BaseFragment {
 	public interface refreshData {
 		public void refreshListData();
 
-		public SimpleDevicesModel getDeviceModle(int postion);
+		public DevicesModel getDeviceModle(int postion);
 
 		public void setFragment(Fragment mFragment, int postion);
 
@@ -359,26 +359,9 @@ public class JoinNetDevicesListFragment extends BaseFragment {
 						getActivity(), mDevices.getmModelId(), mDevices.getmEP()));
 			}
 			mHolder.devices_name.setText(mDevices.getmDefaultDeviceName().replace(" ", ""));
-//			Log.e("devices_name", mDevices.getmUserDefineName());
 			
-			
-			int devModeleId = Integer.parseInt(mDevices.getmDeviceId());
 			mHolder.devices_img.setImageResource(DataUtil
-					.getDefaultDevicesSmallIcon(devModeleId,mDevices.getmModelId().trim()));
-//			if (DataHelper.IAS_ZONE_DEVICETYPE == devModeleId
-//					|| DataHelper.IAS_ACE_DEVICETYPE == devModeleId) {
-//
-//				mHolder.devices_img.setImageResource(UiUtils
-//						.getDevicesSmallIconByModelId(mDevices.getmModelId()
-//								.trim()));
-//			} else if (mDevices.getmModelId().indexOf(
-//					DataHelper.Multi_key_remote_control) == 0) {
-//				mHolder.devices_img.setImageResource(UiUtils
-//						.getDevicesSmallIconForRemote(devModeleId));
-//			} else {
-//				mHolder.devices_img.setImageResource(UiUtils
-//						.getDevicesSmallIcon(devModeleId));
-//			}
+					.getDefaultDevicesSmallIcon(mDevices.getmDeviceId(),mDevices.getmModelId().trim()));
 			
 			mHolder.devices_region.setVisibility(View.INVISIBLE);
 			mHolder.devices_state.setVisibility(View.INVISIBLE);

@@ -36,7 +36,7 @@ public class SwitchControlFragment extends BaseControlFragment implements
 	List<String> EP = new ArrayList<String>();
 	View mView;
 	int mCount;
-	SimpleDevicesModel mDevices;
+	DevicesModel mDevices;
 
 	CGIManager mLightManager;
 
@@ -46,7 +46,7 @@ public class SwitchControlFragment extends BaseControlFragment implements
 	TextView mSwichName1, mSwichName2, mSwichName3;
 	RelativeLayout viewGroup1, viewGroup2;
 
-	List<SimpleDevicesModel> mSimpleDevicesModel;
+	List<DevicesModel> mSimpleDevicesModel;
 
 	private int mCurrent = 0;
 	private int mPostion = 1;
@@ -58,7 +58,7 @@ public class SwitchControlFragment extends BaseControlFragment implements
 
 		Bundle extras = getArguments();
 		if (null != extras) {
-			mDevices = (SimpleDevicesModel) extras
+			mDevices = (DevicesModel) extras
 					.getParcelable(Constants.PASS_OBJECT);
 		}
 		initstate();
@@ -105,11 +105,11 @@ public class SwitchControlFragment extends BaseControlFragment implements
 			mCount = result.length;
 		}
 
-		mSimpleDevicesModel = new ArrayList<SimpleDevicesModel>();
+		mSimpleDevicesModel = new ArrayList<DevicesModel>();
 
-		SimpleDevicesModel mdev;
+		DevicesModel mdev;
 		for (int i = 0; i < mCount; i++) {
-			mdev = new SimpleDevicesModel();
+			mdev = new DevicesModel();
 
 			mdev.setmDeviceId(mDevices.getmDeviceId());
 			mdev.setmDeviceRegion(mDevices.getmDeviceRegion());
@@ -151,7 +151,7 @@ public class SwitchControlFragment extends BaseControlFragment implements
 		txt_devices_region = (TextView) mView
 				.findViewById(R.id.txt_devices_region);
 
-		txt_devices_name.setText(mDevices.getmUserDefineName().trim());
+		txt_devices_name.setText(mDevices.getmDefaultDeviceName().trim());
 		txt_devices_region.setText(mDevices.getmDeviceRegion().trim());
 
 		viewGroup1 = (RelativeLayout) mView.findViewById(R.id.switch_group1);
@@ -281,14 +281,14 @@ public class SwitchControlFragment extends BaseControlFragment implements
 		
 		
 		final Event event = (Event) object;
-		if (EventType.ONOFFLIGHTSWITCHOPERATION == event.getType()) {
+		if (EventType.ONOFFOUTPUTOPERATION == event.getType()) {
 			if (event.isSuccess() == true) {
 				// data maybe null
 				SimpleResponseData data = (SimpleResponseData) event.getData();
 				// refresh UI data
 
 				ContentValues c;
-				SimpleDevicesModel s;
+				DevicesModel s;
 
 				mBoolean[mCurrent] = !mBoolean[mCurrent];
 
@@ -310,7 +310,7 @@ public class SwitchControlFragment extends BaseControlFragment implements
 				c = new ContentValues();
 				c.put(DevicesModel.ON_OFF_STATUS, mBoolean[mCurrent] ? "1"
 						: "o");
-				mUpdateDevice.updateDevices(s, c);
+//				mUpdateDevice.updateDevices(s, c);
 			} else {
 				// if failed,prompt a Toast
 				Toast toast=UiUtils.getToast((Context) getActivity());

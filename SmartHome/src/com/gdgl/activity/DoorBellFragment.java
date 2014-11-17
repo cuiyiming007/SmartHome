@@ -73,7 +73,7 @@ public class DoorBellFragment extends BaseControlFragment {
 		devices_on_off = (ImageView) mView.findViewById(R.id.devices_on_off);
 		text_alarm = (TextView) mView.findViewById(R.id.text_alarm);
 
-		txt_devices_name.setText(mDevices.getmUserDefineName().trim());
+		txt_devices_name.setText(mDevices.getmDefaultDeviceName().trim());
 		txt_devices_region.setText(mDevices.getmDeviceRegion().trim());
 
 		devices_on_off.setOnClickListener(new OnClickListener() {

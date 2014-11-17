@@ -297,24 +297,8 @@ public class BindControlFragment extends BaseFragment implements UIListener {
 				}
 			}
 			
-
-			int devId = Integer.parseInt(currentPositionDevice.getmDeviceId());
 			mHolder.devices_img.setImageResource(DataUtil
-					.getDefaultDevicesSmallIcon(devId,currentPositionDevice.getmModelId().trim()));
-//			if (DataHelper.IAS_ZONE_DEVICETYPE == devId
-//					|| DataHelper.IAS_ACE_DEVICETYPE == devId) {
-//
-//				mHolder.devices_img.setImageResource(UiUtils
-//						.getDevicesSmallIconByModelId(currentPositionDevice.getmModelId()
-//								.trim()));
-//			} else if (currentPositionDevice.getmModelId().indexOf(
-//					DataHelper.Multi_key_remote_control) == 0) {
-//				mHolder.devices_img.setImageResource(UiUtils
-//						.getDevicesSmallIconForRemote(devId));
-//			} else {
-//				mHolder.devices_img.setImageResource(UiUtils
-//						.getDevicesSmallIcon(devId));
-//			}
+					.getDefaultDevicesSmallIcon(currentPositionDevice.getmDeviceId(),currentPositionDevice.getmModelId().trim()));
 			
 			mHolder.bindBtn.setOnClickListener(new OnClickListener() {
 

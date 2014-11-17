@@ -41,7 +41,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 
 	protected Context mContext;
-	protected List<SimpleDevicesModel> mDevicesList;
+	protected List<DevicesModel> mDevicesList;
 	protected DevicesObserver mDevicesObserver;
 	DevicesModel oneKeyOperatorDevice;
 	CGIManager mcgiManager;
@@ -106,7 +106,7 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 				DataHelper.RANGE_EXTENDER_DEVICETYPE,
 				DataHelper.IAS_ACE_DEVICETYPE,
 				DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE };
-		int[] mWITH_VALUE = { DataHelper.DIMEN_SWITCH_DEVICETYPE,
+		int[] mWITH_VALUE = { //DataHelper.SHADE_DEVICETYPE,
 				DataHelper.DIMEN_LIGHTS_DEVICETYPE };
 		for (int i : mWITH_VALUE) {
 			if (i == devicesid) {
@@ -141,7 +141,7 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 			return convertView;
 		}
 		View mView = convertView;
-		final SimpleDevicesModel mDevices = mDevicesList.get(position);
+		final DevicesModel mDevices = mDevicesList.get(position);
 		int type = getItemViewType(position);
 
 		mcgiManager = CGIManager.getInstance();
@@ -188,7 +188,7 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 			devices_switch.setClickable(true);
 		}
 
-		devices_name.setText(mDevices.getmUserDefineName().replace(" ", ""));
+		devices_name.setText(mDevices.getmDefaultDeviceName().replace(" ", ""));
 		devices_region.setText(mDevices.getmDeviceRegion().replace(" ", ""));
 		if (mDevices.getmModelId().indexOf(DataHelper.RS232_adapter) == 0) {
 			devices_region.setText("");
@@ -206,17 +206,6 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 					&& mDevices.getmModelId().indexOf(DataHelper.Siren) == 0) {
 				warn_state.setText("报警器响!");
 			}
-//			devices_img
-//					.setImageResource(UiUtils
-//							.getDevicesSmallIconByModelId(mDevices
-//									.getmModelId().trim()));
-//		} else if (mDevices.getmModelId().indexOf(
-//				DataHelper.Multi_key_remote_control) == 0) { // 多键遥控器
-//			devices_img.setImageResource(UiUtils
-//					.getDevicesSmallIconForRemote(mDevices.getmDeviceId()));
-//		} else {
-//			devices_img.setImageResource(UiUtils.getDevicesSmallIcon(
-//					mDevices.getmDeviceId(), mDevices.getmModelId().trim()));
 		}
 		
 		devices_img.setImageResource(DataUtil.getDefaultDevicesSmallIcon(
@@ -248,26 +237,25 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 			}
 		} else if (mDevices.getmDeviceId() == DataHelper.LIGHT_SENSOR_DEVICETYPE) { // 光线感应器
 			// devices_state.setText("亮度: "+mDevices.getmValue());
-			if(mDevices.getmValue()==null||mDevices.getmValue().equals("")){
-				devices_state.setText(getFromSharedPreferences.getLight());
+			if(getFromSharedPreferences.getLight()!=""){//
+				devices_state.setText("亮度: " + getFromSharedPreferences.getLight() + "Lux");
 			} else {
-				devices_state.setText("亮度: " + mDevices.getmValue());
+				devices_state.setText("亮度: " + mDevices.getmBrightness() + "Lux");
 			}
 		} else if (mDevices.getmDeviceId() == DataHelper.TEMPTURE_SENSOR_DEVICETYPE) { // 室内型温湿度感应器
 			String temperature, humidity;
-			if(mDevices.getmValue()==null||mDevices.getmValue().equals("")){
+			if(getFromSharedPreferences.getTemperature()!=""){
 				temperature=getFromSharedPreferences.getTemperature();
 			} else {
-				temperature=mDevices.getmValue();
+				temperature=String.valueOf(mDevices.getmTemperature());
 			}
-			if(mDevices.getHumidityValue()==null||mDevices.getHumidityValue().equals("")){
+			if(getFromSharedPreferences.getHumidity()!=""){
 				humidity=getFromSharedPreferences.getHumidity();
 			} else {
-				humidity=mDevices.getHumidityValue();
+				humidity=String.valueOf(mDevices.getmHumidity());
 			}
-			devices_state.setText("温度: "
-					+ temperature + "\n湿度: "
-					+ humidity + "%");
+			devices_state.setText("温度: "+ temperature + "°C" 
+					+ "\n湿度: "+ humidity + "%");
 		} else if (mDevices.getmModelId().indexOf(DataHelper.One_key_operator) == 0) {
 			// devices_state.setText("一键操作");
 			if (mDevices.getmOnOffStatus().trim().equals("1")) {
@@ -279,30 +267,29 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 			}
 		} else if (mDevices.getmModelId().indexOf(
 				DataHelper.Energy_detection_dimming_module) == 0) { // 调光模块
-			if (null != mDevices && mDevices.getmValue().trim().equals("")) {
-				mDevices.setmValue("0");
+			if (null != mDevices && mDevices.getmLevel().trim().equals("")) {
+				mDevices.setmLevel("0");
 			}
-			String state = mDevices.getmValue();
-			devices_seek_bar.setProgress(Integer.parseInt(state));
-			if (null == state || state.trim().equals("")
-					|| state.trim().equals("0")) {
+			int level=Integer.parseInt(mDevices.getmLevel());
+			int state =level*100/254;
+			devices_seek_bar.setProgress(state);
+			if (state==0) {
 				devices_state.setText("关");
-			} else if (state.trim().equals("100")) {
+			} else if (state==100) {
 				devices_state.setText("开");
 			} else {
 				devices_state.setText("开" + state + "%");
 			}
 			devices_seek_bar
 					.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
-						int currentProgress = Integer.parseInt(mDevices
-								.getmValue());
-
+						int currentLevel = Integer.parseInt(mDevices
+								.getmLevel());
 						@Override
 						public void onStopTrackingTouch(SeekBar seekBar) {
 							// TODO Auto-generated method stub
 							notifyDataSetChanged();
-							mcgiManager.dimmableLightOperation(mDevices, 10,
-									currentProgress * 255 / 100);
+							mcgiManager.dimmableLightOperation(mDevices, 16,
+										currentLevel);
 						}
 
 						@Override
@@ -315,15 +302,8 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 						public void onProgressChanged(SeekBar seekBar,
 								int progress, boolean fromUser) {
 							// TODO Auto-generated method stub
-							currentProgress = progress;
-//							if (progress == 0) {
-//								devices_state.setText("关");
-//							} else if (progress == 100) {
-//								devices_state.setText("开");
-//							} else {
-//								devices_state.setText("开" + progress + "%");
-//							}
-							mDevices.setmValue(String.valueOf(currentProgress));
+							currentLevel = progress * 255 / 100;
+							mDevices.setmLevel(String.valueOf(currentLevel));
 						}
 					});
 		} else if (mDevices.getmDeviceId() == DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE) { // 警报器
@@ -346,6 +326,14 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 		} else if (mDevices.getmModelId().indexOf("Z503") == 0
 				|| mDevices.getmDeviceId() == DataHelper.RANGE_EXTENDER_DEVICETYPE) {
 			devices_state.setVisibility(View.INVISIBLE);
+		} else if (mDevices.getmDeviceId() == DataHelper.SHADE_DEVICETYPE) {
+			if (mDevices.getmLevel().trim().equals("0")) {
+				devices_state.setText("关");
+				devices_switch.setChecked(false);
+			} else {
+				devices_state.setText("开");
+				devices_switch.setChecked(true);
+			}
 		} else {
 			if (mDevices.getmOnOffStatus().trim().equals("1")) {
 				devices_state.setText("开");
@@ -377,11 +365,11 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 							if (mDevices.getmDeviceId() == DataHelper.MAINS_POWER_OUTLET_DEVICETYPE) {
 								// 开关模块（单路）、中规电能检测墙面插座、电能检测插座
 								mcgiManager
-										.MainsOutLetOperation(mDevices, 2, 1);
+										.MainsOutLetOperation(mDevices, 2);
 							}
 							if (mDevices.getmDeviceId() == DataHelper.SHADE_DEVICETYPE) {
 								// 窗帘
-								mcgiManager.shadeOperation(mDevices, 0);
+								mcgiManager.shadeOperation(mDevices, 0,1);
 							}
 							if (mDevices.getmDeviceId() == DataHelper.IAS_ZONE_DEVICETYPE) {
 								// 烟雾感应器、可燃气体探测器（煤气）、（天然气）、（一氧化碳）、门窗感应开关、窗磁、紧急按钮、动作感应器
@@ -400,10 +388,10 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 							}
 							if (mDevices.getmDeviceId() == DataHelper.MAINS_POWER_OUTLET_DEVICETYPE) {
 								mcgiManager
-										.MainsOutLetOperation(mDevices, 2, 0);
+										.MainsOutLetOperation(mDevices, 2);
 							}
 							if (mDevices.getmDeviceId() == DataHelper.SHADE_DEVICETYPE) {
-								mcgiManager.shadeOperation(mDevices, 1);
+								mcgiManager.shadeOperation(mDevices, 1,1);
 							}
 							if (mDevices.getmDeviceId() == DataHelper.IAS_ZONE_DEVICETYPE) {
 								mcgiManager.LocalIASCIEByPassZone(mDevices);
@@ -414,7 +402,7 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 		return mView;
 	}
 
-	public void setList(List<SimpleDevicesModel> list) {
+	public void setList(List<DevicesModel> list) {
 		mDevicesList = null;
 		mDevicesList = list;
 	}

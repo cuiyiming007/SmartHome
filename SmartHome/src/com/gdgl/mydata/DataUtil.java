@@ -382,15 +382,15 @@ public class DataUtil {
 		listDevicesModel = dh.queryForDevicesList(dh.getSQLiteDatabase(),
 				DataHelper.DEVICES_TABLE, null, where, args, null, null, null,
 				null);
-		if (null != listDevicesModel && listDevicesModel.size() > 0) {
-			for (DevicesModel devicesModel : listDevicesModel) {
-				if (null == devicesModel.getmDefaultDeviceName()
-						|| devicesModel.getmDefaultDeviceName().trim().equals("")) {
-					devicesModel.setmDefaultDeviceName(getDefaultDevicesName(c,
-							devicesModel.getmModelId(), devicesModel.getmEP()));
-				}
-			}
-		}
+//		if (null != listDevicesModel && listDevicesModel.size() > 0) {
+//			for (DevicesModel devicesModel : listDevicesModel) {
+//				if (null == devicesModel.getmDefaultDeviceName()
+//						|| devicesModel.getmDefaultDeviceName().trim().equals("")) {
+//					devicesModel.setmDefaultDeviceName(getDefaultDevicesName(c,
+//							devicesModel.getmModelId(), devicesModel.getmEP()));
+//				}
+//			}
+//		}
 
 		return listDevicesModel;
 	}
@@ -412,8 +412,8 @@ public class DataUtil {
 			mDevicesModel = listDevicesModel.get(m);
 			mSimpleDevicesModel = new SimpleDevicesModel();
 			mSimpleDevicesModel.setID(mDevicesModel.getID());
-			mSimpleDevicesModel.setmDeviceId(Integer.parseInt(mDevicesModel
-					.getmDeviceId()));
+			mSimpleDevicesModel.setmDeviceId(mDevicesModel
+					.getmDeviceId());
 			mSimpleDevicesModel.setmDeviceRegion(mDevicesModel
 					.getmDeviceRegion());
 			mSimpleDevicesModel.setmEP(mDevicesModel.getmEP());
@@ -428,11 +428,11 @@ public class DataUtil {
 					.setmOnOffStatus(mDevicesModel.getmOnOffStatus());
 			if (mDevicesModel.getmDefaultDeviceName() == null
 					|| mDevicesModel.getmDefaultDeviceName().trim().equals("")) {
-				mSimpleDevicesModel.setmUserDefineName(getDefaultDevicesName(
+				mSimpleDevicesModel.setmDefaultDeviceName(getDefaultDevicesName(
 						c, mSimpleDevicesModel.getmModelId(),
 						mSimpleDevicesModel.getmEP()));
 			} else {
-				mSimpleDevicesModel.setmUserDefineName(mDevicesModel
+				mSimpleDevicesModel.setmDefaultDeviceName(mDevicesModel
 						.getmDefaultDeviceName());
 			}
 
@@ -571,7 +571,7 @@ public class DataUtil {
 	// return region;
 	// }
 
-	public static List<SimpleDevicesModel> getDevices(Context c, DataHelper dh,
+	public static List<DevicesModel> getDevices(Context c, DataHelper dh,
 			String[] args, String where, boolean b) {
 		SimpleDevicesModel mSimpleDevicesModel;
 		List<DevicesModel> listDevicesModel = new ArrayList<DevicesModel>();
@@ -581,91 +581,90 @@ public class DataUtil {
 		listDevicesModel = dh.queryForDevicesList(db, DataHelper.DEVICES_TABLE,
 				null, where, args, null, null, null, null);
 
-		if (b) {
-			for (int m = 0; m < listDevicesModel.size(); m++) {
-				DevicesModel mDevicesModel = listDevicesModel.get(m);
-				if (Integer.parseInt(mDevicesModel.getmDeviceId()) != DataHelper.ON_OFF_SWITCH_DEVICETYPE
-						&& Integer.parseInt(mDevicesModel.getmDeviceId()) != DataHelper.DIMEN_SWITCH_DEVICETYPE
-						&& mDevicesModel.getmModelId().indexOf(
-								DataHelper.Multi_key_remote_control) != 0) {
-					mSimpleDevicesModel = new SimpleDevicesModel();
-					mSimpleDevicesModel.setID(mDevicesModel.getID());
-					mSimpleDevicesModel.setmDeviceId(Integer
-							.parseInt(mDevicesModel.getmDeviceId()));
-					mSimpleDevicesModel.setmDeviceRegion(mDevicesModel
-							.getmDeviceRegion());
-					mSimpleDevicesModel.setmRid(mDevicesModel.getmRid());
-					mSimpleDevicesModel.setmEP(mDevicesModel.getmEP());
-					mSimpleDevicesModel.setmIeee(mDevicesModel.getmIeee());
-					mSimpleDevicesModel.setmLastDateTime(mDevicesModel
-							.getmLastDateTime());
-					mSimpleDevicesModel
-							.setmModelId(mDevicesModel.getmModelId());
-					mSimpleDevicesModel.setmName(mDevicesModel.getmName());
-					mSimpleDevicesModel.setmNodeENNAme(mDevicesModel
-							.getmNodeENNAme());
-					mSimpleDevicesModel.setmOnOffLine(mDevicesModel
-							.getmOnOffLine());
-					mSimpleDevicesModel.setmOnOffStatus(mDevicesModel
-							.getmOnOffStatus());
-					if (mDevicesModel.getmDefaultDeviceName() == null
-							|| mDevicesModel.getmDefaultDeviceName().trim()
-									.equals("")) {
-						mSimpleDevicesModel
-								.setmUserDefineName(getDefaultDevicesName(c,
-										mSimpleDevicesModel.getmModelId(),
-										mSimpleDevicesModel.getmEP()));
-					} else {
-						mSimpleDevicesModel.setmUserDefineName(mDevicesModel
-								.getmDefaultDeviceName());
-					}
-					list.add(mSimpleDevicesModel);
-				}
-			}
-		} else {
-			for (int m = 0; m < listDevicesModel.size(); m++) {
-				DevicesModel mDevicesModel = listDevicesModel.get(m);
-				mSimpleDevicesModel = new SimpleDevicesModel();
-				mSimpleDevicesModel.setID(mDevicesModel.getID());
-				mSimpleDevicesModel.setmDeviceId(Integer.parseInt(mDevicesModel
-						.getmDeviceId()));
-				mSimpleDevicesModel.setmDeviceRegion(mDevicesModel
-						.getmDeviceRegion());
-				mSimpleDevicesModel.setmRid(mDevicesModel.getmRid());
-				mSimpleDevicesModel.setmEP(mDevicesModel.getmEP());
-				mSimpleDevicesModel.setmIeee(mDevicesModel.getmIeee());
-				mSimpleDevicesModel.setmLastDateTime(mDevicesModel
-						.getmLastDateTime());
-				mSimpleDevicesModel.setmModelId(mDevicesModel.getmModelId());
-				mSimpleDevicesModel.setmName(mDevicesModel.getmName());
-				mSimpleDevicesModel.setmNodeENNAme(mDevicesModel
-						.getmNodeENNAme());
-				mSimpleDevicesModel
-						.setmOnOffLine(mDevicesModel.getmOnOffLine());
-				mSimpleDevicesModel.setmOnOffStatus(mDevicesModel
-						.getmOnOffStatus());
-				if (mDevicesModel.getmDefaultDeviceName() == null
-						|| mDevicesModel.getmDefaultDeviceName().trim().equals("")) {
-					mSimpleDevicesModel
-							.setmUserDefineName(getDefaultDevicesName(c,
-									mSimpleDevicesModel.getmModelId(),
-									mSimpleDevicesModel.getmEP()));
-				} else {
-					mSimpleDevicesModel.setmUserDefineName(mDevicesModel
-							.getmDefaultDeviceName());
-				}
-				list.add(mSimpleDevicesModel);
-			}
-		}
+//		if (b) {
+//			for (int m = 0; m < listDevicesModel.size(); m++) {
+//				DevicesModel mDevicesModel = listDevicesModel.get(m);
+//				if (mDevicesModel.getmDeviceId() != DataHelper.ON_OFF_SWITCH_DEVICETYPE
+//						&& mDevicesModel.getmDeviceId() != DataHelper.DIMEN_SWITCH_DEVICETYPE
+//						&& mDevicesModel.getmModelId().indexOf(
+//								DataHelper.Multi_key_remote_control) != 0) {
+//					mSimpleDevicesModel = new SimpleDevicesModel();
+//					mSimpleDevicesModel.setID(mDevicesModel.getID());
+//					mSimpleDevicesModel.setmDeviceId(mDevicesModel.getmDeviceId());
+//					mSimpleDevicesModel.setmDeviceRegion(mDevicesModel
+//							.getmDeviceRegion());
+//					mSimpleDevicesModel.setmRid(mDevicesModel.getmRid());
+//					mSimpleDevicesModel.setmEP(mDevicesModel.getmEP());
+//					mSimpleDevicesModel.setmIeee(mDevicesModel.getmIeee());
+//					mSimpleDevicesModel.setmLastDateTime(mDevicesModel
+//							.getmLastDateTime());
+//					mSimpleDevicesModel
+//							.setmModelId(mDevicesModel.getmModelId());
+//					mSimpleDevicesModel.setmName(mDevicesModel.getmName());
+//					mSimpleDevicesModel.setmNodeENNAme(mDevicesModel
+//							.getmNodeENNAme());
+//					mSimpleDevicesModel.setmOnOffLine(mDevicesModel
+//							.getmOnOffLine());
+//					mSimpleDevicesModel.setmOnOffStatus(mDevicesModel
+//							.getmOnOffStatus());
+//					if (mDevicesModel.getmDefaultDeviceName() == null
+//							|| mDevicesModel.getmDefaultDeviceName().trim()
+//									.equals("")) {
+//						mSimpleDevicesModel
+//								.setmUserDefineName(getDefaultDevicesName(c,
+//										mSimpleDevicesModel.getmModelId(),
+//										mSimpleDevicesModel.getmEP()));
+//					} else {
+//						mSimpleDevicesModel.setmUserDefineName(mDevicesModel
+//								.getmDefaultDeviceName());
+//					}
+//					list.add(mSimpleDevicesModel);
+//				}
+//			}
+//		} else {
+//			for (int m = 0; m < listDevicesModel.size(); m++) {
+//				DevicesModel mDevicesModel = listDevicesModel.get(m);
+//				mSimpleDevicesModel = new SimpleDevicesModel();
+//				mSimpleDevicesModel.setID(mDevicesModel.getID());
+//				mSimpleDevicesModel.setmDeviceId(mDevicesModel
+//						.getmDeviceId());
+//				mSimpleDevicesModel.setmDeviceRegion(mDevicesModel
+//						.getmDeviceRegion());
+//				mSimpleDevicesModel.setmRid(mDevicesModel.getmRid());
+//				mSimpleDevicesModel.setmEP(mDevicesModel.getmEP());
+//				mSimpleDevicesModel.setmIeee(mDevicesModel.getmIeee());
+//				mSimpleDevicesModel.setmLastDateTime(mDevicesModel
+//						.getmLastDateTime());
+//				mSimpleDevicesModel.setmModelId(mDevicesModel.getmModelId());
+//				mSimpleDevicesModel.setmName(mDevicesModel.getmName());
+//				mSimpleDevicesModel.setmNodeENNAme(mDevicesModel
+//						.getmNodeENNAme());
+//				mSimpleDevicesModel
+//						.setmOnOffLine(mDevicesModel.getmOnOffLine());
+//				mSimpleDevicesModel.setmOnOffStatus(mDevicesModel
+//						.getmOnOffStatus());
+//				if (mDevicesModel.getmDefaultDeviceName() == null
+//						|| mDevicesModel.getmDefaultDeviceName().trim().equals("")) {
+//					mSimpleDevicesModel
+//							.setmUserDefineName(getDefaultDevicesName(c,
+//									mSimpleDevicesModel.getmModelId(),
+//									mSimpleDevicesModel.getmEP()));
+//				} else {
+//					mSimpleDevicesModel.setmUserDefineName(mDevicesModel
+//							.getmDefaultDeviceName());
+//				}
+//				list.add(mSimpleDevicesModel);
+//			}
+//		}
 		try {
 			dh.close(db);
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		return list;
+		return listDevicesModel;
 	}
 
-	public static List<SimpleDevicesModel> getDevices(Context c, DataHelper dh,
+	public static List<DevicesModel> getDevices(Context c, DataHelper dh,
 			String[] args, String where) {
 		return getDevices(c, dh, args, where, true);
 	}
@@ -690,7 +689,7 @@ public class DataUtil {
 		return scenes;
 	}
 
-	public static List<SimpleDevicesModel> getScenesDevices(Context c,
+	public static List<DevicesModel> getScenesDevices(Context c,
 			DataHelper dh, String name) {
 
 		if (null == dh) {
@@ -698,7 +697,7 @@ public class DataUtil {
 		}
 		String[] args = { name };
 		List<DevicesGroup> listDevicesModel = new ArrayList<DevicesGroup>();
-		List<SimpleDevicesModel> scenes = new ArrayList<SimpleDevicesModel>();
+		List<DevicesModel> scenes = new ArrayList<DevicesModel>();
 
 		SQLiteDatabase db = dh.getSQLiteDatabase();
 		listDevicesModel = dh.queryForGroupList(c, db, DataHelper.GROUP_TABLE,
@@ -709,7 +708,7 @@ public class DataUtil {
 			if (!ieee.equals("-1")) {
 				String[] ag = { d.getIeee() };
 				String where = " ieee=? ";
-				List<SimpleDevicesModel> mm = DataUtil.getDevices(c, dh, ag,
+				List<DevicesModel> mm = DataUtil.getDevices(c, dh, ag,
 						where);
 				if (null != mm && mm.size() > 0) {
 					scenes.add(mm.get(0));

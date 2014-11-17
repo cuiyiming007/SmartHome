@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.Manger;
+import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.Constants;
 import com.gdgl.smarthome.R;
@@ -17,7 +18,7 @@ import com.gdgl.smarthome.R;
 public class ShowTemptureFragment extends BaseControlFragment {
 
 	View mView;
-	SimpleDevicesModel mDevices;
+	DevicesModel mDevices;
 
 	TextView txt_devices_name, txt_devices_region, txt_title, txt_value;
 
@@ -35,7 +36,7 @@ public class ShowTemptureFragment extends BaseControlFragment {
 		super.onCreate(savedInstanceState);
 		Bundle extras = getArguments();
 		if (null != extras) {
-			mDevices = (SimpleDevicesModel) extras
+			mDevices = (DevicesModel) extras
 					.getParcelable(Constants.PASS_OBJECT);
 		}
 
@@ -66,7 +67,7 @@ public class ShowTemptureFragment extends BaseControlFragment {
 		txt_title.setText("当前室内温度:");
 		txt_value.setText("30");
 
-		txt_devices_name.setText(mDevices.getmUserDefineName().trim());
+		txt_devices_name.setText(mDevices.getmDefaultDeviceName().trim());
 		txt_devices_region.setText(mDevices.getmDeviceRegion().trim());
 	}
 

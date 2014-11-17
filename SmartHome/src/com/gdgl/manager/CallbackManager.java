@@ -83,7 +83,7 @@ public class CallbackManager extends Manger {
 				} else {
 					json = "{" + messages[i] + "}";
 				}
-				// Log.i("json", json);
+				Log.i("Callbackjson", json);
 				handleCallbackResponse(json);
 			}
 		} else {
@@ -259,7 +259,7 @@ public class CallbackManager extends Manger {
 		case 0:
 			if (clusterId == 6) {
 				Log.i(TAG,
-						"Callback msgType=" + 2 + "on_off_status"
+						"Callback msgType=" + 2 + " on_off_status"
 								+ common.toString());
 				Event event = new Event(EventType.ON_OFF_STATUS, true);
 				event.setData(common);
@@ -267,8 +267,11 @@ public class CallbackManager extends Manger {
 			}
 			if (clusterId == 8) {
 				Log.i(TAG,
-						"Callback msgType=" + 2 + "level"
+						"Callback msgType=" + 2 + " level"
 								+ common.toString());
+				Event event = new Event(EventType.MOVE_TO_LEVEL, true);
+				event.setData(common);
+				notifyObservers(event);
 			}
 			if (clusterId == 1024) {
 //				Log.i(TAG,

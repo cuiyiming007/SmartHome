@@ -15,7 +15,7 @@ public class SimpleDevicesModel implements Parcelable{
 	private String mEP = "";
 	private String mName = "";
 	private String mOnOffStatus = "";
-	private String mUserDefineName = "";
+	private String mDefaultDeviceName = "";
 	private String mValue = "";
 	//湿度
 	private String humidityValue="";
@@ -131,12 +131,12 @@ public class SimpleDevicesModel implements Parcelable{
 		this.mOnOffLine = mOnOffLine;
 	}
 	
-	public String getmUserDefineName() {
-		return mUserDefineName;
+	public String getmDefaultDeviceName() {
+		return mDefaultDeviceName;
 	}
 
-	public void setmUserDefineName(String mUserDefineName) {
-		this.mUserDefineName = mUserDefineName;
+	public void setmDefaultDeviceName(String mUserDefineName) {
+		this.mDefaultDeviceName = mUserDefineName;
 	}
 	
 	public String getHumidityValue() {
@@ -167,7 +167,7 @@ public class SimpleDevicesModel implements Parcelable{
 			mDevicesModel.setmOnOffLine(source.readInt());
 			mDevicesModel.setmOnOffStatus(source.readString());
 			mDevicesModel.setmModelId(source.readString());
-			mDevicesModel.setmUserDefineName(source.readString());
+			mDevicesModel.setmDefaultDeviceName(source.readString());
 			mDevicesModel.setmClusterID(source.readString());
 
 			return mDevicesModel;
@@ -195,7 +195,7 @@ public class SimpleDevicesModel implements Parcelable{
 		parcel.writeInt(mOnOffLine);
 		parcel.writeString(mOnOffStatus);
 		parcel.writeString(mModelId);
-		parcel.writeString(mUserDefineName);
+		parcel.writeString(mDefaultDeviceName);
 		parcel.writeString(mClusterID);
 	}
 

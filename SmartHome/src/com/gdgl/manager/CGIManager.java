@@ -254,8 +254,8 @@ public class CGIManager extends Manger {
 	/***
 	 * 2.3 插座
 	 */
-	public void MainsOutLetOperation(SimpleDevicesModel model,
-			int operationType, int parem1) {
+	public void MainsOutLetOperation(DevicesModel model,
+			int operationType) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", model.getmIeee());
 		paraMap.put("ep", model.getmEP());
@@ -285,7 +285,7 @@ public class CGIManager extends Manger {
 	 * control features; provides information update feature of the brightness
 	 * level.
 	 */
-	public void dimmableLightOperation(SimpleDevicesModel model,
+	public void dimmableLightOperation(DevicesModel model,
 			int operationType, int param1) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", model.getmIeee());
@@ -304,38 +304,6 @@ public class CGIManager extends Manger {
 				NetUtil.getInstance().IP, "dimmableLightOperation.cgi", param);
 
 		simpleVolleyRequset(url, EventType.ONOFFOUTPUTOPERATION);
-	}
-
-	/***
-	 * 2.5 OnOffLight Operation Function Describe:Features provided to the Light
-	 * device: on, off or toggle features; provides information update feature
-	 * of the current state.
-	 * 
-	 * http://192.168.1.184/cgi-bin/rest/network/onOffLightOperation.cgi?
-	 * ieee=00137A0000008110&ep
-	 * =01&operatortype=0&param1=1&param2=2&param3=3&callback
-	 * =1234&encodemethod=NON E&sign=AAA
-	 * 
-	 */
-	public void onOffLightOperation() {
-		HashMap<String, String> paraMap = new HashMap<String, String>();
-		paraMap.put("ieee", "00137A0000010AB5");
-		paraMap.put("ep", "0A");
-		paraMap.put("operatortype", "2");
-		paraMap.put("param1", "1");
-		paraMap.put("param2", "2");
-		paraMap.put("param3", "3");
-		
-		paraMap.put("callback", "1234");
-		paraMap.put("encodemethod", "NONE");
-		paraMap.put("sign", "AAA");
-		String param = hashMap2ParamString(paraMap);
-		
-		String url = NetUtil.getInstance().getCumstomURL(
-				NetUtil.getInstance().IP, "onOffLightOperation.cgi", param);
-		EventType type = EventType.ONOFFLIGHTOPERATION;
-		simpleVolleyRequset(url, type);
-
 	}
 
 	/***
@@ -408,7 +376,7 @@ public class CGIManager extends Manger {
 	 * 
 	 * GetZoneIASCIEAddress 13
 	 */
-	public void IASWarningDeviceOperationCommon(SimpleDevicesModel model,
+	public void IASWarningDeviceOperationCommon(DevicesModel model,
 			int operationType) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", model.getmIeee());
@@ -431,35 +399,6 @@ public class CGIManager extends Manger {
 	}
 
 	/***
-	 * 2.10 on off light switch operation
-	 * http://192.168.1.184/cgi-bin/rest/network/onOffLightSwitchOperation.cgi?
-	 * ieee=00137A00000031
-	 * 1B&ep=01&operatortype=0&param1=1&param2=2&param3=3&callback
-	 * =1234&encodemethod =NONE&sign=AAA
-	 */
-	public void OnOffLightSwitchOperation(SimpleDevicesModel model,
-			int operationType, int param1) {
-
-		HashMap<String, String> paraMap = new HashMap<String, String>();
-		paraMap.put("ieee", model.getmIeee());
-		paraMap.put("ep", model.getmEP());
-		paraMap.put("operatortype", String.valueOf(operationType));
-		paraMap.put("param1", String.valueOf(param1));
-		paraMap.put("param2", "2");
-		paraMap.put("param3", "3");
-		
-		paraMap.put("callback", "1234");
-		paraMap.put("encodemethod", "NONE");
-		paraMap.put("sign", "AAA");
-		String param = hashMap2ParamString(paraMap);
-
-		String url = NetUtil.getInstance().getCumstomURL(
-				NetUtil.getInstance().IP, "onOffLightSwitchOperation.cgi",
-				param);
-		simpleVolleyRequset(url, EventType.ONOFFLIGHTSWITCHOPERATION);
-	}
-
-	/***
 	 * 2.11 无线智能阀门开关，开关模块 Function Describe:Features provided to the OnOffOutput
 	 * device: ON or OFF and toggle features; provides information update
 	 * feature of the current state. Toggling: if a device is in its ��Off��
@@ -478,7 +417,7 @@ public class CGIManager extends Manger {
 	 * 
 	 * GetStatus 3
 	 */
-	public void OnOffOutputOperation(SimpleDevicesModel model, int operationType) {
+	public void OnOffOutputOperation(DevicesModel model, int operationType) {
 		// String param =
 		// "ieee=00137A0000010AB5&ep=0A&operatortype=0&param1=1&param2=2&param3=3";
 		HashMap<String, String> paraMap = new HashMap<String, String>();
@@ -502,29 +441,6 @@ public class CGIManager extends Manger {
 	}
 
 	/***
-	 * 2.12OnOffSwitch Operation ZigBee墙面开关
-	 */
-	public void onOffSwitchOperation() {
-		HashMap<String, String> paraMap = new HashMap<String, String>();
-		paraMap.put("ieee", "00137A0000010AB5");
-		paraMap.put("ep", "01");
-		paraMap.put("operatortype", "1");
-		paraMap.put("param1", "1");
-		paraMap.put("param2", "2");
-		paraMap.put("param3", "3");
-		
-		paraMap.put("callback", "1234");
-		paraMap.put("encodemethod", "NONE");
-		paraMap.put("sign", "AAA");
-		String param = hashMap2ParamString(paraMap);
-
-		String url = NetUtil.getInstance().getCumstomURL(
-				NetUtil.getInstance().IP, "onOffSwitchOperation.cgi", param);
-
-		simpleVolleyRequset(url, EventType.ONOFFSWITCHOPERATION);
-	}
-
-	/***
 	 * 2.13 LightSensor Operation ZigBee光线感应器 Function Describe:Features
 	 * provided to the light sensor device: Feature that read the current light
 	 * intensity value; feature that processes and stores information.
@@ -545,7 +461,7 @@ public class CGIManager extends Manger {
 	 * 
 	 * GetIlluminanceMeasuredValueR ptTime 7
 	 */
-	public void lightSensorOperation(SimpleDevicesModel model, int operationType) {
+	public void lightSensorOperation(DevicesModel model, int operationType) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", model.getmIeee());
 		paraMap.put("ep", model.getmEP());
@@ -599,39 +515,14 @@ public class CGIManager extends Manger {
 	}
 
 	/***
-	 * 2.14ShadeController Operation
-	 */
-	public void shadeControllerOperation(SimpleDevicesModel model,
-			int operationType) {
-		HashMap<String, String> paraMap = new HashMap<String, String>();
-		paraMap.put("ieee", model.getmIeee());
-		paraMap.put("ep", model.getmEP());
-		paraMap.put("operatortype", String.valueOf(operationType));
-		paraMap.put("param1", "1");
-		paraMap.put("param2", "2");
-		paraMap.put("param3", "3");
-		
-		paraMap.put("callback", "1234");
-		paraMap.put("encodemethod", "NONE");
-		paraMap.put("sign", "AAA");
-		String param = hashMap2ParamString(paraMap);
-
-		String url = NetUtil.getInstance()
-				.getCumstomURL(NetUtil.getInstance().IP,
-						"shadeControllerOperation.cgi", param);
-
-		simpleVolleyRequset(url, EventType.SHADECONTROLLEROPERATION);
-	}
-
-	/***
 	 * 2.15 ShadeOperation窗帘控制
 	 */
-	public void shadeOperation(SimpleDevicesModel model, int operationType) {
+	public void shadeOperation(DevicesModel model, int operationType, int level) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", model.getmIeee());
 		paraMap.put("ep", model.getmEP());
 		paraMap.put("operatortype", String.valueOf(operationType));
-		paraMap.put("param1", "1");
+		paraMap.put("param1", String.valueOf(level));
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
 		
@@ -652,7 +543,7 @@ public class CGIManager extends Manger {
 	 * 查看当前全局布防状态（通过Param1的值判断）： 0：全部撤防 1：白天布防模式 2：夜间布防模式 3：全部布防
 	 * 
 	 */
-	public void LocalIASCIEOperation(SimpleDevicesModel model,
+	public void LocalIASCIEOperation(DevicesModel model,
 			final int operationType) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("operatortype", String.valueOf(operationType));
@@ -715,7 +606,7 @@ public class CGIManager extends Manger {
 	 * 2.1安防设备布防LocalIASCIE ByPassZone
 	 * 
 	 */
-	public void LocalIASCIEByPassZone(SimpleDevicesModel model) {
+	public void LocalIASCIEByPassZone(DevicesModel model) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("zone_ieee", model.getmIeee());
 		paraMap.put("zone_ep", model.getmEP());
@@ -735,7 +626,7 @@ public class CGIManager extends Manger {
 	 * 2.17安防设备撤防LocalIASCIE ByPassZone
 	 * 
 	 */
-	public void LocalIASCIEUnByPassZone(SimpleDevicesModel model) {
+	public void LocalIASCIEUnByPassZone(DevicesModel model) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("zone_ieee", model.getmIeee());
 		paraMap.put("zone_ep", model.getmEP());
@@ -852,7 +743,7 @@ public class CGIManager extends Manger {
 	 * 
 	 * GetTemperatureMeasuredValue11
 	 */
-	public void temperatureSensorOperation(SimpleDevicesModel model,
+	public void temperatureSensorOperation(DevicesModel model,
 			int operationType) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", model.getmIeee());
@@ -1000,7 +891,7 @@ public class CGIManager extends Manger {
 	 * @param index
 	 * @param operation
 	 */
-	public void beginLearnIR(SimpleDevicesModel model, int index,
+	public void beginLearnIR(DevicesModel model, int index,
 			String operation) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", model.getmIeee());
@@ -1055,7 +946,7 @@ public class CGIManager extends Manger {
 	 * @param index
 	 * @param operation
 	 */
-	public void beginApplyIR(SimpleDevicesModel model, int index) {
+	public void beginApplyIR(DevicesModel model, int index) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", model.getmIeee());
 		paraMap.put("ep", model.getmEP());
@@ -1102,7 +993,7 @@ public class CGIManager extends Manger {
 
 	}
 	
-	public void DeleteIR(SimpleDevicesModel model, int index) {
+	public void DeleteIR(DevicesModel model, int index) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", model.getmIeee());
 		paraMap.put("ep", model.getmEP());
@@ -1150,7 +1041,7 @@ public class CGIManager extends Manger {
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
 
-	public void getDeviceLearnedIRDataInformation(SimpleDevicesModel model) {
+	public void getDeviceLearnedIRDataInformation(DevicesModel model) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", model.getmIeee());
 		paraMap.put("ep", model.getmEP());
@@ -1392,7 +1283,7 @@ public class CGIManager extends Manger {
 	 * @param model
 	 * @param new_roomid
 	 */
-	public void ModifyDeviceRoomId(SimpleDevicesModel model, String new_roomid) {
+	public void ModifyDeviceRoomId(DevicesModel model, String new_roomid) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", model.getmIeee());
 		paraMap.put("ep", model.getmEP());
@@ -1433,6 +1324,46 @@ public class CGIManager extends Manger {
 						Event event = new Event(EventType.MODIFYDEVICEROOMID, false);
 						event.setData(errorString);
 						notifyObservers(event);
+					}
+				});
+		// add the request object to the queue to be executed
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
+	/***
+	 * 设备识别
+	 * 识别某个设备，即让某个设备的指示灯闪烁指定的时间。
+	 * @param model
+	 * @param time
+	 */
+	public void IdentifyDevice(DevicesModel model, String time) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("ieee", model.getmIeee());
+		paraMap.put("ep", model.getmEP());
+		paraMap.put("time", time);
+		
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
+		String param = hashMap2ParamString(paraMap);
+		
+		String url = NetUtil.getInstance().getCumstomURL(
+				NetUtil.getInstance().IP, "identifyDevice.cgi",param);
+		Log.i("CGIManager IdentifyDevice url:%n %s", url);
+		StringRequest req = new StringRequest(url, 
+				new Response.Listener<String>() {
+					@Override
+					public void onResponse(String response) {
+						response = UiUtils.formatResponseString(response);
+						Log.i("CGIManager IdentifyDevice Response:%n %s", response);
+					}
+				},
+				new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+						if (error != null && error.getMessage() != null) {
+							VolleyLog.e("CGIManager IdentifyDevice Error: ", error.getMessage());
+							
+						}
 					}
 				});
 		// add the request object to the queue to be executed

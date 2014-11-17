@@ -3,12 +3,14 @@ package com.gdgl.adapter;
 import java.util.List;
 
 import com.gdgl.model.DevicesGroup;
+import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
+
 
 
 
@@ -26,7 +28,7 @@ import android.widget.TextView;
 public class SceneDevicesListAdapter extends BaseAdapter implements Dialogcallback {
 
     protected Context mContext;
-    protected List<SimpleDevicesModel> mDevicesList;
+    protected List<DevicesModel> mDevicesList;
     protected DevicesObserver mDevicesObserver;
 
     public static final String DEVICES_ID = "devices_id";
@@ -46,7 +48,7 @@ public class SceneDevicesListAdapter extends BaseAdapter implements Dialogcallba
 
     private String index;
 
-    public SceneDevicesListAdapter(Context c, List<SimpleDevicesModel> list,
+    public SceneDevicesListAdapter(Context c, List<DevicesModel> list,
             DevicesObserver mObserver) {
         mContext = c;
         mDevicesList = list;
@@ -88,7 +90,7 @@ public class SceneDevicesListAdapter extends BaseAdapter implements Dialogcallba
         }
         View mView = convertView;
         ViewHolder mHolder;
-        final SimpleDevicesModel mDevices = mDevicesList.get(position);
+        final DevicesModel mDevices = mDevicesList.get(position);
         DataHelper dh=new DataHelper(mContext);
         final DevicesGroup mDevicesGp = DataUtil.getOneScenesDevices(mContext, dh, mDevices.getmIeee());
         
@@ -113,7 +115,7 @@ public class SceneDevicesListAdapter extends BaseAdapter implements Dialogcallba
             mHolder = (ViewHolder) mView.getTag();
         }
 
-        mHolder.devices_name.setText(mDevices.getmUserDefineName().replace(" ",
+        mHolder.devices_name.setText(mDevices.getmDefaultDeviceName().replace(" ",
                 ""));
         mHolder.devices_region.setText(mDevices.getmDeviceRegion().replace(" ",
                 ""));
@@ -183,7 +185,7 @@ public class SceneDevicesListAdapter extends BaseAdapter implements Dialogcallba
         return mView;
     }
 
-    public void setList(List<SimpleDevicesModel> list) {
+    public void setList(List<DevicesModel> list) {
         mDevicesList = null;
         mDevicesList = list;
     }

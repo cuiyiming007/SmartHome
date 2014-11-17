@@ -1,5 +1,6 @@
 package com.gdgl.mydata;
 
+
 public class DevParam {
 	private Node node;
 	private String ep;
@@ -10,6 +11,9 @@ public class DevParam {
 	private String voltage;
 	private String level;
 	private String on_off_status;
+	private String temp;
+	private String hum;
+	private String brightness;
 	private String ep_model_id;
 	
 	
@@ -93,6 +97,24 @@ public class DevParam {
 	}
 	public void setLevel(String level) {
 		this.level = level;
+	}
+	public String getTemp() {
+		return temp;
+	}
+	public void setTemp(String temp) {
+		this.temp=temp;
+	}
+	public String getHum() {
+		return hum;
+	}
+	public void setHum(String hum) {
+		this.hum=hum;
+	}
+	public String getBrightness() {
+		return brightness;
+	}
+	public void setBrightness(String brightness) {
+		this.brightness=brightness;
 	}
 	public String getOn_off_status() {
 		return on_off_status;

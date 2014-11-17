@@ -34,7 +34,7 @@ public abstract class BaseControlFragment extends Fragment implements
 		 * @param c
 		 * @return
 		 */
-		public boolean updateDevices(SimpleDevicesModel sd, ContentValues c);
+//		public boolean updateDevices(SimpleDevicesModel sd, ContentValues c);
 	}
 
 	public CallbackManager mCallbackManager;

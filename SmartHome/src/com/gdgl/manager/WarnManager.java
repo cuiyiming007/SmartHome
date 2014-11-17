@@ -45,7 +45,13 @@ public class WarnManager {
 		}else
 			return false;
 	}
-	
+	public boolean isDeviceWarning(DevicesModel model)
+	{
+		if (isWarnning&&currentWarmmessage.getCie_ieee().equals(model.getmIeee())) {
+			return true;
+		}else
+			return false;
+	}
 	
 	public CallbackWarnMessage  setWarnDetailMessage(CallbackWarnMessage message) {
 		String detailmessage;

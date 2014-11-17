@@ -61,11 +61,11 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 
 	//String where = " device_region=? ";
 
-	List<SimpleDevicesModel> mList;
+	List<DevicesModel> mList;
 
-	List<SimpleDevicesModel> mAddList;
+	List<DevicesModel> mAddList;
 	
-	List<SimpleDevicesModel> mAddToRegionList;
+	List<DevicesModel> mAddToRegionList;
 
 	DataHelper mDh;
 
@@ -81,7 +81,7 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 	Button mAdd,delete;
 	
 	DataHelper mDataHelper;
-	private SimpleDevicesModel getModel;
+	private DevicesModel getModel;
 	private boolean deleteType=false;
 	private boolean isAdd=false;
 	
@@ -121,16 +121,16 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 	
 	private void initAddFragmentDevicesList(){
 		mAddList=null;
-		List<SimpleDevicesModel> mTempList = DataUtil.getDevices(
+		List<DevicesModel> mTempList = DataUtil.getDevices(
 				RegionDevicesActivity.this, mDh, null, null);
 //		if (null == mList || mList.size() == 0) {
 //			mAddList = mTempList;
 //		} else {
-			mAddList = new ArrayList<SimpleDevicesModel>();
-			for (SimpleDevicesModel simpleDevicesModel : mTempList) {
+			mAddList = new ArrayList<DevicesModel>();
+			for (DevicesModel devicesModel : mTempList) {
 //				if (!isInList(simpleDevicesModel)&&TextUtils.isEmpty(simpleDevicesModel.getmDeviceRegion())) {
-				if(simpleDevicesModel.getmRid().equals("-1")) {
-						mAddList.add(simpleDevicesModel);
+				if(devicesModel.getmRid().equals("-1")) {
+						mAddList.add(devicesModel);
 				}
 			}
 //		}
@@ -148,7 +148,7 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 //	}
 	
 	private void initAddToRegionDevicesList(){
-		mAddToRegionList=new ArrayList<SimpleDevicesModel>();
+		mAddToRegionList=new ArrayList<DevicesModel>();
 	}
 	
 	private void initView() {
@@ -188,7 +188,7 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 					ContentValues c = new ContentValues();
 					c.put(DevicesModel.DEVICE_REGION, mRoomname);
 					c.put(DevicesModel.R_ID, mRoomid);
-					for (SimpleDevicesModel s : mAddToRegionList) {
+					for (DevicesModel s : mAddToRegionList) {
 						CGIManager.getInstance().ModifyDeviceRoomId(s, mRoomid);
 						s.setmDeviceRegion(mRoomname);
 						s.setmRid(mRoomid);
@@ -281,7 +281,7 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 	@Override
 	public void AddCheckedDevices(int postion) {
 		// TODO Auto-generated method stub
-		SimpleDevicesModel s=mAddList.get(postion);
+		DevicesModel s=mAddList.get(postion);
 		if(!mAddToRegionList.contains(s)){
 			mAddToRegionList.add(s);
 		}
@@ -290,7 +290,7 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 	@Override
 	public void DeletedCheckedDevices(int postion) {
 		// TODO Auto-generated method stub
-		SimpleDevicesModel s=mAddList.get(postion);
+		DevicesModel s=mAddList.get(postion);
 		if(mAddToRegionList.contains(s)){
 			mAddToRegionList.remove(s);
 		}
@@ -303,7 +303,7 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 	}
 
 	@Override
-	public SimpleDevicesModel getDeviceModle(int postion) {
+	public DevicesModel getDeviceModle(int postion) {
 		// TODO Auto-generated method stub
 		if (null != mList) {
 			return mList.get(postion);
@@ -328,16 +328,16 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 	}
 
 	@Override
-	public void setDevicesId(SimpleDevicesModel simpleDevicesModel) {
+	public void setDevicesId(DevicesModel simpleDevicesModel) {
 		// TODO Auto-generated method stub
 		getModel=simpleDevicesModel;
 	}
 
 	private class GetDataTask extends
-			AsyncTask<Void, Void, List<SimpleDevicesModel>> {
+			AsyncTask<Void, Void, List<DevicesModel>> {
 
 		@Override
-		protected List<SimpleDevicesModel> doInBackground(Void... params) {
+		protected List<DevicesModel> doInBackground(Void... params) {
 			// Simulates a background job.
 			try {
 				Thread.sleep(1000);
@@ -347,7 +347,7 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 		}
 
 		@Override
-		protected void onPostExecute(List<SimpleDevicesModel> result) {
+		protected void onPostExecute(List<DevicesModel> result) {
 			super.onPostExecute(result);
 			if(currentState==INADD){
 				mAllDevicesFragment.stopRefresh();
@@ -364,8 +364,8 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 
 	}
 
-	@Override
-	public boolean updateDevices(SimpleDevicesModel sd, ContentValues c) {
+	
+	public boolean updateDevices(DevicesModel sd, ContentValues c) {
 		// TODO Auto-generated method stub
 		String ep=sd.getmEP().trim();
 		int result=0;
@@ -419,7 +419,7 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 			//删除设备中的区域信息
 			String where = " ieee = ? ";
 			SQLiteDatabase mSQLiteDatabase = mDataHelper.getSQLiteDatabase();
-			for (SimpleDevicesModel s : mList) {
+			for (DevicesModel s : mList) {
 				ContentValues c = new ContentValues();
 				c.put(DevicesModel.DEVICE_REGION, "");
 				c.put(DevicesModel.R_ID, "-1");
@@ -497,7 +497,7 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 
 
 	@Override
-	public void setdata(List<SimpleDevicesModel> list) {
+	public void setdata(List<DevicesModel> list) {
 		// TODO Auto-generated method stub
 		
 	}

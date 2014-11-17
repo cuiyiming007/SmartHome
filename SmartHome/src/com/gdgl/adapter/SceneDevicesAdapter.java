@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.gdgl.model.DevicesGroup;
+import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
@@ -38,7 +39,7 @@ public class SceneDevicesAdapter extends BaseAdapter {
 	
 	
 	protected Context mContext;
-	protected List<SimpleDevicesModel> mDevicesList;
+	protected List<DevicesModel> mDevicesList;
 	protected AddChecked mDevicesObserver;
 	
 	private static  Map<Integer,Boolean> isSelected;
@@ -54,7 +55,7 @@ public class SceneDevicesAdapter extends BaseAdapter {
 
 	ViewHolder lay;
 	
-	public SceneDevicesAdapter(Context c, List<SimpleDevicesModel> list,
+	public SceneDevicesAdapter(Context c, List<DevicesModel> list,
 			AddChecked mObserver,String groupname) {
 		mContext = c;
 		mDevicesList = list;
@@ -117,7 +118,7 @@ public class SceneDevicesAdapter extends BaseAdapter {
 		// TODO Auto-generated method stub
 		View mView = convertView;
 		final ViewHolder mHolder;
-		final SimpleDevicesModel mDevices = mDevicesList.get(position);
+		final DevicesModel mDevices = mDevicesList.get(position);
 		final DevicesGroup mDevicesGroup=new DevicesGroup(mContext);
 		mDevicesGroup.setDevicesState(mDevices.getmOnOffStatus().trim().equals("1"));
 		mDevicesGroup.setEp(mDevices.getmEP());
@@ -206,7 +207,7 @@ public class SceneDevicesAdapter extends BaseAdapter {
 		}else {
 			mHolder = (ViewHolder) mView.getTag();
 		}
-		mHolder.devices_name.setText(mDevices.getmUserDefineName().replace(" ",
+		mHolder.devices_name.setText(mDevices.getmDefaultDeviceName().replace(" ",
 				""));
 
 		mHolder.devices_img.setImageResource(DataUtil
@@ -305,7 +306,7 @@ public class SceneDevicesAdapter extends BaseAdapter {
 		public CheckBox onoff_check;
 		public SeekBar devices_seek;
 		public LinearLayout config_state;
-		public SimpleDevicesModel mSimpleDevicesModel;
+		public DevicesModel mSimpleDevicesModel;
 	}
 	
 	public interface DevicesObserver {
@@ -317,7 +318,7 @@ public class SceneDevicesAdapter extends BaseAdapter {
 	}
 	
 
-	public void setList(List<SimpleDevicesModel> list) {
+	public void setList(List<DevicesModel> list) {
 		mDevicesList = null;
 		mDevicesList = list;
 	}

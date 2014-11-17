@@ -37,7 +37,7 @@ public class OutLetControlFragment extends BaseControlFragment {
 	public static final int OFF = 1;
 
 	View mView;
-	SimpleDevicesModel mDevices;
+	DevicesModel mDevices;
 
 	TextView txt_devices_name, txt_devices_region;
 	RelativeLayout mError;
@@ -88,9 +88,9 @@ public class OutLetControlFragment extends BaseControlFragment {
 		super.onCreate(savedInstanceState);
 		Bundle extras = getArguments();
 		if (null != extras) {
-			mDevices = (SimpleDevicesModel) extras
+			mDevices = (DevicesModel) extras
 					.getParcelable(Constants.PASS_OBJECT);
-			OnOffImg = extras.getIntArray(Constants.PASS_ONOFFIMG);
+//			OnOffImg = extras.getIntArray(Constants.PASS_ONOFFIMG);
 		}
 
 		mLightManager = CGIManager.getInstance();
@@ -115,7 +115,7 @@ public class OutLetControlFragment extends BaseControlFragment {
 		txt_devices_region = (TextView) mView
 				.findViewById(R.id.txt_devices_region);
 
-		txt_devices_name.setText(mDevices.getmUserDefineName().trim());
+		txt_devices_name.setText(mDevices.getmDefaultDeviceName().trim());
 		txt_devices_region.setText(mDevices.getmDeviceRegion().trim());
 
 		setImagRes(on_off, status);
@@ -136,7 +136,7 @@ public class OutLetControlFragment extends BaseControlFragment {
 				} else {
 					mDialog.show();
 				}
-				mLightManager.MainsOutLetOperation(mDevices,operatortype.ChangeOnOffSwitchActions,getChangeValue());
+				mLightManager.MainsOutLetOperation(mDevices,operatortype.ChangeOnOffSwitchActions);
 //				mLightManager.iASZoneOperationCommon(mDevices);
 			}
 
@@ -184,7 +184,7 @@ public class OutLetControlFragment extends BaseControlFragment {
 				mDevices.setmOnOffStatus(status ? "1" : "o");
 				ContentValues c = new ContentValues();
 				c.put(DevicesModel.ON_OFF_STATUS, status ? "1" : "o");
-				mUpdateDevice.updateDevices(mDevices, c);
+//				mUpdateDevice.updateDevices(mDevices, c);
 			}else {
 				//if failed,prompt a Toast
 				mError.setVisibility(View.VISIBLE);

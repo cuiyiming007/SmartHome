@@ -3,6 +3,7 @@ package com.gdgl.adapter;
 import java.util.HashMap;
 import java.util.List;
 
+import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
@@ -21,7 +22,7 @@ import android.widget.TextView;
 public class AllDevicesAdapter extends BaseAdapter {
 
 	protected Context mContext;
-	protected List<SimpleDevicesModel> mDevicesList;
+	protected List<DevicesModel> mDevicesList;
 	protected AddChecked mDevicesObserver;
 	
 	private static  HashMap<Integer,Boolean> isSelected;
@@ -41,7 +42,7 @@ public class AllDevicesAdapter extends BaseAdapter {
 
 	}
 	
-	public AllDevicesAdapter(Context c, List<SimpleDevicesModel> list,
+	public AllDevicesAdapter(Context c, List<DevicesModel> list,
 			AddChecked mObserver) {
 		mContext = c;
 		mDevicesList = list;
@@ -105,10 +106,10 @@ public class AllDevicesAdapter extends BaseAdapter {
 			mHolder.mPostion=position;
 		}
 		
-		if(null==mDevices.getmUserDefineName() || mDevices.getmUserDefineName().trim().equals("")){
+		if(null==mDevices.getmDefaultDeviceName() || mDevices.getmDefaultDeviceName().trim().equals("")){
 			mHolder.devices_name.setText(DataUtil.getDefaultDevicesName(mContext, mDevices.getmModelId(), mDevices.getmEP()));
 		}else{
-			mHolder.devices_name.setText(mDevices.getmUserDefineName().replace(" ",
+			mHolder.devices_name.setText(mDevices.getmDefaultDeviceName().replace(" ",
 					""));
 		}
 		
@@ -166,7 +167,7 @@ public class AllDevicesAdapter extends BaseAdapter {
 		return mView;
 	}
 
-	public void setList(List<SimpleDevicesModel> list) {
+	public void setList(List<DevicesModel> list) {
 		mDevicesList = null;
 		mDevicesList = list;
 	}

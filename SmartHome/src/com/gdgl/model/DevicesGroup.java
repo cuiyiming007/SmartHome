@@ -108,10 +108,10 @@ public class DevicesGroup implements DevicesGroupColumns{
 		this.ieee = ieee;
 	}
 
-	public SimpleDevicesModel getsModel() {
+	public DevicesModel getsModel() {
 		String args[]={ieee};
 		String where=" ieee=? ";
-		List<SimpleDevicesModel> mList= DataUtil.getDevices(mContext, new DataHelper(mContext), args, where);
+		List<DevicesModel> mList= DataUtil.getDevices(mContext, new DataHelper(mContext), args, where);
 		if(null!=mList && mList.size()>0){
 			return mList.get(0);
 		}

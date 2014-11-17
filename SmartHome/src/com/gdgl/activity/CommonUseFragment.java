@@ -83,7 +83,7 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 	}
 
 	List<String> mRegion, mScene, mIeees;
-	List<SimpleDevicesModel> mDev;
+	List<DevicesModel> mDev;
 
 	RelativeLayout region_lay, scene_lay, dev_lay;
 	ImageView up_down_region, up_down_scene, up_down_dev;
@@ -130,7 +130,7 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 			mDev = null;
 		}
 		mIeees = new ArrayList<String>();
-		mDev = new ArrayList<SimpleDevicesModel>();
+		mDev = new ArrayList<DevicesModel>();
 		if (null == devAdap) {
 			devAdap = new CustomeAdapter(DEV, (Context) getActivity());
 		}
@@ -148,7 +148,7 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 		}
 		DataHelper dh = new DataHelper((Context) getActivity());
 
-		List<SimpleDevicesModel> mtem;
+		List<DevicesModel> mtem;
 
 		String where = " ieee=? ";
 
@@ -157,7 +157,7 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 			mtem = DataUtil
 					.getDevices((Context) getActivity(), dh, args, where);
 			if (null != mtem && mtem.size() > 0) {
-				for (SimpleDevicesModel model : mtem) {
+				for (DevicesModel model : mtem) {
 					mDev.add(model);
 				}
 			}
@@ -428,7 +428,7 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 									R.anim.loading_animation);
 
 					refeeshImg.startAnimation(hyperspaceJumpAnimation);
-					List<SimpleDevicesModel> mLs = null;
+					List<DevicesModel> mLs = null;
 					String sce = mScene.get(arg2);
 					if (!sce.trim().equals("")) {
 						mLs = DataUtil.getScenesDevices(
@@ -436,7 +436,7 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 					}
 					SceneDevicesActivity.OperatorDevices so;
 					List<SceneDevicesActivity.OperatorDevices> ml = new ArrayList<SceneDevicesActivity.OperatorDevices>();
-					for (SimpleDevicesModel sd : mLs) {
+					for (DevicesModel sd : mLs) {
 						DevicesGroup ds = getModelByID(sd.getmIeee());
 						if (null != ds) {
 							so = new SceneDevicesActivity.OperatorDevices(ds
@@ -495,7 +495,7 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 
 				String ieee = mViewToIees.get((View) msg.obj);
 
-				SimpleDevicesModel sd = getDevicesByIeee(ieee);
+				DevicesModel sd = getDevicesByIeee(ieee);
 				if (null != sd) {
 					setTextViewContent(sd, devstate);
 				}
@@ -543,7 +543,7 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 					(Context) getActivity());
 			mMyOkCancleDlg.setDialogCallback(CommonUseFragment.this);
 			mMyOkCancleDlg.setContent("确定要删除设备"
-					+ mDev.get(position).getmUserDefineName() + "吗?");
+					+ mDev.get(position).getmDefaultDeviceName() + "吗?");
 			mMyOkCancleDlg.show();
 		}
 		return super.onContextItemSelected(item);
@@ -590,7 +590,7 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 
 					refeeshImg.startAnimation(hyperspaceJumpAnimation);
 
-					SimpleDevicesModel smd = getDevicesByIeee(mIeees
+					DevicesModel smd = getDevicesByIeee(mIeees
 							.get(position));
 					SceneDevicesActivity.OperatorDevices so = null;
 					List<SceneDevicesActivity.OperatorDevices> ml = new ArrayList<SceneDevicesActivity.OperatorDevices>();
@@ -620,14 +620,14 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 		dev_list.setVisibility(View.GONE);
 	}
 
-	protected SimpleDevicesModel getDevicesByIeee(String iee) {
+	protected DevicesModel getDevicesByIeee(String iee) {
 		// TODO Auto-generated method stub
 		String[] args = { iee };
 		String where = " ieee=? ";
 		Context c = (Context) getActivity();
-		List<SimpleDevicesModel> ls = DataUtil.getDevices(c, new DataHelper(c),
+		List<DevicesModel> ls = DataUtil.getDevices(c, new DataHelper(c),
 				args, where);
-		SimpleDevicesModel smd = null;
+		DevicesModel smd = null;
 		if (null != ls && ls.size() > 0) {
 			smd = ls.get(0);
 		}
@@ -751,9 +751,9 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 			} else if (Type == DEV) {
 				String[] args = { s };
 				String where = " ieee=? ";
-				List<SimpleDevicesModel> ls = DataUtil.getDevices(mContext,
+				List<DevicesModel> ls = DataUtil.getDevices(mContext,
 						new DataHelper(mContext), args, where);
-				SimpleDevicesModel smd = null;
+				DevicesModel smd = null;
 				if (null != ls && ls.size() > 0) {
 					smd = ls.get(0);
 				}
@@ -778,7 +778,7 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 //					}
 
 					setTextViewContent(smd, mViewHolder.devState);
-					mViewHolder.funcText.setText(smd.getmUserDefineName()
+					mViewHolder.funcText.setText(smd.getmDefaultDeviceName()
 							.trim());
 				}
 			}
@@ -857,7 +857,7 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 		refreshFragment();
 	}
 
-	private void setTextViewContent(SimpleDevicesModel s, TextView view) {
+	private void setTextViewContent(DevicesModel s, TextView view) {
 		if (s.getmDeviceId() == DataHelper.ON_OFF_SWITCH_DEVICETYPE) {
 			String state = "";
 			String sss = s.getmOnOffStatus();
@@ -905,7 +905,7 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 				SimpleResponseData data = (SimpleResponseData) event.getData();
 				String ieee = data.getIeee();
 				String ep = data.getEp();
-				SimpleDevicesModel sd = getDevicesByIeee(ieee);
+				DevicesModel sd = getDevicesByIeee(ieee);
 				if (sd != null) {
 					boolean status = sd.getmOnOffStatus().trim().equals("1");
 					ContentValues c = new ContentValues();

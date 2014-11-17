@@ -15,6 +15,7 @@ import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.WarnManager;
+import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.Event;
@@ -32,7 +33,7 @@ public class WarnningControlFragment extends BaseControlFragment {
 	public static final int OFF = 1;
 
 	View mView;
-	SimpleDevicesModel mDevices;
+	DevicesModel mDevices;
 
 	CallbackWarnMessage currentWarmMessage;
 
@@ -91,9 +92,9 @@ public class WarnningControlFragment extends BaseControlFragment {
 		super.onCreate(savedInstanceState);
 		Bundle extras = getArguments();
 		if (null != extras) {
-			mDevices = (SimpleDevicesModel) extras
+			mDevices = (DevicesModel) extras
 					.getParcelable(Constants.PASS_OBJECT);
-			OnOffImg = extras.getIntArray(Constants.PASS_ONOFFIMG);
+//			OnOffImg = extras.getIntArray(Constants.PASS_ONOFFIMG);
 		}
 
 		initstate();
@@ -117,7 +118,7 @@ public class WarnningControlFragment extends BaseControlFragment {
 		txt_devices_region = (TextView) mView
 				.findViewById(R.id.txt_devices_region);
 
-		txt_devices_name.setText(mDevices.getmUserDefineName().trim());
+		txt_devices_name.setText(mDevices.getmDefaultDeviceName().trim());
 		txt_devices_region.setText(mDevices.getmDeviceRegion().trim());
 
 		setImagRes(on_off, status);
@@ -138,7 +139,7 @@ public class WarnningControlFragment extends BaseControlFragment {
 					mDialog.show();
 				}
 				mLightManager.IASWarningDeviceOperationCommon(mDevices, 0);
-				txt_devices_name.setText(mDevices.getmUserDefineName().trim());
+				txt_devices_name.setText(mDevices.getmDefaultDeviceName().trim());
 
 			}
 		});
@@ -214,7 +215,7 @@ public class WarnningControlFragment extends BaseControlFragment {
 		if (isWarning && data != null) {
 			txt_devices_name.setText(data.getDetailmessage());
 		} else {
-			txt_devices_name.setText(mDevices.getmUserDefineName());
+			txt_devices_name.setText(mDevices.getmDefaultDeviceName());
 		}
 	}
 }

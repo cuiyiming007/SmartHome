@@ -5,6 +5,7 @@ package com.gdgl.activity;
 import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
+import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.Constants;
 import com.gdgl.smarthome.R;
@@ -52,7 +53,7 @@ public class CurtainControlFragment extends Fragment implements UIListener{
     private static final int OPENFULLY = 2;
     private static final int CLOSEFULLY = 3;
 
-	SimpleDevicesModel mDevices;
+	DevicesModel mDevices;
 	
 	CGIManager mLightManager;
 
@@ -71,7 +72,7 @@ public class CurtainControlFragment extends Fragment implements UIListener{
 
 		Bundle extras = getArguments();
 		if (null != extras) {
-			mDevices = (SimpleDevicesModel) extras
+			mDevices = (DevicesModel) extras
 					.getParcelable(Constants.PASS_OBJECT);
 		}
 		mProgress = 30;
@@ -112,7 +113,7 @@ public class CurtainControlFragment extends Fragment implements UIListener{
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-            	CGIManager.getInstance().shadeOperation(mDevices, operatortype.TurnOn);
+            	CGIManager.getInstance().shadeOperation(mDevices, operatortype.TurnOn,1);
                 if (mProgress == 0) {
                     txtClose.setText("关闭窗帘");
                 }
@@ -162,7 +163,7 @@ public class CurtainControlFragment extends Fragment implements UIListener{
             @Override
             public void onClick(View v) {
             	
-            	CGIManager.getInstance().shadeOperation(mDevices, operatortype.TurnOff);
+            	CGIManager.getInstance().shadeOperation(mDevices, operatortype.TurnOff,1);
             	
                 // TODO Auto-generated method stub
                 if (mProgress == 100) {

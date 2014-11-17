@@ -21,7 +21,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DataHelper extends SQLiteOpenHelper {
 
-	public static final int ON_OFF_SWITCH_DEVICETYPE = 0; //开关（如“三键开关”、“双键开关”）
+	public static final int ON_OFF_SWITCH_DEVICETYPE = 0; //开关（如“三键开关”、“双键开关” 门窗感应开关）
 	public static final int ON_OFF_OUTPUT_DEVICETYPE = 2; //无线智能阀门
 	public static final int REMOTE_CONTROL_DEVICETYPE = 6; //多键遥控器
 	public static final int COMBINED_INTERFACE_DEVICETYPE = 7; //协调器(即一键布防)
@@ -71,7 +71,7 @@ public class DataHelper extends SQLiteOpenHelper {
 	public static final String MESSAGE_TABLE = "message_table";
 	public static final String ROOMINFO_TABLE = "roominfo_table";
 	public static final String BIND_TABLE = "bind_table";
-	public static final int DATEBASE_VERSTION = 1;
+	public static final int DATEBASE_VERSTION = 2;
 
 	public StringBuilder mStringBuilder;
 	public StringBuilder mAStringBuilder;
@@ -102,7 +102,7 @@ public class DataHelper extends SQLiteOpenHelper {
 				+ " INTEGER PRIMARY KEY AUTOINCREMENT,");
 		mStringBuilder.append(DevicesModel.ALL_COUNT + " VARCHAR,");
 		mStringBuilder.append(DevicesModel.CURCOUNT + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.DEVICE_ID + " VARCHAR(4),");
+		mStringBuilder.append(DevicesModel.DEVICE_ID + " INTEGER,");
 		mStringBuilder.append(DevicesModel.R_ID + " VARCHAR,");
 		mStringBuilder.append(DevicesModel.PIC_NAME + " VARCHAR,");
 		mStringBuilder.append(DevicesModel.PROFILE_ID + " VARCHAR,");
@@ -130,6 +130,9 @@ public class DataHelper extends SQLiteOpenHelper {
 		mStringBuilder.append(DevicesModel.VOLTAGE + " VARCHAR,");
 		mStringBuilder.append(DevicesModel.LEVEL + " VARCHAR,");
 		mStringBuilder.append(DevicesModel.ON_OFF_STATUS + " VARCHAR(1),");
+		mStringBuilder.append(DevicesModel.TEMPERATURE + " FLOAT,");
+		mStringBuilder.append(DevicesModel.HUMIDITY + " FLOAT,");
+		mStringBuilder.append(DevicesModel.BRIGHTNESS + " INTEGER,");
 		mStringBuilder.append(DevicesModel.EP_MODEL_ID + " VARCHAR(6),");
 		
 		mStringBuilder.append(DevicesModel.CURRENT_MAX + " VARCHAR,");
@@ -598,7 +601,7 @@ public class DataHelper extends SQLiteOpenHelper {
 					.getColumnIndex(DevicesModel.ALL_COUNT)));
 			mDevicesModel.setmCurCount(c.getString(c
 					.getColumnIndex(DevicesModel.CURCOUNT)));
-			mDevicesModel.setmDeviceId(c.getString(c
+			mDevicesModel.setmDeviceId(c.getInt(c
 					.getColumnIndex(DevicesModel.DEVICE_ID)));
 			mDevicesModel.setmRid(c.getString(c
 					.getColumnIndex(DevicesModel.R_ID)));
@@ -650,6 +653,12 @@ public class DataHelper extends SQLiteOpenHelper {
 					.getColumnIndex(DevicesModel.LEVEL)));
 			mDevicesModel.setmOnOffStatus(c.getString(c
 					.getColumnIndex(DevicesModel.ON_OFF_STATUS)));
+			mDevicesModel.setmTemperature(c.getFloat(c
+					.getColumnIndex(DevicesModel.TEMPERATURE)));
+			mDevicesModel.setmHumidity(c.getFloat(c
+					.getColumnIndex(DevicesModel.HUMIDITY)));
+			mDevicesModel.setmBrightness(c.getInt(c
+					.getColumnIndex(DevicesModel.BRIGHTNESS)));
 			mDevicesModel.setmEPModelId(c.getString(c
 					.getColumnIndex(DevicesModel.EP_MODEL_ID)));
 			mDevicesModel.setmCurrentMax(c.getString(c

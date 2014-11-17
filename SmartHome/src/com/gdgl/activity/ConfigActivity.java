@@ -6,19 +6,24 @@ package com.gdgl.activity;
 import java.util.List;
 
 import com.gdgl.activity.BindControlFragment.backAction;
+import com.gdgl.activity.ConfigDevicesListWithGroup.IntoDeviceDetailFragment;
 import com.gdgl.activity.JoinNetDevicesListFragment.refreshData;
 import com.gdgl.activity.JoinNetFragment.ChangeFragment;
+import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.SlideMenu;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.DecelerateInterpolator;
@@ -27,7 +32,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class ConfigActivity extends BaseSlideMenuActivity implements
-		ChangeFragment, refreshData, backAction {
+		ChangeFragment, refreshData, backAction, IntoDeviceDetailFragment {
 	private SlideMenu mSlideMenu;
 	int mSelectedColor = 0xffEE3B3B;
 	int mUnSelectedColor = 0xff20B2AA;
@@ -63,7 +68,7 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 		mSlideMenu.setPrimaryShadowWidth(100);
 		mSlideMenu.setEdgetSlideWidth(50);
 		mfragment_continer = (LinearLayout) findViewById(R.id.fragment_continer);
-		parents_need_Layout=(LinearLayout)findViewById(R.id.parents_need);
+		parents_need_Layout = (LinearLayout) findViewById(R.id.parents_need);
 		parents_need_Layout.setVisibility(View.GONE);
 		config_name = (TextView) findViewById(R.id.title);
 		user_name = (TextView) findViewById(R.id.user_name);
@@ -99,10 +104,10 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-//				if (mSlideMenu.isOpen()) {
-//					mSlideMenu.close(true);
-//					return;
-//				}
+				// if (mSlideMenu.isOpen()) {
+				// mSlideMenu.close(true);
+				// return;
+				// }
 				if (!mSlideMenu.isOpen()) {
 					mSlideMenu.open(false, true);
 					return;
@@ -194,7 +199,6 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 		config_name.setText(v.getText().toString());
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
-
 		fragmentTransaction.replace(R.id.fragment_continer, f);
 		fragmentTransaction.commit();
 		v.setTextColor(mSelectedColor);
@@ -250,8 +254,8 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 		mFragment = (BaseFragment) f;
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
-		fragmentTransaction.addToBackStack(null);
 		fragmentTransaction.replace(R.id.fragment_continer, f);
+		fragmentTransaction.addToBackStack(null);
 		fragmentTransaction.commit();
 	}
 
@@ -262,7 +266,7 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 	}
 
 	@Override
-	public SimpleDevicesModel getDeviceModle(int postion) {
+	public DevicesModel getDeviceModle(int postion) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -277,6 +281,23 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 	public void setDevicesId(String id) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void intoDeviceDetailFragment(Fragment f) {
+		// TODO Auto-generated method stub
+		FragmentTransaction fragmentTransaction = fragmentManager
+				.beginTransaction();
+		fragmentTransaction.replace(R.id.fragment_continer, f);
+		fragmentTransaction.addToBackStack(null);
+		String string = "0";
+		if (fragmentTransaction.isAddToBackStackAllowed()) {
+			string = "1";
+		}
+		Log.i("fragment_continer", string);
+		Log.i("fragment_continer",
+				"" + fragmentManager.getBackStackEntryCount());
+		fragmentTransaction.commit();
 	}
 
 	@Override

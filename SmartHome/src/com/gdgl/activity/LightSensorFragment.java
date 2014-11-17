@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.Manger;
+import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.DataHelper;
@@ -26,7 +27,7 @@ import com.gdgl.smarthome.R;
 public class LightSensorFragment extends BaseControlFragment {
 
 	View mView;
-	SimpleDevicesModel mDevices;
+	DevicesModel mDevices;
 
 	TextView txt_devices_name, txt_devices_region, txt_title, txt_value;
 
@@ -44,7 +45,7 @@ public class LightSensorFragment extends BaseControlFragment {
 		super.onCreate(savedInstanceState);
 		Bundle extras = getArguments();
 		if (null != extras) {
-			mDevices = (SimpleDevicesModel) extras
+			mDevices = (DevicesModel) extras
 					.getParcelable(Constants.PASS_OBJECT);
 		}
 
@@ -82,7 +83,7 @@ public class LightSensorFragment extends BaseControlFragment {
 
 		txt_value.setText("30");
 
-		txt_devices_name.setText(mDevices.getmUserDefineName().trim());
+		txt_devices_name.setText(mDevices.getmDefaultDeviceName().trim());
 		txt_devices_region.setText(mDevices.getmDeviceRegion().trim());
 	}
 

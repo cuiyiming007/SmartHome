@@ -18,7 +18,11 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-
+/***
+ * 设置按钮弹出菜单
+ * @author Trice
+ *
+ */
 public class SelectPicPopupWindow extends PopupWindow implements Dialogcallback{
 
 	private Button btn_cancel;

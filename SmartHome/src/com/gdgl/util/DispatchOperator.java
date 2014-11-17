@@ -9,6 +9,7 @@ import com.gdgl.activity.SceneDevicesActivity;
 import com.gdgl.activity.SeekLightsControlFragment;
 import com.gdgl.activity.CurtainControlFragment;
 import com.gdgl.manager.CGIManager;
+import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.DataHelper;
 
@@ -30,7 +31,7 @@ public class DispatchOperator {
 	
 	private void Do(SceneDevicesActivity.OperatorDevices s){
 		
-		SimpleDevicesModel sd=s.sModel;
+		DevicesModel sd=s.sModel;
 		int devid=sd.getmDeviceId();
 		
 		switch(devid){
@@ -51,7 +52,7 @@ public class DispatchOperator {
 			break;
 		case DataHelper.MAINS_POWER_OUTLET_DEVICETYPE:
 			sd.setmOnOffStatus(s.state?"1":"0");
-			mLightManager.MainsOutLetOperation(sd,OutLetControlFragment.operatortype.ChangeOnOffSwitchActions,1);
+			mLightManager.MainsOutLetOperation(sd,OutLetControlFragment.operatortype.ChangeOnOffSwitchActions);
 			break;
 		case DataHelper.IAS_ZONE_DEVICETYPE:
 			if (s.state) {
@@ -66,7 +67,7 @@ public class DispatchOperator {
 			mLightManager.dimmableLightOperation(sd,SeekLightsControlFragment.operatortype.MoveToLevel,s.value*255/100);
 			break;
 		case DataHelper.SHADE_DEVICETYPE:
-			CGIManager.getInstance().shadeOperation(sd, CurtainControlFragment.operatortype.TurnOn);
+			CGIManager.getInstance().shadeOperation(sd, CurtainControlFragment.operatortype.TurnOn, 1);
 			break;
 	
 		default:

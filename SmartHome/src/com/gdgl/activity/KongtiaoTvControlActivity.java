@@ -7,6 +7,7 @@ import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
+import com.gdgl.model.DevicesModel;
 import com.gdgl.model.RemoteControl;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.Constants;
@@ -66,7 +67,7 @@ public class KongtiaoTvControlActivity extends Activity implements UIListener,
 
 	CGIManager cgiManager;
 	CallbackManager callbackManager;
-	SimpleDevicesModel mControlModel;
+	DevicesModel mControlModel;
 	TouchDelayShow touchDelayShow;
 	Dialog mDialog;
 	public static final int FINISH_DLG = 3;
@@ -92,7 +93,7 @@ public class KongtiaoTvControlActivity extends Activity implements UIListener,
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.kongtiao_tv_control);
 		Intent intent=getIntent();
-		mControlModel=intent.getParcelableExtra(Constants.PASS_OBJECT);
+		mControlModel=(DevicesModel)intent.getSerializableExtra(Constants.PASS_OBJECT);
 		initData();
 	}
 

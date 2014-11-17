@@ -47,10 +47,10 @@ public class EditDevicesDlg {
 				DataHelper.Wall_switch_double)
 				|| mSimpleDevicesModel.getmModelId().contains(
 						DataHelper.Wall_switch_triple)) {
-			name = mSimpleDevicesModel.getmUserDefineName();
+			name = mSimpleDevicesModel.getmDefaultDeviceName();
 			devices_region.setVisibility(View.GONE);
 		} else {
-			name = mSimpleDevicesModel.getmUserDefineName();
+			name = mSimpleDevicesModel.getmDefaultDeviceName();
 		}
 		final String region = mSimpleDevicesModel.getmDeviceRegion();
 

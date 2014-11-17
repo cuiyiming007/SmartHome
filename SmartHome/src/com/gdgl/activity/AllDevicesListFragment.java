@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.gdgl.activity.DevicesListFragment.refreshData;
 import com.gdgl.manager.Manger;
+import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
@@ -36,7 +37,7 @@ public class AllDevicesListFragment extends BaseFragment {
 	DevicesAdapter mDevicesAdapter;
 	private refreshData mRefreshData;
 	LinearLayout list_root;
-	List<SimpleDevicesModel> mDevicesList;
+	List<DevicesModel> mDevicesList;
 	LinearLayout deviceslist;
 	ViewGroup no_dev;
 
@@ -96,7 +97,7 @@ public class AllDevicesListFragment extends BaseFragment {
 	}
 
 	public class DevicesAdapter extends BaseAdapter {
-		private List<SimpleDevicesModel> mDevList;
+		private List<DevicesModel> mDevList;
 		@Override
 		public int getCount() {
 			// TODO Auto-generated method stub
@@ -124,7 +125,7 @@ public class AllDevicesListFragment extends BaseFragment {
 			return position;
 		}
 		
-		public void setList(List<SimpleDevicesModel> list){
+		public void setList(List<DevicesModel> list){
 			mDevList=null;
 			mDevList=list;
 		}
@@ -137,7 +138,7 @@ public class AllDevicesListFragment extends BaseFragment {
 			}
 			View mView = convertView;
 			ViewHolder mHolder;
-			final SimpleDevicesModel mDevices = mDevList.get(position);
+			final DevicesModel mDevices = mDevList.get(position);
 
 			if (null == mView) {
 				mHolder = new ViewHolder();
@@ -156,7 +157,7 @@ public class AllDevicesListFragment extends BaseFragment {
 				mHolder = (ViewHolder) mView.getTag();
 			}
 
-			mHolder.devices_name.setText(mDevices.getmUserDefineName().replace(
+			mHolder.devices_name.setText(mDevices.getmDefaultDeviceName().replace(
 					" ", ""));
 			mHolder.devices_region.setText(mDevices.getmDeviceRegion().replace(
 					" ", ""));
@@ -229,7 +230,7 @@ public class AllDevicesListFragment extends BaseFragment {
 		if(iee==null || ep==null){
 			return -1;
 		}
-		SimpleDevicesModel sd;
+		DevicesModel sd;
 		for(int m=0;m<mDevicesList.size();m++){
 			sd=mDevicesList.get(m);
 			if(iee.trim().equals(sd.getmIeee().trim()) && ep.trim().equals(sd.getmEP().trim())){

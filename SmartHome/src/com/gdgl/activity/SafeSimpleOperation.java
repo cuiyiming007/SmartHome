@@ -208,7 +208,7 @@ public class SafeSimpleOperation extends BaseControlFragment implements UIListen
 			c.put(DevicesModel.ON_OFF_STATUS, on ? "1" : "0");
 			mDevices.setmOnOffStatus(on_off);
 			//这里面也更新了数据库的status，有点冗余
-			mUpdateDevice.updateDevices(mDevices, c);
+//			mUpdateDevice.updateDevices(mDevices, c);
 			
 //			String where = " ieee=? and ep=? ";
 //			String[] args = { mDevices.getmIeee(), mDevices.getmEP() };

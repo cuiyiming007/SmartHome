@@ -32,7 +32,7 @@ public class SeekLightsControlFragment extends BaseControlFragment {
 	
 	TextView txt_devices_region,txt_devices_name;
 	
-	SimpleDevicesModel mDevices;
+	DevicesModel mDevices;
 	
 	int currentProgress=0;
 	
@@ -50,10 +50,10 @@ public class SeekLightsControlFragment extends BaseControlFragment {
 		
 		Bundle extras = getArguments();
 		if (null != extras) {
-			mDevices = (SimpleDevicesModel) extras
+			mDevices = (DevicesModel) extras
 					.getParcelable(Constants.PASS_OBJECT);
-			if(null!=mDevices && mDevices.getmValue().trim().equals("")){
-				mDevices.setmValue("0");
+			if(null!=mDevices && mDevices.getmLevel().trim().equals("")){
+				mDevices.setmLevel("0");
 			}
 		}
 	}
@@ -114,7 +114,7 @@ public class SeekLightsControlFragment extends BaseControlFragment {
 		devices_img=(ImageView)mView.findViewById(R.id.devices_img);
 		text_process=(TextView)mView.findViewById(R.id.text_process);
 		
-		currentProgress=Integer.parseInt(mDevices.getmValue());
+		currentProgress=Integer.parseInt(mDevices.getmLevel());
 		
 		text_process.setText(currentProgress+"%");
 		devices_seek.setProgress(currentProgress);
@@ -124,7 +124,7 @@ public class SeekLightsControlFragment extends BaseControlFragment {
 		txt_devices_region=(TextView)mView.findViewById(R.id.txt_devices_region);
 		txt_devices_name=(TextView)mView.findViewById(R.id.txt_devices_name);
 		
-		txt_devices_name.setText(mDevices.getmUserDefineName().trim());
+		txt_devices_name.setText(mDevices.getmDefaultDeviceName().trim());
 		txt_devices_region.setText(mDevices.getmDeviceRegion().trim());
 		
 		devices_seek.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
@@ -171,8 +171,8 @@ public class SeekLightsControlFragment extends BaseControlFragment {
 				
 				ContentValues c = new ContentValues();
 				c.put(DevicesModel.CURRENT, currentProgress);
-				mDevices.setmValue(currentProgress+"");
-				mUpdateDevice.updateDevices(mDevices, c);
+				mDevices.setmLevel(currentProgress+"");
+//				mUpdateDevice.updateDevices(mDevices, c);
 				
 			}else {
 				//if failed,prompt a Toast
