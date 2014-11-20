@@ -54,7 +54,7 @@ public class NetworkConnectivity {
 				String subAddrress = addrress.substring(0,
 						addrress.lastIndexOf("."));
 				String serveraddress = subAddrress + ".255";
-				Log.i("ServerIpAddress", serveraddress);
+				Log.i("ServerIpBroadcastAddress", serveraddress);
 				String result="Task failde!";
 				try {
 					result = new FindGatewayTask().execute(serveraddress).get();
