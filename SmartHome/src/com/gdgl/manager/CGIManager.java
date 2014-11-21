@@ -1447,7 +1447,7 @@ public class CGIManager extends Manger {
 			
 			mDateHelper.emptyTable(mSQLiteDatabase, DataHelper.ROOMINFO_TABLE);
 			mDateHelper.insertRoomInfoList(mSQLiteDatabase, DataHelper.ROOMINFO_TABLE, null, roomList);
-			
+			mSQLiteDatabase.close();
 			return roomList;
 		}
 

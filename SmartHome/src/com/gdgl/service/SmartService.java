@@ -31,22 +31,22 @@ public class SmartService extends Service {
 
 	public void initial() {
 
-		// 判断网关是否和客户端在同一局域网下面
-		int networkStatus = NetworkConnectivity.getInstance()
-				.getConnecitivityNetwork();
-		switch (networkStatus) {
-		case NetworkConnectivity.NO_NETWORK:
-			stopSelf();
-			break;
-		case NetworkConnectivity.INTERNET:
-			stopSelf();
-			break;
-		case NetworkConnectivity.LAN:
+//		// 判断网关是否和客户端在同一局域网下面
+//		int networkStatus = NetworkConnectivity.getInstance()
+//				.getConnecitivityNetwork();
+//		switch (networkStatus) {
+//		case NetworkConnectivity.NO_NETWORK:
+//			stopSelf();
+//			break;
+//		case NetworkConnectivity.INTERNET:
+//			stopSelf();
+//			break;
+//		case NetworkConnectivity.LAN:
 			startLANService();
-			break;
-		default:
-			break;
-		}
+//			break;
+//		default:
+//			break;
+//		}
 
 		// new Thread(new Runnable() {
 		//

@@ -9,10 +9,20 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.util.Log;
 
+import com.gdgl.app.ApplicationController;
 import com.gdgl.manager.CallbackManager;
+import com.gdgl.mydata.DataHelper;
 
 /***
  * Netwrok common function
@@ -42,10 +52,12 @@ public class NetUtil {
 		}
 		return instance;
 	}
-	//设置网关IP
+
+	// 设置网关IP
 	public void setGatewayIP(String ip) {
-		IP=ip;
+		IP = ip;
 	}
+
 	/***
 	 * http://192.168.1.239/cgi-bin/rest/network/addIPC.cgi?
 	 * ipaddr=192.168.1.90&
@@ -82,7 +94,7 @@ public class NetUtil {
 				outputStream.write(buffer, 0, buffer.length);
 				outputStream.flush();
 			} catch (IOException e) {
-				Log.e(TAG, "sendHeartBeat failed"+e.getMessage());
+				Log.e(TAG, "sendHeartBeat failed" + e.getMessage());
 				e.printStackTrace();
 				CallbackManager.getInstance().startConnectServerByTCPTask();
 			}
@@ -113,7 +125,7 @@ public class NetUtil {
 		while ((readBytes = inputStream.read(buffer)) > 0) {
 			String message = new String(buffer, 0, readBytes);
 			message = UiUtils.formatResponseString(message);
-//			Log.i("message", message);
+			// Log.i("message", message);
 			CallbackManager.getInstance().classifyCallbackResponse(message);
 		}
 	}
@@ -141,10 +153,10 @@ public class NetUtil {
 	}
 
 	public String findTheGateway(String serveraddress) {
-		String result="udp receive timeout.";
+		String result = "udp receive timeout.";
 		try {
 			udpSocket = new DatagramSocket();
-			udpSocket.setSoTimeout(2000);//   设置超时为2s
+			udpSocket.setSoTimeout(2000);// 设置超时为2s
 			// 使用InetAddress(Inet4Address).getByName把IP地址转换为网络地址
 			InetAddress serverAddress = InetAddress.getByName(serveraddress);
 			String str = "Who is smart gateway?";// 设置要发送的报文
@@ -154,25 +166,41 @@ public class NetUtil {
 			DatagramPacket packet = new DatagramPacket(data, data.length,
 					serverAddress, broadcastPort);
 			udpSocket.send(packet);// 把数据发送到服务端。
-			
+
 			// recieve==============================================================================
 			byte recieveData[] = new byte[4 * 1024];
 			// 参数一:要接受的data 参数二：data的长度
 			DatagramPacket recievePacket = new DatagramPacket(recieveData,
 					recieveData.length);
-			try {
-				udpSocket.receive(recievePacket);
-				String ip = recievePacket.getAddress().getHostAddress();
-				Log.i(TAG, "GateWay IP:" + ip);
-				NetUtil.getInstance().setGatewayIP(ip);
-				result = new String(recievePacket.getData(),
-						recievePacket.getOffset(), recievePacket.getLength());
-				
-			} catch (Exception e) {
-				// 这里会抛出接收超时异常
-				e.printStackTrace();
-				Log.i(TAG, "udp receive timeout:");
+			List<String> gatewayList = new ArrayList<String>();
+			while (true) {
+				try {
+					udpSocket.receive(recievePacket);
+					String ip = recievePacket.getAddress().getHostAddress();
+					// NetUtil.getInstance().setGatewayIP(ip);
+					String content = new String(recievePacket.getData(),
+							recievePacket.getOffset(),
+							recievePacket.getLength());
+					Log.i(TAG, "GateWay IP:" + ip + ":" + content);
+					try {
+						JSONObject jsonObject = new JSONObject(content);
+						result = jsonObject.getString("reply");
+						gatewayList.add(ip + "@" + content);
+					} catch (Exception e) {
+						// TODO: handle exception
+						e.printStackTrace();
+					}
+				} catch (Exception e) {
+					// 这里会抛出接收超时异常
+					// e.printStackTrace();
+					Log.i(TAG, "udp receive timeout:");
+					break;
+				}
 			}
+			if (gatewayList != null || gatewayList.size() > 0) {
+				new GatewayResponseToDatabaseTask().execute(gatewayList);
+			}
+
 		} catch (SocketException e) {
 			Log.e(TAG, "connectServerWithUDPSocket(): broadcast socket error");
 			e.printStackTrace();
@@ -184,51 +212,88 @@ public class NetUtil {
 		Log.i(TAG, "GateWay relust:" + result);
 		return result;
 	}
-	
-//	public void connectServerWithUDPSocket(String serveraddress) {
-//
-//		try {
-//			udpSocket = new DatagramSocket();
-//			udpSocket.setSoTimeout(2000);//   设置超时为2s
-//			// 使用InetAddress(Inet4Address).getByName把IP地址转换为网络地址
-//			InetAddress serverAddress = InetAddress.getByName(serveraddress);
-//			String str = "Who is smart gateway?";// 设置要发送的报文
-//			byte data[] = str.getBytes();// 把字符串str字符串转换为字节数组
-//			// 创建一个DatagramPacket对象，用于发送数据。
-//			// 参数一：要发送的数据 参数二：数据的长度 参数三：服务端的网络地址 参数四：服务器端端口号
-//			DatagramPacket packet = new DatagramPacket(data, data.length,
-//					serverAddress, broadcastPort);
-//			udpSocket.send(packet);// 把数据发送到服务端。
-//			recieveFromUdp();
-//		} catch (SocketException e) {
-//			Log.e(TAG, "connectServerWithUDPSocket(): broadcast socket error");
-//			e.printStackTrace();
-//		} catch (UnknownHostException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//	}
-//
-//	public void recieveFromUdp() {
-//		// recieve==============================================================================
-//		byte recieveData[] = new byte[4 * 1024];
-//		// 参数一:要接受的data 参数二：data的长度
-//		DatagramPacket recievePacket = new DatagramPacket(recieveData,
-//				recieveData.length);
-//		try {
-//			udpSocket.receive(recievePacket);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		String result = new String(recievePacket.getData(),
-//				recievePacket.getOffset(), recievePacket.getLength());
-//		Log.i(TAG, "broadcast relust:" + result);
-//		if (result.equals("I am smart gateway.")) {
-//			Log.i(TAG, "The gateway is local!!");
-//		}
-//		// 把接收到的data转换为String字符串
-//		// udpSocket.close();
-//	}
+
+	class GatewayResponseToDatabaseTask extends
+			AsyncTask<List<String>, Void, Void> {
+		@Override
+		protected Void doInBackground(List<String>... params) {
+			// TODO Auto-generated method stub
+			List<String> list = params[0];
+			
+			DataHelper mDateHelper = new DataHelper(ApplicationController.getInstance());
+			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
+
+			mDateHelper.emptyTable(mSQLiteDatabase,DataHelper.GATEWAY_TABLE);
+//			mDateHelper.insertEndPointList(mSQLiteDatabase,DataHelper.DEVICES_TABLE, null, devDataList);
+			for (String gateway : list) {
+				String[] substring = gateway.split("@");
+				String ip = substring[0];
+				String content = substring[1];
+				try {
+					JSONObject jsonObject = new JSONObject(content);
+					String macid = jsonObject.getString("id");
+					String alias = jsonObject.getString("alias");
+					
+					ContentValues c=new ContentValues();
+					c.put("mac", macid);
+					c.put("alias", alias);
+					c.put("ip", ip);
+					mSQLiteDatabase.insert(DataHelper.GATEWAY_TABLE, null, c);
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			mSQLiteDatabase.close();
+			return null;
+
+		}
+	}
+	// public void connectServerWithUDPSocket(String serveraddress) {
+	//
+	// try {
+	// udpSocket = new DatagramSocket();
+	// udpSocket.setSoTimeout(2000);// 设置超时为2s
+	// // 使用InetAddress(Inet4Address).getByName把IP地址转换为网络地址
+	// InetAddress serverAddress = InetAddress.getByName(serveraddress);
+	// String str = "Who is smart gateway?";// 设置要发送的报文
+	// byte data[] = str.getBytes();// 把字符串str字符串转换为字节数组
+	// // 创建一个DatagramPacket对象，用于发送数据。
+	// // 参数一：要发送的数据 参数二：数据的长度 参数三：服务端的网络地址 参数四：服务器端端口号
+	// DatagramPacket packet = new DatagramPacket(data, data.length,
+	// serverAddress, broadcastPort);
+	// udpSocket.send(packet);// 把数据发送到服务端。
+	// recieveFromUdp();
+	// } catch (SocketException e) {
+	// Log.e(TAG, "connectServerWithUDPSocket(): broadcast socket error");
+	// e.printStackTrace();
+	// } catch (UnknownHostException e) {
+	// e.printStackTrace();
+	// } catch (IOException e) {
+	// e.printStackTrace();
+	// }
+	// }
+	//
+	// public void recieveFromUdp() {
+	// //
+	// recieve==============================================================================
+	// byte recieveData[] = new byte[4 * 1024];
+	// // 参数一:要接受的data 参数二：data的长度
+	// DatagramPacket recievePacket = new DatagramPacket(recieveData,
+	// recieveData.length);
+	// try {
+	// udpSocket.receive(recievePacket);
+	// } catch (IOException e) {
+	// e.printStackTrace();
+	// }
+	// String result = new String(recievePacket.getData(),
+	// recievePacket.getOffset(), recievePacket.getLength());
+	// Log.i(TAG, "broadcast relust:" + result);
+	// if (result.equals("I am smart gateway.")) {
+	// Log.i(TAG, "The gateway is local!!");
+	// }
+	// // 把接收到的data转换为String字符串
+	// // udpSocket.close();
+	// }
 
 }

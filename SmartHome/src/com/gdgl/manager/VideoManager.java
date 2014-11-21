@@ -284,6 +284,7 @@ public class VideoManager extends Manger {
 			}
 			// }
 			// mDateHelper.close(mSQLiteDatabase);
+			mSQLiteDatabase.close();
 			return response;
 		}
 

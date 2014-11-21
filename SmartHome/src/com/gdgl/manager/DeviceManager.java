@@ -195,6 +195,7 @@ public class DeviceManager extends Manger {
 
 			mDateHelper.emptyTable(mSQLiteDatabase,DataHelper.DEVICES_TABLE);
 			mDateHelper.insertEndPointList(mSQLiteDatabase,DataHelper.DEVICES_TABLE, null, devDataList);
+			mSQLiteDatabase.close();
 			return devDataList;
 		}
 

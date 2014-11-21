@@ -71,25 +71,28 @@ public class DataHelper extends SQLiteOpenHelper {
 	public static final String MESSAGE_TABLE = "message_table";
 	public static final String ROOMINFO_TABLE = "roominfo_table";
 	public static final String BIND_TABLE = "bind_table";
+	public static final String GATEWAY_TABLE = "gateway_table";	
 	public static final int DATEBASE_VERSTION = 2;
 
-	public StringBuilder mStringBuilder;
+	public StringBuilder deviceStringBuilder;
 	public StringBuilder mAStringBuilder;
 	public StringBuilder videoStringBuilder;
 	public StringBuilder messageStringBuilder;
 	public StringBuilder roominfoStringBuilder;
 	public StringBuilder bindStringBuilder;
+	public StringBuilder gatewayStringBuilder;
 
 	// public SQLiteDatabase db;
 
 	public DataHelper(Context contex) {
 		super(contex, DATABASE_NAME, null, DATEBASE_VERSTION);
-		mStringBuilder = new StringBuilder();
+		deviceStringBuilder = new StringBuilder();
 		mAStringBuilder= new StringBuilder();
 		videoStringBuilder=new StringBuilder();
 		messageStringBuilder=new StringBuilder();
 		roominfoStringBuilder=new StringBuilder();
 		bindStringBuilder=new StringBuilder();
+		gatewayStringBuilder=new StringBuilder();
 		// db = getWritableDatabase();
 		// TODO Auto-generated constructor stub
 	}
@@ -97,58 +100,58 @@ public class DataHelper extends SQLiteOpenHelper {
 	private void initStringBuilder() {
 		// TODO Auto-generated method stub
 		//device table create string
-		mStringBuilder.append("CREATE TABLE " + DEVICES_TABLE + " (");
-		mStringBuilder.append(DevicesModel._ID
+		deviceStringBuilder.append("CREATE TABLE " + DEVICES_TABLE + " (");
+		deviceStringBuilder.append(DevicesModel._ID
 				+ " INTEGER PRIMARY KEY AUTOINCREMENT,");
-		mStringBuilder.append(DevicesModel.ALL_COUNT + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.CURCOUNT + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.DEVICE_ID + " INTEGER,");
-		mStringBuilder.append(DevicesModel.R_ID + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.PIC_NAME + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.PROFILE_ID + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.POWER_RESOURCE + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.CUR_POWER_RESOURCE + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.CURPOWERSOURCELEVEL + " VARCHAR,");
+		deviceStringBuilder.append(DevicesModel.ALL_COUNT + " VARCHAR,");
+		deviceStringBuilder.append(DevicesModel.CURCOUNT + " VARCHAR,");
+		deviceStringBuilder.append(DevicesModel.DEVICE_ID + " INTEGER,");
+		deviceStringBuilder.append(DevicesModel.R_ID + " VARCHAR,");
+		deviceStringBuilder.append(DevicesModel.PIC_NAME + " VARCHAR,");
+		deviceStringBuilder.append(DevicesModel.PROFILE_ID + " VARCHAR,");
+		deviceStringBuilder.append(DevicesModel.POWER_RESOURCE + " VARCHAR,");
+		deviceStringBuilder.append(DevicesModel.CUR_POWER_RESOURCE + " VARCHAR,");
+		deviceStringBuilder.append(DevicesModel.CURPOWERSOURCELEVEL + " VARCHAR,");
 		
-		mStringBuilder.append(DevicesModel.IEEE + " VARCHAR(16),");
-		mStringBuilder.append(DevicesModel.NWK_ADDR + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.NODE_EN_NAME + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.MANUFACTORY + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.ZCL_VERSTION + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.STACK_VERSTION + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.APP_VERSTION + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.HW_VERSTION + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.DATE_CODE + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.MODEL_ID + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.NODE_TYPE + " VARCHAR,");
+		deviceStringBuilder.append(DevicesModel.IEEE + " VARCHAR(16),");
+		deviceStringBuilder.append(DevicesModel.NWK_ADDR + " VARCHAR,");
+		deviceStringBuilder.append(DevicesModel.NODE_EN_NAME + " VARCHAR,");
+		deviceStringBuilder.append(DevicesModel.MANUFACTORY + " VARCHAR,");
+		deviceStringBuilder.append(DevicesModel.ZCL_VERSTION + " VARCHAR,");
+		deviceStringBuilder.append(DevicesModel.STACK_VERSTION + " VARCHAR,");
+		deviceStringBuilder.append(DevicesModel.APP_VERSTION + " VARCHAR,");
+		deviceStringBuilder.append(DevicesModel.HW_VERSTION + " VARCHAR,");
+		deviceStringBuilder.append(DevicesModel.DATE_CODE + " VARCHAR,");
+		deviceStringBuilder.append(DevicesModel.MODEL_ID + " VARCHAR,");
+		deviceStringBuilder.append(DevicesModel.NODE_TYPE + " VARCHAR,");
 		
-		mStringBuilder.append(DevicesModel.EP + " VARCHAR(2),");
-		mStringBuilder.append(DevicesModel.NAME + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.CURRENT + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.ENERGY + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.POWER + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.VOLTAGE + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.LEVEL + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.ON_OFF_STATUS + " VARCHAR(1),");
-		mStringBuilder.append(DevicesModel.TEMPERATURE + " FLOAT,");
-		mStringBuilder.append(DevicesModel.HUMIDITY + " FLOAT,");
-		mStringBuilder.append(DevicesModel.BRIGHTNESS + " INTEGER,");
-		mStringBuilder.append(DevicesModel.EP_MODEL_ID + " VARCHAR(6),");
+		deviceStringBuilder.append(DevicesModel.EP + " VARCHAR(2),");
+		deviceStringBuilder.append(DevicesModel.NAME + " VARCHAR,");
+		deviceStringBuilder.append(DevicesModel.CURRENT + " VARCHAR,");
+		deviceStringBuilder.append(DevicesModel.ENERGY + " VARCHAR,");
+		deviceStringBuilder.append(DevicesModel.POWER + " VARCHAR,");
+		deviceStringBuilder.append(DevicesModel.VOLTAGE + " VARCHAR,");
+		deviceStringBuilder.append(DevicesModel.LEVEL + " VARCHAR,");
+		deviceStringBuilder.append(DevicesModel.ON_OFF_STATUS + " VARCHAR(1),");
+		deviceStringBuilder.append(DevicesModel.TEMPERATURE + " FLOAT,");
+		deviceStringBuilder.append(DevicesModel.HUMIDITY + " FLOAT,");
+		deviceStringBuilder.append(DevicesModel.BRIGHTNESS + " INTEGER,");
+		deviceStringBuilder.append(DevicesModel.EP_MODEL_ID + " VARCHAR(6),");
 		
-		mStringBuilder.append(DevicesModel.CURRENT_MAX + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.CURRENT_MIN + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.VOLTAGE_MAX + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.VOLTAGE_MIN + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.ENERGY_MAX + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.ENERGY_MIN + " VARCHAR,");
+		deviceStringBuilder.append(DevicesModel.CURRENT_MAX + " VARCHAR,");
+		deviceStringBuilder.append(DevicesModel.CURRENT_MIN + " VARCHAR,");
+		deviceStringBuilder.append(DevicesModel.VOLTAGE_MAX + " VARCHAR,");
+		deviceStringBuilder.append(DevicesModel.VOLTAGE_MIN + " VARCHAR,");
+		deviceStringBuilder.append(DevicesModel.ENERGY_MAX + " VARCHAR,");
+		deviceStringBuilder.append(DevicesModel.ENERGY_MIN + " VARCHAR,");
 		
-		mStringBuilder.append(DevicesModel.CLUSTER_ID + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.DEVICE_SORT + " INTEGER,");
-		mStringBuilder.append(DevicesModel.DEVICE_REGION + " VARCHAR,");
-		mStringBuilder.append(DevicesModel.DEFAULT_DEVICE_NAME + " VARCHAR,");
+		deviceStringBuilder.append(DevicesModel.CLUSTER_ID + " VARCHAR,");
+		deviceStringBuilder.append(DevicesModel.DEVICE_SORT + " INTEGER,");
+		deviceStringBuilder.append(DevicesModel.DEVICE_REGION + " VARCHAR,");
+		deviceStringBuilder.append(DevicesModel.DEFAULT_DEVICE_NAME + " VARCHAR,");
 		
-		mStringBuilder.append(DevicesModel.LAST_UPDATE_TIME + " INTEGER,");
-		mStringBuilder.append(DevicesModel.ON_OFF_LINE + " INTEGER )");
+		deviceStringBuilder.append(DevicesModel.LAST_UPDATE_TIME + " INTEGER,");
+		deviceStringBuilder.append(DevicesModel.ON_OFF_LINE + " INTEGER )");
 		
 		//group table create string
 		mAStringBuilder.append("CREATE TABLE " + GROUP_TABLE + " (");
@@ -209,6 +212,13 @@ public class DataHelper extends SQLiteOpenHelper {
 		bindStringBuilder.append(BindingDataEntity.DEVIN_IEEE + " VARCHAR(16),");
 		bindStringBuilder.append(BindingDataEntity.DEVIN_EP + " VARCHAR(2),");
 		bindStringBuilder.append(BindingDataEntity.CLUSTER + " VARCHAR)");
+		
+		//gateway table create string
+		gatewayStringBuilder.append("CREATE TABLE " + GATEWAY_TABLE + " (");
+		gatewayStringBuilder.append("_id" + " INTEGER PRIMARY KEY AUTOINCREMENT,");
+		gatewayStringBuilder.append("mac" + " VARCHAR(14),");
+		gatewayStringBuilder.append("alias" + " VARCHAR(16),");
+		gatewayStringBuilder.append("ip" + " VARCHAR)");
 	}
 
 	@Override
@@ -217,12 +227,13 @@ public class DataHelper extends SQLiteOpenHelper {
 		initStringBuilder();
 		
 
-		db.execSQL(mStringBuilder.toString());
+		db.execSQL(deviceStringBuilder.toString());
 		db.execSQL(mAStringBuilder.toString());
 		db.execSQL(videoStringBuilder.toString());
 		db.execSQL(messageStringBuilder.toString());
 		db.execSQL(roominfoStringBuilder.toString());
 		db.execSQL(bindStringBuilder.toString());
+		db.execSQL(gatewayStringBuilder.toString());
 //		Log.i("roominfoStringBuilder", "zgs-> " + roominfoStringBuilder.toString());
 	}
 
@@ -235,6 +246,7 @@ public class DataHelper extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE IF EXISTS " + MESSAGE_TABLE);
 		db.execSQL("DROP TABLE IF EXISTS " + ROOMINFO_TABLE);
 		db.execSQL("DROP TABLE IF EXISTS " + BIND_TABLE);
+		db.execSQL("DROP TABLE IF EXISTS " + GATEWAY_TABLE);
 		onCreate(db);
 	}
 

@@ -49,9 +49,9 @@ public class NetWorkChangeReciever extends BroadcastReceiver {
 //				Toast.makeText(context, "没有连接上任何网络...", Toast.LENGTH_SHORT)
 //						.show();
 //			}
-			Intent serviceIntent;
-			serviceIntent =new Intent(context, SmartService.class);
-			context.startService(serviceIntent);
+//			Intent serviceIntent;
+//			serviceIntent =new Intent(context, SmartService.class);
+//			context.startService(serviceIntent);
 		}
 	}
 
