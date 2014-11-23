@@ -115,7 +115,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		@Override
 		protected Integer doInBackground(Integer... params) {
 			// TODO Auto-generated method stub
-			SQLiteDatabase db = mDataHelper.getSQLiteDatabase();
+//			SQLiteDatabase db = mDataHelper.getSQLiteDatabase();
 			// 环境监测
 			List<DevicesModel> enviromentlist = mDevicesListCache
 					.get(UiUtils.ENVIRONMENTAL_CONTROL);
@@ -190,7 +190,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 						UiUtils.OTHER);
 				mDevicesListCache.put(UiUtils.OTHER, anoList);
 			}
-			mDataHelper.close(db);
+//			mDataHelper.close(db);
 			return 1;
 		}
 

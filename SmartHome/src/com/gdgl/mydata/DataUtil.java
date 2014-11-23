@@ -391,7 +391,7 @@ public class DataUtil {
 //				}
 //			}
 //		}
-
+		dh.getSQLiteDatabase().close();
 		return listDevicesModel;
 	}
 
