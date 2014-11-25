@@ -52,6 +52,8 @@ public class UiUtils {
 	public static final String N_REM_PWD_ACT = "not_remeber_pwd";
 
 	public static final String AUTO_LOGIN_ACT = "AutoLogin";
+	
+	public static final String UUID="uuid"; //通道模块参数
 
 	public static int ILLEGAI_UID = -1;
 

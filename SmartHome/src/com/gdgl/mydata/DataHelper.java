@@ -21,20 +21,21 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DataHelper extends SQLiteOpenHelper {
 
-	public static final int ON_OFF_SWITCH_DEVICETYPE = 0; //开关（如“三键开关”、“双键开关” 门窗感应开关）
-	public static final int ON_OFF_OUTPUT_DEVICETYPE = 2; //无线智能阀门
-	public static final int REMOTE_CONTROL_DEVICETYPE = 6; //多键遥控器
-	public static final int COMBINED_INTERFACE_DEVICETYPE = 7; //协调器(即一键布防)
-	public static final int RANGE_EXTENDER_DEVICETYPE = 8; //红外控制器
-	public static final int MAINS_POWER_OUTLET_DEVICETYPE = 9; //开关模块（单路）、中规电能检测墙面插座、电能检测插座
-	public static final int DIMEN_LIGHTS_DEVICETYPE = 257; //吸顶电能检测调光模块
-	public static final int DIMEN_SWITCH_DEVICETYPE = 260; //调光开关(开关）
-	public static final int LIGHT_SENSOR_DEVICETYPE = 262; //光线感应器
-	public static final int SHADE_DEVICETYPE = 512; //幕帘控制开关
-	public static final int TEMPTURE_SENSOR_DEVICETYPE = 770; //室内型温湿度感应器
-	public static final int IAS_ACE_DEVICETYPE = 1025; //门铃按键、多键遥控器(不可控制)
-	public static final int IAS_ZONE_DEVICETYPE = 1026; //烟雾感应器、可燃气体探测器（煤气）、（天然气）、（一氧化碳）、窗磁、门窗感应开关、紧急按钮、动作感应器
-	public static final int IAS_WARNNING_DEVICE_DEVICETYPE = 1027; //警报器
+	public static final int ON_OFF_SWITCH_DEVICETYPE = 0; // 开关（如“三键开关”、“双键开关”
+															// 门窗感应开关）
+	public static final int ON_OFF_OUTPUT_DEVICETYPE = 2; // 无线智能阀门
+	public static final int REMOTE_CONTROL_DEVICETYPE = 6; // 多键遥控器
+	public static final int COMBINED_INTERFACE_DEVICETYPE = 7; // 协调器(即一键布防)
+	public static final int RANGE_EXTENDER_DEVICETYPE = 8; // 红外控制器
+	public static final int MAINS_POWER_OUTLET_DEVICETYPE = 9; // 开关模块（单路）、中规电能检测墙面插座、电能检测插座
+	public static final int DIMEN_LIGHTS_DEVICETYPE = 257; // 吸顶电能检测调光模块
+	public static final int DIMEN_SWITCH_DEVICETYPE = 260; // 调光开关(开关）
+	public static final int LIGHT_SENSOR_DEVICETYPE = 262; // 光线感应器
+	public static final int SHADE_DEVICETYPE = 512; // 幕帘控制开关
+	public static final int TEMPTURE_SENSOR_DEVICETYPE = 770; // 室内型温湿度感应器
+	public static final int IAS_ACE_DEVICETYPE = 1025; // 门铃按键、多键遥控器(不可控制)
+	public static final int IAS_ZONE_DEVICETYPE = 1026; // 烟雾感应器、可燃气体探测器（煤气）、（天然气）、（一氧化碳）、窗磁、门窗感应开关、紧急按钮、动作感应器
+	public static final int IAS_WARNNING_DEVICE_DEVICETYPE = 1027; // 警报器
 
 	public static final String Motion_Sensor = "ZB11A"; // ZigBee动作感应器
 	public static final String Magnetic_Window = "Z311A"; // ZigBee窗磁
@@ -71,7 +72,7 @@ public class DataHelper extends SQLiteOpenHelper {
 	public static final String MESSAGE_TABLE = "message_table";
 	public static final String ROOMINFO_TABLE = "roominfo_table";
 	public static final String BIND_TABLE = "bind_table";
-	public static final String GATEWAY_TABLE = "gateway_table";	
+	public static final String GATEWAY_TABLE = "gateway_table";
 	public static final int DATEBASE_VERSTION = 2;
 
 	public StringBuilder deviceStringBuilder;
@@ -87,19 +88,19 @@ public class DataHelper extends SQLiteOpenHelper {
 	public DataHelper(Context contex) {
 		super(contex, DATABASE_NAME, null, DATEBASE_VERSTION);
 		deviceStringBuilder = new StringBuilder();
-		mAStringBuilder= new StringBuilder();
-		videoStringBuilder=new StringBuilder();
-		messageStringBuilder=new StringBuilder();
-		roominfoStringBuilder=new StringBuilder();
-		bindStringBuilder=new StringBuilder();
-		gatewayStringBuilder=new StringBuilder();
+		mAStringBuilder = new StringBuilder();
+		videoStringBuilder = new StringBuilder();
+		messageStringBuilder = new StringBuilder();
+		roominfoStringBuilder = new StringBuilder();
+		bindStringBuilder = new StringBuilder();
+		gatewayStringBuilder = new StringBuilder();
 		// db = getWritableDatabase();
 		// TODO Auto-generated constructor stub
 	}
 
 	private void initStringBuilder() {
 		// TODO Auto-generated method stub
-		//device table create string
+		// device table create string
 		deviceStringBuilder.append("CREATE TABLE " + DEVICES_TABLE + " (");
 		deviceStringBuilder.append(DevicesModel._ID
 				+ " INTEGER PRIMARY KEY AUTOINCREMENT,");
@@ -110,9 +111,11 @@ public class DataHelper extends SQLiteOpenHelper {
 		deviceStringBuilder.append(DevicesModel.PIC_NAME + " VARCHAR,");
 		deviceStringBuilder.append(DevicesModel.PROFILE_ID + " VARCHAR,");
 		deviceStringBuilder.append(DevicesModel.POWER_RESOURCE + " VARCHAR,");
-		deviceStringBuilder.append(DevicesModel.CUR_POWER_RESOURCE + " VARCHAR,");
-		deviceStringBuilder.append(DevicesModel.CURPOWERSOURCELEVEL + " VARCHAR,");
-		
+		deviceStringBuilder.append(DevicesModel.CUR_POWER_RESOURCE
+				+ " VARCHAR,");
+		deviceStringBuilder.append(DevicesModel.CURPOWERSOURCELEVEL
+				+ " VARCHAR,");
+
 		deviceStringBuilder.append(DevicesModel.IEEE + " VARCHAR(16),");
 		deviceStringBuilder.append(DevicesModel.NWK_ADDR + " VARCHAR,");
 		deviceStringBuilder.append(DevicesModel.NODE_EN_NAME + " VARCHAR,");
@@ -124,7 +127,7 @@ public class DataHelper extends SQLiteOpenHelper {
 		deviceStringBuilder.append(DevicesModel.DATE_CODE + " VARCHAR,");
 		deviceStringBuilder.append(DevicesModel.MODEL_ID + " VARCHAR,");
 		deviceStringBuilder.append(DevicesModel.NODE_TYPE + " VARCHAR,");
-		
+
 		deviceStringBuilder.append(DevicesModel.EP + " VARCHAR(2),");
 		deviceStringBuilder.append(DevicesModel.NAME + " VARCHAR,");
 		deviceStringBuilder.append(DevicesModel.CURRENT + " VARCHAR,");
@@ -137,23 +140,24 @@ public class DataHelper extends SQLiteOpenHelper {
 		deviceStringBuilder.append(DevicesModel.HUMIDITY + " FLOAT,");
 		deviceStringBuilder.append(DevicesModel.BRIGHTNESS + " INTEGER,");
 		deviceStringBuilder.append(DevicesModel.EP_MODEL_ID + " VARCHAR(6),");
-		
+
 		deviceStringBuilder.append(DevicesModel.CURRENT_MAX + " VARCHAR,");
 		deviceStringBuilder.append(DevicesModel.CURRENT_MIN + " VARCHAR,");
 		deviceStringBuilder.append(DevicesModel.VOLTAGE_MAX + " VARCHAR,");
 		deviceStringBuilder.append(DevicesModel.VOLTAGE_MIN + " VARCHAR,");
 		deviceStringBuilder.append(DevicesModel.ENERGY_MAX + " VARCHAR,");
 		deviceStringBuilder.append(DevicesModel.ENERGY_MIN + " VARCHAR,");
-		
+
 		deviceStringBuilder.append(DevicesModel.CLUSTER_ID + " VARCHAR,");
 		deviceStringBuilder.append(DevicesModel.DEVICE_SORT + " INTEGER,");
 		deviceStringBuilder.append(DevicesModel.DEVICE_REGION + " VARCHAR,");
-		deviceStringBuilder.append(DevicesModel.DEFAULT_DEVICE_NAME + " VARCHAR,");
-		
+		deviceStringBuilder.append(DevicesModel.DEFAULT_DEVICE_NAME
+				+ " VARCHAR,");
+
 		deviceStringBuilder.append(DevicesModel.LAST_UPDATE_TIME + " INTEGER,");
 		deviceStringBuilder.append(DevicesModel.ON_OFF_LINE + " INTEGER )");
-		
-		//group table create string
+
+		// group table create string
 		mAStringBuilder.append("CREATE TABLE " + GROUP_TABLE + " (");
 		mAStringBuilder.append(DevicesGroup._ID
 				+ " INTEGER PRIMARY KEY AUTOINCREMENT,");
@@ -164,8 +168,8 @@ public class DataHelper extends SQLiteOpenHelper {
 		mAStringBuilder.append(DevicesGroup.GROUP_ID + " INTEGER,");
 		mAStringBuilder.append(DevicesGroup.GROUP_STATE + " INTEGER,");
 		mAStringBuilder.append(DevicesGroup.ON_OFF_STATUS + " INTEGER )");
-		
-		//video table create string
+
+		// video table create string
 		videoStringBuilder.append("CREATE TABLE " + VIDEO_TABLE + " (");
 		videoStringBuilder.append(VideoNode._ID
 				+ " INTEGER PRIMARY KEY AUTOINCREMENT,");
@@ -176,46 +180,66 @@ public class DataHelper extends SQLiteOpenHelper {
 		videoStringBuilder.append(VideoNode.NAME + " VARCHAR(16),");
 		videoStringBuilder.append(VideoNode.PASSWORD + " INTEGER,");
 		videoStringBuilder.append(VideoNode.RTSPORT + " INTEGER)");
-		
-		//message table create string
+
+		// message table create string
 		messageStringBuilder.append("CREATE TABLE " + MESSAGE_TABLE + " (");
 		messageStringBuilder.append(CallbackWarnMessage._ID
 				+ " INTEGER PRIMARY KEY AUTOINCREMENT,");
-		messageStringBuilder.append(CallbackWarnMessage.CIE_EP + " VARCHAR(16),");
-		messageStringBuilder.append(CallbackWarnMessage.CIE_IEEE + " VARCHAR(16),");
-		messageStringBuilder.append(CallbackWarnMessage.CIE_NAME + " VARCHAR(48),");
-		messageStringBuilder.append(CallbackWarnMessage.HOME_ID + " VARCHAR(16),");
-		messageStringBuilder.append(CallbackWarnMessage.HOME_NAME + " VARCHAR(16),");
-		messageStringBuilder.append(CallbackWarnMessage.HOUSEIEEE + " VARCHAR(16),");
+		messageStringBuilder.append(CallbackWarnMessage.CIE_EP
+				+ " VARCHAR(16),");
+		messageStringBuilder.append(CallbackWarnMessage.CIE_IEEE
+				+ " VARCHAR(16),");
+		messageStringBuilder.append(CallbackWarnMessage.CIE_NAME
+				+ " VARCHAR(48),");
+		messageStringBuilder.append(CallbackWarnMessage.HOME_ID
+				+ " VARCHAR(16),");
+		messageStringBuilder.append(CallbackWarnMessage.HOME_NAME
+				+ " VARCHAR(16),");
+		messageStringBuilder.append(CallbackWarnMessage.HOUSEIEEE
+				+ " VARCHAR(16),");
 		messageStringBuilder.append(CallbackWarnMessage.MSGTYPE + " INTEGER,");
-		messageStringBuilder.append(CallbackWarnMessage.ROOMID + " VARCHAR(16),");
+		messageStringBuilder.append(CallbackWarnMessage.ROOMID
+				+ " VARCHAR(16),");
 		messageStringBuilder.append(CallbackWarnMessage.TIME + " VARCHAR(16),");
-		messageStringBuilder.append(CallbackWarnMessage.W_DESCRIPTION + " VARCHAR(64),");
-		messageStringBuilder.append(CallbackWarnMessage.DETAILMESSAGE + " VARCHAR(64),");
-		messageStringBuilder.append(CallbackWarnMessage.W_MODE + " VARCHAR(16),");
-		messageStringBuilder.append(CallbackWarnMessage.ZONE_EP + " VARCHAR(16),");
-		messageStringBuilder.append(CallbackWarnMessage.ZONE_IEEE + " VARCHAR(16),");
-		messageStringBuilder.append(CallbackWarnMessage.ZONE_NAME + " VARCHAR(16))");
-		
-		//roominfo table create string
+		messageStringBuilder.append(CallbackWarnMessage.W_DESCRIPTION
+				+ " VARCHAR(64),");
+		messageStringBuilder.append(CallbackWarnMessage.DETAILMESSAGE
+				+ " VARCHAR(64),");
+		messageStringBuilder.append(CallbackWarnMessage.W_MODE
+				+ " VARCHAR(16),");
+		messageStringBuilder.append(CallbackWarnMessage.ZONE_EP
+				+ " VARCHAR(16),");
+		messageStringBuilder.append(CallbackWarnMessage.ZONE_IEEE
+				+ " VARCHAR(16),");
+		messageStringBuilder.append(CallbackWarnMessage.ZONE_NAME
+				+ " VARCHAR(16))");
+
+		// roominfo table create string
 		roominfoStringBuilder.append("CREATE TABLE " + ROOMINFO_TABLE + " (");
-		roominfoStringBuilder.append(GetRoomInfo_response._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,");
-		roominfoStringBuilder.append(GetRoomInfo_response.ROOM_ID + " INTEGER,");
+		roominfoStringBuilder.append(GetRoomInfo_response._ID
+				+ " INTEGER PRIMARY KEY AUTOINCREMENT,");
+		roominfoStringBuilder
+				.append(GetRoomInfo_response.ROOM_ID + " INTEGER,");
 		roominfoStringBuilder.append(GetRoomInfo_response.ROOM_NAME + " TEXT,");
-		roominfoStringBuilder.append(GetRoomInfo_response.ROOM_PIC + " VARCHAR(48))");
-		
-		//bind table create string
+		roominfoStringBuilder.append(GetRoomInfo_response.ROOM_PIC
+				+ " VARCHAR(48))");
+
+		// bind table create string
 		bindStringBuilder.append("CREATE TABLE " + BIND_TABLE + " (");
-		bindStringBuilder.append(BindingDataEntity._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,");
-		bindStringBuilder.append(BindingDataEntity.DEVOUT_IEEE + " VARCHAR(16),");
+		bindStringBuilder.append(BindingDataEntity._ID
+				+ " INTEGER PRIMARY KEY AUTOINCREMENT,");
+		bindStringBuilder.append(BindingDataEntity.DEVOUT_IEEE
+				+ " VARCHAR(16),");
 		bindStringBuilder.append(BindingDataEntity.DEVOUT_EP + " VARCHAR(2),");
-		bindStringBuilder.append(BindingDataEntity.DEVIN_IEEE + " VARCHAR(16),");
+		bindStringBuilder
+				.append(BindingDataEntity.DEVIN_IEEE + " VARCHAR(16),");
 		bindStringBuilder.append(BindingDataEntity.DEVIN_EP + " VARCHAR(2),");
 		bindStringBuilder.append(BindingDataEntity.CLUSTER + " VARCHAR)");
-		
-		//gateway table create string
+
+		// gateway table create string
 		gatewayStringBuilder.append("CREATE TABLE " + GATEWAY_TABLE + " (");
-		gatewayStringBuilder.append("_id" + " INTEGER PRIMARY KEY AUTOINCREMENT,");
+		gatewayStringBuilder.append("_id"
+				+ " INTEGER PRIMARY KEY AUTOINCREMENT,");
 		gatewayStringBuilder.append("mac" + " VARCHAR(14),");
 		gatewayStringBuilder.append("alias" + " VARCHAR(16),");
 		gatewayStringBuilder.append("ip" + " VARCHAR)");
@@ -225,7 +249,6 @@ public class DataHelper extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
 		// TODO Auto-generated method stub
 		initStringBuilder();
-		
 
 		db.execSQL(deviceStringBuilder.toString());
 		db.execSQL(mAStringBuilder.toString());
@@ -234,7 +257,8 @@ public class DataHelper extends SQLiteOpenHelper {
 		db.execSQL(roominfoStringBuilder.toString());
 		db.execSQL(bindStringBuilder.toString());
 		db.execSQL(gatewayStringBuilder.toString());
-//		Log.i("roominfoStringBuilder", "zgs-> " + roominfoStringBuilder.toString());
+		// Log.i("roominfoStringBuilder", "zgs-> " +
+		// roominfoStringBuilder.toString());
 	}
 
 	@Override
@@ -263,37 +287,39 @@ public class DataHelper extends SQLiteOpenHelper {
 		return mList;
 	}
 
-	public long insertDevice(SQLiteDatabase db, String table, String nullColumnHack,
-			DevicesModel values) {
+	public long insertDevice(SQLiteDatabase db, String table,
+			String nullColumnHack, DevicesModel values) {
 		long result = 0;
 		try {
-			 result= db.insert(table, nullColumnHack, values.convertContentValues());
-//			 db.close();
+			result = db.insert(table, nullColumnHack,
+					values.convertContentValues());
+			// db.close();
 		} catch (Exception e) {
 			// TODO: handle exception
-		}finally{
+		} finally {
 			db.close();
 		}
 		return result;
 
 	}
-	
-	public long insertDevList(SQLiteDatabase db, String table, String nullColumnHack,
-			List<DevicesModel> values) {
+
+	public long insertDevList(SQLiteDatabase db, String table,
+			String nullColumnHack, List<DevicesModel> values) {
 		long result = 0;
 		try {
 			for (DevicesModel devicesModel : values) {
-				result= db.insert(table, nullColumnHack, devicesModel.convertContentValues());
+				result = db.insert(table, nullColumnHack,
+						devicesModel.convertContentValues());
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
-		}finally{
+		} finally {
 			db.close();
 		}
 		return result;
 
 	}
-	
+
 	public long insertEndPointList(SQLiteDatabase db, String table,
 			String nullColumnHack, ArrayList<ResponseParamsEndPoint> r) {
 
@@ -302,7 +328,7 @@ public class DataHelper extends SQLiteOpenHelper {
 		db.beginTransaction();
 		try {
 			for (DevicesModel devicesModel : mList) {
-				if(isFilterDevice(devicesModel)) {
+				if (isFilterDevice(devicesModel)) {
 					continue;
 				}
 				ContentValues c = devicesModel.convertContentValues();
@@ -313,8 +339,8 @@ public class DataHelper extends SQLiteOpenHelper {
 
 			}
 			db.setTransactionSuccessful();
-//			db.close();
-		} catch(Exception e) {
+			// db.close();
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			db.endTransaction();
@@ -324,15 +350,17 @@ public class DataHelper extends SQLiteOpenHelper {
 	}
 
 	private boolean isFilterDevice(DevicesModel devicesModel) {
-		boolean ret=false;
-		//多键遥控器不显示显示
-		if (devicesModel.getmModelId().indexOf(Multi_key_remote_control)==0) {
-			ret=true;
+		boolean ret = false;
+		// 多键遥控器不显示显示
+		if (devicesModel.getmModelId().indexOf(Multi_key_remote_control) == 0) {
+			ret = true;
 		}
 		return ret;
 	}
+
 	/***
 	 * insert a list which implement the ContentValuesListener
+	 * 
 	 * @param db
 	 * @param table
 	 * @param nullColumnHack
@@ -343,7 +371,7 @@ public class DataHelper extends SQLiteOpenHelper {
 			String nullColumnHack, ArrayList<VideoNode> arrayList) {
 
 		long result = -100;
-//		List<DevicesModel> mList = convertToDevicesModel(r);
+		// List<DevicesModel> mList = convertToDevicesModel(r);
 		db.beginTransaction();
 		try {
 			for (ContentValuesListener contentvalue : arrayList) {
@@ -355,8 +383,8 @@ public class DataHelper extends SQLiteOpenHelper {
 
 			}
 			db.setTransactionSuccessful();
-//			db.close();
-		} catch(Exception e) {
+			// db.close();
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			db.endTransaction();
@@ -364,11 +392,12 @@ public class DataHelper extends SQLiteOpenHelper {
 		}
 		return result;
 	}
+
 	public long insertMessageList(SQLiteDatabase db, String table,
 			String nullColumnHack, ArrayList<CallbackWarnMessage> arrayList) {
-		
+
 		long result = -100;
-//		List<DevicesModel> mList = convertToDevicesModel(r);
+		// List<DevicesModel> mList = convertToDevicesModel(r);
 		db.beginTransaction();
 		try {
 			for (ContentValuesListener contentvalue : arrayList) {
@@ -377,11 +406,11 @@ public class DataHelper extends SQLiteOpenHelper {
 				if (-1 == m) {
 					result = m;
 				}
-				
+
 			}
 			db.setTransactionSuccessful();
-//			db.close();
-		} catch(Exception e) {
+			// db.close();
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			db.endTransaction();
@@ -389,34 +418,33 @@ public class DataHelper extends SQLiteOpenHelper {
 		}
 		return result;
 	}
-	
-	public void emptyTable(SQLiteDatabase db,String table)
-	{
-//		try {
-			db.execSQL("delete from "+table+" where 1=1");
-//			db.close();
-//		} catch (Exception e) {
-//			// TODO: handle exception
-//		}finally{
-//			db.close();
-//		}
-		
+
+	public void emptyTable(SQLiteDatabase db, String table) {
+		// try {
+		db.execSQL("delete from " + table + " where 1=1");
+		// db.close();
+		// } catch (Exception e) {
+		// // TODO: handle exception
+		// }finally{
+		// db.close();
+		// }
+
 	}
-	
+
 	public long insertGroup(SQLiteDatabase db, String table,
 			String nullColumnHack, ContentValues c) {
 		long m = 0;
 		try {
 			m = db.insert(table, nullColumnHack, c);
-//			db.close();
+			// db.close();
 		} catch (Exception e) {
 			// TODO: handle exception
-		}finally{
+		} finally {
 			db.close();
 		}
 		return m;
 	}
-	
+
 	public long insertAddRoomInfo(SQLiteDatabase db, String table,
 			String nullColumnHack, ArrayList<Room> r) {
 
@@ -431,7 +459,7 @@ public class DataHelper extends SQLiteOpenHelper {
 				}
 			}
 			db.setTransactionSuccessful();
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			db.endTransaction();
@@ -439,7 +467,7 @@ public class DataHelper extends SQLiteOpenHelper {
 		}
 		return result;
 	}
-	
+
 	public long insertRoomInfoList(SQLiteDatabase db, String table,
 			String nullColumnHack, ArrayList<GetRoomInfo_response> r) {
 
@@ -455,7 +483,7 @@ public class DataHelper extends SQLiteOpenHelper {
 
 			}
 			db.setTransactionSuccessful();
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			db.endTransaction();
@@ -463,9 +491,9 @@ public class DataHelper extends SQLiteOpenHelper {
 		}
 		return result;
 	}
-	
-	public int deleteDeviceWithGroup(Context c,SQLiteDatabase db, String table, String whereClause,
-			String[] whereArgs) {
+
+	public int deleteDeviceWithGroup(Context c, SQLiteDatabase db,
+			String table, String whereClause, String[] whereArgs) {
 		String[] iees = null;
 		if (whereArgs[0].contains(",")) {
 			iees = whereArgs[0].split(",");
@@ -474,7 +502,7 @@ public class DataHelper extends SQLiteOpenHelper {
 		}
 		StringBuilder sb = new StringBuilder();
 		getFromSharedPreferences.setsharedPreferences(c);
-		
+
 		List<String> mIeees = new ArrayList<String>();
 		String comm = getFromSharedPreferences.getCommonUsed();
 		if (null != comm && !comm.trim().equals("")) {
@@ -488,44 +516,48 @@ public class DataHelper extends SQLiteOpenHelper {
 				}
 			}
 		}
-		
+
 		try {
 			for (String string : iees) {
-//				ContentValues c = new ContentValues();
-//				c.put(DevicesModel.ON_OFF_LINE, DevicesModel.DEVICE_OFF_LINE);
-//				db.update(table, c, " ieee=? ", new String[] { string });
+				// ContentValues c = new ContentValues();
+				// c.put(DevicesModel.ON_OFF_LINE,
+				// DevicesModel.DEVICE_OFF_LINE);
+				// db.update(table, c, " ieee=? ", new String[] { string });
 				db.delete(table, " ieee=? ", new String[] { string });
-				db.delete(DataHelper.GROUP_TABLE, " ieee=? ", new String[] { string });
-				if(null!=mIeees && mIeees.contains(string.trim())){
+				db.delete(DataHelper.GROUP_TABLE, " ieee=? ",
+						new String[] { string });
+				if (null != mIeees && mIeees.contains(string.trim())) {
 					mIeees.remove(string.trim());
 				}
 			}
-//			db.close();
+			// db.close();
 		} catch (Exception e) {
 			// TODO: handle exception
-		}finally{
+		} finally {
 			db.close();
 		}
 
-		if(null!= mIeees && mIeees.size()>0){
+		if (null != mIeees && mIeees.size() > 0) {
 			for (String strings : mIeees) {
 				sb.append(UiUtils.REGION_FLAG + strings + "@@");
 			}
-		}else{
+		} else {
 			sb.append("@@");
 		}
 		getFromSharedPreferences.setCommonUsed(sb.toString());
 		return 0;
 	}
-	
+
 	public int delete(SQLiteDatabase db, String table, String whereClause,
 			String[] whereArgs) {
 		return db.delete(table, whereClause, whereArgs);
 	}
-	
+
 	public int update(SQLiteDatabase db, String table, ContentValues values,
 			String whereClause, String[] whereArgs) {
-		return db.update(table, values, whereClause, whereArgs);
+		int result = db.update(table, values, whereClause, whereArgs);
+		db.close();
+		return result;
 	}
 
 	public void execSQL(SQLiteDatabase db, String sql) {
@@ -537,23 +569,23 @@ public class DataHelper extends SQLiteOpenHelper {
 			String having, String orderBy, String limit) {
 		Cursor c = null;
 		try {
-			c=db.query(table, columns, selection, selectionArgs, groupBy,
+			c = db.query(table, columns, selection, selectionArgs, groupBy,
 					having, orderBy, limit);
-//			db.close();
+			// db.close();
 		} catch (Exception e) {
 			// TODO: handle exception
-		}finally{
+		} finally {
 			db.close();
 		}
 		return c;
 	}
-	
+
 	public static List<VideoNode> getVideoList(Context c, DataHelper dh) {
 		List<VideoNode> mList = new ArrayList<VideoNode>();
 		Cursor cursor = null;
-		SQLiteDatabase db=dh.getSQLiteDatabase();
-		cursor = db.query(DataHelper.VIDEO_TABLE, null, null,
-				null, null, null, null, null);
+		SQLiteDatabase db = dh.getSQLiteDatabase();
+		cursor = db.query(DataHelper.VIDEO_TABLE, null, null, null, null, null,
+				null, null);
 		VideoNode mVideoNode;
 		while (cursor.moveToNext()) {
 			mVideoNode = new VideoNode();
@@ -568,40 +600,42 @@ public class DataHelper extends SQLiteOpenHelper {
 			mVideoNode.setName(cursor.getString(cursor
 					.getColumnIndex(VideoNode.NAME)));
 			mVideoNode.setPassword(cursor.getString(cursor
-							.getColumnIndex(VideoNode.PASSWORD)));
+					.getColumnIndex(VideoNode.PASSWORD)));
 			mVideoNode.setRtspport(cursor.getString(cursor
-							.getColumnIndex(VideoNode.RTSPORT)));
+					.getColumnIndex(VideoNode.RTSPORT)));
 			mList.add(mVideoNode);
 		}
 		cursor.close();
-//		db.close();
+		// db.close();
 		return mList;
 
 	}
-	
-	public List<DevicesModel> queryForBindDevicesList(SQLiteDatabase db, String table,
-			String selection, String[] selectionArgs) {
+
+	public List<DevicesModel> queryForBindDevicesList(SQLiteDatabase db,
+			String table, String selection, String[] selectionArgs) {
 
 		List<DevicesModel> mList = new ArrayList<DevicesModel>();
 		DevicesModel mDevicesModel = null;
-		Cursor c = db.query(table, null, selection, selectionArgs, null,
-				null, null, null);
+		Cursor c = db.query(table, null, selection, selectionArgs, null, null,
+				null, null);
 		while (c.moveToNext()) {
 			mDevicesModel = new DevicesModel();
 			mDevicesModel.setmIeee(c.getString(c
 					.getColumnIndex(BindingDataEntity.DEVIN_IEEE)));
-			mDevicesModel.setmEP(c.getString(c.getColumnIndex(BindingDataEntity.DEVIN_EP)));
-			
+			mDevicesModel.setmEP(c.getString(c
+					.getColumnIndex(BindingDataEntity.DEVIN_EP)));
+
 			mList.add(mDevicesModel);
 		}
 		c.close();
-//		db.close();
+		// db.close();
 		return mList;
 	}
-	
-	public List<DevicesModel> queryForDevicesList(SQLiteDatabase db, String table,
-			String[] columns, String selection, String[] selectionArgs,
-			String groupBy, String having, String orderBy, String limit) {
+
+	public List<DevicesModel> queryForDevicesList(SQLiteDatabase db,
+			String table, String[] columns, String selection,
+			String[] selectionArgs, String groupBy, String having,
+			String orderBy, String limit) {
 
 		List<DevicesModel> mList = new ArrayList<DevicesModel>();
 		DevicesModel mDevicesModel = null;
@@ -649,8 +683,8 @@ public class DataHelper extends SQLiteOpenHelper {
 					.getColumnIndex(DevicesModel.MODEL_ID)));
 			mDevicesModel.setmNodeType(c.getString(c
 					.getColumnIndex(DevicesModel.NODE_TYPE)));
-			mDevicesModel.setmEP(c.getString(c
-					.getColumnIndex(DevicesModel.EP)));
+			mDevicesModel
+					.setmEP(c.getString(c.getColumnIndex(DevicesModel.EP)));
 			mDevicesModel.setmName(c.getString(c
 					.getColumnIndex(DevicesModel.NAME)));
 			mDevicesModel.setmCurrent(c.getString(c
@@ -685,9 +719,9 @@ public class DataHelper extends SQLiteOpenHelper {
 					.getColumnIndex(DevicesModel.ENERGY_MAX)));
 			mDevicesModel.setmEnergyMin(c.getString(c
 					.getColumnIndex(DevicesModel.ENERGY_MIN)));
-			mDevicesModel.setmClusterID(c.getString(c.
-					getColumnIndex(DevicesModel.CLUSTER_ID)));
-			
+			mDevicesModel.setmClusterID(c.getString(c
+					.getColumnIndex(DevicesModel.CLUSTER_ID)));
+
 			mDevicesModel.setmDeviceRegion(c.getString(c
 					.getColumnIndex(DevicesModel.DEVICE_REGION)));
 			mDevicesModel.setmLastDateTime(c.getLong(c
@@ -695,18 +729,20 @@ public class DataHelper extends SQLiteOpenHelper {
 			mDevicesModel.setmOnOffLine(c.getShort(c
 					.getColumnIndex(DevicesModel.ON_OFF_LINE)));
 			mDevicesModel.setID(c.getInt(c.getColumnIndex(DevicesModel._ID)));
-			mDevicesModel.setmDefaultDeviceName(c.getString(c.getColumnIndex(DevicesModel.DEFAULT_DEVICE_NAME)));
-			
+			mDevicesModel.setmDefaultDeviceName(c.getString(c
+					.getColumnIndex(DevicesModel.DEFAULT_DEVICE_NAME)));
+
 			mList.add(mDevicesModel);
 		}
 		c.close();
-//		db.close();
+		// db.close();
 		return mList;
 	}
 
-	public List<DevicesGroup> queryForGroupList(Context con,SQLiteDatabase db, String table,
-			String[] columns, String selection, String[] selectionArgs,
-			String groupBy, String having, String orderBy, String limit) {
+	public List<DevicesGroup> queryForGroupList(Context con, SQLiteDatabase db,
+			String table, String[] columns, String selection,
+			String[] selectionArgs, String groupBy, String having,
+			String orderBy, String limit) {
 		List<DevicesGroup> mList = new ArrayList<DevicesGroup>();
 		DevicesGroup mDevicesModel = null;
 		Cursor c = db.query(table, columns, selection, selectionArgs, groupBy,
@@ -714,40 +750,49 @@ public class DataHelper extends SQLiteOpenHelper {
 		while (c.moveToNext()) {
 
 			mDevicesModel = new DevicesGroup(con);
-			mDevicesModel.setDevicesState(c.getInt(c.getColumnIndex(DevicesGroup.ON_OFF_STATUS))==0);
-			mDevicesModel.setDevicesValue(c.getInt(c.getColumnIndex(DevicesGroup.DEVICES_VALUE)));
+			mDevicesModel.setDevicesState(c.getInt(c
+					.getColumnIndex(DevicesGroup.ON_OFF_STATUS)) == 0);
+			mDevicesModel.setDevicesValue(c.getInt(c
+					.getColumnIndex(DevicesGroup.DEVICES_VALUE)));
 			mDevicesModel.setEp(c.getString(c.getColumnIndex(DevicesGroup.EP)));
-			mDevicesModel.setGroupId(c.getInt(c.getColumnIndex(DevicesGroup.GROUP_ID)));
-			mDevicesModel.setGroupName(c.getString(c.getColumnIndex(DevicesGroup.GROUP_NAME)));
-			mDevicesModel.setIeee(c.getString(c.getColumnIndex(DevicesGroup.DEVICES_IEEE)));
-			
+			mDevicesModel.setGroupId(c.getInt(c
+					.getColumnIndex(DevicesGroup.GROUP_ID)));
+			mDevicesModel.setGroupName(c.getString(c
+					.getColumnIndex(DevicesGroup.GROUP_NAME)));
+			mDevicesModel.setIeee(c.getString(c
+					.getColumnIndex(DevicesGroup.DEVICES_IEEE)));
+
 			mList.add(mDevicesModel);
 		}
 		c.close();
 		db.close();
 		return mList;
 	}
-	
-	public List<Room> queryForRoomList(Context con,SQLiteDatabase db, String table,
-			String[] columns, String selection, String[] selectionArgs,
-			String groupBy, String having, String orderBy, String limit) {
+
+	public List<Room> queryForRoomList(Context con, SQLiteDatabase db,
+			String table, String[] columns, String selection,
+			String[] selectionArgs, String groupBy, String having,
+			String orderBy, String limit) {
 		List<Room> mList = new ArrayList<Room>();
 		Room roominfo = null;
 		Cursor c = db.query(table, columns, selection, selectionArgs, groupBy,
 				having, orderBy, limit);
-		if(c.moveToFirst()) {
+		if (c.moveToFirst()) {
 			do {
-				roominfo=new Room();
-				roominfo.setroom_id(c.getInt(c.getColumnIndex(GetRoomInfo_response.ROOM_ID)));
-				roominfo.setroom_name(c.getString(c.getColumnIndex(GetRoomInfo_response.ROOM_NAME)));
-				roominfo.setroom_pic(c.getString(c.getColumnIndex(GetRoomInfo_response.ROOM_PIC)));
-						
+				roominfo = new Room();
+				roominfo.setroom_id(c.getInt(c
+						.getColumnIndex(GetRoomInfo_response.ROOM_ID)));
+				roominfo.setroom_name(c.getString(c
+						.getColumnIndex(GetRoomInfo_response.ROOM_NAME)));
+				roominfo.setroom_pic(c.getString(c
+						.getColumnIndex(GetRoomInfo_response.ROOM_PIC)));
+
 				mList.add(roominfo);
 			} while (c.moveToNext());
 			c.close();
 		}
 		return mList;
-	} 
+	}
 
 	public void close(SQLiteDatabase db) {
 		db.close();

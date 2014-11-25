@@ -15,6 +15,7 @@ import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.LoginResponse;
 import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.network.NetworkConnectivity;
+import com.gdgl.service.LibjingleService;
 import com.gdgl.service.SmartService;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.NetUtil;
@@ -96,7 +97,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 				if (accountInfo.getPassword().length() > 5
 						&& accountInfo.getPassword().length() < 17) {
 					startAPPService(accountInfo.getAccount());
-					LoginManager.getInstance().doLogin(accountInfo);
+					
 				} else if (accountInfo.getPassword() == null
 						|| accountInfo.getPassword().length() <= 0)
 					Toast.makeText(getApplicationContext(), "密码不能为空",
@@ -122,6 +123,13 @@ public class LoginActivity extends Activity implements OnClickListener,
 		case NetworkConnectivity.NO_NETWORK:
 			break;
 		case NetworkConnectivity.INTERNET:
+			Log.i("","We are here!");
+			Intent libserviceIntent = new Intent(this, LibjingleService.class);
+			startService(libserviceIntent);
+			
+			Intent intent = new Intent(LoginActivity.this, SmartHome.class);
+			startActivity(intent);
+			this.finish();
 			break;
 		case NetworkConnectivity.LAN:
 			DataHelper mDateHelper = new DataHelper(
@@ -144,6 +152,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 
 					Intent serviceIntent = new Intent(this, SmartService.class);
 					startService(serviceIntent);
+					LoginManager.getInstance().doLogin(accountInfo);
 				}
 			} else {
 				Toast.makeText(getApplicationContext(), "没有网关",

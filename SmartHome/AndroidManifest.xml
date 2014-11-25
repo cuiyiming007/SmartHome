@@ -102,6 +102,8 @@
 
         <service android:name="com.gdgl.service.SmartService" >
         </service>
+        <service android:name="com.gdgl.service.LibjingleService" >
+        </service>
 
         <receiver android:name="com.gdgl.reciever.NetWorkChangeReciever" >
             <intent-filter>

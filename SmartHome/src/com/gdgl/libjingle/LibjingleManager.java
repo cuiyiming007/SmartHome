@@ -17,6 +17,7 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
+import com.gdgl.activity.LoginActivity;
 import com.gdgl.app.ApplicationController;
 import com.gdgl.manager.Manger;
 import com.gdgl.model.DevicesModel;
@@ -29,6 +30,7 @@ import com.gdgl.mydata.RespondDataEntity;
 import com.gdgl.mydata.ResponseDataEntityForStatus;
 import com.gdgl.mydata.ResponseParamsEndPoint;
 import com.gdgl.mydata.SimpleResponseData;
+import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.mydata.Callback.CallbackBindListDevices;
 import com.gdgl.mydata.Callback.CallbackBindListMessage;
 import com.gdgl.mydata.Region.GetRoomInfo_response;
@@ -44,23 +46,6 @@ import com.gdgl.util.NetUtil;
 import com.gdgl.util.UiUtils;
 import com.google.gson.Gson;
 
-/***
- * 
- * @author justek DeviceID Device Class Device Oparation 0x0007
- *         CombinedInterface 2.1 ZBNode Operation 0x0009 MainsPowerOutlet 2.3
- *         MainsOutLet Operation 0x0101 DimmableLight 2.4 DimmableLight
- *         Operation 0x0100 OnOffLight 2.5 OnOffLight Operation 0x0104
- *         DimmerSwitch 2.6 DimmerSwitch Operation 0x000A DoorLock 2.7 DoorLock
- *         Operation 0x0403 IASWarningDevice 2.8 IASWarningDevice Operation
- *         0x0400 IASCIE 2.9 IASCIE Operation 0x0103 OnOffLightSwitch 2.10
- *         OnOffLightSwitch Operation 0x0002 OnOffOutput 2.11 OnOffOutput
- *         Operation 0x0000 OnOffSwitch 2.12 OnOffSwitch Operation 0x0106
- *         LightSensor 2.13 LightSensor Operation 0x0201 ShadeController 2.14
- *         ShadeController Operation 0x0200 Shade 2.15 Shade Operation 0x0303
- *         Pump 2.16 Pump Operation Reserved LocalIASCIE 2.17 LocalIASCIE
- *         Operation 0x0402 IASZone 2.18 IASZone Operation 0x0302
- *         TemperatureSensor 2.19 TemperatureSensor Operation
- */
 
 public class LibjingleManager extends Manger {
 
@@ -74,7 +59,37 @@ public class LibjingleManager extends Manger {
 		}
 		return instance;
 	}
-
+	
+	
+	/***
+	 * getEndPoint
+	 * url=http://192.168.1.184/cgi-bin/rest/network/getendpoint.cgi?user_name=
+	 * aaaa&callback=1234&enco demethod=NONE&sign=AAA
+	 */
+	// 更新数据 
+	public void getDeviceEndPoint() {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
+		String param = hashMap2ParamString(paraMap);
+		
+		String url = LibjingleNetUtil.getInstance().getLocalhostURL("getendpoint.cgi",param);
+		String jid = LibjinglePackHandler.getJid();
+		
+		String packag=LibjinglePackHandler.packUrl(1, jid, url);
+		Log.i(TAG, packag);
+		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+//		Listener<String> responseListener = new Listener<String>() {
+//			@Override
+//			public void onResponse(String response) {
+//				// Time-consuming operation need to use AsyncTask
+//				new GetEndPointTask().execute(response);
+//			}
+//		};
+		
+	
+	}
 	/***
 	 * addBindData
 	 * @param bindtype  0 为正常绑定，1 为虚拟EP绑定

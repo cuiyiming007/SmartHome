@@ -21,7 +21,7 @@ import com.gdgl.reciever.HeartReceiver;
 public class SmartService extends Service {
 
 	public final static String TAG = "SmartService";
-	public final static int HEARTBEAT_INTERVAL = 40000;
+	public final static int HEARTBEAT_INTERVAL = 20000;
 
 	// private Intent brodcastIntent = new Intent("com.gdgl.activity.RECIEVER");
 

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.gdgl.model.RemoteControl;
 import com.gdgl.util.UiUtils;
+import com.handmark.pulltorefresh.library.internal.Utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -104,6 +105,17 @@ public class getFromSharedPreferences {
 		return mEditor.commit();
 	}
 
+	public static String getUUID() {
+		return mSharedPreferences.getString(UiUtils.UUID, UiUtils.EMPTY_STR);
+	}
+	
+	public static boolean setUUID(String uuid) {
+		mEditor=mSharedPreferences.edit();
+		mEditor.putString(UiUtils.UUID, uuid);
+		
+		return mEditor.commit();
+	}
+	
 	public static String getJoinNetTime() {
 		return mSharedPreferences.getString(UiUtils.JOINNETTIME, UiUtils.EMPTY_STR);
 	}
