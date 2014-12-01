@@ -96,7 +96,7 @@ public class LibjingleNetUtil {
 		try {
 			while (true) {
 				if (inputStream != null && inputStream.available() > 0) {
-					handleInputStream(inputStream);
+					LibjingleResponseHandlerManager.handleInputStream(inputStream);
 					// Log.i("callbakcSocket recieve", inputStream.toString());
 				}
 			}
@@ -106,16 +106,5 @@ public class LibjingleNetUtil {
 		}
 	}
 
-	public static void handleInputStream(InputStream inputStream)
-			throws IOException {
-		byte[] buffer = new byte[2048];
-		int readBytes = 0;
-		while ((readBytes = inputStream.read(buffer)) > 0) {
-			String message = new String(buffer, 0, readBytes);
-			message = UiUtils.formatResponseString(message);
-			Log.i("message", message);
-//			CallbackManager.getInstance().classifyCallbackResponse(message);
-		}
-	}
 	
 }

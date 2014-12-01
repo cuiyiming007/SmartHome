@@ -188,7 +188,7 @@ public class NetUtil {
 						gatewayList.add(ip + "@" + content);
 					} catch (Exception e) {
 						// TODO: handle exception
-						e.printStackTrace();
+						//e.printStackTrace();
 					}
 				} catch (Exception e) {
 					// 这里会抛出接收超时异常
@@ -219,12 +219,14 @@ public class NetUtil {
 		protected Void doInBackground(List<String>... params) {
 			// TODO Auto-generated method stub
 			List<String> list = params[0];
-			
-			DataHelper mDateHelper = new DataHelper(ApplicationController.getInstance());
+
+			DataHelper mDateHelper = new DataHelper(
+					ApplicationController.getInstance());
 			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
 
-			mDateHelper.emptyTable(mSQLiteDatabase,DataHelper.GATEWAY_TABLE);
-//			mDateHelper.insertEndPointList(mSQLiteDatabase,DataHelper.DEVICES_TABLE, null, devDataList);
+			mDateHelper.emptyTable(mSQLiteDatabase, DataHelper.GATEWAY_TABLE);
+			// mDateHelper.insertEndPointList(mSQLiteDatabase,DataHelper.DEVICES_TABLE,
+			// null, devDataList);
 			for (String gateway : list) {
 				String[] substring = gateway.split("@");
 				String ip = substring[0];
@@ -233,8 +235,8 @@ public class NetUtil {
 					JSONObject jsonObject = new JSONObject(content);
 					String macid = jsonObject.getString("id");
 					String alias = jsonObject.getString("alias");
-					
-					ContentValues c=new ContentValues();
+
+					ContentValues c = new ContentValues();
 					c.put("mac", macid);
 					c.put("alias", alias);
 					c.put("ip", ip);

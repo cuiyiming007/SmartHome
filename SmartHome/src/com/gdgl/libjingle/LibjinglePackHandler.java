@@ -16,6 +16,7 @@
   History:        
       <author>    <time>    <version>    <desc>
       椹檽妲�		2014-11-23	   1.1		澧炲姞缃戠粶鐘舵�佹秷鎭被鍨嬶紙gl_msgtype = 14锛�
+       	崔一鸣	2014-11-26	   1.2		修改LibjinglePackHandler(String json)，getJid()，getUUID()
  *******************************************************************************/
 package com.gdgl.libjingle;
 
@@ -28,7 +29,6 @@ import org.json.*;
 import com.gdgl.app.ApplicationController;
 import com.gdgl.mydata.getFromSharedPreferences;
 
-
 public class LibjinglePackHandler {
 
 	public int request_id;
@@ -36,7 +36,7 @@ public class LibjinglePackHandler {
 	public int gl_msgtype;
 	public int status;
 	public String jid;
-	public Map<String, Object> other;
+	public String result;
 
 	final public static int MT_URL = 3;
 	final public static int MT_CallBack = 5;
@@ -51,7 +51,6 @@ public class LibjinglePackHandler {
 
 	public LibjinglePackHandler(String json) throws JSONException {
 		JSONObject root = new JSONObject(json);
-		this.other = new HashMap<String, Object>();
 
 		if (root.has("gl_status")) {
 			this.gl_status = root.getInt("gl_status");
@@ -59,56 +58,48 @@ public class LibjinglePackHandler {
 			this.gl_status = 0;
 		}
 
-		if (this.gl_status >= 0) {
-			this.request_id = root.getInt("request_id");
-			this.gl_msgtype = root.getInt("gl_msgtype");
-			this.jid = root.getString("jid");
+		this.request_id = root.getInt("request_id");
+		this.gl_msgtype = root.getInt("gl_msgtype");
+		this.jid = root.getString("jid");
 
-			JSONObject sub;
+		JSONObject sub;
 
-			if (this.gl_status > 0) {
-				sub = root.getJSONObject("response");
-				this.status = sub.getInt("status");
+		if (this.gl_status > 0) {
+			sub = root.getJSONObject("response");
+			this.status = sub.getInt("status");
 
-				switch (this.gl_msgtype) {
-				case MT_URL:
-					if (this.status > 0) {
-						this.other.put("result",
-								getJsonSubStr(sub.getString("result")));
-					}
-					break;
-				case MT_CaHeartBeat:
-					this.other.put("heartbeat", sub.getInt("heartbeat"));
-					this.other.put("status_msg", sub.getString("status_msg"));
-					break;
-				case MT_IpcStat:
-					if (this.status > 0) {
-						this.other.put("onlist", sub.getString("onlist"));
-					}
-					break;
-				default:
-					break;
+			switch (this.gl_msgtype) {
+			case MT_URL:
+				if (this.status > 0) {
+					this.result = getJsonSubStr(sub.getString("result"));
 				}
-			} else // gl_status = 0
-			{
-				sub = root.getJSONObject("send");
-				this.status = 0;
-
-				switch (this.gl_msgtype) {
-				case MT_CallBack:
-					this.other.put("callback", sub.getString("callback"));
-					break;
-				case MT_NetStat:
-					this.other.put("netstat", sub.getInt("netstat"));
-					break;
-				default:
-					break;
+				break;
+			case MT_CaHeartBeat:
+				this.result = String.valueOf(sub.getInt("heartbeat"));
+				break;
+			case MT_IpcStat:
+				if (this.status > 0) {
+					this.result = sub.getString("onlist");
 				}
+				break;
+			default:
+				break;
 			}
-		} else {
-			this.request_id = -1;
-			this.gl_msgtype = -1;
-			this.status = -1;
+		} else // gl_status = 0
+		{
+			sub = root.getJSONObject("send");
+			this.status = 0;
+
+			switch (this.gl_msgtype) {
+			case MT_CallBack:
+				this.result = sub.getString("callback");
+				break;
+			case MT_NetStat:
+				this.result = String.valueOf(sub.getInt("netstat"));
+				break;
+			default:
+				break;
+			}
 		}
 	}
 
@@ -123,32 +114,34 @@ public class LibjinglePackHandler {
 	/**************************************************************************/
 
 	public static String getJid() {
-		String user,server,uuid;
-		getFromSharedPreferences.setsharedPreferences(ApplicationController.getInstance());
+		String user, server, uuid;
+		getFromSharedPreferences.setsharedPreferences(ApplicationController
+				.getInstance());
 		if (!getFromSharedPreferences.getUid().equals("")) {
-			user=getFromSharedPreferences.getUid();
+			user = getFromSharedPreferences.getUid();
 		} else {
-			user=getFromSharedPreferences.getName();
+			user = getFromSharedPreferences.getName();
 		}
-		server="121.199.21.14";
-		uuid=getUUID();
-		
+		server = "121.199.21.14";
+		uuid = getUUID();
+
 		return user.toLowerCase() + "@" + server + "/C" + uuid;
 	}
 
 	/**************************************************************************/
 	public static String getUUID() {
 		String result;
-		getFromSharedPreferences.setsharedPreferences(ApplicationController.getInstance());
+		getFromSharedPreferences.setsharedPreferences(ApplicationController
+				.getInstance());
 		if (getFromSharedPreferences.getUUID().equals("")) {
-			result=LibjinglePackHandler.createUUID();
+			result = LibjinglePackHandler.createUUID();
 			getFromSharedPreferences.setUUID(result);
 		} else {
-			result=getFromSharedPreferences.getUUID();
+			result = getFromSharedPreferences.getUUID();
 		}
 		return result;
 	}
-	
+
 	public static String createUUID() {
 		return UUID.randomUUID().toString();
 	}

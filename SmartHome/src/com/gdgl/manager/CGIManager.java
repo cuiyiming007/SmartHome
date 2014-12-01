@@ -663,7 +663,7 @@ public class CGIManager extends Manger {
 	 * 
 	 * GetIRDisableTime 10
 	 */
-	public void iASZoneOperationCommon(SimpleDevicesModel model,
+	public void iASZoneOperationCommon(DevicesModel model,
 			int operationType, int param1) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", model.getmIeee());
@@ -809,7 +809,7 @@ public class CGIManager extends Manger {
 	 * 
 	 * GetHumidity 0
 	 */
-	public void rangeExtenderOperation(SimpleDevicesModel model,
+	public void rangeExtenderOperation(DevicesModel model,
 			int operationType) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", model.getmIeee());
@@ -861,29 +861,7 @@ public class CGIManager extends Manger {
 		simpleVolleyRequset(url, EventType.IASACE);
 	}
 
-	/***
-	 * 2.26 RemoteControl ZigBee多键遥控器
-	 */
-	public void remoteControl(SimpleDevicesModel model, int operationType) {
-		HashMap<String, String> paraMap = new HashMap<String, String>();
-		paraMap.put("ieee", model.getmIeee());
-		paraMap.put("ep", model.getmEP());
-		paraMap.put("operatortype", String.valueOf(operationType));
-		paraMap.put("param1", "1");
-		paraMap.put("param2", "2");
-		paraMap.put("param3", "3");
-		
-		paraMap.put("callback", "1234");
-		paraMap.put("encodemethod", "NONE");
-		paraMap.put("sign", "AAA");
-		String param = hashMap2ParamString(paraMap);
-
-		String url = NetUtil.getInstance().getCumstomURL(
-				NetUtil.getInstance().IP, "RemoteControl.cgi", param);
-
-		simpleVolleyRequset(url, EventType.REMOTECONTROL);
-	}
-
+	
 	/***
 	 * 打开红外学习设备，准备学习 成功返回的数据跟跟BindResponseData一样
 	 * 

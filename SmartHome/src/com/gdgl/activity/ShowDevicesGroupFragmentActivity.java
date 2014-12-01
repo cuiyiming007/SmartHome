@@ -911,7 +911,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 				// data maybe null
 				CallbackResponseType2 data = (CallbackResponseType2) event
 						.getData();
-				Log.i("MOVE_TO_LEVEL", mCurrentList.toString());
+//				Log.i("MOVE_TO_LEVEL", mCurrentList.toString());
 				int m = getDevicesPostion(data.getDeviceIeee(),
 						data.getDeviceEp(), mCurrentList);
 				if (-1 != m) {

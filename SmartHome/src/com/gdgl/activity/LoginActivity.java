@@ -123,8 +123,9 @@ public class LoginActivity extends Activity implements OnClickListener,
 		case NetworkConnectivity.NO_NETWORK:
 			break;
 		case NetworkConnectivity.INTERNET:
-			Log.i("","We are here!");
 			Intent libserviceIntent = new Intent(this, LibjingleService.class);
+			getFromSharedPreferences.setsharedPreferences(LoginActivity.this);
+			getFromSharedPreferences.setLogin(accountInfo, false, false);
 			startService(libserviceIntent);
 			
 			Intent intent = new Intent(LoginActivity.this, SmartHome.class);

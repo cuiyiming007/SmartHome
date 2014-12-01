@@ -18,7 +18,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 public class NetworkConnectivity {
-
+	public static int networkStatus;// 当前网络状态量
+	
 	public static final int LAN = 0;
 	public static final int INTERNET = 1;
 	public static final int NO_NETWORK = 2;

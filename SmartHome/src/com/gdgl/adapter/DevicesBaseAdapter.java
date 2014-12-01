@@ -3,13 +3,14 @@ package com.gdgl.adapter;
 import java.util.List;
 
 import com.gdgl.app.ApplicationController;
+import com.gdgl.libjingle.LibjingleSendManager;
 import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.WarnManager;
 import com.gdgl.model.DevicesModel;
-import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.getFromSharedPreferences;
+import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 
@@ -45,7 +46,8 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 	protected DevicesObserver mDevicesObserver;
 	DevicesModel oneKeyOperatorDevice;
 	CGIManager mcgiManager;
-
+	LibjingleSendManager libjingleSendManager;
+	
 	public static final int ON_OFF = 1;
 	public static final int WITH_VALUE = 2;
 	public static final int NO_OPERATOR = 3;
@@ -145,7 +147,8 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 		int type = getItemViewType(position);
 
 		mcgiManager = CGIManager.getInstance();
-
+		libjingleSendManager = LibjingleSendManager.getInstance();
+		
 		mView = LayoutInflater.from(mContext).inflate(
 				R.layout.devices_list_item, null);
 		devices_img = (ImageView) mView.findViewById(R.id.devices_img);
@@ -288,8 +291,14 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 						public void onStopTrackingTouch(SeekBar seekBar) {
 							// TODO Auto-generated method stub
 							notifyDataSetChanged();
-							mcgiManager.dimmableLightOperation(mDevices, 16,
-										currentLevel);
+							if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+								mcgiManager.dimmableLightOperation(mDevices,
+										16, currentLevel);
+							} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+								libjingleSendManager
+										.dimmableLightOperation(mDevices,
+												16, currentLevel);
+							}
 						}
 
 						@Override
@@ -317,7 +326,11 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
-					mcgiManager.IASWarningDeviceOperationCommon(mDevices, 0);
+					if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+						mcgiManager.IASWarningDeviceOperationCommon(mDevices, 0);
+					} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+						libjingleSendManager.IASWarningDeviceOperationCommon(mDevices, 0);
+					}
 					warn_state.setText("");
 					WarnManager.getInstance().setWarnning(false);
 					devices_button.setClickable(false);
@@ -350,51 +363,95 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 					public void onCheckedChanged(CompoundButton buttonView,
 							boolean isChecked) {
 						// TODO Auto-generated method stub
-						if (isChecked) {
-							if (mDevices
-									.getmModelId()
-									.indexOf(
-											DataHelper.Wireless_Intelligent_valve_switch) == 0) {
-								// 无线智能阀门开关
-								mcgiManager.OnOffOutputOperation(mDevices, 0);
+						if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+							if (isChecked) {
+								if (mDevices.getmModelId().indexOf(DataHelper.Wireless_Intelligent_valve_switch) == 0) {
+									// 无线智能阀门开关
+									mcgiManager.OnOffOutputOperation(mDevices, 0);
+								}
+								if (mDevices.getmDeviceId() == DataHelper.COMBINED_INTERFACE_DEVICETYPE) {
+									mcgiManager.LocalIASCIEOperation(null, 7);
+									mDevices.setmOnOffStatus("1");
+								}
+								if (mDevices.getmDeviceId() == DataHelper.MAINS_POWER_OUTLET_DEVICETYPE) {
+									// 开关模块（单路）、中规电能检测墙面插座、电能检测插座
+									mcgiManager
+											.MainsOutLetOperation(mDevices, 2);
+								}
+								if (mDevices.getmDeviceId() == DataHelper.SHADE_DEVICETYPE) {
+									// 窗帘
+									mcgiManager.shadeOperation(mDevices, 0,1);
+								}
+								if (mDevices.getmDeviceId() == DataHelper.IAS_ZONE_DEVICETYPE) {
+									// 烟雾感应器、可燃气体探测器（煤气）、（天然气）、（一氧化碳）、门窗感应开关、窗磁、紧急按钮、动作感应器
+									mcgiManager.LocalIASCIEUnByPassZone(mDevices);
+								}
+							} else {
+								if (mDevices
+										.getmModelId()
+										.indexOf(
+												DataHelper.Wireless_Intelligent_valve_switch) == 0) {
+									mcgiManager.OnOffOutputOperation(mDevices, 1);
+								}
+								if (mDevices.getmDeviceId() == DataHelper.COMBINED_INTERFACE_DEVICETYPE) {
+									mcgiManager.LocalIASCIEOperation(null, 6);
+									mDevices.setmOnOffStatus("0");
+								}
+								if (mDevices.getmDeviceId() == DataHelper.MAINS_POWER_OUTLET_DEVICETYPE) {
+									mcgiManager
+											.MainsOutLetOperation(mDevices, 2);
+								}
+								if (mDevices.getmDeviceId() == DataHelper.SHADE_DEVICETYPE) {
+									mcgiManager.shadeOperation(mDevices, 1,1);
+								}
+								if (mDevices.getmDeviceId() == DataHelper.IAS_ZONE_DEVICETYPE) {
+									mcgiManager.LocalIASCIEByPassZone(mDevices);
+								}
 							}
-							if (mDevices.getmDeviceId() == DataHelper.COMBINED_INTERFACE_DEVICETYPE) {
-								mcgiManager.LocalIASCIEOperation(null, 7);
-								mDevices.setmOnOffStatus("1");
-							}
-							if (mDevices.getmDeviceId() == DataHelper.MAINS_POWER_OUTLET_DEVICETYPE) {
-								// 开关模块（单路）、中规电能检测墙面插座、电能检测插座
-								mcgiManager
-										.MainsOutLetOperation(mDevices, 2);
-							}
-							if (mDevices.getmDeviceId() == DataHelper.SHADE_DEVICETYPE) {
-								// 窗帘
-								mcgiManager.shadeOperation(mDevices, 0,1);
-							}
-							if (mDevices.getmDeviceId() == DataHelper.IAS_ZONE_DEVICETYPE) {
-								// 烟雾感应器、可燃气体探测器（煤气）、（天然气）、（一氧化碳）、门窗感应开关、窗磁、紧急按钮、动作感应器
-								mcgiManager.LocalIASCIEUnByPassZone(mDevices);
-							}
-						} else {
-							if (mDevices
-									.getmModelId()
-									.indexOf(
-											DataHelper.Wireless_Intelligent_valve_switch) == 0) {
-								mcgiManager.OnOffOutputOperation(mDevices, 1);
-							}
-							if (mDevices.getmDeviceId() == DataHelper.COMBINED_INTERFACE_DEVICETYPE) {
-								mcgiManager.LocalIASCIEOperation(null, 6);
-								mDevices.setmOnOffStatus("0");
-							}
-							if (mDevices.getmDeviceId() == DataHelper.MAINS_POWER_OUTLET_DEVICETYPE) {
-								mcgiManager
-										.MainsOutLetOperation(mDevices, 2);
-							}
-							if (mDevices.getmDeviceId() == DataHelper.SHADE_DEVICETYPE) {
-								mcgiManager.shadeOperation(mDevices, 1,1);
-							}
-							if (mDevices.getmDeviceId() == DataHelper.IAS_ZONE_DEVICETYPE) {
-								mcgiManager.LocalIASCIEByPassZone(mDevices);
+						} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+							if (isChecked) {
+								if (mDevices.getmModelId().indexOf(DataHelper.Wireless_Intelligent_valve_switch) == 0) {
+									// 无线智能阀门开关
+									libjingleSendManager.OnOffOutputOperation(mDevices, 0);
+								}
+								if (mDevices.getmDeviceId() == DataHelper.COMBINED_INTERFACE_DEVICETYPE) {
+									libjingleSendManager.LocalIASCIEOperation(null, 7);
+									mDevices.setmOnOffStatus("1");
+								}
+								if (mDevices.getmDeviceId() == DataHelper.MAINS_POWER_OUTLET_DEVICETYPE) {
+									// 开关模块（单路）、中规电能检测墙面插座、电能检测插座
+									libjingleSendManager
+											.MainsOutLetOperation(mDevices, 2);
+								}
+								if (mDevices.getmDeviceId() == DataHelper.SHADE_DEVICETYPE) {
+									// 窗帘
+									libjingleSendManager.shadeOperation(mDevices, 0,1);
+								}
+								if (mDevices.getmDeviceId() == DataHelper.IAS_ZONE_DEVICETYPE) {
+									// 烟雾感应器、可燃气体探测器（煤气）、（天然气）、（一氧化碳）、门窗感应开关、窗磁、紧急按钮、动作感应器
+									libjingleSendManager.LocalIASCIEUnByPassZone(mDevices);
+								}
+							} else {
+								if (mDevices
+										.getmModelId()
+										.indexOf(
+												DataHelper.Wireless_Intelligent_valve_switch) == 0) {
+									libjingleSendManager.OnOffOutputOperation(mDevices, 1);
+								}
+								if (mDevices.getmDeviceId() == DataHelper.COMBINED_INTERFACE_DEVICETYPE) {
+									libjingleSendManager.LocalIASCIEOperation(null, 6);
+									mDevices.setmOnOffStatus("0");
+								}
+								if (mDevices.getmDeviceId() == DataHelper.MAINS_POWER_OUTLET_DEVICETYPE) {
+									libjingleSendManager
+											.MainsOutLetOperation(mDevices, 2);
+								}
+								if (mDevices.getmDeviceId() == DataHelper.SHADE_DEVICETYPE) {
+									libjingleSendManager.shadeOperation(mDevices, 1,1);
+								}
+								if (mDevices.getmDeviceId() == DataHelper.IAS_ZONE_DEVICETYPE) {
+									libjingleSendManager.LocalIASCIEByPassZone(mDevices);
+								}
 							}
 						}
 					}

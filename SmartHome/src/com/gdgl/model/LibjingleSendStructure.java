@@ -8,65 +8,69 @@ import android.provider.BaseColumns;
 import android.util.Log;
 
 interface LibjingleSendColumns extends BaseColumns {
-	public static final String GETZBNODE = "1.1";
-	public static final String GETENDPOINT = "1.2";
-	public static final String ZBGETZBNODECOUNT = "1.3";
-	public static final String ZBGETZBNODEBYIEEE = "1.4";
-	public static final String ZBGETZBNODEBYNWK_ADDR = "1.5";
-	public static final String ZBGETZBNODEBYINDEX = "1.6";
-	public static final String ZBGETENDPOINTCOUNT = "1.7";
-	public static final String ZBGETENDPOINTBYINDEX = "1.8";
+	public static final int GETNEWJOINNETDEVICE = 10;
+	public static final int GETZBNODE = 11;
+	public static final int GETENDPOINT = 12;
+	public static final int ZBGETZBNODECOUNT = 13;
+	public static final int ZBGETZBNODEBYIEEE = 14;
+	public static final int ZBGETZBNODEBYNWK_ADDR = 15;
+	public static final int ZBGETZBNODEBYINDEX = 16;
+	public static final int ZBGETENDPOINTCOUNT = 17;
+	public static final int ZBGETENDPOINTBYINDEX = 18;
 
-	public static final String SETPERMITJOINON = "2.1";
-	public static final String DELETENODE = "2.2";
-	public static final String MANAGELEAVENODE = "2.3";
+	public static final int SETALLPERMITJOINON =20;
+	public static final int SETPERMITJOINON = 21;
+	public static final int DELETENODE = 22;
+	public static final int MANAGELEAVENODE = 23;
 
-	public static final String GETBINDLIST = "3.1";
-	public static final String BINDDEVICE = "3.2";
-	public static final String UNBINDDEVICE = "3.3";
+	public static final int GETALLBINDLIST = 30;
+	public static final int GETBINDLIST = 31;
+	public static final int BINDDEVICE = 32;
+	public static final int UNBINDDEVICE = 33;
 
-	public static final String REMOTECONTROL = "4.1";
-	public static final String ADDBINDDATA = "4.2";
-	public static final String DELBINDDATA = "4.3";
+	public static final int REMOTECONTROL = 41;
+	public static final int ADDBINDDATA = 42;
+	public static final int DELBINDDATA = 43;
 
-	public static final String ONOFFOUTPUTOPERATION = "5.1";
-	public static final String MAINSOUTLETOPERATION = "5.2";
-	public static final String DIMMABLELIGHTOPERATION = "5.3";
-	public static final String SHADEOPERATION = "5.4";
+	public static final int ONOFFOUTPUTOPERATION = 51;
+	public static final int MAINSOUTLETOPERATION = 52;
+	public static final int DIMMABLELIGHTOPERATION = 53;
+	public static final int SHADEOPERATION = 54;
 
-	public static final String BEGINLEARNIR = "6.1";
-	public static final String BEGINAPPLYIR = "6.2";
-	public static final String GETDEVICELEARNEDIRDATAINFORMATION = "6.3";
-	public static final String DELETEIR = "6.4";
+	public static final int BEGINLEARNIR = 61;
+	public static final int BEGINAPPLYIR = 62;
+	public static final int GETDEVICELEARNEDIRDATAINFORMATION = 63;
+	public static final int DELETEIR = 64;
 
-	public static final String IASZONEOPERATION = "7.1";
-	public static final String GETLOCALCIELIST = "7.2";
-	public static final String IASZONEWRITEIASCIEADDRESSDATA = "7.3";
-	public static final String LOCALIASCIEBYPASSZONE = "7.4";
-	public static final String LOCALIASCIEUNBYPASSZONE = "7.5";
-	public static final String IASWARNINGDEVICEOPERATION = "7.6";
-	public static final String LOCALIASCIEOPERATION = "7.7";
+	public static final int IASZONEOPERATION = 71;
+	public static final int GETLOCALCIELIST = 72;
+	public static final int IASZONEWRITEIASCIEADDRESSDATA = 73;
+	public static final int LOCALIASCIEBYPASSZONE = 74;
+	public static final int LOCALIASCIEUNBYPASSZONE = 75;
+	public static final int IASWARNINGDEVICEOPERATION = 76;
+	public static final int LOCALIASCIEOPERATION = 77;
 
-	public static final String TEMPERATURESENSOROPERATION = "8.1";
-	public static final String LIGHTSENSOROPERATION = "8.2";
+	public static final int HUMIDITY = 80;
+	public static final int TEMPERATURESENSOROPERATION = 81;
+	public static final int LIGHTSENSOROPERATION = 82;
 
-	public static final String GETALLROOMINFO = "9.1";
-	public static final String GETEPBYROOMINDEX = "9.2";
-	public static final String ZBADDROOMDATAMAIN = "9.3";
-	public static final String ZBDELETEROOMDATAMAINBYID = "9.4";
-	public static final String MODIFYDEVICEROOMID = "9.5";
+	public static final int GETALLROOMINFO = 91;
+	public static final int GETEPBYROOMINDEX = 92;
+	public static final int ZBADDROOMDATAMAIN = 93;
+	public static final int ZBDELETEROOMDATAMAINBYID = 94;
+	public static final int MODIFYDEVICEROOMID = 95;
 
-	public static final String ADDDEVICECHECKMAINDATA = "10.1";
-	public static final String ADDDEVICECHECKSUBDATA = "10.2";
-	public static final String DELDEVICECHECKMAINDATA = "10.3";
-	public static final String DELDEVICECHECKSUBDATA = "10.4";
-	public static final String GETDEVICECHECKMAIN = "10.5";
-	public static final String GETDEVICECHECKSUB = "10.6";
+	public static final int ADDDEVICECHECKMAINDATA = 101;
+	public static final int ADDDEVICECHECKSUBDATA = 102;
+	public static final int DELDEVICECHECKMAINDATA = 103;
+	public static final int DELDEVICECHECKSUBDATA = 104;
+	public static final int GETDEVICECHECKMAIN = 105;
+	public static final int GETDEVICECHECKSUB = 106;
 
-	public static final String IDENTIFYDEVICE = "13.1";
-	public static final String ZBGETCHANNEL = "13.2";
-	public static final String FACTORYRESET = "13.3";
-	public static final String REBUILDNETWORKBYPARAM = "13.4";
+	public static final int IDENTIFYDEVICE = 131;
+	public static final int ZBGETCHANNEL = 132;
+	public static final int FACTORYRESET = 133;
+	public static final int REBUILDNETWORKBYPARAM = 134;
 
 }
 /***
@@ -78,7 +82,7 @@ public class LibjingleSendStructure implements LibjingleSendColumns{
 	
 	private int request_id;
 	private int gl_msgtype;
-	private String api_type;
+	private int api_type;
 	
 	/*         闵伟ADD start      */ 
 	private RequestTimer mRequestTimer;
@@ -93,7 +97,7 @@ public class LibjingleSendStructure implements LibjingleSendColumns{
 	//计时器内部类
 	class RequestTimer{
 		private final String RequestTimerTag = "RequestTimerTag";
-		private final int SEC = 5;	//计时时间5s
+		private final int SEC = 60;	//计时时间5s
 		private Timer mTimer;
 
 		
@@ -135,10 +139,10 @@ public class LibjingleSendStructure implements LibjingleSendColumns{
 	public void setGl_msgtype(int type) {
 		gl_msgtype=type;
 	}
-	public String getAPI_type() {
+	public int getAPI_type() {
 		return api_type;
 	}
-	public void setAPI_type(String type) {
+	public void setAPI_type(int type) {
 		api_type=type;
 	}
 	public void startRequestTimer(){

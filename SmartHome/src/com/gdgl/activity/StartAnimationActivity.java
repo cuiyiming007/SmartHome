@@ -21,7 +21,6 @@ import com.gdgl.service.SmartService;
 import com.gdgl.smarthome.R;
 
 public class StartAnimationActivity extends Activity {
-	int networkStatus;// 当前网络状态量
 
 	// private AnimationDrawable animationDrawable;
 	ImageView loadlogo, loadcircle;
@@ -75,7 +74,7 @@ public class StartAnimationActivity extends Activity {
 			@Override
 			public void run() {
 				Looper.prepare();
-				networkStatus = NetworkConnectivity.getInstance()
+				NetworkConnectivity.networkStatus = NetworkConnectivity.getInstance()
 						.getConnecitivityNetwork();
 			}
 		}).start();
@@ -103,7 +102,7 @@ public class StartAnimationActivity extends Activity {
 	private void goLogin() {
 		Intent intent = new Intent(StartAnimationActivity.this,
 				LoginActivity.class);
-		intent.putExtra("networkStatus", networkStatus);
+		intent.putExtra("networkStatus", NetworkConnectivity.networkStatus);
 		StartAnimationActivity.this.startActivity(intent);
 		StartAnimationActivity.this.finish();
 		overridePendingTransition(android.R.anim.fade_in,

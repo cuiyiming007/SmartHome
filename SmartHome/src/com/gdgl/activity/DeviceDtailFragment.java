@@ -1,7 +1,5 @@
 package com.gdgl.activity;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,8 +14,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
-import com.gdgl.activity.SeekLightsControlFragment.operatortype;
-import com.gdgl.activity.UIinterface.IFragmentCallbak;
+import com.gdgl.libjingle.LibjingleSendManager;
 import com.gdgl.manager.DeviceManager;
 import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.Manger;
@@ -25,11 +22,8 @@ import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
-import com.gdgl.mydata.Event;
-import com.gdgl.mydata.EventType;
-import com.gdgl.mydata.getlocalcielist.CIEresponse_params;
+import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
-import com.gdgl.util.MyDlg;
 
 /***
  * 设备详情页
@@ -47,8 +41,8 @@ public class DeviceDtailFragment extends BaseFragment {
 	View mView;
 	DevicesModel mDevices;
 	int aboutdevice;
-	Boolean aboutdeviceonoffBoolean=false;
-	
+	Boolean aboutdeviceonoffBoolean = false;
+
 	TextView device_nameTextView, device_regionTextView,
 			device_currentTextView, device_voltageTextView,
 			device_powerTextView, device_energyTextView,
@@ -56,7 +50,7 @@ public class DeviceDtailFragment extends BaseFragment {
 			device_ieeeTextView, device_epTextView, device_app_versionTextView,
 			device_hw_versionTextView, device_date_codeTextView;
 	EditText identify_timeEditText;
-	ImageView device_imgImageView,up_down_imageImageView;
+	ImageView device_imgImageView, up_down_imageImageView;
 	LinearLayout device_contorlLayout, device_seekbarLayout,
 			device_contorl_safeLayout, energy_attributeLayout,
 			device_aboutLayout, device_about_open_closeLayout,
@@ -67,6 +61,8 @@ public class DeviceDtailFragment extends BaseFragment {
 	SeekBar device_seekBar;
 
 	CGIManager cgiManager;
+	LibjingleSendManager libjingleSendManager;
+
 	DataHelper mDataHelper;
 
 	@Override
@@ -83,6 +79,7 @@ public class DeviceDtailFragment extends BaseFragment {
 		cgiManager = CGIManager.getInstance();
 		cgiManager.addObserver(DeviceDtailFragment.this);
 		DeviceManager.getInstance().addObserver(this);
+		libjingleSendManager = LibjingleSendManager.getInstance();
 
 		mDataHelper = new DataHelper((Context) getActivity());
 	}
@@ -146,7 +143,8 @@ public class DeviceDtailFragment extends BaseFragment {
 		device_disableTextView = (TextView) mView
 				.findViewById(R.id.device_disable);
 
-		up_down_imageImageView=(ImageView)mView.findViewById(R.id.up_down_image);
+		up_down_imageImageView = (ImageView) mView
+				.findViewById(R.id.up_down_image);
 		device_ieeeTextView = (TextView) mView.findViewById(R.id.device_ieee);
 		device_epTextView = (TextView) mView.findViewById(R.id.device_ep);
 		device_app_versionTextView = (TextView) mView
@@ -158,7 +156,7 @@ public class DeviceDtailFragment extends BaseFragment {
 
 		// 设备详情布局
 		setDeviceDetailLayout();
-		if(aboutdevice==WITH_DEVICE_ABOUT) {
+		if (aboutdevice == WITH_DEVICE_ABOUT) {
 			device_aboutLayout.setVisibility(View.VISIBLE);
 		}
 		// 设备图片、名称、区域
@@ -174,7 +172,11 @@ public class DeviceDtailFragment extends BaseFragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				DeviceContorlOnOffClickDo(ON);
+				if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+					DeviceContorlOnOffClickDo(ON);
+				} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+					DeviceContorlOnOffClickDo_Internet(ON);
+				}
 			}
 		});
 		device_offButton.setOnClickListener(new OnClickListener() {
@@ -182,7 +184,11 @@ public class DeviceDtailFragment extends BaseFragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				DeviceContorlOnOffClickDo(OFF);
+				if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+					DeviceContorlOnOffClickDo(OFF);
+				} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+					DeviceContorlOnOffClickDo_Internet(OFF);
+				}
 			}
 		});
 		device_inversionButton.setOnClickListener(new OnClickListener() {
@@ -190,7 +196,11 @@ public class DeviceDtailFragment extends BaseFragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				DeviceContorlOnOffClickDo(INVERSION);
+				if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+					DeviceContorlOnOffClickDo(INVERSION);
+				} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+					DeviceContorlOnOffClickDo_Internet(INVERSION);
+				}
 			}
 		});
 		device_defense_onButton.setOnClickListener(new OnClickListener() {
@@ -198,7 +208,11 @@ public class DeviceDtailFragment extends BaseFragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				DeviceContorlDefenseClickDo(ON);
+				if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+					DeviceContorlDefenseClickDo(ON);
+				} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+					DeviceContorlDefenseClickDo_Internet(ON);
+				}
 			}
 		});
 		device_defense_offButton.setOnClickListener(new OnClickListener() {
@@ -206,7 +220,11 @@ public class DeviceDtailFragment extends BaseFragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				DeviceContorlDefenseClickDo(OFF);
+				if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+					DeviceContorlDefenseClickDo(OFF);
+				} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+					DeviceContorlDefenseClickDo_Internet(OFF);
+				}
 			}
 		});
 		if (mDevices.getmDeviceId() == DataHelper.DIMEN_LIGHTS_DEVICETYPE
@@ -225,12 +243,23 @@ public class DeviceDtailFragment extends BaseFragment {
 						public void onStopTrackingTouch(SeekBar seekBar) {
 							// TODO Auto-generated method stub
 							if (mDevices.getmDeviceId() == DataHelper.DIMEN_LIGHTS_DEVICETYPE) {
-								cgiManager.dimmableLightOperation(mDevices, 16,
-										currentLevel);
+								if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+									cgiManager.dimmableLightOperation(mDevices,
+											16, currentLevel);
+								} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+									libjingleSendManager
+											.dimmableLightOperation(mDevices,
+													16, currentLevel);
+								}
 							}
 							if (mDevices.getmDeviceId() == DataHelper.SHADE_DEVICETYPE) {
-								cgiManager.shadeOperation(mDevices, 14,
-										currentLevel);
+								if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+									cgiManager.shadeOperation(mDevices, 14,
+											currentLevel);
+								} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+									libjingleSendManager.shadeOperation(
+											mDevices, 14, currentLevel);
+								}
 							}
 						}
 
@@ -258,9 +287,18 @@ public class DeviceDtailFragment extends BaseFragment {
 				String identify_time = identify_timeEditText.getText()
 						.toString();
 				if (identify_time == null || identify_time.equals("")) {
-					cgiManager.IdentifyDevice(mDevices, "10");
+					if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+						cgiManager.IdentifyDevice(mDevices, "10");
+					} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+						libjingleSendManager.IdentifyDevice(mDevices, "10");
+					}
 				} else {
-					cgiManager.IdentifyDevice(mDevices, identify_time);
+					if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+						cgiManager.IdentifyDevice(mDevices, identify_time);
+					} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+						libjingleSendManager.IdentifyDevice(mDevices,
+								identify_time);
+					}
 				}
 			}
 		});
@@ -281,19 +319,21 @@ public class DeviceDtailFragment extends BaseFragment {
 				.getmCurPowerResource()));
 		device_disableTextView.setText("否");
 
-		//关于设备
+		// 关于设备
 		device_about_open_closeLayout.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				if (aboutdeviceonoffBoolean) {
 					aboutdeviceonoffBoolean = false;
-					up_down_imageImageView.setImageResource(R.drawable.ui_arrow_down_img);
+					up_down_imageImageView
+							.setImageResource(R.drawable.ui_arrow_down_img);
 					device_about_contentLayout.setVisibility(View.GONE);
 				} else {
 					aboutdeviceonoffBoolean = true;
-					up_down_imageImageView.setImageResource(R.drawable.ui_arrow_up_img);
+					up_down_imageImageView
+							.setImageResource(R.drawable.ui_arrow_up_img);
 					device_about_contentLayout.setVisibility(View.VISIBLE);
 				}
 			}
@@ -303,7 +343,7 @@ public class DeviceDtailFragment extends BaseFragment {
 		device_app_versionTextView.setText(mDevices.getmAppVersion());
 		device_hw_versionTextView.setText(mDevices.getmHwVersion());
 		device_date_codeTextView.setText(mDevices.getmDateCode());
-		
+
 		// device_imgImageView.setOnClickListener(new OnClickListener() {
 		//
 		// @Override
@@ -508,6 +548,114 @@ public class DeviceDtailFragment extends BaseFragment {
 		}
 	}
 
+	public void DeviceContorlOnOffClickDo_Internet(int status) {
+		int deviceId = mDevices.getmDeviceId();
+
+		switch (deviceId) {
+		case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:
+			switch (status) {
+			case ON:
+				libjingleSendManager.OnOffOutputOperation(mDevices, 0);
+				break;
+			case OFF:
+				libjingleSendManager.OnOffOutputOperation(mDevices, 1);
+				break;
+			case INVERSION:
+				libjingleSendManager.OnOffOutputOperation(mDevices, 2);
+				break;
+			default:
+				break;
+			}
+			break;
+		case DataHelper.COMBINED_INTERFACE_DEVICETYPE:
+			break;
+		case DataHelper.MAINS_POWER_OUTLET_DEVICETYPE:
+			switch (status) {
+			case ON:
+				libjingleSendManager.MainsOutLetOperation(mDevices, 1);
+				break;
+			case OFF:
+				libjingleSendManager.MainsOutLetOperation(mDevices, 0);
+				break;
+			case INVERSION:
+				libjingleSendManager.MainsOutLetOperation(mDevices, 2);
+				break;
+			default:
+				break;
+			}
+			break;
+		case DataHelper.DIMEN_LIGHTS_DEVICETYPE:
+			switch (status) {
+			case ON:
+				device_seekBar.setProgress(100);
+				libjingleSendManager.dimmableLightOperation(mDevices, 16, 254);
+				break;
+			case OFF:
+				device_seekBar.setProgress(0);
+				libjingleSendManager.dimmableLightOperation(mDevices, 0, 1);
+				break;
+			case INVERSION:
+				libjingleSendManager.dimmableLightOperation(mDevices, 2, 1);
+				break;
+			default:
+				break;
+			}
+			break;
+		case DataHelper.SHADE_DEVICETYPE:
+			switch (status) {
+			case ON:
+				device_seekBar.setProgress(100);
+				libjingleSendManager.shadeOperation(mDevices, 0, 1);
+				break;
+			case OFF:
+				device_seekBar.setProgress(0);
+				libjingleSendManager.shadeOperation(mDevices, 1, 1);
+				break;
+			case INVERSION:
+				libjingleSendManager.shadeOperation(mDevices, 2, 1);
+				break;
+			default:
+				break;
+			}
+			break;
+		default:
+			break;
+		}
+	}
+
+	public void DeviceContorlDefenseClickDo_Internet(int status) {
+		int deviceId = mDevices.getmDeviceId();
+
+		switch (deviceId) {
+		case DataHelper.COMBINED_INTERFACE_DEVICETYPE:
+			switch (status) {
+			case ON:
+				libjingleSendManager.LocalIASCIEOperation(null, 7);
+				break;
+			case OFF:
+				libjingleSendManager.LocalIASCIEOperation(null, 6);
+				break;
+			default:
+				break;
+			}
+			break;
+		case DataHelper.IAS_ZONE_DEVICETYPE:
+			switch (status) {
+			case ON:
+				libjingleSendManager.LocalIASCIEUnByPassZone(mDevices);
+				break;
+			case OFF:
+				libjingleSendManager.LocalIASCIEByPassZone(mDevices);
+				break;
+			default:
+				break;
+			}
+			break;
+		default:
+			break;
+		}
+	}
+
 	public String DevicePowersourceSwitch(String string) {
 		int i = Integer.parseInt(string);
 		String result;
@@ -538,9 +686,9 @@ public class DeviceDtailFragment extends BaseFragment {
 	@Override
 	public void stopRefresh() {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	@Override
 	public void update(Manger observer, Object object) {
 		// if (null != mDialog) {

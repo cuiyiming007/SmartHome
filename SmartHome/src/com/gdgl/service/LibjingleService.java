@@ -1,7 +1,7 @@
 package com.gdgl.service;
 
 import com.gdgl.libjingle.LibjingleInit;
-import com.gdgl.libjingle.LibjingleManager;
+import com.gdgl.libjingle.LibjingleSendManager;
 import com.gdgl.libjingle.LibjingleNetUtil;
 import com.gdgl.libjingle.LibjinglePackHandler;
 
@@ -24,17 +24,23 @@ public class LibjingleService extends Service {
 		// TODO Auto-generated method stub
 		libjingleInit = new LibjingleInit();
 		Log.i("LibjingleService", "LibjingleService starts!");
-		new Thread(new Runnable() {
+		try {
+			new Thread(new Runnable() {
 
-			@Override
-			public void run() {
-				Log.i("LibjingleService", "LibjingleInit starts!");
-				libjingleInit.libjinglInit("883314EF8B2D@121.199.21.14",
-						"883314EF8B2DEF8B2D",
-						LibjinglePackHandler.getUUID());
-				Log.i("LibjingleService", "LibjingleInit done!");
-			}
-		}).start();
+				@Override
+				public void run() {
+					Log.i("LibjingleService", "LibjingleInit starts!");
+					libjingleInit.libjinglInit("883314EF8773@121.199.21.14",
+							"883314EF8773EF8773",
+							LibjinglePackHandler.getUUID());
+					Log.i("LibjingleService", "LibjingleInit done!");
+				}
+			}).start();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
 		super.onCreate();
 	}
 
@@ -52,7 +58,7 @@ public class LibjingleService extends Service {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				LibjingleManager.getInstance().getDeviceEndPoint();
+				LibjingleSendManager.getInstance().getDeviceEndPoint();
 			}
 		}).start();
 		
