@@ -574,11 +574,11 @@ public class CGIManager extends Manger {
 					Event event = new Event(EventType.LOCALIASCIEOPERATION, true);
 					event.setData(status);
 					notifyObservers(event);
-				}else {
-					String status=String.valueOf(operationType);
-					Event event = new Event(EventType.LOCALIASCIEOPERATION, true);
-					event.setData(status);
-					notifyObservers(event);
+//				}else {
+//					String status=String.valueOf(operationType);
+//					Event event = new Event(EventType.LOCALIASCIEOPERATION, true);
+//					event.setData(status);
+//					notifyObservers(event);
 				}
 			}
 		};

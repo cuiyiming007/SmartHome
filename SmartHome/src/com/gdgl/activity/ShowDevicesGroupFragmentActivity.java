@@ -115,7 +115,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		@Override
 		protected Integer doInBackground(Integer... params) {
 			// TODO Auto-generated method stub
-//			SQLiteDatabase db = mDataHelper.getSQLiteDatabase();
+			// SQLiteDatabase db = mDataHelper.getSQLiteDatabase();
 			// 环境监测
 			List<DevicesModel> enviromentlist = mDevicesListCache
 					.get(UiUtils.ENVIRONMENTAL_CONTROL);
@@ -190,7 +190,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 						UiUtils.OTHER);
 				mDevicesListCache.put(UiUtils.OTHER, anoList);
 			}
-//			mDataHelper.close(db);
+			// mDataHelper.close(db);
 			return 1;
 		}
 
@@ -258,6 +258,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		if (null != mBundle) {
 			type = mBundle.getInt(ACTIVITY_SHOW_DEVICES_TYPE, 0);
 		}
+
 		mListIndex = type;
 		initTitle();
 		initData();
@@ -375,7 +376,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		fragmentManager = this.getFragmentManager();
 
 		new GetDevicesInSortTask().execute(1);
-
+		mcgiManager.LocalIASCIEOperation(null, 5);
 	}
 
 	private void initDevicesListFragment() {
@@ -476,7 +477,6 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		} else if (UiUtils.SECURITY_CONTROL == postion) {
 			mDeviceManager.getLocalCIEList();
 		}
-		mcgiManager.LocalIASCIEOperation(null, 5);
 	}
 
 	public void changeForCoverFlow(int p) {
@@ -848,11 +848,11 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 				String status = null;
 				switch (data) {
 				case 0:
-				case 6:
+					// case 6:
 					status = "0";
 					break;
 				case 3:
-				case 7:
+					// case 7:
 					status = "1";
 				default:
 					break;
@@ -911,9 +911,10 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 				// data maybe null
 				CallbackResponseType2 data = (CallbackResponseType2) event
 						.getData();
-//				Log.i("MOVE_TO_LEVEL", mCurrentList.toString());
+				// Log.i("MOVE_TO_LEVEL", mCurrentList.toString());
 				int m = getDevicesPostion(data.getDeviceIeee(),
 						data.getDeviceEp(), mCurrentList);
+				final String valueString = data.getValue();
 				if (-1 != m) {
 					if (null != data.getValue()) {
 						mCurrentList.get(m).setmLevel(data.getValue());
@@ -922,11 +923,156 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 							public void run() {
 								// setDataActivity.setdata(mDeviceList);
 								mDevicesBaseAdapter.notifyDataSetChanged();
+								if (!isTop) {
+									DeviceDtailFragment.getInstance()
+											.refreshLevel(valueString);
+								}
 							}
 						});
 
 						ContentValues c = new ContentValues();
 						c.put(DevicesModel.LEVEL, data.getValue());
+						Paremeters p = new Paremeters();
+						p.dm = mCurrentList.get(m);
+						p.c = c;
+						new UpdateDeviceStatusToDatabaseTask().execute(p);
+					}
+				}
+			} else {
+				// if failed,prompt a Toast
+				// mError.setVisibility(View.VISIBLE);
+			}
+		} else if (EventType.CURRENT == event.getType()) {
+			if (event.isSuccess() == true) {
+				// data maybe null
+				CallbackResponseType2 data = (CallbackResponseType2) event
+						.getData();
+				int m = getDevicesPostion(data.getDeviceIeee(),
+						data.getDeviceEp(), mCurrentList);
+				final String valueString = data.getValue();
+				if (-1 != m) {
+					if (null != data.getValue()) {
+						mCurrentList.get(m).setmCurrent(valueString);
+
+						title.post(new Runnable() {
+							@Override
+							public void run() {
+								// setDataActivity.setdata(mDeviceList);
+								mDevicesBaseAdapter.notifyDataSetChanged();
+								if (!isTop) {
+									DeviceDtailFragment.getInstance()
+											.refreshCurrent(valueString);
+								}
+							}
+						});
+
+						ContentValues c = new ContentValues();
+						c.put(DevicesModel.CURRENT, data.getValue());
+						Paremeters p = new Paremeters();
+						p.dm = mCurrentList.get(m);
+						p.c = c;
+						new UpdateDeviceStatusToDatabaseTask().execute(p);
+					}
+				}
+			} else {
+				// if failed,prompt a Toast
+				// mError.setVisibility(View.VISIBLE);
+			}
+		} else if (EventType.VOLTAGE == event.getType()) {
+			if (event.isSuccess() == true) {
+				// data maybe null
+				CallbackResponseType2 data = (CallbackResponseType2) event
+						.getData();
+				int m = getDevicesPostion(data.getDeviceIeee(),
+						data.getDeviceEp(), mCurrentList);
+				final String valueString = data.getValue();
+				if (-1 != m) {
+					if (null != data.getValue()) {
+						mCurrentList.get(m).setmVoltage(data.getValue());
+						title.post(new Runnable() {
+							@Override
+							public void run() {
+								// setDataActivity.setdata(mDeviceList);
+								mDevicesBaseAdapter.notifyDataSetChanged();
+								if (!isTop) {
+									DeviceDtailFragment.getInstance()
+											.refreshVoltage(valueString);
+								}
+							}
+						});
+
+						ContentValues c = new ContentValues();
+						c.put(DevicesModel.VOLTAGE, data.getValue());
+						Paremeters p = new Paremeters();
+						p.dm = mCurrentList.get(m);
+						p.c = c;
+						new UpdateDeviceStatusToDatabaseTask().execute(p);
+					}
+				}
+			} else {
+				// if failed,prompt a Toast
+				// mError.setVisibility(View.VISIBLE);
+			}
+		} else if (EventType.ENERGY == event.getType()) {
+			if (event.isSuccess() == true) {
+				// data maybe null
+				CallbackResponseType2 data = (CallbackResponseType2) event
+						.getData();
+				int m = getDevicesPostion(data.getDeviceIeee(),
+						data.getDeviceEp(), mCurrentList);
+				final String valueString = String.valueOf(Float.parseFloat(data.getValue()));
+				if (-1 != m) {
+					if (null != data.getValue()) {
+						mCurrentList.get(m).setmEnergy(data.getValue());
+						title.post(new Runnable() {
+							@Override
+							public void run() {
+								// setDataActivity.setdata(mDeviceList);
+								mDevicesBaseAdapter.notifyDataSetChanged();
+								if (!isTop) {
+									DeviceDtailFragment.getInstance()
+											.refreshEnergy(valueString);
+								}
+							}
+						});
+
+						ContentValues c = new ContentValues();
+						c.put(DevicesModel.ENERGY, data.getValue());
+						Paremeters p = new Paremeters();
+						p.dm = mCurrentList.get(m);
+						p.c = c;
+						new UpdateDeviceStatusToDatabaseTask().execute(p);
+					}
+				}
+			} else {
+				// if failed,prompt a Toast
+				// mError.setVisibility(View.VISIBLE);
+			}
+		} else if (EventType.POWER == event.getType()) {
+			if (event.isSuccess() == true) {
+				// data maybe null
+				CallbackResponseType2 data = (CallbackResponseType2) event
+						.getData();
+				int m = getDevicesPostion(data.getDeviceIeee(),
+						data.getDeviceEp(), mCurrentList);
+				final String valueString = data.getValue();
+				if (-1 != m) {
+					if (null != data.getValue()) {
+						mCurrentList.get(m).setmPower(data.getValue());
+						title.post(new Runnable() {
+							@Override
+							public void run() {
+								// setDataActivity.setdata(mDeviceList);
+								mDevicesBaseAdapter.notifyDataSetChanged();
+								if (!isTop) {
+									DeviceDtailFragment.getInstance()
+											.refreshPower(valueString);
+								}
+							}
+						});
+
+						ContentValues c = new ContentValues();
+						c.put(DevicesModel.POWER, data.getValue());
 						Paremeters p = new Paremeters();
 						p.dm = mCurrentList.get(m);
 						p.c = c;

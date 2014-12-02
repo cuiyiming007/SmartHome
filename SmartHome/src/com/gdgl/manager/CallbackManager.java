@@ -61,14 +61,14 @@ public class CallbackManager extends Manger {
 	}
 
 	public void connectAndRecieveFromCallback() {
-//		try {
-			Log.i(TAG, "start ConnectServerByTCPTask");
-			NetUtil.getInstance().initalCallbackSocket();
-			NetUtil.getInstance().connectServerWithTCPSocket();
-			NetUtil.getInstance().recieveFromCallback();
-//		} catch (Exception e) {
-//			Log.e(TAG, "connectAndRecieveFromCallback error：" + e.getMessage());
-//		}
+		// try {
+		Log.i(TAG, "start ConnectServerByTCPTask");
+		NetUtil.getInstance().initalCallbackSocket();
+		NetUtil.getInstance().connectServerWithTCPSocket();
+		NetUtil.getInstance().recieveFromCallback();
+		// } catch (Exception e) {
+		// Log.e(TAG, "connectAndRecieveFromCallback error：" + e.getMessage());
+		// }
 	}
 
 	public void classifyCallbackResponse(String message) {
@@ -218,6 +218,20 @@ public class CallbackManager extends Manger {
 						+ joinNetMessage.toString());
 				DeviceManager.getInstance().getNewJoinNetDevice(joinNetMessage);
 				break;
+			case 33:
+				String statusString = (String) jsonRsponse.get("status");
+				String status = "";
+				if (statusString.equals("DisArm")) {
+					status = "0";
+				}
+				if (statusString.equals("ArmAllZone")) {
+					status = "3";
+				}
+				Event event33 = new Event(EventType.LOCALIASCIEOPERATION, true);
+				event33.setData(status);
+				notifyObservers(event33);
+
+				break;
 			default:
 				break;
 			}
@@ -267,16 +281,15 @@ public class CallbackManager extends Manger {
 			}
 			if (clusterId == 8) {
 				Log.i(TAG,
-						"Callback msgType=" + 2 + " level"
-								+ common.toString());
+						"Callback msgType=" + 2 + " level" + common.toString());
 				Event event = new Event(EventType.MOVE_TO_LEVEL, true);
 				event.setData(common);
 				notifyObservers(event);
 			}
 			if (clusterId == 1024) {
-//				Log.i(TAG,
-//						"Callback msgType=" + 2 + "brightness"
-//								+ common.toString());
+				// Log.i(TAG,
+				// "Callback msgType=" + 2 + "brightness"
+				// + common.toString());
 				Bundle bundle = new Bundle();
 				bundle.putString("IEEE", common.getDeviceIeee());
 				bundle.putString("EP", common.getDeviceEp());
@@ -286,9 +299,9 @@ public class CallbackManager extends Manger {
 				notifyObservers(event);
 			}
 			if (clusterId == 1026) {
-//				Log.i(TAG,
-//						"Callback msgType=" + 2 + "temperature"
-//								+ common.toString());
+				// Log.i(TAG,
+				// "Callback msgType=" + 2 + "temperature"
+				// + common.toString());
 				Bundle bundle = new Bundle();
 				bundle.putString("IEEE", common.getDeviceIeee());
 				bundle.putString("EP", common.getDeviceEp());
@@ -299,9 +312,9 @@ public class CallbackManager extends Manger {
 				notifyObservers(event);
 			}
 			if (clusterId == 1029) {
-//				Log.i(TAG,
-//						"Callback msgType=" + 2 + "humidity"
-//								+ common.toString());
+				// Log.i(TAG,
+				// "Callback msgType=" + 2 + "humidity"
+				// + common.toString());
 				Bundle bundle = new Bundle();
 				bundle.putString("IEEE", common.getDeviceIeee());
 				bundle.putString("EP", common.getDeviceEp());
@@ -318,19 +331,52 @@ public class CallbackManager extends Manger {
 
 			break;
 		case 57344:// E000
-			Log.i(TAG, "attributeId:E000");
-			Event event = new Event(EventType.ENROLL, true);
-			event.setData(common);
-			notifyObservers(event);
+			if (clusterId == 1794) {
+				Log.i(TAG,
+						"Callback msgType=" + 2 + " current"
+								+ common.toString());
+				Event event = new Event(EventType.CURRENT, true);
+				event.setData(common);
+				notifyObservers(event);
+			}
+			if (clusterId == 257) {
+				// Log.i(TAG,
+				// "Callback msgType=" + 2 + " enroll"
+				// + common.toString());
+				// Event event = new Event(EventType.ENROLL, true);
+				// event.setData(common);
+				// notifyObservers(event);
+			}
 			break;
 		case 57345:// 0xE001:
-			Log.i(TAG, "attributeId:E001");
+			if (clusterId == 1794) {
+				Log.i(TAG,
+						"Callback msgType=" + 2 + " voltage"
+								+ common.toString());
+				Event event = new Event(EventType.VOLTAGE, true);
+				event.setData(common);
+				notifyObservers(event);
+			}
 			break;
 		case 57346:// 0xE002:
-			Log.i(TAG, "attributeId:E002");
+			if (clusterId == 1794) {
+				Log.i(TAG,
+						"Callback msgType=" + 2 + " power"
+								+ common.toString());
+				Event event = new Event(EventType.POWER, true);
+				event.setData(common);
+				notifyObservers(event);
+			}
 			break;
 		case 57347:// 0xE003:
-			Log.i(TAG, "attributeId:E003");
+			if (clusterId == 1794) {
+				Log.i(TAG,
+						"Callback msgType=" + 2 + " energy"
+								+ common.toString());
+				Event event = new Event(EventType.ENERGY, true);
+				event.setData(common);
+				notifyObservers(event);
+			}
 			break;
 
 		default:

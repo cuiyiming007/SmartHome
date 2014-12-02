@@ -188,8 +188,7 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 									startActivity(intent);
 								} else {
 									Fragment mFragment = null;
-
-									mFragment = new DeviceDtailFragment();
+									mFragment = DeviceDtailFragment.getInstance();
 									Bundle extras = new Bundle();
 									extras.putSerializable(Constants.PASS_OBJECT,mDevicesModel);
 									extras.putInt(Constants.PASS_DEVICE_ABOUT, DeviceDtailFragment.WITHOUT_DEVICE_ABOUT);

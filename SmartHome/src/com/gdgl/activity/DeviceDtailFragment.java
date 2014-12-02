@@ -65,6 +65,15 @@ public class DeviceDtailFragment extends BaseFragment {
 
 	DataHelper mDataHelper;
 
+	private static DeviceDtailFragment instance;
+
+	public static DeviceDtailFragment getInstance() {
+		if (instance == null) {
+			instance = new DeviceDtailFragment();
+		}
+		return instance;
+	}
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -687,6 +696,29 @@ public class DeviceDtailFragment extends BaseFragment {
 	public void stopRefresh() {
 		// TODO Auto-generated method stub
 
+	}
+	
+	public void refreshLevel(String string) {
+		int level = Integer.parseInt(string);
+		int state = level * 100 / 254;
+		device_seekBar.setProgress(state);
+		device_seekBar.invalidate();
+	}
+	public void refreshCurrent(String string) {
+		device_currentTextView.setText(string);
+		device_currentTextView.invalidate();
+	}
+	public void refreshVoltage(String string) {
+		device_voltageTextView.setText(string);
+		device_voltageTextView.postInvalidate();
+	}
+	public void refreshPower(String string) {
+		device_powerTextView.setText(string);
+		device_powerTextView.postInvalidate();
+	}
+	public void refreshEnergy(String string) {
+		device_energyTextView.setText(string);
+		device_energyTextView.postInvalidate();
 	}
 
 	@Override

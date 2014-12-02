@@ -599,7 +599,7 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 		setmEP(d.getEp() == null ? "" : d.getEp());
 		setmName(d.getName() == null ? "" : d.getName());
 		setmCurrent(d.getCurrent());
-		setmEnergy(d.getEnergy());
+		setmEnergy(d.getEnergy()==null?null:String.valueOf(Float.parseFloat(d.getEnergy())/10000));
 		setmPower(d.getPower());
 		setmVoltage(d.getVoltage());
 		setmLevel(d.getLevel());
