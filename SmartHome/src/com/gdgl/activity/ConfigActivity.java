@@ -211,7 +211,8 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 
 			@Override
 			public void onClick(View v) {
-				((MessageListFragment) f).dialog();
+				//((MessageListFragment) f).dialog();
+				((MessageListFragment) f).deleteClick();
 			}
 		});
 	}

@@ -403,7 +403,8 @@ public class DataHelper extends SQLiteOpenHelper {
 			for (ContentValuesListener contentvalue : arrayList) {
 				ContentValues c = contentvalue.convertContentValues();
 				long m = db.insert(table, nullColumnHack, c);
-				if (-1 == m) {
+				//if (-1 == m) {
+				if (-1 != m) {
 					result = m;
 				}
 

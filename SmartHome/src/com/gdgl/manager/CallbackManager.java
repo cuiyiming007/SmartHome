@@ -248,7 +248,9 @@ public class CallbackManager extends Manger {
 				warnmessage);
 		WarnManager.getInstance().setCurrentWarnInfo(warnmessage);
 
-		new UpdateDBTask().execute(warnmessage);
+		// new UpdateDBTask().execute(warnmessage);
+		long _id = updateWarnMessage(warnmessage);
+		warnmessage.setId(_id + "");
 		Intent i = new Intent(ApplicationController.getInstance(),
 				ShowDevicesGroupFragmentActivity.class);
 		i.putExtra(ShowDevicesGroupFragmentActivity.ACTIVITY_SHOW_DEVICES_TYPE,
@@ -361,8 +363,7 @@ public class CallbackManager extends Manger {
 		case 57346:// 0xE002:
 			if (clusterId == 1794) {
 				Log.i(TAG,
-						"Callback msgType=" + 2 + " power"
-								+ common.toString());
+						"Callback msgType=" + 2 + " power" + common.toString());
 				Event event = new Event(EventType.POWER, true);
 				event.setData(common);
 				notifyObservers(event);
@@ -371,8 +372,7 @@ public class CallbackManager extends Manger {
 		case 57347:// 0xE003:
 			if (clusterId == 1794) {
 				Log.i(TAG,
-						"Callback msgType=" + 2 + " energy"
-								+ common.toString());
+						"Callback msgType=" + 2 + " energy" + common.toString());
 				Event event = new Event(EventType.ENERGY, true);
 				event.setData(common);
 				notifyObservers(event);
@@ -499,5 +499,18 @@ public class CallbackManager extends Manger {
 					DataHelper.MESSAGE_TABLE, null, callbackWarmMessages);
 			return null;
 		}
+	}
+
+	private long updateWarnMessage(CallbackWarnMessage warnmessage) {
+		long _id = -1;
+		DataHelper mDateHelper = new DataHelper(
+				ApplicationController.getInstance());
+		SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
+		ArrayList<CallbackWarnMessage> callbackWarmMessages = new ArrayList<CallbackWarnMessage>();
+		callbackWarmMessages.add((CallbackWarnMessage) warnmessage);
+		_id = mDateHelper.insertMessageList(mSQLiteDatabase,
+				DataHelper.MESSAGE_TABLE, null, callbackWarmMessages);
+		return _id;
+
 	}
 }

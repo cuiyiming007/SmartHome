@@ -3,13 +3,68 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
+    
+    <LinearLayout 
+        	android:id="@+id/deletetools"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:background="#ffffff"
+        	android:visibility="gone"
+		    android:orientation="horizontal" >
+		
+		    <Button 
+		        android:id="@+id/check_all"
+		        android:layout_weight="1"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_margin="5dp"
+		        android:background="@drawable/ui_button_selector_blue"
+		        android:text="全选"
+		        android:textColor="#33a3dc"
+		        android:textSize="16dp"/>
+		        
+		    <Button 
+		        android:id="@+id/cancel_all"
+		        android:layout_weight="1"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_margin="5dp"
+		        android:background="@drawable/ui_button_selector_blue"
+		        android:text="清空"
+		        android:textColor="#33a3dc"
+		        android:textSize="16dp"/>
+		 
+		    
+		    <Button 
+		        android:id="@+id/cancel"
+		        android:layout_weight="1"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_margin="5dp"
+		        android:background="@drawable/ui_button_selector_blue"
+		        android:text="取消"
+		        android:textColor="#33a3dc"
+		        android:textSize="16dp"/>
+		    
+		    <Button 
+		        android:id="@+id/delete"
+		        android:layout_weight="1"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_margin="5dp"
+		        android:background="@drawable/ui_button_selector_red"
+		        android:text="删除"
+		        android:textColor="#ef4136"
+		        android:textSize="16dp"/>
+		
+		</LinearLayout>
 
     <LinearLayout
         android:id="@+id/messagelinearlayout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1" >
-
+        
         <ListView
             android:id="@+id/message_list"
             android:layout_width="fill_parent"
