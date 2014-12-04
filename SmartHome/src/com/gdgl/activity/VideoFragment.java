@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -20,7 +21,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,13 +48,12 @@ public class VideoFragment extends Fragment implements UIListener,
 
 	public static final String PASS_OBJECT = "pass_object";
 	List<VideoNode> mList;
-	VideoNode currentvVideoNode;
+	VideoNode currentVideoNode;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		initData();
-
 	}
 
 	private void initData() {
@@ -201,6 +200,7 @@ public class VideoFragment extends Fragment implements UIListener,
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
+//		Log.i("", "编辑&删除");
 		menu.setHeaderTitle("编辑&删除");
 		menu.add(0, 1, 0, "编辑");
 		menu.add(0, 2, 0, "删除");
@@ -212,21 +212,21 @@ public class VideoFragment extends Fragment implements UIListener,
 		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
 				.getMenuInfo();
 		int position = info.position;
-		currentvVideoNode = mList.get(position);
+		currentVideoNode = mList.get(position);
 		int menuIndex = item.getItemId();
 
 		if (1 == menuIndex) {
 			VideoInfoDialog videoInfoDialog = new VideoInfoDialog(
 					getActivity(), VideoInfoDialog.Edit, this,
-					currentvVideoNode);
-			videoInfoDialog.setContent("编辑" + currentvVideoNode.getAliases());
+					currentVideoNode);
+			videoInfoDialog.setContent("编辑" + currentVideoNode.getAliases());
 			videoInfoDialog.show();
 		}
 		if (2 == menuIndex) {
 			MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
 					(Context) getActivity());
 			mMyOkCancleDlg.setDialogCallback((Dialogcallback) this);
-			mMyOkCancleDlg.setContent("确定要删除" + currentvVideoNode.getAliases()
+			mMyOkCancleDlg.setContent("确定要删除" + currentVideoNode.getAliases()
 					+ "吗?");
 			mMyOkCancleDlg.show();
 		}
@@ -249,7 +249,7 @@ public class VideoFragment extends Fragment implements UIListener,
 			if (event.isSuccess()) {
 				Toast.makeText(getActivity(), "删除成功!", Toast.LENGTH_SHORT)
 						.show();
-				updateDeleteVideoList(currentvVideoNode);
+				updateDeleteVideoList(currentVideoNode);
 			} else {
 				Toast.makeText(getActivity(), "删除失败!", Toast.LENGTH_SHORT)
 						.show();
@@ -300,6 +300,6 @@ public class VideoFragment extends Fragment implements UIListener,
 
 	@Override
 	public void dialogdo() {
-		VideoManager.getInstance().deleteIPC(currentvVideoNode);
+		VideoManager.getInstance().deleteIPC(currentVideoNode);
 	}
 }

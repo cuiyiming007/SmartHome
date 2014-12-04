@@ -73,7 +73,7 @@ public class DeviceDtailFragment extends BaseFragment {
 		}
 		return instance;
 	}
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -313,7 +313,11 @@ public class DeviceDtailFragment extends BaseFragment {
 		});
 
 		// 电能属性
-		if (mDevices.getmCurrent() == null) {
+		if (mDevices.getmCurrent() == null
+				|| mDevices.getmModelId().indexOf(
+						DataHelper.Curtain_control_switch) == 0
+				|| mDevices.getmModelId().indexOf(
+						DataHelper.Wireless_Intelligent_valve_switch) == 0) {
 			energy_attributeLayout.setVisibility(View.GONE);
 		} else {
 			energy_attributeLayout.setVisibility(View.VISIBLE);
@@ -697,25 +701,29 @@ public class DeviceDtailFragment extends BaseFragment {
 		// TODO Auto-generated method stub
 
 	}
-	
+
 	public void refreshLevel(String string) {
 		int level = Integer.parseInt(string);
 		int state = level * 100 / 254;
 		device_seekBar.setProgress(state);
 		device_seekBar.invalidate();
 	}
+
 	public void refreshCurrent(String string) {
 		device_currentTextView.setText(string);
 		device_currentTextView.invalidate();
 	}
+
 	public void refreshVoltage(String string) {
 		device_voltageTextView.setText(string);
 		device_voltageTextView.postInvalidate();
 	}
+
 	public void refreshPower(String string) {
 		device_powerTextView.setText(string);
 		device_powerTextView.postInvalidate();
 	}
+
 	public void refreshEnergy(String string) {
 		device_energyTextView.setText(string);
 		device_energyTextView.postInvalidate();

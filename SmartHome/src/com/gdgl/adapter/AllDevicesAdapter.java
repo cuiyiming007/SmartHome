@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.gdgl.model.DevicesModel;
-import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.getFromSharedPreferences;
@@ -85,7 +84,7 @@ public class AllDevicesAdapter extends BaseAdapter {
 		// TODO Auto-generated method stub
 		View mView = convertView;
 		final ViewHolder mHolder;
-		final SimpleDevicesModel mDevices = (SimpleDevicesModel)getItem(position);
+		final DevicesModel mDevices = (DevicesModel)getItem(position);
 		
 		if (null == mView) {
 			mHolder = new ViewHolder();

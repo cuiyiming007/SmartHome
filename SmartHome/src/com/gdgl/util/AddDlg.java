@@ -132,7 +132,7 @@ public class AddDlg {
 		
 		DataHelper mDateHelper = new DataHelper(mContext);
 		SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
-		mList=mDateHelper.queryForRoomList(mContext, mSQLiteDatabase, DataHelper.ROOMINFO_TABLE, null, null, null, null, null, GetRoomInfo_response.ROOM_ID, null);
+		mList=mDateHelper.queryForRoomList(mSQLiteDatabase, DataHelper.ROOMINFO_TABLE, null, null, null, null, null, GetRoomInfo_response.ROOM_ID, null);
 		
 		//加入新的roomid
 		int roomid=1;

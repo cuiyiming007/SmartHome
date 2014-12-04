@@ -557,7 +557,7 @@ public class DataHelper extends SQLiteOpenHelper {
 	public int update(SQLiteDatabase db, String table, ContentValues values,
 			String whereClause, String[] whereArgs) {
 		int result = db.update(table, values, whereClause, whereArgs);
-		db.close();
+//		db.close();
 		return result;
 	}
 
@@ -770,7 +770,7 @@ public class DataHelper extends SQLiteOpenHelper {
 		return mList;
 	}
 
-	public List<Room> queryForRoomList(Context con, SQLiteDatabase db,
+	public List<Room> queryForRoomList(SQLiteDatabase db,
 			String table, String[] columns, String selection,
 			String[] selectionArgs, String groupBy, String having,
 			String orderBy, String limit) {
@@ -792,6 +792,7 @@ public class DataHelper extends SQLiteOpenHelper {
 			} while (c.moveToNext());
 			c.close();
 		}
+		db.close();
 		return mList;
 	}
 

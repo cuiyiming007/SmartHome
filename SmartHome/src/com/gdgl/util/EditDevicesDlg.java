@@ -1,6 +1,6 @@
 package com.gdgl.util;
 
-import com.gdgl.model.SimpleDevicesModel;
+import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
@@ -16,8 +16,7 @@ import android.widget.TextView;
 
 public class EditDevicesDlg {
 	private Context mContext;
-	private SimpleDevicesModel mSimpleDevicesModel;
-
+	private DevicesModel mDevicesModel;
 	EditDialogcallback dialogcallback;
 	Dialog dialog;
 	Button save;
@@ -28,9 +27,9 @@ public class EditDevicesDlg {
 	// EditText mRegion;
 	LinearLayout devices_region;
 
-	public EditDevicesDlg(Context c, SimpleDevicesModel s) {
+	public EditDevicesDlg(Context c, DevicesModel s) {
 		mContext = c;
-		mSimpleDevicesModel = s;
+		mDevicesModel = s;
 
 		dialog = new Dialog(mContext, R.style.MyDialog);
 		dialog.setContentView(R.layout.edit_devices_dlg);
@@ -43,16 +42,16 @@ public class EditDevicesDlg {
 		// mRegion = (EditText) dialog.findViewById(R.id.edit_region);
 
 		final String name;
-		if (mSimpleDevicesModel.getmModelId().contains(
+		if (mDevicesModel.getmModelId().contains(
 				DataHelper.Wall_switch_double)
-				|| mSimpleDevicesModel.getmModelId().contains(
+				|| mDevicesModel.getmModelId().contains(
 						DataHelper.Wall_switch_triple)) {
-			name = mSimpleDevicesModel.getmDefaultDeviceName();
+			name = mDevicesModel.getmDefaultDeviceName();
 			devices_region.setVisibility(View.GONE);
 		} else {
-			name = mSimpleDevicesModel.getmDefaultDeviceName();
+			name = mDevicesModel.getmDefaultDeviceName();
 		}
-		final String region = mSimpleDevicesModel.getmDeviceRegion();
+		final String region = mDevicesModel.getmDeviceRegion();
 
 		mName.setText(name);
 		// mRegion.setText(region);
@@ -71,8 +70,8 @@ public class EditDevicesDlg {
 				if ((!name.equals(mN))) {
 //					dialogcallback.saveedit(mSimpleDevicesModel.getmIeee(),
 //							mSimpleDevicesModel.getmEP(), mN, mR);
-					dialogcallback.saveedit(mSimpleDevicesModel.getmIeee(),
-							mSimpleDevicesModel.getmEP(), mN);
+					dialogcallback.saveedit(mDevicesModel.getmIeee(),
+							mDevicesModel.getmEP(), mN);
 				}
 				dismiss();
 

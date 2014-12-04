@@ -5,7 +5,6 @@ import com.gdgl.activity.ShowDevicesGroupFragmentActivity.adapterSeter;
 import com.gdgl.adapter.AllDevicesAdapter;
 import com.gdgl.adapter.AllDevicesAdapter.AddChecked;
 import com.gdgl.adapter.AllDevicesAdapter.ViewHolder;
-import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.smarthome.R;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -31,7 +30,6 @@ public class AllDevicesFragment extends Fragment implements adapterSeter {
 	private View mView;
 	PullToRefreshListView devices_list;
 
-	SimpleDevicesModel mSimpleDevicesModel;
 	int refreshTag = 0;
 
 	BaseAdapter mBaseAdapter;

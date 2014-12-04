@@ -1,10 +1,7 @@
 package com.gdgl.activity;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.gdgl.activity.DevicesListFragment.refreshData;
-import com.gdgl.activity.DevicesListFragment.setData;
 import com.gdgl.manager.DeviceManager;
 import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.Manger;
@@ -15,10 +12,6 @@ import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
-import com.gdgl.mydata.Event;
-import com.gdgl.mydata.EventType;
-import com.gdgl.mydata.SimpleResponseData;
-import com.gdgl.mydata.getlocalcielist.CIEresponse_params;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.EditDevicesDlg;
 import com.gdgl.util.MyOkCancleDlg;
@@ -26,7 +19,6 @@ import com.gdgl.util.UiUtils;
 import com.gdgl.util.EditDevicesDlg.EditDialogcallback;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Context;
@@ -604,16 +596,11 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 		int position = info.position;
 		currentpostion = position;
 		DevicesModel mDevicesModel = mCurrentList.get(position);
-		SimpleDevicesModel mSimpleDevicesModel = new SimpleDevicesModel();
-		mSimpleDevicesModel.setmIeee(mDevicesModel.getmIeee().trim());
-		mSimpleDevicesModel.setmEP(mDevicesModel.getmEP().trim());
-		mSimpleDevicesModel.setmDefaultDeviceName(mDevicesModel
-				.getmDefaultDeviceName().trim());
 		int menuIndex = item.getItemId();
 
 		if (1 == menuIndex) {
 			EditDevicesDlg mEditDevicesDlg = new EditDevicesDlg(
-					(Context) getActivity(), mSimpleDevicesModel);
+					(Context) getActivity(), mDevicesModel);
 			mEditDevicesDlg.setDialogCallback(this);
 
 			mEditDevicesDlg.setContent("编辑"

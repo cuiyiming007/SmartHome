@@ -158,10 +158,11 @@ public class VideoInfoDialog implements UIListener {
 				VideoResponse response = (VideoResponse) event.getData();
 				Toast.makeText(mContext, "添加成功", Toast.LENGTH_SHORT).show();
 				videoNode.setId(response.getResponse_params().getIpc_id());
-				listener.onFragmentResult(Add, true, videoNode);
+				addToDB();
 				dismiss();
 
-				addToDB();
+				listener.onFragmentResult(Add, true, videoNode);
+
 			} else {
 				Toast.makeText(mContext, "添加失败", Toast.LENGTH_SHORT).show();
 			}
@@ -169,9 +170,12 @@ public class VideoInfoDialog implements UIListener {
 		} else if (event.getType() == EventType.EDITIPC) {
 			if (event.isSuccess()) {
 				Toast.makeText(mContext, "编辑成功", Toast.LENGTH_SHORT).show();
-				listener.onFragmentResult(Edit, true, videoNode);
 				dismiss();
+
 				editToDB();
+
+				listener.onFragmentResult(Edit, true, videoNode);
+
 			} else {
 				Toast.makeText(mContext, "编辑失败", Toast.LENGTH_SHORT).show();
 			}
@@ -180,7 +184,7 @@ public class VideoInfoDialog implements UIListener {
 	}
 
 	private void editToDB() {
-		new AsyncTask<Object, Object, Object>(){
+		new AsyncTask<Object, Object, Object>() {
 
 			@Override
 			protected Object doInBackground(Object... params) {
@@ -188,7 +192,7 @@ public class VideoInfoDialog implements UIListener {
 						ApplicationController.getInstance());
 				SQLiteDatabase mSQLiteDatabase = mDateHelper
 						.getSQLiteDatabase();
-				
+
 				String Where = " id=?";
 				String[] args = { videoNode.getId() == null ? "" : videoNode
 						.getId().trim(), };
@@ -196,7 +200,8 @@ public class VideoInfoDialog implements UIListener {
 				mDateHelper.update(mSQLiteDatabase, DataHelper.VIDEO_TABLE,
 						contentValues, Where, args);
 				return true;
-			}}.execute();
+			}
+		}.execute();
 	}
 
 	private void addToDB() {
@@ -206,15 +211,16 @@ public class VideoInfoDialog implements UIListener {
 			protected Object doInBackground(Object... params) {
 				DataHelper mDateHelper = new DataHelper(
 						ApplicationController.getInstance());
-				SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
+				SQLiteDatabase mSQLiteDatabase = mDateHelper
+						.getSQLiteDatabase();
 				ArrayList<VideoNode> videoNodes = new ArrayList<VideoNode>();
 				videoNodes.add(videoNode);
-				mDateHelper.insertVideoList(mSQLiteDatabase, DataHelper.VIDEO_TABLE,
-						null, videoNodes);
+				mDateHelper.insertVideoList(mSQLiteDatabase,
+						DataHelper.VIDEO_TABLE, null, videoNodes);
 				return true;
 			}
 		}.execute();
-		
+
 	}
 
 }

@@ -13,7 +13,6 @@ import com.gdgl.adapter.DevicesBaseAdapter;
 import com.gdgl.adapter.DevicesBaseAdapter.DevicesObserver;
 import com.gdgl.manager.CGIManager;
 import com.gdgl.model.DevicesModel;
-import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
@@ -156,7 +155,6 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 		mNoDevices = (TextView) findViewById(R.id.no_devices);
 		mAdd = (Button) findViewById(R.id.add_devices);
 		delete = (Button) findViewById(R.id.clear_message);
-		delete.setVisibility(View.VISIBLE);
 		region_name=(TextView) findViewById(R.id.title);
 		
 		region_name.setText(mRoomname);
@@ -416,47 +414,47 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 	public void dialogdo() {
 		// TODO Auto-generated method stub
 		if(deleteType){
-			//删除设备中的区域信息
-			String where = " ieee = ? ";
-			SQLiteDatabase mSQLiteDatabase = mDataHelper.getSQLiteDatabase();
-			for (DevicesModel s : mList) {
-				ContentValues c = new ContentValues();
-				c.put(DevicesModel.DEVICE_REGION, "");
-				c.put(DevicesModel.R_ID, "-1");
-				String[] args = { s.getmIeee() };
-				mDataHelper.update(mSQLiteDatabase, DataHelper.DEVICES_TABLE,
-						c, where, args);
-			}
-			//删除所选区域
-			CGIManager.getInstance().ZBDeleteRoomDataMainByID(mRoomid);
-			String[] strings=new String[] {mRoomid};
-			mDataHelper.delete(mSQLiteDatabase, DataHelper.ROOMINFO_TABLE, " room_id = ? ", strings);
-			//删除常用中对应的区域名称
-			getFromSharedPreferences.setsharedPreferences(RegionDevicesActivity.this);
-			
-			List<String> mreg=new ArrayList<String>();
- 			String comm = getFromSharedPreferences.getCommonUsed();
-			if (null != comm && !comm.trim().equals("")) {
-				String[] result = comm.split("@@");
-				for (String string : result) {
-					if (!string.trim().equals("")) {
-						mreg.add(string);
-					}
-				}
-			}
-			if(mreg.contains(UiUtils.REGION_FLAG+mRoomname)){
-				mreg.remove(UiUtils.REGION_FLAG+mRoomname);
-				StringBuilder sb=new StringBuilder();
-				if(null!=mreg && mreg.size()>0){
-					for (String s : mreg) {
-						sb.append(s+"@@");
-					}
-				}else{
-					sb.append("");
-				}
-				getFromSharedPreferences.setCommonUsed(sb.toString());
-			}
-			this.finish();
+//			//删除设备中的区域信息
+//			String where = " ieee = ? ";
+//			SQLiteDatabase mSQLiteDatabase = mDataHelper.getSQLiteDatabase();
+//			for (DevicesModel s : mList) {
+//				ContentValues c = new ContentValues();
+//				c.put(DevicesModel.DEVICE_REGION, "");
+//				c.put(DevicesModel.R_ID, "-1");
+//				String[] args = { s.getmIeee() };
+//				mDataHelper.update(mSQLiteDatabase, DataHelper.DEVICES_TABLE,
+//						c, where, args);
+//			}
+//			//删除所选区域
+//			CGIManager.getInstance().ZBDeleteRoomDataMainByID(mRoomid);
+//			String[] strings=new String[] {mRoomid};
+//			mDataHelper.delete(mSQLiteDatabase, DataHelper.ROOMINFO_TABLE, " room_id = ? ", strings);
+//			//删除常用中对应的区域名称
+//			getFromSharedPreferences.setsharedPreferences(RegionDevicesActivity.this);
+//			
+//			List<String> mreg=new ArrayList<String>();
+// 			String comm = getFromSharedPreferences.getCommonUsed();
+//			if (null != comm && !comm.trim().equals("")) {
+//				String[] result = comm.split("@@");
+//				for (String string : result) {
+//					if (!string.trim().equals("")) {
+//						mreg.add(string);
+//					}
+//				}
+//			}
+//			if(mreg.contains(UiUtils.REGION_FLAG+mRoomname)){
+//				mreg.remove(UiUtils.REGION_FLAG+mRoomname);
+//				StringBuilder sb=new StringBuilder();
+//				if(null!=mreg && mreg.size()>0){
+//					for (String s : mreg) {
+//						sb.append(s+"@@");
+//					}
+//				}else{
+//					sb.append("");
+//				}
+//				getFromSharedPreferences.setCommonUsed(sb.toString());
+//			}
+//			this.finish();
 		}else{
 			String where = " ieee = ? ";
 			String[] args = { getModel.getmIeee() };
