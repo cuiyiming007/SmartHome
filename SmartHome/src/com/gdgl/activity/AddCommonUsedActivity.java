@@ -35,6 +35,7 @@ import android.widget.TextView;
 
 public class AddCommonUsedActivity extends Activity {
 
+	
 	List<String> mRegion;
 	List<String> mExitRegion;
 
