@@ -13,11 +13,18 @@ import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.smarthome.R;
+import com.gdgl.util.MyApplication;
+import com.gdgl.util.MyOkCancleDlg;
+import com.gdgl.util.SelectPicPopupWindow;
 import com.gdgl.util.SlideMenu;
+import com.gdgl.util.VersionDlg;
+import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -32,13 +39,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class ConfigActivity extends BaseSlideMenuActivity implements
-		ChangeFragment, refreshData, backAction, IntoDeviceDetailFragment {
+		ChangeFragment, refreshData, backAction, IntoDeviceDetailFragment, Dialogcallback{
 	private SlideMenu mSlideMenu;
+	private MyOkCancleDlg mMyOkCancleDlg;
 	int mSelectedColor = 0xffEE3B3B;
 	int mUnSelectedColor = 0xff20B2AA;
 
 	TextView modify_pwd, modify_name, join_net, all_dev, bind_control,
-			messagemenu;
+			messagemenu, user_control, logout, version;
 
 	// TextView safe_center;
 	TextView config_name, user_name;
@@ -52,8 +60,9 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 	@Override
 	public void onContentChanged() {
 		super.onContentChanged();
+		MyApplication.getInstance().addActivity(this);
 		setSlideRole(R.layout.config_content);
-		setSlideRole(R.layout.config_menu);
+		setSlideRole(R.layout.config_menu_new);
 
 		getFromSharedPreferences.setsharedPreferences(ConfigActivity.this);
 		String name = getFromSharedPreferences.getName().trim();
@@ -65,14 +74,16 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 
 		mSlideMenu.setInterpolator(new DecelerateInterpolator());
 		mSlideMenu.setSlideMode(SlideMenu.MODE_SLIDE_CONTENT);
-		mSlideMenu.setPrimaryShadowWidth(100);
-		mSlideMenu.setEdgetSlideWidth(50);
+		//mSlideMenu.setPrimaryShadowWidth(100);
+		//mSlideMenu.setEdgetSlideWidth(50);
 		mfragment_continer = (LinearLayout) findViewById(R.id.fragment_continer);
 		parents_need_Layout = (LinearLayout) findViewById(R.id.parents_need);
 		parents_need_Layout.setVisibility(View.GONE);
 		config_name = (TextView) findViewById(R.id.title);
 		user_name = (TextView) findViewById(R.id.user_name);
 		messagemenu = (TextView) findViewById(R.id.message_menu);
+		user_control = (TextView) findViewById(R.id.user_control);
+		logout = (TextView) findViewById(R.id.logout);
 		user_name.setText(name);
 		modify_pwd = (TextView) findViewById(R.id.modify_pwd);
 		clearMessageImageButton = (Button) findViewById(R.id.clear_message);
@@ -158,6 +169,30 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 				changeFragment((TextView) v, messageListFragment);
 
 			}
+		});
+		version = (TextView) findViewById(R.id.version);
+		version.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				VersionDlg vd=new VersionDlg(ConfigActivity.this);
+				vd.show();
+			}
+			
+		});
+		logout = (TextView) findViewById(R.id.logout);
+		logout.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				mMyOkCancleDlg = new MyOkCancleDlg(ConfigActivity.this);
+				mMyOkCancleDlg.setDialogCallback(ConfigActivity.this);
+                mMyOkCancleDlg.setContent("确定要退出系统吗?");
+                mMyOkCancleDlg.show();
+			}
+			
 		});
 		initFragment();
 
@@ -314,5 +349,10 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 		fragmentTransaction.replace(R.id.fragment_continer,
 				new BindListFragment());
 		fragmentTransaction.commit();
+	}
+	
+	public void dialogdo() {
+		// TODO Auto-generated method stub
+		MyApplication.getInstance().finishSystem();
 	}
 }

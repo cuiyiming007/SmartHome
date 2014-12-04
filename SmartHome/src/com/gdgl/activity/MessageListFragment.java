@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import android.app.AlertDialog;
+import android.app.Notification;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -246,6 +247,11 @@ public class MessageListFragment extends BaseFragment implements UIListener,andr
 			} else {
 				mHolder = (ViewHolder) mView.getTag();
 				mHolder.warn_check.setChecked(mCheckHashMap.get(message.getId()));
+			}
+			if(message.getDetailmessage().indexOf("提示") != -1){
+				mHolder.warn_img.setBackgroundResource(R.drawable.warnning);
+			}else{
+				mHolder.warn_img.setBackgroundResource(R.drawable.ui_securitycontrol_alarm);
 			}
 			mHolder.warn_name.setText(message.getW_description());
 			

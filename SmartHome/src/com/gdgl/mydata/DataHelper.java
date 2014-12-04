@@ -73,7 +73,7 @@ public class DataHelper extends SQLiteOpenHelper {
 	public static final String ROOMINFO_TABLE = "roominfo_table";
 	public static final String BIND_TABLE = "bind_table";
 	public static final String GATEWAY_TABLE = "gateway_table";
-	public static final int DATEBASE_VERSTION = 2;
+	public static final int DATEBASE_VERSTION = 3;
 
 	public StringBuilder deviceStringBuilder;
 	public StringBuilder mAStringBuilder;

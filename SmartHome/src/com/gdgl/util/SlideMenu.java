@@ -138,10 +138,10 @@ public class SlideMenu extends ViewGroup {
 				R.styleable.SlideMenu, defStyle, 0);
 
 		// Set the shadow attributes
-		setPrimaryShadowWidth(a.getDimension(
-				R.styleable.SlideMenu_primaryShadowWidth, 30));
-		setSecondaryShadowWidth(a.getDimension(
-				R.styleable.SlideMenu_secondaryShadowWidth, 30));
+//		setPrimaryShadowWidth(a.getDimension(
+//				R.styleable.SlideMenu_primaryShadowWidth, 30));
+//		setSecondaryShadowWidth(a.getDimension(
+//				R.styleable.SlideMenu_secondaryShadowWidth, 30));
 
 		Drawable primaryShadowDrawable = a
 				.getDrawable(R.styleable.SlideMenu_primaryShadowDrawable);

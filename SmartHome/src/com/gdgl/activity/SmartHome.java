@@ -30,6 +30,7 @@ import com.gdgl.mydata.EventType;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.AddDlg;
 import com.gdgl.util.AddDlg.AddDialogcallback;
+import com.gdgl.util.MyApplication;
 import com.gdgl.util.PullToRefreshViewPager;
 import com.gdgl.util.SelectPicPopupWindow;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -72,6 +73,7 @@ public class SmartHome extends FragmentActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		MyApplication.getInstance().addActivity(this);
 		init();
 
 	}
@@ -103,7 +105,8 @@ public class SmartHome extends FragmentActivity implements
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				showSetWindow();
+				//showSetWindow();
+				startConfigActivity();
 			}
 		});
 
@@ -384,4 +387,10 @@ public class SmartHome extends FragmentActivity implements
 		}
 		
 	}
+	public void startConfigActivity(){
+		Intent i=new Intent();
+		i.setClass(SmartHome.this, ConfigActivity.class);
+		SmartHome.this.startActivity(i);
+	}
+	
 }

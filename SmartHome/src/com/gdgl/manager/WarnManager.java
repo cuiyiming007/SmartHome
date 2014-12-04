@@ -58,16 +58,33 @@ public class WarnManager {
 	DataHelper	dh = new DataHelper(ApplicationController.getInstance());
 		SQLiteDatabase db = dh.getSQLiteDatabase();
 		DevicesModel device= DataUtil.getDeviceModelByIeee(message.getZone_ieee(), dh, db);
-		if (message.getW_description().equals("Doorbell")) {
-			detailmessage = "门铃响了";
-		}else{
+//		if (message.getW_description().equals("Doorbell")) {
+//			detailmessage = "门铃响了";
+//		}else{
 			String chineseName=DataUtil.getDefaultDevicesName(ApplicationController.getInstance(), device.getmModelId(), device.getmEP());
 			message.setW_description(chineseName);
 			detailmessage = message.getW_description() + "收到报警信息，请注意！";
-		}
+		//}
 		message.setDetailmessage(detailmessage);
 		return message;
 	}
+	
+	public CallbackWarnMessage  setWarnDetailMessageNoSecurity(CallbackWarnMessage message) {
+		String detailmessage;
+	DataHelper	dh = new DataHelper(ApplicationController.getInstance());
+		SQLiteDatabase db = dh.getSQLiteDatabase();
+		DevicesModel device= DataUtil.getDeviceModelByIeee(message.getZone_ieee(), dh, db);
+//		if (message.getW_description().equals("Doorbell")) {
+//			detailmessage = "门铃响了";
+//		}else{
+			String chineseName=DataUtil.getDefaultDevicesName(ApplicationController.getInstance(), device.getmModelId(), device.getmEP());
+			message.setW_description(chineseName);
+			detailmessage = message.getW_description() + "收到提示信息，请注意！";
+		//}
+		message.setDetailmessage(detailmessage);
+		return message;
+	}
+	
 	public int getMessageNum()
 	{
 		return messageNum;

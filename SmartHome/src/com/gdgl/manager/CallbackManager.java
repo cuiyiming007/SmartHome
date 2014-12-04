@@ -17,7 +17,9 @@ import android.util.Log;
 
 import com.gdgl.activity.ShowDevicesGroupFragmentActivity;
 import com.gdgl.app.ApplicationController;
+import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.DataHelper;
+import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.Callback.CallbackBeginLearnIRMessage;
@@ -35,7 +37,7 @@ import com.gdgl.util.NetUtil;
 import com.gdgl.util.UiUtils;
 import com.google.gson.Gson;
 
-public class CallbackManager extends Manger {
+public class CallbackManager extends Manger{
 	private final static String TAG = "CallbackManager";
 	private static CallbackManager instance;
 
@@ -243,9 +245,15 @@ public class CallbackManager extends Manger {
 	}
 
 	private void handlerWarnMessage(CallbackWarnMessage warnmessage) {
-
-		warnmessage = WarnManager.getInstance().setWarnDetailMessage(
-				warnmessage);
+		if(!getSecurityControlState() && getIsRightModelID(warnmessage)){
+			warnmessage = WarnManager.getInstance().setWarnDetailMessageNoSecurity(
+					warnmessage);
+		}else{
+			warnmessage = WarnManager.getInstance().setWarnDetailMessage(
+					warnmessage);
+		}
+//		warnmessage = WarnManager.getInstance().setWarnDetailMessage(
+//				warnmessage);
 		WarnManager.getInstance().setCurrentWarnInfo(warnmessage);
 
 		// new UpdateDBTask().execute(warnmessage);
@@ -255,8 +263,8 @@ public class CallbackManager extends Manger {
 				ShowDevicesGroupFragmentActivity.class);
 		i.putExtra(ShowDevicesGroupFragmentActivity.ACTIVITY_SHOW_DEVICES_TYPE,
 				UiUtils.SECURITY_CONTROL);
-		makeNotify(i, warnmessage.getW_description(), warnmessage.toString());
-
+		//makeNotify(i, warnmessage.getW_description(), warnmessage.toString());
+		makeNotify(i, warnmessage.getW_description(), warnmessage.getDetailmessage());
 		Event event = new Event(EventType.WARN, true);
 		event.setData(warnmessage);
 		notifyObservers(event);
@@ -445,9 +453,14 @@ public class CallbackManager extends Manger {
 		// .setSmallIcon(R.drawable.icon)
 		// .setLargeIcon(null)
 		// .build();
-
-		Notification noti = new Notification(R.drawable.icon, title,
-				System.currentTimeMillis());
+		Notification noti;
+		if(message.indexOf("提示") != -1){
+			noti = new Notification(R.drawable.warnning, title,
+					System.currentTimeMillis());
+		}else{
+			noti = new Notification(R.drawable.ui_securitycontrol_alarm, title,
+					System.currentTimeMillis());
+		}
 		noti.flags = Notification.FLAG_AUTO_CANCEL;
 		// Intent i = new Intent(ApplicationController.getInstance(),
 		// ShowDevicesGroupFragmentActivity.class);
@@ -513,4 +526,38 @@ public class CallbackManager extends Manger {
 		return _id;
 
 	}
+	
+	private boolean getSecurityControlState(){
+		final String securityControl = DataHelper.One_key_operator;
+		DataHelper	dh = new DataHelper(ApplicationController.getInstance());
+		SQLiteDatabase db = dh.getSQLiteDatabase();
+		DevicesModel device= DataUtil.getDeviceModelByModelid(securityControl, dh, db);
+		db.close();
+		if(device.getmOnOffStatus().equals("0")){
+			return false;
+		}else{
+			return true;
+		}
+	}
+		
+	private boolean getIsRightModelID(CallbackWarnMessage message){
+		boolean isRight = false;
+		final String [] modelIDList = {
+				DataHelper.Motion_Sensor,	//动作感应器 
+				DataHelper.Magnetic_Window, //窗磁
+				DataHelper.Doors_and_windows_sensor_switch};	//门窗感应
+		DataHelper	dh = new DataHelper(ApplicationController.getInstance());
+		SQLiteDatabase db = dh.getSQLiteDatabase();
+		DevicesModel device= DataUtil.getDeviceModelByIeee(message.getZone_ieee(), dh, db);
+		db.close();
+		String modelID = device.getmModelId();
+		for(int i=0; i<modelIDList.length; i++){
+			if(modelID.indexOf(modelIDList[i]) != -1){
+				isRight = true;
+			}
+		}
+		return isRight;
+	}
+
+	
 }
