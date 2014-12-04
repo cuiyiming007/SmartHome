@@ -1,7 +1,5 @@
 package com.gdgl.activity;
 
-import h264.com.VideoInfoDialog;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +10,10 @@ import com.gdgl.manager.UIListener;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
+import com.gdgl.mydata.Event;
+import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.Region.Room;
+import com.gdgl.mydata.video.VideoResponse;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyOkCancleDlg;
 import com.gdgl.util.UiUtils;
@@ -256,7 +257,12 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 	@Override
 	public void update(Manger observer, Object object) {
 		// TODO Auto-generated method stub
-
+		final Event event = (Event) object;
+		if (event.getType() == EventType.GETALLROOM) {
+			if (event.isSuccess()) {
+				mregions=(List<Room>)event.getData();
+			}
+		}
 	}
 
 	@Override
@@ -283,6 +289,7 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 		mDateHelper.delete(mSQLiteDatabase, DataHelper.ROOMINFO_TABLE,
 				" room_id = ? ", strings);
 		mSQLiteDatabase.close();
+		mregions.remove(currentRoom);
 		refreshFragment();
 	}
 

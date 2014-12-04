@@ -153,6 +153,7 @@ public class AddDlg {
 				}
 			}
 		}
+		SQLiteDatabase mSQLiteDatabase1 = mDateHelper.getSQLiteDatabase();
 		CGIManager.getInstance().ZBAddRoomDataMain(Integer.toString(roomid), name, "");
 		ArrayList<Room> addList=new ArrayList<Room>();
 		Room addroomdata=new Room();
@@ -160,7 +161,7 @@ public class AddDlg {
 		addroomdata.setroom_name(mN);
 		addroomdata.setroom_pic("");
 		addList.add(addroomdata);
-		mDateHelper.insertAddRoomInfo(mSQLiteDatabase, DataHelper.ROOMINFO_TABLE, null, addList);	
+		mDateHelper.insertAddRoomInfo(mSQLiteDatabase1, DataHelper.ROOMINFO_TABLE, null, addList);	
 		
 	}
 
