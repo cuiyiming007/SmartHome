@@ -454,13 +454,15 @@ public class CallbackManager extends Manger{
 		// .setLargeIcon(null)
 		// .build();
 		Notification noti;
-		if(message.indexOf("提示") != -1){
-			noti = new Notification(R.drawable.warnning, title,
-					System.currentTimeMillis());
-		}else{
-			noti = new Notification(R.drawable.ui_securitycontrol_alarm, title,
-					System.currentTimeMillis());
-		}
+		noti = new Notification(R.drawable.ui_notification_icon, title,
+				System.currentTimeMillis());
+//		if(message.indexOf("提示") != -1){
+//			noti = new Notification(R.drawable.warnning, title,
+//					System.currentTimeMillis());
+//		}else{
+//			noti = new Notification(R.drawable.ui_securitycontrol_alarm, title,
+//					System.currentTimeMillis());
+//		}
 		noti.flags = Notification.FLAG_AUTO_CANCEL;
 		// Intent i = new Intent(ApplicationController.getInstance(),
 		// ShowDevicesGroupFragmentActivity.class);

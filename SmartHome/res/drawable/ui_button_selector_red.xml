@@ -8,7 +8,19 @@
 			<!-- 边框圆角 -->
 			<corners android:radius="5dp" />
             <!-- 背景颜色 -->
-			<solid android:color="#d3d7d4" />  
+			<solid android:color="#ef4136" />  
+		</shape>
+	</item>
+	
+	<!-- 焦点状态 -->
+	<item android:state_focused="true" >
+		<shape >
+		<!-- 边框颜色 -->
+			<stroke android:width="1dip" android:color="#ef4136" />
+			<!-- 边框圆角 -->
+			<corners android:radius="5dp" />
+            <!-- 背景颜色 -->
+			<solid android:color="#ef4136" />  
 		</shape>
 	</item>
 

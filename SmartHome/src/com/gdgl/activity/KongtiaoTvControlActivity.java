@@ -9,7 +9,6 @@ import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.RemoteControl;
-import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.DeviceLearnedParam;
 import com.gdgl.mydata.Event;
@@ -313,8 +312,8 @@ public class KongtiaoTvControlActivity extends Activity implements UIListener,
 			}
 		});
 
-		// 电视按键监听
-		int i = 0x40000000 + 10000;
+		// 电视按键监听0x40000000
+		int i = 1000000000 + 10000;
 		ibtn_mute.setOnClickListener(new learnListeners(String.valueOf(i), ""));
 		ibtn_mute.setOnLongClickListener(new cleanLearnedListener(String
 				.valueOf(i++), ""));

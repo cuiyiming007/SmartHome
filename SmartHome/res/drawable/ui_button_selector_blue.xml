@@ -1,16 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android" >
 	<!-- 按下状态 -->
-	<item android:state_pressed="true">
+	<item android:state_pressed="true" >
 		<shape >
 		<!-- 边框颜色 -->
 			<stroke android:width="1dip" android:color="#33a3dc" />
 			<!-- 边框圆角 -->
 			<corners android:radius="5dp" />
             <!-- 背景颜色 -->
-			<solid android:color="#d3d7d4" />  
+			<solid android:color="#33a3dc" />  
 		</shape>
 	</item>
+	
+	<!-- 焦点状态 -->
+	<item android:state_focused="true" >
+		<shape >
+		<!-- 边框颜色 -->
+			<stroke android:width="1dip" android:color="#33a3dc" />
+			<!-- 边框圆角 -->
+			<corners android:radius="5dp" />
+            <!-- 背景颜色 -->
+			<solid android:color="#33a3dc" />  
+		</shape>
+	</item>
+	
+	
 
     <!-- 默认状态 -->
 	<item>
@@ -20,8 +34,9 @@
 			<!-- 边框圆角 -->
 			<corners android:radius="5dp" />
 			<!-- 背景颜色 -->
-			<solid android:color="#FFFFFF" />   
+			<solid android:color="#ffffff" />   
 		</shape>      
 	</item>
+	 
 
 </selector>

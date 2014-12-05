@@ -50,6 +50,7 @@ public class MessageListFragment extends BaseFragment implements UIListener,andr
 
 	ViewGroup no_dev, del_tools;
 	Button mBack, check_all, cancel_all, cancel, delete;
+	
 
 	// LinearLayout deviceslist;
 
@@ -249,7 +250,7 @@ public class MessageListFragment extends BaseFragment implements UIListener,andr
 				mHolder.warn_check.setChecked(mCheckHashMap.get(message.getId()));
 			}
 			if(message.getDetailmessage().indexOf("提示") != -1){
-				mHolder.warn_img.setBackgroundResource(R.drawable.warnning);
+				mHolder.warn_img.setBackgroundResource(R.drawable.ui_warnmessage_notice);
 			}else{
 				mHolder.warn_img.setBackgroundResource(R.drawable.ui_securitycontrol_alarm);
 			}

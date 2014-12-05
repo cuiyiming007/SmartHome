@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -96,6 +97,9 @@ public class ViewGroupAdapter extends FancyCoverFlowAdapter {
 		customViewGroup.getImageView().setImageBitmap(
 				getBitmap(this.getItem(position)));
 		customViewGroup.getImageView().setLayoutParams(mLayoutParams);
+		//消除一定锯齿
+		BitmapDrawable drawable = (BitmapDrawable) customViewGroup.getImageView().getDrawable();
+        drawable.setAntiAlias(true);
 
 		customViewGroup.getTextView().setVisibility(View.GONE);
 		customViewGroup.getTextView().setText(mTags[position]);

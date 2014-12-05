@@ -13,10 +13,11 @@
   
 	<CheckBox
         android:id="@+id/checkBoxMessage"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-       	android:visibility="gone"
-       	style="@style/CustomCheckboxTheme"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+       	android:visibility="visible"
+       	android:background="@drawable/ui_warnmessage_checkbox"
+       	android:button="@null"
        	android:layout_centerVertical="true"
        	android:layout_alignParentRight="true"
        	android:layout_marginRight="5dp"

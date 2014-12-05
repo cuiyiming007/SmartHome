@@ -12,19 +12,23 @@ import com.gdgl.activity.JoinNetFragment.ChangeFragment;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.getFromSharedPreferences;
+import com.gdgl.service.LibjingleService;
+import com.gdgl.service.SmartService;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyApplication;
-import com.gdgl.util.MyOkCancleDlg;
+import com.gdgl.util.MyLogoutDlg;
+import com.gdgl.util.MyLogoutDlg.DialogCheckBoxcallback;
+import com.gdgl.util.MyLogoutDlg.Dialogcallback;
 import com.gdgl.util.SelectPicPopupWindow;
 import com.gdgl.util.SlideMenu;
 import com.gdgl.util.VersionDlg;
-import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -39,12 +43,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class ConfigActivity extends BaseSlideMenuActivity implements
-		ChangeFragment, refreshData, backAction, IntoDeviceDetailFragment, Dialogcallback{
+		ChangeFragment, refreshData, backAction, IntoDeviceDetailFragment, Dialogcallback, DialogCheckBoxcallback{
 	private SlideMenu mSlideMenu;
-	private MyOkCancleDlg mMyOkCancleDlg;
-	int mSelectedColor = 0xffEE3B3B;
-	int mUnSelectedColor = 0xff20B2AA;
-
+	private MyLogoutDlg mMyOkCancleDlg;
+	int mSelectedColor = 0xfff55656;
+	int mUnSelectedColor = 0xff00b6ee;
 	TextView modify_pwd, modify_name, join_net, all_dev, bind_control,
 			messagemenu, user_control, logout, version;
 
@@ -187,8 +190,9 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				mMyOkCancleDlg = new MyOkCancleDlg(ConfigActivity.this);
+				mMyOkCancleDlg = new MyLogoutDlg(ConfigActivity.this);
 				mMyOkCancleDlg.setDialogCallback(ConfigActivity.this);
+				mMyOkCancleDlg.setDialogCheckBoxCallback(ConfigActivity.this);
                 mMyOkCancleDlg.setContent("确定要退出系统吗?");
                 mMyOkCancleDlg.show();
 			}
@@ -354,5 +358,17 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 	public void dialogdo() {
 		// TODO Auto-generated method stub
 		MyApplication.getInstance().finishSystem();
+	}
+
+	@Override
+	public void dialogcheck(boolean isChecked) {
+		// TODO Auto-generated method stub
+		if(!isChecked){
+			Log.i("is checked ", " no........ ");
+			Intent libserviceIntent = new Intent(this, LibjingleService.class);
+			stopService(libserviceIntent);
+			Intent smartServiceIntent = new Intent(this, SmartService.class);
+			stopService(smartServiceIntent);
+		}
 	}
 }

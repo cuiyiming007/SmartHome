@@ -19,6 +19,8 @@ import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.reciever.HeartReceiver;
 
 public class SmartService extends Service {
+	AlarmManager mAlarmManager;
+	PendingIntent mPendingIntent;
 
 	public final static String TAG = "SmartService";
 	public final static int HEARTBEAT_INTERVAL = 20000;
@@ -90,8 +92,6 @@ public class SmartService extends Service {
 	}
 
 	public void startHB() {
-		AlarmManager mAlarmManager;
-		PendingIntent mPendingIntent;
 
 		mAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 		Intent intent = new Intent(this, HeartReceiver.class);
@@ -103,5 +103,12 @@ public class SmartService extends Service {
 		long triggerAtTime = SystemClock.elapsedRealtime() + HEARTBEAT_INTERVAL;
 		mAlarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME,
 				triggerAtTime, HEARTBEAT_INTERVAL, mPendingIntent);
+	}
+	
+	public void onDestroy() {
+		// TODO Auto-generated method stub
+		mAlarmManager.cancel(mPendingIntent);
+		Log.i("SmartService", "SmartService onDestroy!");
+		super.onDestroy();
 	}
 }
