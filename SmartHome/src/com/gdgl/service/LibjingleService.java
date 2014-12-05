@@ -1,9 +1,11 @@
 package com.gdgl.service;
 
+import com.gdgl.activity.LoginActivity;
 import com.gdgl.libjingle.LibjingleInit;
 import com.gdgl.libjingle.LibjingleSendManager;
 import com.gdgl.libjingle.LibjingleNetUtil;
 import com.gdgl.libjingle.LibjinglePackHandler;
+import com.gdgl.mydata.AccountInfo;
 
 import android.app.Service;
 import android.content.Intent;
@@ -30,8 +32,12 @@ public class LibjingleService extends Service {
 				@Override
 				public void run() {
 					Log.i("LibjingleService", "LibjingleInit starts!");
-					libjingleInit.libjinglInit("883314EF8773@121.199.21.14",
-							"883314EF8773EF8773",
+					AccountInfo info=LoginActivity.loginAccountInfo;
+					String name=info.getAccount();
+					String passwd=info.getPassword();
+					Log.i("LibjingleService", name+"@121.199.21.14   "+name+passwd);
+					libjingleInit.libjinglInit(name+"@121.199.21.14",
+							name+passwd,
 							LibjinglePackHandler.getUUID());
 					Log.i("LibjingleService", "LibjingleInit done!");
 				}
