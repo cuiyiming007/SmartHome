@@ -7,6 +7,7 @@ import com.gdgl.app.ApplicationController;
 import com.gdgl.manager.LoginManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
+import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.AccountInfo;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.Event;
@@ -43,7 +44,6 @@ public class LoginActivity extends Activity implements OnClickListener,
 	private CheckBox mAut;
 	private Button mLogin;
 	private AccountInfo accountInfo;
-	public static AccountInfo loginAccountInfo; //把用户名密码传到libjingleService
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -88,8 +88,6 @@ public class LoginActivity extends Activity implements OnClickListener,
 			accountInfo.setPassword(mPwd.getText().toString());
 			accountInfo.setAlias(mName.getText().toString());
 
-			loginAccountInfo=accountInfo;
-			
 			if (accountInfo.getAccount() == null
 					|| accountInfo.getAccount().length() <= 0) {
 				Toast.makeText(getApplicationContext(), "请输入用户名或网关MAC地址",

@@ -3,7 +3,6 @@ package com.gdgl.libjingle;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.List;
 
 import org.json.JSONException;
 
@@ -27,7 +26,6 @@ import com.gdgl.mydata.SimpleResponseData;
 import com.gdgl.mydata.Callback.CallbackBindListDevices;
 import com.gdgl.mydata.Callback.CallbackBindListMessage;
 import com.gdgl.mydata.Region.GetRoomInfo_response;
-import com.gdgl.mydata.Region.Room;
 import com.gdgl.mydata.Region.RoomData_response_params;
 import com.gdgl.mydata.bind.BindResponseData;
 import com.gdgl.mydata.binding.BindingDataEntity;
@@ -346,30 +344,30 @@ public class LibjingleResponseHandlerManager extends Manger {
 		}
 	}
 	
-	class GetAllRoomInfoTask extends AsyncTask<String, Object, List<Room>> {
+	class GetAllRoomInfoTask extends AsyncTask<String, Object, Object> {
 		@Override
-		protected List<Room> doInBackground(String... params) {
-			RespondDataEntity<GetRoomInfo_response> data = VolleyOperation.handleRoomInfoString(params[0]);
-			ArrayList<GetRoomInfo_response> roomInfoList = data.getResponseparamList();
-			ArrayList<Room> roomList = new ArrayList<Room>();
-			for(GetRoomInfo_response info:roomInfoList) {
-				roomList.add(info.getroom());
-			}
+		protected Object doInBackground(String... params) {
+			RespondDataEntity<GetRoomInfo_response> data = VolleyOperation
+					.handleRoomInfoString(params[0]);
+			ArrayList<GetRoomInfo_response> roomList = data
+					.getResponseparamList();
+
 			DataHelper mDateHelper = new DataHelper(
 					ApplicationController.getInstance());
 			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
-			
+
 			mDateHelper.emptyTable(mSQLiteDatabase, DataHelper.ROOMINFO_TABLE);
-			mDateHelper.insertRoomInfoList(mSQLiteDatabase, DataHelper.ROOMINFO_TABLE, null, roomInfoList);
+			mDateHelper.insertRoomInfoList(mSQLiteDatabase,
+					DataHelper.ROOMINFO_TABLE, null, roomList);
 			mSQLiteDatabase.close();
 			return roomList;
 		}
 
 		@Override
-		protected void onPostExecute(List<Room> result) {
-			Event event = new Event(EventType.GETALLROOM, true);
-			event.setData(result);
-			notifyObservers(event);
+		protected void onPostExecute(Object result) {
+			// Event event = new Event(EventType.GETALLROOM, true);
+			// event.setData(result);
+			// notifyObservers(event);
 		}
 	}
 	
