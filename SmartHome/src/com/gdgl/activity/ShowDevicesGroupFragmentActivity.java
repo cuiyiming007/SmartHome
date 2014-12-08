@@ -376,7 +376,6 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		fragmentManager = this.getFragmentManager();
 
 		new GetDevicesInSortTask().execute(1);
-		mcgiManager.LocalIASCIEOperation(null, 5);
 	}
 
 	private void initDevicesListFragment() {
@@ -838,25 +837,13 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 			}
 		} else if (EventType.LOCALIASCIEOPERATION == event.getType()) {
 			if (event.isSuccess() == true) {
-				int data = Integer.parseInt((String) event.getData());
 
 				List<DevicesModel> safeList = mDevicesListCache
 						.get(UiUtils.SECURITY_CONTROL);
 
 				List<DevicesModel> updatsLis = new ArrayList<DevicesModel>();
 
-				String status = null;
-				switch (data) {
-				case 0:
-					// case 6:
-					status = "0";
-					break;
-				case 3:
-					// case 7:
-					status = "1";
-				default:
-					break;
-				}
+				String status = (String) event.getData();
 
 				// if (!status.equals(safeList.get(m).getmOnOffStatus())) {
 				safeList.get(0).setmOnOffStatus(status);

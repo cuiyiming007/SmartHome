@@ -614,6 +614,35 @@ public class LibjingleSendManager extends Manger {
 		mStructure.setAPI_type(LibjingleSendStructure.LOCALIASCIEOPERATION);
 		sendList.add(mStructure);
 	}
+	//operatortype=5 全局布防状态
+	public void GetLocalIASCIEOperation() {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("operatortype", "5");
+		paraMap.put("param1", "1");
+		paraMap.put("param2", "2");
+		paraMap.put("param3", "3");
+		
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
+		String param = hashMap2ParamString(paraMap);
+
+		String url = LibjingleNetUtil.getInstance().getLocalhostURL(
+				"localIASCIEOperation.cgi", param);
+
+		String jid = LibjinglePackHandler.getJid();
+		int reqid = getReqID();
+
+		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
+		// Log.i(TAG, packag);
+		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+
+		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
+		mStructure.setRequest_id(reqid);
+		mStructure.setGl_msgtype(LibjinglePackHandler.MT_URL);
+		mStructure.setAPI_type(LibjingleSendStructure.GETLOCALIASCIEOPERATION);
+		sendList.add(mStructure);
+	}
 
 	/***
 	 * 2.1安防设备布防LocalIASCIE ByPassZone

@@ -45,7 +45,7 @@ import android.widget.TextView;
 public class ConfigActivity extends BaseSlideMenuActivity implements
 		ChangeFragment, refreshData, backAction, IntoDeviceDetailFragment, Dialogcallback, DialogCheckBoxcallback{
 	private SlideMenu mSlideMenu;
-	private MyLogoutDlg mMyOkCancleDlg;
+	private MyLogoutDlg mMyLogoutDlg;
 	int mSelectedColor = 0xfff55656;
 	int mUnSelectedColor = 0xff00b6ee;
 	TextView modify_pwd, modify_name, join_net, all_dev, bind_control,
@@ -190,11 +190,11 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				mMyOkCancleDlg = new MyLogoutDlg(ConfigActivity.this);
-				mMyOkCancleDlg.setDialogCallback(ConfigActivity.this);
-				mMyOkCancleDlg.setDialogCheckBoxCallback(ConfigActivity.this);
-                mMyOkCancleDlg.setContent("确定要退出系统吗?");
-                mMyOkCancleDlg.show();
+				mMyLogoutDlg = new MyLogoutDlg(ConfigActivity.this);
+				mMyLogoutDlg.setDialogCallback(ConfigActivity.this);
+				mMyLogoutDlg.setDialogCheckBoxCallback(ConfigActivity.this);
+                mMyLogoutDlg.setContent("确定要退出系统吗?");
+                mMyLogoutDlg.show();
 			}
 			
 		});

@@ -16,6 +16,7 @@ import android.util.Log;
 import com.gdgl.app.ApplicationController;
 import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.Manger;
+import com.gdgl.model.DevicesModel;
 import com.gdgl.model.LibjingleSendStructure;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DeviceLearnedParam;
@@ -32,6 +33,7 @@ import com.gdgl.mydata.Region.RoomData_response_params;
 import com.gdgl.mydata.bind.BindResponseData;
 import com.gdgl.mydata.binding.BindingDataEntity;
 import com.gdgl.mydata.getlocalcielist.CIEresponse_params;
+import com.gdgl.mydata.getlocalcielist.LocalIASCIEOperationResponseData;
 import com.gdgl.network.VolleyOperation;
 import com.gdgl.util.UiUtils;
 import com.google.gson.Gson;
@@ -104,7 +106,7 @@ public class LibjingleResponseHandlerManager extends Manger {
 		if (api_type > 0) {
 			String response = packHandler.result;
 			response = UiUtils.formatResponseString(response);
-			
+
 			switch (api_type) {
 			case LibjingleSendStructure.GETENDPOINT:
 				new GetEndPointTask().execute(response);
@@ -129,7 +131,7 @@ public class LibjingleResponseHandlerManager extends Manger {
 				Gson gson82 = new Gson();
 				SimpleResponseData statusData82 = gson82.fromJson(
 						response.toString(), SimpleResponseData.class);
-				Bundle bundle82=new Bundle();
+				Bundle bundle82 = new Bundle();
 				bundle82.putString("IEEE", statusData82.getIeee());
 				bundle82.putString("EP", statusData82.getEp());
 				bundle82.putString("PARAM", statusData82.getParam1());
@@ -137,24 +139,28 @@ public class LibjingleResponseHandlerManager extends Manger {
 				event82.setData(bundle82);
 				notifyObservers(event82);
 				break;
-			
+
 			case LibjingleSendStructure.TEMPERATURESENSOROPERATION:
 				Gson gson81 = new Gson();
 				SimpleResponseData statusData81 = gson81.fromJson(
 						response.toString(), SimpleResponseData.class);
-				Bundle bundle81=new Bundle();
+				Bundle bundle81 = new Bundle();
 				bundle81.putString("IEEE", statusData81.getIeee());
 				bundle81.putString("EP", statusData81.getEp());
 				bundle81.putString("PARAM", statusData81.getParam1());
-				Event event81 = new Event(EventType.TEMPERATURESENSOROPERATION, true);
+				Event event81 = new Event(EventType.TEMPERATURESENSOROPERATION,
+						true);
 				event81.setData(bundle81);
 				notifyObservers(event81);
+				break;
+			case LibjingleSendStructure.GETLOCALIASCIEOPERATION:
+				new GetLocalIASCIETask().execute(response);
 				break;
 			case LibjingleSendStructure.HUMIDITY:
 				Gson gson80 = new Gson();
 				SimpleResponseData statusData80 = gson80.fromJson(
 						response.toString(), SimpleResponseData.class);
-				Bundle bundle80=new Bundle();
+				Bundle bundle80 = new Bundle();
 				bundle80.putString("IEEE", statusData80.getIeee());
 				bundle80.putString("EP", statusData80.getEp());
 				bundle80.putString("PARAM", statusData80.getParam1());
@@ -173,20 +179,20 @@ public class LibjingleResponseHandlerManager extends Manger {
 				break;
 			case LibjingleSendStructure.ZBADDROOMDATAMAIN:
 				Gson gson93 = new Gson();
-				Log.i(TAG, "addroomdatamain"+response);
+				Log.i(TAG, "addroomdatamain" + response);
 				RoomData_response_params data93 = gson93.fromJson(
 						response.toString(), RoomData_response_params.class);
-				String status93=data93.getstatus();
+				String status93 = data93.getstatus();
 				Event event93 = new Event(EventType.ROOMDATAMAIN, true);
 				event93.setData(status93);
 				notifyObservers(event93);
 				break;
 			case LibjingleSendStructure.ZBDELETEROOMDATAMAINBYID:
 				Gson gson94 = new Gson();
-				Log.i(TAG, "addroomdatamain"+response);
+				Log.i(TAG, "addroomdatamain" + response);
 				RoomData_response_params data94 = gson94.fromJson(
 						response.toString(), RoomData_response_params.class);
-				String status94=data94.getstatus();
+				String status94 = data94.getstatus();
 				Event event94 = new Event(EventType.ROOMDATAMAIN, true);
 				event94.setData(status94);
 				notifyObservers(event94);
@@ -195,12 +201,12 @@ public class LibjingleResponseHandlerManager extends Manger {
 				Gson gson95 = new Gson();
 				RoomData_response_params data95 = gson95.fromJson(
 						response.toString(), RoomData_response_params.class);
-				String status95=data95.getstatus();
+				String status95 = data95.getstatus();
 				Event event95 = new Event(EventType.MODIFYDEVICEROOMID, true);
 				event95.setData(status95);
 				notifyObservers(event95);
-				break;	
-				
+				break;
+
 			case LibjingleSendStructure.DELBINDDATA:
 			case LibjingleSendStructure.MANAGELEAVENODE:
 			case LibjingleSendStructure.SETPERMITJOINON:
@@ -210,6 +216,7 @@ public class LibjingleResponseHandlerManager extends Manger {
 			case LibjingleSendStructure.ONOFFOUTPUTOPERATION:
 			case LibjingleSendStructure.DIMMABLELIGHTOPERATION:
 			case LibjingleSendStructure.SHADEOPERATION:
+			case LibjingleSendStructure.LOCALIASCIEOPERATION:
 			case LibjingleSendStructure.LOCALIASCIEBYPASSZONE:
 			case LibjingleSendStructure.LOCALIASCIEUNBYPASSZONE:
 			case LibjingleSendStructure.BEGINLEARNIR:
@@ -307,7 +314,7 @@ public class LibjingleResponseHandlerManager extends Manger {
 
 		}
 	}
-	
+
 	class InitialCIETask extends AsyncTask<String, Object, Object> {
 		@Override
 		protected Object doInBackground(String... params) {
@@ -327,7 +334,44 @@ public class LibjingleResponseHandlerManager extends Manger {
 		}
 
 	}
-	
+
+	class GetLocalIASCIETask extends AsyncTask<String, Object, Void> {
+		@Override
+		protected Void doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			Gson gson = new Gson();
+			LocalIASCIEOperationResponseData data = gson.fromJson(params[0],
+					LocalIASCIEOperationResponseData.class);
+			String status = data.getResponse_params().getParam1().trim();
+			Log.i(TAG,
+					"LocalIASCIEOperation get status is "
+							+ String.valueOf(status));
+			int value = Integer.parseInt(status);
+			switch (value) {
+			case 0:
+				status = "0";
+				break;
+			case 3:
+				status = "1";
+			default:
+				break;
+			}
+			DataHelper mDataHelper = new DataHelper(
+					ApplicationController.getInstance());
+			SQLiteDatabase mSQLiteDatabase = mDataHelper.getSQLiteDatabase();
+
+			String where = " model_id like ? ";
+			String[] args = { DataHelper.One_key_operator + "%" };
+			ContentValues c = new ContentValues();
+			c.put(DevicesModel.ON_OFF_STATUS, status);
+
+			mDataHelper.update(mSQLiteDatabase, DataHelper.DEVICES_TABLE, c,
+					where, args);
+			mDataHelper.close(mSQLiteDatabase);
+			return null;
+		}
+	}
+
 	class GetDeviceLearnedTask extends AsyncTask<String, Object, Object> {
 
 		@Override
@@ -345,22 +389,25 @@ public class LibjingleResponseHandlerManager extends Manger {
 			notifyObservers(event);
 		}
 	}
-	
+
 	class GetAllRoomInfoTask extends AsyncTask<String, Object, List<Room>> {
 		@Override
 		protected List<Room> doInBackground(String... params) {
-			RespondDataEntity<GetRoomInfo_response> data = VolleyOperation.handleRoomInfoString(params[0]);
-			ArrayList<GetRoomInfo_response> roomInfoList = data.getResponseparamList();
+			RespondDataEntity<GetRoomInfo_response> data = VolleyOperation
+					.handleRoomInfoString(params[0]);
+			ArrayList<GetRoomInfo_response> roomInfoList = data
+					.getResponseparamList();
 			ArrayList<Room> roomList = new ArrayList<Room>();
-			for(GetRoomInfo_response info:roomInfoList) {
+			for (GetRoomInfo_response info : roomInfoList) {
 				roomList.add(info.getroom());
 			}
 			DataHelper mDateHelper = new DataHelper(
 					ApplicationController.getInstance());
 			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
-			
+
 			mDateHelper.emptyTable(mSQLiteDatabase, DataHelper.ROOMINFO_TABLE);
-			mDateHelper.insertRoomInfoList(mSQLiteDatabase, DataHelper.ROOMINFO_TABLE, null, roomInfoList);
+			mDateHelper.insertRoomInfoList(mSQLiteDatabase,
+					DataHelper.ROOMINFO_TABLE, null, roomInfoList);
 			mSQLiteDatabase.close();
 			return roomList;
 		}
@@ -372,7 +419,7 @@ public class LibjingleResponseHandlerManager extends Manger {
 			notifyObservers(event);
 		}
 	}
-	
+
 	class GetEPbyRoomIndexTask extends AsyncTask<String, Object, Object> {
 		@Override
 		protected Object doInBackground(String... params) {

@@ -163,7 +163,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
-                    android:focusable="false"
+                    android:focusable="true"
                     android:maxHeight="5dp"
                     android:minHeight="5dp"
                     android:progress="50"

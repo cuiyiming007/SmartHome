@@ -227,7 +227,7 @@ public class CallbackManager extends Manger{
 					status = "0";
 				}
 				if (statusString.equals("ArmAllZone")) {
-					status = "3";
+					status = "1";
 				}
 				Event event33 = new Event(EventType.LOCALIASCIEOPERATION, true);
 				event33.setData(status);
@@ -423,8 +423,8 @@ public class CallbackManager extends Manger{
 
 						mSQLiteDatabase.insert(DataHelper.BIND_TABLE, null, c);
 					}
-					mSQLiteDatabase.setTransactionSuccessful();
 				}
+				mSQLiteDatabase.setTransactionSuccessful();
 			} catch (Exception e) {
 				// TODO: handle exception
 				e.printStackTrace();

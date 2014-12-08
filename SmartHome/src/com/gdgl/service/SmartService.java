@@ -86,6 +86,7 @@ public class SmartService extends Service {
 		CGIManager.getInstance().GetAllRoomInfo();
 		CGIManager.getInstance().GetAllBindList();
 		VideoManager.getInstance().getIPClist();
+		CGIManager.getInstance().GetLocalIASCIEOperation();
 		// ===============================loacl=====================
 		CallbackManager.getInstance().startConnectServerByTCPTask();
 		startHB();

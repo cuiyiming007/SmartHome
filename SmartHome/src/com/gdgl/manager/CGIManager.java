@@ -564,24 +564,24 @@ public class CGIManager extends Manger {
 		Listener<String> responseListener = new Listener<String>() {
 			@Override
 			public void onResponse(String response) {
-				String jsonString = UiUtils.formatResponseString(response);
-				if (operationType == 5) {
-					Gson gson = new Gson();
-					LocalIASCIEOperationResponseData data = gson.fromJson(
-							jsonString, LocalIASCIEOperationResponseData.class);
-					String status = data.getResponse_params().getParam1().trim();
-					Log.i(TAG,
-							"LocalIASCIEOperation get status is "
-									+ String.valueOf(status));
-					Event event = new Event(EventType.LOCALIASCIEOPERATION, true);
-					event.setData(status);
-					notifyObservers(event);
+//				String jsonString = UiUtils.formatResponseString(response);
+//				if (operationType == 5) {
+//					Gson gson = new Gson();
+//					LocalIASCIEOperationResponseData data = gson.fromJson(
+//							jsonString, LocalIASCIEOperationResponseData.class);
+//					String status = data.getResponse_params().getParam1().trim();
+//					Log.i(TAG,
+//							"LocalIASCIEOperation get status is "
+//									+ String.valueOf(status));
+//					Event event = new Event(EventType.LOCALIASCIEOPERATION, true);
+//					event.setData(status);
+//					notifyObservers(event);
 //				}else {
 //					String status=String.valueOf(operationType);
 //					Event event = new Event(EventType.LOCALIASCIEOPERATION, true);
 //					event.setData(status);
 //					notifyObservers(event);
-				}
+//				}
 			}
 		};
 
@@ -603,7 +603,75 @@ public class CGIManager extends Manger {
 		ApplicationController.getInstance().addToRequestQueue(req);
 		// simpleVolleyRequset(url, EventType.LOCALIASCIEOPERATION);
 	}
+	//operatortype=5 全局布防状态
+	public void GetLocalIASCIEOperation() {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("operatortype", "5");
+		paraMap.put("param1", "1");
+		paraMap.put("param2", "2");
+		paraMap.put("param3", "3");
+		
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
+		String param = hashMap2ParamString(paraMap);
 
+		String url = NetUtil.getInstance().getCumstomURL(
+				NetUtil.getInstance().IP, "localIASCIEOperation.cgi", param);
+
+		Listener<String> responseListener = new Listener<String>() {
+			@Override
+			public void onResponse(String response) {
+				String jsonString = UiUtils.formatResponseString(response);
+					Gson gson = new Gson();
+					LocalIASCIEOperationResponseData data = gson.fromJson(
+							jsonString, LocalIASCIEOperationResponseData.class);
+					String status = data.getResponse_params().getParam1().trim();
+					Log.i(TAG,"LocalIASCIEOperation get status is "
+									+ String.valueOf(status));
+					int value = Integer.parseInt(status);
+					switch (value) {
+					case 0:
+						status = "0";
+						break;
+					case 3:
+						status = "1";
+					default:
+						break;
+					}
+
+					DataHelper mDataHelper= new DataHelper(ApplicationController.getInstance());
+					SQLiteDatabase mSQLiteDatabase = mDataHelper.getSQLiteDatabase();
+					
+					String where = " model_id like ? ";
+					String[] args = { DataHelper.One_key_operator + "%" };
+					ContentValues c = new ContentValues();
+					c.put(DevicesModel.ON_OFF_STATUS, status);
+					
+					mDataHelper.update(mSQLiteDatabase,DataHelper.DEVICES_TABLE, c, where, args);
+					mDataHelper.close(mSQLiteDatabase);
+//					Event event = new Event(EventType.LOCALIASCIEOPERATION, true);
+//					event.setData(status);
+//					notifyObservers(event);
+			}
+		};
+
+		ErrorListener errorListener = new ErrorListener() {
+
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				// Log.e("Error: ", error.getMessage());
+			}
+		};
+
+		StringRequest req = new StringRequest(url, responseListener,
+				errorListener);
+
+		// add the request object to the queue to be executed
+		ApplicationController.getInstance().addToRequestQueue(req);
+		// simpleVolleyRequset(url, EventType.LOCALIASCIEOPERATION);
+	}
+	
 	/***
 	 * 2.1安防设备布防LocalIASCIE ByPassZone
 	 * 

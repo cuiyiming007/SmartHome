@@ -49,7 +49,8 @@ interface LibjingleSendColumns extends BaseColumns {
 	public static final int LOCALIASCIEUNBYPASSZONE = 75;
 	public static final int IASWARNINGDEVICEOPERATION = 76;
 	public static final int LOCALIASCIEOPERATION = 77;
-
+	public static final int GETLOCALIASCIEOPERATION = 78;
+	
 	public static final int HUMIDITY = 80;
 	public static final int TEMPERATURESENSOROPERATION = 81;
 	public static final int LIGHTSENSOROPERATION = 82;
