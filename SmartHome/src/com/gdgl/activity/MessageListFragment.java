@@ -32,9 +32,11 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.gdgl.app.ApplicationController;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
 import com.gdgl.manager.WarnManager;
+import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.Event;
@@ -244,15 +246,18 @@ public class MessageListFragment extends BaseFragment implements UIListener,andr
 						.findViewById(R.id.detail_message);
 				mHolder.warn_time = (TextView) mView.findViewById(R.id.time);
 				mHolder.warn_check = (CheckBox) mView.findViewById(R.id.checkBoxMessage);
+				mHolder.warm_point = (ImageView) mView.findViewById(R.id.warm_point);
 				mView.setTag(mHolder);
 			} else {
 				mHolder = (ViewHolder) mView.getTag();
 				mHolder.warn_check.setChecked(mCheckHashMap.get(message.getId()));
 			}
+			mHolder.warn_img.setImageResource(getMessageImageResource(message));
+			
 			if(message.getDetailmessage().indexOf("提示") != -1){
-				mHolder.warn_img.setBackgroundResource(R.drawable.ui_warnmessage_notice);
+				mHolder.warm_point.setBackgroundResource(R.drawable.ui_toptitle_alarm_message_new_y);
 			}else{
-				mHolder.warn_img.setBackgroundResource(R.drawable.ui_securitycontrol_alarm);
+				mHolder.warm_point.setBackgroundResource(R.drawable.ui_toptitle_alarm_message_new);
 			}
 			mHolder.warn_name.setText(message.getW_description());
 			
@@ -287,6 +292,7 @@ public class MessageListFragment extends BaseFragment implements UIListener,andr
 			TextView warn_state;
 			TextView warn_time;
 			CheckBox warn_check;
+			ImageView warm_point;
 		}
 
 	}
@@ -494,6 +500,16 @@ public class MessageListFragment extends BaseFragment implements UIListener,andr
 
 		mSQLiteDatabase.delete(DataHelper.MESSAGE_TABLE,
 				where, args);
+	}
+	
+	public int getMessageImageResource(CallbackWarnMessage message){
+		int MessageImageResource = 0;
+		DataHelper	dh = new DataHelper(ApplicationController.getInstance());
+		SQLiteDatabase db = dh.getSQLiteDatabase();
+		DevicesModel device= DataUtil.getDeviceModelByIeee(message.getZone_ieee(), dh, db);
+		MessageImageResource = DataUtil.getDefaultDevicesSmallIcon(
+				device.getmDeviceId(), device.getmModelId().trim());
+		return MessageImageResource;	
 	}
 	
 	/* 闵伟add end  */

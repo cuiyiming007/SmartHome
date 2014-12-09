@@ -78,6 +78,10 @@ public class UiUtils {
 	public static final int OTHER = 5;
 	public static final int SWITCH_DEVICE = 6;
 
+	public static final String CLOUD = "cloud";
+	public static final String CLOUDLIST = "cloudlist";
+	public static final String USERLIST = "userlist";
+
 	
 	public static String[] getTagsByType(int type) {
 		String[] tags = null;
