@@ -1,7 +1,14 @@
 package com.gdgl.mydata;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.gdgl.model.RemoteControl;
 import com.gdgl.util.UiUtils;
@@ -9,6 +16,7 @@ import com.handmark.pulltorefresh.library.internal.Utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 public class getFromSharedPreferences {
 
@@ -264,6 +272,129 @@ public class getFromSharedPreferences {
 		mEditor = mSharedPreferences.edit();
 		mEditor.putString(UiUtils.REMOTE_CONTROL, controls);
 		mEditor.commit();
+	}
+	
+	public static ArrayList<HashMap<String, String>> getUserList(){
+		ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
+		String userListString = mSharedPreferences.getString(UiUtils.USERLIST,UiUtils.EMPTY_STR);
+		try {
+			JSONArray jsonArray = new JSONArray(userListString);
+			for(int i=0; i<jsonArray.length(); i++){
+				
+				HashMap<String, String> map = new HashMap<String, String>();
+				JSONObject jsonObject = jsonArray.getJSONObject(i);
+				map.put("use", jsonObject.getString("use"));
+				map.put("pwd", jsonObject.getString("pwd"));
+				list.add(map);
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	public static void setUserList(String use, String pwd){
+		ArrayList<HashMap<String, String>> list = getUserList();
+		int current = -1;
+		if(list.size() == 0){
+			HashMap<String, String> map = new HashMap<String, String>();
+			map.put("use", use);
+			map.put("pwd", pwd);
+			list.add(map);
+		}else{
+			for(int i=0; i<list.size(); i++){
+				if(list.get(i).get("use") != null && list.get(i).get("use").equals(use)){
+					current = i;	
+					break;
+				}
+			}
+			if(current == -1){
+				HashMap<String, String> map = new HashMap<String, String>();
+				map.put("use", use);
+				map.put("pwd", pwd);
+				list.add(map);
+			}else{
+				list.get(current).put("pwd", pwd);
+			}
+		}
+		commitStrStr(UiUtils.USERLIST, list.toString());
+	}
+	
+	public static void removeUserList(String use, String pwd){
+		ArrayList<HashMap<String, String>> list = getUserList();
+		for(int i=0; i<list.size(); i++){
+			if(list.get(i).get("use") != null && list.get(i).get("use").equals(use)){
+				list.remove(i);
+			}
+		}
+		commitStrStr(UiUtils.USERLIST, list.toString());
+	}
+	
+	public static void commitStrStr(String key, String value){
+		mEditor = mSharedPreferences.edit();
+		mEditor.putString(key, value);
+		mEditor.commit();
+	}
+	
+	public static ArrayList<HashMap<String, String>> getCloudList(){
+		ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
+		String cloudListString = mSharedPreferences.getString(UiUtils.CLOUDLIST,UiUtils.EMPTY_STR);
+		try {
+			JSONArray jsonArray = new JSONArray(cloudListString);
+			for(int i=0; i<jsonArray.length(); i++){
+				HashMap<String, String> map = new HashMap<String, String>();
+				JSONObject jsonObject = jsonArray.getJSONObject(i);
+				map.put("cloud", jsonObject.getString("cloud"));
+				list.add(map);
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	public static void setCloudList(String cloud){
+		ArrayList<HashMap<String, String>> list = getCloudList();
+		int current = -1;
+		if(list.size() == 0){
+			HashMap<String, String> map = new HashMap<String, String>();
+			map.put("cloud", cloud);
+			list.add(map);
+		}else{
+			for(int i=0; i<list.size(); i++){
+				if(list.get(i).get("cloud") != null && list.get(i).get("cloud").equals(cloud)){
+					current = i;	
+					break;
+				}
+			}
+			if(current == -1){
+				HashMap<String, String> map = new HashMap<String, String>();
+				map.put("cloud", cloud);
+				list.add(map);
+			}
+		}
+		commitStrStr(UiUtils.CLOUDLIST, list.toString());
+	}
+	
+	public static void removeCloudList(String cloud){
+		ArrayList<HashMap<String, String>> list = getCloudList();
+		for(int i=0; i<list.size(); i++){
+			if(list.get(i).get("cloud") != null && list.get(i).get("cloud").equals(cloud)){
+				list.remove(i);
+				break;
+			}
+		}
+		commitStrStr(UiUtils.CLOUDLIST, list.toString());
+	}
+	
+	public static String getCloud(){
+		return mSharedPreferences.getString(UiUtils.CLOUD,UiUtils.EMPTY_STR);
+	}
+	
+	public static void setCloud(String cloud){
+		commitStrStr(UiUtils.CLOUD, cloud);
 	}
 
 }
