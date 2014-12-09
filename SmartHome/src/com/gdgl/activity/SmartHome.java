@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -17,6 +16,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.gdgl.adapter.ViewPagerAdapter;
@@ -37,7 +37,8 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 
 public class SmartHome extends FragmentActivity implements
-		OnRefreshListener<ViewPager>, OnPageChangeListener, AddDialogcallback,UIListener{
+		OnRefreshListener<ViewPager>, OnPageChangeListener, AddDialogcallback,
+		UIListener {
 
 	private final static String TAG = "SmartHome";
 
@@ -50,17 +51,11 @@ public class SmartHome extends FragmentActivity implements
 
 	TextView mTitle;
 	Button notifyButton;
+
+	ImageButton devicesButton, videoButton, regionButton, scenceButton;
+	List<ImageButton> mImageButtonsList =new ArrayList<ImageButton>();
+	
 	TextView unreadMessageView;
-
-	TextView devices;
-	TextView region;
-	TextView scence;
-//	TextView common_used;
-	TextView video_urveillance;
-	List<TextView> mTextViewList = new ArrayList<TextView>();
-
-	int mSelectedColor = 0xff228B22;
-	int mUnSelectedColor = Color.BLACK;
 
 	int mCurrentTab = 0;
 	int mLastTab = -1;
@@ -86,13 +81,13 @@ public class SmartHome extends FragmentActivity implements
 
 		mViewPager = pull_refresh_viewpager.getRefreshableView();
 
-		videoFragment=new VideoFragment();
+		videoFragment = new VideoFragment();
 		mList = new ArrayList<TabInfo>();
-//		mList.add(new TabInfo(new CommonUseFragment()));
+		// mList.add(new TabInfo(new CommonUseFragment()));
 		mList.add(new TabInfo(new DevicesFragment()));
+		mList.add(new TabInfo(videoFragment));
 		mList.add(new TabInfo(new RegionsFragment()));
 		mList.add(new TabInfo(new ScenesFragment()));
-		mList.add(new TabInfo(videoFragment));
 
 		ViewPagerAdapter mViewPagerAdapter = new ViewPagerAdapter(
 				getSupportFragmentManager(), SmartHome.this, mList);
@@ -105,7 +100,7 @@ public class SmartHome extends FragmentActivity implements
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				//showSetWindow();
+				// showSetWindow();
 				startConfigActivity();
 			}
 		});
@@ -113,52 +108,57 @@ public class SmartHome extends FragmentActivity implements
 		mLastTab = mCurrentTab;
 
 		mTitle = (TextView) findViewById(R.id.title);
-		notifyButton=(Button) findViewById(R.id.alarm_btn);
-		unreadMessageView=(TextView) findViewById(R.id.unread_tv);
-		devices = (TextView) findViewById(R.id.devices);
-		region = (TextView) findViewById(R.id.region);
-		scence = (TextView) findViewById(R.id.scence);
-//		common_used = (TextView) findViewById(R.id.common_used);
-		video_urveillance = (TextView) findViewById(R.id.video_urveillance);
-
-//		mTextViewList.add(common_used);
-		mTextViewList.add(devices);
-		mTextViewList.add(region);
-		mTextViewList.add(scence);
-		mTextViewList.add(video_urveillance);
-		setMyTextColor(mCurrentTab);
-
+		notifyButton = (Button) findViewById(R.id.alarm_btn);
+		unreadMessageView = (TextView) findViewById(R.id.unread_tv);
+		
+		devicesButton =(ImageButton)findViewById(R.id.devices_btn);
+		videoButton=(ImageButton)findViewById(R.id.video_urveillance_btn);
+		regionButton=(ImageButton)findViewById(R.id.region_btn);
+		scenceButton=(ImageButton)findViewById(R.id.scence_btn);
+		
+		mImageButtonsList.add(devicesButton);
+		mImageButtonsList.add(videoButton);
+		mImageButtonsList.add(regionButton);
+		mImageButtonsList.add(scenceButton);
+		setTab_TitleButtonColour(mCurrentTab);
+		
 		TitleClickLister mTitleClickLister = new TitleClickLister();
-		for (int m = 0; m < mTextViewList.size(); m++) {
-			mTextViewList.get(m).setOnClickListener(mTitleClickLister);
+		for (int m = 0; m < mImageButtonsList.size(); m++) {
+			mImageButtonsList.get(m).setOnClickListener(mTitleClickLister);
 		}
 		initadd();
+		
 	}
 
 	private void initadd() {
 		// TODO Auto-generated method stub
 		mAdd = (Button) findViewById(R.id.add);
+		if (mCurrentTab == 0) {
+			mAdd.setVisibility(View.GONE);
+		} else {
+			mAdd.setVisibility(View.VISIBLE);
+		}
 		mAdd.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				if (1 == mCurrentTab) {
+				if (2 == mCurrentTab) {
 					AddDlg mAddDlg = new AddDlg(SmartHome.this, AddDlg.REGION);
 					mAddDlg.setContent("添加区域");
 					mAddDlg.setType("区域名称");
 					mAddDlg.setDialogCallback(SmartHome.this);
 					mAddDlg.show();
-				} else if (2 == mCurrentTab) {
+				} else if (3 == mCurrentTab) {
 					AddDlg mAddDlg = new AddDlg(SmartHome.this, AddDlg.SCENE);
 					mAddDlg.setContent("添加场景");
 					mAddDlg.setType("场景名称");
 					mAddDlg.setDialogCallback(SmartHome.this);
 					mAddDlg.show();
-//				} else if (0 == mCurrentTab) {
-//					Intent i = new Intent();
-//					i.setClass(SmartHome.this, AddCommonUsedActivity.class);
-//					startActivity(i);
-				} else if (3 == mCurrentTab) {
+					// } else if (0 == mCurrentTab) {
+					// Intent i = new Intent();
+					// i.setClass(SmartHome.this, AddCommonUsedActivity.class);
+					// startActivity(i);
+				} else if (1 == mCurrentTab) {
 					VideoInfoDialog mAddDlg = new VideoInfoDialog(
 							SmartHome.this, VideoInfoDialog.Add, videoFragment);
 					mAddDlg.setContent("添加");
@@ -169,12 +169,11 @@ public class SmartHome extends FragmentActivity implements
 			}
 		});
 		notifyButton.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				Intent i = new Intent(SmartHome.this,
-						ConfigActivity.class);
-				i.putExtra("fragid",1);
+				Intent i = new Intent(SmartHome.this, ConfigActivity.class);
+				i.putExtra("fragid", 1);
 				startActivity(i);
 				WarnManager.getInstance().intilMessageNum();
 			}
@@ -193,35 +192,52 @@ public class SmartHome extends FragmentActivity implements
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
 
-			if (mTextViewList.contains(v)) {
-				index = getMId(v);
+			if (mImageButtonsList.contains(v)) {
+				index = getTheNumberOfTabTitlePressed(v);
 			}
 			mViewPager.setCurrentItem(index);
 
-			mTextViewList.get(index).setTextColor(mSelectedColor);
+			mImageButtonsList.get(index).setBackgroundResource(TAB_TITLE_SELECTED[index]);
 
-			mTitle.setText(mTextViewList.get(index).getText());
+			mTitle.setText(TAB_TITLE_NAME[index]);
+//		    mTextViewList.get(index).setTextColor(mSelectedColor);
+//
+//			mTitle.setText(mTextViewList.get(index).getText());
 		}
 	}
 
-	public void setMyTextColor(int m) {
-		getMId(null);
-		mTextViewList.get(m).setTextColor(mSelectedColor);
-		mTitle.setText(mTextViewList.get(m).getText());
+	private static String[] TAB_TITLE_NAME = {
+		"设备","监控","区域","场景"};
+	private static int[] TAB_TITLE_SELECTED ={
+		R.drawable.ui_tabtitle_devices_pressed,
+		R.drawable.ui_tabtitle_video_pressed,
+		R.drawable.ui_tabtitle_region_pressed,
+		R.drawable.ui_tabtitle_scence_pressed};
+	private static int[] TAB_TITLE_UNSELECTED ={
+		R.drawable.ui_tabtitle_devices,
+		R.drawable.ui_tabtitle_video,
+		R.drawable.ui_tabtitle_region,
+		R.drawable.ui_tabtitle_scence};
+	
+	public void setTab_TitleButtonColour(int m) {
+		getTheNumberOfTabTitlePressed(null);
+		mImageButtonsList.get(m).setBackgroundResource(TAB_TITLE_SELECTED[m]);
+		mTitle.setText(TAB_TITLE_NAME[m]);
 	}
-
-	public int getMId(View v) {
-		// TODO Auto-generated method stub
+	
+	public int getTheNumberOfTabTitlePressed(View v) {
 		int m;
-		for (m = 0; m < mTextViewList.size(); m++) {
-			if (mTextViewList.get(m).equals(v)) {
+		for(m=0;m<mImageButtonsList.size();m++) {
+			if(mImageButtonsList.get(m).equals(v)) {
 				return m;
 			}
-			mTextViewList.get(m).setTextColor(mUnSelectedColor);
+			mImageButtonsList.get(m).setBackgroundResource(TAB_TITLE_UNSELECTED[m]);
 		}
 		return m;
 	}
-
+	
+	
+	
 	public void showSetWindow() {
 		mSetWindow = new SelectPicPopupWindow(SmartHome.this, mSetOnClick);
 		mSetWindow.showAtLocation(SmartHome.this.findViewById(R.id.set),
@@ -266,11 +282,11 @@ public class SmartHome extends FragmentActivity implements
 	}
 
 	private void updateMessageNum() {
-		int messageNum=WarnManager.getInstance().getMessageNum();
-		
-		if (messageNum==0) {
+		int messageNum = WarnManager.getInstance().getMessageNum();
+
+		if (messageNum == 0) {
 			unreadMessageView.setVisibility(View.GONE);
-		}else{
+		} else {
 			unreadMessageView.setVisibility(View.VISIBLE);
 			unreadMessageView.setText(String.valueOf(messageNum));
 		}
@@ -279,7 +295,7 @@ public class SmartHome extends FragmentActivity implements
 	@Override
 	protected void onStop() {
 		// unregisterReceiver(networkreChangeReciever);
-		
+
 		super.onStop();
 	}
 
@@ -339,10 +355,9 @@ public class SmartHome extends FragmentActivity implements
 		// TODO Auto-generated method stub
 		if (arg0 == ViewPager.SCROLL_STATE_IDLE) {
 			mLastTab = mCurrentTab;
-			if (mCurrentTab==0) {
+			if (mCurrentTab == 0) {
 				mAdd.setVisibility(View.GONE);
-			}else
-			{
+			} else {
 				mAdd.setVisibility(View.VISIBLE);
 			}
 		}
@@ -352,11 +367,11 @@ public class SmartHome extends FragmentActivity implements
 	public void onPageSelected(int arg0) {
 		// TODO Auto-generated method stub
 		mCurrentTab = arg0;
-		setMyTextColor(arg0);
-		if (mCurrentTab==0) {
+		setTab_TitleButtonColour(arg0);
+//		setMyTextColor(arg0);
+		if (mCurrentTab == 0) {
 			mAdd.setVisibility(View.GONE);
-		}else
-		{
+		} else {
 			mAdd.setVisibility(View.VISIBLE);
 		}
 	}
@@ -375,22 +390,23 @@ public class SmartHome extends FragmentActivity implements
 
 	@Override
 	public void update(Manger observer, Object object) {
-		Event data=(Event) object;
-		if (EventType.WARN==data.getType()) {
+		Event data = (Event) object;
+		if (EventType.WARN == data.getType()) {
 			notifyButton.post(new Runnable() {
-				
+
 				@Override
 				public void run() {
 					updateMessageNum();
 				}
 			});
 		}
-		
+
 	}
-	public void startConfigActivity(){
-		Intent i=new Intent();
+
+	public void startConfigActivity() {
+		Intent i = new Intent();
 		i.setClass(SmartHome.this, ConfigActivity.class);
 		SmartHome.this.startActivity(i);
 	}
-	
+
 }

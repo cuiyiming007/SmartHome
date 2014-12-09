@@ -96,13 +96,13 @@ public class DataUtil {
 		} else if (deviceId==DataHelper.RANGE_EXTENDER_DEVICETYPE) {
 			result = UiUtils.ELECTRICAL_MANAGER;
 		} else if (deviceId==DataHelper.MAINS_POWER_OUTLET_DEVICETYPE) {
-			if(modelId.indexOf(DataHelper.Switch_Module_Single)==0) {
-				result = UiUtils.LIGHTS_MANAGER;
-			} else {
+//			if(modelId.indexOf(DataHelper.Switch_Module_Single)==0) {
+//				result = UiUtils.LIGHTS_MANAGER;
+//			} else {
 				result = UiUtils.ELECTRICAL_MANAGER;
-			}
+//			}
 		} else if (deviceId==DataHelper.DIMEN_LIGHTS_DEVICETYPE) {
-			result = UiUtils.LIGHTS_MANAGER;
+			result = UiUtils.ELECTRICAL_MANAGER;
 		} else if (deviceId==DataHelper.DIMEN_SWITCH_DEVICETYPE) {
 			result = UiUtils.SWITCH_DEVICE;
 		} else if (deviceId==DataHelper.LIGHT_SENSOR_DEVICETYPE) {
@@ -573,9 +573,7 @@ public class DataUtil {
 
 	public static List<DevicesModel> getDevices(Context c, DataHelper dh,
 			String[] args, String where, boolean b) {
-		SimpleDevicesModel mSimpleDevicesModel;
 		List<DevicesModel> listDevicesModel = new ArrayList<DevicesModel>();
-		List<SimpleDevicesModel> list = new ArrayList<SimpleDevicesModel>();
 
 		SQLiteDatabase db = dh.getSQLiteDatabase();
 		listDevicesModel = dh.queryForDevicesList(db, DataHelper.DEVICES_TABLE,

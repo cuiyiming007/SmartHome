@@ -3,6 +3,11 @@ package com.gdgl.activity;
 /***
  * 登录界面
  */
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+
 import com.gdgl.app.ApplicationController;
 import com.gdgl.manager.LoginManager;
 import com.gdgl.manager.Manger;
@@ -13,37 +18,57 @@ import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.LoginResponse;
 import com.gdgl.mydata.getFromSharedPreferences;
+import com.gdgl.mydata.Callback.CallbackWarnMessage;
 import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.service.LibjingleService;
 import com.gdgl.service.SmartService;
 import com.gdgl.smarthome.R;
+import com.gdgl.util.MyOkCancleDlg;
+import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
+import com.gdgl.util.MyLogoutDlg;
 import com.gdgl.util.NetUtil;
+import com.gdgl.util.UiUtils;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.opengl.Visibility;
 import android.os.Bundle;
+import android.text.Layout;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class LoginActivity extends Activity implements OnClickListener,
 		UIListener {
-
 	int networkStatus;// 当前网络状态量
-
-	private EditText mName;
-	private EditText mPwd;
-	private CheckBox mRem;
-	private CheckBox mAut;
+	private EditText mName, mPwd, mCloud;
+	private CheckBox mRem, mAut;
 	private Button mLogin;
+	private ImageView user_dropdown, cloud_dropdown, gaoji_image;
+	private ViewGroup gaoji, gaoji_Layout, user_item, cloud_item;
 	private AccountInfo accountInfo;
+	private PopupWindow userPop, cloudPop;
 	public static AccountInfo loginAccountInfo; //把用户名密码传到libjingleService
+	private static final boolean isAsc = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,15 +78,24 @@ public class LoginActivity extends Activity implements OnClickListener,
 		Intent intent = getIntent();
 		networkStatus = intent.getIntExtra("networkStatus", 0);
 		initView();
-
+		Log.i("useList", getFromSharedPreferences.getUserList().toString());
+		Log.i("cloudList", getFromSharedPreferences.getCloudList().toString());
 	}
 
 	private void initView() {
 		// TODO Auto-generated method stub
-
+		
 		mLogin = (Button) findViewById(R.id.login);
 		mName = (EditText) findViewById(R.id.name);
 		mPwd = (EditText) findViewById(R.id.pwd);
+		mCloud = (EditText)findViewById(R.id.cloud);
+		user_dropdown = (ImageView)findViewById(R.id.user_dropdown);
+		cloud_dropdown = (ImageView)findViewById(R.id.cloud_dropdown);
+		gaoji_image = (ImageView)findViewById(R.id.gaoji_image);
+		gaoji = (ViewGroup)findViewById(R.id.gaoji);
+		gaoji_Layout = (ViewGroup)findViewById(R.id.gaoji_layout);
+		user_item = (ViewGroup)findViewById(R.id.user_item);
+		cloud_item = (ViewGroup)findViewById(R.id.cloud_item);
 
 		getFromSharedPreferences.setsharedPreferences(LoginActivity.this);
 		if (!getFromSharedPreferences.getUid().equals("")) {
@@ -70,10 +104,15 @@ public class LoginActivity extends Activity implements OnClickListener,
 			mName.setText(getFromSharedPreferences.getName());
 		}
 		mPwd.setText(getFromSharedPreferences.getPwd());
-
+		if (!getFromSharedPreferences.getCloud().equals("")) {
+			mCloud.setText(getFromSharedPreferences.getCloud());
+		}
 		// mName.setText("BC6A2987D431");
 		// mPwd.setText("123456");
 		mLogin.setOnClickListener(this);
+		user_dropdown.setOnClickListener(this);
+		cloud_dropdown.setOnClickListener(this);
+		gaoji.setOnClickListener(this);
 		LoginManager.getInstance().addObserver(this);
 	}
 
@@ -114,6 +153,55 @@ public class LoginActivity extends Activity implements OnClickListener,
 			// Intent intent = new Intent(LoginActivity.this, SmartHome.class);
 			// startActivity(intent);
 			// this.finish();
+			break;
+		case R.id.gaoji:
+			if(gaoji_Layout.getVisibility() == View.GONE){
+				gaoji_Layout.setVisibility(View.VISIBLE);
+				//gaoji_image.setBackgroundResource(R.id.ui);
+			}else{
+				gaoji_Layout.setVisibility(View.GONE);
+				//gaoji_image.setImageResource(R.id.ui_login_arrow_white);
+			}
+			break;
+		case R.id.user_dropdown:
+			if(userPop != null){
+				if(!userPop.isShowing()) {
+					userPop.showAsDropDown(user_item);
+				}else{
+					userPop.dismiss();
+				}
+			}else{
+				if(getFromSharedPreferences.getUserList().size() > 0){
+					initUserPopView();
+					if(!userPop.isShowing()) {
+						userPop.showAsDropDown(user_item);
+					}else{
+						userPop.dismiss();
+					}
+				}else{
+					Toast.makeText(this, "没有记录", Toast.LENGTH_LONG).show(); 
+				}
+			}
+			break;
+		case R.id.cloud_dropdown:
+			if(cloudPop != null){
+				if(!cloudPop.isShowing()) {
+					cloudPop.showAsDropDown(cloud_item);
+				}else{
+					cloudPop.dismiss();
+				}
+			}else{
+				if(getFromSharedPreferences.getCloudList().size() > 0){
+					initCloudPopView();
+					if(!cloudPop.isShowing()) {
+						cloudPop.showAsDropDown(cloud_item);
+					}else{
+						cloudPop.dismiss();
+					}
+				}else{
+					Toast.makeText(this, "没有记录", Toast.LENGTH_LONG).show(); 
+				}
+			}
 			break;
 		default:
 			break;
@@ -157,11 +245,11 @@ public class LoginActivity extends Activity implements OnClickListener,
 					startService(serviceIntent);
 					LoginManager.getInstance().doLogin(accountInfo);
 				}
+				mSQLiteDatabase.close();
 			} else {
 				Toast.makeText(getApplicationContext(), "没有网关",
 						Toast.LENGTH_SHORT).show();
 			}
-			mSQLiteDatabase.close();
 			break;
 		default:
 			break;
@@ -198,6 +286,9 @@ public class LoginActivity extends Activity implements OnClickListener,
 			accountInfo.setId(response.getId());
 			getFromSharedPreferences.setsharedPreferences(LoginActivity.this);
 			getFromSharedPreferences.setLogin(accountInfo, false, false);
+			getFromSharedPreferences.setUserList(mName.getText().toString(), mPwd.getText().toString());
+			getFromSharedPreferences.setCloud(mCloud.getText().toString());
+			getFromSharedPreferences.setCloudList(mCloud.getText().toString());
 			// getFromSharedPreferences.setharedPreferences(this);
 			// getFromSharedPreferences.setName(newName.trim());
 			Intent intent = new Intent(LoginActivity.this, SmartHome.class);
@@ -244,5 +335,182 @@ public class LoginActivity extends Activity implements OnClickListener,
 			break;
 		}
 	}
+	
+	private void initUserPopView() { 
+		MyAdapter userAdapter = new MyAdapter(sequenceList(getFromSharedPreferences.getUserList()), R.drawable.ui_login_user_blue, UiUtils.USERLIST);
+		ListView listView = new ListView(this);
+		listView.setAdapter(userAdapter);
+		userPop = new PopupWindow(listView, user_item.getWidth(),  
+				                ViewGroup.LayoutParams.WRAP_CONTENT, true);  
+		userPop.setFocusable(true);  
+		userPop.setOutsideTouchable(true);  
+		userPop.setBackgroundDrawable(getResources().getDrawable(R.drawable.ui_user_list_bg));  
+	}
+	
+	private void initCloudPopView() { 
+		MyAdapter cloudAdapter = new MyAdapter(sequenceList(getFromSharedPreferences.getCloudList()), R.drawable.ui_login_cloud_blue, UiUtils.CLOUDLIST);
+		ListView listView = new ListView(this);
+		listView.setAdapter(cloudAdapter);
+		cloudPop = new PopupWindow(listView, cloud_item.getWidth(),  
+				                ViewGroup.LayoutParams.WRAP_CONTENT, true);  
+		cloudPop.setFocusable(true);  
+		cloudPop.setOutsideTouchable(true);  
+		cloudPop.setBackgroundDrawable(getResources().getDrawable(R.drawable.ui_user_list_bg));  
+	}
+	
+	public ArrayList<HashMap<String, String>> sequenceList(ArrayList<HashMap<String, String>> list){
+		if(isAsc){
+			
+		}else{
+			Collections.reverse(list);  
+		}
+		return list;
+	}
+	
+	class MyAdapter extends BaseAdapter implements Dialogcallback{
+		String useCur;
+		String pwdCur;
+		String cloudCur;
+		int posi;
+		private MyOkCancleDlg mMyOkCancleDlg;
+		private ArrayList<HashMap<String, String>> list;
+		private int logoResource;
+		private String tag;
+		
+		public MyAdapter(ArrayList<HashMap<String, String>> list, int resource, String tag){
+			this.list = list;
+			this.logoResource = resource;
+			this.tag = tag;
+			
+		}
+		
+		@Override
+		public int getCount() {
+			// TODO Auto-generated method stub
+			return list.size();	
+		}
+		
+		@Override
+		public Object getItem(int position) {
+			// TODO Auto-generated method stub
+			return position;
+		}
+		
+		@Override
+		public long getItemId(int position) {
+			// TODO Auto-generated method stub
+			return position;
+		}
+		
+		@Override
+		public View getView(final int position, View convertView, ViewGroup parent) {
+			// TODO Auto-generated method stub
+			ViewHolder holder;
+			if (convertView == null) {  
+				holder = new ViewHolder(); 
+				convertView = LayoutInflater.from(LoginActivity.this).inflate(R.layout.login_item, null); 
+				holder.img = (ImageView) convertView.findViewById(R.id.logo); 
+				holder.btn = (ImageButton) convertView.findViewById(R.id.delete);  
+				holder.tv = (TextView) convertView.findViewById(R.id.textview);  
+				convertView.setTag(holder);  
 
+			}else{
+				holder = (ViewHolder) convertView.getTag();  
+			}
+			holder.img.setBackgroundResource(logoResource);
+			if(tag.equals(UiUtils.USERLIST)){
+				final String use = list.get(position).get("use").toString();
+				final String pwd = list.get(position).get("pwd").toString();
+				holder.tv.setText(use);
+				holder.tv.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						mName.setText(use);
+						mPwd.setText(pwd);
+						userPop.dismiss();
+					}
+				});
+				holder.btn.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						useCur = use;
+						pwdCur = pwd;
+						posi = position;
+						showOkCancelDialog();
+						
+					}
+				});
+			}
+			if(tag.equals(UiUtils.CLOUDLIST)){
+				final String cloud = list.get(position).get("cloud").toString();
+				holder.tv.setText(cloud); 
+				holder.tv.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						mCloud.setText(cloud);
+						cloudPop.dismiss();
+					}
+				});
+				holder.btn.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						cloudCur = cloud;
+						posi = position;
+						showOkCancelDialog();			
+					}
+				});
+			}
+			
+			
+			
+			return convertView;
+		}
+		
+		class ViewHolder {  
+			private ImageView img;
+			private TextView tv;
+			private ImageButton btn;  
+		}
+		
+		public void showOkCancelDialog(){
+			mMyOkCancleDlg = new MyOkCancleDlg(LoginActivity.this);
+			mMyOkCancleDlg.setDialogCallback(MyAdapter.this);
+            mMyOkCancleDlg.setContent("确定要删除这笔资料吗?");
+            mMyOkCancleDlg.show();
+		}
+
+		@Override
+		public void dialogdo() {
+			// TODO Auto-generated method stub
+			if(userPop != null && userPop.isShowing()){
+				Log.i("user", "use = "+useCur+" pwd = "+pwdCur+" posi = "+posi);
+				getFromSharedPreferences.removeUserList(useCur, pwdCur);
+				list.remove(posi);
+				notifyDataSetChanged();
+				userPop.dismiss();
+			}
+			if(cloudPop != null && cloudPop.isShowing()){
+				Log.i("cloud", "cloud = "+cloudCur+" posi = "+posi);
+				getFromSharedPreferences.removeCloudList(cloudCur);
+				list.remove(posi);
+				notifyDataSetChanged();
+				cloudPop.dismiss();
+				if(mCloud.getText().toString().equals(cloudCur)){
+					if(list.size() > 0){
+						mCloud.setText(list.get(0).get("cloud").toString());
+					}else{
+						mCloud.setText("");
+					}
+				}
+			}
+		}
+	}
 }

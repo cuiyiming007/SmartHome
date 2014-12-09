@@ -70,13 +70,17 @@ public class UiUtils {
 	public static final int SWITCH = 2; // 开关
 	public static final int CURTAINS = 3; // 窗帘
 
-	public static final int LIGHTS_MANAGER = 0;
+	public static final int LIGHTS_MANAGER = 10;
 	public static final int ELECTRICAL_MANAGER = 1;
-	public static final int SECURITY_CONTROL = 2;
-	public static final int ENVIRONMENTAL_CONTROL = 3;
-	public static final int ENERGY_CONSERVATION = 4;
-	public static final int OTHER = 5;
+	public static final int SECURITY_CONTROL = 0;
+	public static final int ENVIRONMENTAL_CONTROL = 2;
+	public static final int ENERGY_CONSERVATION = 3;
+	public static final int OTHER = 4;
 	public static final int SWITCH_DEVICE = 6;
+
+	public static final String CLOUD = "cloud";
+	public static final String CLOUDLIST = "cloudlist";
+	public static final String USERLIST = "userlist";
 
 	
 	public static String[] getTagsByType(int type) {
@@ -89,7 +93,7 @@ public class UiUtils {
 			tags = new String[] { "照明管理", "安全防护", "电器控制", "环境监测", "节能", "其它" };
 			break;
 		case SECURITY_CONTROL:
-			tags = new String[] { "照明管理", "电器控制", "安全防护", "环境监测", "节能", "其它" };
+			tags = new String[] { "安全防护", "电器控制", "环境监测", "节能", "其它" };
 			break;
 		case ENVIRONMENTAL_CONTROL:
 			tags = new String[] { "照明管理", "电器控制", "环境监测", "安全防护", "节能", "其它" };
@@ -127,9 +131,9 @@ public class UiUtils {
 					R.drawable.ui_cercleswitch_others_pressed };
 			break;
 		case SECURITY_CONTROL:
-			imgs = new int[] { R.drawable.ui_cercleswitch_lightmanage_pressed,
-					R.drawable.ui_cercleswitch_electricalcontrol_pressed,
+			imgs = new int[] {
 					R.drawable.ui_cercleswitch_securitycontrol_pressed,
+					R.drawable.ui_cercleswitch_electricalcontrol_pressed,
 					R.drawable.ui_cercleswitch_environmentalcontrol_pressed,
 					R.drawable.ui_cercleswitch_energyconservation_pressed,
 					R.drawable.ui_cercleswitch_others_pressed };
@@ -200,9 +204,8 @@ public class UiUtils {
 					ENERGY_CONSERVATION, OTHER };
 			break;
 		case SECURITY_CONTROL:
-			imgs = new int[] { LIGHTS_MANAGER, ELECTRICAL_MANAGER,
-					SECURITY_CONTROL, ENVIRONMENTAL_CONTROL,
-					ENERGY_CONSERVATION, OTHER };
+			imgs = new int[] { SECURITY_CONTROL, ELECTRICAL_MANAGER,
+					ENVIRONMENTAL_CONTROL, ENERGY_CONSERVATION, OTHER };
 			break;
 		case ENVIRONMENTAL_CONTROL:
 			imgs = new int[] { LIGHTS_MANAGER, ELECTRICAL_MANAGER,
@@ -253,13 +256,23 @@ public class UiUtils {
 			R.drawable.ui_devices_environmentalcontrol_style,
 			R.drawable.ui_devices_energyconservation_style,
 			R.drawable.ui_devices_others_style };
+	public static int[] DEVICES_MANAGER_IMAGES_NEW = {
+			R.drawable.ui_devices_securitycontrol_style,
+			R.drawable.ui_devices_electricalcontrol_style,
+			R.drawable.ui_devices_environmentalcontrol_style,
+			R.drawable.ui_devices_energyconservation_style,
+			R.drawable.ui_devices_others_style};
 	public static String[] DEVICES_MANAGER_TAGS = { "照明管理", "电器控制", "安全防护",
 			"环境监测", "节能", "其它" };
+	public static String[] DEVICES_MANAGER_TAGS_NEW = { "安全防护", "电器控制", "环境监测",
+			"节能", "其它" };
 
 	public static int[] getImagResource(int type) {
 		int[] mresult = null;
 		switch (type) {
 		case 0:
+			mresult = DEVICES_MANAGER_IMAGES_NEW;
+			break;
 		case 1:
 			mresult = DEVICES_MANAGER_IMAGES;
 			break;
@@ -273,6 +286,8 @@ public class UiUtils {
 		String[] mresult = null;
 		switch (type) {
 		case 0:
+			mresult = DEVICES_MANAGER_TAGS_NEW;
+			break;
 		case 1:
 			mresult = DEVICES_MANAGER_TAGS;
 			break;
