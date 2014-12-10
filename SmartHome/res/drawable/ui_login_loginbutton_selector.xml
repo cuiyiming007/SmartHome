@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" >
+	<!-- 按下状态 -->
+	<item android:state_pressed="true" >
+		<shape >
+			<!-- 边框圆角 -->
+			<corners android:radius="5dp" />
+            <!-- 背景颜色 -->
+			<solid android:color="#f7b518" />  
+		</shape>
+	</item>
+	
+	<!-- 焦点状态 -->
+	<item android:state_focused="true" >
+		<shape >
+			<!-- 边框圆角 -->
+			<corners android:radius="5dp" />
+            <!-- 背景颜色 -->
+			<solid android:color="#f7b518" />  
+		</shape>
+	</item>
+	
+	
+
+    <!-- 默认状态 -->
+	<item>
+		<shape>
+			<!-- 边框圆角 -->
+			<corners android:radius="5dp" />
+			<!-- 背景颜色 -->
+			<solid android:color="#64dd17" />   
+		</shape>      
+	</item>
+	 
+
+</selector>

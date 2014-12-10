@@ -524,9 +524,9 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 	}
 
 	@Override
-	public void setDevicesId(DevicesModel simpleDevicesModel) {
+	public void setDevicesId(DevicesModel devicesModel) {
 		// TODO Auto-generated method stub
-		getModel = simpleDevicesModel;
+		getModel = devicesModel;
 	}
 
 	@Override

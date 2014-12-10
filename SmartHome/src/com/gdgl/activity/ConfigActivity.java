@@ -74,7 +74,6 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 		}
 
 		mSlideMenu = getSlideMenu();
-
 		mSlideMenu.setInterpolator(new DecelerateInterpolator());
 		mSlideMenu.setSlideMode(SlideMenu.MODE_SLIDE_CONTENT);
 		//mSlideMenu.setPrimaryShadowWidth(100);

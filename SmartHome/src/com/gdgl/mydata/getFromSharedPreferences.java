@@ -90,7 +90,11 @@ public class getFromSharedPreferences {
 
 		mEditor.putString(UiUtils.UID, accountInfo.getId());
 		mEditor.putString(UiUtils.NAME, accountInfo.getAlias());
-		mEditor.putString(UiUtils.PWD, accountInfo.getPassword());
+		if(isRemerber){
+			mEditor.putString(UiUtils.PWD, accountInfo.getPassword());
+		}else{
+			mEditor.putString(UiUtils.PWD, "");
+		}
 		mEditor.putBoolean(UiUtils.IS_REMERBER_PWD, isRemerber);
 		mEditor.putBoolean(UiUtils.IS_AUTO_LOGIN, isAuto);
 
@@ -277,6 +281,9 @@ public class getFromSharedPreferences {
 	public static ArrayList<HashMap<String, String>> getUserList(){
 		ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
 		String userListString = mSharedPreferences.getString(UiUtils.USERLIST,UiUtils.EMPTY_STR);
+		if(userListString.equals("")){
+			return list;
+		}
 		try {
 			JSONArray jsonArray = new JSONArray(userListString);
 			for(int i=0; i<jsonArray.length(); i++){
@@ -340,6 +347,9 @@ public class getFromSharedPreferences {
 	public static ArrayList<HashMap<String, String>> getCloudList(){
 		ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
 		String cloudListString = mSharedPreferences.getString(UiUtils.CLOUDLIST,UiUtils.EMPTY_STR);
+		if(cloudListString.equals("")){
+			return list;
+		}
 		try {
 			JSONArray jsonArray = new JSONArray(cloudListString);
 			for(int i=0; i<jsonArray.length(); i++){

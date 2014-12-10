@@ -236,8 +236,7 @@ public class DeviceDtailFragment extends BaseFragment {
 				}
 			}
 		});
-		if (mDevices.getmDeviceId() == DataHelper.DIMEN_LIGHTS_DEVICETYPE
-				|| mDevices.getmDeviceId() == DataHelper.SHADE_DEVICETYPE) {
+		if (mDevices.getmDeviceId() == DataHelper.DIMEN_LIGHTS_DEVICETYPE) {
 
 			int level = Integer.parseInt(mDevices.getmLevel());
 			int state = level * 100 / 254;
@@ -251,24 +250,50 @@ public class DeviceDtailFragment extends BaseFragment {
 						@Override
 						public void onStopTrackingTouch(SeekBar seekBar) {
 							// TODO Auto-generated method stub
-							if (mDevices.getmDeviceId() == DataHelper.DIMEN_LIGHTS_DEVICETYPE) {
-								if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
-									cgiManager.dimmableLightOperation(mDevices,
-											16, currentLevel);
-								} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
-									libjingleSendManager
-											.dimmableLightOperation(mDevices,
-													16, currentLevel);
-								}
+							if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+								cgiManager.dimmableLightOperation(mDevices, 16,
+										currentLevel);
+							} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+								libjingleSendManager.dimmableLightOperation(
+										mDevices, 16, currentLevel);
 							}
-							if (mDevices.getmDeviceId() == DataHelper.SHADE_DEVICETYPE) {
-								if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
-									cgiManager.shadeOperation(mDevices, 14,
-											currentLevel);
-								} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
-									libjingleSendManager.shadeOperation(
-											mDevices, 14, currentLevel);
-								}
+						}
+
+						@Override
+						public void onStartTrackingTouch(SeekBar seekBar) {
+							// TODO Auto-generated method stub
+
+						}
+
+						@Override
+						public void onProgressChanged(SeekBar seekBar,
+								int progress, boolean fromUser) {
+							// TODO Auto-generated method stub
+							currentLevel = progress * 255 / 100;
+							mDevices.setmLevel(String.valueOf(currentLevel));
+						}
+					});
+		}
+		if (mDevices.getmDeviceId() == DataHelper.SHADE_DEVICETYPE) {
+
+			int level = Integer.parseInt(mDevices.getmLevel());
+			int state = level * 100 / 254;
+			device_seekBar.setProgress(state);
+
+			device_seekBar
+					.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+						int currentLevel = Integer.parseInt(mDevices
+								.getmLevel());
+
+						@Override
+						public void onStopTrackingTouch(SeekBar seekBar) {
+							// TODO Auto-generated method stub
+							if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+								cgiManager.shadeOperation(mDevices, 14,
+										currentLevel);
+							} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+								libjingleSendManager.shadeOperation(mDevices,
+										14, currentLevel);
 							}
 						}
 
@@ -424,12 +449,15 @@ public class DeviceDtailFragment extends BaseFragment {
 				device_contorlLayout.setVisibility(View.GONE);
 				device_contorl_safeLayout.setVisibility(View.VISIBLE);
 			}
-			if (modelId.indexOf(DataHelper.Doors_and_windows_sensor_switch) == 0) { // ZigBee警报器
-				device_contorlLayout.setVisibility(View.GONE);
-			}
-			if (modelId.indexOf(DataHelper.Emergency_Button) == 0) { // 门窗感应开关
+			if (modelId.indexOf(DataHelper.Doors_and_windows_sensor_switch) == 0) { // 门窗感应开关
 				device_contorlLayout.setVisibility(View.GONE);
 				device_contorl_safeLayout.setVisibility(View.VISIBLE);
+			}
+			if (modelId.indexOf(DataHelper.Emergency_Button) == 0) { // ZigBee紧急按钮
+				device_contorlLayout.setVisibility(View.GONE);
+			}
+			if (modelId.indexOf(DataHelper.Emergency_Button_On_Wall) == 0) { // ZigBee墙面紧急按钮
+				device_contorlLayout.setVisibility(View.GONE);
 			}
 			if (modelId.indexOf(DataHelper.Smoke_Detectors) == 0) { // 烟雾感应器
 				device_contorlLayout.setVisibility(View.GONE);

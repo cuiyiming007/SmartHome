@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <!-- 默认状态 -->
+	<item>
+		<shape>
+			<!-- 边框圆角 -->
+			<corners android:radius="5dp" />
+			<!-- 背景颜色 -->
+			<solid android:color="#4dc9f2" />   
+		</shape>      
+	</item>
+	 
+
+</selector>

@@ -96,6 +96,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 		gaoji_Layout = (ViewGroup)findViewById(R.id.gaoji_layout);
 		user_item = (ViewGroup)findViewById(R.id.user_item);
 		cloud_item = (ViewGroup)findViewById(R.id.cloud_item);
+		mRem = (CheckBox)findViewById(R.id.checkBox1);
 
 		getFromSharedPreferences.setsharedPreferences(LoginActivity.this);
 		if (!getFromSharedPreferences.getUid().equals("")) {
@@ -106,6 +107,9 @@ public class LoginActivity extends Activity implements OnClickListener,
 		mPwd.setText(getFromSharedPreferences.getPwd());
 		if (!getFromSharedPreferences.getCloud().equals("")) {
 			mCloud.setText(getFromSharedPreferences.getCloud());
+		}
+		if(getFromSharedPreferences.getIsRemerber()){
+			mRem.setChecked(true);
 		}
 		// mName.setText("BC6A2987D431");
 		// mPwd.setText("123456");
@@ -245,11 +249,11 @@ public class LoginActivity extends Activity implements OnClickListener,
 					startService(serviceIntent);
 					LoginManager.getInstance().doLogin(accountInfo);
 				}
+				mSQLiteDatabase.close();
 			} else {
 				Toast.makeText(getApplicationContext(), "没有网关",
 						Toast.LENGTH_SHORT).show();
 			}
-			mSQLiteDatabase.close();
 			break;
 		default:
 			break;
@@ -285,7 +289,12 @@ public class LoginActivity extends Activity implements OnClickListener,
 		case 0:
 			accountInfo.setId(response.getId());
 			getFromSharedPreferences.setsharedPreferences(LoginActivity.this);
-			getFromSharedPreferences.setLogin(accountInfo, false, false);
+			if(mRem.isChecked()){
+				getFromSharedPreferences.setLogin(accountInfo, true, false);
+			}else{
+				getFromSharedPreferences.setLogin(accountInfo, false, false);
+			}
+			// getFromSharedPreferences.setLogin(accountInfo, false, false);
 			getFromSharedPreferences.setUserList(mName.getText().toString(), mPwd.getText().toString());
 			getFromSharedPreferences.setCloud(mCloud.getText().toString());
 			getFromSharedPreferences.setCloudList(mCloud.getText().toString());
@@ -339,23 +348,25 @@ public class LoginActivity extends Activity implements OnClickListener,
 	private void initUserPopView() { 
 		MyAdapter userAdapter = new MyAdapter(sequenceList(getFromSharedPreferences.getUserList()), R.drawable.ui_login_user_blue, UiUtils.USERLIST);
 		ListView listView = new ListView(this);
+		listView.setDivider(this.getResources().getDrawable(R.drawable.ui_login_list_line));
 		listView.setAdapter(userAdapter);
 		userPop = new PopupWindow(listView, user_item.getWidth(),  
-				                ViewGroup.LayoutParams.WRAP_CONTENT, true);  
+				user_item.getHeight()*2, true);  
 		userPop.setFocusable(true);  
 		userPop.setOutsideTouchable(true);  
-		userPop.setBackgroundDrawable(getResources().getDrawable(R.drawable.ui_user_list_bg));  
+		userPop.setBackgroundDrawable(getResources().getDrawable(R.drawable.ui_login_user_list_bg));  
 	}
 	
 	private void initCloudPopView() { 
 		MyAdapter cloudAdapter = new MyAdapter(sequenceList(getFromSharedPreferences.getCloudList()), R.drawable.ui_login_cloud_blue, UiUtils.CLOUDLIST);
 		ListView listView = new ListView(this);
+		listView.setDivider(this.getResources().getDrawable(R.drawable.ui_login_list_line));
 		listView.setAdapter(cloudAdapter);
 		cloudPop = new PopupWindow(listView, cloud_item.getWidth(),  
-				                ViewGroup.LayoutParams.WRAP_CONTENT, true);  
+				user_item.getHeight()*2, true);  
 		cloudPop.setFocusable(true);  
 		cloudPop.setOutsideTouchable(true);  
-		cloudPop.setBackgroundDrawable(getResources().getDrawable(R.drawable.ui_user_list_bg));  
+		cloudPop.setBackgroundDrawable(getResources().getDrawable(R.drawable.ui_login_user_list_bg));  
 	}
 	
 	public ArrayList<HashMap<String, String>> sequenceList(ArrayList<HashMap<String, String>> list){

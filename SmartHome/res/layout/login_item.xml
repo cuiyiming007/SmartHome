@@ -10,7 +10,8 @@
         android:id="@+id/logo"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:layout_marginLeft="18dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"/>
     
@@ -26,7 +27,6 @@
 
     <TextView
         android:id="@+id/textview"
-        style="?android:attr/dropDownItemStyle"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@id/delete"
