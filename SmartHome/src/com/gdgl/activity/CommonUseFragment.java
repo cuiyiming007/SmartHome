@@ -760,22 +760,6 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 				if (null != smd) {
 					mViewHolder.funcImg.setImageResource(DataUtil
 							.getDefaultDevicesSmallIcon(smd.getmDeviceId(),smd.getmModelId().trim()));
-//					if (DataHelper.IAS_ZONE_DEVICETYPE == smd.getmDeviceId()
-//							|| DataHelper.IAS_ACE_DEVICETYPE == smd
-//									.getmDeviceId()) {
-//
-//						mViewHolder.funcImg.setImageResource(UiUtils
-//								.getDevicesSmallIconByModelId(smd.getmModelId()
-//										.trim()));
-//					} else if (smd.getmModelId().indexOf(
-//							DataHelper.Multi_key_remote_control) == 0) {
-//						mViewHolder.funcImg.setImageResource(UiUtils
-//								.getDevicesSmallIconForRemote(smd
-//										.getmDeviceId()));
-//					} else {
-//						mViewHolder.funcImg.setImageResource(UiUtils
-//								.getDevicesSmallIcon(smd.getmDeviceId()));
-//					}
 
 					setTextViewContent(smd, mViewHolder.devState);
 					mViewHolder.funcText.setText(smd.getmDefaultDeviceName()

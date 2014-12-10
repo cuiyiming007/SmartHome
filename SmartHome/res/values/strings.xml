@@ -35,6 +35,7 @@
     <string name="Motion_Sensor">"动作感应器"</string>
 	<string name="Magnetic_Window"> "窗磁"</string>
 	<string name="Emergency_Button"> "紧急按钮"</string>
+	<string name="Emergency_Button_On_Wall"> "前面紧急按钮"</string>
 	<string name="Doors_and_windows_sensor_switch"> "门磁"</string>
 	<string name="Smoke_Detectors"> "烟雾探测器"</string>
 	<string name="Combustible_Gas_Detector_Gas"> "煤气探测器"</string>
@@ -43,11 +44,11 @@
 	<string name="Wireless_Intelligent_valve_switch"> "阀门开关"</string> 
 	<string name="Siren"> "警报器"</string> 
 	<string name="Wall_switch_touch"> "单键开关"</string> 
-	<string name="Wall_switch_double_R"> "双键开关（右）"</string>
-	<string name="Wall_switch_double_L"> "双键开关（左）"</string> 
-	<string name="Wall_switch_triple_R"> "三键开关（右）"</string>
-	<string name="Wall_switch_triple_M"> "三键开关（中）"</string>
-	<string name="Wall_switch_triple_L"> "三键开关（左）"</string> 
+	<string name="Wall_switch_double_R"> "双键开关-右"</string>
+	<string name="Wall_switch_double_L"> "双键开关-左"</string> 
+	<string name="Wall_switch_triple_R"> "三键开关_右"</string>
+	<string name="Wall_switch_triple_M"> "三键开关-中"</string>
+	<string name="Wall_switch_triple_L"> "三键开关-左"</string> 
 	<string name="Dimmer_Switch"> "调光开关"</string> 
 	<string name="Power_detect_wall"> "墙面插座"</string> 
 	<string name="Curtain_control_switch"> "窗帘"</string> 
@@ -57,6 +58,12 @@
 	<string name="Multi_key_remote_control"> "多键遥控器"</string> 
 	<string name="Doorbell_button"> "门铃"</string> 
 	<string name="Switch_Module_Single"> "单路开关模块"</string> 
+	<string name="Switch_Module_Double_1"> "双路开关模块-1"</string> 
+	<string name="Switch_Module_Double_2"> "双路开关模块-2"</string> 
+	<string name="Switch_Module_Quadruple_1"> "四路开关模块-1"</string> 
+	<string name="Switch_Module_Quadruple_2"> "四路开关模块-2"</string>
+	<string name="Switch_Module_Quadruple_3"> "四路开关模块-3"</string>
+	<string name="Switch_Module_Quadruple_4"> "四路开关模块-4"</string>
 	<string name="Energy_detection_dimming_module"> "调光灯"</string> 
 	<string name="Pro_RF"> "Pro RF 模块"</string>  
 	<string name="RS232_adapter"> "工业级 RS232适配器"</string> 

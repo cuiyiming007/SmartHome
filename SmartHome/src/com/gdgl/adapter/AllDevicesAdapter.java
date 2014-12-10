@@ -115,21 +115,6 @@ public class AllDevicesAdapter extends BaseAdapter {
 		
 		mHolder.devices_img.setImageResource(DataUtil
 						.getDefaultDevicesSmallIcon(mDevices.getmDeviceId(),mDevices.getmModelId().trim()));
-//		if (DataHelper.IAS_ZONE_DEVICETYPE == mDevices.getmDeviceId()
-//				|| DataHelper.IAS_ACE_DEVICETYPE == mDevices.getmDeviceId()) {
-//
-//			mHolder.devices_img
-//					.setImageResource(UiUtils
-//							.getDevicesSmallIconByModelId(mDevices
-//									.getmModelId().trim()));
-//		} else if (mDevices.getmModelId().indexOf(
-//				DataHelper.Multi_key_remote_control) == 0) {
-//			mHolder.devices_img.setImageResource(UiUtils
-//					.getDevicesSmallIconForRemote(mDevices.getmDeviceId()));
-//		}else {
-//			mHolder.devices_img.setImageResource(UiUtils
-//					.getDevicesSmallIcon(mDevices.getmDeviceId()));
-//		}
 		
 		mHolder.selected.setChecked(getIsSelected().get(position));
 

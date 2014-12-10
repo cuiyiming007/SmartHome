@@ -84,43 +84,43 @@ public class DataUtil {
 
 	// 设置默认设备分类
 	public static int getDefaultDevicesSort(int deviceId, String modelId) {
-		int result=6;
-		if(deviceId==DataHelper.ON_OFF_SWITCH_DEVICETYPE) {
+		int result = 6;
+		if (deviceId == DataHelper.ON_OFF_SWITCH_DEVICETYPE) {
 			result = UiUtils.SWITCH_DEVICE;
-		} else if(deviceId==DataHelper.ON_OFF_OUTPUT_DEVICETYPE) {
+		} else if (deviceId == DataHelper.ON_OFF_OUTPUT_DEVICETYPE) {
 			result = UiUtils.SECURITY_CONTROL;
-		} else if(deviceId==DataHelper.REMOTE_CONTROL_DEVICETYPE) {
+		} else if (deviceId == DataHelper.REMOTE_CONTROL_DEVICETYPE) {
 			result = UiUtils.SWITCH_DEVICE;
-		} else if (deviceId==DataHelper.COMBINED_INTERFACE_DEVICETYPE) {
+		} else if (deviceId == DataHelper.COMBINED_INTERFACE_DEVICETYPE) {
 			result = UiUtils.SECURITY_CONTROL;
-		} else if (deviceId==DataHelper.RANGE_EXTENDER_DEVICETYPE) {
+		} else if (deviceId == DataHelper.RANGE_EXTENDER_DEVICETYPE) {
 			result = UiUtils.ELECTRICAL_MANAGER;
-		} else if (deviceId==DataHelper.MAINS_POWER_OUTLET_DEVICETYPE) {
-//			if(modelId.indexOf(DataHelper.Switch_Module_Single)==0) {
-//				result = UiUtils.LIGHTS_MANAGER;
-//			} else {
-				result = UiUtils.ELECTRICAL_MANAGER;
-//			}
-		} else if (deviceId==DataHelper.DIMEN_LIGHTS_DEVICETYPE) {
+		} else if (deviceId == DataHelper.MAINS_POWER_OUTLET_DEVICETYPE) {
+			// if(modelId.indexOf(DataHelper.Switch_Module_Single)==0) {
+			// result = UiUtils.LIGHTS_MANAGER;
+			// } else {
 			result = UiUtils.ELECTRICAL_MANAGER;
-		} else if (deviceId==DataHelper.DIMEN_SWITCH_DEVICETYPE) {
+			// }
+		} else if (deviceId == DataHelper.DIMEN_LIGHTS_DEVICETYPE) {
+			result = UiUtils.ELECTRICAL_MANAGER;
+		} else if (deviceId == DataHelper.DIMEN_SWITCH_DEVICETYPE) {
 			result = UiUtils.SWITCH_DEVICE;
-		} else if (deviceId==DataHelper.LIGHT_SENSOR_DEVICETYPE) {
+		} else if (deviceId == DataHelper.LIGHT_SENSOR_DEVICETYPE) {
 			result = UiUtils.ENVIRONMENTAL_CONTROL;
-		} else if (deviceId==DataHelper.SHADE_DEVICETYPE) {
+		} else if (deviceId == DataHelper.SHADE_DEVICETYPE) {
 			result = UiUtils.ELECTRICAL_MANAGER;
-		} else if (deviceId==DataHelper.TEMPTURE_SENSOR_DEVICETYPE) {
+		} else if (deviceId == DataHelper.TEMPTURE_SENSOR_DEVICETYPE) {
 			result = UiUtils.ENVIRONMENTAL_CONTROL;
-		} else if (deviceId==DataHelper.IAS_ACE_DEVICETYPE) {
+		} else if (deviceId == DataHelper.IAS_ACE_DEVICETYPE) {
 			result = UiUtils.SWITCH_DEVICE;
-		} else if (deviceId==DataHelper.IAS_ZONE_DEVICETYPE) {
+		} else if (deviceId == DataHelper.IAS_ZONE_DEVICETYPE) {
 			result = UiUtils.SECURITY_CONTROL;
-		} else if (deviceId==DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE) {
+		} else if (deviceId == DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE) {
 			result = UiUtils.SECURITY_CONTROL;
 		}
 		return result;
 	}
-	
+
 	// 设置默认设备图片
 	public static int getDefaultDevicesSmallIcon(int deviceId, String modelId) {
 		int result = 0;
@@ -152,7 +152,9 @@ public class DataUtil {
 			result = R.drawable.ui_electricalcontrol_infraredcontroller;
 			break;
 		case DataHelper.MAINS_POWER_OUTLET_DEVICETYPE:
-			if (modelId.indexOf(DataHelper.Switch_Module_Single) == 0) { // ZigBee开关模块（单路）
+			if (modelId.startsWith(DataHelper.Switch_Module_Single) // ZigBee开关模块（单路）
+					|| modelId.startsWith(DataHelper.Switch_Module_Double) // ZigBee开关模块（双路）
+					|| modelId.startsWith(DataHelper.Switch_Module_Quadruple)) { // ZigBee开关模块（四路）
 				result = R.drawable.ui_lightmanage_switchmodule;
 			} else {
 				result = R.drawable.ui_electricalcontrol_electricalsocket;
@@ -183,10 +185,11 @@ public class DataUtil {
 			if (modelId.indexOf(DataHelper.Magnetic_Window) == 0) { // ZigBee窗磁
 				result = R.drawable.ui_securitycontrol_windowmagnetic;
 			}
-			if (modelId.indexOf(DataHelper.Doors_and_windows_sensor_switch) == 0) { // ZigBee警报器
+			if (modelId.indexOf(DataHelper.Doors_and_windows_sensor_switch) == 0) { // 门窗感应开关
 				result = R.drawable.ui_securitycontrol_doormagnetic;
 			}
-			if (modelId.indexOf(DataHelper.Emergency_Button) == 0) { // 门窗感应开关
+			if (modelId.startsWith(DataHelper.Emergency_Button)           // ZigBee紧急按钮
+					|| modelId.startsWith(DataHelper.Emergency_Button_On_Wall)) { // ZigBee墙面紧急按钮
 				result = R.drawable.ui_securitycontrol_emergencybutton;
 			}
 			if (modelId.indexOf(DataHelper.Smoke_Detectors) == 0) { // 烟雾感应器
@@ -226,6 +229,10 @@ public class DataUtil {
 		}
 		if (modelID.indexOf(DataHelper.Emergency_Button) == 0) { // ZigBee紧急按钮
 			result = c.getResources().getString(R.string.Emergency_Button);
+		}
+		if (modelID.indexOf(DataHelper.Emergency_Button_On_Wall) == 0) { // ZigBee墙面紧急按钮
+			result = c.getResources().getString(
+					R.string.Emergency_Button_On_Wall);
 		}
 		if (modelID.indexOf(DataHelper.Doors_and_windows_sensor_switch) == 0) { // 门窗感应开关
 			result = c.getResources().getString(
@@ -310,6 +317,34 @@ public class DataUtil {
 		if (modelID.indexOf(DataHelper.Switch_Module_Single) == 0) { // ZigBee开关模块（单路）
 			result = c.getResources().getString(R.string.Switch_Module_Single);
 		}
+		if (modelID.indexOf(DataHelper.Switch_Module_Double) == 0) { // ZigBee开关模块（双路）
+			if (ep.equals("01")) {
+				result = c.getResources().getString(
+						R.string.Switch_Module_Double_1);
+			}
+			if (ep.equals("02")) {
+				result = c.getResources().getString(
+						R.string.Switch_Module_Double_2);
+			}
+		}
+		if (modelID.indexOf(DataHelper.Switch_Module_Quadruple) == 0) { // ZigBee开关模块（四路）
+			if (ep.equals("01")) {
+				result = c.getResources().getString(
+						R.string.Switch_Module_Quadruple_1);
+			}
+			if (ep.equals("02")) {
+				result = c.getResources().getString(
+						R.string.Switch_Module_Quadruple_2);
+			}
+			if (ep.equals("03")) {
+				result = c.getResources().getString(
+						R.string.Switch_Module_Quadruple_3);
+			}
+			if (ep.equals("04")) {
+				result = c.getResources().getString(
+						R.string.Switch_Module_Quadruple_4);
+			}
+		}
 		if (modelID.indexOf(DataHelper.Energy_detection_dimming_module) == 0) { // 吸顶电能检测调光模块
 			result = c.getResources().getString(
 					R.string.Energy_detection_dimming_module);
@@ -330,10 +365,9 @@ public class DataUtil {
 		}
 		return result;
 	}
-	//初始化设备区域
-	
-	
-	
+
+	// 初始化设备区域
+
 	public static boolean isSecrity(String modelID) {
 		if (null == modelID || modelID.trim().equals("")) {
 			return false;
@@ -382,15 +416,15 @@ public class DataUtil {
 		listDevicesModel = dh.queryForDevicesList(dh.getSQLiteDatabase(),
 				DataHelper.DEVICES_TABLE, null, where, args, null, null, null,
 				null);
-//		if (null != listDevicesModel && listDevicesModel.size() > 0) {
-//			for (DevicesModel devicesModel : listDevicesModel) {
-//				if (null == devicesModel.getmDefaultDeviceName()
-//						|| devicesModel.getmDefaultDeviceName().trim().equals("")) {
-//					devicesModel.setmDefaultDeviceName(getDefaultDevicesName(c,
-//							devicesModel.getmModelId(), devicesModel.getmEP()));
-//				}
-//			}
-//		}
+		// if (null != listDevicesModel && listDevicesModel.size() > 0) {
+		// for (DevicesModel devicesModel : listDevicesModel) {
+		// if (null == devicesModel.getmDefaultDeviceName()
+		// || devicesModel.getmDefaultDeviceName().trim().equals("")) {
+		// devicesModel.setmDefaultDeviceName(getDefaultDevicesName(c,
+		// devicesModel.getmModelId(), devicesModel.getmEP()));
+		// }
+		// }
+		// }
 		dh.getSQLiteDatabase().close();
 		return listDevicesModel;
 	}
@@ -412,8 +446,7 @@ public class DataUtil {
 			mDevicesModel = listDevicesModel.get(m);
 			mSimpleDevicesModel = new SimpleDevicesModel();
 			mSimpleDevicesModel.setID(mDevicesModel.getID());
-			mSimpleDevicesModel.setmDeviceId(mDevicesModel
-					.getmDeviceId());
+			mSimpleDevicesModel.setmDeviceId(mDevicesModel.getmDeviceId());
 			mSimpleDevicesModel.setmDeviceRegion(mDevicesModel
 					.getmDeviceRegion());
 			mSimpleDevicesModel.setmEP(mDevicesModel.getmEP());
@@ -428,9 +461,10 @@ public class DataUtil {
 					.setmOnOffStatus(mDevicesModel.getmOnOffStatus());
 			if (mDevicesModel.getmDefaultDeviceName() == null
 					|| mDevicesModel.getmDefaultDeviceName().trim().equals("")) {
-				mSimpleDevicesModel.setmDefaultDeviceName(getDefaultDevicesName(
-						c, mSimpleDevicesModel.getmModelId(),
-						mSimpleDevicesModel.getmEP()));
+				mSimpleDevicesModel
+						.setmDefaultDeviceName(getDefaultDevicesName(c,
+								mSimpleDevicesModel.getmModelId(),
+								mSimpleDevicesModel.getmEP()));
 			} else {
 				mSimpleDevicesModel.setmDefaultDeviceName(mDevicesModel
 						.getmDefaultDeviceName());
@@ -463,7 +497,8 @@ public class DataUtil {
 		if (null != listDevicesModel && listDevicesModel.size() > 0) {
 			for (DevicesModel devicesModel : listDevicesModel) {
 				if (null == devicesModel.getmDefaultDeviceName()
-						|| devicesModel.getmDefaultDeviceName().trim().equals("")) {
+						|| devicesModel.getmDefaultDeviceName().trim()
+								.equals("")) {
 					devicesModel.setmDefaultDeviceName(getDefaultDevicesName(c,
 							devicesModel.getmModelId(), devicesModel.getmEP()));
 				}
@@ -551,8 +586,6 @@ public class DataUtil {
 		return null;
 	}
 
-	
-
 	// public static Set<String> getRegions(Context c, DataHelper dh) {
 	// List<DevicesModel> listDevicesModel = new ArrayList<DevicesModel>();
 	// Set<String> region = new HashSet<String>();
@@ -579,81 +612,82 @@ public class DataUtil {
 		listDevicesModel = dh.queryForDevicesList(db, DataHelper.DEVICES_TABLE,
 				null, where, args, null, null, null, null);
 
-//		if (b) {
-//			for (int m = 0; m < listDevicesModel.size(); m++) {
-//				DevicesModel mDevicesModel = listDevicesModel.get(m);
-//				if (mDevicesModel.getmDeviceId() != DataHelper.ON_OFF_SWITCH_DEVICETYPE
-//						&& mDevicesModel.getmDeviceId() != DataHelper.DIMEN_SWITCH_DEVICETYPE
-//						&& mDevicesModel.getmModelId().indexOf(
-//								DataHelper.Multi_key_remote_control) != 0) {
-//					mSimpleDevicesModel = new SimpleDevicesModel();
-//					mSimpleDevicesModel.setID(mDevicesModel.getID());
-//					mSimpleDevicesModel.setmDeviceId(mDevicesModel.getmDeviceId());
-//					mSimpleDevicesModel.setmDeviceRegion(mDevicesModel
-//							.getmDeviceRegion());
-//					mSimpleDevicesModel.setmRid(mDevicesModel.getmRid());
-//					mSimpleDevicesModel.setmEP(mDevicesModel.getmEP());
-//					mSimpleDevicesModel.setmIeee(mDevicesModel.getmIeee());
-//					mSimpleDevicesModel.setmLastDateTime(mDevicesModel
-//							.getmLastDateTime());
-//					mSimpleDevicesModel
-//							.setmModelId(mDevicesModel.getmModelId());
-//					mSimpleDevicesModel.setmName(mDevicesModel.getmName());
-//					mSimpleDevicesModel.setmNodeENNAme(mDevicesModel
-//							.getmNodeENNAme());
-//					mSimpleDevicesModel.setmOnOffLine(mDevicesModel
-//							.getmOnOffLine());
-//					mSimpleDevicesModel.setmOnOffStatus(mDevicesModel
-//							.getmOnOffStatus());
-//					if (mDevicesModel.getmDefaultDeviceName() == null
-//							|| mDevicesModel.getmDefaultDeviceName().trim()
-//									.equals("")) {
-//						mSimpleDevicesModel
-//								.setmUserDefineName(getDefaultDevicesName(c,
-//										mSimpleDevicesModel.getmModelId(),
-//										mSimpleDevicesModel.getmEP()));
-//					} else {
-//						mSimpleDevicesModel.setmUserDefineName(mDevicesModel
-//								.getmDefaultDeviceName());
-//					}
-//					list.add(mSimpleDevicesModel);
-//				}
-//			}
-//		} else {
-//			for (int m = 0; m < listDevicesModel.size(); m++) {
-//				DevicesModel mDevicesModel = listDevicesModel.get(m);
-//				mSimpleDevicesModel = new SimpleDevicesModel();
-//				mSimpleDevicesModel.setID(mDevicesModel.getID());
-//				mSimpleDevicesModel.setmDeviceId(mDevicesModel
-//						.getmDeviceId());
-//				mSimpleDevicesModel.setmDeviceRegion(mDevicesModel
-//						.getmDeviceRegion());
-//				mSimpleDevicesModel.setmRid(mDevicesModel.getmRid());
-//				mSimpleDevicesModel.setmEP(mDevicesModel.getmEP());
-//				mSimpleDevicesModel.setmIeee(mDevicesModel.getmIeee());
-//				mSimpleDevicesModel.setmLastDateTime(mDevicesModel
-//						.getmLastDateTime());
-//				mSimpleDevicesModel.setmModelId(mDevicesModel.getmModelId());
-//				mSimpleDevicesModel.setmName(mDevicesModel.getmName());
-//				mSimpleDevicesModel.setmNodeENNAme(mDevicesModel
-//						.getmNodeENNAme());
-//				mSimpleDevicesModel
-//						.setmOnOffLine(mDevicesModel.getmOnOffLine());
-//				mSimpleDevicesModel.setmOnOffStatus(mDevicesModel
-//						.getmOnOffStatus());
-//				if (mDevicesModel.getmDefaultDeviceName() == null
-//						|| mDevicesModel.getmDefaultDeviceName().trim().equals("")) {
-//					mSimpleDevicesModel
-//							.setmUserDefineName(getDefaultDevicesName(c,
-//									mSimpleDevicesModel.getmModelId(),
-//									mSimpleDevicesModel.getmEP()));
-//				} else {
-//					mSimpleDevicesModel.setmUserDefineName(mDevicesModel
-//							.getmDefaultDeviceName());
-//				}
-//				list.add(mSimpleDevicesModel);
-//			}
-//		}
+		// if (b) {
+		// for (int m = 0; m < listDevicesModel.size(); m++) {
+		// DevicesModel mDevicesModel = listDevicesModel.get(m);
+		// if (mDevicesModel.getmDeviceId() !=
+		// DataHelper.ON_OFF_SWITCH_DEVICETYPE
+		// && mDevicesModel.getmDeviceId() != DataHelper.DIMEN_SWITCH_DEVICETYPE
+		// && mDevicesModel.getmModelId().indexOf(
+		// DataHelper.Multi_key_remote_control) != 0) {
+		// mSimpleDevicesModel = new SimpleDevicesModel();
+		// mSimpleDevicesModel.setID(mDevicesModel.getID());
+		// mSimpleDevicesModel.setmDeviceId(mDevicesModel.getmDeviceId());
+		// mSimpleDevicesModel.setmDeviceRegion(mDevicesModel
+		// .getmDeviceRegion());
+		// mSimpleDevicesModel.setmRid(mDevicesModel.getmRid());
+		// mSimpleDevicesModel.setmEP(mDevicesModel.getmEP());
+		// mSimpleDevicesModel.setmIeee(mDevicesModel.getmIeee());
+		// mSimpleDevicesModel.setmLastDateTime(mDevicesModel
+		// .getmLastDateTime());
+		// mSimpleDevicesModel
+		// .setmModelId(mDevicesModel.getmModelId());
+		// mSimpleDevicesModel.setmName(mDevicesModel.getmName());
+		// mSimpleDevicesModel.setmNodeENNAme(mDevicesModel
+		// .getmNodeENNAme());
+		// mSimpleDevicesModel.setmOnOffLine(mDevicesModel
+		// .getmOnOffLine());
+		// mSimpleDevicesModel.setmOnOffStatus(mDevicesModel
+		// .getmOnOffStatus());
+		// if (mDevicesModel.getmDefaultDeviceName() == null
+		// || mDevicesModel.getmDefaultDeviceName().trim()
+		// .equals("")) {
+		// mSimpleDevicesModel
+		// .setmUserDefineName(getDefaultDevicesName(c,
+		// mSimpleDevicesModel.getmModelId(),
+		// mSimpleDevicesModel.getmEP()));
+		// } else {
+		// mSimpleDevicesModel.setmUserDefineName(mDevicesModel
+		// .getmDefaultDeviceName());
+		// }
+		// list.add(mSimpleDevicesModel);
+		// }
+		// }
+		// } else {
+		// for (int m = 0; m < listDevicesModel.size(); m++) {
+		// DevicesModel mDevicesModel = listDevicesModel.get(m);
+		// mSimpleDevicesModel = new SimpleDevicesModel();
+		// mSimpleDevicesModel.setID(mDevicesModel.getID());
+		// mSimpleDevicesModel.setmDeviceId(mDevicesModel
+		// .getmDeviceId());
+		// mSimpleDevicesModel.setmDeviceRegion(mDevicesModel
+		// .getmDeviceRegion());
+		// mSimpleDevicesModel.setmRid(mDevicesModel.getmRid());
+		// mSimpleDevicesModel.setmEP(mDevicesModel.getmEP());
+		// mSimpleDevicesModel.setmIeee(mDevicesModel.getmIeee());
+		// mSimpleDevicesModel.setmLastDateTime(mDevicesModel
+		// .getmLastDateTime());
+		// mSimpleDevicesModel.setmModelId(mDevicesModel.getmModelId());
+		// mSimpleDevicesModel.setmName(mDevicesModel.getmName());
+		// mSimpleDevicesModel.setmNodeENNAme(mDevicesModel
+		// .getmNodeENNAme());
+		// mSimpleDevicesModel
+		// .setmOnOffLine(mDevicesModel.getmOnOffLine());
+		// mSimpleDevicesModel.setmOnOffStatus(mDevicesModel
+		// .getmOnOffStatus());
+		// if (mDevicesModel.getmDefaultDeviceName() == null
+		// || mDevicesModel.getmDefaultDeviceName().trim().equals("")) {
+		// mSimpleDevicesModel
+		// .setmUserDefineName(getDefaultDevicesName(c,
+		// mSimpleDevicesModel.getmModelId(),
+		// mSimpleDevicesModel.getmEP()));
+		// } else {
+		// mSimpleDevicesModel.setmUserDefineName(mDevicesModel
+		// .getmDefaultDeviceName());
+		// }
+		// list.add(mSimpleDevicesModel);
+		// }
+		// }
 		try {
 			dh.close(db);
 		} catch (Exception e) {
@@ -687,8 +721,8 @@ public class DataUtil {
 		return scenes;
 	}
 
-	public static List<DevicesModel> getScenesDevices(Context c,
-			DataHelper dh, String name) {
+	public static List<DevicesModel> getScenesDevices(Context c, DataHelper dh,
+			String name) {
 
 		if (null == dh) {
 			dh = new DataHelper(c);
@@ -706,8 +740,7 @@ public class DataUtil {
 			if (!ieee.equals("-1")) {
 				String[] ag = { d.getIeee() };
 				String where = " ieee=? ";
-				List<DevicesModel> mm = DataUtil.getDevices(c, dh, ag,
-						where);
+				List<DevicesModel> mm = DataUtil.getDevices(c, dh, ag, where);
 				if (null != mm && mm.size() > 0) {
 					scenes.add(mm.get(0));
 				}
