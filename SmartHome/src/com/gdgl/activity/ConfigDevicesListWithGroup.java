@@ -66,28 +66,25 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 
 	List<DevicesModel> mCurrentList;
 	int currentpostion;
-	int expan_postion = 0;
+	int expan_postion = 2;
 
 	View mView;
 
-	CustomeAdapter LightManagerAdap, ElecManagerAdap, SecurityControlAdap,
+	CustomeAdapter ElecManagerAdap, SecurityControlAdap,
 			EneronmentControllAdap, EnergyAdap, OtherAdap;
 
-	RelativeLayout LightManagerlay, ElecManagerlay, SecurityControllay,
-			EneronmentControlllay, Energylay, Otherlay;
-	ImageView up_down_LightManager, up_down_ElecManager,
-			up_down_SecurityControl, up_down_EneronmentControll,
-			up_down_Energy, up_down_Other;
-	LinearLayout LightManager_content, ElecManager_content,
-			SecurityControl_content, EneronmentControll_content,
-			Energy_content, Other_content;
+	RelativeLayout ElecManagerlay, SecurityControllay, EneronmentControlllay,
+			Energylay, Otherlay;
+	ImageView up_down_ElecManager, up_down_SecurityControl,
+			up_down_EneronmentControll, up_down_Energy, up_down_Other;
+	LinearLayout ElecManager_content, SecurityControl_content,
+			EneronmentControll_content, Energy_content, Other_content;
 
-	TextView no_LightManager, no_ElecManager, no_SecurityControl,
-			no_EneronmentControll, no_Energy, no_Other;
-	ListView LightManager_list, ElecManager_list, SecurityControl_list,
-			EneronmentControll_list, Energy_list, Other_list;
+	TextView no_ElecManager, no_SecurityControl, no_EneronmentControll,
+			no_Energy, no_Other;
+	ListView ElecManager_list, SecurityControl_list, EneronmentControll_list,
+			Energy_list, Other_list;
 
-	boolean LightManager_expn = false;
 	boolean ElecManager_expn = false;
 	boolean SecurityControl_expn = false;
 	boolean EneronmentControll_expn = false;
@@ -139,8 +136,6 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 
 	private void initview() {
 		// TODO Auto-generated method stub
-		LightManagerlay = (RelativeLayout) mView
-				.findViewById(R.id.light_manager);
 		ElecManagerlay = (RelativeLayout) mView
 				.findViewById(R.id.electrical_manager);
 		SecurityControllay = (RelativeLayout) mView
@@ -150,8 +145,6 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 		Energylay = (RelativeLayout) mView.findViewById(R.id.energy);
 		Otherlay = (RelativeLayout) mView.findViewById(R.id.other);
 
-		up_down_LightManager = (ImageView) mView
-				.findViewById(R.id.up_down_light_manager);
 		up_down_ElecManager = (ImageView) mView
 				.findViewById(R.id.up_down_electrical_manager);
 		up_down_SecurityControl = (ImageView) mView
@@ -161,8 +154,6 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 		up_down_Energy = (ImageView) mView.findViewById(R.id.up_down_energy);
 		up_down_Other = (ImageView) mView.findViewById(R.id.up_down_other);
 
-		LightManager_content = (LinearLayout) mView
-				.findViewById(R.id.light_manager_content);
 		ElecManager_content = (LinearLayout) mView
 				.findViewById(R.id.electrical_manager_content);
 		SecurityControl_content = (LinearLayout) mView
@@ -172,7 +163,6 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 		Energy_content = (LinearLayout) mView.findViewById(R.id.energy_content);
 		Other_content = (LinearLayout) mView.findViewById(R.id.other_content);
 
-		no_LightManager = (TextView) mView.findViewById(R.id.no_light_manager);
 		no_ElecManager = (TextView) mView
 				.findViewById(R.id.no_electrical_manager);
 		no_SecurityControl = (TextView) mView
@@ -182,8 +172,6 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 		no_Energy = (TextView) mView.findViewById(R.id.no_energy);
 		no_Other = (TextView) mView.findViewById(R.id.no_other);
 
-		LightManager_list = (ListView) mView
-				.findViewById(R.id.light_manager_list);
 		ElecManager_list = (ListView) mView
 				.findViewById(R.id.electrical_manager_list);
 		SecurityControl_list = (ListView) mView
@@ -195,13 +183,12 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 
 		isFinishGetView = true;
 		if (isFinishGetData && !hasSetData) {
-			expnLightManager();
+			expnSecurityControl();
 			hasSetData = true;
 		}
 
 		setListeners();
 
-		registerForContextMenu(LightManager_list);
 		registerForContextMenu(ElecManager_list);
 		registerForContextMenu(SecurityControl_list);
 		registerForContextMenu(EneronmentControll_list);
@@ -212,19 +199,6 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 
 	private void setListeners() {
 		// 设备分类点击监听
-		LightManagerlay.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				if (LightManager_expn) {
-					hideLightManager();
-				} else {
-					hideall();
-					expnLightManager();
-				}
-			}
-		});
 		ElecManagerlay.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -292,23 +266,6 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 		});
 
 		// 设备详情点击监听
-		LightManager_list.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> list, View view,
-					int position, long id) {
-				// TODO Auto-generated method stub
-				DevicesModel mDevicesModel = (DevicesModel) list
-						.getItemAtPosition(position);
-				Fragment mFragment = new DeviceDtailFragment();
-				Bundle extras = new Bundle();
-				extras.putSerializable(Constants.PASS_OBJECT, mDevicesModel);
-				extras.putInt(Constants.PASS_DEVICE_ABOUT,
-						DeviceDtailFragment.WITH_DEVICE_ABOUT);
-				mFragment.setArguments(extras);
-				inToDeviceDetailFragment = (IntoDeviceDetailFragment) getActivity();
-				inToDeviceDetailFragment.intoDeviceDetailFragment(mFragment);
-			}
-		});
 		ElecManager_list.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> list, View view,
@@ -457,9 +414,6 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 	}
 
 	private void hideall() {
-		if (LightManager_expn) {
-			hideLightManager();
-		}
 		if (ElecManager_expn) {
 			hideElecManager();
 		}
@@ -487,7 +441,8 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 	private void hideEneronmentControll() {
 		// TODO Auto-generated method stub
 		EneronmentControll_expn = false;
-		up_down_EneronmentControll.setImageResource(R.drawable.ui_arrow_down_img);
+		up_down_EneronmentControll
+				.setImageResource(R.drawable.ui_arrow_down_img);
 		EneronmentControll_content.setVisibility(View.GONE);
 	}
 
@@ -496,13 +451,6 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 		Energy_expn = false;
 		up_down_Energy.setImageResource(R.drawable.ui_arrow_down_img);
 		Energy_content.setVisibility(View.GONE);
-	}
-
-	private void hideLightManager() {
-		// TODO Auto-generated method stub
-		LightManager_expn = false;
-		up_down_LightManager.setImageResource(R.drawable.ui_arrow_down_img);
-		LightManager_content.setVisibility(View.GONE);
 	}
 
 	private void hideElecManager() {
@@ -518,26 +466,6 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 		SecurityControl_expn = false;
 		up_down_SecurityControl.setImageResource(R.drawable.ui_arrow_down_img);
 		SecurityControl_content.setVisibility(View.GONE);
-	}
-
-	private void expnLightManager() {
-		// TODO Auto-generated method stub
-		LightManager_expn = true;
-		up_down_LightManager.setImageResource(R.drawable.ui_arrow_up_img);
-		LightManager_content.setVisibility(View.VISIBLE);
-		if (null != mLightManager && mLightManager.size() > 0) {
-			no_LightManager.setVisibility(View.GONE);
-			LightManager_list.setVisibility(View.VISIBLE);
-			LightManagerAdap.setList(mLightManager);
-			LightManager_list.setAdapter(LightManagerAdap);
-			LightManagerAdap.notifyDataSetChanged();
-			mCurrentList = mLightManager;
-			expan_postion = 0;
-			return;
-		}
-		no_LightManager.setVisibility(View.VISIBLE);
-		LightManager_list.setVisibility(View.GONE);
-
 	}
 
 	private void expnElecManager() {
@@ -707,19 +635,6 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 			mViewHolder.devImg.setImageResource(DataUtil
 					.getDefaultDevicesSmallIcon(ds.getmDeviceId(), ds
 							.getmModelId().trim()));
-			// if (DataHelper.IAS_ZONE_DEVICETYPE == devcicesId
-			// || DataHelper.IAS_ACE_DEVICETYPE == devcicesId) {
-			//
-			// mViewHolder.devImg.setImageResource(UiUtils
-			// .getDevicesSmallIconByModelId(ds.getmModelId().trim()));
-			// } else if (ds.getmModelId().indexOf(
-			// DataHelper.Multi_key_remote_control) == 0) {
-			// mViewHolder.devImg.setImageResource(UiUtils
-			// .getDevicesSmallIconForRemote(devcicesId));
-			// } else {
-			// mViewHolder.devImg.setImageResource(UiUtils
-			// .getDevicesSmallIcon(devcicesId));
-			// }
 
 			mViewHolder.devAlarm.setVisibility(View.GONE);
 			SimpleDevicesModel simpleDevicesModel = new SimpleDevicesModel();
@@ -771,15 +686,12 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 				new String[] { ds.getmIeee().trim() });
 
 		if (result >= 0) {
-			if (LightManager_expn) {
-				mLightManager.remove(currentpostion);
-				expnLightManager();
+			if(SecurityControl_expn) {
+				mSecurityControl.remove(currentpostion);
+				expnSecurityControl();
 			} else if (ElecManager_expn) {
 				mElecManager.remove(currentpostion);
 				expnElecManager();
-			} else if (SecurityControl_expn) {
-				mSecurityControl.remove(currentpostion);
-				expnSecurityControl();
 			} else if (Energy_expn) {
 				mEnergy.remove(currentpostion);
 				expnEnergy();
@@ -908,19 +820,15 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 		int result = mDh.update(mSQLiteDatabase, DataHelper.DEVICES_TABLE, c,
 				where, args);
 		if (result >= 0) {
-			if (LightManager_expn) {
-				mLightManager.get(currentpostion).setmDefaultDeviceName(name);
-				LightManagerAdap.setList(mLightManager);
-				LightManagerAdap.notifyDataSetChanged();
-			} else if (ElecManager_expn) {
-				mElecManager.get(currentpostion).setmDefaultDeviceName(name);
-				ElecManagerAdap.setList(mElecManager);
-				ElecManagerAdap.notifyDataSetChanged();
-			} else if (SecurityControl_expn) {
+			if (SecurityControl_expn) {
 				mSecurityControl.get(currentpostion)
 						.setmDefaultDeviceName(name);
 				SecurityControlAdap.setList(mSecurityControl);
 				SecurityControlAdap.notifyDataSetChanged();
+			} else if (ElecManager_expn) {
+				mElecManager.get(currentpostion).setmDefaultDeviceName(name);
+				ElecManagerAdap.setList(mElecManager);
+				ElecManagerAdap.notifyDataSetChanged();
 			} else if (Energy_expn) {
 				mEnergy.get(currentpostion).setmDefaultDeviceName(name);
 				EnergyAdap.setList(mEnergy);
@@ -944,9 +852,6 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 		protected Integer doInBackground(Integer... params) {
 			// TODO Auto-generated method stub
 
-			if (null == mLightManager) {
-				InitLightManager();
-			}
 			if (null == mElecManager) {
 				InitElecManager();
 			}
@@ -972,7 +877,7 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 			if (1 == result) {
 				if (isFinishGetView) {
 					Log.i("zgs", "zgs->finish inflate view");
-					expnLightManager();
+					expnSecurityControl();
 					hasSetData = true;
 				}
 				isFinishGetData = true;
@@ -1013,13 +918,6 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 		mElecManager = DataUtil.getSortManagementDevices(
 				(Context) getActivity(), mDh, UiUtils.ELECTRICAL_MANAGER);
 		ElecManagerAdap = new CustomeAdapter((Context) getActivity());
-	}
-
-	private void InitLightManager() {
-		// TODO Auto-generated method stub
-		mLightManager = DataUtil.getSortManagementDevices(
-				(Context) getActivity(), mDh, UiUtils.LIGHTS_MANAGER);
-		LightManagerAdap = new CustomeAdapter((Context) getActivity());
 	}
 
 	@Override

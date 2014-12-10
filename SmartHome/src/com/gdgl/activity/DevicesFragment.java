@@ -1,4 +1,5 @@
 package com.gdgl.activity;
+
 /***
  * 最外层设备菜单
  */
@@ -17,7 +18,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 
-public class DevicesFragment extends Fragment{
+public class DevicesFragment extends Fragment {
 
 	GridView content_view;
 	View mView;
@@ -42,14 +43,15 @@ public class DevicesFragment extends Fragment{
 
 	private void initview() {
 		// TODO Auto-generated method stub
-		types = new int[] { UiUtils.LIGHTS_MANAGER, UiUtils.ELECTRICAL_MANAGER,
-				UiUtils.SECURITY_CONTROL, UiUtils.ENVIRONMENTAL_CONTROL,
-				UiUtils.ENERGY_CONSERVATION,UiUtils.OTHER };
-		
-		nodevices=(ViewGroup)mView.findViewById(R.id.nodevices);
+		types = new int[] { UiUtils.SECURITY_CONTROL,
+				UiUtils.ELECTRICAL_MANAGER, UiUtils.ENVIRONMENTAL_CONTROL,
+				UiUtils.ENERGY_CONSERVATION, UiUtils.OTHER };
+
+		nodevices = (ViewGroup) mView.findViewById(R.id.nodevices);
 		nodevices.setVisibility(View.GONE);
 		content_view = (GridView) mView.findViewById(R.id.content_view);
-		content_view.setLayoutAnimation(UiUtils.getAnimationController((Context)getActivity()));
+		content_view.setLayoutAnimation(UiUtils
+				.getAnimationController((Context) getActivity()));
 		GridviewAdapter mGridviewAdapter = new GridviewAdapter(1,
 				(Context) getActivity());
 		content_view.setAdapter(mGridviewAdapter);
@@ -82,8 +84,9 @@ public class DevicesFragment extends Fragment{
 		// TODO Auto-generated method stub
 		content_view.setVisibility(View.VISIBLE);
 
-		content_view.setLayoutAnimation(UiUtils.getAnimationController((Context)getActivity()));
-		GridviewAdapter mGridviewAdapter = new GridviewAdapter(1,
+		content_view.setLayoutAnimation(UiUtils
+				.getAnimationController((Context) getActivity()));
+		GridviewAdapter mGridviewAdapter = new GridviewAdapter(0,
 				(Context) getActivity());
 		content_view.setAdapter(mGridviewAdapter);
 		super.onResume();

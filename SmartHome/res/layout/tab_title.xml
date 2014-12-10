@@ -7,109 +7,76 @@
     <LinearLayout
         android:id="@+id/lllayout"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:gravity="center_vertical"
+        android:layout_height="55dp"
         android:background="@drawable/ui_tabtitle_bg"
+        android:gravity="center_vertical"
         android:orientation="horizontal" >
-<!--  
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/guide_round"
-            android:focusable="false"
-            android:gravity="center"
-            android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/common_used"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="10dip"
-                android:text="常用"
-                android:textColor="@color/green"
-                android:textSize="15dip" />
-        </LinearLayout>
--->
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/guide_round"
             android:clickable="true"
             android:gravity="center"
             android:orientation="vertical"
             android:saveEnabled="false" >
 
-            <TextView
-                android:id="@+id/devices"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="10dip"
-                android:text="设备"
-                android:textColor="@color/black"
-                android:textSize="15dip" />
+            <ImageButton
+                android:id="@+id/devices_btn"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:background="@drawable/ui_tabtitle_devices"
+                android:gravity="center" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/guide_round"
-            android:gravity="center"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/region"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="10dip"
-                android:text="区域"
-                android:textColor="@color/black"
-                android:textSize="15dip" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/guide_round"
             android:focusable="false"
             android:gravity="center"
             android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/scence"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="10dip"
-                android:text="场景"
-                android:textColor="@color/black"
-                android:textSize="15dip" />
+            <ImageButton
+                android:id="@+id/video_urveillance_btn"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:background="@drawable/ui_tabtitle_video"
+                android:gravity="center" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/guide_round"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <ImageButton
+                android:id="@+id/region_btn"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:background="@drawable/ui_tabtitle_region"
+                android:gravity="center" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/guide_round"
             android:focusable="false"
             android:gravity="center"
             android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/video_urveillance"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="10dip"
-                android:text="监控"
-                android:textColor="@color/black"
-                android:textSize="15dip" />
+            <ImageButton
+                android:id="@+id/scence_btn"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:background="@drawable/ui_tabtitle_scence"
+                android:gravity="center" />
         </LinearLayout>
     </LinearLayout>
 

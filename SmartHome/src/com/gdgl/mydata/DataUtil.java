@@ -120,7 +120,7 @@ public class DataUtil {
 		}
 		return result;
 	}
-	
+
 	// 设置默认设备图片
 	public static int getDefaultDevicesSmallIcon(int deviceId, String modelId) {
 		int result = 0;
@@ -365,10 +365,9 @@ public class DataUtil {
 		}
 		return result;
 	}
-	//初始化设备区域
-	
-	
-	
+
+	// 初始化设备区域
+
 	public static boolean isSecrity(String modelID) {
 		if (null == modelID || modelID.trim().equals("")) {
 			return false;
@@ -586,8 +585,6 @@ public class DataUtil {
 		}
 		return null;
 	}
-
-	
 
 	// public static Set<String> getRegions(Context c, DataHelper dh) {
 	// List<DevicesModel> listDevicesModel = new ArrayList<DevicesModel>();
