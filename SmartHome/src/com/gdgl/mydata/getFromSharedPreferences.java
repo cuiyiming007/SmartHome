@@ -347,7 +347,7 @@ public class getFromSharedPreferences {
 	public static ArrayList<HashMap<String, String>> getCloudList(){
 		ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
 		String cloudListString = mSharedPreferences.getString(UiUtils.CLOUDLIST,UiUtils.EMPTY_STR);
-		if(cloudListString.equals("")){
+		if(cloudListString.equals("") || cloudListString == null){
 			return list;
 		}
 		try {
@@ -368,7 +368,7 @@ public class getFromSharedPreferences {
 	public static void setCloudList(String cloud){
 		ArrayList<HashMap<String, String>> list = getCloudList();
 		int current = -1;
-		if(list.size() == 0){
+		if(list.size() == 0 && !cloud.equals("")){
 			HashMap<String, String> map = new HashMap<String, String>();
 			map.put("cloud", cloud);
 			list.add(map);
@@ -379,7 +379,7 @@ public class getFromSharedPreferences {
 					break;
 				}
 			}
-			if(current == -1){
+			if(current == -1 && !cloud.equals("")){
 				HashMap<String, String> map = new HashMap<String, String>();
 				map.put("cloud", cloud);
 				list.add(map);
