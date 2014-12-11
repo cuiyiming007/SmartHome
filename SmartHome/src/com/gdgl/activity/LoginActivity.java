@@ -37,6 +37,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.opengl.Visibility;
 import android.os.Bundle;
 import android.text.Layout;
@@ -62,6 +63,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 	int networkStatus;// 当前网络状态量
 	private EditText mName, mPwd, mCloud;
 	private CheckBox mRem, mAut;
+	private TextView gaoji_text;
 	private Button mLogin;
 	private ImageView user_dropdown, cloud_dropdown, gaoji_image;
 	private ViewGroup gaoji, gaoji_Layout, user_item, cloud_item;
@@ -92,6 +94,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 		user_dropdown = (ImageView)findViewById(R.id.user_dropdown);
 		cloud_dropdown = (ImageView)findViewById(R.id.cloud_dropdown);
 		gaoji_image = (ImageView)findViewById(R.id.gaoji_image);
+		gaoji_text = (TextView)findViewById(R.id.gaoji_text);
 		gaoji = (ViewGroup)findViewById(R.id.gaoji);
 		gaoji_Layout = (ViewGroup)findViewById(R.id.gaoji_layout);
 		user_item = (ViewGroup)findViewById(R.id.user_item);
@@ -161,10 +164,12 @@ public class LoginActivity extends Activity implements OnClickListener,
 		case R.id.gaoji:
 			if(gaoji_Layout.getVisibility() == View.GONE){
 				gaoji_Layout.setVisibility(View.VISIBLE);
-				//gaoji_image.setBackgroundResource(R.id.ui);
+				gaoji_image.setBackgroundResource(R.drawable.ui_login_arrow_blue);
+				gaoji_text.setTextColor(Color.parseColor("#0086b1"));
 			}else{
 				gaoji_Layout.setVisibility(View.GONE);
-				//gaoji_image.setImageResource(R.id.ui_login_arrow_white);
+				gaoji_image.setBackgroundResource(R.drawable.ui_login_arrow_white);
+				gaoji_text.setTextColor(Color.parseColor("#ffffff"));
 			}
 			break;
 		case R.id.user_dropdown:
