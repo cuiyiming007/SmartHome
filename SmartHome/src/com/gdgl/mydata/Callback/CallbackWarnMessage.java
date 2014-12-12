@@ -22,6 +22,7 @@ interface CallbackWarnMessageColumns extends BaseColumns {
 	public static final String DETAILMESSAGE = "detailmessage";
 	public static final String HOME_NAME = "home_name";
 	public static final String ZONE_EP = "zone_ep";
+	public static final String USENAME = "usename";
 
 }
 

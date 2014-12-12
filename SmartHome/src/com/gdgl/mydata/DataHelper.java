@@ -3,6 +3,8 @@ package com.gdgl.mydata;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gdgl.activity.LoginActivity;
+import com.gdgl.app.ApplicationController;
 import com.gdgl.model.ContentValuesListener;
 import com.gdgl.model.DevicesGroup;
 import com.gdgl.model.DevicesModel;
@@ -13,6 +15,7 @@ import com.gdgl.mydata.binding.BindingDataEntity;
 import com.gdgl.mydata.video.VideoNode;
 import com.gdgl.util.UiUtils;
 
+import android.app.Application;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -22,11 +25,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DataHelper extends SQLiteOpenHelper {
 
 	public static final int ON_OFF_SWITCH_DEVICETYPE = 0; // 开关（如“三键开关”、“双键开关”、门窗感应开关）
-	public static final int ON_OFF_OUTPUT_DEVICETYPE = 2; // 无线智能阀门
+	public static final int ON_OFF_OUTPUT_DEVICETYPE = 2; // 无线智能阀门、开关模块（双路）
 	public static final int REMOTE_CONTROL_DEVICETYPE = 6; // 多键遥控器
 	public static final int COMBINED_INTERFACE_DEVICETYPE = 7; // 协调器(即一键布防)
 	public static final int RANGE_EXTENDER_DEVICETYPE = 8; // 红外控制器
-	public static final int MAINS_POWER_OUTLET_DEVICETYPE = 9; // 开关模块（单路）、开关模块（双路）、开关模块（四路） 、中规电能检测墙面插座、电能检测插座
+	public static final int MAINS_POWER_OUTLET_DEVICETYPE = 9; // 开关模块（单路）、中规电能检测墙面插座、电能检测插座
+	public static final int ON_OFF_LIGHT_DEVICETYPE = 256; // 开关模块（四路） 
 	public static final int DIMEN_LIGHTS_DEVICETYPE = 257; // 吸顶电能检测调光模块
 	public static final int DIMEN_SWITCH_DEVICETYPE = 260; // 调光开关(开关）
 	public static final int LIGHT_SENSOR_DEVICETYPE = 262; // 光线感应器
@@ -216,6 +220,8 @@ public class DataHelper extends SQLiteOpenHelper {
 		messageStringBuilder.append(CallbackWarnMessage.ZONE_IEEE
 				+ " VARCHAR(16),");
 		messageStringBuilder.append(CallbackWarnMessage.ZONE_NAME
+				+ " VARCHAR(16),");
+		messageStringBuilder.append(CallbackWarnMessage.USENAME
 				+ " VARCHAR(16))");
 
 		// roominfo table create string
@@ -399,13 +405,15 @@ public class DataHelper extends SQLiteOpenHelper {
 
 	public long insertMessageList(SQLiteDatabase db, String table,
 			String nullColumnHack, ArrayList<CallbackWarnMessage> arrayList) {
-
+		getFromSharedPreferences.setsharedPreferences(ApplicationController.getInstance());
+		String usename = getFromSharedPreferences.getName();
 		long result = -100;
 		// List<DevicesModel> mList = convertToDevicesModel(r);
 		db.beginTransaction();
 		try {
 			for (ContentValuesListener contentvalue : arrayList) {
 				ContentValues c = contentvalue.convertContentValues();
+				c.put(CallbackWarnMessage.USENAME, usename);
 				long m = db.insert(table, nullColumnHack, c);
 				//if (-1 == m) {
 				if (-1 != m) {

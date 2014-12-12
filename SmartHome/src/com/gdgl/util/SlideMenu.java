@@ -14,6 +14,7 @@
  */
 package com.gdgl.util;
 
+import com.gdgl.app.ApplicationController;
 import com.gdgl.smarthome.R;
 
 import android.content.Context;
@@ -29,6 +30,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -632,6 +634,9 @@ public class SlideMenu extends ViewGroup {
 		final float x = ev.getX();
 		final float y = ev.getY();
 		final int currentState = mCurrentState;
+		if(!ApplicationController.getInstance().getIsDragSlidMenu()){
+			return false;
+		}
 		if (STATE_DRAG == currentState || STATE_SCROLL == currentState) {
 			return true;
 		}
@@ -640,6 +645,9 @@ public class SlideMenu extends ViewGroup {
 			mPressedX = mLastMotionX = x;
 			mIsTapInContent = isTapInContent(x, y);
 			mIsTapInEdgeSlide = isTapInEdgeSlide(x, y);
+			if(!isOpen() && mIsTapInContent){
+				return false;
+			}
 			return isOpen() && mIsTapInContent;
 		case MotionEvent.ACTION_MOVE:
 			float distance = x - mPressedX;
@@ -656,7 +664,6 @@ public class SlideMenu extends ViewGroup {
 				}
 			}
 		}
-
 		return false;
 	}
 

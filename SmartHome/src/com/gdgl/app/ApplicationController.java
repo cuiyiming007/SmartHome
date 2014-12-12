@@ -15,6 +15,7 @@ import com.android.volley.toolbox.Volley;
  *
  */
 public class ApplicationController extends Application {
+	private boolean isDragSlidMenu = true;
 
     /**
      * Log or request TAG
@@ -113,5 +114,13 @@ public class ApplicationController extends Application {
 			Log.i("Thread test", "is the Main thread!");
 			return true;
 		}
+    }
+    
+    public void setIsDragSlidMenu(boolean b){
+    	isDragSlidMenu = b;
+    }
+    
+    public boolean getIsDragSlidMenu(){
+    	return isDragSlidMenu;
     }
 }

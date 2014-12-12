@@ -2,8 +2,11 @@ package com.gdgl.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -14,6 +17,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
+import com.gdgl.app.ApplicationController;
 import com.gdgl.libjingle.LibjingleSendManager;
 import com.gdgl.manager.DeviceManager;
 import com.gdgl.manager.CGIManager;
@@ -24,6 +28,7 @@ import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
 import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
+import com.gdgl.util.SlideMenu;
 
 /***
  * 设备详情页
@@ -241,7 +246,30 @@ public class DeviceDtailFragment extends BaseFragment {
 			int level = Integer.parseInt(mDevices.getmLevel());
 			int state = level * 100 / 254;
 			device_seekBar.setProgress(state);
-
+			device_seekBar.setOnTouchListener(new OnTouchListener() {
+				
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					// TODO Auto-generated method stub
+					switch(event.getAction()){
+					case MotionEvent.ACTION_DOWN:
+						ApplicationController.getInstance().setIsDragSlidMenu(false);
+						Log.i("device_seekBar", "ACTION_DOWN");
+						break;
+					case MotionEvent.ACTION_CANCEL:
+						Log.i("device_seekBar", "ACTION_CANCEL");
+						break;
+					case MotionEvent.ACTION_UP:
+						ApplicationController.getInstance().setIsDragSlidMenu(true);
+						Log.i("device_seekBar", "ACTION_UP");
+						break;
+					case MotionEvent.ACTION_MOVE:
+						Log.i("device_seekBar", "ACTION_MOVE");
+						break;
+					}
+					return false;
+				}
+			});
 			device_seekBar
 					.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 						int currentLevel = Integer.parseInt(mDevices
@@ -250,6 +278,7 @@ public class DeviceDtailFragment extends BaseFragment {
 						@Override
 						public void onStopTrackingTouch(SeekBar seekBar) {
 							// TODO Auto-generated method stub
+							Log.i("device_seekBar", "onStopTrackingTouch");
 							if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
 								cgiManager.dimmableLightOperation(mDevices, 16,
 										currentLevel);
@@ -262,13 +291,14 @@ public class DeviceDtailFragment extends BaseFragment {
 						@Override
 						public void onStartTrackingTouch(SeekBar seekBar) {
 							// TODO Auto-generated method stub
-
+							Log.i("device_seekBar", "onStartTrackingTouch");
 						}
 
 						@Override
 						public void onProgressChanged(SeekBar seekBar,
 								int progress, boolean fromUser) {
 							// TODO Auto-generated method stub
+							Log.i("device_seekBar", "onProgressChanged");
 							currentLevel = progress * 255 / 100;
 							mDevices.setmLevel(String.valueOf(currentLevel));
 						}
@@ -503,6 +533,21 @@ public class DeviceDtailFragment extends BaseFragment {
 		case DataHelper.COMBINED_INTERFACE_DEVICETYPE:
 			break;
 		case DataHelper.MAINS_POWER_OUTLET_DEVICETYPE:
+			switch (status) {
+			case ON:
+				cgiManager.MainsOutLetOperation(mDevices, 1);
+				break;
+			case OFF:
+				cgiManager.MainsOutLetOperation(mDevices, 0);
+				break;
+			case INVERSION:
+				cgiManager.MainsOutLetOperation(mDevices, 2);
+				break;
+			default:
+				break;
+			}
+			break;
+		case DataHelper.ON_OFF_LIGHT_DEVICETYPE:
 			switch (status) {
 			case ON:
 				cgiManager.MainsOutLetOperation(mDevices, 1);

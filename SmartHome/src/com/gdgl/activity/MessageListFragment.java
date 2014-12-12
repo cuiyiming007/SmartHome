@@ -355,6 +355,7 @@ public class MessageListFragment extends BaseFragment implements UIListener,andr
 		final Event event = (Event) object;
 		if (EventType.WARN == event.getType()) {
 			CallbackWarnMessage data = (CallbackWarnMessage) event.getData();
+			Log.i("CallbackWarnMessage New", " = "+data);
 			/* 闵伟 add start  */	
 //			int newId = Integer.parseInt(mList.get(0).getId()) + 1; //最新消息的SQLite ID
 //			data.setId(""+newId);
@@ -507,7 +508,6 @@ public class MessageListFragment extends BaseFragment implements UIListener,andr
 		DataHelper	dh = new DataHelper(ApplicationController.getInstance());
 		SQLiteDatabase db = dh.getSQLiteDatabase();
 		DevicesModel device= DataUtil.getDeviceModelByIeee(message.getZone_ieee(), dh, db);
-		if(device != null)Log.i("DevicesModel", "DeviceId = "+device.getmDeviceId()+" ModelId =" + device.getmModelId().trim());
 		MessageImageResource = DataUtil.getDefaultDevicesSmallIcon(
 				device.getmDeviceId(), device.getmModelId());
 		if(MessageImageResource == 0){

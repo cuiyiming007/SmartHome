@@ -80,8 +80,6 @@ public class LoginActivity extends Activity implements OnClickListener,
 		Intent intent = getIntent();
 		networkStatus = intent.getIntExtra("networkStatus", 0);
 		initView();
-		Log.i("useList", getFromSharedPreferences.getUserList().toString());
-		Log.i("cloudList", getFromSharedPreferences.getCloudList().toString());
 	}
 
 	private void initView() {

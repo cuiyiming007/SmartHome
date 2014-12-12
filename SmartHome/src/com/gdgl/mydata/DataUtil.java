@@ -9,6 +9,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.gdgl.app.ApplicationController;
 import com.gdgl.model.DevicesGroup;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
@@ -88,7 +89,11 @@ public class DataUtil {
 		if (deviceId == DataHelper.ON_OFF_SWITCH_DEVICETYPE) {
 			result = UiUtils.SWITCH_DEVICE;
 		} else if (deviceId == DataHelper.ON_OFF_OUTPUT_DEVICETYPE) {
-			result = UiUtils.SECURITY_CONTROL;
+			if (modelId.indexOf(DataHelper.Wireless_Intelligent_valve_switch) == 0) {
+				result = UiUtils.SECURITY_CONTROL;
+			} else {
+				result = UiUtils.ELECTRICAL_MANAGER;
+			}
 		} else if (deviceId == DataHelper.REMOTE_CONTROL_DEVICETYPE) {
 			result = UiUtils.SWITCH_DEVICE;
 		} else if (deviceId == DataHelper.COMBINED_INTERFACE_DEVICETYPE) {
@@ -101,6 +106,8 @@ public class DataUtil {
 			// } else {
 			result = UiUtils.ELECTRICAL_MANAGER;
 			// }
+		} else if (deviceId == DataHelper.ON_OFF_LIGHT_DEVICETYPE) {
+			result = UiUtils.ELECTRICAL_MANAGER;
 		} else if (deviceId == DataHelper.DIMEN_LIGHTS_DEVICETYPE) {
 			result = UiUtils.ELECTRICAL_MANAGER;
 		} else if (deviceId == DataHelper.DIMEN_SWITCH_DEVICETYPE) {
@@ -140,7 +147,12 @@ public class DataUtil {
 			}
 			break;
 		case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:
-			result = R.drawable.ui_securitycontrol_valveswitch;
+			if (modelId.indexOf(DataHelper.Wireless_Intelligent_valve_switch) == 0) { // // 无线智能阀门开关
+				result = R.drawable.ui_securitycontrol_valveswitch;
+			}
+			if (modelId.indexOf(DataHelper.Switch_Module_Double) == 0) { // ZigBee开关模块（双路）
+				result = R.drawable.ui_lightmanage_switchmodule;
+			}
 			break;
 		case DataHelper.REMOTE_CONTROL_DEVICETYPE:
 			result = R.drawable.tv_control;
@@ -152,13 +164,14 @@ public class DataUtil {
 			result = R.drawable.ui_electricalcontrol_infraredcontroller;
 			break;
 		case DataHelper.MAINS_POWER_OUTLET_DEVICETYPE:
-			if (modelId.startsWith(DataHelper.Switch_Module_Single) // ZigBee开关模块（单路）
-					|| modelId.startsWith(DataHelper.Switch_Module_Double) // ZigBee开关模块（双路）
-					|| modelId.startsWith(DataHelper.Switch_Module_Quadruple)) { // ZigBee开关模块（四路）
+			if (modelId.startsWith(DataHelper.Switch_Module_Single)) {  // ZigBee开关模块（单路）
 				result = R.drawable.ui_lightmanage_switchmodule;
 			} else {
 				result = R.drawable.ui_electricalcontrol_electricalsocket;
 			}
+			break;
+		case DataHelper.ON_OFF_LIGHT_DEVICETYPE:
+			result = R.drawable.ui_lightmanage_switchmodule;
 			break;
 		case DataHelper.DIMEN_LIGHTS_DEVICETYPE:
 			result = R.drawable.ui_lightmanage_lightdimming;
@@ -188,7 +201,7 @@ public class DataUtil {
 			if (modelId.indexOf(DataHelper.Doors_and_windows_sensor_switch) == 0) { // 门窗感应开关
 				result = R.drawable.ui_securitycontrol_doormagnetic;
 			}
-			if (modelId.startsWith(DataHelper.Emergency_Button)           // ZigBee紧急按钮
+			if (modelId.startsWith(DataHelper.Emergency_Button) // ZigBee紧急按钮
 					|| modelId.startsWith(DataHelper.Emergency_Button_On_Wall)) { // ZigBee墙面紧急按钮
 				result = R.drawable.ui_securitycontrol_emergencybutton;
 			}
@@ -212,6 +225,9 @@ public class DataUtil {
 		default:
 			result = R.drawable.ui_lightmanage_switchmodule;
 			break;
+		}
+		if(result == 0){
+			result = R.drawable.ui_securitycontrol_alarm;
 		}
 		return result;
 	}
@@ -366,33 +382,7 @@ public class DataUtil {
 		return result;
 	}
 
-	// 初始化设备区域
-
-	public static boolean isSecrity(String modelID) {
-		if (null == modelID || modelID.trim().equals("")) {
-			return false;
-		}
-		if (modelID.trim().indexOf(DataHelper.Motion_Sensor) == 0
-				|| modelID.trim().indexOf(
-						DataHelper.Combustible_Gas_Detector_Natural_gas) == 0
-				|| modelID.trim().indexOf(DataHelper.Magnetic_Window) == 0
-				|| modelID.trim().indexOf(DataHelper.Emergency_Button) == 0
-				|| modelID.trim().indexOf(
-						DataHelper.Doors_and_windows_sensor_switch) == 0
-				|| modelID.trim().indexOf(DataHelper.Smoke_Detectors) == 0
-				|| modelID.trim().indexOf(
-						DataHelper.Combustible_Gas_Detector_Gas) == 0
-				|| modelID.trim().indexOf(
-						DataHelper.Combustible_Gas_Detector_CO) == 0
-				|| modelID.trim().indexOf(
-						DataHelper.Wireless_Intelligent_valve_switch) == 0
-				|| modelID.trim().indexOf(DataHelper.Siren) == 0) {
-			return true;
-		}
-		return false;
-
-	}
-
+	
 	public static List<DevicesModel> convertToDevicesModel(
 			RespondDataEntity<ResponseParamsEndPoint> r) {
 		List<DevicesModel> mList = new ArrayList<DevicesModel>();
@@ -511,11 +501,12 @@ public class DataUtil {
 
 	public static List<CallbackWarnMessage> getWarmMessage(Context c,
 			DataHelper dh) {
-
+		getFromSharedPreferences.setsharedPreferences(ApplicationController.getInstance());
+		String usename = getFromSharedPreferences.getName();
 		List<CallbackWarnMessage> mList = new ArrayList<CallbackWarnMessage>();
 		Cursor cursor = null;
 		SQLiteDatabase db = dh.getSQLiteDatabase();
-		cursor = db.query(DataHelper.MESSAGE_TABLE, null, null, null, null,
+		cursor = db.query(DataHelper.MESSAGE_TABLE, null, CallbackWarnMessage.USENAME+"='"+usename + "'", null, null,
 				null, null, null);
 		CallbackWarnMessage message;
 		while (cursor.moveToNext()) {
