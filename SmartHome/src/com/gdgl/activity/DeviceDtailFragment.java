@@ -517,6 +517,21 @@ public class DeviceDtailFragment extends BaseFragment {
 				break;
 			}
 			break;
+		case DataHelper.ON_OFF_LIGHT_DEVICETYPE:
+			switch (status) {
+			case ON:
+				cgiManager.MainsOutLetOperation(mDevices, 1);
+				break;
+			case OFF:
+				cgiManager.MainsOutLetOperation(mDevices, 0);
+				break;
+			case INVERSION:
+				cgiManager.MainsOutLetOperation(mDevices, 2);
+				break;
+			default:
+				break;
+			}
+			break;
 		case DataHelper.DIMEN_LIGHTS_DEVICETYPE:
 			switch (status) {
 			case ON:

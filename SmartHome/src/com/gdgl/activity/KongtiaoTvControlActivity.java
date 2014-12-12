@@ -312,8 +312,8 @@ public class KongtiaoTvControlActivity extends Activity implements UIListener,
 			}
 		});
 
-		// 电视按键监听0x40000000
-		int i = 1000000000 + 10000;
+		// 电视按键监听1000000000
+		int i = 0x40000000 + 10000;
 		ibtn_mute.setOnClickListener(new learnListeners(String.valueOf(i), ""));
 		ibtn_mute.setOnLongClickListener(new cleanLearnedListener(String
 				.valueOf(i++), ""));

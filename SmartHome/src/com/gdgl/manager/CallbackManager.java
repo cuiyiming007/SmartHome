@@ -214,11 +214,24 @@ public class CallbackManager extends Manger{
 				new CallbackBindTask().execute(response);
 				break;
 			case 29:
-				CallbackJoinNetMessage joinNetMessage = gson.fromJson(response,
+				final CallbackJoinNetMessage joinNetMessage = gson.fromJson(response,
 						CallbackJoinNetMessage.class);
 				Log.i(TAG, "Callback msgType=" + msgType + " jionnet"
 						+ joinNetMessage.toString());
-				DeviceManager.getInstance().getNewJoinNetDevice(joinNetMessage);
+				new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						try {
+							Thread.sleep(16000);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						DeviceManager.getInstance().getNewJoinNetDevice(joinNetMessage);
+					}
+				}).start();
+				
 				break;
 			case 33:
 				String statusString = (String) jsonRsponse.get("status");

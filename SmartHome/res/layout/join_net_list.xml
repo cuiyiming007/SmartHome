@@ -12,8 +12,6 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/white"
-        android:alpha="0.7"
         android:layout_weight="1" >
 
         <com.handmark.pulltorefresh.library.PullToRefreshListView
@@ -22,13 +20,13 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:cacheColorHint="#00000000"
-            android:divider="@drawable/divider_color"
+            android:divider="#ffffff"
             android:dividerHeight="1dp"
             android:fadingEdge="none"
             android:fastScrollEnabled="false"
             android:footerDividersEnabled="false"
             android:headerDividersEnabled="false"
-            android:listSelector="@drawable/corners"
+            android:listSelector="@drawable/ui_devices_devicelist_bgwithcorners_style"
             android:scrollbars="none"
             android:smoothScrollbar="true"
             ptr:ptrHeaderBackground="#D3D3D3"
@@ -52,7 +50,6 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="20dp"
-        android:alpha="0.75"
         android:background="@drawable/add_devices_btn_style"
         android:gravity="center"
         android:text="返回"

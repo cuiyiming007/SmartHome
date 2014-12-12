@@ -3,12 +3,10 @@ package com.gdgl.model;
 import java.io.Serializable;
 
 import com.gdgl.app.ApplicationController;
-import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.DevParam;
 import com.gdgl.mydata.Node;
 import com.gdgl.mydata.ResponseParamsEndPoint;
-import com.gdgl.util.UiUtils;
 
 import android.content.ContentValues;
 import android.provider.BaseColumns;
