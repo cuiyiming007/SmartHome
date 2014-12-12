@@ -152,6 +152,8 @@ public class DeviceManager extends Manger {
 		Listener<String> responseListener = new Listener<String>() {
 			@Override
 			public void onResponse(String response) {
+				String temp=response.substring(response.length()-4000, response.length());
+				Log.i("getNewJoinNetDevice", temp);
 				Bundle bundle=new Bundle();
 				bundle.putString("devicelist", response);
 				bundle.putString("newdeviceieee", newdeviceieee);

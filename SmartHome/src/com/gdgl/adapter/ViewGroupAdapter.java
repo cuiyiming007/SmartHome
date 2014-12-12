@@ -93,8 +93,6 @@ public class ViewGroupAdapter extends FancyCoverFlowAdapter {
 
 		LayoutParams mLayoutParams = new LayoutParams(
 				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-//		LayoutParams mLayoutParams = new LayoutParams(
-//				200, 200);
 		mLayoutParams.setMargins(5, 5, 5, 5);
 //		customViewGroup.getImageView().setImageBitmap(
 //				getBitmap(this.getItem(position)));
