@@ -16,6 +16,7 @@ import com.gdgl.service.LibjingleService;
 import com.gdgl.service.SmartService;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyApplication;
+import com.gdgl.util.MyApplicationFragment;
 import com.gdgl.util.MyLogoutDlg;
 import com.gdgl.util.MyLogoutDlg.DialogCheckBoxcallback;
 import com.gdgl.util.MyLogoutDlg.Dialogcallback;
@@ -55,7 +56,7 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 	TextView config_name, user_name;
 	TextView tempView;
 	Button clearMessageImageButton;
-
+	FragmentManager fragmentManager;
 	BaseFragment mFragment;
 
 	LinearLayout mfragment_continer, parents_need_Layout;
@@ -64,6 +65,7 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 	public void onContentChanged() {
 		super.onContentChanged();
 		MyApplication.getInstance().addActivity(this);
+		MyApplicationFragment.getInstance().setActivity(this);
 		setSlideRole(R.layout.config_content);
 		setSlideRole(R.layout.config_menu_new);
 
@@ -147,7 +149,9 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				TextView tv = (TextView) v;
-				changeFragment(tv, new BindListFragment());
+				BindListFragment f = new BindListFragment();
+				changeFragment(tv, f);
+				MyApplicationFragment.getInstance().addNewTask(f);
 			}
 		});
 		all_dev = (TextView) findViewById(R.id.all_dev);
@@ -161,6 +165,7 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 				ConfigDevicesListWithGroup mAllDevicesListFragment = new ConfigDevicesListWithGroup();
 				mFragment = mAllDevicesListFragment;
 				changeFragment(tv, mAllDevicesListFragment);
+				MyApplicationFragment.getInstance().addNewTask(mAllDevicesListFragment);
 			}
 		});
 		messagemenu.setOnClickListener(new OnClickListener() {
@@ -200,6 +205,8 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 		initFragment();
 
 		mHandler.sendEmptyMessageDelayed(1, 150);
+		fragmentManager = getFragmentManager();
+		Log.i("FragmentManager Count", fragmentManager.getBackStackEntryCount()+"");
 	}
 
 	private void initFragment() {
@@ -218,8 +225,10 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 			showClearMesssageBtn(f);
 			fragmentTransaction.replace(R.id.fragment_continer, f);
 		} else {
+			Fragment f = new ConfigDevicesListWithGroup();
 			fragmentTransaction.replace(R.id.fragment_continer,
-					new ConfigDevicesListWithGroup());
+					f);
+			MyApplicationFragment.getInstance().addNewTask(f);
 		}
 
 		fragmentTransaction.commit();
@@ -238,6 +247,7 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
 		fragmentTransaction.replace(R.id.fragment_continer, f);
+		//fragmentTransaction.addToBackStack(null);
 		fragmentTransaction.commit();
 		v.setTextColor(mSelectedColor);
 		tempView = v;
@@ -293,9 +303,11 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 		mFragment = (BaseFragment) f;
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
-		fragmentTransaction.replace(R.id.fragment_continer, f);
-		fragmentTransaction.addToBackStack(null);
+		//fragmentTransaction.replace(R.id.fragment_continer, f);
+		fragmentTransaction.add(R.id.fragment_continer, f);
+		//fragmentTransaction.addToBackStack(null);
 		fragmentTransaction.commit();
+		MyApplicationFragment.getInstance().addFragment(f);
 	}
 
 	@Override
@@ -327,8 +339,9 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 		// TODO Auto-generated method stub
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
-		fragmentTransaction.replace(R.id.fragment_continer, f);
-		fragmentTransaction.addToBackStack(null);
+		fragmentTransaction.add(R.id.fragment_continer, f);
+//		fragmentTransaction.replace(R.id.fragment_continer, f);
+//		fragmentTransaction.addToBackStack(null);
 		String string = "0";
 		if (fragmentTransaction.isAddToBackStackAllowed()) {
 			string = "1";
@@ -337,6 +350,7 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 		Log.i("fragment_continer",
 				"" + fragmentManager.getBackStackEntryCount());
 		fragmentTransaction.commit();
+		MyApplicationFragment.getInstance().addFragment(f);
 	}
 
 	@Override
@@ -348,7 +362,6 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 		// mfragment_continer.setLayoutParams(mLayoutParams);
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
-
 		fragmentTransaction.replace(R.id.fragment_continer,
 				new BindListFragment());
 		fragmentTransaction.commit();
@@ -370,4 +383,12 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 			stopService(smartServiceIntent);
 		}
 	}
+	
+	public void onBackPressed() {  
+		if(MyApplicationFragment.getInstance().getFragmentListSize() > 1){
+			MyApplicationFragment.getInstance().removeLastFragment();
+			return;
+		}
+		super.onBackPressed();
+	}  
 }
