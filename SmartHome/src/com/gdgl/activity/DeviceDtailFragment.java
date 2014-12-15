@@ -28,7 +28,6 @@ import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
 import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
-import com.gdgl.util.SlideMenu;
 
 /***
  * 设备详情页

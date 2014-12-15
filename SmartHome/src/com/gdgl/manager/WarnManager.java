@@ -62,10 +62,10 @@ public class WarnManager {
 //			detailmessage = "门铃响了";
 //		}else{
 			String chineseName=DataUtil.getDefaultDevicesName(ApplicationController.getInstance(), device.getmModelId(), device.getmEP());
-			message.setW_description(chineseName);
-			detailmessage = message.getW_description() + "收到报警信息，请注意！";
+//			detailmessage = chineseName + "收到报警信息，请注意！";
 		//}
-		message.setDetailmessage(detailmessage);
+//		message.setDetailmessage(detailmessage);
+		message.setDetailmessage(chineseName);
 		return message;
 	}
 	
@@ -78,10 +78,10 @@ public class WarnManager {
 //			detailmessage = "门铃响了";
 //		}else{
 			String chineseName=DataUtil.getDefaultDevicesName(ApplicationController.getInstance(), device.getmModelId(), device.getmEP());
-			message.setW_description(chineseName);
-			detailmessage = message.getW_description() + "收到提示信息，请注意！";
+//			detailmessage = chineseName + "收到提示信息，请注意！";
 		//}
-		message.setDetailmessage(detailmessage);
+//		message.setDetailmessage(detailmessage);
+		message.setDetailmessage(chineseName);
 		return message;
 	}
 	

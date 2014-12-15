@@ -259,10 +259,10 @@ public class MessageListFragment extends BaseFragment implements UIListener,andr
 			}else{
 				mHolder.warm_point.setBackgroundResource(R.drawable.ui_toptitle_alarm_message_new);
 			}
-			mHolder.warn_name.setText(message.getW_description());
+			mHolder.warn_name.setText(message.getDetailmessage());
 			
-			// mHolder.warn_state.setText(message.getW_description()+"收到报警信息，请注意！");
-			mHolder.warn_state.setText(message.getDetailmessage());
+			mHolder.warn_state.setText(message.getDetailmessage()+"收到报警信息，请注意！");
+//			mHolder.warn_state.setText(message.toString());
 			mHolder.warn_time.setText(message.getTime());
 
 			final CheckBox cb = mHolder.warn_check;
