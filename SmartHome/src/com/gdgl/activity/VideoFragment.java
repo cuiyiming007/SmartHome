@@ -209,12 +209,14 @@ public class VideoFragment extends Fragment implements UIListener,
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
+		if(item.getGroupId() != 0){
+			return false;
+		}
 		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
 				.getMenuInfo();
 		int position = info.position;
 		currentVideoNode = mList.get(position);
 		int menuIndex = item.getItemId();
-
 		if (1 == menuIndex) {
 			VideoInfoDialog videoInfoDialog = new VideoInfoDialog(
 					getActivity(), VideoInfoDialog.Edit, this,

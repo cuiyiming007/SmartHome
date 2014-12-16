@@ -229,7 +229,7 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
 		menu.setHeaderTitle("删除");
-		menu.add(0, 1, 0, "删除");
+		menu.add(1, 1, 0, "删除");
 		// TODO Auto-generated method stub
 		super.onCreateContextMenu(menu, v, menuInfo);
 	}
@@ -237,6 +237,9 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
+		if(item.getGroupId() != 1){
+			return false;
+		}
 		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
 				.getMenuInfo();
 		int position = info.position;
