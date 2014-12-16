@@ -1,11 +1,14 @@
 package com.gdgl.service;
 
 import com.gdgl.activity.LoginActivity;
+import com.gdgl.app.ApplicationController;
 import com.gdgl.libjingle.LibjingleInit;
 import com.gdgl.libjingle.LibjingleSendManager;
 import com.gdgl.libjingle.LibjingleNetUtil;
 import com.gdgl.libjingle.LibjinglePackHandler;
 import com.gdgl.mydata.AccountInfo;
+import com.gdgl.mydata.getFromSharedPreferences;
+import com.gdgl.network.NetworkConnectivity;
 
 import android.app.Service;
 import android.content.Intent;
@@ -32,13 +35,21 @@ public class LibjingleService extends Service {
 				@Override
 				public void run() {
 					Log.i("LibjingleService", "LibjingleInit starts!");
-					AccountInfo info=LoginActivity.loginAccountInfo;
-					String name=info.getAccount();
-					String passwd=info.getPassword();
-					Log.i("LibjingleService", name+"@121.199.21.14   "+name+passwd);
-					libjingleInit.libjinglInit(name+"@121.199.21.14",
-							name+passwd,
-							LibjinglePackHandler.getUUID());
+					String cloudip = "121.199.21.14";
+					getFromSharedPreferences
+							.setsharedPreferences(ApplicationController
+									.getInstance());
+					if (!getFromSharedPreferences.getCloud().equals("")) {
+						cloudip = getFromSharedPreferences.getCloud();
+					}
+					AccountInfo info = LoginActivity.loginAccountInfo;
+					String name = info.getAccount();
+					String passwd = info.getPassword();
+					Log.i("LibjingleService", LibjinglePackHandler.getJid()
+							+ "  " + name + passwd + "  " + cloudip);
+					libjingleInit.libjinglInit(LibjinglePackHandler.getJid(),
+							name + passwd, NetworkConnectivity.networkStatus,
+							cloudip);
 					Log.i("LibjingleService", "LibjingleInit done!");
 				}
 			}).start();
@@ -46,7 +57,7 @@ public class LibjingleService extends Service {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		
+
 		super.onCreate();
 	}
 
@@ -59,7 +70,7 @@ public class LibjingleService extends Service {
 			@Override
 			public void run() {
 				try {
-					Thread.sleep(3000);
+					Thread.sleep(5000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -67,7 +78,6 @@ public class LibjingleService extends Service {
 				LibjingleSendManager.getInstance().getDeviceEndPoint();
 			}
 		}).start();
-		
 
 		return super.onStartCommand(intent, flags, startId);
 	}
