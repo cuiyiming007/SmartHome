@@ -280,11 +280,9 @@ public class VideoFragment extends Fragment implements UIListener,
 
 	public void updateEditVideoList(VideoNode videoNode) {
 		String id = videoNode.getId();
-		for (VideoNode v : mList) {
-			if (v.getId().equals(id)) {
-				mList.remove(v);
-				mList.add(videoNode);
-				break;
+		for(int i=0; i<mList.size(); i++){
+			if(mList.get(i).getId().equals(id)){
+				mList.set(i, videoNode);
 			}
 		}
 		adapter.notifyDataSetChanged();
