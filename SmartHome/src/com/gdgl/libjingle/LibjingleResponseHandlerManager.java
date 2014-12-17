@@ -87,6 +87,12 @@ public class LibjingleResponseHandlerManager extends Manger {
 			CallbackManager.getInstance().classifyCallbackResponse(
 					packHandler.result);
 			break;
+		case LibjinglePackHandler.MT_NetStat:
+			String status = packHandler.result;
+			Event event = new Event(EventType.LIBJINGLE_STATUS, true);
+			event.setData(status);
+			notifyObservers(event);
+			break;
 		default:
 			break;
 		}

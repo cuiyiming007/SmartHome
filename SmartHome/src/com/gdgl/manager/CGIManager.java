@@ -1418,6 +1418,52 @@ public class CGIManager extends Manger {
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
 	
+	
+	/***
+	 * 修改设备名称
+	 * this function is to change device name
+	 * @author Trice
+	 *
+	 */
+	public void ChangeDeviceName(DevicesModel model, String newname) {
+		String oldname=model.getmName().replace(" ", "%20");
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("ieee", model.getmIeee());
+		paraMap.put("ep", model.getmEP());
+		paraMap.put("oldname", oldname);
+		paraMap.put("newname", newname);
+		
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
+		String param = hashMap2ParamString(paraMap);
+		
+		String url = NetUtil.getInstance().getCumstomURL(
+				NetUtil.getInstance().IP, "ChangeDeviceName.cgi?",param);
+		Log.i("CGIManager ChangeDeviceName url:%n %s", url);
+		
+		StringRequest req = new StringRequest(url, 
+				new Response.Listener<String>() {
+					@Override
+					public void onResponse(String response) {
+						response = UiUtils.formatResponseString(response);
+//						Log.i("CGIManager ChangeDeviceName Response:%n %s", response);
+					}
+				},
+				new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+						if (error != null && error.getMessage() != null) {
+							VolleyLog.e("CGIManager ChangeDeviceName Error: ", error.getMessage());
+							
+						}
+					}
+				});
+		// add the request object to the queue to be executed
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
+	
+	
 	class GetBindingTask extends AsyncTask<String, Object, Object> {
 		@Override
 		protected Object doInBackground(String... params) {

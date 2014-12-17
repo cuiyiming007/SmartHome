@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.gdgl.app.ApplicationController;
+import com.gdgl.libjingle.LibjingleSendManager;
 import com.gdgl.manager.LoginManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
@@ -69,7 +70,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 	private ViewGroup gaoji, gaoji_Layout, user_item, cloud_item;
 	private AccountInfo accountInfo;
 	private PopupWindow userPop, cloudPop;
-	public static AccountInfo loginAccountInfo; //把用户名密码传到libjingleService
+	public static AccountInfo loginAccountInfo; // 把用户名密码传到libjingleService
 	private static final boolean isAsc = false;
 
 	@Override
@@ -84,20 +85,20 @@ public class LoginActivity extends Activity implements OnClickListener,
 
 	private void initView() {
 		// TODO Auto-generated method stub
-		
+
 		mLogin = (Button) findViewById(R.id.login);
 		mName = (EditText) findViewById(R.id.name);
 		mPwd = (EditText) findViewById(R.id.pwd);
-		mCloud = (EditText)findViewById(R.id.cloud);
-		user_dropdown = (ImageView)findViewById(R.id.user_dropdown);
-		cloud_dropdown = (ImageView)findViewById(R.id.cloud_dropdown);
-		gaoji_image = (ImageView)findViewById(R.id.gaoji_image);
-		gaoji_text = (TextView)findViewById(R.id.gaoji_text);
-		gaoji = (ViewGroup)findViewById(R.id.gaoji);
-		gaoji_Layout = (ViewGroup)findViewById(R.id.gaoji_layout);
-		user_item = (ViewGroup)findViewById(R.id.user_item);
-		cloud_item = (ViewGroup)findViewById(R.id.cloud_item);
-		mRem = (CheckBox)findViewById(R.id.checkBox1);
+		mCloud = (EditText) findViewById(R.id.cloud);
+		user_dropdown = (ImageView) findViewById(R.id.user_dropdown);
+		cloud_dropdown = (ImageView) findViewById(R.id.cloud_dropdown);
+		gaoji_image = (ImageView) findViewById(R.id.gaoji_image);
+		gaoji_text = (TextView) findViewById(R.id.gaoji_text);
+		gaoji = (ViewGroup) findViewById(R.id.gaoji);
+		gaoji_Layout = (ViewGroup) findViewById(R.id.gaoji_layout);
+		user_item = (ViewGroup) findViewById(R.id.user_item);
+		cloud_item = (ViewGroup) findViewById(R.id.cloud_item);
+		mRem = (CheckBox) findViewById(R.id.checkBox1);
 
 		getFromSharedPreferences.setsharedPreferences(LoginActivity.this);
 		if (!getFromSharedPreferences.getUid().equals("")) {
@@ -109,7 +110,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 		if (!getFromSharedPreferences.getCloud().equals("")) {
 			mCloud.setText(getFromSharedPreferences.getCloud());
 		}
-		if(getFromSharedPreferences.getIsRemerber()){
+		if (getFromSharedPreferences.getIsRemerber()) {
 			mRem.setChecked(true);
 		}
 		// mName.setText("BC6A2987D431");
@@ -132,8 +133,8 @@ public class LoginActivity extends Activity implements OnClickListener,
 			accountInfo.setPassword(mPwd.getText().toString());
 			accountInfo.setAlias(mName.getText().toString());
 
-			loginAccountInfo=accountInfo;
-			
+			loginAccountInfo = accountInfo;
+
 			if (accountInfo.getAccount() == null
 					|| accountInfo.getAccount().length() <= 0) {
 				Toast.makeText(getApplicationContext(), "请输入用户名或网关MAC地址",
@@ -143,7 +144,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 				if (accountInfo.getPassword().length() > 5
 						&& accountInfo.getPassword().length() < 17) {
 					startAPPService(accountInfo.getAccount());
-					
+
 				} else if (accountInfo.getPassword() == null
 						|| accountInfo.getPassword().length() <= 0)
 					Toast.makeText(getApplicationContext(), "密码不能为空",
@@ -160,53 +161,55 @@ public class LoginActivity extends Activity implements OnClickListener,
 			// this.finish();
 			break;
 		case R.id.gaoji:
-			if(gaoji_Layout.getVisibility() == View.GONE){
+			if (gaoji_Layout.getVisibility() == View.GONE) {
 				gaoji_Layout.setVisibility(View.VISIBLE);
-				gaoji_image.setBackgroundResource(R.drawable.ui_login_arrow_blue);
+				gaoji_image
+						.setBackgroundResource(R.drawable.ui_login_arrow_blue);
 				gaoji_text.setTextColor(Color.parseColor("#0086b1"));
-			}else{
+			} else {
 				gaoji_Layout.setVisibility(View.GONE);
-				gaoji_image.setBackgroundResource(R.drawable.ui_login_arrow_white);
+				gaoji_image
+						.setBackgroundResource(R.drawable.ui_login_arrow_white);
 				gaoji_text.setTextColor(Color.parseColor("#ffffff"));
 			}
 			break;
 		case R.id.user_dropdown:
-			if(userPop != null){
-				if(!userPop.isShowing()) {
+			if (userPop != null) {
+				if (!userPop.isShowing()) {
 					userPop.showAsDropDown(user_item);
-				}else{
+				} else {
 					userPop.dismiss();
 				}
-			}else{
-				if(getFromSharedPreferences.getUserList().size() > 0){
+			} else {
+				if (getFromSharedPreferences.getUserList().size() > 0) {
 					initUserPopView();
-					if(!userPop.isShowing()) {
+					if (!userPop.isShowing()) {
 						userPop.showAsDropDown(user_item);
-					}else{
+					} else {
 						userPop.dismiss();
 					}
-				}else{
-					Toast.makeText(this, "没有记录", Toast.LENGTH_LONG).show(); 
+				} else {
+					Toast.makeText(this, "没有记录", Toast.LENGTH_LONG).show();
 				}
 			}
 			break;
 		case R.id.cloud_dropdown:
-			if(cloudPop != null){
-				if(!cloudPop.isShowing()) {
+			if (cloudPop != null) {
+				if (!cloudPop.isShowing()) {
 					cloudPop.showAsDropDown(cloud_item);
-				}else{
+				} else {
 					cloudPop.dismiss();
 				}
-			}else{
-				if(getFromSharedPreferences.getCloudList().size() > 0){
+			} else {
+				if (getFromSharedPreferences.getCloudList().size() > 0) {
 					initCloudPopView();
-					if(!cloudPop.isShowing()) {
+					if (!cloudPop.isShowing()) {
 						cloudPop.showAsDropDown(cloud_item);
-					}else{
+					} else {
 						cloudPop.dismiss();
 					}
-				}else{
-					Toast.makeText(this, "没有记录", Toast.LENGTH_LONG).show(); 
+				} else {
+					Toast.makeText(this, "没有记录", Toast.LENGTH_LONG).show();
 				}
 			}
 			break;
@@ -224,10 +227,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 			getFromSharedPreferences.setsharedPreferences(LoginActivity.this);
 			getFromSharedPreferences.setLogin(accountInfo, false, false);
 			startService(libserviceIntent);
-			
-			Intent intent = new Intent(LoginActivity.this, SmartHome.class);
-			startActivity(intent);
-			this.finish();
+
 			break;
 		case NetworkConnectivity.LAN:
 			DataHelper mDateHelper = new DataHelper(
@@ -236,16 +236,18 @@ public class LoginActivity extends Activity implements OnClickListener,
 			String where = " mac=? or alias=? ";
 			String[] args = { alias, alias };
 			String[] columns = { "ip" };
-			Cursor cursor = mSQLiteDatabase.query(DataHelper.GATEWAY_TABLE, columns, where, args, null, null, null);
-					
-//				.rawQuery("select * from gateway_table where mac = \'883314EF8B2D\' or alias = \'883314EF8B2D\'",null);
-		
+			Cursor cursor = mSQLiteDatabase.query(DataHelper.GATEWAY_TABLE,
+					columns, where, args, null, null, null);
+
+			// .rawQuery("select * from gateway_table where mac = \'883314EF8B2D\' or alias = \'883314EF8B2D\'",null);
+
 			if (cursor.getCount() > 0) {
-//				cursor.moveToFirst();
+				// cursor.moveToFirst();
 				if (cursor.moveToFirst()) {
-					Log.i("cursor", cursor.getString(cursor.getColumnIndex("ip")));
+					Log.i("cursor",
+							cursor.getString(cursor.getColumnIndex("ip")));
 					String ip = cursor.getString(cursor.getColumnIndex("ip"));
-					
+
 					NetUtil.getInstance().setGatewayIP(ip);
 
 					Intent serviceIntent = new Intent(this, SmartService.class);
@@ -283,6 +285,36 @@ public class LoginActivity extends Activity implements OnClickListener,
 						Toast.LENGTH_SHORT).show();
 			}
 		}
+		if (EventType.LIBJINGLE_STATUS == event.getType()) {
+			if (event.isSuccess() == true) {
+				int status = Integer.parseInt((String) event.getData());
+				switch (status) {
+				case 2:
+				case 3:
+					new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							LibjingleSendManager.getInstance()
+									.getDeviceEndPoint();
+						}
+					}).start();
+					
+					Intent intent = new Intent(LoginActivity.this, SmartHome.class);
+					startActivity(intent);
+					this.finish();
+					break;
+				case -1:
+				case -2:
+				case -3:
+					Toast.makeText(getApplicationContext(), "连接网关失败",
+							Toast.LENGTH_SHORT).show();	
+					break;
+				default:
+					break;
+				}
+			}
+		}
 
 	}
 
@@ -292,13 +324,14 @@ public class LoginActivity extends Activity implements OnClickListener,
 		case 0:
 			accountInfo.setId(response.getId());
 			getFromSharedPreferences.setsharedPreferences(LoginActivity.this);
-			if(mRem.isChecked()){
+			if (mRem.isChecked()) {
 				getFromSharedPreferences.setLogin(accountInfo, true, false);
-			}else{
+			} else {
 				getFromSharedPreferences.setLogin(accountInfo, false, false);
 			}
 			// getFromSharedPreferences.setLogin(accountInfo, false, false);
-			getFromSharedPreferences.setUserList(mName.getText().toString(), mPwd.getText().toString());
+			getFromSharedPreferences.setUserList(mName.getText().toString(),
+					mPwd.getText().toString());
 			getFromSharedPreferences.setCloud(mCloud.getText().toString());
 			getFromSharedPreferences.setCloudList(mCloud.getText().toString());
 			// getFromSharedPreferences.setharedPreferences(this);
@@ -347,41 +380,50 @@ public class LoginActivity extends Activity implements OnClickListener,
 			break;
 		}
 	}
-	
-	private void initUserPopView() { 
-		MyAdapter userAdapter = new MyAdapter(sequenceList(getFromSharedPreferences.getUserList()), R.drawable.ui_login_user_blue, UiUtils.USERLIST);
+
+	private void initUserPopView() {
+		MyAdapter userAdapter = new MyAdapter(
+				sequenceList(getFromSharedPreferences.getUserList()),
+				R.drawable.ui_login_user_blue, UiUtils.USERLIST);
 		ListView listView = new ListView(this);
-		listView.setDivider(this.getResources().getDrawable(R.drawable.ui_login_list_line));
+		listView.setDivider(this.getResources().getDrawable(
+				R.drawable.ui_login_list_line));
 		listView.setAdapter(userAdapter);
-		userPop = new PopupWindow(listView, user_item.getWidth(),  
-				user_item.getHeight()*2, true);  
-		userPop.setFocusable(true);  
-		userPop.setOutsideTouchable(true);  
-		userPop.setBackgroundDrawable(getResources().getDrawable(R.drawable.ui_login_user_list_bg));  
+		userPop = new PopupWindow(listView, user_item.getWidth(),
+				user_item.getHeight() * 2, true);
+		userPop.setFocusable(true);
+		userPop.setOutsideTouchable(true);
+		userPop.setBackgroundDrawable(getResources().getDrawable(
+				R.drawable.ui_login_user_list_bg));
 	}
-	
-	private void initCloudPopView() { 
-		MyAdapter cloudAdapter = new MyAdapter(sequenceList(getFromSharedPreferences.getCloudList()), R.drawable.ui_login_cloud_blue, UiUtils.CLOUDLIST);
+
+	private void initCloudPopView() {
+		MyAdapter cloudAdapter = new MyAdapter(
+				sequenceList(getFromSharedPreferences.getCloudList()),
+				R.drawable.ui_login_cloud_blue, UiUtils.CLOUDLIST);
 		ListView listView = new ListView(this);
-		listView.setDivider(this.getResources().getDrawable(R.drawable.ui_login_list_line));
+		listView.setDivider(this.getResources().getDrawable(
+				R.drawable.ui_login_list_line));
 		listView.setAdapter(cloudAdapter);
-		cloudPop = new PopupWindow(listView, cloud_item.getWidth(),  
-				user_item.getHeight()*2, true);  
-		cloudPop.setFocusable(true);  
-		cloudPop.setOutsideTouchable(true);  
-		cloudPop.setBackgroundDrawable(getResources().getDrawable(R.drawable.ui_login_user_list_bg));  
+		cloudPop = new PopupWindow(listView, cloud_item.getWidth(),
+				user_item.getHeight() * 2, true);
+		cloudPop.setFocusable(true);
+		cloudPop.setOutsideTouchable(true);
+		cloudPop.setBackgroundDrawable(getResources().getDrawable(
+				R.drawable.ui_login_user_list_bg));
 	}
-	
-	public ArrayList<HashMap<String, String>> sequenceList(ArrayList<HashMap<String, String>> list){
-		if(isAsc){
-			
-		}else{
-			Collections.reverse(list);  
+
+	public ArrayList<HashMap<String, String>> sequenceList(
+			ArrayList<HashMap<String, String>> list) {
+		if (isAsc) {
+
+		} else {
+			Collections.reverse(list);
 		}
 		return list;
 	}
-	
-	class MyAdapter extends BaseAdapter implements Dialogcallback{
+
+	class MyAdapter extends BaseAdapter implements Dialogcallback {
 		String useCur;
 		String pwdCur;
 		String cloudCur;
@@ -390,54 +432,58 @@ public class LoginActivity extends Activity implements OnClickListener,
 		private ArrayList<HashMap<String, String>> list;
 		private int logoResource;
 		private String tag;
-		
-		public MyAdapter(ArrayList<HashMap<String, String>> list, int resource, String tag){
+
+		public MyAdapter(ArrayList<HashMap<String, String>> list, int resource,
+				String tag) {
 			this.list = list;
 			this.logoResource = resource;
 			this.tag = tag;
-			
+
 		}
-		
+
 		@Override
 		public int getCount() {
 			// TODO Auto-generated method stub
-			return list.size();	
+			return list.size();
 		}
-		
+
 		@Override
 		public Object getItem(int position) {
 			// TODO Auto-generated method stub
 			return position;
 		}
-		
+
 		@Override
 		public long getItemId(int position) {
 			// TODO Auto-generated method stub
 			return position;
 		}
-		
+
 		@Override
-		public View getView(final int position, View convertView, ViewGroup parent) {
+		public View getView(final int position, View convertView,
+				ViewGroup parent) {
 			// TODO Auto-generated method stub
 			ViewHolder holder;
-			if (convertView == null) {  
-				holder = new ViewHolder(); 
-				convertView = LayoutInflater.from(LoginActivity.this).inflate(R.layout.login_item, null); 
-				holder.img = (ImageView) convertView.findViewById(R.id.logo); 
-				holder.btn = (ImageButton) convertView.findViewById(R.id.delete);  
-				holder.tv = (TextView) convertView.findViewById(R.id.textview);  
-				convertView.setTag(holder);  
+			if (convertView == null) {
+				holder = new ViewHolder();
+				convertView = LayoutInflater.from(LoginActivity.this).inflate(
+						R.layout.login_item, null);
+				holder.img = (ImageView) convertView.findViewById(R.id.logo);
+				holder.btn = (ImageButton) convertView
+						.findViewById(R.id.delete);
+				holder.tv = (TextView) convertView.findViewById(R.id.textview);
+				convertView.setTag(holder);
 
-			}else{
-				holder = (ViewHolder) convertView.getTag();  
+			} else {
+				holder = (ViewHolder) convertView.getTag();
 			}
 			holder.img.setBackgroundResource(logoResource);
-			if(tag.equals(UiUtils.USERLIST)){
+			if (tag.equals(UiUtils.USERLIST)) {
 				final String use = list.get(position).get("use").toString();
 				final String pwd = list.get(position).get("pwd").toString();
 				holder.tv.setText(use);
 				holder.tv.setOnClickListener(new OnClickListener() {
-					
+
 					@Override
 					public void onClick(View v) {
 						// TODO Auto-generated method stub
@@ -447,7 +493,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 					}
 				});
 				holder.btn.setOnClickListener(new OnClickListener() {
-					
+
 					@Override
 					public void onClick(View v) {
 						// TODO Auto-generated method stub
@@ -455,15 +501,15 @@ public class LoginActivity extends Activity implements OnClickListener,
 						pwdCur = pwd;
 						posi = position;
 						showOkCancelDialog();
-						
+
 					}
 				});
 			}
-			if(tag.equals(UiUtils.CLOUDLIST)){
+			if (tag.equals(UiUtils.CLOUDLIST)) {
 				final String cloud = list.get(position).get("cloud").toString();
-				holder.tv.setText(cloud); 
+				holder.tv.setText(cloud);
 				holder.tv.setOnClickListener(new OnClickListener() {
-					
+
 					@Override
 					public void onClick(View v) {
 						// TODO Auto-generated method stub
@@ -472,55 +518,54 @@ public class LoginActivity extends Activity implements OnClickListener,
 					}
 				});
 				holder.btn.setOnClickListener(new OnClickListener() {
-					
+
 					@Override
 					public void onClick(View v) {
 						// TODO Auto-generated method stub
 						cloudCur = cloud;
 						posi = position;
-						showOkCancelDialog();			
+						showOkCancelDialog();
 					}
 				});
 			}
-			
-			
-			
+
 			return convertView;
 		}
-		
-		class ViewHolder {  
+
+		class ViewHolder {
 			private ImageView img;
 			private TextView tv;
-			private ImageButton btn;  
+			private ImageButton btn;
 		}
-		
-		public void showOkCancelDialog(){
+
+		public void showOkCancelDialog() {
 			mMyOkCancleDlg = new MyOkCancleDlg(LoginActivity.this);
 			mMyOkCancleDlg.setDialogCallback(MyAdapter.this);
-            mMyOkCancleDlg.setContent("确定要删除这笔资料吗?");
-            mMyOkCancleDlg.show();
+			mMyOkCancleDlg.setContent("确定要删除这笔资料吗?");
+			mMyOkCancleDlg.show();
 		}
 
 		@Override
 		public void dialogdo() {
 			// TODO Auto-generated method stub
-			if(userPop != null && userPop.isShowing()){
-				Log.i("user", "use = "+useCur+" pwd = "+pwdCur+" posi = "+posi);
+			if (userPop != null && userPop.isShowing()) {
+				Log.i("user", "use = " + useCur + " pwd = " + pwdCur
+						+ " posi = " + posi);
 				getFromSharedPreferences.removeUserList(useCur, pwdCur);
 				list.remove(posi);
 				notifyDataSetChanged();
 				userPop.dismiss();
 			}
-			if(cloudPop != null && cloudPop.isShowing()){
-				Log.i("cloud", "cloud = "+cloudCur+" posi = "+posi);
+			if (cloudPop != null && cloudPop.isShowing()) {
+				Log.i("cloud", "cloud = " + cloudCur + " posi = " + posi);
 				getFromSharedPreferences.removeCloudList(cloudCur);
 				list.remove(posi);
 				notifyDataSetChanged();
 				cloudPop.dismiss();
-				if(mCloud.getText().toString().equals(cloudCur)){
-					if(list.size() > 0){
+				if (mCloud.getText().toString().equals(cloudCur)) {
+					if (list.size() > 0) {
 						mCloud.setText(list.get(0).get("cloud").toString());
-					}else{
+					} else {
 						mCloud.setText("");
 					}
 				}

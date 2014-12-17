@@ -46,7 +46,7 @@ public class LibjingleService extends Service {
 					String name = info.getAccount();
 					String passwd = info.getPassword();
 					Log.i("LibjingleService", LibjinglePackHandler.getJid()
-							+ "  " + name + passwd + "  " + cloudip);
+							+ "  " + name + passwd + "  " + cloudip +"  networkStatus"+NetworkConnectivity.networkStatus);
 					libjingleInit.libjinglInit(LibjinglePackHandler.getJid(),
 							name + passwd, NetworkConnectivity.networkStatus,
 							cloudip);
@@ -65,19 +65,19 @@ public class LibjingleService extends Service {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		// TODO Auto-generated method stub
 		LibjingleNetUtil.getInstance().startLibjingleSocket();
-		new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				try {
-					Thread.sleep(5000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				LibjingleSendManager.getInstance().getDeviceEndPoint();
-			}
-		}).start();
+//		new Thread(new Runnable() {
+//
+//			@Override
+//			public void run() {
+//				try {
+//					Thread.sleep(5000);
+//				} catch (InterruptedException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//				LibjingleSendManager.getInstance().getDeviceEndPoint();
+//			}
+//		}).start();
 
 		return super.onStartCommand(intent, flags, startId);
 	}

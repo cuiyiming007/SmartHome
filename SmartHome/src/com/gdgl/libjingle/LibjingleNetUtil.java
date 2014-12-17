@@ -5,8 +5,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
-import com.gdgl.util.UiUtils;
-
 import android.util.Log;
 
 
@@ -38,12 +36,12 @@ public class LibjingleNetUtil {
 
 			@Override
 			public void run() {
-				try {
-					Thread.sleep(2000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+//				try {
+//					Thread.sleep(2000);
+//				} catch (InterruptedException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
 				connectAndRecieveFromLibjingleSocket();
 			}
 		}).start();

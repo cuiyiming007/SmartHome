@@ -11,6 +11,7 @@ public class EventType {
 	}
 
 	public static final EventType LOGIN;
+	public static final EventType LIBJINGLE_STATUS;
 	public static final EventType MODIFYPASSWORD;
 	public static final EventType MODIFYALIAS;
 	public static final EventType ONOFFOUTPUTOPERATION;
@@ -61,6 +62,7 @@ public class EventType {
 
 	static {
 		LOGIN = new EventType("login", id);
+		LIBJINGLE_STATUS = new EventType("libjingle_status", nextId());
 		MODIFYPASSWORD = new EventType("ModifyPassword", nextId());
 		MODIFYALIAS = new EventType("modifyAlias", nextId());
 		ONOFFOUTPUTOPERATION = new EventType("onOffOutputOperation", nextId());
