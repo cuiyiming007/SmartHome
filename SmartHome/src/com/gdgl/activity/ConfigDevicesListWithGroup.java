@@ -616,7 +616,6 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 			} else {
 				mViewHolder = (ViewHolder) convertView.getTag();
 			}
-
 			mViewHolder.devName.setText(ds.getmDefaultDeviceName().replace(" ",
 					""));
 			if (null != ds.getmDeviceRegion()

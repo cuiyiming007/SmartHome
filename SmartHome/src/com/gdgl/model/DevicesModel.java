@@ -24,6 +24,7 @@ interface DevicesBaseColumns extends BaseColumns {
 	public static final String CURPOWERSOURCELEVEL = "curpowersourcelevel";
 
 	public static final String IEEE = "ieee";
+	public static final String IEEEHEAD = "00137A00000";
 	public static final String NWK_ADDR = "nwk_addr";
 	public static final String NODE_EN_NAME = "node_en_name";
 	public static final String MANUFACTORY = "manufactory";
@@ -621,7 +622,10 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 				Integer.parseInt(r.getDevice_id()), n.getModel_id()));
 		setmDeviceRegion("");
 		setmDefaultDeviceName(DataUtil.getDefaultDevicesName(
-				ApplicationController.getInstance(), getmModelId(), getmEP()));
+				ApplicationController.getInstance(), getmModelId(), getmEP())
+				+ "(" 
+				+ getmIeee().substring(IEEEHEAD.length()) 
+				+ ")");
 
 		setmLastDateTime(System.currentTimeMillis());
 		setmOnOffLine(DEVICE_ON_LINE);

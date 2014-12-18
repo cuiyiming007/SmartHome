@@ -126,6 +126,7 @@ public class VideoManager extends Manger {
 	}
 
 	public void editIPC(VideoNode videoNode) {
+		Log.i("editIPC", "editIPC run");
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ipaddr", videoNode.getIpc_ipaddr());
 		paraMap.put("ipc_id", videoNode.getId());
@@ -145,6 +146,7 @@ public class VideoManager extends Manger {
 
 				Event event = new Event(EventType.EDITIPC, true);
 				event.setData(videoResponse);
+				Log.i("videoResponse", "videoResponse run");
 				if (!videoResponse.getResponse_params().getStatus().equals("0")) {
 					event.setSuccess(false);
 				}
@@ -171,6 +173,7 @@ public class VideoManager extends Manger {
 
 		StringRequest req = new StringRequest(url, responseListener,
 				errorListener);
+		Log.i("RequestQueue", "number = " + ApplicationController.getInstance().getRequestQueue().getSequenceNumber());
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
 

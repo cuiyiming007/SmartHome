@@ -27,7 +27,7 @@ import com.gdgl.mydata.video.VideoNode;
 import com.gdgl.mydata.video.VideoResponse;
 import com.gdgl.smarthome.R;
 
-public class VideoInfoDialog implements UIListener {
+public class VideoInfoAddDialog implements UIListener {
 	private Context mContext;
 	Dialog dialog;
 	Button save;
@@ -52,7 +52,7 @@ public class VideoInfoDialog implements UIListener {
 
 	int mType;
 
-	public VideoInfoDialog(Context c, int type,
+	public VideoInfoAddDialog(Context c, int type,
 			IFragmentCallbak fragmentCallbak, Object data) {
 		this(c, type, fragmentCallbak);
 		videoNode = (VideoNode) data;
@@ -64,7 +64,7 @@ public class VideoInfoDialog implements UIListener {
 		aliasEditText.setText(videoNode.getAliases());
 	}
 
-	public VideoInfoDialog(Context c, int type, IFragmentCallbak fragmentCallbak) {
+	public VideoInfoAddDialog(Context c, int type, IFragmentCallbak fragmentCallbak) {
 		mContext = c;
 		mType = type;
 		dialog = new Dialog(mContext, R.style.MyDialog);
@@ -80,6 +80,7 @@ public class VideoInfoDialog implements UIListener {
 		aliasEditText = (EditText) dialog.findViewById(R.id.edit_alias);
 		text_name = (TextView) dialog.findViewById(R.id.text_user_name);
 
+		getInitVideoNode();
 		save = (Button) dialog.findViewById(R.id.btn_save);
 		save.setOnClickListener(new View.OnClickListener() {
 
@@ -105,15 +106,19 @@ public class VideoInfoDialog implements UIListener {
 		VideoManager.getInstance().addObserver(this);
 	}
 	
-	public void setVideoNode(Object data){
-		videoNode = (VideoNode) data;
-		userNameEdit.setText(videoNode.getName());
-		ipEditText.setText(videoNode.getIpc_ipaddr());
-		portEditText.setText(videoNode.getRtspport());
-		httpportEditText.setText(videoNode.getHttpport());
-		passworeEditText.setText(videoNode.getPassword());
-		aliasEditText.setText(videoNode.getAliases());
+	public void getInitVideoNode(){
+		String port = "554";
+		String httpport = "80";
+		String nameString = "admin";
+		
+		ipEditText.setText("");
+		portEditText.setText(port);
+		httpportEditText.setText(httpport);
+		userNameEdit.setText(nameString);
+		passworeEditText.setText("");
+		aliasEditText.setText("");
 	}
+	
 
 	private VideoNode getVideoNode() {
 		String ipString = ipEditText.getText().toString();
@@ -138,7 +143,7 @@ public class VideoInfoDialog implements UIListener {
 		}
 		return videoNode;
 	}
-	
+
 	public void setContent(String content) {
 		textView.setText(content);
 	}
@@ -162,35 +167,35 @@ public class VideoInfoDialog implements UIListener {
 	@Override
 	public void update(Manger observer, Object object) {
 		final Event event = (Event) object;
-		Log.i("Event", "info");
-//		if (event.getType() == EventType.ADDIPC) {
-//			if (event.isSuccess()) {
-//				// get the id
-//				VideoResponse response = (VideoResponse) event.getData();
-//				Toast.makeText(mContext, "添加成功", Toast.LENGTH_SHORT).show();
-//				videoNode.setId(response.getResponse_params().getIpc_id());
-//				addToDB();
-//				dismiss();
-//
-//				listener.onFragmentResult(Add, true, videoNode);
-//
-//			} else {
-//				Toast.makeText(mContext, "添加失败", Toast.LENGTH_SHORT).show();
-//			}
-//
-//		} else if (event.getType() == EventType.EDITIPC) {
-		if (event.getType() == EventType.EDITIPC) {
+		if (event.getType() == EventType.ADDIPC) {
 			if (event.isSuccess()) {
-				Toast.makeText(mContext, "编辑成功", Toast.LENGTH_SHORT).show();
+				// get the id
+				VideoResponse response = (VideoResponse) event.getData();
+				Toast.makeText(mContext, "添加成功", Toast.LENGTH_SHORT).show();
+				videoNode.setId(response.getResponse_params().getIpc_id());
+				addToDB();
 				dismiss();
 
-				editToDB();
-
-				listener.onFragmentResult(Edit, true, videoNode);
+				listener.onFragmentResult(Add, true, videoNode);
 
 			} else {
-				Toast.makeText(mContext, "编辑失败", Toast.LENGTH_SHORT).show();
+				Toast.makeText(mContext, "添加失败", Toast.LENGTH_SHORT).show();
 			}
+
+//		} else if (event.getType() == EventType.EDITIPC) {
+//			if (event.isSuccess()) {
+//				Log.i("video edit", "update success");
+//				Toast.makeText(mContext, "编辑成功", Toast.LENGTH_SHORT).show();
+//				dismiss();
+//
+//				editToDB();
+//
+//				listener.onFragmentResult(Edit, true, videoNode);
+//
+//			} else {
+//				Log.i("video edit", "update defail");
+//				Toast.makeText(mContext, "编辑失败", Toast.LENGTH_SHORT).show();
+//			}
 		}
 
 	}

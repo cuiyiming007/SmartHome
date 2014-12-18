@@ -1,5 +1,6 @@
 package com.gdgl.activity;
 
+import h264.com.VideoInfoAddDialog;
 import h264.com.VideoInfoDialog;
 
 import java.util.ArrayList;
@@ -51,6 +52,7 @@ public class SmartHome extends FragmentActivity implements
 
 	TextView mTitle;
 	Button notifyButton;
+	VideoInfoAddDialog mAddDlg;
 
 	ImageButton devicesButton, videoButton, regionButton, scenceButton;
 	List<ImageButton> mImageButtonsList =new ArrayList<ImageButton>();
@@ -159,8 +161,12 @@ public class SmartHome extends FragmentActivity implements
 					// i.setClass(SmartHome.this, AddCommonUsedActivity.class);
 					// startActivity(i);
 				} else if (1 == mCurrentTab) {
-					VideoInfoDialog mAddDlg = new VideoInfoDialog(
-							SmartHome.this, VideoInfoDialog.Add, videoFragment);
+					if(mAddDlg == null){
+						mAddDlg = new VideoInfoAddDialog(
+								SmartHome.this, VideoInfoDialog.Add, videoFragment);
+					}else{
+						mAddDlg.getInitVideoNode();
+					}
 					mAddDlg.setContent("添加");
 					// mAddDlg.setType("区域名称");
 					// mAddDlg.setDialogCallback(SmartHome.this);

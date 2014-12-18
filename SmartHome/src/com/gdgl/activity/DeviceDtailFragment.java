@@ -52,7 +52,7 @@ public class DeviceDtailFragment extends BaseFragment {
 			device_powerTextView, device_energyTextView,
 			device_powersourceTextView, device_disableTextView,
 			device_ieeeTextView, device_epTextView, device_app_versionTextView,
-			device_hw_versionTextView, device_date_codeTextView;
+			device_hw_versionTextView, device_date_codeTextView, device_ieee_endTextView;
 	EditText identify_timeEditText;
 	ImageView device_imgImageView, up_down_imageImageView;
 	LinearLayout device_contorlLayout, device_seekbarLayout,
@@ -166,7 +166,8 @@ public class DeviceDtailFragment extends BaseFragment {
 				.findViewById(R.id.device_hw_version);
 		device_date_codeTextView = (TextView) mView
 				.findViewById(R.id.device_date_code);
-
+		device_ieee_endTextView = (TextView) mView
+				.findViewById(R.id.device_ieee_end);
 		// 设备详情布局
 		setDeviceDetailLayout();
 		if (aboutdevice == WITH_DEVICE_ABOUT) {
@@ -176,9 +177,9 @@ public class DeviceDtailFragment extends BaseFragment {
 		device_imgImageView.setImageResource(DataUtil
 				.getDefaultDevicesSmallIcon(mDevices.getmDeviceId(), mDevices
 						.getmModelId().trim()));
-		device_nameTextView.setText(mDevices.getmDefaultDeviceName().trim());
+		device_nameTextView.setText(mDevices.getmDefaultDeviceName().trim().split("\\(")[0]);
 		device_regionTextView.setText(mDevices.getmDeviceRegion().trim());
-
+		device_ieee_endTextView.setText("("+mDevices.getmDefaultDeviceName().trim().split("\\(")[1]);
 		// 设备控制
 		device_onButton.setOnClickListener(new OnClickListener() {
 

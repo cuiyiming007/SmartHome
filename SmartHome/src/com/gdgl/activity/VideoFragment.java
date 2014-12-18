@@ -45,6 +45,7 @@ public class VideoFragment extends Fragment implements UIListener,
 	View mView;
 	ViewGroup nodevices;
 	CustomeAdapter adapter;
+	VideoInfoDialog videoInfoDialog;
 
 	public static final String PASS_OBJECT = "pass_object";
 	List<VideoNode> mList;
@@ -218,9 +219,13 @@ public class VideoFragment extends Fragment implements UIListener,
 		currentVideoNode = mList.get(position);
 		int menuIndex = item.getItemId();
 		if (1 == menuIndex) {
-			VideoInfoDialog videoInfoDialog = new VideoInfoDialog(
-					getActivity(), VideoInfoDialog.Edit, this,
-					currentVideoNode);
+			if(videoInfoDialog == null){
+				videoInfoDialog = new VideoInfoDialog(
+						getActivity(), VideoInfoDialog.Edit, this,
+						currentVideoNode);
+			}else{
+				videoInfoDialog.setVideoNode(currentVideoNode);
+			}
 			videoInfoDialog.setContent("编辑" + currentVideoNode.getAliases());
 			videoInfoDialog.show();
 		}
