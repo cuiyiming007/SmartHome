@@ -6,9 +6,9 @@ package com.gdgl.activity;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 
 import com.gdgl.app.ApplicationController;
+import com.gdgl.libjingle.LibjingleResponseHandlerManager;
 import com.gdgl.libjingle.LibjingleSendManager;
 import com.gdgl.manager.LoginManager;
 import com.gdgl.manager.Manger;
@@ -19,32 +19,23 @@ import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.LoginResponse;
 import com.gdgl.mydata.getFromSharedPreferences;
-import com.gdgl.mydata.Callback.CallbackWarnMessage;
 import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.service.LibjingleService;
 import com.gdgl.service.SmartService;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyOkCancleDlg;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
-import com.gdgl.util.MyLogoutDlg;
 import com.gdgl.util.NetUtil;
 import com.gdgl.util.UiUtils;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
-import android.opengl.Visibility;
 import android.os.Bundle;
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -120,6 +111,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 		cloud_dropdown.setOnClickListener(this);
 		gaoji.setOnClickListener(this);
 		LoginManager.getInstance().addObserver(this);
+		LibjingleResponseHandlerManager.getInstance().addObserver(this);
 	}
 
 	@Override
@@ -268,6 +260,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 	@Override
 	protected void onDestroy() {
 		LoginManager.getInstance().deleteObserver(this);
+		LibjingleResponseHandlerManager.getInstance().deleteObserver(this);
 		super.onDestroy();
 	}
 
@@ -307,7 +300,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 				case -1:
 				case -2:
 				case -3:
-					Toast.makeText(getApplicationContext(), "连接网关失败",
+					Toast.makeText(getApplicationContext(), "通道连接网关失败",
 							Toast.LENGTH_SHORT).show();	
 					break;
 				default:
