@@ -65,7 +65,7 @@ public class LibjingleResponseHandlerManager extends Manger {
 		int readBytes = 0;
 		while ((readBytes = inputStream.read(buffer)) > 0) {
 			String response = new String(buffer, 0, readBytes);
-			Log.i(TAG, "handleInputStream:" + response);
+			Log.i(TAG, response.length()+"handleInputStream:" + response);
 			try {
 				packHandler = new LibjinglePackHandler(response);
 				getInstance().recievedPackType(packHandler.gl_msgtype);

@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
+import android.os.Looper;
 import android.util.Log;
 
 
@@ -42,6 +43,7 @@ public class LibjingleNetUtil {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				Looper.prepare();
 				connectAndRecieveFromLibjingleSocket();
 			}
 		}).start();
@@ -69,6 +71,7 @@ public class LibjingleNetUtil {
 	public void connectLibjingleSocket() {
 		try {
 			tcpSocket = new Socket("127.0.0.1", 5020);
+			Log.i(TAG, "getReceiveBufferSize"+tcpSocket.getReceiveBufferSize());
 			inputStream = tcpSocket.getInputStream();
 			outputStream = tcpSocket.getOutputStream();
 			Log.i(TAG, "connectLibjingleSocketsuccessful");
