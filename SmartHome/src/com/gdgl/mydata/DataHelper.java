@@ -3,7 +3,6 @@ package com.gdgl.mydata;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gdgl.activity.LoginActivity;
 import com.gdgl.app.ApplicationController;
 import com.gdgl.model.ContentValuesListener;
 import com.gdgl.model.DevicesGroup;
@@ -15,7 +14,6 @@ import com.gdgl.mydata.binding.BindingDataEntity;
 import com.gdgl.mydata.video.VideoNode;
 import com.gdgl.util.UiUtils;
 
-import android.app.Application;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -161,6 +159,7 @@ public class DataHelper extends SQLiteOpenHelper {
 		deviceStringBuilder.append(DevicesModel.DEVICE_REGION + " VARCHAR,");
 		deviceStringBuilder.append(DevicesModel.DEFAULT_DEVICE_NAME
 				+ " VARCHAR,");
+		deviceStringBuilder.append(DevicesModel.DEVICE_PRIORITY + " INTEGER,");
 
 		deviceStringBuilder.append(DevicesModel.LAST_UPDATE_TIME + " INTEGER,");
 		deviceStringBuilder.append(DevicesModel.ON_OFF_LINE + " INTEGER )");

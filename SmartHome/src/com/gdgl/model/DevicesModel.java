@@ -24,7 +24,6 @@ interface DevicesBaseColumns extends BaseColumns {
 	public static final String CURPOWERSOURCELEVEL = "curpowersourcelevel";
 
 	public static final String IEEE = "ieee";
-	public static final String IEEEHEAD = "00137A00000";
 	public static final String NWK_ADDR = "nwk_addr";
 	public static final String NODE_EN_NAME = "node_en_name";
 	public static final String MANUFACTORY = "manufactory";
@@ -61,6 +60,7 @@ interface DevicesBaseColumns extends BaseColumns {
 	public static final String DEVICE_SORT = "device_sort";
 	public static final String DEVICE_REGION = "device_region";
 	public static final String DEFAULT_DEVICE_NAME = "default_device_name";
+	public static final String DEVICE_PRIORITY = "device_priority";
 
 	public static final String LAST_UPDATE_TIME = "last_update_time";
 	public static final String ON_OFF_LINE = "on_off_line";
@@ -125,6 +125,7 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 	private int mDeviceSort;
 	private String mDeviceRegion = "";
 	private String mDefaultDeviceName = "";
+	private int mDevicePriority;
 
 	private long mLastDateTime;
 	private int mOnOffLine = DEVICE_ON_LINE;
@@ -483,6 +484,14 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 	public void setmDefaultDeviceName(String mUserDefineName) {
 		this.mDefaultDeviceName = mUserDefineName;
 	}
+	
+	public int getmDevicePriority() {
+		return mDevicePriority;
+	}
+
+	public void setmDevicePriority(int mDevicePriority) {
+		this.mDevicePriority = mDevicePriority;
+	}
 
 	public int getmValue1() {
 		return mValue1;
@@ -555,6 +564,7 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 				.put(DevicesBaseColumns.DEVICE_REGION, getmDeviceRegion());
 		mContentValues.put(DevicesBaseColumns.DEFAULT_DEVICE_NAME,
 				getmDefaultDeviceName());
+		mContentValues.put(DevicesBaseColumns.DEVICE_PRIORITY, getmDevicePriority());
 
 		mContentValues.put(DevicesBaseColumns.LAST_UPDATE_TIME,
 				getmLastDateTime());
@@ -624,9 +634,10 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 		setmDefaultDeviceName(DataUtil.getDefaultDevicesName(
 				ApplicationController.getInstance(), getmModelId(), getmEP())
 				+ "(" 
-				+ getmIeee().substring(IEEEHEAD.length()) 
+				+ getmIeee().substring(getmIeee().length()-4, getmIeee().length()) 
 				+ ")");
-
+		setmDevicePriority(DataUtil.getDefaultDevicesPriority(n.getModel_id()));
+		
 		setmLastDateTime(System.currentTimeMillis());
 		setmOnOffLine(DEVICE_ON_LINE);
 	}

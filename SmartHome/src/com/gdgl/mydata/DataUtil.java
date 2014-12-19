@@ -147,7 +147,8 @@ public class DataUtil {
 			}
 			break;
 		case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:
-			if (modelId.indexOf(DataHelper.Wireless_Intelligent_valve_switch) == 0) { // // 无线智能阀门开关
+			if (modelId.indexOf(DataHelper.Wireless_Intelligent_valve_switch) == 0) { // //
+																						// 无线智能阀门开关
 				result = R.drawable.ui_securitycontrol_valveswitch;
 			}
 			if (modelId.indexOf(DataHelper.Switch_Module_Double) == 0) { // ZigBee开关模块（双路）
@@ -164,7 +165,7 @@ public class DataUtil {
 			result = R.drawable.ui_electricalcontrol_infraredcontroller;
 			break;
 		case DataHelper.MAINS_POWER_OUTLET_DEVICETYPE:
-			if (modelId.startsWith(DataHelper.Switch_Module_Single)) {  // ZigBee开关模块（单路）
+			if (modelId.startsWith(DataHelper.Switch_Module_Single)) { // ZigBee开关模块（单路）
 				result = R.drawable.ui_lightmanage_switchmodule;
 			} else {
 				result = R.drawable.ui_electricalcontrol_electricalsocket;
@@ -226,7 +227,7 @@ public class DataUtil {
 			result = R.drawable.ui_lightmanage_switchmodule;
 			break;
 		}
-		if(result == 0){
+		if (result == 0) {
 			result = R.drawable.ui_securitycontrol_alarm;
 		}
 		return result;
@@ -382,7 +383,98 @@ public class DataUtil {
 		return result;
 	}
 
-	
+	// 设置默认设备优先级
+	public static int getDefaultDevicesPriority(String modelID) {
+		int result = 500;
+
+		if (modelID.indexOf(DataHelper.One_key_operator) == 0) { // 安防中心
+			result = 0;
+		}
+		if (modelID.indexOf(DataHelper.Siren) == 0) { // ZigBee警报器
+			result = 1;
+		}
+		if (modelID.indexOf(DataHelper.Doors_and_windows_sensor_switch) == 0) { // 门窗感应开关
+			result = 2;
+		}
+		if (modelID.indexOf(DataHelper.Magnetic_Window) == 0) { // ZigBee窗磁
+			result = 3;
+		}
+		if (modelID.indexOf(DataHelper.Motion_Sensor) == 0) { // ZigBee动作感应器
+			result = 4;
+		}
+		if (modelID.indexOf(DataHelper.Wireless_Intelligent_valve_switch) == 0) { // 无线智能阀门开关
+			result = 5;
+		}
+		if (modelID.indexOf(DataHelper.Smoke_Detectors) == 0) { // 烟雾感应器
+			result = 6;
+		}
+		if (modelID.indexOf(DataHelper.Combustible_Gas_Detector_Gas) == 0) { // 可燃气体探测器（煤气）
+			result = 7;
+		}
+		if (modelID.indexOf(DataHelper.Combustible_Gas_Detector_CO) == 0) { // 可燃气体探测器（一氧化碳）
+			result = 8;
+		}
+		if (modelID.indexOf(DataHelper.Combustible_Gas_Detector_Natural_gas) == 0) { // 可燃气体探测器（天然气）
+			result = 9;
+		}
+		if (modelID.indexOf(DataHelper.Emergency_Button) == 0) { // ZigBee紧急按钮
+			result = 10;
+		}
+		if (modelID.indexOf(DataHelper.Emergency_Button_On_Wall) == 0) { // ZigBee墙面紧急按钮
+			result = 11;
+		}
+		
+		if (modelID.indexOf(DataHelper.Power_detect_socket) == 0) { // ZigBee电能检测插座
+			result = 100;
+		}
+		if (modelID.indexOf(DataHelper.Power_detect_wall) == 0) { // 中规电能检测墙面插座
+			result = 101;
+		}
+		if (modelID.indexOf(DataHelper.Curtain_control_switch) == 0) { // ZigBee幕帘控制开关
+			result = 102;
+		}
+		if (modelID.indexOf(DataHelper.Switch_Module_Single) == 0) { // ZigBee开关模块（单路）
+			result = 103;
+		}
+		if (modelID.indexOf(DataHelper.Switch_Module_Double) == 0) { // ZigBee开关模块（双路）
+			result = 104;
+		}
+		if (modelID.indexOf(DataHelper.Switch_Module_Quadruple) == 0) { // ZigBee开关模块（四路）
+			result = 105;
+		}
+		if (modelID.indexOf(DataHelper.Energy_detection_dimming_module) == 0) { // 吸顶电能检测调光模块
+			result = 106;
+		}
+		if (modelID.indexOf(DataHelper.Infrared_controller) == 0) { // ZigBee红外控制器
+			result = 107;
+		}
+		
+		if (modelID.indexOf(DataHelper.Indoor_temperature_sensor) == 0) { // ZigBee室内型温湿度感应器
+			result = 200;
+		}
+		if (modelID.indexOf(DataHelper.Light_Sensor) == 0) { // ZigBee光线感应器
+			result = 201;
+		}
+		
+		if (modelID.indexOf(DataHelper.Wall_switch_touch) == 0) { // ZigBee墙面开关（单键）
+			result = 300;
+		}
+		if (modelID.indexOf(DataHelper.Wall_switch_double) == 0) { // ZigBee墙面开关（双键）
+			result = 301;
+		}
+		if (modelID.indexOf(DataHelper.Wall_switch_triple) == 0) { // ZigBee墙面开关（三键）
+			result = 302;
+		}
+		if (modelID.indexOf(DataHelper.Dimmer_Switch) == 0) { // ZigBee调光开关
+			result = 303;
+		}
+		if (modelID.indexOf(DataHelper.Doorbell_button) == 0) { // ZigBee门铃按键
+			result = 304;
+		}
+		
+		return result;
+	}
+
 	public static List<DevicesModel> convertToDevicesModel(
 			RespondDataEntity<ResponseParamsEndPoint> r) {
 		List<DevicesModel> mList = new ArrayList<DevicesModel>();
@@ -404,7 +496,7 @@ public class DataUtil {
 		String where = " device_sort=? ";
 		String[] args = { Integer.toString(type) };
 		listDevicesModel = dh.queryForDevicesList(dh.getSQLiteDatabase(),
-				DataHelper.DEVICES_TABLE, null, where, args, null, null, null,
+				DataHelper.DEVICES_TABLE, null, where, args, null, null, DevicesModel.DEVICE_PRIORITY,
 				null);
 		// if (null != listDevicesModel && listDevicesModel.size() > 0) {
 		// for (DevicesModel devicesModel : listDevicesModel) {
@@ -501,12 +593,14 @@ public class DataUtil {
 
 	public static List<CallbackWarnMessage> getWarmMessage(Context c,
 			DataHelper dh) {
-		getFromSharedPreferences.setsharedPreferences(ApplicationController.getInstance());
+		getFromSharedPreferences.setsharedPreferences(ApplicationController
+				.getInstance());
 		String usename = getFromSharedPreferences.getName();
 		List<CallbackWarnMessage> mList = new ArrayList<CallbackWarnMessage>();
 		Cursor cursor = null;
 		SQLiteDatabase db = dh.getSQLiteDatabase();
-		cursor = db.query(DataHelper.MESSAGE_TABLE, null, CallbackWarnMessage.USENAME+"='"+usename + "'", null, null,
+		cursor = db.query(DataHelper.MESSAGE_TABLE, null,
+				CallbackWarnMessage.USENAME + "='" + usename + "'", null, null,
 				null, null, null);
 		CallbackWarnMessage message;
 		while (cursor.moveToNext()) {

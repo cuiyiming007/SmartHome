@@ -1535,13 +1535,19 @@ public class CGIManager extends Manger {
 			RespondDataEntity<GetRoomInfo_response> data = VolleyOperation.handleRoomInfoString(params[0]);
 			ArrayList<GetRoomInfo_response> roomInfoList = data.getResponseparamList();
 			ArrayList<Room> roomList = new ArrayList<Room>();
-			for(GetRoomInfo_response info:roomInfoList) {
-				roomList.add(info.getroom());
-			}
+			
 			DataHelper mDateHelper = new DataHelper(
 					ApplicationController.getInstance());
 			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
-			
+			for(GetRoomInfo_response info:roomInfoList) {
+				ContentValues c = new ContentValues();
+				c.put(DevicesModel.DEVICE_REGION, info.getroom().getroom_name());
+				String where = " rid = ? ";
+				int rid = info.getroom().getroom_id();
+				String[] args = { rid+"" };
+				mDateHelper.update(mSQLiteDatabase, DataHelper.DEVICES_TABLE, c, where, args);
+				roomList.add(info.getroom());
+			}
 			mDateHelper.emptyTable(mSQLiteDatabase, DataHelper.ROOMINFO_TABLE);
 			mDateHelper.insertRoomInfoList(mSQLiteDatabase, DataHelper.ROOMINFO_TABLE, null, roomInfoList);
 			mSQLiteDatabase.close();
