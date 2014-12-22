@@ -52,7 +52,8 @@ public class DeviceDtailFragment extends BaseFragment {
 			device_powerTextView, device_energyTextView,
 			device_powersourceTextView, device_disableTextView,
 			device_ieeeTextView, device_epTextView, device_app_versionTextView,
-			device_hw_versionTextView, device_date_codeTextView, device_ieee_endTextView;
+			device_hw_versionTextView, device_date_codeTextView,
+			device_ieee_endTextView;
 	EditText identify_timeEditText;
 	ImageView device_imgImageView, up_down_imageImageView;
 	LinearLayout device_contorlLayout, device_seekbarLayout,
@@ -177,9 +178,11 @@ public class DeviceDtailFragment extends BaseFragment {
 		device_imgImageView.setImageResource(DataUtil
 				.getDefaultDevicesSmallIcon(mDevices.getmDeviceId(), mDevices
 						.getmModelId().trim()));
-		device_nameTextView.setText(mDevices.getmDefaultDeviceName().trim().split("\\(")[0]);
+		device_nameTextView.setText(mDevices.getmDefaultDeviceName().trim()
+				.split("\\(")[0]);
 		device_regionTextView.setText(mDevices.getmDeviceRegion().trim());
-		device_ieee_endTextView.setText("("+mDevices.getmDefaultDeviceName().trim().split("\\(")[1]);
+		device_ieee_endTextView.setText("("
+				+ mDevices.getmDefaultDeviceName().trim().split("\\(")[1]);
 		// 设备控制
 		device_onButton.setOnClickListener(new OnClickListener() {
 
@@ -247,20 +250,22 @@ public class DeviceDtailFragment extends BaseFragment {
 			int state = level * 100 / 254;
 			device_seekBar.setProgress(state);
 			device_seekBar.setOnTouchListener(new OnTouchListener() {
-				
+
 				@Override
 				public boolean onTouch(View v, MotionEvent event) {
 					// TODO Auto-generated method stub
-					switch(event.getAction()){
+					switch (event.getAction()) {
 					case MotionEvent.ACTION_DOWN:
-						ApplicationController.getInstance().setIsDragSlidMenu(false);
+						ApplicationController.getInstance().setIsDragSlidMenu(
+								false);
 						Log.i("device_seekBar", "ACTION_DOWN");
 						break;
 					case MotionEvent.ACTION_CANCEL:
 						Log.i("device_seekBar", "ACTION_CANCEL");
 						break;
 					case MotionEvent.ACTION_UP:
-						ApplicationController.getInstance().setIsDragSlidMenu(true);
+						ApplicationController.getInstance().setIsDragSlidMenu(
+								true);
 						Log.i("device_seekBar", "ACTION_UP");
 						break;
 					case MotionEvent.ACTION_MOVE:
@@ -309,6 +314,32 @@ public class DeviceDtailFragment extends BaseFragment {
 			int level = Integer.parseInt(mDevices.getmLevel());
 			int state = level * 100 / 254;
 			device_seekBar.setProgress(state);
+			device_seekBar.setOnTouchListener(new OnTouchListener() {
+
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					// TODO Auto-generated method stub
+					switch (event.getAction()) {
+					case MotionEvent.ACTION_DOWN:
+						ApplicationController.getInstance().setIsDragSlidMenu(
+								false);
+						Log.i("device_seekBar", "ACTION_DOWN");
+						break;
+					case MotionEvent.ACTION_CANCEL:
+						Log.i("device_seekBar", "ACTION_CANCEL");
+						break;
+					case MotionEvent.ACTION_UP:
+						ApplicationController.getInstance().setIsDragSlidMenu(
+								true);
+						Log.i("device_seekBar", "ACTION_UP");
+						break;
+					case MotionEvent.ACTION_MOVE:
+						Log.i("device_seekBar", "ACTION_MOVE");
+						break;
+					}
+					return false;
+				}
+			});
 
 			device_seekBar
 					.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {

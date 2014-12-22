@@ -3,7 +3,7 @@
     android:id="@+id/loginRoot"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/ui_login_background" >
+    android:background="@color/blue_default" >
 
     <ImageView
         android:id="@+id/imageView1"
