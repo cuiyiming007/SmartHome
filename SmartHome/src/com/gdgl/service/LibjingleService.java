@@ -64,6 +64,7 @@ public class LibjingleService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		// TODO Auto-generated method stub
+		Log.i("LibjingleService", "LibjingleService onStartCommand!");
 		LibjingleNetUtil.getInstance().startLibjingleSocket();
 //		new Thread(new Runnable() {
 //
