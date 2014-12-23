@@ -244,25 +244,25 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 			}
 		} else if (mDevices.getmDeviceId() == DataHelper.LIGHT_SENSOR_DEVICETYPE) { // 光线感应器
 			// devices_state.setText("亮度: "+mDevices.getmValue());
-			if (getFromSharedPreferences.getLight() != "") {//
-				devices_state.setText("亮度: "
-						+ getFromSharedPreferences.getLight() + "Lux");
-			} else {
+//			if (getFromSharedPreferences.getLight() != "") {//
+//				devices_state.setText("亮度: "
+//						+ getFromSharedPreferences.getLight() + "Lux");
+//			} else {
 				devices_state.setText("亮度: " + mDevices.getmBrightness()
 						+ "Lux");
-			}
+//			}
 		} else if (mDevices.getmDeviceId() == DataHelper.TEMPTURE_SENSOR_DEVICETYPE) { // 室内型温湿度感应器
 			String temperature, humidity;
-			if (getFromSharedPreferences.getTemperature() != "") {
-				temperature = getFromSharedPreferences.getTemperature();
-			} else {
+//			if (getFromSharedPreferences.getTemperature() != "") {
+//				temperature = getFromSharedPreferences.getTemperature();
+//			} else {
 				temperature = String.valueOf(mDevices.getmTemperature());
-			}
-			if (getFromSharedPreferences.getHumidity() != "") {
-				humidity = getFromSharedPreferences.getHumidity();
-			} else {
+//			}
+//			if (getFromSharedPreferences.getHumidity() != "") {
+//				humidity = getFromSharedPreferences.getHumidity();
+//			} else {
 				humidity = String.valueOf(mDevices.getmHumidity());
-			}
+//			}
 			devices_state.setText("温度: " + temperature + "°C" + "\n湿度: "
 					+ humidity + "%");
 		} else if (mDevices.getmModelId().indexOf(DataHelper.One_key_operator) == 0) {

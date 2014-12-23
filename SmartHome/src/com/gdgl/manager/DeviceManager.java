@@ -23,6 +23,7 @@ import com.gdgl.mydata.RespondDataEntity;
 import com.gdgl.mydata.ResponseParamsEndPoint;
 import com.gdgl.mydata.Callback.CallbackJoinNetMessage;
 import com.gdgl.mydata.getlocalcielist.CIEresponse_params;
+import com.gdgl.network.StringRequestChina;
 import com.gdgl.network.VolleyErrorHelper;
 import com.gdgl.network.VolleyOperation;
 import com.gdgl.util.NetUtil;
@@ -127,8 +128,8 @@ public class DeviceManager extends Manger {
 				}
 			}
 		};
-
-		StringRequest req = new StringRequest(url,responseListener, errorListener);
+		
+		StringRequestChina req = new StringRequestChina(url,responseListener, errorListener);
 
 		// add the request object to the queue to be executed
 		ApplicationController.getInstance().addToRequestQueue(req);

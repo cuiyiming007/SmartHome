@@ -78,7 +78,7 @@ public class NetUtil {
 
 	public void connectServerWithTCPSocket() {
 		try {
-			callbakcSocket = new Socket(IP, 5018);
+			callbakcSocket = new Socket(IP, 5002);
 			inputStream = callbakcSocket.getInputStream();
 			outputStream = callbakcSocket.getOutputStream();
 			Log.i(TAG, "callbakcSocket connect server successful");

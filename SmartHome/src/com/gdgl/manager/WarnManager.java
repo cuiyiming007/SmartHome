@@ -58,13 +58,8 @@ public class WarnManager {
 	DataHelper	dh = new DataHelper(ApplicationController.getInstance());
 		SQLiteDatabase db = dh.getSQLiteDatabase();
 		DevicesModel device= DataUtil.getDeviceModelByIeee(message.getZone_ieee(), dh, db);
-//		if (message.getW_description().equals("Doorbell")) {
-//			detailmessage = "门铃响了";
-//		}else{
-			String chineseName=DataUtil.getDefaultDevicesName(ApplicationController.getInstance(), device.getmModelId(), device.getmEP());
-//			detailmessage = chineseName + "收到报警信息，请注意！";
-		//}
-//		message.setDetailmessage(detailmessage);
+//		String chineseName=DataUtil.getDefaultDevicesName(ApplicationController.getInstance(), device.getmModelId(), device.getmEP());
+		String chineseName=device.getmDefaultDeviceName();
 		message.setDetailmessage(chineseName);
 		return message;
 	}
@@ -74,13 +69,8 @@ public class WarnManager {
 	DataHelper	dh = new DataHelper(ApplicationController.getInstance());
 		SQLiteDatabase db = dh.getSQLiteDatabase();
 		DevicesModel device= DataUtil.getDeviceModelByIeee(message.getZone_ieee(), dh, db);
-//		if (message.getW_description().equals("Doorbell")) {
-//			detailmessage = "门铃响了";
-//		}else{
-			String chineseName=DataUtil.getDefaultDevicesName(ApplicationController.getInstance(), device.getmModelId(), device.getmEP());
-//			detailmessage = chineseName + "收到提示信息，请注意！";
-		//}
-//		message.setDetailmessage(detailmessage);
+//		String chineseName=DataUtil.getDefaultDevicesName(ApplicationController.getInstance(), device.getmModelId(), device.getmEP());
+		String chineseName=device.getmDefaultDeviceName();
 		message.setDetailmessage(chineseName);
 		return message;
 	}

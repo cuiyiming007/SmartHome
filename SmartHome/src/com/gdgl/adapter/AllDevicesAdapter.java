@@ -108,8 +108,7 @@ public class AllDevicesAdapter extends BaseAdapter {
 		if(null==mDevices.getmDefaultDeviceName() || mDevices.getmDefaultDeviceName().trim().equals("")){
 			mHolder.devices_name.setText(DataUtil.getDefaultDevicesName(mContext, mDevices.getmModelId(), mDevices.getmEP()));
 		}else{
-			mHolder.devices_name.setText(mDevices.getmDefaultDeviceName().replace(" ",
-					""));
+			mHolder.devices_name.setText(mDevices.getmDefaultDeviceName());
 		}
 		
 		

@@ -2,6 +2,7 @@ package com.gdgl.activity;
 
 import java.util.List;
 
+import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.DeviceManager;
 import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.Manger;
@@ -12,6 +13,8 @@ import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
+import com.gdgl.mydata.Event;
+import com.gdgl.mydata.EventType;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.EditDevicesDlg;
 import com.gdgl.util.MyOkCancleDlg;
@@ -23,6 +26,7 @@ import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -113,6 +117,8 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 		mDeviceManager = DeviceManager.getInstance();
 		mDeviceManager.addObserver(this);
 
+		CallbackManager.getInstance().addObserver(this);
+		
 		mDh = new DataHelper((Context) getActivity());
 		new getDataInBackgroundTask().execute(1);
 	}
@@ -132,6 +138,7 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 		super.onDestroy();
 		temptureManager.deleteObserver(this);
 		mDeviceManager.deleteObserver(this);
+		CallbackManager.getInstance().deleteObserver(this);
 	}
 
 	private void initview() {
@@ -727,77 +734,42 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 
 	@Override
 	public void update(Manger observer, Object object) {
-		// TODO Auto-generated method stub
-		// final Event event = (Event) object;
-		// if (EventType.LIGHTSENSOROPERATION == event.getType()) {
-		// // data maybe null
-		// if (event.isSuccess()) {
-		// SimpleResponseData data = (SimpleResponseData) event.getData();
-		//
-		// int m = getDevicesPostion(data.getIeee(), data.getEp(),
-		// mEneronmentControl);
-		// if (m != -1) {
-		//
-		// mEneronmentControl.get(m).setmValue1(
-		// (Integer.parseInt(data.getParam1())));
-		// if (expan_postion == 3) {
-		// EneronmentControlllay.post(new Runnable() {
-		// @Override
-		// public void run() {
-		// updateEneroll();
-		// }
-		// });
-		// }
-		// }
-		// } else {
-		// }
-		// } else if (EventType.TEMPERATURESENSOROPERATION == event.getType()) {
-		// if (event.isSuccess()) {
-		// SimpleResponseData data = (SimpleResponseData) event.getData();
-		// int m = getDevicesPostion(data.getIeee(), data.getEp(),
-		// mEneronmentControl);
-		// if (m != -1) {
-		// mEneronmentControl.get(m).setmValue1(
-		// (int) (Float.valueOf(data.getParam1().substring(0, data
-		// .getParam1().length()-2)) / 10));
-		// if (expan_postion == 3) {
-		// EneronmentControlllay.post(new Runnable() {
-		// @Override
-		// public void run() {
-		// updateEneroll();
-		// }
-		// });
-		// }
-		// }
-		// }
-		// } else if (EventType.GETICELIST == event.getType()) {
-		// if (event.isSuccess()) {
-		// ArrayList<CIEresponse_params> devDataList =
-		// (ArrayList<CIEresponse_params>) event
-		// .getData();
-		//
-		// }
-		// } else if (EventType.HUMIDITY == event.getType()) {
-		// if (event.isSuccess()) {
-		// SimpleResponseData data = (SimpleResponseData) event.getData();
-		//
-		// int m = getDevicesPostion(data.getIeee(), data.getEp(),
-		// mEneronmentControl);
-		// if (m != -1) {
-		// mEneronmentControl.get(m).setmValue2(
-		// (int) (Float.valueOf(data.getParam1().substring(0, data
-		// .getParam1().length()-2)) / 10));
-		// if (expan_postion == 3) {
-		// EneronmentControlllay.post(new Runnable() {
-		// @Override
-		// public void run() {
-		// updateEneroll();
-		// }
-		// });
-		// }
-		// }
-		// }
-		// }
+		final Event event = (Event) object;
+		if (EventType.CHANGEDEVICENAME == event.getType()) {
+			if (event.isSuccess()) {
+				final String name = (String)event.getData();
+				ElecManagerlay.post(new Runnable() {
+					
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						if (SecurityControl_expn) {
+							mSecurityControl.get(currentpostion)
+									.setmDefaultDeviceName(name);
+							SecurityControlAdap.setList(mSecurityControl);
+							SecurityControlAdap.notifyDataSetChanged();
+						} else if (ElecManager_expn) {
+							mElecManager.get(currentpostion).setmDefaultDeviceName(name);
+							ElecManagerAdap.setList(mElecManager);
+							ElecManagerAdap.notifyDataSetChanged();
+						} else if (Energy_expn) {
+							mEnergy.get(currentpostion).setmDefaultDeviceName(name);
+							EnergyAdap.setList(mEnergy);
+							EnergyAdap.notifyDataSetChanged();
+						} else if (EneronmentControll_expn) {
+							mEneronmentControl.get(currentpostion).setmDefaultDeviceName(
+									name);
+							EneronmentControllAdap.setList(mEneronmentControl);
+							EneronmentControllAdap.notifyDataSetChanged();
+						} else if (Other_expn) {
+							mOther.get(currentpostion).setmDefaultDeviceName(name);
+							OtherAdap.setList(mOther);
+							OtherAdap.notifyDataSetChanged();
+						}
+					}
+				});
+			}
+		}
 	}
 
 	protected void updateEneroll() {
@@ -807,42 +779,43 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 	}
 
 	@Override
-	public void saveedit(String ieee, String ep, String name) {
+	public void saveedit(DevicesModel mDevicesModel, String name) {
 		// TODO Auto-generated method stub
-		String where = " ieee = ? ";
-		String[] args = { ieee };
-
-		ContentValues c = new ContentValues();
-		c.put(DevicesModel.DEFAULT_DEVICE_NAME, name);
-
-		SQLiteDatabase mSQLiteDatabase = mDh.getSQLiteDatabase();
-		int result = mDh.update(mSQLiteDatabase, DataHelper.DEVICES_TABLE, c,
-				where, args);
-		if (result >= 0) {
-			if (SecurityControl_expn) {
-				mSecurityControl.get(currentpostion)
-						.setmDefaultDeviceName(name);
-				SecurityControlAdap.setList(mSecurityControl);
-				SecurityControlAdap.notifyDataSetChanged();
-			} else if (ElecManager_expn) {
-				mElecManager.get(currentpostion).setmDefaultDeviceName(name);
-				ElecManagerAdap.setList(mElecManager);
-				ElecManagerAdap.notifyDataSetChanged();
-			} else if (Energy_expn) {
-				mEnergy.get(currentpostion).setmDefaultDeviceName(name);
-				EnergyAdap.setList(mEnergy);
-				EnergyAdap.notifyDataSetChanged();
-			} else if (EneronmentControll_expn) {
-				mEneronmentControl.get(currentpostion).setmDefaultDeviceName(
-						name);
-				EneronmentControllAdap.setList(mEneronmentControl);
-				EneronmentControllAdap.notifyDataSetChanged();
-			} else if (Other_expn) {
-				mOther.get(currentpostion).setmDefaultDeviceName(name);
-				OtherAdap.setList(mOther);
-				OtherAdap.notifyDataSetChanged();
-			}
-		}
+		CGIManager.getInstance().ChangeDeviceName(mDevicesModel, Uri.encode(name));
+//		String where = " ieee = ? and ep = ?";
+//		String[] args = { mDevicesModel.getmIeee(), mDevicesModel.getmEP() };
+//
+//		ContentValues c = new ContentValues();
+//		c.put(DevicesModel.DEFAULT_DEVICE_NAME, name);
+//
+//		SQLiteDatabase mSQLiteDatabase = mDh.getSQLiteDatabase();
+//		int result = mDh.update(mSQLiteDatabase, DataHelper.DEVICES_TABLE, c,
+//				where, args);
+//		if (result >= 0) {
+//			if (SecurityControl_expn) {
+//				mSecurityControl.get(currentpostion)
+//						.setmDefaultDeviceName(name);
+//				SecurityControlAdap.setList(mSecurityControl);
+//				SecurityControlAdap.notifyDataSetChanged();
+//			} else if (ElecManager_expn) {
+//				mElecManager.get(currentpostion).setmDefaultDeviceName(name);
+//				ElecManagerAdap.setList(mElecManager);
+//				ElecManagerAdap.notifyDataSetChanged();
+//			} else if (Energy_expn) {
+//				mEnergy.get(currentpostion).setmDefaultDeviceName(name);
+//				EnergyAdap.setList(mEnergy);
+//				EnergyAdap.notifyDataSetChanged();
+//			} else if (EneronmentControll_expn) {
+//				mEneronmentControl.get(currentpostion).setmDefaultDeviceName(
+//						name);
+//				EneronmentControllAdap.setList(mEneronmentControl);
+//				EneronmentControllAdap.notifyDataSetChanged();
+//			} else if (Other_expn) {
+//				mOther.get(currentpostion).setmDefaultDeviceName(name);
+//				OtherAdap.setList(mOther);
+//				OtherAdap.notifyDataSetChanged();
+//			}
+//		}
 	}
 
 	public class getDataInBackgroundTask extends

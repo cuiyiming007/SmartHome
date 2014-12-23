@@ -10,6 +10,7 @@ import com.gdgl.mydata.ResponseParamsEndPoint;
 
 import android.content.ContentValues;
 import android.provider.BaseColumns;
+import android.util.Log;
 
 interface DevicesBaseColumns extends BaseColumns {
 
@@ -631,11 +632,14 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 		setmDeviceSort(DataUtil.getDefaultDevicesSort(
 				Integer.parseInt(r.getDevice_id()), n.getModel_id()));
 		setmDeviceRegion("");
-		setmDefaultDeviceName(DataUtil.getDefaultDevicesName(
-				ApplicationController.getInstance(), getmModelId(), getmEP())
-				+ "(" 
+		Log.i("", DataUtil.getDefaultDevicesName(
+				ApplicationController.getInstance(), getmModelId(), getmEP()));
+		String[] nameString = DataUtil.getDefaultDevicesName(
+				ApplicationController.getInstance(), getmModelId(), getmEP()).split("\\*\\*");
+		Log.i("", nameString[0]+"*"+nameString[1]);
+		setmDefaultDeviceName(d.getName().equals(nameString[0])?nameString[1]+ "(" 
 				+ getmIeee().substring(getmIeee().length()-4, getmIeee().length()) 
-				+ ")");
+				+ ")":d.getName());
 		setmDevicePriority(DataUtil.getDefaultDevicesPriority(n.getModel_id()));
 		
 		setmLastDateTime(System.currentTimeMillis());

@@ -252,8 +252,15 @@ public class DataUtil {
 					R.string.Emergency_Button_On_Wall);
 		}
 		if (modelID.indexOf(DataHelper.Doors_and_windows_sensor_switch) == 0) { // 门窗感应开关
-			result = c.getResources().getString(
-					R.string.Doors_and_windows_sensor_switch);
+			if (ep.equals("01")) {
+				result = c.getResources().getString(
+						R.string.Doors_and_windows_sensor_switch_01);
+			}
+			if (ep.equals("02")) {
+				result = c.getResources().getString(
+						R.string.Doors_and_windows_sensor_switch_02);
+			}
+			
 		}
 		if (modelID.indexOf(DataHelper.Smoke_Detectors) == 0) { // 烟雾感应器
 			result = c.getResources().getString(R.string.Smoke_Detectors);

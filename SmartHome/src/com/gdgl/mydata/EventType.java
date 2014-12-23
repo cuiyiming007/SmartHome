@@ -59,6 +59,7 @@ public class EventType {
 	public static final EventType GETEPBYROOMINDEX;
 	public static final EventType ROOMDATAMAIN;
 	public static final EventType MODIFYDEVICEROOMID;
+	public static final EventType CHANGEDEVICENAME;
 
 	static {
 		LOGIN = new EventType("login", id);
@@ -112,6 +113,7 @@ public class EventType {
 		GETEPBYROOMINDEX = new EventType("getEPByRoomIndex", nextId());
 		ROOMDATAMAIN = new EventType("roomDataMain", nextId());
 		MODIFYDEVICEROOMID = new EventType("modifyDeviceRoomId", nextId());
+		CHANGEDEVICENAME = new EventType("changedevicename", nextId());
 	}
 
 	private static int nextId() {

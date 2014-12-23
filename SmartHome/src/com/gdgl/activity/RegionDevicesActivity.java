@@ -387,10 +387,10 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 
 
 	@Override
-	public void saveedit(String ieee, String ep, String name) {
+	public void saveedit(DevicesModel mDevicesModel, String name) {
 		// TODO Auto-generated method stub
 		String where = " ieee = ? ";
-		String[] args = { ieee };
+		String[] args = { mDevicesModel.getmIeee() };
 
 		ContentValues c = new ContentValues();
 		c.put(DevicesModel.DEFAULT_DEVICE_NAME, name);

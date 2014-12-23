@@ -3,11 +3,9 @@ package com.gdgl.util;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.smarthome.R;
-import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.text.Editable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -70,8 +68,7 @@ public class EditDevicesDlg {
 				if ((!name.equals(mN))) {
 //					dialogcallback.saveedit(mSimpleDevicesModel.getmIeee(),
 //							mSimpleDevicesModel.getmEP(), mN, mR);
-					dialogcallback.saveedit(mDevicesModel.getmIeee(),
-							mDevicesModel.getmEP(), mN);
+					dialogcallback.saveedit(mDevicesModel, mN);
 				}
 				dismiss();
 
@@ -91,7 +88,7 @@ public class EditDevicesDlg {
 
 	public interface EditDialogcallback {
 //		public void saveedit(String ieee, String ep, String name, String region);
-		public void saveedit(String ieee, String ep, String name);
+		public void saveedit(DevicesModel mDevicesModel, String name);
 	}
 
 	public void setDialogCallback(EditDialogcallback dialogcallback) {

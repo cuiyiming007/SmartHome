@@ -37,10 +37,11 @@ import com.gdgl.util.NetUtil;
 import com.gdgl.util.UiUtils;
 import com.google.gson.Gson;
 
-public class CallbackManager extends Manger{
+public class CallbackManager extends Manger {
 	private final static String TAG = "CallbackManager";
 	private static CallbackManager instance;
-
+	DataHelper mDateHelper = new DataHelper(ApplicationController.getInstance());
+	
 	public static CallbackManager getInstance() {
 		if (instance == null) {
 			instance = new CallbackManager();
@@ -214,8 +215,8 @@ public class CallbackManager extends Manger{
 				new CallbackBindTask().execute(response);
 				break;
 			case 29:
-				final CallbackJoinNetMessage joinNetMessage = gson.fromJson(response,
-						CallbackJoinNetMessage.class);
+				final CallbackJoinNetMessage joinNetMessage = gson.fromJson(
+						response, CallbackJoinNetMessage.class);
 				Log.i(TAG, "Callback msgType=" + msgType + " jionnet"
 						+ joinNetMessage.toString());
 				new Thread(new Runnable() {
@@ -228,10 +229,29 @@ public class CallbackManager extends Manger{
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						DeviceManager.getInstance().getNewJoinNetDevice(joinNetMessage);
+						DeviceManager.getInstance().getNewJoinNetDevice(
+								joinNetMessage);
 					}
 				}).start();
+
+				break;
+			case 31:
+				String ieee31 = (String) jsonRsponse.get("IEEE");
+				String ep31 = (String) jsonRsponse.get("EP");
+				String name31 = (String) jsonRsponse.get("newname");
+				String newname31 = new String(name31.getBytes(),"utf-8");
 				
+				String where = " ieee = ? and ep = ?";
+				String[] args = { ieee31, ep31 };
+				ContentValues c = new ContentValues();
+				c.put(DevicesModel.DEFAULT_DEVICE_NAME, newname31);
+				SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
+				mDateHelper.update(mSQLiteDatabase, DataHelper.DEVICES_TABLE, c,
+						where, args);
+				
+				Event event31 = new Event(EventType.CHANGEDEVICENAME, true);
+				event31.setData(newname31);
+				notifyObservers(event31);
 				break;
 			case 33:
 				String statusString = (String) jsonRsponse.get("status");
@@ -258,15 +278,15 @@ public class CallbackManager extends Manger{
 	}
 
 	private void handlerWarnMessage(CallbackWarnMessage warnmessage) {
-		if(!getSecurityControlState() && getIsRightModelID(warnmessage)){
-			warnmessage = WarnManager.getInstance().setWarnDetailMessageNoSecurity(
-					warnmessage);
-		}else{
+		if (!getSecurityControlState() && getIsRightModelID(warnmessage)) {
+			warnmessage = WarnManager.getInstance()
+					.setWarnDetailMessageNoSecurity(warnmessage);
+		} else {
 			warnmessage = WarnManager.getInstance().setWarnDetailMessage(
 					warnmessage);
 		}
-//		warnmessage = WarnManager.getInstance().setWarnDetailMessage(
-//				warnmessage);
+		// warnmessage = WarnManager.getInstance().setWarnDetailMessage(
+		// warnmessage);
 		WarnManager.getInstance().setCurrentWarnInfo(warnmessage);
 
 		// new UpdateDBTask().execute(warnmessage);
@@ -276,7 +296,8 @@ public class CallbackManager extends Manger{
 				ShowDevicesGroupFragmentActivity.class);
 		i.putExtra(ShowDevicesGroupFragmentActivity.ACTIVITY_SHOW_DEVICES_TYPE,
 				UiUtils.SECURITY_CONTROL);
-		makeNotify(i, warnmessage.getDetailmessage(), warnmessage.getDetailmessage()+"收到报警信息，请注意！");
+		makeNotify(i, warnmessage.getDetailmessage(),
+				warnmessage.getDetailmessage() + "收到报警信息，请注意！");
 		Event event = new Event(EventType.WARN, true);
 		event.setData(warnmessage);
 		notifyObservers(event);
@@ -297,6 +318,13 @@ public class CallbackManager extends Manger{
 				Log.i(TAG,
 						"Callback msgType=" + 2 + " on_off_status"
 								+ common.toString());
+				ContentValues c = new ContentValues();
+				c.put(DevicesModel.ON_OFF_STATUS, common.getValue());
+				Paremeters p = new Paremeters();
+				p.callbackmsg2 = common;
+				p.c = c;
+				new UpdateDeviceStatusToDatabaseTask().execute(p);
+				
 				Event event = new Event(EventType.ON_OFF_STATUS, true);
 				event.setData(common);
 				notifyObservers(event);
@@ -304,14 +332,28 @@ public class CallbackManager extends Manger{
 			if (clusterId == 8) {
 				Log.i(TAG,
 						"Callback msgType=" + 2 + " level" + common.toString());
+				ContentValues c = new ContentValues();
+				c.put(DevicesModel.LEVEL, common.getValue());
+				Paremeters p = new Paremeters();
+				p.callbackmsg2 = common;
+				p.c = c;
+				new UpdateDeviceStatusToDatabaseTask().execute(p);
+				
 				Event event = new Event(EventType.MOVE_TO_LEVEL, true);
 				event.setData(common);
 				notifyObservers(event);
 			}
 			if (clusterId == 1024) {
-				// Log.i(TAG,
-				// "Callback msgType=" + 2 + "brightness"
-				// + common.toString());
+				Log.i(TAG,
+						"Callback msgType=" + 2 + "brightness"
+								+ common.toString());
+				ContentValues c = new ContentValues();
+				c.put(DevicesModel.BRIGHTNESS, Integer.parseInt(common.getValue()));
+				Paremeters p = new Paremeters();
+				p.callbackmsg2 = common;
+				p.c = c;
+				new UpdateDeviceStatusToDatabaseTask().execute(p);
+				
 				Bundle bundle = new Bundle();
 				bundle.putString("IEEE", common.getDeviceIeee());
 				bundle.putString("EP", common.getDeviceEp());
@@ -324,6 +366,14 @@ public class CallbackManager extends Manger{
 				// Log.i(TAG,
 				// "Callback msgType=" + 2 + "temperature"
 				// + common.toString());
+				ContentValues c = new ContentValues();
+				c.put(DevicesModel.TEMPERATURE,
+						Float.parseFloat(common.getValue().substring(0, 5)));
+				Paremeters p = new Paremeters();
+				p.callbackmsg2 = common;
+				p.c = c;
+				new UpdateDeviceStatusToDatabaseTask().execute(p);
+				
 				Bundle bundle = new Bundle();
 				bundle.putString("IEEE", common.getDeviceIeee());
 				bundle.putString("EP", common.getDeviceEp());
@@ -337,6 +387,13 @@ public class CallbackManager extends Manger{
 				// Log.i(TAG,
 				// "Callback msgType=" + 2 + "humidity"
 				// + common.toString());
+				ContentValues c = new ContentValues();
+				c.put(DevicesModel.HUMIDITY, Float.parseFloat(common.getValue().substring(0, 5)));
+				Paremeters p = new Paremeters();
+				p.callbackmsg2 = common;
+				p.c = c;
+				new UpdateDeviceStatusToDatabaseTask().execute(p);
+				
 				Bundle bundle = new Bundle();
 				bundle.putString("IEEE", common.getDeviceIeee());
 				bundle.putString("EP", common.getDeviceEp());
@@ -357,6 +414,13 @@ public class CallbackManager extends Manger{
 				Log.i(TAG,
 						"Callback msgType=" + 2 + " current"
 								+ common.toString());
+				ContentValues c = new ContentValues();
+				c.put(DevicesModel.CURRENT, common.getValue());
+				Paremeters p = new Paremeters();
+				p.callbackmsg2 = common;
+				p.c = c;
+				new UpdateDeviceStatusToDatabaseTask().execute(p);
+				
 				Event event = new Event(EventType.CURRENT, true);
 				event.setData(common);
 				notifyObservers(event);
@@ -375,6 +439,13 @@ public class CallbackManager extends Manger{
 				Log.i(TAG,
 						"Callback msgType=" + 2 + " voltage"
 								+ common.toString());
+				ContentValues c = new ContentValues();
+				c.put(DevicesModel.VOLTAGE, common.getValue());
+				Paremeters p = new Paremeters();
+				p.callbackmsg2 = common;
+				p.c = c;
+				new UpdateDeviceStatusToDatabaseTask().execute(p);
+				
 				Event event = new Event(EventType.VOLTAGE, true);
 				event.setData(common);
 				notifyObservers(event);
@@ -384,6 +455,13 @@ public class CallbackManager extends Manger{
 			if (clusterId == 1794) {
 				Log.i(TAG,
 						"Callback msgType=" + 2 + " power" + common.toString());
+				ContentValues c = new ContentValues();
+				c.put(DevicesModel.POWER, common.getValue());
+				Paremeters p = new Paremeters();
+				p.callbackmsg2 = common;
+				p.c = c;
+				new UpdateDeviceStatusToDatabaseTask().execute(p);
+				
 				Event event = new Event(EventType.POWER, true);
 				event.setData(common);
 				notifyObservers(event);
@@ -393,6 +471,13 @@ public class CallbackManager extends Manger{
 			if (clusterId == 1794) {
 				Log.i(TAG,
 						"Callback msgType=" + 2 + " energy" + common.toString());
+				ContentValues c = new ContentValues();
+				c.put(DevicesModel.ENERGY, common.getValue());
+				Paremeters p = new Paremeters();
+				p.callbackmsg2 = common;
+				p.c = c;
+				new UpdateDeviceStatusToDatabaseTask().execute(p);
+				
 				Event event = new Event(EventType.ENERGY, true);
 				event.setData(common);
 				notifyObservers(event);
@@ -413,8 +498,8 @@ public class CallbackManager extends Manger{
 			ArrayList<CallbackBindListDevices> mBindedDevicesList = data
 					.getList();
 
-			DataHelper mDateHelper = new DataHelper(
-					ApplicationController.getInstance());
+//			DataHelper mDateHelper = new DataHelper(
+//					ApplicationController.getInstance());
 			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
 			String where = " devout_ieee=? and devout_ep=? ";
 			String[] args = { data.getIeee(), data.getEp() };
@@ -454,6 +539,34 @@ public class CallbackManager extends Manger{
 		}
 	}
 
+	class Paremeters {
+		public CallbackResponseType2 callbackmsg2;
+		public ContentValues c;
+	}
+	
+	public class UpdateDeviceStatusToDatabaseTask extends
+			AsyncTask<Paremeters, Integer, Integer> {
+
+		@Override
+		protected Integer doInBackground(Paremeters... params) {
+			// TODO Auto-generated method stub
+			Paremeters par = params[0];
+			CallbackResponseType2 callbackmsg = par.callbackmsg2;
+			ContentValues c = par.c;
+			
+			String where = " ieee = ? and ep = ?";
+			String ieee = callbackmsg.getDeviceIeee();
+			String ep = callbackmsg.getDeviceEp();
+			String[] args = { ieee, ep };
+			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
+			int result = mDateHelper.update(mSQLiteDatabase,
+					DataHelper.DEVICES_TABLE, c, where, args);
+			mDateHelper.close(mSQLiteDatabase);
+			return result;
+		}
+
+	}
+
 	void makeNotify(Intent i, String title, String message) {
 
 		NotificationManager nm = (NotificationManager) ApplicationController
@@ -468,13 +581,13 @@ public class CallbackManager extends Manger{
 		Notification noti;
 		noti = new Notification(R.drawable.ui_notification_icon, title,
 				System.currentTimeMillis());
-//		if(message.indexOf("提示") != -1){
-//			noti = new Notification(R.drawable.warnning, title,
-//					System.currentTimeMillis());
-//		}else{
-//			noti = new Notification(R.drawable.ui_securitycontrol_alarm, title,
-//					System.currentTimeMillis());
-//		}
+		// if(message.indexOf("提示") != -1){
+		// noti = new Notification(R.drawable.warnning, title,
+		// System.currentTimeMillis());
+		// }else{
+		// noti = new Notification(R.drawable.ui_securitycontrol_alarm, title,
+		// System.currentTimeMillis());
+		// }
 		noti.flags = Notification.FLAG_AUTO_CANCEL;
 		// Intent i = new Intent(ApplicationController.getInstance(),
 		// ShowDevicesGroupFragmentActivity.class);
@@ -540,38 +653,38 @@ public class CallbackManager extends Manger{
 		return _id;
 
 	}
-	
-	private boolean getSecurityControlState(){
+
+	private boolean getSecurityControlState() {
 		final String securityControl = DataHelper.One_key_operator;
-		DataHelper	dh = new DataHelper(ApplicationController.getInstance());
+		DataHelper dh = new DataHelper(ApplicationController.getInstance());
 		SQLiteDatabase db = dh.getSQLiteDatabase();
-		DevicesModel device= DataUtil.getDeviceModelByModelid(securityControl, dh, db);
+		DevicesModel device = DataUtil.getDeviceModelByModelid(securityControl,
+				dh, db);
 		db.close();
-		if(device.getmOnOffStatus().equals("0")){
+		if (device.getmOnOffStatus().equals("0")) {
 			return false;
-		}else{
+		} else {
 			return true;
 		}
 	}
-		
-	private boolean getIsRightModelID(CallbackWarnMessage message){
+
+	private boolean getIsRightModelID(CallbackWarnMessage message) {
 		boolean isRight = false;
-		final String [] modelIDList = {
-				DataHelper.Motion_Sensor,	//动作感应器 
-				DataHelper.Magnetic_Window, //窗磁
-				DataHelper.Doors_and_windows_sensor_switch};	//门窗感应
-		DataHelper	dh = new DataHelper(ApplicationController.getInstance());
+		final String[] modelIDList = { DataHelper.Motion_Sensor, // 动作感应器
+				DataHelper.Magnetic_Window, // 窗磁
+				DataHelper.Doors_and_windows_sensor_switch }; // 门窗感应
+		DataHelper dh = new DataHelper(ApplicationController.getInstance());
 		SQLiteDatabase db = dh.getSQLiteDatabase();
-		DevicesModel device= DataUtil.getDeviceModelByIeee(message.getZone_ieee(), dh, db);
+		DevicesModel device = DataUtil.getDeviceModelByIeee(
+				message.getZone_ieee(), dh, db);
 		db.close();
 		String modelID = device.getmModelId();
-		for(int i=0; i<modelIDList.length; i++){
-			if(modelID.indexOf(modelIDList[i]) != -1){
+		for (int i = 0; i < modelIDList.length; i++) {
+			if (modelID.indexOf(modelIDList[i]) != -1) {
 				isRight = true;
 			}
 		}
 		return isRight;
 	}
 
-	
 }

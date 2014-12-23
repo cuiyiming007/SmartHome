@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.gdgl.manager.Manger;
 import com.gdgl.model.DevicesModel;
-import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
 import com.gdgl.smarthome.R;
@@ -358,7 +357,7 @@ public class JoinNetDevicesListFragment extends BaseFragment {
 				mDevices.setmDefaultDeviceName(DataUtil.getDefaultDevicesName(
 						getActivity(), mDevices.getmModelId(), mDevices.getmEP()));
 			}
-			mHolder.devices_name.setText(mDevices.getmDefaultDeviceName().replace(" ", ""));
+			mHolder.devices_name.setText(mDevices.getmDefaultDeviceName());
 			
 			mHolder.devices_img.setImageResource(DataUtil
 					.getDefaultDevicesSmallIcon(mDevices.getmDeviceId(),mDevices.getmModelId().trim()));

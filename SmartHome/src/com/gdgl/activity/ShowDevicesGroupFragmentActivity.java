@@ -650,10 +650,10 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 	// }
 
 	@Override
-	public void saveedit(String ieee, String ep, String name) {
+	public void saveedit(DevicesModel msDevicesModel, String name) {
 		// TODO Auto-generated method stub
 		String where = " ieee = ? ";
-		String[] args = { ieee };
+		String[] args = { msDevicesModel.getmIeee() };
 
 		ContentValues c = new ContentValues();
 		c.put(DevicesModel.DEFAULT_DEVICE_NAME, name);
@@ -708,12 +708,12 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 					getFromSharedPreferences.setLight(light);
 					temList.get(m).setmBrightness(Integer.parseInt(light));
 
-					ContentValues c = new ContentValues();
-					c.put(DevicesModel.BRIGHTNESS, Integer.parseInt(light));
-					Paremeters p = new Paremeters();
-					p.dm = temList.get(m);
-					p.c = c;
-					new UpdateDeviceStatusToDatabaseTask().execute(p);
+//					ContentValues c = new ContentValues();
+//					c.put(DevicesModel.BRIGHTNESS, Integer.parseInt(light));
+//					Paremeters p = new Paremeters();
+//					p.dm = temList.get(m);
+//					p.c = c;
+//					new UpdateDeviceStatusToDatabaseTask().execute(p);
 
 					if (UiUtils.ENVIRONMENTAL_CONTROL == mListIndex) {
 						title.post(new Runnable() {
@@ -740,13 +740,13 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 					temList.get(m).setmTemperature(
 							Float.parseFloat(temperature));
 
-					ContentValues c = new ContentValues();
-					c.put(DevicesModel.TEMPERATURE,
-							Float.parseFloat(temperature));
-					Paremeters p = new Paremeters();
-					p.dm = temList.get(m);
-					p.c = c;
-					new UpdateDeviceStatusToDatabaseTask().execute(p);
+//					ContentValues c = new ContentValues();
+//					c.put(DevicesModel.TEMPERATURE,
+//							Float.parseFloat(temperature));
+//					Paremeters p = new Paremeters();
+//					p.dm = temList.get(m);
+//					p.c = c;
+//					new UpdateDeviceStatusToDatabaseTask().execute(p);
 
 					if (UiUtils.ENVIRONMENTAL_CONTROL == mListIndex) {
 						title.post(new Runnable() {
@@ -771,12 +771,12 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 					getFromSharedPreferences.setHumidity(humidity);
 					temList.get(m).setmHumidity(Float.parseFloat(humidity));
 
-					ContentValues c = new ContentValues();
-					c.put(DevicesModel.HUMIDITY, Float.parseFloat(humidity));
-					Paremeters p = new Paremeters();
-					p.dm = temList.get(m);
-					p.c = c;
-					new UpdateDeviceStatusToDatabaseTask().execute(p);
+//					ContentValues c = new ContentValues();
+//					c.put(DevicesModel.HUMIDITY, Float.parseFloat(humidity));
+//					Paremeters p = new Paremeters();
+//					p.dm = temList.get(m);
+//					p.c = c;
+//					new UpdateDeviceStatusToDatabaseTask().execute(p);
 
 					if (UiUtils.ENVIRONMENTAL_CONTROL == mListIndex) {
 						title.post(new Runnable() {
@@ -881,12 +881,12 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 							}
 						});
 
-						ContentValues c = new ContentValues();
-						c.put(DevicesModel.ON_OFF_STATUS, data.getValue());
-						Paremeters p = new Paremeters();
-						p.dm = mCurrentList.get(m);
-						p.c = c;
-						new UpdateDeviceStatusToDatabaseTask().execute(p);
+//						ContentValues c = new ContentValues();
+//						c.put(DevicesModel.ON_OFF_STATUS, data.getValue());
+//						Paremeters p = new Paremeters();
+//						p.dm = mCurrentList.get(m);
+//						p.c = c;
+//						new UpdateDeviceStatusToDatabaseTask().execute(p);
 					}
 				}
 			} else {
@@ -917,12 +917,12 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 							}
 						});
 
-						ContentValues c = new ContentValues();
-						c.put(DevicesModel.LEVEL, data.getValue());
-						Paremeters p = new Paremeters();
-						p.dm = mCurrentList.get(m);
-						p.c = c;
-						new UpdateDeviceStatusToDatabaseTask().execute(p);
+//						ContentValues c = new ContentValues();
+//						c.put(DevicesModel.LEVEL, data.getValue());
+//						Paremeters p = new Paremeters();
+//						p.dm = mCurrentList.get(m);
+//						p.c = c;
+//						new UpdateDeviceStatusToDatabaseTask().execute(p);
 					}
 				}
 			} else {
@@ -953,12 +953,12 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 							}
 						});
 
-						ContentValues c = new ContentValues();
-						c.put(DevicesModel.CURRENT, data.getValue());
-						Paremeters p = new Paremeters();
-						p.dm = mCurrentList.get(m);
-						p.c = c;
-						new UpdateDeviceStatusToDatabaseTask().execute(p);
+//						ContentValues c = new ContentValues();
+//						c.put(DevicesModel.CURRENT, data.getValue());
+//						Paremeters p = new Paremeters();
+//						p.dm = mCurrentList.get(m);
+//						p.c = c;
+//						new UpdateDeviceStatusToDatabaseTask().execute(p);
 					}
 				}
 			} else {
@@ -988,12 +988,12 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 							}
 						});
 
-						ContentValues c = new ContentValues();
-						c.put(DevicesModel.VOLTAGE, data.getValue());
-						Paremeters p = new Paremeters();
-						p.dm = mCurrentList.get(m);
-						p.c = c;
-						new UpdateDeviceStatusToDatabaseTask().execute(p);
+//						ContentValues c = new ContentValues();
+//						c.put(DevicesModel.VOLTAGE, data.getValue());
+//						Paremeters p = new Paremeters();
+//						p.dm = mCurrentList.get(m);
+//						p.c = c;
+//						new UpdateDeviceStatusToDatabaseTask().execute(p);
 					}
 				}
 			} else {
@@ -1023,12 +1023,12 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 							}
 						});
 
-						ContentValues c = new ContentValues();
-						c.put(DevicesModel.ENERGY, data.getValue());
-						Paremeters p = new Paremeters();
-						p.dm = mCurrentList.get(m);
-						p.c = c;
-						new UpdateDeviceStatusToDatabaseTask().execute(p);
+//						ContentValues c = new ContentValues();
+//						c.put(DevicesModel.ENERGY, data.getValue());
+//						Paremeters p = new Paremeters();
+//						p.dm = mCurrentList.get(m);
+//						p.c = c;
+//						new UpdateDeviceStatusToDatabaseTask().execute(p);
 					}
 				}
 			} else {
@@ -1058,12 +1058,12 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 							}
 						});
 
-						ContentValues c = new ContentValues();
-						c.put(DevicesModel.POWER, data.getValue());
-						Paremeters p = new Paremeters();
-						p.dm = mCurrentList.get(m);
-						p.c = c;
-						new UpdateDeviceStatusToDatabaseTask().execute(p);
+//						ContentValues c = new ContentValues();
+//						c.put(DevicesModel.POWER, data.getValue());
+//						Paremeters p = new Paremeters();
+//						p.dm = mCurrentList.get(m);
+//						p.c = c;
+//						new UpdateDeviceStatusToDatabaseTask().execute(p);
 					}
 				}
 			} else {
