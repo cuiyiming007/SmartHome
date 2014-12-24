@@ -105,13 +105,13 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		mDh = new DataHelper((Context) getActivity());
 		initData();
 
 	}
 
 	private void initData() {
 		// TODO Auto-generated method stub
-		mDh = new DataHelper((Context) getActivity());
 		mViewGroupMap = new HashMap<String, View>();
 		mViewToIees = new HashMap<View, String>();
 		initRegiondata();
@@ -146,7 +146,6 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 				}
 			}
 		}
-		DataHelper dh = new DataHelper((Context) getActivity());
 
 		List<DevicesModel> mtem;
 
@@ -154,8 +153,9 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 
 		for (String s : mIeees) {
 			String[] args = { s };
-			mtem = DataUtil
-					.getDevices((Context) getActivity(), dh, args, where);
+			mtem = mDh.queryForDevicesList(mDh.getSQLiteDatabase(),
+					DataHelper.DEVICES_TABLE, null, where, args, null, null,
+					null, null);
 			if (null != mtem && mtem.size() > 0) {
 				for (DevicesModel model : mtem) {
 					mDev.add(model);
@@ -590,8 +590,7 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 
 					refeeshImg.startAnimation(hyperspaceJumpAnimation);
 
-					DevicesModel smd = getDevicesByIeee(mIeees
-							.get(position));
+					DevicesModel smd = getDevicesByIeee(mIeees.get(position));
 					SceneDevicesActivity.OperatorDevices so = null;
 					List<SceneDevicesActivity.OperatorDevices> ml = new ArrayList<SceneDevicesActivity.OperatorDevices>();
 					DevicesGroup ds = getModelByID(smd.getmIeee());
@@ -624,9 +623,9 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 		// TODO Auto-generated method stub
 		String[] args = { iee };
 		String where = " ieee=? ";
-		Context c = (Context) getActivity();
-		List<DevicesModel> ls = DataUtil.getDevices(c, new DataHelper(c),
-				args, where);
+		List<DevicesModel> ls = mDh.queryForDevicesList(
+				mDh.getSQLiteDatabase(), DataHelper.DEVICES_TABLE, null, where,
+				args, null, null, null, null);
 		DevicesModel smd = null;
 		if (null != ls && ls.size() > 0) {
 			smd = ls.get(0);
@@ -751,15 +750,17 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 			} else if (Type == DEV) {
 				String[] args = { s };
 				String where = " ieee=? ";
-				List<DevicesModel> ls = DataUtil.getDevices(mContext,
-						new DataHelper(mContext), args, where);
+				List<DevicesModel> ls = mDh.queryForDevicesList(
+						mDh.getSQLiteDatabase(), DataHelper.DEVICES_TABLE,
+						null, where, args, null, null, null, null);
 				DevicesModel smd = null;
 				if (null != ls && ls.size() > 0) {
 					smd = ls.get(0);
 				}
 				if (null != smd) {
 					mViewHolder.funcImg.setImageResource(DataUtil
-							.getDefaultDevicesSmallIcon(smd.getmDeviceId(),smd.getmModelId().trim()));
+							.getDefaultDevicesSmallIcon(smd.getmDeviceId(), smd
+									.getmModelId().trim()));
 
 					setTextViewContent(smd, mViewHolder.devState);
 					mViewHolder.funcText.setText(smd.getmDefaultDeviceName()
@@ -865,7 +866,7 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 			view.setText("亮度: " + getFromSharedPreferences.getLight());
 		} else if (s.getmDeviceId() == DataHelper.TEMPTURE_SENSOR_DEVICETYPE) {
 			view.setText("温度: " + getFromSharedPreferences.getTemperature()
-					+ "\n湿度: " + getFromSharedPreferences.getHumidity()+"%");
+					+ "\n湿度: " + getFromSharedPreferences.getHumidity() + "%");
 		} else {
 			if (s.getmOnOffStatus().trim().equals("1")) {
 				view.setText("开");
@@ -922,19 +923,20 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 
 				SimpleResponseData data = (SimpleResponseData) event.getData();
 				String temperature = String.valueOf(Float.valueOf(data
-						.getParam1().substring(0, data
-						.getParam1().length()-2)) / 10 + "°C");
+						.getParam1()
+						.substring(0, data.getParam1().length() - 2))
+						/ 10 + "°C");
 				getFromSharedPreferences.setTemperature(temperature);
 				devAdap.notifyDataSetChanged();
 			} else {
-				Toast.makeText(getActivity(), "获取温度失败", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity(), "获取温度失败", Toast.LENGTH_SHORT)
+						.show();
 			}
 		} else if (EventType.HUMIDITY == event.getType()) {
 			if (event.isSuccess()) {
 				SimpleResponseData data = (SimpleResponseData) event.getData();
-				String humidity = String.valueOf(Float.valueOf(data
-						.getParam1().substring(0, data
-								.getParam1().length()-2)) / 10);
+				String humidity = String.valueOf(Float.valueOf(data.getParam1()
+						.substring(0, data.getParam1().length() - 2)) / 10);
 				getFromSharedPreferences.setHumidity(humidity);
 				devAdap.notifyDataSetChanged();
 			}

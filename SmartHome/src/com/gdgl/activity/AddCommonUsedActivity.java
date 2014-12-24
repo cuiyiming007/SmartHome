@@ -292,9 +292,10 @@ public class AddCommonUsedActivity extends Activity {
 			}
 		}
 		
-		List<DevicesModel> mTempList = DataUtil.getDevices(
-				AddCommonUsedActivity.this, new DataHelper(
-						AddCommonUsedActivity.this), null, null);
+		DataHelper dh = new DataHelper(AddCommonUsedActivity.this);
+		List<DevicesModel> mTempList = dh.queryForDevicesList(
+				dh.getSQLiteDatabase(), DataHelper.DEVICES_TABLE,
+				null, null, null, null, null, null, null);
 		for (DevicesModel simpleDevicesModel : mTempList) {
 			if (null == mExitDevices || mExitDevices.size() == 0) {
 				mDevices.add(simpleDevicesModel.getmDefaultDeviceName().trim());

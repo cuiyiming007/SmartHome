@@ -9,8 +9,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.provider.BaseColumns;
 
-
-
 interface DevicesGroupColumns extends BaseColumns {
 
 	public static final String GROUP_ID = "group_id";
@@ -22,27 +20,28 @@ interface DevicesGroupColumns extends BaseColumns {
 	public static final String GROUP_STATE = "group_state";
 
 }
-public class DevicesGroup implements DevicesGroupColumns{
+
+public class DevicesGroup implements DevicesGroupColumns {
 	private int groupId; // 场景，区域等
 	private String groupName;
 	private String ieee;
 	private String ep;
 	private boolean devicesState; // 预设设备状态
 	private int devicesValue;
-	private boolean groupState=true;
+	private boolean groupState = true;
 	private SimpleDevicesModel sModel;
-	
-	public static int STATE_ON=1;
-	public static int STATE_OFF=0;
-	
+
+	public static int STATE_ON = 1;
+	public static int STATE_OFF = 0;
+
 	Context mContext;
-	
+
 	public DevicesGroup(Context c) {
-		mContext=c;
+		mContext = c;
 	}
 
-	public DevicesGroup(int id, String name, boolean state,
-			int value,String ieee,String ep,boolean gpstate,Context c) {
+	public DevicesGroup(int id, String name, boolean state, int value,
+			String ieee, String ep, boolean gpstate, Context c) {
 		// TODO Auto-generated constructor stub
 		setGroupId(id);
 		setGroupName(name);
@@ -51,23 +50,25 @@ public class DevicesGroup implements DevicesGroupColumns{
 		setIeee(ieee);
 		setEp(ep);
 		setGroupState(gpstate);
-		mContext=c;
+		mContext = c;
 	}
-	
+
 	public ContentValues convertContentValues() {
 		ContentValues mContentValues = new ContentValues();
 
 		mContentValues.put(DevicesGroup.DEVICES_IEEE, getIeee());
 		mContentValues.put(DevicesGroup.DEVICES_VALUE, getDevicesValue());
-		mContentValues.put(DevicesGroup.EP,getEp());
+		mContentValues.put(DevicesGroup.EP, getEp());
 		mContentValues.put(DevicesGroup.GROUP_ID, getGroupId());
 		mContentValues.put(DevicesGroup.GROUP_NAME, getGroupName());
-		mContentValues.put(DevicesGroup.ON_OFF_STATUS, getDevicesState()?STATE_ON:STATE_OFF);
-		mContentValues.put(DevicesGroup.GROUP_STATE, getDevicesState()?STATE_ON:STATE_OFF);
+		mContentValues.put(DevicesGroup.ON_OFF_STATUS,
+				getDevicesState() ? STATE_ON : STATE_OFF);
+		mContentValues.put(DevicesGroup.GROUP_STATE,
+				getDevicesState() ? STATE_ON : STATE_OFF);
 
 		return mContentValues;
 	}
-	
+
 	public String getGroupName() {
 		return groupName;
 	}
@@ -109,10 +110,13 @@ public class DevicesGroup implements DevicesGroupColumns{
 	}
 
 	public DevicesModel getsModel() {
-		String args[]={ieee};
-		String where=" ieee=? ";
-		List<DevicesModel> mList= DataUtil.getDevices(mContext, new DataHelper(mContext), args, where);
-		if(null!=mList && mList.size()>0){
+		DataHelper dh = new DataHelper(mContext);
+		String args[] = { ieee };
+		String where = " ieee=? ";
+		List<DevicesModel> mList = dh.queryForDevicesList(
+				dh.getSQLiteDatabase(), DataHelper.DEVICES_TABLE, null, where,
+				args, null, null, null, null);
+		if (null != mList && mList.size() > 0) {
 			return mList.get(0);
 		}
 		return null;

@@ -65,7 +65,7 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 
 	}
 
-	private void refreshList(){
+	private void refreshList() {
 		mregions = new ArrayList<Room>();
 		mDateHelper = new DataHelper((Context) getActivity());
 		SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
@@ -74,7 +74,7 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 				null);
 		mDateHelper.close(mSQLiteDatabase);
 	}
-	
+
 	private void initData() {
 		// TODO Auto-generated method stub
 		mregions = new ArrayList<Room>();
@@ -216,8 +216,8 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 			mRoomList = s;
 		}
 	}
-	
-	public void refreshFragmentNew(){
+
+	public void refreshFragmentNew() {
 		initData();
 		if (null == mregions || mregions.size() == 0) {
 			nodevices.setVisibility(View.VISIBLE);
@@ -226,7 +226,7 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 		}
 		Log.i("zgs", "refreshFragment->mregions.size()=" + mregions.size());
 		mCustomeAdapter.setList(mregions);
-		//content_view.setAdapter(mCustomeAdapter);
+		// content_view.setAdapter(mCustomeAdapter);
 		mCustomeAdapter.notifyDataSetChanged();
 	}
 
@@ -242,10 +242,10 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 		}
 		Log.i("zgs", "refreshFragment->mregions.size()=" + mregions.size());
 		mCustomeAdapter.setList(mregions);
-		//content_view.setAdapter(mCustomeAdapter);
+		// content_view.setAdapter(mCustomeAdapter);
 		mCustomeAdapter.notifyDataSetChanged();
-//		content_view.setLayoutAnimation(UiUtils
-//				.getAnimationController((Context) getActivity()));
+		// content_view.setLayoutAnimation(UiUtils
+		// .getAnimationController((Context) getActivity()));
 	}
 
 	@Override
@@ -260,7 +260,7 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
-		if(item.getGroupId() != 1){
+		if (item.getGroupId() != 1) {
 			return false;
 		}
 		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
@@ -285,7 +285,7 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 		final Event event = (Event) object;
 		if (event.getType() == EventType.GETALLROOM) {
 			if (event.isSuccess()) {
-				//mregions=(List<Room>)event.getData();
+				// mregions=(List<Room>)event.getData();
 			}
 		}
 	}
@@ -296,10 +296,11 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 		String id = String.valueOf(currentRoom.getroom_id());
 		String[] ids = new String[] { id };
 		String where = " rid = ? ";
-		List<DevicesModel> mList = DataUtil.getDevices(getActivity(),
-				mDateHelper, ids, where);
+		List<DevicesModel> mList = mDateHelper.queryForDevicesList(
+				mDateHelper.getSQLiteDatabase(), DataHelper.DEVICES_TABLE,
+				null, where, ids, null, null, null, null);
 		SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
-		
+
 		for (DevicesModel s : mList) {
 			ContentValues c = new ContentValues();
 			c.put(DevicesModel.DEVICE_REGION, "");
@@ -312,14 +313,14 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 		// 删除所选区域
 		CGIManager.getInstance().ZBDeleteRoomDataMainByID(id);
 		String[] strings = new String[] { id };
-		int result = mDateHelper.delete(mSQLiteDatabase, DataHelper.ROOMINFO_TABLE,
-				" room_id = ? ", strings);
+		int result = mDateHelper.delete(mSQLiteDatabase,
+				DataHelper.ROOMINFO_TABLE, " room_id = ? ", strings);
 		mSQLiteDatabase.close();
-		if(result == 1){
+		if (result == 1) {
 			refreshFragment();
 		}
-//		mregions.remove(currentRoom);
-//		refreshFragment();
+		// mregions.remove(currentRoom);
+		// refreshFragment();
 	}
 
 }

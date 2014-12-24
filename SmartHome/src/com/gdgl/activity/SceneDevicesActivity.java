@@ -111,20 +111,21 @@ public class SceneDevicesActivity extends Activity implements DevicesObserver,
 		mAddList=null;
 		mAddList=new ArrayList<DevicesModel>();
 		List<DevicesModel> ls=new ArrayList<DevicesModel>();
-		ls = DataUtil.getDevices(
-				SceneDevicesActivity.this, mDh, null, null);
-		for (DevicesModel simpleDevicesModel : ls) {
-			if(!isInList(simpleDevicesModel)){
-				mAddList.add(simpleDevicesModel);
+		ls =  mDh.queryForDevicesList(mDh.getSQLiteDatabase(),
+				DataHelper.DEVICES_TABLE, null, null, null, null, null,
+				null, null);
+		for (DevicesModel mModel : ls) {
+			if(!isInList(mModel)){
+				mAddList.add(mModel);
 			}
 		}
 	}
 	
 
-	private boolean isInList(DevicesModel simpleDevicesModel){
+	private boolean isInList(DevicesModel mModel){
 		
 		for (DevicesModel msimpleDevicesModel : mList) {
-			if(msimpleDevicesModel.getmIeee().equals(simpleDevicesModel.getmIeee())){
+			if(msimpleDevicesModel.getmIeee().equals(mModel.getmIeee())){
 				return true;
 			}
 		}

@@ -52,8 +52,9 @@ public class AllDevicesListFragment extends BaseFragment {
 		// TODO Auto-generated method stub
 		Context c = (Context) getActivity();
 		DataHelper dh = new DataHelper(c);
-
-		mDevicesList = DataUtil.getDevices(c, dh, null, null, true);
+		mDevicesList = dh.queryForDevicesList(dh.getSQLiteDatabase(),
+				DataHelper.DEVICES_TABLE, null, null, null, null, null, null,
+				null);
 	}
 
 	@Override
@@ -76,7 +77,7 @@ public class AllDevicesListFragment extends BaseFragment {
 			no_dev.setVisibility(View.VISIBLE);
 			deviceslist.setVisibility(View.GONE);
 		} else {
-			DevicesAdapter mDevicesAdapter=new DevicesAdapter();
+			DevicesAdapter mDevicesAdapter = new DevicesAdapter();
 			mDevicesAdapter.setList(mDevicesList);
 			devices_list.setAdapter(mDevicesAdapter);
 		}
@@ -98,6 +99,7 @@ public class AllDevicesListFragment extends BaseFragment {
 
 	public class DevicesAdapter extends BaseAdapter {
 		private List<DevicesModel> mDevList;
+
 		@Override
 		public int getCount() {
 			// TODO Auto-generated method stub
@@ -124,12 +126,12 @@ public class AllDevicesListFragment extends BaseFragment {
 			}
 			return position;
 		}
-		
-		public void setList(List<DevicesModel> list){
-			mDevList=null;
-			mDevList=list;
+
+		public void setList(List<DevicesModel> list) {
+			mDevList = null;
+			mDevList = list;
 		}
-		
+
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			// TODO Auto-generated method stub
@@ -157,13 +159,14 @@ public class AllDevicesListFragment extends BaseFragment {
 				mHolder = (ViewHolder) mView.getTag();
 			}
 
-			mHolder.devices_name.setText(mDevices.getmDefaultDeviceName().replace(
-					" ", ""));
+			mHolder.devices_name.setText(mDevices.getmDefaultDeviceName()
+					.replace(" ", ""));
 			mHolder.devices_region.setText(mDevices.getmDeviceRegion().replace(
 					" ", ""));
-			
+
 			mHolder.devices_img.setImageResource(DataUtil
-					.getDefaultDevicesSmallIcon(mDevices.getmDeviceId(),mDevices.getmModelId().trim()));
+					.getDefaultDevicesSmallIcon(mDevices.getmDeviceId(),
+							mDevices.getmModelId().trim()));
 
 			if (mDevices.getmDeviceId() == DataHelper.ON_OFF_SWITCH_DEVICETYPE) {
 				String state = "";
@@ -186,9 +189,12 @@ public class AllDevicesListFragment extends BaseFragment {
 					mHolder.devices_state.setText("已撤防");
 				}
 			} else if (mDevices.getmDeviceId() == DataHelper.LIGHT_SENSOR_DEVICETYPE) {
-				 mHolder.devices_state.setText("亮度: "+getFromSharedPreferences.getLight());
+				mHolder.devices_state.setText("亮度: "
+						+ getFromSharedPreferences.getLight());
 			} else if (mDevices.getmDeviceId() == DataHelper.TEMPTURE_SENSOR_DEVICETYPE) {
-	            mHolder.devices_state.setText("温度: "+getFromSharedPreferences.getTemperature()+"\n湿度: "+getFromSharedPreferences.getHumidity()+"%");
+				mHolder.devices_state.setText("温度: "
+						+ getFromSharedPreferences.getTemperature() + "\n湿度: "
+						+ getFromSharedPreferences.getHumidity() + "%");
 
 			} else {
 				if (mDevices.getmOnOffStatus().trim().equals("1")) {
@@ -208,24 +214,25 @@ public class AllDevicesListFragment extends BaseFragment {
 			TextView devices_state;
 		}
 	}
-	
-	public int isInList(String iee,String ep){
-		if(null==mDevicesList || mDevicesList.size()==0){
+
+	public int isInList(String iee, String ep) {
+		if (null == mDevicesList || mDevicesList.size() == 0) {
 			return -1;
 		}
-		if(iee==null || ep==null){
+		if (iee == null || ep == null) {
 			return -1;
 		}
 		DevicesModel sd;
-		for(int m=0;m<mDevicesList.size();m++){
-			sd=mDevicesList.get(m);
-			if(iee.trim().equals(sd.getmIeee().trim()) && ep.trim().equals(sd.getmEP().trim())){
+		for (int m = 0; m < mDevicesList.size(); m++) {
+			sd = mDevicesList.get(m);
+			if (iee.trim().equals(sd.getmIeee().trim())
+					&& ep.trim().equals(sd.getmEP().trim())) {
 				return m;
 			}
 		}
 		return -1;
 	}
-	
+
 	@Override
 	public void update(Manger observer, Object object) {
 		// TODO Auto-generated method stub
@@ -235,9 +242,9 @@ public class AllDevicesListFragment extends BaseFragment {
 				// data maybe null
 				CallbackResponseType2 data = (CallbackResponseType2) event
 						.getData();
-				int m=isInList(data.getDeviceIeee(), data.getDeviceEp());
-				if(-1!=m){
-					if(null!=data.getValue()){
+				int m = isInList(data.getDeviceIeee(), data.getDeviceEp());
+				if (-1 != m) {
+					if (null != data.getValue()) {
 						mDevicesList.get(m).setmOnOffStatus(data.getValue());
 						mDevicesAdapter.setList(mDevicesList);
 						mView.post(new Runnable() {
@@ -254,20 +261,20 @@ public class AllDevicesListFragment extends BaseFragment {
 				// mError.setVisibility(View.VISIBLE);
 			}
 		}
-//		else if (EventType.WARM == event.getType()) {
-//			if (event.isSuccess() == true) {
-//				// data maybe null
-//				final CallbackWarmMessage data = (CallbackWarmMessage) event
-//						.getData();
-////				if (data.getCie_ieee() == mDevices.getmIeee()) {
-//					mView.post(new Runnable() {
-//						@Override
-//						public void run() {
-//							
-//						}
-//					});
-////				}
-//			}
-//		}
+		// else if (EventType.WARM == event.getType()) {
+		// if (event.isSuccess() == true) {
+		// // data maybe null
+		// final CallbackWarmMessage data = (CallbackWarmMessage) event
+		// .getData();
+		// // if (data.getCie_ieee() == mDevices.getmIeee()) {
+		// mView.post(new Runnable() {
+		// @Override
+		// public void run() {
+		//
+		// }
+		// });
+		// // }
+		// }
+		// }
 	}
 }

@@ -241,13 +241,14 @@ public class CallbackManager extends Manger {
 				String name31 = (String) jsonRsponse.get("newname");
 				String newname31 = new String(name31.getBytes(),"utf-8");
 				
-				String where = " ieee = ? and ep = ?";
-				String[] args = { ieee31, ep31 };
-				ContentValues c = new ContentValues();
-				c.put(DevicesModel.DEFAULT_DEVICE_NAME, newname31);
-				SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
-				mDateHelper.update(mSQLiteDatabase, DataHelper.DEVICES_TABLE, c,
-						where, args);
+				String where31 = " ieee = ? and ep = ?";
+				String[] args31 = { ieee31, ep31 };
+				ContentValues c31 = new ContentValues();
+				c31.put(DevicesModel.DEFAULT_DEVICE_NAME, newname31);
+				SQLiteDatabase mSQLiteDatabase31 = mDateHelper.getSQLiteDatabase();
+				mDateHelper.update(mSQLiteDatabase31, DataHelper.DEVICES_TABLE, c31,
+						where31, args31);
+				mDateHelper.close(mSQLiteDatabase31);
 				
 				Event event31 = new Event(EventType.CHANGEDEVICENAME, true);
 				event31.setData(newname31);
@@ -265,7 +266,14 @@ public class CallbackManager extends Manger {
 				Event event33 = new Event(EventType.LOCALIASCIEOPERATION, true);
 				event33.setData(status);
 				notifyObservers(event33);
-
+				
+				SQLiteDatabase mSQLiteDatabase33 = mDateHelper.getSQLiteDatabase();
+				String where33 = " model_id like ? ";
+				String[] args33 = { DataHelper.One_key_operator + "%" };
+				ContentValues c33 = new ContentValues();
+				c33.put(DevicesModel.ON_OFF_STATUS, status);
+				mDateHelper.update(mSQLiteDatabase33,DataHelper.DEVICES_TABLE, c33, where33, args33);
+				mDateHelper.close(mSQLiteDatabase33);
 				break;
 			default:
 				break;
