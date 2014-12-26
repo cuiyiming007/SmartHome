@@ -613,10 +613,6 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 						.findViewById(R.id.devices_name);
 				mViewHolder.devRegion = (TextView) convertView
 						.findViewById(R.id.devices_region);
-				// mViewHolder.devOnOffLine = (TextView) convertView
-				// .findViewById(R.id.on_off_line);
-				mViewHolder.devEnergy = (TextView) convertView
-						.findViewById(R.id.enerry);
 				mViewHolder.devAlarm = (TextView) convertView
 						.findViewById(R.id.alarm);
 				convertView.setTag(mViewHolder);
@@ -655,15 +651,6 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 				mViewHolder.devAlarm.setVisibility(View.INVISIBLE);
 			}
 
-			if (UiUtils.isHaveBattery(ds.getmModelId())) {
-				mViewHolder.devEnergy.setVisibility(View.VISIBLE);
-				mViewHolder.devEnergy.setText("剩余电量"
-						+ ds.getCurpowersourcelevel() + "%");
-				//
-			} else {
-				mViewHolder.devEnergy.setVisibility(View.INVISIBLE);
-			}
-
 			return convertView;
 		}
 
@@ -672,7 +659,6 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 			TextView devName;
 			TextView devRegion;
 			// TextView devOnOffLine;
-			TextView devEnergy;
 			TextView devAlarm;
 		}
 

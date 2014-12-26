@@ -64,9 +64,16 @@ public class MyApplicationFragment extends Application{
 	}
 	
 	public void clearFragment(){
+		fragmentManager = mActivity.getFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+		for(Fragment fragment : mFragmentList){
+			fragmentTransaction.remove(fragment);
+		}
+		fragmentTransaction.commit();
 		mFragmentList.clear();
 		updateFragmentListSize();
 	}
+
 	
 	public void addNewTask(Fragment fragment){
 		clearFragment();

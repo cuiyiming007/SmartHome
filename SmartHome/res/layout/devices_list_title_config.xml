@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:orientation="vertical" >
+
+    <!--  ImageView
+            android:id="@+id/arrow_up_down"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ui_arrow_up_down_style" /-->
+    <TextView
+        android:id="@+id/expandableListTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="10dp"
+        android:text="安全防护"
+        android:textColor="#ffffff"
+        android:textSize="18dp" />
+
+</LinearLayout>

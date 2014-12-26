@@ -46,10 +46,16 @@ public class LibjingleService extends Service {
 					String name = info.getAccount();
 					String passwd = info.getPassword();
 					Log.i("LibjingleService", LibjinglePackHandler.getJid()
-							+ "  " + name + passwd + "  " + cloudip +"  networkStatus"+NetworkConnectivity.networkStatus);
+							+ "  " + name + passwd + "  " + cloudip
+							+ "  networkStatus"
+							+ NetworkConnectivity.networkStatus);
 					libjingleInit.libjinglInit(LibjinglePackHandler.getJid(),
 							name + passwd, NetworkConnectivity.networkStatus,
 							cloudip);
+					// libjingleInit
+					// .libjinglInit(
+					// "ffeeddccbbaa@121.199.21.14/Cabcdefg123456",
+					// "FFEEDDCCBBAACCBBAA", 2, "121.199.21.14");
 					Log.i("LibjingleService", "LibjingleInit done!");
 				}
 			}).start();
@@ -66,19 +72,19 @@ public class LibjingleService extends Service {
 		// TODO Auto-generated method stub
 		Log.i("LibjingleService", "LibjingleService onStartCommand!");
 		LibjingleNetUtil.getInstance().startLibjingleSocket();
-//		new Thread(new Runnable() {
-//
-//			@Override
-//			public void run() {
-//				try {
-//					Thread.sleep(5000);
-//				} catch (InterruptedException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//				LibjingleSendManager.getInstance().getDeviceEndPoint();
-//			}
-//		}).start();
+		// new Thread(new Runnable() {
+		//
+		// @Override
+		// public void run() {
+		// try {
+		// Thread.sleep(5000);
+		// } catch (InterruptedException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
+		// LibjingleSendManager.getInstance().getDeviceEndPoint();
+		// }
+		// }).start();
 
 		return super.onStartCommand(intent, flags, startId);
 	}

@@ -38,6 +38,6 @@ public class MyApplication extends Application{
 	//退出应用
 	public void finishSystem(){
 		finishActivity();
-		//System.exit(0);
+		System.exit(0);
 	}
 }

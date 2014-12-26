@@ -6,7 +6,7 @@ package com.gdgl.activity;
 import java.util.List;
 
 import com.gdgl.activity.BindControlFragment.backAction;
-import com.gdgl.activity.ConfigDevicesListWithGroup.IntoDeviceDetailFragment;
+import com.gdgl.activity.ConfigDevicesExpandableList.IntoDeviceDetailFragment;
 import com.gdgl.activity.JoinNetDevicesListFragment.refreshData;
 import com.gdgl.activity.JoinNetFragment.ChangeFragment;
 import com.gdgl.model.DevicesModel;
@@ -20,22 +20,18 @@ import com.gdgl.util.MyApplicationFragment;
 import com.gdgl.util.MyLogoutDlg;
 import com.gdgl.util.MyLogoutDlg.DialogCheckBoxcallback;
 import com.gdgl.util.MyLogoutDlg.Dialogcallback;
-import com.gdgl.util.SelectPicPopupWindow;
 import com.gdgl.util.SlideMenu;
 import com.gdgl.util.VersionDlg;
 
-import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.DecelerateInterpolator;
@@ -162,7 +158,8 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				TextView tv = (TextView) v;
-				ConfigDevicesListWithGroup mAllDevicesListFragment = new ConfigDevicesListWithGroup();
+//				ConfigDevicesListWithGroup mAllDevicesListFragment = new ConfigDevicesListWithGroup();
+				ConfigDevicesExpandableList mAllDevicesListFragment = new ConfigDevicesExpandableList();
 				mFragment = mAllDevicesListFragment;
 				changeFragment(tv, mAllDevicesListFragment);
 				MyApplicationFragment.getInstance().addNewTask(mAllDevicesListFragment);
@@ -225,7 +222,8 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 			showClearMesssageBtn(f);
 			fragmentTransaction.replace(R.id.fragment_continer, f);
 		} else {
-			Fragment f = new ConfigDevicesListWithGroup();
+//			Fragment f = new ConfigDevicesListWithGroup();
+			Fragment f = new ConfigDevicesExpandableList();
 			fragmentTransaction.replace(R.id.fragment_continer,
 					f);
 			MyApplicationFragment.getInstance().addNewTask(f);
