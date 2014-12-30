@@ -147,7 +147,7 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 				TextView tv = (TextView) v;
 				BindListFragment f = new BindListFragment();
 				changeFragment(tv, f);
-				MyApplicationFragment.getInstance().addNewTask(f);
+//				MyApplicationFragment.getInstance().addNewTask(f);
 			}
 		});
 		all_dev = (TextView) findViewById(R.id.all_dev);
@@ -162,7 +162,7 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 				ConfigDevicesExpandableList mAllDevicesListFragment = new ConfigDevicesExpandableList();
 				mFragment = mAllDevicesListFragment;
 				changeFragment(tv, mAllDevicesListFragment);
-				MyApplicationFragment.getInstance().addNewTask(mAllDevicesListFragment);
+//				MyApplicationFragment.getInstance().addNewTask(mAllDevicesListFragment);
 			}
 		});
 		messagemenu.setOnClickListener(new OnClickListener() {
@@ -247,6 +247,7 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 		fragmentTransaction.replace(R.id.fragment_continer, f);
 		//fragmentTransaction.addToBackStack(null);
 		fragmentTransaction.commit();
+		MyApplicationFragment.getInstance().addNewTask(f);
 		v.setTextColor(mSelectedColor);
 		tempView = v;
 	}

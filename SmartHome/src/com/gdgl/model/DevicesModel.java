@@ -3,12 +3,14 @@ package com.gdgl.model;
 import java.io.Serializable;
 
 import com.gdgl.app.ApplicationController;
+import com.gdgl.manager.CGIManager;
 import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.DevParam;
 import com.gdgl.mydata.Node;
 import com.gdgl.mydata.ResponseParamsEndPoint;
 
 import android.content.ContentValues;
+import android.net.Uri;
 import android.provider.BaseColumns;
 import android.util.Log;
 
@@ -485,7 +487,7 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 	public void setmDefaultDeviceName(String mUserDefineName) {
 		this.mDefaultDeviceName = mUserDefineName;
 	}
-	
+
 	public int getmDevicePriority() {
 		return mDevicePriority;
 	}
@@ -565,7 +567,8 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 				.put(DevicesBaseColumns.DEVICE_REGION, getmDeviceRegion());
 		mContentValues.put(DevicesBaseColumns.DEFAULT_DEVICE_NAME,
 				getmDefaultDeviceName());
-		mContentValues.put(DevicesBaseColumns.DEVICE_PRIORITY, getmDevicePriority());
+		mContentValues.put(DevicesBaseColumns.DEVICE_PRIORITY,
+				getmDevicePriority());
 
 		mContentValues.put(DevicesBaseColumns.LAST_UPDATE_TIME,
 				getmLastDateTime());
@@ -609,15 +612,18 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 		setmEP(d.getEp() == null ? "" : d.getEp());
 		setmName(d.getName() == null ? "" : d.getName());
 		setmCurrent(d.getCurrent());
-		setmEnergy(d.getEnergy()==null?null:String.valueOf(Float.parseFloat(d.getEnergy())/10000));
+		setmEnergy(d.getEnergy() == null ? null : String.valueOf(Float
+				.parseFloat(d.getEnergy()) / 10000));
 		setmPower(d.getPower());
 		setmVoltage(d.getVoltage());
 		setmLevel(d.getLevel());
 		setmOnOffStatus(d.getOn_off_status() == null ? "0" : d
 				.getOn_off_status());
-		setmTemperature(d.getTemp()==null?-100:Integer.parseInt(d.getTemp())/10000);
-		setmHumidity(d.getHum()==null?-100:Integer.parseInt(d.getHum()));
-		setmBrightness(d.getBrightness()==null?-100:Integer.parseInt(d.getBrightness()));
+		setmTemperature(d.getTemp() == null ? -100 : Integer.parseInt(d
+				.getTemp()) / 10000);
+		setmHumidity(d.getHum() == null ? -100 : Integer.parseInt(d.getHum()));
+		setmBrightness(d.getBrightness() == null ? -100 : Integer.parseInt(d
+				.getBrightness()));
 		setmEPModelId(d.getEp_model_id() == null ? "" : d.getEp_model_id());
 
 		setmCurrentMax(d.getCurrentmax());
@@ -635,13 +641,25 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 		Log.i("", DataUtil.getDefaultDevicesName(
 				ApplicationController.getInstance(), getmModelId(), getmEP()));
 		String[] nameString = DataUtil.getDefaultDevicesName(
-				ApplicationController.getInstance(), getmModelId(), getmEP()).split("\\*\\*");
-		Log.i("", nameString[0]+"*"+nameString[1]);
-		setmDefaultDeviceName(d.getName().equals(nameString[0])?nameString[1]+ "(" 
-				+ getmIeee().substring(getmIeee().length()-4, getmIeee().length()) 
-				+ ")":d.getName());
+				ApplicationController.getInstance(), getmModelId(), getmEP())
+				.split("\\*\\*");
+		Log.i("", nameString[0] + "*" + nameString[1]);
+		if (d.getName().equals(nameString[0])) {
+			String newname = Uri.encode(nameString[1]
+					+ "("
+					+ getmIeee().substring(getmIeee().length() - 4,
+							getmIeee().length()) + ")");
+			CGIManager.getInstance().ChangeDeviceName(getmIeee(), d.getEp(),
+					d.getName(), newname);
+			setmDefaultDeviceName(nameString[1]
+					+ "("
+					+ getmIeee().substring(getmIeee().length() - 4,
+							getmIeee().length()) + ")");
+		} else {
+			setmDefaultDeviceName(d.getName());
+		}
 		setmDevicePriority(DataUtil.getDefaultDevicesPriority(n.getModel_id()));
-		
+
 		setmLastDateTime(System.currentTimeMillis());
 		setmOnOffLine(DEVICE_ON_LINE);
 	}

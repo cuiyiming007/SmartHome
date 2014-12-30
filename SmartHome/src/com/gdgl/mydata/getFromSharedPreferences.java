@@ -2,9 +2,7 @@ package com.gdgl.mydata;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -12,11 +10,9 @@ import org.json.JSONObject;
 
 import com.gdgl.model.RemoteControl;
 import com.gdgl.util.UiUtils;
-import com.handmark.pulltorefresh.library.internal.Utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 public class getFromSharedPreferences {
 
@@ -27,43 +23,43 @@ public class getFromSharedPreferences {
 		mSharedPreferences = context.getSharedPreferences(
 				UiUtils.SharedPreferences_SETTING_INFOS, context.MODE_PRIVATE);
 	}
-
-	public static String getTemperature()
-	{
-		return mSharedPreferences.getString("Temperature",UiUtils.EMPTY_STR);
-	}
-	public static boolean setTemperature(String tem)
-	{
-		mEditor = mSharedPreferences.edit();
-
-		mEditor.putString("Temperature", tem);
-
-		return mEditor.commit();
-	}
-	public static String getHumidity()
-	{
-		return mSharedPreferences.getString("Humidity",UiUtils.EMPTY_STR);
-	}
-	public static boolean setHumidity(String tem)
-	{
-		mEditor = mSharedPreferences.edit();
-		
-		mEditor.putString("Humidity", tem);
-		
-		return mEditor.commit();
-	}
-	public static String getLight()
-	{
-		return mSharedPreferences.getString("Light",UiUtils.EMPTY_STR);
-	}
-	public static boolean setLight(String tem)
-	{
-		mEditor = mSharedPreferences.edit();
-		
-		mEditor.putString("Light", tem);
-		
-		return mEditor.commit();
-	}
+//
+//	public static String getTemperature()
+//	{
+//		return mSharedPreferences.getString("Temperature",UiUtils.EMPTY_STR);
+//	}
+//	public static boolean setTemperature(String tem)
+//	{
+//		mEditor = mSharedPreferences.edit();
+//
+//		mEditor.putString("Temperature", tem);
+//
+//		return mEditor.commit();
+//	}
+//	public static String getHumidity()
+//	{
+//		return mSharedPreferences.getString("Humidity",UiUtils.EMPTY_STR);
+//	}
+//	public static boolean setHumidity(String tem)
+//	{
+//		mEditor = mSharedPreferences.edit();
+//		
+//		mEditor.putString("Humidity", tem);
+//		
+//		return mEditor.commit();
+//	}
+//	public static String getLight()
+//	{
+//		return mSharedPreferences.getString("Light",UiUtils.EMPTY_STR);
+//	}
+//	public static boolean setLight(String tem)
+//	{
+//		mEditor = mSharedPreferences.edit();
+//		
+//		mEditor.putString("Light", tem);
+//		
+//		return mEditor.commit();
+//	}
 	public static String getPwd() {
 		return mSharedPreferences.getString(UiUtils.PWD, UiUtils.EMPTY_STR);
 	}

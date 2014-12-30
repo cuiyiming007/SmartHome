@@ -15,6 +15,7 @@ import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 
 
 
+
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -147,11 +148,14 @@ public class SceneDevicesListAdapter extends BaseAdapter implements Dialogcallba
             mHolder.devices_scene_state.setText(mDevicesGp.getDevicesState()?"布防":"撤防");
         } else if (mDevices.getmDeviceId() == DataHelper.LIGHT_SENSOR_DEVICETYPE) {
         	mHolder.scene_stste.setVisibility(View.GONE);
-            mHolder.devices_state.setText("亮度: "+getFromSharedPreferences.getLight());
+            mHolder.devices_state.setText("亮度: " + mDevices.getmBrightness()+ "Lux");
             mHolder.devices_scene_state.setText(mDevicesGp.getDevicesState()?"布防":"撤防");
         } else if (mDevices.getmDeviceId() == DataHelper.TEMPTURE_SENSOR_DEVICETYPE) {
         	mHolder.scene_stste.setVisibility(View.GONE);
-            mHolder.devices_state.setText("温度: "+getFromSharedPreferences.getTemperature()+"\n湿度: "+getFromSharedPreferences.getHumidity()+"%");
+        	String temperature, humidity;
+			temperature = String.valueOf(mDevices.getmTemperature());
+			humidity = String.valueOf(mDevices.getmHumidity());
+			mHolder.devices_state.setText("温度: " + temperature + "°C" + "\n湿度: "+ humidity + "%");
             mHolder.devices_scene_state.setText(mDevicesGp.getDevicesState()?"布防":"撤防");
         } else {
         	mHolder.scene_stste.setVisibility(View.VISIBLE);

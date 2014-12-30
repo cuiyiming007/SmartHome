@@ -40,15 +40,15 @@ public class EditDevicesDlg {
 		// mRegion = (EditText) dialog.findViewById(R.id.edit_region);
 
 		final String name;
-		if (mDevicesModel.getmModelId().contains(
-				DataHelper.Wall_switch_double)
-				|| mDevicesModel.getmModelId().contains(
-						DataHelper.Wall_switch_triple)) {
+//		if (mDevicesModel.getmModelId().contains(
+//				DataHelper.Wall_switch_double)
+//				|| mDevicesModel.getmModelId().contains(
+//						DataHelper.Wall_switch_triple)) {
+//			name = mDevicesModel.getmDefaultDeviceName();
+//			devices_region.setVisibility(View.GONE);
+//		} else {
 			name = mDevicesModel.getmDefaultDeviceName();
-			devices_region.setVisibility(View.GONE);
-		} else {
-			name = mDevicesModel.getmDefaultDeviceName();
-		}
+//		}
 		final String region = mDevicesModel.getmDeviceRegion();
 
 		mName.setText(name);

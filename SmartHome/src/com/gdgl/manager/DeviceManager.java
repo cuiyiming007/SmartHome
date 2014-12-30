@@ -177,7 +177,7 @@ public class DeviceManager extends Manger {
 			}
 		};
 
-		StringRequest req = new StringRequest(url,
+		StringRequestChina req = new StringRequestChina(url,
 				responseListener, errorListener);
 
 		// add the request object to the queue to be executed

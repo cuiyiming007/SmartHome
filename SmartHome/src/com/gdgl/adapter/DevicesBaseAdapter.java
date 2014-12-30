@@ -9,7 +9,6 @@ import com.gdgl.manager.WarnManager;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
-import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
@@ -185,9 +184,7 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 			break;
 		}
 
-		if (mDevices.getmModelId().indexOf("ZA01") != 0
-				&& mDevices.getmModelId().indexOf(DataHelper.Emergency_Button) != 0
-				&& mDevices.getmDeviceId() == DataHelper.IAS_ZONE_DEVICETYPE
+		if (mDevices.getmDeviceId() == DataHelper.IAS_ZONE_DEVICETYPE
 				&& oneKeyOperatorDevice != null
 				&& oneKeyOperatorDevice.getmOnOffStatus().equals("0")) {
 			devices_switch.setClickable(false);
@@ -195,8 +192,8 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 			devices_switch.setClickable(true);
 		}
 
-		devices_name.setText(mDevices.getmDefaultDeviceName().replace(" ", ""));
-		devices_region.setText(mDevices.getmDeviceRegion().replace(" ", ""));
+		devices_name.setText(mDevices.getmDefaultDeviceName());
+		devices_region.setText(mDevices.getmDeviceRegion());
 		if (mDevices.getmModelId().indexOf(DataHelper.RS232_adapter) == 0) {
 			devices_region.setText("");
 		}
@@ -266,7 +263,6 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 			devices_state.setText("温度: " + temperature + "°C" + "\n湿度: "
 					+ humidity + "%");
 		} else if (mDevices.getmModelId().indexOf(DataHelper.One_key_operator) == 0) {
-			// devices_state.setText("一键操作");
 			if (mDevices.getmOnOffStatus().trim().equals("1")) {
 				devices_state.setText("开启");
 				devices_switch.setChecked(true);

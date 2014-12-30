@@ -304,8 +304,10 @@ public class CallbackManager extends Manger {
 				ShowDevicesGroupFragmentActivity.class);
 		i.putExtra(ShowDevicesGroupFragmentActivity.ACTIVITY_SHOW_DEVICES_TYPE,
 				UiUtils.SECURITY_CONTROL);
-		makeNotify(i, warnmessage.getDetailmessage(),
-				warnmessage.getDetailmessage() + "收到报警信息，请注意！");
+//		makeNotify(i, warnmessage.getDetailmessage(),
+//				warnmessage.getDetailmessage() + "收到报警信息，请注意！");
+		makeNotify(i, warnmessage.getZone_name(),
+				warnmessage.getDetailmessage());
 		Event event = new Event(EventType.WARN, true);
 		event.setData(warnmessage);
 		notifyObservers(event);

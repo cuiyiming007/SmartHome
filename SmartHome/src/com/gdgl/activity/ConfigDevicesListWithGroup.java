@@ -48,7 +48,7 @@ import android.widget.TextView;
 
 /***
  * 设置菜单，设备列表
- * 
+ * 不再使用
  * @author Trice
  * 
  */

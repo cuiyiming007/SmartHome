@@ -55,23 +55,25 @@ public class WarnManager {
 	
 	public CallbackWarnMessage  setWarnDetailMessage(CallbackWarnMessage message) {
 		String detailmessage;
-	DataHelper	dh = new DataHelper(ApplicationController.getInstance());
+		DataHelper	dh = new DataHelper(ApplicationController.getInstance());
 		SQLiteDatabase db = dh.getSQLiteDatabase();
 		DevicesModel device= DataUtil.getDeviceModelByIeee(message.getZone_ieee(), dh, db);
 //		String chineseName=DataUtil.getDefaultDevicesName(ApplicationController.getInstance(), device.getmModelId(), device.getmEP());
-		String chineseName=device.getmDefaultDeviceName();
-		message.setDetailmessage(chineseName);
+//		String chineseName=device.getmDefaultDeviceName();
+		detailmessage = "报警信息:type"+message.getW_mode() +" " +message.getW_description();
+		message.setDetailmessage(detailmessage);
 		return message;
 	}
 	
 	public CallbackWarnMessage  setWarnDetailMessageNoSecurity(CallbackWarnMessage message) {
 		String detailmessage;
-	DataHelper	dh = new DataHelper(ApplicationController.getInstance());
+		DataHelper	dh = new DataHelper(ApplicationController.getInstance());
 		SQLiteDatabase db = dh.getSQLiteDatabase();
-		DevicesModel device= DataUtil.getDeviceModelByIeee(message.getZone_ieee(), dh, db);
+//		DevicesModel device= DataUtil.getDeviceModelByIeee(message.getZone_ieee(), dh, db);
 //		String chineseName=DataUtil.getDefaultDevicesName(ApplicationController.getInstance(), device.getmModelId(), device.getmEP());
-		String chineseName=device.getmDefaultDeviceName();
-		message.setDetailmessage(chineseName);
+//		String chineseName=device.getmDefaultDeviceName();
+		detailmessage = "提示信息:type"+message.getW_mode() +" " +message.getW_description();
+		message.setDetailmessage(detailmessage);
 		return message;
 	}
 	

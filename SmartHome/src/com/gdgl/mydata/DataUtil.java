@@ -236,7 +236,7 @@ public class DataUtil {
 	// 设置默认设备名称
 	public static String getDefaultDevicesName(Context c, String modelID,
 			String ep) {
-		String result = "";
+		String result = c.getResources().getString(R.string.Unknown_Device);
 
 		if (modelID.indexOf(DataHelper.Motion_Sensor) == 0) { // ZigBee动作感应器
 			result = c.getResources().getString(R.string.Motion_Sensor);
@@ -581,18 +581,18 @@ public class DataUtil {
 		List<DevicesModel> listDevicesModel = new ArrayList<DevicesModel>();
 		SQLiteDatabase db = dh.getSQLiteDatabase();
 		listDevicesModel = dh.queryForDevicesList(db, DataHelper.DEVICES_TABLE,
-				null, where, args, null, null, null, null);
+				null, where, args, null, null, DevicesModel.DEVICE_PRIORITY, null);
 		dh.close(db);
-		if (null != listDevicesModel && listDevicesModel.size() > 0) {
-			for (DevicesModel devicesModel : listDevicesModel) {
-				if (null == devicesModel.getmDefaultDeviceName()
-						|| devicesModel.getmDefaultDeviceName().trim()
-								.equals("")) {
-					devicesModel.setmDefaultDeviceName(getDefaultDevicesName(c,
-							devicesModel.getmModelId(), devicesModel.getmEP()));
-				}
-			}
-		}
+//		if (null != listDevicesModel && listDevicesModel.size() > 0) {
+//			for (DevicesModel devicesModel : listDevicesModel) {
+//				if (null == devicesModel.getmDefaultDeviceName()
+//						|| devicesModel.getmDefaultDeviceName().trim()
+//								.equals("")) {
+//					devicesModel.setmDefaultDeviceName(getDefaultDevicesName(c,
+//							devicesModel.getmModelId(), devicesModel.getmEP()));
+//				}
+//			}
+//		}
 
 		return listDevicesModel;
 

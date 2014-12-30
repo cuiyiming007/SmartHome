@@ -209,7 +209,7 @@ public class ConfigDevicesExpandableList extends BaseFragment implements
 			childPos = ExpandableListView
 					.getPackedPositionChild(info.packedPosition);
 		}
-		mCurrentList = mDeviceSort_ChildList.get(childPos);
+		mCurrentList = mDeviceSort_ChildList.get(groupPos);
 		currentpostion = childPos;
 		DevicesModel mDevicesModel = (DevicesModel) mDeviceSort_ChildList.get(
 				groupPos).get(childPos);

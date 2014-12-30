@@ -136,9 +136,13 @@ public class AllDevicesAdapter extends BaseAdapter {
 				mHolder.devices_state.setText("已撤防");
 			}
 		} else if (mDevices.getmDeviceId() == DataHelper.LIGHT_SENSOR_DEVICETYPE) {
-			 mHolder.devices_state.setText("亮度: "+getFromSharedPreferences.getLight());
+			 mHolder.devices_state.setText("亮度: " + mDevices.getmBrightness()+ "Lux");
 		} else if (mDevices.getmDeviceId() == DataHelper.TEMPTURE_SENSOR_DEVICETYPE) {
-			 mHolder.devices_state.setText("温度: "+getFromSharedPreferences.getTemperature()+"\n湿度: "+getFromSharedPreferences.getHumidity()+"%");
+			String temperature, humidity;
+			temperature = String.valueOf(mDevices.getmTemperature());
+			humidity = String.valueOf(mDevices.getmHumidity());
+			mHolder.devices_state.setText("温度: " + temperature + "°C" + "\n湿度: "
+						+ humidity + "%");
 		} else {
 			if (mDevices.getmOnOffStatus().trim().equals("1")) {
 				mHolder.devices_state.setText("开");

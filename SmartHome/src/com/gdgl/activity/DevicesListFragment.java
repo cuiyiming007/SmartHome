@@ -90,7 +90,6 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 	 * 用于存储当前列表的Item
 	 */
 	List<DevicesModel> mDeviceList;
-	// 一键布撤防的设备 ieee=00137A00000121F0
 	DevicesModel onekeyControlDevice;
 
 	@Override
@@ -170,72 +169,38 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 							// 判断是除气体感应器及紧急按钮以外的安防设备，且安防控制中心状态是关闭的
 							if (mDevicesModel.getmModelId().indexOf("ZA01") != 0
 									&& mDevicesModel.getmModelId().indexOf(
-										DataHelper.Emergency_Button) != 0
+											DataHelper.Emergency_Button) != 0
+									&& mDevicesModel.getmModelId().indexOf(
+											DataHelper.Emergency_Button_On_Wall) != 0
 									&& mDevicesModel.getmDeviceId() == DataHelper.IAS_ZONE_DEVICETYPE
 									&& onekeyControlDevice != null
 									&& onekeyControlDevice.getmOnOffStatus().equals("0")) {
-								VersionDlg vd = new VersionDlg(
-										(Context) getActivity());
-								vd.setContent("安防设备已关闭");
+								VersionDlg vd = new VersionDlg((Context) getActivity());
+								vd.setContent("安防控制中心已关闭");
 								vd.show();
 							} else {
-								if (mDevicesModel.getmModelId().indexOf(DataHelper
-										.Infrared_controller)==0) { // 红外遥控器
+								if (mDevicesModel.getmModelId().indexOf(
+										DataHelper.Infrared_controller) == 0) { // 红外遥控器
 									Intent intent = new Intent();
 									intent.setClass((Context) getActivity(),
 											KongtiaoTvControlActivity.class);
-									intent.putExtra(Constants.PASS_OBJECT, mDevicesModel);
+									intent.putExtra(Constants.PASS_OBJECT,
+											mDevicesModel);
 									startActivity(intent);
 								} else {
 									Fragment mFragment = null;
-									mFragment = DeviceDtailFragment.getInstance();
+									mFragment = DeviceDtailFragment
+											.getInstance();
 									Bundle extras = new Bundle();
-									extras.putSerializable(Constants.PASS_OBJECT,mDevicesModel);
-									extras.putInt(Constants.PASS_DEVICE_ABOUT, DeviceDtailFragment.WITHOUT_DEVICE_ABOUT);
+									extras.putSerializable(
+											Constants.PASS_OBJECT,
+											mDevicesModel);
+									extras.putInt(
+											Constants.PASS_DEVICE_ABOUT,
+											DeviceDtailFragment.WITHOUT_DEVICE_ABOUT);
 									mFragment.setArguments(extras);
-									mRefreshData.setFragment(mFragment,position - 1);
-//									if (mSimpleDevicesModel
-//											.getmModelId()
-//											.indexOf(DataHelper.Doorbell_button) == 0) { // 门铃按键
-//										mFragment = new DoorBellFragment();
-//									} else if (mSimpleDevicesModel
-//											.getmModelId()
-//											.indexOf(
-//													DataHelper.Wireless_Intelligent_valve_switch) == 0) { // 无线智能阀门开关
-//										mFragment = new OutPutFragment();
-//									} else if (mSimpleDevicesModel
-//											.getmModelId()
-//											.indexOf(DataHelper.One_key_operator) == 0) {
-//										Bundle extras = new Bundle();
-//										extras.putParcelable(
-//												Constants.PASS_OBJECT,
-//												mSimpleDevicesModel);
-//										mFragment = new SafeSimpleOperation(
-//												DevicesListFragment.this);
-//
-//										mFragment.setArguments(extras);
-//									} else {
-//										mFragment = UiUtils.getDeviceDetailFragment(mSimpleDevicesModel
-//													.getmDeviceId());
-//									}
-//									if (null != mFragment) {
-//										Bundle extras = new Bundle();
-//										if (isSimpleOnOffDevice()) {
-//											int[] OnOffImg = {
-//													R.drawable.bufang_on,
-//													R.drawable.chefang_off };
-//											extras.putIntArray(
-//													Constants.PASS_ONOFFIMG,
-//													OnOffImg);
-//										}
-//										// PASS_OBKECT
-//										extras.putSerializable(
-//												Constants.PASS_OBJECT,
-//												mDevicesModel);
-//										mFragment.setArguments(extras);
-//										mRefreshData.setFragment(mFragment,
-//												position - 1);
-//									}
+									mRefreshData.setFragment(mFragment,
+											position - 1);
 								}
 							}
 						}
@@ -245,38 +210,16 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 		}
 	}
 
-	/***
-	 * 判断设备mSimpleDevicesModel是否只有简单开关点击操作
-	 * 
-	 * @return
-	 */
-
-	private boolean isSimpleOnOffDevice() {
-		return DataHelper.IAS_ZONE_DEVICETYPE == mDevicesModel
-				.getmDeviceId()
-				|| DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE == mDevicesModel
-						.getmDeviceId()
-				|| DataHelper.ON_OFF_OUTPUT_DEVICETYPE == mDevicesModel
-						.getmDeviceId()
-				|| DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE == mDevicesModel
-						.getmDeviceId()
-				|| DataHelper.MAINS_POWER_OUTLET_DEVICETYPE == mDevicesModel
-						.getmDeviceId()
-				|| mDevicesModel.getmModelId().indexOf(
-						DataHelper.Doors_and_windows_sensor_switch) == 0;
-	}
-
 	public void initList() {
 		// TODO Auto-generated method stub
 
 		new intialDataTask().execute(0);
-		
+
 		if (null != mBaseAdapter) {
 			int m = mBaseAdapter.getCount();
 			mDeviceList = new ArrayList<DevicesModel>();
 			for (int i = 0; i < m; i++) {
-				DevicesModel sd = (DevicesModel) mBaseAdapter
-						.getItem(i);
+				DevicesModel sd = (DevicesModel) mBaseAdapter.getItem(i);
 				mDeviceList.add(sd);
 			}
 		}
@@ -324,8 +267,7 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 						(Context) getActivity());
 				mMyOkCancleDlg.setDialogCallback((Dialogcallback) mRefreshData);
 				mMyOkCancleDlg.setContent("确定要从此区域删除"
-						+ mDevicesModel.getmDefaultDeviceName().trim()
-						+ "吗?");
+						+ mDevicesModel.getmDefaultDeviceName().trim() + "吗?");
 				mMyOkCancleDlg.show();
 			}
 		} else if (type == WITHOUT_OPERATE) {
@@ -335,8 +277,7 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 						(Context) getActivity());
 				mMyOkCancleDlg.setDialogCallback((Dialogcallback) mRefreshData);
 				mMyOkCancleDlg.setContent("确定要从此场景删除"
-						+ mDevicesModel.getmDefaultDeviceName().trim()
-						+ "吗?");
+						+ mDevicesModel.getmDefaultDeviceName().trim() + "吗?");
 				mMyOkCancleDlg.show();
 			}
 		}
@@ -439,37 +380,41 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 						mView.post(new Runnable() {
 							@Override
 							public void run() {
-//								setDataActivity.setdata(mDeviceList);
+								// setDataActivity.setdata(mDeviceList);
 								mBaseAdapter.notifyDataSetChanged();
 							}
 						});
 					}
 				}
-				ProcessUpdate(data);
+//				ProcessUpdate(data);
 			} else {
 				// if failed,prompt a Toast
 				// mError.setVisibility(View.VISIBLE);
 			}
+		}else if (EventType.LOCALIASCIEOPERATION == event.getType()) {
+			if (event.isSuccess() == true) {
+				String status = (String) event.getData();
+				onekeyControlDevice.setmOnOffStatus(status);
+			}
 		}
 	}
-	
 
-//	public class updateOneKeyOperatorDevices extends
-//			AsyncTask<Boolean, Integer, Integer> {
-//		
-//		@Override
-//		protected Integer doInBackground(Boolean... params) {
-//			// TODO Auto-generated method stub
-//			boolean on = params[0];
-//			String on_off = on ? "1" : "0";
-//			ContentValues c = new ContentValues();
-//			c.put(DevicesModel.ON_OFF_STATUS, on_off);
-//			mUpdateDevices.updateDevices(onekeyopratorModel, c);
-//
-//			return 1;
-//		}
-//
-//	}
+	// public class updateOneKeyOperatorDevices extends
+	// AsyncTask<Boolean, Integer, Integer> {
+	//
+	// @Override
+	// protected Integer doInBackground(Boolean... params) {
+	// // TODO Auto-generated method stub
+	// boolean on = params[0];
+	// String on_off = on ? "1" : "0";
+	// ContentValues c = new ContentValues();
+	// c.put(DevicesModel.ON_OFF_STATUS, on_off);
+	// mUpdateDevices.updateDevices(onekeyopratorModel, c);
+	//
+	// return 1;
+	// }
+	//
+	// }
 
 	class intialDataTask extends AsyncTask<Object, Object, Object> {
 

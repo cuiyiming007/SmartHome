@@ -37,7 +37,6 @@ import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
 import com.gdgl.model.DevicesGroup;
 import com.gdgl.model.DevicesModel;
-import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.Event;
@@ -863,10 +862,14 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 				view.setText("已撤防");
 			}
 		} else if (s.getmDeviceId() == DataHelper.LIGHT_SENSOR_DEVICETYPE) {
-			view.setText("亮度: " + getFromSharedPreferences.getLight());
+			view.setText("亮度: " + s.getmBrightness()
+					+ "Lux");
 		} else if (s.getmDeviceId() == DataHelper.TEMPTURE_SENSOR_DEVICETYPE) {
-			view.setText("温度: " + getFromSharedPreferences.getTemperature()
-					+ "\n湿度: " + getFromSharedPreferences.getHumidity() + "%");
+			String temperature, humidity;
+				temperature = String.valueOf(s.getmTemperature());
+				humidity = String.valueOf(s.getmHumidity());
+			view.setText("温度: " + temperature + "°C" + "\n湿度: "
+					+ humidity + "%");
 		} else {
 			if (s.getmOnOffStatus().trim().equals("1")) {
 				view.setText("开");
@@ -913,7 +916,6 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 			if (event.isSuccess()) {
 				SimpleResponseData data = (SimpleResponseData) event.getData();
 				String light = data.getParam1() + "Lux";
-				getFromSharedPreferences.setLight(light);
 				devAdap.notifyDataSetChanged();
 			} else {
 			}
@@ -926,7 +928,6 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 						.getParam1()
 						.substring(0, data.getParam1().length() - 2))
 						/ 10 + "°C");
-				getFromSharedPreferences.setTemperature(temperature);
 				devAdap.notifyDataSetChanged();
 			} else {
 				Toast.makeText(getActivity(), "获取温度失败", Toast.LENGTH_SHORT)
@@ -937,7 +938,6 @@ public class CommonUseFragment extends Fragment implements refreshAdapter,
 				SimpleResponseData data = (SimpleResponseData) event.getData();
 				String humidity = String.valueOf(Float.valueOf(data.getParam1()
 						.substring(0, data.getParam1().length() - 2)) / 10);
-				getFromSharedPreferences.setHumidity(humidity);
 				devAdap.notifyDataSetChanged();
 			}
 		}

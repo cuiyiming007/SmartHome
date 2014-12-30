@@ -705,7 +705,6 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 						bundle.getString("EP"), temList);
 				if (m != -1) {
 					String light = bundle.getString("PARAM");
-					getFromSharedPreferences.setLight(light);
 					temList.get(m).setmBrightness(Integer.parseInt(light));
 
 					// ContentValues c = new ContentValues();
@@ -736,7 +735,6 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 						bundle.getString("EP"), temList);
 				if (m != -1) {
 					String temperature = bundle.getString("PARAM");
-					getFromSharedPreferences.setTemperature(temperature);
 					temList.get(m).setmTemperature(
 							Float.parseFloat(temperature));
 
@@ -768,7 +766,6 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 						bundle.getString("EP"), temList);
 				if (m != -1) {
 					String humidity = bundle.getString("PARAM");
-					getFromSharedPreferences.setHumidity(humidity);
 					temList.get(m).setmHumidity(Float.parseFloat(humidity));
 
 					// ContentValues c = new ContentValues();

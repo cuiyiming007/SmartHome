@@ -17,17 +17,19 @@ public class VersionDlg {
 	Context context;
 	Dialog dialog;
 	Button sure;
-	TextView textView;
+	TextView companynameText, appnameText, versionText;
 	
 	public VersionDlg(Context con) {
 		this.context = con;
 		dialog = new Dialog(context, R.style.MyDialog);
 		dialog.setContentView(R.layout.version_dlg);
 		
-		textView=(TextView)dialog.findViewById(R.id.txt_title);
+		companynameText=(TextView)dialog.findViewById(R.id.txt_company_name);
+		appnameText=(TextView)dialog.findViewById(R.id.txt_app_name);
+		versionText=(TextView)dialog.findViewById(R.id.txt_version);
 		try {
 			PackageInfo pi=context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-			textView.setText(pi.versionName); 
+			versionText.setText(pi.versionName); 
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -43,7 +45,9 @@ public class VersionDlg {
 	}
 	
 	public void setContent(String content) {
-		textView.setText(content);
+		companynameText.setVisibility(View.GONE);
+		appnameText.setVisibility(View.GONE);
+		versionText.setText(content);
 	}
 	public void show() {
 		dialog.show();
