@@ -68,7 +68,7 @@
 	<string name="Switch_Module_Quadruple_4"> "On/Off Light**四路开关-4"</string>
 	<string name="Energy_detection_dimming_module"> "Dimmable Light**调光灯"</string> 
 	<string name="Pro_RF"> "Pro RF 模块"</string>  
-	<string name="RS232_adapter"> "工业级 RS232适配器"</string>
+	<string name="RS232_adapter"> "Combined Interface**工业级RS232适配器"</string>
 	<string name="Power_detect_socket"> "Mains Power Outlet**插座"</string> 
 	<string name="One_key_operator"> "Combined Interface**安防控制中心"</string>
 	
