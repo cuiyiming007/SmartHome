@@ -96,6 +96,15 @@ public class VideoActivity extends FragmentActivity implements UIListener {
 		addRecordBtn();
 		CallbackManager.getInstance().addObserver(this);
 		new playVideoTask().execute(ipc_channel);
+		
+		LinearLayout mBack = (LinearLayout) findViewById(R.id.goback);
+		mBack.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				finish();
+			}
+		});
 	}
 
 	@Override
@@ -133,6 +142,8 @@ public class VideoActivity extends FragmentActivity implements UIListener {
 
 	}
 
+	
+	
 	private void addTitle() {
 		LayoutInflater layoutInflater = LayoutInflater.from(this);
 		View viewTitle = layoutInflater.inflate(R.layout.toptitle_with_return, null);

@@ -14,6 +14,8 @@ import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.Region.Room;
 import com.gdgl.smarthome.R;
+import com.gdgl.util.AddDlg;
+import com.gdgl.util.AddDlg.AddDialogcallback;
 import com.gdgl.util.MyOkCancleDlg;
 import com.gdgl.util.UiUtils;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
@@ -45,7 +47,7 @@ import android.widget.GridView;
  * 
  */
 public class RegionsFragment extends Fragment implements refreshAdapter,
-		Dialogcallback, UIListener {
+		Dialogcallback, UIListener, AddDialogcallback {
 
 	GridView content_view;
 	View mView;
@@ -251,8 +253,9 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
-		menu.setHeaderTitle("删除");
-		menu.add(1, 1, 0, "删除");
+		menu.setHeaderTitle("编辑&删除");
+		menu.add(1, 1, 0, "编辑");
+		menu.add(1, 2, 0, "删除");
 		// TODO Auto-generated method stub
 		super.onCreateContextMenu(menu, v, menuInfo);
 	}
@@ -269,6 +272,13 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 		currentRoom = mregions.get(position);
 		int menuIndex = item.getItemId();
 		if (1 == menuIndex) {
+			AddDlg mEditDlg = new AddDlg(getActivity(), currentRoom);
+			mEditDlg.setContent("编辑区域");
+			mEditDlg.setType("区域名称");
+			mEditDlg.setDialogCallback(RegionsFragment.this);
+			mEditDlg.show();
+		}
+		if (2 == menuIndex) {
 			MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
 					(Context) getActivity());
 			mMyOkCancleDlg.setDialogCallback(this);
@@ -321,6 +331,12 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 		}
 		// mregions.remove(currentRoom);
 		// refreshFragment();
+	}
+
+	@Override
+	public void refreshdata() {
+		// TODO Auto-generated method stub
+		refreshFragment();
 	}
 
 }

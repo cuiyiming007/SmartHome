@@ -211,8 +211,11 @@ public class LoginActivity extends Activity implements OnClickListener,
 	}
 
 	public void startAPPService(String alias) {
+		networkStatus = NetworkConnectivity.getInstance()
+				.getConnecitivityNetwork();
 		switch (networkStatus) {
 		case NetworkConnectivity.NO_NETWORK:
+			Toast.makeText(getApplicationContext(), "未连接任何网络", Toast.LENGTH_SHORT).show();
 			break;
 		case NetworkConnectivity.INTERNET:
 			Intent libserviceIntent = new Intent(this, LibjingleService.class);
@@ -248,11 +251,12 @@ public class LoginActivity extends Activity implements OnClickListener,
 				}
 				mSQLiteDatabase.close();
 			} else {
-				Toast.makeText(getApplicationContext(), "没有网关",
+				Toast.makeText(getApplicationContext(), "没有网关或者用户名不正确",
 						Toast.LENGTH_SHORT).show();
 			}
 			break;
 		default:
+			Toast.makeText(getApplicationContext(), "连接失败,请稍后重试", Toast.LENGTH_SHORT).show();
 			break;
 		}
 	}

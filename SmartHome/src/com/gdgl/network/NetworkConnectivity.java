@@ -41,16 +41,14 @@ public class NetworkConnectivity {
 
 		// 判断有无网络连接
 		if (networkInfo==null||!networkInfo.isConnected()) {
-			Toast.makeText(mContext, "未连接任何网络...", Toast.LENGTH_SHORT).show();
+			//Toast.makeText(mContext, "未连接任何网络...", Toast.LENGTH_SHORT).show();
 			return NO_NETWORK;
 		} else {
 			if (networkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
-				Toast.makeText(mContext, "当前为手机移动网络", Toast.LENGTH_SHORT)
-						.show();
+				//Toast.makeText(mContext, "当前为手机移动网络", Toast.LENGTH_SHORT).show();
 				return INTERNET;
 			} else if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
-				Toast.makeText(mContext, "当前为WiFi网络", Toast.LENGTH_SHORT)
-						.show();
+				//Toast.makeText(mContext, "当前为WiFi网络", Toast.LENGTH_SHORT).show();
 				String addrress = getWIFILocalIpAdress(mContext);
 				String subAddrress = addrress.substring(0,
 						addrress.lastIndexOf("."));
@@ -70,7 +68,7 @@ public class NetworkConnectivity {
 					return INTERNET;
 				}
 			} else {
-				Toast.makeText(mContext, "当前为未知网络", Toast.LENGTH_SHORT).show();
+				//Toast.makeText(mContext, "当前为未知网络", Toast.LENGTH_SHORT).show();
 				return INTERNET;
 			}
 		}
