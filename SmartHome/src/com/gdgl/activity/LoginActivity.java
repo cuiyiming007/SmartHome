@@ -21,16 +21,13 @@ import com.gdgl.mydata.LoginResponse;
 import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.service.LibjingleService;
-import com.gdgl.service.SmartService;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyOkCancleDlg;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 import com.gdgl.util.NetUtil;
-import com.gdgl.util.SelectPicPopupWindow;
 import com.gdgl.util.UiUtils;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -39,7 +36,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -50,10 +46,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -412,8 +406,11 @@ public class LoginActivity extends Activity implements OnClickListener,
 
 						@Override
 						public void run() {
-							LibjingleSendManager.getInstance()
-									.getDeviceEndPoint();
+							LibjingleSendManager.getInstance().getDeviceEndPoint();
+							LibjingleSendManager.getInstance().GetLocalIASCIEOperation();
+							LibjingleSendManager.getInstance().GetAllRoomInfo();
+							LibjingleSendManager.getInstance().GetAllBindList();
+							LibjingleSendManager.getInstance().getLocalCIEList();
 						}
 					}).start();
 					getFromSharedPreferences.setsharedPreferences(LoginActivity.this);

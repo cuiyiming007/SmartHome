@@ -41,7 +41,7 @@ public class CallbackManager extends Manger {
 	private final static String TAG = "CallbackManager";
 	private static CallbackManager instance;
 	DataHelper mDateHelper = new DataHelper(ApplicationController.getInstance());
-	
+
 	public static CallbackManager getInstance() {
 		if (instance == null) {
 			instance = new CallbackManager();
@@ -53,8 +53,8 @@ public class CallbackManager extends Manger {
 		ConnectServerByTCPTask connectServerByTCPTask = new ConnectServerByTCPTask();
 		connectServerByTCPTask.start();
 	}
-	
-	public void stopConnectServerByTCPTask(){
+
+	public void stopConnectServerByTCPTask() {
 		NetUtil.getInstance().initalCallbackSocket();
 	}
 
@@ -103,7 +103,7 @@ public class CallbackManager extends Manger {
 			Gson gson = new Gson();
 			JSONObject jsonRsponse = new JSONObject(response);
 			int msgType = (Integer) jsonRsponse.get("msgtype");
-			 Log.i(TAG, "Callback msgType=" + msgType);
+			//Log.i(TAG, "Callback msgType=" + msgType);
 			switch (msgType) {
 			case 1:
 				Log.i(TAG, "Callback msgType=" + msgType + "heartbeat");
@@ -240,21 +240,22 @@ public class CallbackManager extends Manger {
 
 				break;
 			case 31:
-				
+
 				String ieee31 = (String) jsonRsponse.get("IEEE");
 				String ep31 = (String) jsonRsponse.get("EP");
 				String name31 = (String) jsonRsponse.get("newname");
-				String newname31 = new String(name31.getBytes(),"utf-8");
-				
+				String newname31 = new String(name31.getBytes(), "utf-8");
+
 				String where31 = " ieee = ? and ep = ?";
 				String[] args31 = { ieee31, ep31 };
 				ContentValues c31 = new ContentValues();
 				c31.put(DevicesModel.DEFAULT_DEVICE_NAME, newname31);
-				SQLiteDatabase mSQLiteDatabase31 = mDateHelper.getSQLiteDatabase();
-				mDateHelper.update(mSQLiteDatabase31, DataHelper.DEVICES_TABLE, c31,
-						where31, args31);
+				SQLiteDatabase mSQLiteDatabase31 = mDateHelper
+						.getSQLiteDatabase();
+				mDateHelper.update(mSQLiteDatabase31, DataHelper.DEVICES_TABLE,
+						c31, where31, args31);
 				mDateHelper.close(mSQLiteDatabase31);
-				
+
 				Event event31 = new Event(EventType.CHANGEDEVICENAME, true);
 				event31.setData(newname31);
 				notifyObservers(event31);
@@ -271,13 +272,15 @@ public class CallbackManager extends Manger {
 				Event event33 = new Event(EventType.LOCALIASCIEOPERATION, true);
 				event33.setData(status);
 				notifyObservers(event33);
-				
-				SQLiteDatabase mSQLiteDatabase33 = mDateHelper.getSQLiteDatabase();
+
+				SQLiteDatabase mSQLiteDatabase33 = mDateHelper
+						.getSQLiteDatabase();
 				String where33 = " model_id like ? ";
 				String[] args33 = { DataHelper.One_key_operator + "%" };
 				ContentValues c33 = new ContentValues();
 				c33.put(DevicesModel.ON_OFF_STATUS, status);
-				mDateHelper.update(mSQLiteDatabase33,DataHelper.DEVICES_TABLE, c33, where33, args33);
+				mDateHelper.update(mSQLiteDatabase33, DataHelper.DEVICES_TABLE,
+						c33, where33, args33);
 				mDateHelper.close(mSQLiteDatabase33);
 				break;
 			default:
@@ -309,8 +312,8 @@ public class CallbackManager extends Manger {
 				ShowDevicesGroupFragmentActivity.class);
 		i.putExtra(ShowDevicesGroupFragmentActivity.ACTIVITY_SHOW_DEVICES_TYPE,
 				UiUtils.SECURITY_CONTROL);
-//		makeNotify(i, warnmessage.getDetailmessage(),
-//				warnmessage.getDetailmessage() + "收到报警信息，请注意！");
+		// makeNotify(i, warnmessage.getDetailmessage(),
+		// warnmessage.getDetailmessage() + "收到报警信息，请注意！");
 		makeNotify(i, warnmessage.getZone_name(),
 				warnmessage.getDetailmessage());
 		Event event = new Event(EventType.WARN, true);
@@ -339,7 +342,7 @@ public class CallbackManager extends Manger {
 				p.callbackmsg2 = common;
 				p.c = c;
 				new UpdateDeviceStatusToDatabaseTask().execute(p);
-				
+
 				Event event = new Event(EventType.ON_OFF_STATUS, true);
 				event.setData(common);
 				notifyObservers(event);
@@ -353,7 +356,7 @@ public class CallbackManager extends Manger {
 				p.callbackmsg2 = common;
 				p.c = c;
 				new UpdateDeviceStatusToDatabaseTask().execute(p);
-				
+
 				Event event = new Event(EventType.MOVE_TO_LEVEL, true);
 				event.setData(common);
 				notifyObservers(event);
@@ -363,12 +366,13 @@ public class CallbackManager extends Manger {
 						"Callback msgType=" + 2 + "brightness"
 								+ common.toString());
 				ContentValues c = new ContentValues();
-				c.put(DevicesModel.BRIGHTNESS, Integer.parseInt(common.getValue()));
+				c.put(DevicesModel.BRIGHTNESS,
+						Integer.parseInt(common.getValue()));
 				Paremeters p = new Paremeters();
 				p.callbackmsg2 = common;
 				p.c = c;
 				new UpdateDeviceStatusToDatabaseTask().execute(p);
-				
+
 				Bundle bundle = new Bundle();
 				bundle.putString("IEEE", common.getDeviceIeee());
 				bundle.putString("EP", common.getDeviceEp());
@@ -388,7 +392,7 @@ public class CallbackManager extends Manger {
 				p.callbackmsg2 = common;
 				p.c = c;
 				new UpdateDeviceStatusToDatabaseTask().execute(p);
-				
+
 				Bundle bundle = new Bundle();
 				bundle.putString("IEEE", common.getDeviceIeee());
 				bundle.putString("EP", common.getDeviceEp());
@@ -403,12 +407,13 @@ public class CallbackManager extends Manger {
 				// "Callback msgType=" + 2 + "humidity"
 				// + common.toString());
 				ContentValues c = new ContentValues();
-				c.put(DevicesModel.HUMIDITY, Float.parseFloat(common.getValue().substring(0, 5)));
+				c.put(DevicesModel.HUMIDITY,
+						Float.parseFloat(common.getValue().substring(0, 5)));
 				Paremeters p = new Paremeters();
 				p.callbackmsg2 = common;
 				p.c = c;
 				new UpdateDeviceStatusToDatabaseTask().execute(p);
-				
+
 				Bundle bundle = new Bundle();
 				bundle.putString("IEEE", common.getDeviceIeee());
 				bundle.putString("EP", common.getDeviceEp());
@@ -435,7 +440,7 @@ public class CallbackManager extends Manger {
 				p.callbackmsg2 = common;
 				p.c = c;
 				new UpdateDeviceStatusToDatabaseTask().execute(p);
-				
+
 				Event event = new Event(EventType.CURRENT, true);
 				event.setData(common);
 				notifyObservers(event);
@@ -460,7 +465,7 @@ public class CallbackManager extends Manger {
 				p.callbackmsg2 = common;
 				p.c = c;
 				new UpdateDeviceStatusToDatabaseTask().execute(p);
-				
+
 				Event event = new Event(EventType.VOLTAGE, true);
 				event.setData(common);
 				notifyObservers(event);
@@ -476,7 +481,7 @@ public class CallbackManager extends Manger {
 				p.callbackmsg2 = common;
 				p.c = c;
 				new UpdateDeviceStatusToDatabaseTask().execute(p);
-				
+
 				Event event = new Event(EventType.POWER, true);
 				event.setData(common);
 				notifyObservers(event);
@@ -492,7 +497,7 @@ public class CallbackManager extends Manger {
 				p.callbackmsg2 = common;
 				p.c = c;
 				new UpdateDeviceStatusToDatabaseTask().execute(p);
-				
+
 				Event event = new Event(EventType.ENERGY, true);
 				event.setData(common);
 				notifyObservers(event);
@@ -513,8 +518,8 @@ public class CallbackManager extends Manger {
 			ArrayList<CallbackBindListDevices> mBindedDevicesList = data
 					.getList();
 
-//			DataHelper mDateHelper = new DataHelper(
-//					ApplicationController.getInstance());
+			// DataHelper mDateHelper = new DataHelper(
+			// ApplicationController.getInstance());
 			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
 			String where = " devout_ieee=? and devout_ep=? ";
 			String[] args = { data.getIeee(), data.getEp() };
@@ -558,7 +563,7 @@ public class CallbackManager extends Manger {
 		public CallbackResponseType2 callbackmsg2;
 		public ContentValues c;
 	}
-	
+
 	public class UpdateDeviceStatusToDatabaseTask extends
 			AsyncTask<Paremeters, Integer, Integer> {
 
@@ -568,7 +573,7 @@ public class CallbackManager extends Manger {
 			Paremeters par = params[0];
 			CallbackResponseType2 callbackmsg = par.callbackmsg2;
 			ContentValues c = par.c;
-			
+
 			String where = " ieee = ? and ep = ?";
 			String ieee = callbackmsg.getDeviceIeee();
 			String ep = callbackmsg.getDeviceEp();
