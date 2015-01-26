@@ -42,6 +42,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -606,6 +607,7 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 						.getData();
 				int m = getDevicesPostion(data.getDeviceIeee(),
 						data.getDeviceEp(), mList);
+				Log.i("ON_OFF_STATUS", "m = "+m);
 				if (-1 != m) {
 					if (null != data.getValue()) {
 						mList.get(m).setmOnOffStatus(data.getValue());
