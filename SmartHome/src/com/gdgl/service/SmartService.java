@@ -74,10 +74,15 @@ public class SmartService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 
-		Log.i(TAG, "SmartHome service starts!");
-		initial();
+		Log.i(TAG, "SmartHome service onStartCommand!");
+//		initial();
 		// sendBroadcast(brodcastIntent);
 		return super.onStartCommand(intent, flags, startId);
+	}
+	
+	public void onStart(Intent intent, int startId){
+		Log.i(TAG, "SmartHome service onStart!");
+		initial();
 	}
 
 	public void startLANService() {
@@ -109,6 +114,7 @@ public class SmartService extends Service {
 	public void onDestroy() {
 		// TODO Auto-generated method stub
 		mAlarmManager.cancel(mPendingIntent);
+		CallbackManager.getInstance().stopConnectServerByTCPTask();
 		Log.i("SmartService", "SmartService onDestroy!");
 		super.onDestroy();
 	}

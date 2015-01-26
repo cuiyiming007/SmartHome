@@ -26,15 +26,20 @@ import com.gdgl.smarthome.R;
 import com.gdgl.util.MyOkCancleDlg;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 import com.gdgl.util.NetUtil;
+import com.gdgl.util.SelectPicPopupWindow;
 import com.gdgl.util.UiUtils;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -45,8 +50,10 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,11 +65,16 @@ public class LoginActivity extends Activity implements OnClickListener,
 	private TextView gaoji_text;
 	private Button mLogin;
 	private ImageView user_dropdown, cloud_dropdown, gaoji_image;
-	private ViewGroup gaoji, gaoji_Layout, user_item, cloud_item;
+	private ViewGroup gaoji, gaoji_Layout, user_item, cloud_item, dialog_view;
 	private AccountInfo accountInfo;
 	private PopupWindow userPop, cloudPop;
+	private Handler mHandler;
 	public static AccountInfo loginAccountInfo; // 把用户名密码传到libjingleService
 	private static final boolean isAsc = false;
+	private static final int SHOWDLG = 1;
+	private static final int HIDEDLG = 0;
+	private static final int TOAST = 3;
+	private boolean isLogin = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +88,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 
 	private void initView() {
 		// TODO Auto-generated method stub
-
+		dialog_view = (ViewGroup) findViewById(R.id.dialog_view);
 		mLogin = (Button) findViewById(R.id.login);
 		mName = (EditText) findViewById(R.id.name);
 		mPwd = (EditText) findViewById(R.id.pwd);
@@ -112,14 +124,33 @@ public class LoginActivity extends Activity implements OnClickListener,
 		gaoji.setOnClickListener(this);
 		LoginManager.getInstance().addObserver(this);
 		LibjingleResponseHandlerManager.getInstance().addObserver(this);
+		mHandler = new Handler(){
+			public void handleMessage(Message msg){
+				switch(msg.what){
+				case SHOWDLG:
+					dialog_view.setVisibility(View.VISIBLE);
+					break;
+				case HIDEDLG:
+					dialog_view.setVisibility(View.GONE);
+				case TOAST:
+					String toastStr = msg.getData().getString("toast");
+					if(toastStr == null || toastStr.equals("")){
+						return;
+					}
+					Toast.makeText(getApplicationContext(), toastStr, Toast.LENGTH_SHORT).show();
+				}
+			}
+		};
 	}
-
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		int id = v.getId();
 		switch (id) {
 		case R.id.login:
+			if(isLogin){
+				return;
+			}
 			accountInfo = new AccountInfo();
 			accountInfo.setAccount(mName.getText().toString());
 			accountInfo.setPassword(mPwd.getText().toString());
@@ -148,9 +179,9 @@ public class LoginActivity extends Activity implements OnClickListener,
 				Toast.makeText(getApplicationContext(), "用户名应为6-16字符",
 						Toast.LENGTH_SHORT).show();
 			}
-			// Intent intent = new Intent(LoginActivity.this, SmartHome.class);
-			// startActivity(intent);
-			// this.finish();
+//			 Intent intent = new Intent(LoginActivity.this, SmartHome.class);
+//			 startActivity(intent);
+//			 this.finish();
 			break;
 		case R.id.gaoji:
 			if (gaoji_Layout.getVisibility() == View.GONE) {
@@ -211,54 +242,143 @@ public class LoginActivity extends Activity implements OnClickListener,
 	}
 
 	public void startAPPService(String alias) {
-		networkStatus = NetworkConnectivity.getInstance()
-				.getConnecitivityNetwork();
-		switch (networkStatus) {
-		case NetworkConnectivity.NO_NETWORK:
-			Toast.makeText(getApplicationContext(), "未连接任何网络", Toast.LENGTH_SHORT).show();
-			break;
-		case NetworkConnectivity.INTERNET:
-			Intent libserviceIntent = new Intent(this, LibjingleService.class);
-			getFromSharedPreferences.setsharedPreferences(LoginActivity.this);
-			getFromSharedPreferences.setLogin(accountInfo, false, false);
-			startService(libserviceIntent);
-
-			break;
-		case NetworkConnectivity.LAN:
-			DataHelper mDateHelper = new DataHelper(
-					ApplicationController.getInstance());
-			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
-			String where = " mac=? or alias=? ";
-			String[] args = { alias, alias };
-			String[] columns = { "ip" };
-			Cursor cursor = mSQLiteDatabase.query(DataHelper.GATEWAY_TABLE,
-					columns, where, args, null, null, null);
-
-			// .rawQuery("select * from gateway_table where mac = \'883314EF8B2D\' or alias = \'883314EF8B2D\'",null);
-
-			if (cursor.getCount() > 0) {
-				// cursor.moveToFirst();
-				if (cursor.moveToFirst()) {
-					Log.i("cursor",
-							cursor.getString(cursor.getColumnIndex("ip")));
-					String ip = cursor.getString(cursor.getColumnIndex("ip"));
-
-					NetUtil.getInstance().setGatewayIP(ip);
-
-					Intent serviceIntent = new Intent(this, SmartService.class);
-					startService(serviceIntent);
-					LoginManager.getInstance().doLogin(accountInfo);
+		final String malias = alias;
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				isLogin = true;
+				// TODO Auto-generated method stub
+				Message showMsg = new Message();
+				showMsg.what = SHOWDLG;
+				mHandler.sendMessage(showMsg);
+				
+				networkStatus = NetworkConnectivity.getInstance()
+						.getConnecitivityNetwork();
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-				mSQLiteDatabase.close();
-			} else {
-				Toast.makeText(getApplicationContext(), "没有网关或者用户名不正确",
-						Toast.LENGTH_SHORT).show();
+				isLogin = false;
+				Message hideMsg = new Message();
+				hideMsg.what = HIDEDLG;
+				mHandler.sendMessage(hideMsg);
+				
+				switch (networkStatus) {
+				case NetworkConnectivity.NO_NETWORK:
+					Message msg1 = new Message();
+					msg1.what = TOAST;
+					Bundle bundle1 = new Bundle();
+					bundle1.putString("toast", "未连接任何网络");
+					msg1.setData(bundle1);
+					mHandler.sendMessage(msg1);
+					//Toast.makeText(getApplicationContext(), "未连接任何网络", Toast.LENGTH_SHORT).show();
+					break;
+				case NetworkConnectivity.INTERNET:
+					Intent libserviceIntent = new Intent(LoginActivity.this, LibjingleService.class);
+					getFromSharedPreferences.setsharedPreferences(LoginActivity.this);
+					getFromSharedPreferences.setLogin(accountInfo, false, false);
+					startService(libserviceIntent);
+
+					break;
+				case NetworkConnectivity.LAN:
+					DataHelper mDateHelper = new DataHelper(
+							ApplicationController.getInstance());
+					SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
+					String where = " mac=? or alias=? ";
+					String[] args = { malias, malias };
+					String[] columns = { "ip" };
+					Cursor cursor = mSQLiteDatabase.query(DataHelper.GATEWAY_TABLE,
+							columns, where, args, null, null, null);
+
+					// .rawQuery("select * from gateway_table where mac = \'883314EF8B2D\' or alias = \'883314EF8B2D\'",null);
+
+					if (cursor.getCount() > 0) {
+						// cursor.moveToFirst();
+						if (cursor.moveToFirst()) {
+							Log.i("cursor",
+									cursor.getString(cursor.getColumnIndex("ip")));
+							String ip = cursor.getString(cursor.getColumnIndex("ip"));
+
+							NetUtil.getInstance().setGatewayIP(ip);
+//							Intent serviceIntent = new Intent(LoginActivity.this, SmartService.class);
+							Intent serviceIntent = new Intent("com.gdgl.service.SmartService");
+							startService(serviceIntent);
+							LoginManager.getInstance().doLogin(accountInfo);
+						}
+						mSQLiteDatabase.close();
+					} else {
+						Message msg2 = new Message();
+						msg2.what = TOAST;
+						Bundle bundle2 = new Bundle();
+						bundle2.putString("toast", "没有网关或者用户名不正确");
+						msg2.setData(bundle2);
+						mHandler.sendMessage(msg2);
+//						Toast.makeText(getApplicationContext(), "没有网关或者用户名不正确",
+//								Toast.LENGTH_SHORT).show();
+					}
+					break;
+				default:
+					Message msg3 = new Message();
+					msg3.what = TOAST;
+					Bundle bundle3 = new Bundle();
+					bundle3.putString("toast", "连接失败,请稍后重试");
+					msg3.setData(bundle3);
+					mHandler.sendMessage(msg3);
+//					Toast.makeText(getApplicationContext(), "连接失败,请稍后重试", Toast.LENGTH_SHORT).show();
+					break;
+				}
 			}
-			break;
-		default:
-			Toast.makeText(getApplicationContext(), "连接失败,请稍后重试", Toast.LENGTH_SHORT).show();
-			break;
-		}
+		}).start();
+//		switch (networkStatus) {
+//		case NetworkConnectivity.NO_NETWORK:
+//			Toast.makeText(getApplicationContext(), "未连接任何网络", Toast.LENGTH_SHORT).show();
+//			break;
+//		case NetworkConnectivity.INTERNET:
+//			Intent libserviceIntent = new Intent(this, LibjingleService.class);
+//			getFromSharedPreferences.setsharedPreferences(LoginActivity.this);
+//			getFromSharedPreferences.setLogin(accountInfo, false, false);
+//			startService(libserviceIntent);
+//
+//			break;
+//		case NetworkConnectivity.LAN:
+//			DataHelper mDateHelper = new DataHelper(
+//					ApplicationController.getInstance());
+//			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
+//			String where = " mac=? or alias=? ";
+//			String[] args = { alias, alias };
+//			String[] columns = { "ip" };
+//			Cursor cursor = mSQLiteDatabase.query(DataHelper.GATEWAY_TABLE,
+//					columns, where, args, null, null, null);
+//
+//			// .rawQuery("select * from gateway_table where mac = \'883314EF8B2D\' or alias = \'883314EF8B2D\'",null);
+//
+//			if (cursor.getCount() > 0) {
+//				// cursor.moveToFirst();
+//				if (cursor.moveToFirst()) {
+//					Log.i("cursor",
+//							cursor.getString(cursor.getColumnIndex("ip")));
+//					String ip = cursor.getString(cursor.getColumnIndex("ip"));
+//
+//					NetUtil.getInstance().setGatewayIP(ip);
+//
+//					Intent serviceIntent = new Intent(this, SmartService.class);
+//					startService(serviceIntent);
+//					LoginManager.getInstance().doLogin(accountInfo);
+//				}
+//				mSQLiteDatabase.close();
+//			} else {
+//				Toast.makeText(getApplicationContext(), "没有网关或者用户名不正确",
+//						Toast.LENGTH_SHORT).show();
+//			}
+//			break;
+//		default:
+//			Toast.makeText(getApplicationContext(), "连接失败,请稍后重试", Toast.LENGTH_SHORT).show();
+//			break;
+//		}
+		//dialog_view.setVisibility(View.GONE);
 	}
 
 	@Override
@@ -296,7 +416,16 @@ public class LoginActivity extends Activity implements OnClickListener,
 									.getDeviceEndPoint();
 						}
 					}).start();
-					
+					getFromSharedPreferences.setsharedPreferences(LoginActivity.this);
+					if (mRem.isChecked()) {
+						getFromSharedPreferences.setLogin(accountInfo, true, false);
+					} else {
+						getFromSharedPreferences.setLogin(accountInfo, false, false);
+					}
+					getFromSharedPreferences.setUserList(mName.getText().toString(),
+							mPwd.getText().toString());
+					getFromSharedPreferences.setCloud(mCloud.getText().toString());
+					getFromSharedPreferences.setCloudList(mCloud.getText().toString());
 					Intent intent = new Intent(LoginActivity.this, SmartHome.class);
 					startActivity(intent);
 					this.finish();

@@ -101,6 +101,9 @@
         </activity>
 
         <service android:name="com.gdgl.service.SmartService" >
+            <intent-filter>          
+		        <action android:name="com.gdgl.service.SmartService" />  
+		    </intent-filter> 
         </service>
         <service android:name="com.gdgl.service.LibjingleService" >
         </service>

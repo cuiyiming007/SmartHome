@@ -26,6 +26,7 @@ import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
+import com.gdgl.mydata.Callback.CallbackResponseType2;
 import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
 
@@ -804,6 +805,16 @@ public class DeviceDtailFragment extends BaseFragment {
 
 	public void refreshLevel(String string) {
 		int level = Integer.parseInt(string);
+		int state = level * 100 / 254;
+		device_seekBar.setProgress(state);
+		device_seekBar.invalidate();
+	}
+	
+	public void refreshLevel(CallbackResponseType2 data) {
+		if(!data.getDeviceIeee().equals(mDevices.getmIeee())){
+			return;
+		}
+		int level = Integer.parseInt(data.getValue());
 		int state = level * 100 / 254;
 		device_seekBar.setProgress(state);
 		device_seekBar.invalidate();

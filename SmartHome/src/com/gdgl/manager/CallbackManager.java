@@ -53,6 +53,10 @@ public class CallbackManager extends Manger {
 		ConnectServerByTCPTask connectServerByTCPTask = new ConnectServerByTCPTask();
 		connectServerByTCPTask.start();
 	}
+	
+	public void stopConnectServerByTCPTask(){
+		NetUtil.getInstance().initalCallbackSocket();
+	}
 
 	class ConnectServerByTCPTask extends Thread {
 
@@ -99,7 +103,7 @@ public class CallbackManager extends Manger {
 			Gson gson = new Gson();
 			JSONObject jsonRsponse = new JSONObject(response);
 			int msgType = (Integer) jsonRsponse.get("msgtype");
-			// Log.i(TAG, "Callback msgType=" + msgType);
+			 Log.i(TAG, "Callback msgType=" + msgType);
 			switch (msgType) {
 			case 1:
 				Log.i(TAG, "Callback msgType=" + msgType + "heartbeat");
@@ -236,6 +240,7 @@ public class CallbackManager extends Manger {
 
 				break;
 			case 31:
+				
 				String ieee31 = (String) jsonRsponse.get("IEEE");
 				String ep31 = (String) jsonRsponse.get("EP");
 				String name31 = (String) jsonRsponse.get("newname");

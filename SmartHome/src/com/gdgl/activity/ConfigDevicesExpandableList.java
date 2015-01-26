@@ -377,7 +377,7 @@ public class ConfigDevicesExpandableList extends BaseFragment implements
 		int result = mDh.deleteDeviceWithGroup((Context) getActivity(),
 				mDh.getSQLiteDatabase(), DataHelper.DEVICES_TABLE, " ieee=? ",
 				new String[] { ds.getmIeee().trim() });
-		if (result > 0) {
+		if (result >= 0) {
 			mCurrentList.remove(currentpostion);
 			expandableAdapter.notifyDataSetChanged();
 		}

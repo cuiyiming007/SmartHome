@@ -6,16 +6,25 @@ import java.util.List;
 import com.gdgl.activity.BaseControlFragment.UpdateDevice;
 import com.gdgl.activity.DevicesListFragment.refreshData;
 import com.gdgl.activity.DevicesListFragment.setData;
+import com.gdgl.activity.ShowDevicesGroupFragmentActivity.UpdateICELestTask;
 import com.gdgl.adapter.AllDevicesAdapter;
 import com.gdgl.adapter.AllDevicesAdapter.AddChecked;
 import com.gdgl.adapter.DevicesBaseAdapter;
 import com.gdgl.adapter.DevicesBaseAdapter.DevicesObserver;
 import com.gdgl.manager.CGIManager;
+import com.gdgl.manager.CallbackManager;
+import com.gdgl.manager.DeviceManager;
+import com.gdgl.manager.Manger;
+import com.gdgl.manager.UIListener;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
+import com.gdgl.mydata.Event;
+import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.getFromSharedPreferences;
+import com.gdgl.mydata.Callback.CallbackResponseType2;
+import com.gdgl.mydata.getlocalcielist.CIEresponse_params;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyOkCancleDlg;
 import com.gdgl.util.UiUtils;
@@ -47,7 +56,7 @@ import android.widget.TextView;
  */
 public class RegionDevicesActivity extends Activity implements DevicesObserver,
 		AddChecked, refreshData, UpdateDevice, EditDialogcallback,
-		Dialogcallback, setData {
+		Dialogcallback, setData, UIListener {
 	public static final String REGION_NAME = "region_name";
 	public static final String REGION_ID = "region_id";
 
@@ -83,6 +92,9 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 	private DevicesModel getModel;
 	private boolean deleteType = false;
 	private boolean isAdd = false;
+	
+	CGIManager mcgiManager;
+	DeviceManager mDeviceManager;
 
 	private int currentState = INLIST;
 
@@ -104,6 +116,15 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 		mDataHelper = new DataHelper(RegionDevicesActivity.this);
 		initData();
 		initView();
+	}
+	
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		mcgiManager.deleteObserver(this);
+		mDeviceManager.deleteObserver(this);
+		CallbackManager.getInstance().deleteObserver(this);
 	}
 
 	private void initRegionDevicesList() {
@@ -235,6 +256,12 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 		// TODO Auto-generated method stub
 
 		fragmentManager = getFragmentManager();
+		mcgiManager = CGIManager.getInstance();
+		mcgiManager.addObserver(this);
+
+		mDeviceManager = DeviceManager.getInstance();
+		mDeviceManager.addObserver(this);
+		CallbackManager.getInstance().addObserver(this);
 		initRegionDevicesList();
 		initAddToRegionDevicesList();
 		mDevicesBaseAdapter = new DevicesBaseAdapter(
@@ -494,4 +521,197 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 		// TODO Auto-generated method stub
 
 	}
+	
+	private int getDevicesPostion(String ieee, String ep, List<DevicesModel> list){
+		int position = -1;
+		for(int i=0; i<list.size(); i++){
+			if(list.get(i).getmIeee().equals(ieee) && list.get(i).getmEP().equals(ep)){
+				return i;
+			}
+		}
+		return position;
+	}
+	
+	private int getSecurityPosition(List<DevicesModel> list){
+		int position = -1;
+		for(int i=0; i<list.size(); i++){
+			if(list.get(i).getmModelId().indexOf(DataHelper.One_key_operator) == 0){
+				return i;
+			}
+		}
+		return position;
+	}
+	
+	
+	public void update(Manger observer, Object object) {
+		// TODO Auto-generated method stub
+		if(isAdd){
+			return;
+		}
+		final Event event = (Event) object;
+		if (EventType.LIGHTSENSOROPERATION == event.getType()) {
+			// data maybe null
+			if (event.isSuccess()) {
+				Bundle bundle = (Bundle) event.getData();
+				int m = getDevicesPostion(bundle.getString("IEEE"),
+						bundle.getString("EP"), mList);
+				if (m != -1) {
+					String light = bundle.getString("PARAM");
+					mList.get(m).setmBrightness(Integer.parseInt(light));
+					mDevicesBaseAdapter.notifyDataSetChanged();
+				}
+			} 
+		} else if (EventType.TEMPERATURESENSOROPERATION == event.getType()) {
+			if (event.isSuccess()) {
+				Bundle bundle = (Bundle) event.getData();
+				int m = getDevicesPostion(bundle.getString("IEEE"),
+						bundle.getString("EP"), mList);
+				if (m != -1) {
+					String temperature = bundle.getString("PARAM");
+					mList.get(m).setmTemperature(
+							Float.parseFloat(temperature));
+					mDevicesBaseAdapter.notifyDataSetChanged();
+				}
+			}
+		} else if (EventType.HUMIDITY == event.getType()) {
+			if (event.isSuccess()) {
+				Bundle bundle = (Bundle) event.getData();
+				int m = getDevicesPostion(bundle.getString("IEEE"),
+						bundle.getString("EP"), mList);
+				if (m != -1) {
+					String humidity = bundle.getString("PARAM");
+					mList.get(m).setmHumidity(Float.parseFloat(humidity));
+					mDevicesBaseAdapter.notifyDataSetChanged();
+				}
+			}
+		} else if (EventType.LOCALIASCIEBYPASSZONE == event.getType()
+				|| EventType.LOCALIASCIEUNBYPASSZONE == event.getType()) {
+			if (event.isSuccess()) {
+				DeviceManager.getInstance().getLocalCIEList();
+			}
+		} else if (EventType.LOCALIASCIEOPERATION == event.getType()) {
+			if (event.isSuccess() == true) {
+
+				int m = getSecurityPosition(mList);
+				if (m != -1) {
+					String status = (String) event.getData();
+					mList.get(m).setmOnOffStatus(status);
+					mDevicesBaseAdapter.notifyDataSetChanged();
+				}
+			}
+		} else if (EventType.ON_OFF_STATUS == event.getType()) {
+			if (event.isSuccess() == true) {
+				// data maybe null
+				CallbackResponseType2 data = (CallbackResponseType2) event
+						.getData();
+				int m = getDevicesPostion(data.getDeviceIeee(),
+						data.getDeviceEp(), mList);
+				if (-1 != m) {
+					if (null != data.getValue()) {
+						mList.get(m).setmOnOffStatus(data.getValue());
+						mDevicesBaseAdapter.notifyDataSetChanged();
+					}
+				}
+			} 
+		} else if (EventType.MOVE_TO_LEVEL == event.getType()) {
+			if (event.isSuccess() == true) {
+				// data maybe null
+				CallbackResponseType2 data = (CallbackResponseType2) event
+						.getData();
+				final CallbackResponseType2 detaildata = data;
+				// Log.i("MOVE_TO_LEVEL", mCurrentList.toString());
+				int m = getDevicesPostion(data.getDeviceIeee(),
+						data.getDeviceEp(), mList);
+				final String valueString = data.getValue();
+				if (-1 != m) {
+					if (null != data.getValue()) {
+						mList.get(m).setmLevel(data.getValue());
+						mDevicesBaseAdapter.notifyDataSetChanged();
+						DeviceDtailFragment.getInstance().refreshLevel(detaildata);
+					}
+				}
+			} else {
+				// if failed,prompt a Toast
+				// mError.setVisibility(View.VISIBLE);
+			}
+		} else if (EventType.CURRENT == event.getType()) {
+			if (event.isSuccess() == true) {
+				// data maybe null
+				CallbackResponseType2 data = (CallbackResponseType2) event
+						.getData();
+				int m = getDevicesPostion(data.getDeviceIeee(),
+						data.getDeviceEp(), mList);
+				final String valueString = data.getValue();
+				if (-1 != m) {
+					if (null != data.getValue()) {
+						mList.get(m).setmCurrent(valueString);
+						mDevicesBaseAdapter.notifyDataSetChanged();
+						DeviceDtailFragment.getInstance().refreshCurrent(valueString);
+					}
+				}
+			} else {
+				// if failed,prompt a Toast
+				// mError.setVisibility(View.VISIBLE);
+			}
+		} else if (EventType.VOLTAGE == event.getType()) {
+			if (event.isSuccess() == true) {
+				// data maybe null
+				CallbackResponseType2 data = (CallbackResponseType2) event
+						.getData();
+				int m = getDevicesPostion(data.getDeviceIeee(),
+						data.getDeviceEp(), mList);
+				final String valueString = data.getValue();
+				if (-1 != m) {
+					if (null != data.getValue()) {
+						mList.get(m).setmVoltage(data.getValue());
+						mDevicesBaseAdapter.notifyDataSetChanged();
+						DeviceDtailFragment.getInstance().refreshVoltage(valueString);
+					}
+				}
+			} else {
+				// if failed,prompt a Toast
+				// mError.setVisibility(View.VISIBLE);
+			}
+		} else if (EventType.ENERGY == event.getType()) {
+			if (event.isSuccess() == true) {
+				// data maybe null
+				CallbackResponseType2 data = (CallbackResponseType2) event
+						.getData();
+				int m = getDevicesPostion(data.getDeviceIeee(),
+						data.getDeviceEp(), mList);
+				final String valueString = String.valueOf(Float.parseFloat(data
+						.getValue()));
+				if (-1 != m) {
+					if (null != data.getValue()) {
+						mList.get(m).setmEnergy(data.getValue());
+						mDevicesBaseAdapter.notifyDataSetChanged();
+						DeviceDtailFragment.getInstance().refreshEnergy(valueString);
+					}
+				}
+			} else {
+				// if failed,prompt a Toast
+				// mError.setVisibility(View.VISIBLE);
+			}
+		} else if (EventType.POWER == event.getType()) {
+			if (event.isSuccess() == true) {
+				// data maybe null
+				CallbackResponseType2 data = (CallbackResponseType2) event
+						.getData();
+				int m = getDevicesPostion(data.getDeviceIeee(),
+						data.getDeviceEp(), mList);
+				final String valueString = data.getValue();
+				if (-1 != m) {
+					if (null != data.getValue()) {
+						mList.get(m).setmPower(data.getValue());
+						mDevicesBaseAdapter.notifyDataSetChanged();
+						DeviceDtailFragment.getInstance().refreshPower(valueString);
+					}
+				}
+			} else {
+				// if failed,prompt a Toast
+				// mError.setVisibility(View.VISIBLE);
+			}
+		} 
+	}
+
 }
