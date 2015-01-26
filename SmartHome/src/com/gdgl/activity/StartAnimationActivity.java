@@ -3,11 +3,8 @@ package com.gdgl.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Point;
-import android.graphics.drawable.AnimationDrawable;
-import android.hardware.Camera.Size;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.Display;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AlphaAnimation;
@@ -17,8 +14,8 @@ import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 
 import com.gdgl.network.NetworkConnectivity;
-import com.gdgl.service.SmartService;
 import com.gdgl.smarthome.R;
+import com.testin.agent.TestinAgent;
 
 public class StartAnimationActivity extends Activity {
 
@@ -26,11 +23,11 @@ public class StartAnimationActivity extends Activity {
 	ImageView loadlogo, loadcircle;
 	// private Intent serviceIntent;
 	private final static long SPLASH_DELAY_MILLIS = 3200;
-
 	protected void onCreate(android.os.Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		TestinAgent.init(this, "5a08bd1e5b7f8b7ad2aa7be32ebac763", "testing");
 		setContentView(R.layout.startanimation);
-
+		
 		loadlogo = (ImageView) findViewById(R.id.load_logo);
 		loadcircle = (ImageView) findViewById(R.id.load_circle);
 
@@ -99,6 +96,19 @@ public class StartAnimationActivity extends Activity {
 
 	}
 
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		TestinAgent.onStart(StartAnimationActivity.this);
+	}
+	
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		TestinAgent.onStop(this);
+	}
 	private void goLogin() {
 		Intent intent = new Intent(StartAnimationActivity.this,
 				LoginActivity.class);

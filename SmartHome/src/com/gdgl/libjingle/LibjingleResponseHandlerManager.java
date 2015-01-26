@@ -47,6 +47,11 @@ import com.google.gson.Gson;
 public class LibjingleResponseHandlerManager extends Manger {
 
 	private final static String TAG = "LibjingleRecievedResponseHandlerManager";
+	
+	final static String LABEL = "<!##!>";
+	static String preString = ""; // 处理包头被拆开的情况
+	static int byte_content = -1; // 数据长度，全局变量
+	static String data_all = ""; // 数据缓存
 
 	private static LibjingleResponseHandlerManager instance;
 
@@ -65,26 +70,114 @@ public class LibjingleResponseHandlerManager extends Manger {
 		int readBytes = 0;
 		while ((readBytes = inputStream.read(buffer)) > 0) {
 			String response = new String(buffer, 0, readBytes);
-			Log.i(TAG, response.length()+"handleInputStream:" + response);
-			try {
-				packHandler = new LibjinglePackHandler(response);
-				getInstance().recievedPackType(packHandler.gl_msgtype);
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			Log.i(TAG, "len: " + response.length()+" handleInputStream:" + response);
+			sub_String(response);
 
 			// message = UiUtils.formatResponseString(message);
 		}
 	}
 
+	public static void sub_String(String str) {
+
+		int a = str.indexOf(LABEL);
+		if (a < 0) {
+			// 没有Label，连接上一包
+			if (byte_content < 0) {
+				add_String_Pre(str);
+			} else {
+				add_Data(str);
+			}
+		} else if (a >= 0 && a < 8) {
+			// 包头不全，需要上一包
+			int b = str.indexOf(LABEL, 14);
+			if (b == -1) {
+				// 只有一组Label
+				add_String_Pre(str);
+			} else {
+				b -= 8;
+				String subStr1 = str.substring(0, b);
+				add_String_Pre(subStr1);
+				String subStr2 = str.substring(b, str.length());
+				sub_String(subStr2);
+			}
+		} else if (a == 8) {
+			// 标准包
+			int b = str.indexOf(LABEL, 14);
+			if (b == -1) {
+				// 只有一组Label
+				sub_Label(str);
+			} else {
+				b -= 8;
+				String subStr1 = str.substring(0, b);
+				sub_Label(subStr1);
+				String subStr2 = str.substring(b, str.length());
+				sub_String(subStr2);
+			}
+		} else if (a > 8) {
+			a -= 8;
+			String subStr1 = str.substring(0, a);
+			if (byte_content < 0) {
+				add_String_Pre(subStr1);
+			} else {
+				add_Data(subStr1);
+			}
+			String subStr2 = str.substring(a, str.length());
+			sub_String(subStr2);
+		}
+	}
+	// 处理包头被拆的情况
+	public static void add_String_Pre(String str_pre) {
+		preString += str_pre;
+		if (preString.contains(LABEL)) {
+			sub_Label(preString);
+			if (preString.contains(LABEL)) {
+				preString = "";
+			}
+		}
+	}
+	// 拆开包的长度和数据
+	public static void sub_Label(String str_in) {
+		String[] temp = str_in.split(LABEL);
+		byte_content = Integer.parseInt(temp[0]);
+		data_all = temp[1];
+		add_Data("");
+	}
+	// 连接数据
+	public static void add_Data(String data_in) {
+		data_all += data_in;
+		byte[] data_buffer = data_all.getBytes();
+		if (byte_content == data_buffer.length) {
+			handle_Json(data_all);
+			byte_content = -1;
+			data_all = "";
+		} else if (byte_content < data_buffer.length) {
+//			String data = data_all.substring(0, byte_content);
+			String data = new String(data_buffer, 0, byte_content);
+			handle_Json(data);
+//			preString = data_all.substring(byte_content);
+			preString = new String(data_buffer, byte_content, data_buffer.length);
+			byte_content = -1;
+			data_all = "";
+		}
+	}
+	//解析json
+	public static void handle_Json(String json) {
+		try {
+			packHandler = new LibjinglePackHandler(json);
+			getInstance().recievedPackType(packHandler.gl_msgtype);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	public void recievedPackType(int msgtype) {
 		switch (msgtype) {
 		case LibjinglePackHandler.MT_URL:
 			httpTypeSwitch(packHandler.request_id);
 			break;
 		case LibjinglePackHandler.MT_CallBack:
-			CallbackManager.getInstance().classifyCallbackResponse(
+			CallbackManager.getInstance().handleCallbackResponse(
 					packHandler.result);
 			break;
 		case LibjinglePackHandler.MT_NetStat:
