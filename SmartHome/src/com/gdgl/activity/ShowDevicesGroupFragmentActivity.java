@@ -891,6 +891,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 				// data maybe null
 				CallbackResponseType2 data = (CallbackResponseType2) event
 						.getData();
+				final CallbackResponseType2 detaildata = data;
 				// Log.i("MOVE_TO_LEVEL", mCurrentList.toString());
 				int m = getDevicesPostion(data.getDeviceIeee(),
 						data.getDeviceEp(), mCurrentList);
@@ -904,8 +905,10 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 								// setDataActivity.setdata(mDeviceList);
 								mDevicesBaseAdapter.notifyDataSetChanged();
 								if (!isTop) {
+//									DeviceDtailFragment.getInstance()
+//											.refreshLevel(valueString);
 									DeviceDtailFragment.getInstance()
-											.refreshLevel(valueString);
+									.refreshLevel(detaildata);
 								}
 							}
 						});
@@ -1071,6 +1074,41 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 				public void run() {
 					updateMessageNum();
 					setdata(mCurrentList);
+				}
+			});
+		} else if(EventType.SCAPEDDEVICE == event.getType()){
+			ArrayList<DevicesModel> scapedList = (ArrayList<DevicesModel>) event.getData();
+			for(DevicesModel mDevicesModel : scapedList){
+				int sort = mDevicesModel.getmDeviceSort();
+				switch (sort) {
+				case UiUtils.ENVIRONMENTAL_CONTROL:
+					mDevicesListCache.get(UiUtils.ENVIRONMENTAL_CONTROL).add(mDevicesModel);
+					break;
+				case UiUtils.SECURITY_CONTROL:
+					mDevicesListCache.get(UiUtils.SECURITY_CONTROL).add(mDevicesModel);
+					break;
+				case UiUtils.LIGHTS_MANAGER:
+					mDevicesListCache.get(UiUtils.LIGHTS_MANAGER).add(mDevicesModel);
+					break;
+				case UiUtils.ELECTRICAL_MANAGER:
+					mDevicesListCache.get(UiUtils.ELECTRICAL_MANAGER).add(mDevicesModel);
+					break;
+				case UiUtils.ENERGY_CONSERVATION:
+					mDevicesListCache.get(UiUtils.ENERGY_CONSERVATION).add(mDevicesModel);
+					break;
+				case UiUtils.OTHER:
+					mDevicesListCache.get(UiUtils.OTHER).add(mDevicesModel);
+					break;
+
+				default:
+					break;
+				}
+			}
+			title.post(new Runnable() {
+
+				@Override
+				public void run() {
+					resetFragment();
 				}
 			});
 		}

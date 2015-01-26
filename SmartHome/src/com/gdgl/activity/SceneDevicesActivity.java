@@ -196,6 +196,9 @@ public class SceneDevicesActivity extends Activity implements DevicesObserver,
 		mAdd.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				if(true){
+					return;
+				}
 				// TODO Auto-generated method stub
 				if(!isAdd){
 					isAdd=true;

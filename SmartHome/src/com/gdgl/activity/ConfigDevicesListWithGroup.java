@@ -1,5 +1,6 @@
 package com.gdgl.activity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.gdgl.manager.CallbackManager;
@@ -670,32 +671,6 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 
 	@Override
 	public void dialogdo() {
-		// TODO Auto-generated method stub
-		DevicesModel ds = mCurrentList.get(currentpostion);
-		CGIManager.getInstance().deleteNode(ds.getmIeee().trim());
-		int result = mDh.deleteDeviceWithGroup((Context) getActivity(),
-				mDh.getSQLiteDatabase(), DataHelper.DEVICES_TABLE, " ieee=? ",
-				new String[] { ds.getmIeee().trim() });
-
-		if (result >= 0) {
-			if(SecurityControl_expn) {
-				mSecurityControl.remove(currentpostion);
-				expnSecurityControl();
-			} else if (ElecManager_expn) {
-				mElecManager.remove(currentpostion);
-				expnElecManager();
-			} else if (Energy_expn) {
-				mEnergy.remove(currentpostion);
-				expnEnergy();
-			} else if (EneronmentControll_expn) {
-				mEneronmentControl.remove(currentpostion);
-				expnEneronmentControll();
-			} else if (Other_expn) {
-				mOther.remove(currentpostion);
-				expnOther();
-			}
-		}
-
 	}
 
 	private int getDevicesPostion(String ieee, String ep,
@@ -754,6 +729,42 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 						}
 					}
 				});
+			}
+		} else if(EventType.SCAPEDDEVICE == event.getType()){
+			Log.i("ConfigDevices", "SCAPEDDEVICE");
+			ArrayList<DevicesModel> scapedList = (ArrayList<DevicesModel>) event.getData();
+			for(DevicesModel mDevicesModel : scapedList){
+				int sort = mDevicesModel.getmDeviceSort();
+				switch (sort) {
+				case UiUtils.ENVIRONMENTAL_CONTROL:
+					mEneronmentControl.add(mDevicesModel);
+					EneronmentControllAdap.setList(mEneronmentControl);
+					EneronmentControllAdap.notifyDataSetChanged();
+					break;
+				case UiUtils.SECURITY_CONTROL:
+					mSecurityControl.add(mDevicesModel);
+					SecurityControlAdap.setList(mSecurityControl);
+					SecurityControlAdap.notifyDataSetChanged();
+					break;
+				case UiUtils.ELECTRICAL_MANAGER:
+					mElecManager.add(mDevicesModel);
+					ElecManagerAdap.setList(mElecManager);
+					ElecManagerAdap.notifyDataSetChanged();
+					break;
+				case UiUtils.ENERGY_CONSERVATION:
+					mEnergy.add(mDevicesModel);
+					EnergyAdap.setList(mEnergy);
+					EnergyAdap.notifyDataSetChanged();
+					break;
+				case UiUtils.OTHER:
+					mOther.add(mDevicesModel);
+					OtherAdap.setList(mOther);
+					OtherAdap.notifyDataSetChanged();
+					break;
+
+				default:
+					break;
+				}
 			}
 		}
 	}

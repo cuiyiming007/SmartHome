@@ -508,8 +508,10 @@ public class MessageListFragment extends BaseFragment implements UIListener,andr
 		DataHelper	dh = new DataHelper(ApplicationController.getInstance());
 		SQLiteDatabase db = dh.getSQLiteDatabase();
 		DevicesModel device= DataUtil.getDeviceModelByIeee(message.getZone_ieee(), dh, db);
-		MessageImageResource = DataUtil.getDefaultDevicesSmallIcon(
-				device.getmDeviceId(), device.getmModelId());
+		if(device != null){
+			MessageImageResource = DataUtil.getDefaultDevicesSmallIcon(
+					device.getmDeviceId(), device.getmModelId());
+		}
 		if(MessageImageResource == 0){
 			MessageImageResource = R.drawable.ui_lightmanage_switchmodule;
 		}

@@ -536,7 +536,7 @@ public class DataHelper extends SQLiteOpenHelper {
 				// DevicesModel.DEVICE_OFF_LINE);
 				// db.update(table, c, " ieee=? ", new String[] { string });
 				db.delete(table, " ieee=? ", new String[] { string });
-				db.delete(DataHelper.GROUP_TABLE, " ieee=? ",
+				db.delete(DataHelper.GROUP_TABLE, " devices_ieee=? ",
 						new String[] { string });
 				if (null != mIeees && mIeees.contains(string.trim())) {
 					mIeees.remove(string.trim());

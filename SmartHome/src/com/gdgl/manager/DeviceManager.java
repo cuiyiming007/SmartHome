@@ -243,9 +243,11 @@ public class DeviceManager extends Manger {
 
 		@Override
 		protected void onPostExecute(ArrayList<DevicesModel> result) {
+			Log.i("GetJoinNetDeviceTask", "onPostExecute");
 			ArrayList<DevicesModel> scapedList=(ArrayList<DevicesModel>) result;
 			//扫描到设备
 			if (null != scapedList && scapedList.size() > 0) {
+				Log.i("GetJoinNetDeviceTask", "SCAPEDDEVICE");
 				Event event = new Event(EventType.SCAPEDDEVICE, true);
 				event.setData(scapedList);
 				notifyObservers(event);

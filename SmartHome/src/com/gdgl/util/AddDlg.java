@@ -16,6 +16,7 @@ import com.gdgl.mydata.Region.Room;
 import com.gdgl.smarthome.R;
 
 import android.app.Dialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
@@ -41,6 +42,9 @@ public class AddDlg {
 	public static final int REGION = 1;
 	public static final int SCENE = 2;
 	public static final int REMOTE_CONTROL = 3;
+	
+	public static final String ADD = "add";
+	public static final String Edit = "edit";
 
 	int mType;
 
@@ -90,6 +94,52 @@ public class AddDlg {
 				dismiss();
 			}
 		});
+	}
+	
+	public AddDlg(Context c, Room room) {
+		mContext = c;
+		final Room mRoom = room;
+		dialog = new Dialog(mContext, R.style.MyDialog);
+		dialog.setContentView(R.layout.add_dlg);
+		textView = (TextView) dialog.findViewById(R.id.txt_title);
+
+		devices_region = (LinearLayout) dialog
+				.findViewById(R.id.devices_region);
+
+		mName = (EditText) dialog.findViewById(R.id.edit_name);
+		mName.setText(mRoom.getroom_name());
+		text_name = (TextView) dialog.findViewById(R.id.text_name);
+
+		save = (Button) dialog.findViewById(R.id.btn_save);
+		save.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				String mN = mName.getText().toString();
+				updateRegion(mRoom, mN);	
+				mAddDialogcallback.refreshdata();
+				dismiss();
+			}
+		});
+
+		cancle = (Button) dialog.findViewById(R.id.btn_cancle);
+		cancle.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				dismiss();
+			}
+		});
+	}
+	
+	protected void updateRegion(Room room, String name){
+		DataHelper mDateHelper = new DataHelper(mContext);
+		SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
+		ContentValues cv = new ContentValues();         
+		cv.put(GetRoomInfo_response.ROOM_NAME, name);
+		mDateHelper.update(mSQLiteDatabase, DataHelper.ROOMINFO_TABLE, cv, 
+				GetRoomInfo_response.ROOM_ID + "=?", 
+				new String[]{""+room.getroom_id()});
 	}
 
 	protected void saveRemoteControl(String trim) {
