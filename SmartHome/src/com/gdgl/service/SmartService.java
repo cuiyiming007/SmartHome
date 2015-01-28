@@ -109,6 +109,9 @@ public class SmartService extends Service {
 	}
 
 	public void startHB() {
+		if(mAlarmManager != null){
+			return;
+		}
 
 		mAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 		Intent intent = new Intent(this, HeartReceiver.class);
@@ -125,7 +128,7 @@ public class SmartService extends Service {
 	public void onDestroy() {
 		// TODO Auto-generated method stub
 		mAlarmManager.cancel(mPendingIntent);
-		CallbackManager.getInstance().stopConnectServerByTCPTask();
+		//CallbackManager.getInstance().stopConnectServerByTCPTask();
 		Log.i("SmartService", "SmartService onDestroy!");
 		super.onDestroy();
 	}
