@@ -6,7 +6,6 @@ import java.util.List;
 import com.gdgl.activity.BaseControlFragment.UpdateDevice;
 import com.gdgl.activity.DevicesListFragment.refreshData;
 import com.gdgl.activity.DevicesListFragment.setData;
-import com.gdgl.activity.ShowDevicesGroupFragmentActivity.UpdateICELestTask;
 import com.gdgl.adapter.AllDevicesAdapter;
 import com.gdgl.adapter.AllDevicesAdapter.AddChecked;
 import com.gdgl.adapter.DevicesBaseAdapter;
@@ -19,15 +18,11 @@ import com.gdgl.manager.UIListener;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.DataHelper;
-import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
-import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.mydata.Callback.CallbackResponseType2;
-import com.gdgl.mydata.getlocalcielist.CIEresponse_params;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyOkCancleDlg;
-import com.gdgl.util.UiUtils;
 import com.gdgl.util.EditDevicesDlg.EditDialogcallback;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 
@@ -584,11 +579,16 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 					mDevicesBaseAdapter.notifyDataSetChanged();
 				}
 			}
-		} else if (EventType.LOCALIASCIEBYPASSZONE == event.getType()
-				|| EventType.LOCALIASCIEUNBYPASSZONE == event.getType()) {
-			if (event.isSuccess()) {
-				DeviceManager.getInstance().getLocalCIEList();
-			}
+		} else if (EventType.LOCALIASCIEBYPASSZONE == event.getType()) {
+				if (event.isSuccess()) {
+					Bundle bundle = (Bundle) event.getData();
+					int m = getDevicesPostion(bundle.getString("IEEE"),
+							bundle.getString("EP"), mList);
+					if (m != -1) {
+						mList.get(m).setmOnOffStatus(bundle.getString("PARAM"));
+						mDevicesBaseAdapter.notifyDataSetChanged();
+					}
+				}
 		} else if (EventType.LOCALIASCIEOPERATION == event.getType()) {
 			if (event.isSuccess() == true) {
 
@@ -625,7 +625,7 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 				final String valueString = data.getValue();
 				if (-1 != m) {
 					if (null != data.getValue()) {
-						mList.get(m).setmLevel(data.getValue());
+						mList.get(m).setmLevel(valueString);
 						mDevicesBaseAdapter.notifyDataSetChanged();
 						DeviceDtailFragment.getInstance().refreshLevel(detaildata);
 					}

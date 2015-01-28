@@ -421,16 +421,34 @@ public class LibjingleResponseHandlerManager extends Manger {
 					.handleCIEString(params[0]);
 			ArrayList<CIEresponse_params> devDataList = data
 					.getResponseparamList();
-
+			
+			DataHelper mDateHelper = new DataHelper(
+					ApplicationController.getInstance());
+			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
+			
+			String where = " ieee=? and ep=? ";
+			ContentValues v;
+			for (CIEresponse_params cp : devDataList) {
+				String[] args = { cp.getCie().getIeee(),
+						cp.getCie().getEp() };
+				String status = cp.getCie().getElserec().getBbypass();
+				String value = status.trim().toLowerCase()
+						.equals("true") ? "1" : "0";
+				v = new ContentValues();
+				v.put(DevicesModel.ON_OFF_STATUS, value);
+				mDateHelper.update(mSQLiteDatabase, DataHelper.DEVICES_TABLE, v, where,
+						args);
+			}
+			mSQLiteDatabase.close();
 			return devDataList;
 		}
 
-		@Override
-		protected void onPostExecute(Object result) {
-			Event event = new Event(EventType.GETICELIST, true);
-			event.setData(result);
-			notifyObservers(event);
-		}
+//		@Override
+//		protected void onPostExecute(Object result) {
+//			Event event = new Event(EventType.GETICELIST, true);
+//			event.setData(result);
+//			notifyObservers(event);
+//		}
 
 	}
 

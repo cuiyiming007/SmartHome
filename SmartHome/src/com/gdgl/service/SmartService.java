@@ -14,8 +14,6 @@ import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.DeviceManager;
 import com.gdgl.manager.VideoManager;
 import com.gdgl.mydata.Constants;
-import com.gdgl.network.ChannalManager;
-import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.reciever.HeartReceiver;
 
 public class SmartService extends Service {
@@ -33,22 +31,22 @@ public class SmartService extends Service {
 
 	public void initial() {
 
-//		// 判断网关是否和客户端在同一局域网下面
-//		int networkStatus = NetworkConnectivity.getInstance()
-//				.getConnecitivityNetwork();
-//		switch (networkStatus) {
-//		case NetworkConnectivity.NO_NETWORK:
-//			stopSelf();
-//			break;
-//		case NetworkConnectivity.INTERNET:
-//			stopSelf();
-//			break;
-//		case NetworkConnectivity.LAN:
-			startLANService();
-//			break;
-//		default:
-//			break;
-//		}
+		// // 判断网关是否和客户端在同一局域网下面
+		// int networkStatus = NetworkConnectivity.getInstance()
+		// .getConnecitivityNetwork();
+		// switch (networkStatus) {
+		// case NetworkConnectivity.NO_NETWORK:
+		// stopSelf();
+		// break;
+		// case NetworkConnectivity.INTERNET:
+		// stopSelf();
+		// break;
+		// case NetworkConnectivity.LAN:
+		startLANService();
+		// break;
+		// default:
+		// break;
+		// }
 
 		// new Thread(new Runnable() {
 		//
@@ -75,15 +73,16 @@ public class SmartService extends Service {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 
 		Log.i(TAG, "SmartHome service onStartCommand!");
-//		initial();
-		// sendBroadcast(brodcastIntent);
-		return super.onStartCommand(intent, flags, startId);
-	}
-	
-	public void onStart(Intent intent, int startId){
-		Log.i(TAG, "SmartHome service onStart!");
 		initial();
+		// sendBroadcast(brodcastIntent);
+//		return super.onStartCommand(intent, flags, startId);
+		return START_NOT_STICKY;
 	}
+
+//	public void onStart(Intent intent, int startId) {
+//		Log.i(TAG, "SmartHome service onStart!");
+//		initial();
+//	}
 
 	public void startLANService() {
 		// =============================server======================
@@ -91,7 +90,19 @@ public class SmartService extends Service {
 		CGIManager.getInstance().GetAllRoomInfo();
 		CGIManager.getInstance().GetAllBindList();
 		VideoManager.getInstance().getIPClist();
-		CGIManager.getInstance().GetLocalIASCIEOperation();
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				CGIManager.getInstance().GetLocalIASCIEOperation();
+				DeviceManager.getInstance().getLocalCIEList();
+			}
+		}).start();
 		// ===============================loacl=====================
 		CallbackManager.getInstance().startConnectServerByTCPTask();
 		startHB();
@@ -110,7 +121,7 @@ public class SmartService extends Service {
 		mAlarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME,
 				triggerAtTime, HEARTBEAT_INTERVAL, mPendingIntent);
 	}
-	
+
 	public void onDestroy() {
 		// TODO Auto-generated method stub
 		mAlarmManager.cancel(mPendingIntent);

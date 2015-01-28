@@ -3,7 +3,6 @@ package com.gdgl.service;
 import com.gdgl.activity.LoginActivity;
 import com.gdgl.app.ApplicationController;
 import com.gdgl.libjingle.LibjingleInit;
-import com.gdgl.libjingle.LibjingleSendManager;
 import com.gdgl.libjingle.LibjingleNetUtil;
 import com.gdgl.libjingle.LibjinglePackHandler;
 import com.gdgl.mydata.AccountInfo;
@@ -86,7 +85,7 @@ public class LibjingleService extends Service {
 		// }
 		// }).start();
 
-		return super.onStartCommand(intent, flags, startId);
+		return START_NOT_STICKY;
 	}
 
 	@Override
