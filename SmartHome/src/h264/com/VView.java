@@ -1,4 +1,5 @@
 package h264.com;
+
 /***
  * 视频处理
  */
@@ -11,6 +12,9 @@ import org.json.JSONObject;
 
 import video_decoder.H264;
 
+import com.gdgl.libjingle.LibjinglePackHandler;
+import com.gdgl.libjingle.LibjingleVideoSocket;
+import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.util.ComUtil;
 
 import android.content.Context;
@@ -65,43 +69,41 @@ public class VView extends View implements Runnable {
 	int mTrans = 0x0F0F0F0F;
 
 	/*
-	public native int InitDecoder(int width, int height);
-
-	public native int UninitDecoder();
-
-	public native int DecoderNal(byte[] in, int insize, byte[] out);
-
-	static {
-		System.loadLibrary("H264Android");
-	}
-	*/
+	 * public native int InitDecoder(int width, int height);
+	 * 
+	 * public native int UninitDecoder();
+	 * 
+	 * public native int DecoderNal(byte[] in, int insize, byte[] out);
+	 * 
+	 * static { System.loadLibrary("H264Android"); }
+	 */
 	public H264 ffmpeg = new H264();
 
-	public VView(final VideoActivity context, int deviceWidth, int deviceheight, int flag) {
+	public VView(final VideoActivity context, int deviceWidth,
+			int deviceheight, int flag) {
 		super(context);
 		this.context = context;
-		videoActivity=context;
+		videoActivity = context;
 		// TODO Auto-generated constructor stub
 		setFocusable(true);
 		this.gdeviceHeight = deviceheight;
 		this.gdeviceWith = deviceWidth;
-		
-		if(flag==1)
+
+		if (flag == 1)
 			setPortrait();
-		else 
+		else
 			setLandScape();
 
 		int i = 0;
 		for (i = 0; i < mPixel.length; i++) {
 			mPixel[i] = (byte) 0x00;
 		}
-		 handler=new Handler()
-		{
+		handler = new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
-				if (msg.what==0&&videoActivity.isVideoVisble()) {
-					 Toast.makeText(context,
-					 "解析视频失败，请重试",Toast.LENGTH_SHORT).show();
+				if (msg.what == 0 && videoActivity.isVideoVisble()) {
+					Toast.makeText(context, "解析视频失败，请重试", Toast.LENGTH_SHORT)
+							.show();
 				}
 				super.handleMessage(msg);
 			}
@@ -111,41 +113,41 @@ public class VView extends View implements Runnable {
 	// �������ű���
 	private void setScalePortrait() {
 		scaleWidth = ((float) newWidth) / h264Width;
-		scaleHeight = ((float) newWidth) / h264Width /16*14;
-//		scaleWidth = (float)16/9;
-//		scaleHeight = scaleWidth;
-//		scaleWidth = (float)1.3;
-//		scaleHeight = scaleWidth*9/16;
-	}
-	
-	private void setScaleLandScape() {
-		scaleWidth = ((float) newWidth) / h264Width *16/14;
-		scaleHeight = ((float) newWidth) / h264Width;
-//		scaleWidth = (float)16/9;
-//		scaleHeight = scaleWidth;
-//		scaleWidth = (float)1.3;
-//		scaleHeight = scaleWidth*9/16;
+		scaleHeight = ((float) newWidth) / h264Width / 16 * 14;
+		// scaleWidth = (float)16/9;
+		// scaleHeight = scaleWidth;
+		// scaleWidth = (float)1.3;
+		// scaleHeight = scaleWidth*9/16;
 	}
 
-	//竖直方向
+	private void setScaleLandScape() {
+		scaleWidth = ((float) newWidth) / h264Width * 16 / 14;
+		scaleHeight = ((float) newWidth) / h264Width;
+		// scaleWidth = (float)16/9;
+		// scaleHeight = scaleWidth;
+		// scaleWidth = (float)1.3;
+		// scaleHeight = scaleWidth*9/16;
+	}
+
+	// 竖直方向
 	private void setPortrait() {
 		this.newWidth = this.gdeviceWith;// ���ſ�ȵ����豸���
 		// ���ź�ĸ�=ԭͼ���x���ű���
 		this.newHeight = (h264Height * newWidth / h264Width);
-		float density=getResources().getDisplayMetrics().density;
-		//Rect rect = new Rect();
-		//this.getWindowVisibleDisplayFrame(rect);
-		top=(int)(density*60+0.5);
+		float density = getResources().getDisplayMetrics().density;
+		// Rect rect = new Rect();
+		// this.getWindowVisibleDisplayFrame(rect);
+		top = (int) (density * 60 + 0.5);
 		left = 0;
 		setScalePortrait();
 	}
-	
+
 	// 横屏方向，changed by CYM
 	private void setLandScape() {
 		this.newHeight = this.gdeviceHeight;// �����������Ĵ�Ÿ߶�
 		this.newWidth = h264Width * this.newHeight / h264Height;
 		top = 0;
-		left = (this.gdeviceWith - newWidth) / 2-50;
+		left = (this.gdeviceWith - newWidth) / 2 - 50;
 		setScaleLandScape();
 	}
 
@@ -192,8 +194,8 @@ public class VView extends View implements Runnable {
 		Matrix matrix = new Matrix();
 		matrix.postScale(scaleWidth, scaleHeight);
 		// �õ��µ�ͼƬ
-		 newbm = Bitmap.createBitmap(VideoBit, 0, 0, h264Width,
-				h264Height, matrix, true);
+		newbm = Bitmap.createBitmap(VideoBit, 0, 0, h264Width, h264Height,
+				matrix, true);
 		canvas.drawBitmap(newbm, left, top, null);
 		// canvas.drawBitmap(VideoBit, 50, 100, null);
 
@@ -226,6 +228,17 @@ public class VView extends View implements Runnable {
 			}
 
 			String recstr = new String(buffFromSocket);
+
+			if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+				try {
+					LibjinglePackHandler packHandler = new LibjinglePackHandler(recstr);
+					recstr = packHandler.result;
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
 			try {
 				// ����ַ����JSON����
 				JSONObject responseCommand = new JSONObject(recstr);
@@ -338,15 +351,12 @@ public class VView extends View implements Runnable {
 		int SockBufUsed = 0;
 		byte[] decoderInBuf = new byte[81920]; // 80k
 		byte[] buffFromSocket = new byte[2048];
-		//InitDecoder(h264Width, h264Height);
+		// InitDecoder(h264Width, h264Height);
 		ffmpeg.Init_H264Decoder(h264Width, h264Height);
-		while (!Thread.interrupted()&&getIsVideoRun()) 
-		{	
+		while (!Thread.interrupted() && getIsVideoRun()) {
 			try {
-				Log.d(TAG, "==============> 01");
 				bytesReadFromSocketNum = dataInputStream.read(buffFromSocket,
 						0, 2048);
-				Log.d(TAG, "==============> 02");
 			} catch (IOException e) {
 				handleError();
 				Log.e(TAG, "bytesReadFromSocketNum error:" + e.getMessage());
@@ -356,27 +366,21 @@ public class VView extends View implements Runnable {
 				Log.d("DecodeH264 run", "have not recieved data!");
 				break;
 			}
-			
 
 			SockBufUsed = 0;
-			Log.d(TAG, "debug3");
-			while (bytesReadFromSocketNum - SockBufUsed > 0) 
-			{
+			while (bytesReadFromSocketNum - SockBufUsed > 0) {
 				nalLen = MergeBuffer(decoderInBuf, NalBufUsed, buffFromSocket,
 						SockBufUsed, bytesReadFromSocketNum - SockBufUsed);
-				Log.d(TAG, "debug4");
 				NalBufUsed += nalLen;
 				SockBufUsed += nalLen;
 
-				while (mTrans == 1) 
-				{
+				while (mTrans == 1) {
 					mTrans = 0xFFFFFFFF;
 
 					if (bFirst == true) // the first start flag
 					{
 						bFirst = false;
-					} 
-					else // a complete NAL data, include 0x00000001 trail.
+					} else // a complete NAL data, include 0x00000001 trail.
 					{
 						if (bFindPPS == true) // true
 						{
@@ -393,15 +397,13 @@ public class VView extends View implements Runnable {
 								break;
 							}
 						}
-						Log.d(TAG, "debug5");
-						//iTemp = DecoderNal(decoderInBuf, NalBufUsed - 4, mPixel);
+						// iTemp = DecoderNal(decoderInBuf, NalBufUsed - 4,
+						// mPixel);
 						iTemp = ffmpeg.Decoder_H264Nal(decoderInBuf,
-								NalBufUsed-4, mPixel);
-						Log.d(TAG, "debug6");
+								NalBufUsed - 4, mPixel);
 						if (iTemp > 0)
 							postInvalidate();
 					}
-					Log.d(TAG, "debug7");
 					decoderInBuf[0] = 0;
 					decoderInBuf[1] = 0;
 					decoderInBuf[2] = 0;
@@ -411,7 +413,7 @@ public class VView extends View implements Runnable {
 				}
 			}
 		}
-		//UninitDecoder();
+		// UninitDecoder();
 		ffmpeg.Uninit_H264Decoder();
 	}
 
@@ -430,16 +432,16 @@ public class VView extends View implements Runnable {
 	public boolean getIsVideoRun() {
 		return isVideoRun;
 	}
-	
-	public Boolean screenShot(int channel) 
-	{
-		String picName=ComUtil.setViedoFileNameBySysTime(channel);
+
+	public Boolean screenShot(int channel) {
+		String picName = ComUtil.setViedoFileNameBySysTime(channel);
 		ComUtil.mkdirH264();
 		ComUtil.creatVideoFile(picName);
-		return ComUtil.savePic(newbm, ComUtil.picturePath+"/"+picName);
+		return ComUtil.savePic(newbm, ComUtil.picturePath + "/" + picName);
 	}
-	public static int px2dip(Context context, float pxValue) {  
-	    final float scale = context.getResources().getDisplayMetrics().density;  
-	    return (int) (pxValue / scale + 0.5f);  
-	}  
+
+	public static int px2dip(Context context, float pxValue) {
+		final float scale = context.getResources().getDisplayMetrics().density;
+		return (int) (pxValue / scale + 0.5f);
+	}
 }

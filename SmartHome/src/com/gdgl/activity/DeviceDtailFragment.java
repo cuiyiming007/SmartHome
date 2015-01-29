@@ -20,7 +20,6 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
-import com.gdgl.activity.RegionDevicesActivity.UpdateICELestTask;
 import com.gdgl.app.ApplicationController;
 import com.gdgl.libjingle.LibjingleSendManager;
 import com.gdgl.manager.CallbackManager;
@@ -996,9 +995,8 @@ public class DeviceDtailFragment extends BaseFragment {
 				}
 			}
 		}
-		
 	}
-
+	
     public String secToTime(int time) {
         String timeStr = null;
         int hour = 0;
@@ -1059,5 +1057,6 @@ public class DeviceDtailFragment extends BaseFragment {
 	// }
 	// });
 	// }
+
 
 }

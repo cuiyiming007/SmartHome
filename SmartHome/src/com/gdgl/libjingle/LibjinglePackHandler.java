@@ -74,6 +74,9 @@ public class LibjinglePackHandler {
 					this.result = getJsonSubStr(sub.getString("result"));
 				}
 				break;
+			case MT_IpcVideo:
+				this.result = sub.toString();
+				break;
 			case MT_CaHeartBeat:
 				this.result = String.valueOf(sub.getInt("heartbeat"));
 				break;

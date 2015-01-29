@@ -245,7 +245,6 @@ public class CallbackManager extends Manger {
 
 				break;
 			case 31:
-
 				String ieee31 = (String) jsonRsponse.get("IEEE");
 				String ep31 = (String) jsonRsponse.get("EP");
 				String name31 = (String) jsonRsponse.get("newname");
@@ -265,17 +264,49 @@ public class CallbackManager extends Manger {
 				event31.setData(newname31);
 				notifyObservers(event31);
 				break;
-			case 33:
-				String statusString = (String) jsonRsponse.get("status");
-				String status = "";
-				if (statusString.equals("DisArm")) {
-					status = "0";
+			case 32:
+				String ieee32 = (String) jsonRsponse.get("ZONE_IEEE");
+				String ep32 = (String) jsonRsponse.get("ZONE_EP");
+				String statusString32 = (String) jsonRsponse.get("state");
+//				Log.i(TAG, "Callback msgType=" + msgType
+//						+ " on-off bypass:"+ieee32+ep32+statusString32);
+				String status32 = "";
+				if (statusString32.equals("unbypass")) {
+					status32 = "0";
 				}
-				if (statusString.equals("ArmAllZone")) {
-					status = "1";
+				if (statusString32.equals("bypass")) {
+					status32 = "1";
+				}
+				
+				Bundle bundle32 = new Bundle();
+				bundle32.putString("IEEE", ieee32);
+				bundle32.putString("EP", ep32);
+				bundle32.putString("PARAM", status32);
+				Event event32 = new Event(EventType.LOCALIASCIEBYPASSZONE, true);
+				event32.setData(bundle32);
+				notifyObservers(event32);
+				
+				String where32 = " ieee = ? and ep = ?";
+				String[] args32 = { ieee32, ep32 };
+				ContentValues c32 = new ContentValues();
+				c32.put(DevicesModel.ON_OFF_STATUS, status32);
+				SQLiteDatabase mSQLiteDatabase32 = mDateHelper
+						.getSQLiteDatabase();
+				mDateHelper.update(mSQLiteDatabase32, DataHelper.DEVICES_TABLE,
+						c32, where32, args32);
+				mDateHelper.close(mSQLiteDatabase32);
+				break;
+			case 33:
+				String statusString33 = (String) jsonRsponse.get("status");
+				String status33 = "";
+				if (statusString33.equals("DisArm")) {
+					status33 = "0";
+				}
+				if (statusString33.equals("ArmAllZone")) {
+					status33 = "1";
 				}
 				Event event33 = new Event(EventType.LOCALIASCIEOPERATION, true);
-				event33.setData(status);
+				event33.setData(status33);
 				notifyObservers(event33);
 
 				SQLiteDatabase mSQLiteDatabase33 = mDateHelper
@@ -283,7 +314,7 @@ public class CallbackManager extends Manger {
 				String where33 = " model_id like ? ";
 				String[] args33 = { DataHelper.One_key_operator + "%" };
 				ContentValues c33 = new ContentValues();
-				c33.put(DevicesModel.ON_OFF_STATUS, status);
+				c33.put(DevicesModel.ON_OFF_STATUS, status33);
 				mDateHelper.update(mSQLiteDatabase33, DataHelper.DEVICES_TABLE,
 						c33, where33, args33);
 				mDateHelper.close(mSQLiteDatabase33);

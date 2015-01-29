@@ -854,12 +854,12 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 				List<DevicesModel> safeList = mDevicesListCache
 						.get(UiUtils.SECURITY_CONTROL);
 
-//				List<DevicesModel> updatsLis = new ArrayList<DevicesModel>();
+				// List<DevicesModel> updatsLis = new ArrayList<DevicesModel>();
 
 				final String status = (String) event.getData();
 
 				safeList.get(0).setmOnOffStatus(status);
-//				updatsLis.add(safeList.get(0));
+				// updatsLis.add(safeList.get(0));
 				if (UiUtils.SECURITY_CONTROL == mListIndex) {
 					// mCurrentList = safeList;
 					title.post(new Runnable() {
@@ -872,7 +872,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 						}
 					});
 				}
-//				new UpdateICELestTask().execute(updatsLis);
+				// new UpdateICELestTask().execute(updatsLis);
 			}
 		} else if (EventType.ON_OFF_STATUS == event.getType()) {
 			if (event.isSuccess() == true) {
@@ -919,17 +919,17 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 				final String valueString = data.getValue();
 				if (-1 != m) {
 					if (null != data.getValue()) {
-						mCurrentList.get(m).setmLevel(data.getValue());
+						mCurrentList.get(m).setmLevel(valueString);
 						title.post(new Runnable() {
 							@Override
 							public void run() {
 								// setDataActivity.setdata(mDeviceList);
 								mDevicesBaseAdapter.notifyDataSetChanged();
 								if (!isTop) {
-//									DeviceDtailFragment.getInstance()
-//											.refreshLevel(valueString);
+									// DeviceDtailFragment.getInstance()
+									// .refreshLevel(valueString);
 									DeviceDtailFragment.getInstance()
-									.refreshLevel(detaildata);
+											.refreshLevel(detaildata);
 								}
 							}
 						});
@@ -1102,12 +1102,19 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 			ArrayList<DevicesModel> scapedList = (ArrayList<DevicesModel>) event.getData();
 			for(DevicesModel mDevicesModel : scapedList){
 				Log.i("mDevicesModel ", "IEEE = "+mDevicesModel.getmIeee());
+			}
+		} else if (EventType.SCAPEDDEVICE == event.getType()) {
+			ArrayList<DevicesModel> scapedList = (ArrayList<DevicesModel>) event
+					.getData();
+			for (DevicesModel mDevicesModel : scapedList) {
 				int sort = mDevicesModel.getmDeviceSort();
 				switch (sort) {
 				case UiUtils.ENVIRONMENTAL_CONTROL:
 					mDevicesListCache.put(UiUtils.ENVIRONMENTAL_CONTROL, DataUtil.getSortManagementDevices(
 						ShowDevicesGroupFragmentActivity.this, mDataHelper,
 						UiUtils.ENVIRONMENTAL_CONTROL));
+					mDevicesListCache.get(UiUtils.ENVIRONMENTAL_CONTROL).add(
+							mDevicesModel);
 					break;
 				case UiUtils.SECURITY_CONTROL:
 					List<DevicesModel> safeList = mDevicesListCache
@@ -1134,21 +1141,29 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 						}
 					}
 					mDevicesListCache.put(UiUtils.SECURITY_CONTROL, safeList);
+					mDevicesListCache.get(UiUtils.SECURITY_CONTROL).add(
+							mDevicesModel);
 					break;
 				case UiUtils.LIGHTS_MANAGER:
 					mDevicesListCache.put(UiUtils.LIGHTS_MANAGER, DataUtil.getSortManagementDevices(
 							ShowDevicesGroupFragmentActivity.this, mDataHelper,
 							UiUtils.LIGHTS_MANAGER));
+					mDevicesListCache.get(UiUtils.LIGHTS_MANAGER).add(
+							mDevicesModel);
 					break;
 				case UiUtils.ELECTRICAL_MANAGER:
 					mDevicesListCache.put(UiUtils.ELECTRICAL_MANAGER, DataUtil.getSortManagementDevices(
 							ShowDevicesGroupFragmentActivity.this, mDataHelper,
 							UiUtils.ELECTRICAL_MANAGER));
+					mDevicesListCache.get(UiUtils.ELECTRICAL_MANAGER).add(
+							mDevicesModel);
 					break;
 				case UiUtils.ENERGY_CONSERVATION:
 					mDevicesListCache.put(UiUtils.ENERGY_CONSERVATION, DataUtil.getSortManagementDevices(
 							ShowDevicesGroupFragmentActivity.this, mDataHelper,
 							UiUtils.ENERGY_CONSERVATION));
+					mDevicesListCache.get(UiUtils.ENERGY_CONSERVATION).add(
+							mDevicesModel);
 					break;
 				case UiUtils.OTHER:
 					mDevicesListCache.put(UiUtils.OTHER, DataUtil.getSortManagementDevices(
@@ -1170,6 +1185,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		}
 
 	}
+
 
 	class Paremeters {
 		public DevicesModel dm;

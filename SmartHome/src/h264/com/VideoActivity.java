@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.gdgl.activity.ConfigActivity;
 import com.gdgl.activity.VideoFragment;
+import com.gdgl.libjingle.LibjingleVideoSocket;
 import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
@@ -35,6 +36,7 @@ import com.gdgl.manager.WarnManager;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.video.VideoNode;
+import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
 
 public class VideoActivity extends FragmentActivity implements UIListener {
@@ -216,6 +218,7 @@ public class VideoActivity extends FragmentActivity implements UIListener {
 		decodeh264.initalThread();
 		isVisible = false;
 		Network.closeVideoSocket();
+		LibjingleVideoSocket.closeVideoSocket();
 	}
 	
 	class captureImageTask extends AsyncTask<Integer, Object, Boolean> {
@@ -301,22 +304,43 @@ public class VideoActivity extends FragmentActivity implements UIListener {
 		protected Boolean doInBackground(Integer... params) {
 			Log.i(TAG, "start video ipc_channel=" + String.valueOf(ipc_channel));
 			decodeh264.initalThread();
-			Network.connectServer();
-			boolean isconnect = Network.isVideoSocketConnect();
-			if (isconnect == true) {
-				Network.sendVideoReq(ipc_channel);
-				try {
-					decodeh264.dataInputStream = new DataInputStream(
-							Network.socket.getInputStream());
-				} catch (IOException e1) {
-					Log.e(TAG, "doInBackground:" + e1.getMessage());
+			
+			if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+				Network.connectServer();
+				boolean isconnect = Network.isVideoSocketConnect();
+				if (isconnect == true) {
+					Network.sendVideoReq(ipc_channel);
+					try {
+						decodeh264.dataInputStream = new DataInputStream(
+								Network.socket.getInputStream());
+					} catch (IOException e1) {
+						Log.e(TAG, "doInBackground:" + e1.getMessage());
+						// handleError();
+						return false;
+					}
+				} else {
 					// handleError();
 					return false;
 				}
-			} else {
-				// handleError();
-				return false;
+			} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+				LibjingleVideoSocket.connectServer();
+				boolean isconnect = LibjingleVideoSocket.isVideoSocketConnect();
+				if (isconnect == true) {
+					LibjingleVideoSocket.sendVideoReq(ipc_channel);
+					try {
+						decodeh264.dataInputStream = new DataInputStream(
+								LibjingleVideoSocket.videosocket.getInputStream());
+					} catch (IOException e1) {
+						Log.e(TAG, "doInBackground:" + e1.getMessage());
+						// handleError();
+						return false;
+					}
+				} else {
+					// handleError();
+					return false;
+				}
 			}
+			
 			return decodeh264.getStartFlag() == true;
 		}
 

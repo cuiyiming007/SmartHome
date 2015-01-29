@@ -694,7 +694,7 @@ public class CGIManager extends Manger {
 		String url = NetUtil.getInstance().getCumstomURL(
 				NetUtil.getInstance().IP, "localIASCIEByPassZone.cgi", param);
 
-		simpleVolleyRequset(url, EventType.LOCALIASCIEBYPASSZONE);
+		simpleVolleyRequset(url, EventType.LOCALIASCIEUNBYPASSZONE);
 	}
 
 	/***

@@ -14,8 +14,6 @@ import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.DeviceManager;
 import com.gdgl.manager.VideoManager;
 import com.gdgl.mydata.Constants;
-import com.gdgl.network.ChannalManager;
-import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.reciever.HeartReceiver;
 
 public class SmartService extends Service {
