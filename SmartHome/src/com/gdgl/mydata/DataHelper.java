@@ -162,6 +162,8 @@ public class DataHelper extends SQLiteOpenHelper {
 		deviceStringBuilder.append(DevicesModel.DEVICE_PRIORITY + " INTEGER,");
 
 		deviceStringBuilder.append(DevicesModel.LAST_UPDATE_TIME + " INTEGER,");
+		deviceStringBuilder.append(DevicesModel.HEART_TIME + " INTEGER,");
+		deviceStringBuilder.append(DevicesModel.ONLINE_STATUS + " VARCHAR,");
 		deviceStringBuilder.append(DevicesModel.ON_OFF_LINE + " INTEGER )");
 
 		// group table create string
@@ -743,6 +745,10 @@ public class DataHelper extends SQLiteOpenHelper {
 			mDevicesModel.setID(c.getInt(c.getColumnIndex(DevicesModel._ID)));
 			mDevicesModel.setmDefaultDeviceName(c.getString(c
 					.getColumnIndex(DevicesModel.DEFAULT_DEVICE_NAME)));
+			mDevicesModel.setmOnlineStatus(c.getString(c
+					.getColumnIndex(DevicesModel.ONLINE_STATUS)));
+			mDevicesModel.setmHeartTime(c.getInt(c
+					.getColumnIndex(DevicesModel.HEART_TIME)));
 
 			mList.add(mDevicesModel);
 		}

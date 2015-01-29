@@ -194,7 +194,11 @@ public class BindListFragment extends Fragment implements UIListener {
 				i=mBindedDeviceList.size();
 			}
 			if (i>0) {
-				mHolder.devices_state.setText("已绑定"+i+"个设备");
+				if(mDevices.getmModelId().indexOf(DataHelper.Doorbell_button) != -1){
+					mHolder.devices_state.setText("已绑定"+(i-1)+"个设备");
+				}else{
+					mHolder.devices_state.setText("已绑定"+i+"个设备");
+				}
 			} else {
 				mHolder.devices_state.setText("未绑定任何设备");
 			}

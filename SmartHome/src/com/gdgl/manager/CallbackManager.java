@@ -143,8 +143,13 @@ public class CallbackManager extends Manger {
 				Log.i(TAG, "Callback msgType=" + msgType + "DimmerSwitch");
 				break;
 			case 7:
-				// Log.i(TAG, "Callback msgType=" + msgType +
-				// "OnOffLightSwitch");
+				 Log.i(TAG, "Callback msgType=" + msgType + "OnOffLightSwitch");
+				 JSONObject json = new JSONObject(response);
+				 if(json.getInt("callbackType") == 3){
+					 CallbackResponseCommon iasZone7 = gson.fromJson(response,
+								CallbackResponseCommon.class);
+					 handlerCallbackResponseCommon(iasZone7);
+				 }
 				break;
 			case 8:
 				CallbackResponseCommon IASWarmingDevice = gson.fromJson(
@@ -322,6 +327,27 @@ public class CallbackManager extends Manger {
 			e.printStackTrace();
 		}
 
+	}
+	
+	private void handlerCallbackResponseCommon(CallbackResponseCommon response) {
+		int callbackType = Integer.parseInt(response.getCallbackType());
+		switch(callbackType){
+		case 3:
+			ContentValues c = new ContentValues();
+			c.put(DevicesModel.HEART_TIME, response.getValue());
+			ParemetersResponse p = new ParemetersResponse();
+			p.response = response;
+			p.c = c;
+			Event event = new Event(EventType.HEARTTIME, true);
+			event.setData(response);
+			notifyObservers(event);
+			
+			new UpdateDeviceHeartTimeToDatabaseTask().execute(p);
+
+			break;
+		default:
+			break;
+		}
 	}
 
 	private void handlerWarnMessage(CallbackWarnMessage warnmessage) {
@@ -594,6 +620,11 @@ public class CallbackManager extends Manger {
 		public CallbackResponseType2 callbackmsg2;
 		public ContentValues c;
 	}
+	
+	class ParemetersResponse {
+		public CallbackResponseCommon response;
+		public ContentValues c;
+	}
 
 	public class UpdateDeviceStatusToDatabaseTask extends
 			AsyncTask<Paremeters, Integer, Integer> {
@@ -616,6 +647,29 @@ public class CallbackManager extends Manger {
 			return result;
 		}
 
+	}
+	
+	public class UpdateDeviceHeartTimeToDatabaseTask extends
+		AsyncTask<ParemetersResponse, Integer, Integer> {
+	
+		@Override
+		protected Integer doInBackground(ParemetersResponse... params) {
+			// TODO Auto-generated method stub
+			ParemetersResponse par = params[0];
+			CallbackResponseCommon response = par.response;
+			ContentValues c = par.c;
+		
+			String where = " ieee = ? and ep = ?";
+			String ieee = response.getIEEE();
+			String ep = response.getEP();
+			String[] args = { ieee, ep };
+			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
+			int result = mDateHelper.update(mSQLiteDatabase,
+					DataHelper.DEVICES_TABLE, c, where, args);
+			mDateHelper.close(mSQLiteDatabase);
+			return result;
+		}
+	
 	}
 
 	void makeNotify(Intent i, String title, String message) {

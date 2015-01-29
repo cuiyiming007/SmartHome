@@ -64,7 +64,7 @@ public class ScenesFragment extends Fragment implements refreshAdapter{
 		mCustomeAdapter=new CustomeAdapter();
 		mCustomeAdapter.setString(mScenes);
 		content_view.setAdapter(mCustomeAdapter);
-		content_view.setLayoutAnimation(UiUtils.getAnimationController((Context)getActivity()));
+//		content_view.setLayoutAnimation(UiUtils.getAnimationController((Context)getActivity()));
 		content_view.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
@@ -192,7 +192,7 @@ public class ScenesFragment extends Fragment implements refreshAdapter{
 		mCustomeAdapter=new CustomeAdapter();
 		mCustomeAdapter.setString(mScenes);
 		content_view.setAdapter(mCustomeAdapter);
-		content_view.setLayoutAnimation(UiUtils.getAnimationController((Context)getActivity()));
+//		content_view.setLayoutAnimation(UiUtils.getAnimationController((Context)getActivity()));
 		super.onResume();
 	}
 

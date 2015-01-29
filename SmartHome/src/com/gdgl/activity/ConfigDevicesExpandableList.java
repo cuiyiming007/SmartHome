@@ -66,6 +66,7 @@ public class ConfigDevicesExpandableList extends BaseFragment implements
 
 	List<DevicesModel> mCurrentList;
 	int currentpostion;
+	int groupPosition = 0;
 
 	View mView;
 
@@ -143,7 +144,6 @@ public class ConfigDevicesExpandableList extends BaseFragment implements
 		expandableAdapter = new ExpandableAdapter(getActivity());
 		deviceExpandableListView.setAdapter(expandableAdapter);
 		deviceExpandableListView.expandGroup(0);
-
 		deviceExpandableListView
 				.setOnChildClickListener(new OnChildClickListener() {
 
@@ -177,7 +177,7 @@ public class ConfigDevicesExpandableList extends BaseFragment implements
 		// TODO Auto-generated method stub
 
 		super.onCreateContextMenu(menu, v, menuInfo);
-
+		
 		ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) menuInfo;
 
 		int type = ExpandableListView
@@ -210,7 +210,9 @@ public class ConfigDevicesExpandableList extends BaseFragment implements
 					.getPackedPositionChild(info.packedPosition);
 		}
 		mCurrentList = mDeviceSort_ChildList.get(groupPos);
+		Log.i("groupPos = ", ""+groupPos);
 		currentpostion = childPos;
+		Log.i("childPos = ", ""+childPos);
 		DevicesModel mDevicesModel = (DevicesModel) mDeviceSort_ChildList.get(
 				groupPos).get(childPos);
 		int menuIndex = item.getItemId();
@@ -400,6 +402,54 @@ public class ConfigDevicesExpandableList extends BaseFragment implements
 					}
 				});
 			}
+		} else if(EventType.SCAPEDDEVICE == event.getType()){
+			Log.i("ConfigDevices SCAPEDDEVICE", "SCAPEDDEVICE");
+			ArrayList<DevicesModel> scapedList = (ArrayList<DevicesModel>) event.getData();
+			for(DevicesModel mDevicesModel : scapedList){
+				int sort = mDevicesModel.getmDeviceSort();
+				switch (sort) {
+				case UiUtils.ENVIRONMENTAL_CONTROL:
+					mEneronmentControl = DataUtil.getSortManagementDevices(
+							(Context) getActivity(), mDh,
+							UiUtils.ENVIRONMENTAL_CONTROL);
+					mDeviceSort_ChildList.set(2, mEneronmentControl);
+					break;
+				case UiUtils.SECURITY_CONTROL:
+					mSecurityControl = DataUtil.getSortManagementDevices(
+							(Context) getActivity(), mDh, 
+							UiUtils.SECURITY_CONTROL);
+					mDeviceSort_ChildList.set(0, mSecurityControl);
+					break;
+				case UiUtils.ELECTRICAL_MANAGER:
+					mElecManager = DataUtil.getSortManagementDevices(
+							(Context) getActivity(), mDh,
+							UiUtils.ELECTRICAL_MANAGER);
+					mDeviceSort_ChildList.set(1, mElecManager);
+					break;
+				case UiUtils.ENERGY_CONSERVATION:
+					mEnergy = DataUtil.getSortManagementDevices(
+							(Context) getActivity(), mDh,
+							UiUtils.ENERGY_CONSERVATION);
+					mDeviceSort_ChildList.set(3, mEnergy);
+					break;
+				case UiUtils.OTHER:
+					mOther = DataUtil.getSortManagementDevices(
+							(Context) getActivity(), mDh, 
+							UiUtils.SWITCH_DEVICE);
+					mDeviceSort_ChildList.set(4, mOther);
+					break;
+
+				default:
+					break;
+				}
+			}
+			deviceExpandableListView.post(new Runnable() {
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					expandableAdapter.notifyDataSetChanged();
+				}
+			});
 		}
 	}
 
