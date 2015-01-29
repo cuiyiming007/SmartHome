@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/okdialog_view"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:alpha="0.80"
+    android:background="@drawable/corners"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/txt_title"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:gravity="center"
+        android:textColor="#000000"
+        android:textSize="18dp"
+        android:text="请输入心跳周期" />
+    
+    <View 
+        android:background="@drawable/divider_color"
+        android:layout_width="match_parent"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="2dp"
+        android:layout_height="2px"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal" 
+            android:gravity="center_vertical">
+
+            <EditText
+                android:id="@+id/edit_hour"
+                android:layout_width="60dp"
+                android:layout_height="35dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:ems="2"
+                android:gravity="center"
+                android:textSize="16dp" 
+                android:inputType="number"
+                android:textColor="#33a3dc"
+                android:text="00"
+                android:phoneNumber="true"
+                android:maxLength="2"
+        		android:background="@drawable/time_edittext_bg">
+
+                <requestFocus />
+            </EditText>
+            
+            <TextView
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:gravity="center"
+		        android:textColor="#000000"
+		        android:textSize="18dp"
+		        android:text=" : " />
+            
+            <EditText
+                android:id="@+id/edit_minute"
+                android:layout_width="60dp"
+                android:layout_height="35dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:ems="2"
+                android:gravity="center"
+                android:textSize="16dp" 
+                android:inputType="number"
+                android:textColor="#33a3dc"
+                android:text="00"
+                android:phoneNumber="true"
+                android:maxLength="2"
+        		android:background="@drawable/time_edittext_bg">
+            </EditText>
+            
+            <TextView
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:gravity="center"
+		        android:textColor="#000000"
+		        android:textSize="18dp"
+		        android:text=" : " />
+            
+            <EditText
+                android:id="@+id/edit_second"
+                android:layout_width="60dp"
+                android:layout_height="35dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:ems="2"
+                android:gravity="center"
+                android:textSize="16dp" 
+                android:inputType="number"
+                android:textColor="#33a3dc"
+                android:text="00"
+                android:phoneNumber="true"
+                android:maxLength="2"
+        		android:background="@drawable/time_edittext_bg">
+            </EditText>
+        </LinearLayout>
+
+        
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp" >
+
+        <Button
+            android:id="@+id/btn_save"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/dlg_btn_style"
+            android:text="保存"
+            android:textColor="#000000"
+            android:textSize="16dp" />
+
+        <Button
+            android:id="@+id/btn_cancle"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/dlg_btn_style"
+            android:text="取消"
+            android:textColor="#000000"
+            android:textSize="16dp" />
+    </RelativeLayout>
+
+</LinearLayout>

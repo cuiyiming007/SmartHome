@@ -67,6 +67,9 @@ interface DevicesBaseColumns extends BaseColumns {
 
 	public static final String LAST_UPDATE_TIME = "last_update_time";
 	public static final String ON_OFF_LINE = "on_off_line";
+	
+	public static final String HEART_TIME = "heart_time";
+	public static final String ONLINE_STATUS = "online_status";
 
 }
 
@@ -135,6 +138,8 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 
 	private int mValue1 = 0;
 	private int mValue2 = 0;
+	private int mHeartTime = 0;
+	private String mOnlineStatus = "";
 
 	public int getID() {
 		return ID;
@@ -511,6 +516,22 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 	public void setmValue2(int mValue2) {
 		this.mValue2 = mValue2;
 	}
+	
+	public int getmHeartTime(){
+		return mHeartTime;
+	}
+	
+	public void setmHeartTime(int time){
+		this.mHeartTime = time;
+	}
+	
+	public String getmOnlineStatus(){
+		return mOnlineStatus;
+	}
+	
+	public void setmOnlineStatus(String status){
+		this.mOnlineStatus = status;
+	}
 
 	public ContentValues convertContentValues() {
 		ContentValues mContentValues = new ContentValues();
@@ -573,6 +594,7 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 		mContentValues.put(DevicesBaseColumns.LAST_UPDATE_TIME,
 				getmLastDateTime());
 		mContentValues.put(DevicesBaseColumns.ON_OFF_LINE, getmOnOffLine());
+		mContentValues.put(DevicesBaseColumns.HEART_TIME, getmHeartTime());
 
 		return mContentValues;
 	}

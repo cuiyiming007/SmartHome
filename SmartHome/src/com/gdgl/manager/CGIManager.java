@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
@@ -19,6 +22,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.gdgl.app.ApplicationController;
+import com.gdgl.manager.CallbackManager.ParemetersResponse;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.DataHelper;
@@ -31,6 +35,7 @@ import com.gdgl.mydata.ResponseParamsEndPoint;
 import com.gdgl.mydata.SimpleResponseData;
 import com.gdgl.mydata.Callback.CallbackBindListDevices;
 import com.gdgl.mydata.Callback.CallbackBindListMessage;
+import com.gdgl.mydata.Callback.CallbackResponseCommon;
 import com.gdgl.mydata.Region.GetRoomInfo_response;
 import com.gdgl.mydata.Region.Room;
 import com.gdgl.mydata.Region.RoomData_response_params;
@@ -1500,6 +1505,114 @@ public class CGIManager extends Manger {
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
 	
+	/***
+	 * 获取安防设备心跳周期
+	 * 
+	 */
+	public void getHeartTime(DevicesModel mDevices) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("ieee", mDevices.getmIeee());
+		paraMap.put("ep", mDevices.getmEP());
+		paraMap.put("operatortype", "4");
+		paraMap.put("param1", "");
+		paraMap.put("param2", "");
+		paraMap.put("param3", "");
+		
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
+		String param = hashMap2ParamString(paraMap);
+		
+		String url = NetUtil.getInstance().getCumstomURL(
+				NetUtil.getInstance().IP, "iasZoneOperation.cgi", param);
+		Log.i("CGIManager getHeartTime Request:%n %s", url);
+		StringRequest req = new StringRequest(url, 
+				new Response.Listener<String>() {
+					@Override
+					public void onResponse(String response) {
+						response = UiUtils.formatResponseString(response);
+						Log.i("CGIManager getHeartTime Response:%n %s", response);
+						Bundle bundle = new Bundle();
+						try {
+							JSONObject json = new JSONObject(response);
+							JSONObject jsonParams = json.getJSONObject("response_params");
+							bundle.putString("ieee", jsonParams.getString("ieee"));
+							bundle.putString("ep", jsonParams.getString("ep"));
+							bundle.putInt("time", jsonParams.getInt("param1"));
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+											
+						Event event = new Event(EventType.READHEARTTIME, true);
+						event.setData(bundle);
+						notifyObservers(event);
+						
+						new UpdateDeviceHeartTimeToDatabaseTask().execute(bundle);
+					}
+				},
+				new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+						if (error != null && error.getMessage() != null) {
+							VolleyLog.e("CGIManager getHeartTime Error: ", error.getMessage());
+							
+						}
+					}
+				});
+		// add the request object to the queue to be executed
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
+	
+	/***
+	 * 设定安防设备心跳周期
+	 * 
+	 * @param mDevices
+	 * @param time
+	 */
+	public void setHeartTime(DevicesModel mDevices, int time) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("ieee", mDevices.getmIeee());
+		paraMap.put("ep", mDevices.getmEP());
+		paraMap.put("operatortype", "1");
+		paraMap.put("param1", ""+time);
+		paraMap.put("param2", "");
+		paraMap.put("param3", "");
+		
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
+		String param = hashMap2ParamString(paraMap);
+		Listener<String> responseListener = new Listener<String>() {
+			@Override
+			public void onResponse(String response) {
+				response = UiUtils.formatResponseString(response);
+				Log.i("CGIManager setHeartTime Response:%n %s", response);
+			}
+		};
+		String url = NetUtil.getInstance().getCumstomURL(
+				NetUtil.getInstance().IP, "iasZoneOperation.cgi", param);
+		Log.i("CGIManager setHeartTime Request:%n %s", url);
+		StringRequest req = new StringRequest(url, 
+				new Response.Listener<String>() {
+					@Override
+					public void onResponse(String response) {
+						response = UiUtils.formatResponseString(response);
+					}
+				},
+				new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+						if (error != null && error.getMessage() != null) {
+							VolleyLog.e("CGIManager setHeartTime Error: ", error.getMessage());
+							
+						}
+					}
+				});
+		// add the request object to the queue to be executed
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
+	
 	
 	class GetBindingTask extends AsyncTask<String, Object, Object> {
 		@Override
@@ -1630,4 +1743,29 @@ public class CGIManager extends Manger {
 		}
 
 	}
+	
+	public class UpdateDeviceHeartTimeToDatabaseTask extends
+	AsyncTask<Bundle, Integer, Integer> {
+
+	@Override
+	protected Integer doInBackground(Bundle... params) {
+		// TODO Auto-generated method stub
+		Bundle data = params[0];
+		ContentValues c = new ContentValues();
+		c.put(DevicesModel.HEART_TIME, data.getInt("param1"));
+		
+		String where = " ieee = ? and ep = ?";
+		String ieee = data.getString("ieee");
+		String ep = data.getString("ep");
+		String[] args = { ieee, ep };
+		DataHelper mDateHelper = new DataHelper(
+				ApplicationController.getInstance());
+		SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
+		int result = mDateHelper.update(mSQLiteDatabase,
+				DataHelper.DEVICES_TABLE, c, where, args);
+		mDateHelper.close(mSQLiteDatabase);
+		return result;
+	}
+
+}
 }

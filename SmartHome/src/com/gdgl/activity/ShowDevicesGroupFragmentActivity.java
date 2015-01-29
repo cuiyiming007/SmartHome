@@ -473,8 +473,8 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 					}
 				}
 			}
-		} else if (UiUtils.SECURITY_CONTROL == postion) {
-			mDeviceManager.getLocalCIEList();
+//		} else if (UiUtils.SECURITY_CONTROL == postion) {
+//			mDeviceManager.getLocalCIEList();
 		}
 	}
 
@@ -786,34 +786,58 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 					}
 				}
 			}
-		} else if (EventType.GETICELIST == event.getType()) {
+//		} else if (EventType.GETICELIST == event.getType()) {
+//			if (event.isSuccess()) {
+//				ArrayList<CIEresponse_params> devDataList = (ArrayList<CIEresponse_params>) event
+//						.getData();
+//
+//				List<DevicesModel> safeList = mDevicesListCache
+//						.get(UiUtils.SECURITY_CONTROL);
+//
+//				List<DevicesModel> updatsLis = new ArrayList<DevicesModel>();// 需要刷新的集合
+//				if (null != devDataList && devDataList.size() > 0) {
+//					for (int i = 0; i < devDataList.size(); i++) {
+//						CIEresponse_params cp = devDataList.get(i);
+//
+//						int m = getDevicesPostion(cp.getCie().getIeee(), cp
+//								.getCie().getEp(), safeList);
+//						if (-1 != m) {
+//							String s = cp.getCie().getElserec().getBbypass();
+//							String status = s.trim().toLowerCase()
+//									.equals("true") ? "1" : "0";
+//							if (!status.equals(safeList.get(m)
+//									.getmOnOffStatus())) {
+//								safeList.get(m).setmOnOffStatus(status);
+//								updatsLis.add(safeList.get(m));
+//							}
+//						}
+//					}
+//					if (UiUtils.SECURITY_CONTROL == mListIndex) {
+//						// mCurrentList = safeList;
+//						title.post(new Runnable() {
+//							@Override
+//							public void run() {
+//								// setdata(mCurrentList);
+//								mDevicesBaseAdapter.notifyDataSetChanged();
+//							}
+//						});
+//					}
+//					if (null != updatsLis && updatsLis.size() > 0) {
+//						new UpdateICELestTask().execute(updatsLis);
+//					}
+//				}
+//			}
+		} else if (EventType.LOCALIASCIEBYPASSZONE == event.getType()) {
 			if (event.isSuccess()) {
-				ArrayList<CIEresponse_params> devDataList = (ArrayList<CIEresponse_params>) event
-						.getData();
-
-				List<DevicesModel> safeList = mDevicesListCache
+				Bundle bundle = (Bundle) event.getData();
+				List<DevicesModel> temList = mDevicesListCache
 						.get(UiUtils.SECURITY_CONTROL);
+				int m = getDevicesPostion(bundle.getString("IEEE"),
+						bundle.getString("EP"), temList);
+				if (m != -1) {
+					temList.get(m).setmOnOffStatus(bundle.getString("PARAM"));
 
-				List<DevicesModel> updatsLis = new ArrayList<DevicesModel>();// 需要刷新的集合
-				if (null != devDataList && devDataList.size() > 0) {
-					for (int i = 0; i < devDataList.size(); i++) {
-						CIEresponse_params cp = devDataList.get(i);
-
-						int m = getDevicesPostion(cp.getCie().getIeee(), cp
-								.getCie().getEp(), safeList);
-						if (-1 != m) {
-							String s = cp.getCie().getElserec().getBbypass();
-							String status = s.trim().toLowerCase()
-									.equals("true") ? "1" : "0";
-							if (!status.equals(safeList.get(m)
-									.getmOnOffStatus())) {
-								safeList.get(m).setmOnOffStatus(status);
-								updatsLis.add(safeList.get(m));
-							}
-						}
-					}
 					if (UiUtils.SECURITY_CONTROL == mListIndex) {
-						// mCurrentList = safeList;
 						title.post(new Runnable() {
 							@Override
 							public void run() {
@@ -822,15 +846,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 							}
 						});
 					}
-					if (null != updatsLis && updatsLis.size() > 0) {
-						new UpdateICELestTask().execute(updatsLis);
-					}
 				}
-			}
-		} else if (EventType.LOCALIASCIEBYPASSZONE == event.getType()
-				|| EventType.LOCALIASCIEUNBYPASSZONE == event.getType()) {
-			if (event.isSuccess()) {
-				DeviceManager.getInstance().getLocalCIEList();
 			}
 		} else if (EventType.LOCALIASCIEOPERATION == event.getType()) {
 			if (event.isSuccess() == true) {
@@ -840,7 +856,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 
 //				List<DevicesModel> updatsLis = new ArrayList<DevicesModel>();
 
-				String status = (String) event.getData();
+				final String status = (String) event.getData();
 
 				safeList.get(0).setmOnOffStatus(status);
 //				updatsLis.add(safeList.get(0));
@@ -851,6 +867,8 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 						public void run() {
 							// setdata(mCurrentList);
 							mDevicesBaseAdapter.notifyDataSetChanged();
+							DeviceDtailFragment.getInstance()
+							.refreshSecurity(status);
 						}
 					});
 				}
@@ -861,6 +879,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 				// data maybe null
 				CallbackResponseType2 data = (CallbackResponseType2) event
 						.getData();
+				final CallbackResponseType2 detaildata = data;
 				int m = getDevicesPostion(data.getDeviceIeee(),
 						data.getDeviceEp(), mCurrentList);
 				if (-1 != m) {
@@ -871,6 +890,8 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 							public void run() {
 								// setDataActivity.setdata(mDeviceList);
 								mDevicesBaseAdapter.notifyDataSetChanged();
+								DeviceDtailFragment.getInstance()
+								.refreshOnOffStatus(detaildata);
 							}
 						});
 
@@ -1077,27 +1098,62 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 				}
 			});
 		} else if(EventType.SCAPEDDEVICE == event.getType()){
+			Log.i("ShowDevices SCAPEDDEVICE", "SCAPEDDEVICE");
 			ArrayList<DevicesModel> scapedList = (ArrayList<DevicesModel>) event.getData();
 			for(DevicesModel mDevicesModel : scapedList){
+				Log.i("mDevicesModel ", "IEEE = "+mDevicesModel.getmIeee());
 				int sort = mDevicesModel.getmDeviceSort();
 				switch (sort) {
 				case UiUtils.ENVIRONMENTAL_CONTROL:
-					mDevicesListCache.get(UiUtils.ENVIRONMENTAL_CONTROL).add(mDevicesModel);
+					mDevicesListCache.put(UiUtils.ENVIRONMENTAL_CONTROL, DataUtil.getSortManagementDevices(
+						ShowDevicesGroupFragmentActivity.this, mDataHelper,
+						UiUtils.ENVIRONMENTAL_CONTROL));
 					break;
 				case UiUtils.SECURITY_CONTROL:
-					mDevicesListCache.get(UiUtils.SECURITY_CONTROL).add(mDevicesModel);
+					List<DevicesModel> safeList = mDevicesListCache
+							.get(UiUtils.SECURITY_CONTROL);
+					safeList = DataUtil.getSortManagementDevices(
+							ShowDevicesGroupFragmentActivity.this, mDataHelper,
+							UiUtils.SECURITY_CONTROL);
+
+					DevicesModel dm = null;
+					DevicesModel tempDevicesModel;
+					int index = -1;
+					if (null != safeList && safeList.size() > 0) {
+						tempDevicesModel = safeList.get(0);
+						for (int i = 0; i < safeList.size(); i++) {
+							if (safeList.get(i).getmModelId()
+									.indexOf(DataHelper.One_key_operator) == 0) {
+								dm = safeList.get(i);
+								index = i;
+							}
+						}
+						if (index != -1 && index != 0) {
+							safeList.add(0, dm);
+							safeList.add(index, tempDevicesModel);
+						}
+					}
+					mDevicesListCache.put(UiUtils.SECURITY_CONTROL, safeList);
 					break;
 				case UiUtils.LIGHTS_MANAGER:
-					mDevicesListCache.get(UiUtils.LIGHTS_MANAGER).add(mDevicesModel);
+					mDevicesListCache.put(UiUtils.LIGHTS_MANAGER, DataUtil.getSortManagementDevices(
+							ShowDevicesGroupFragmentActivity.this, mDataHelper,
+							UiUtils.LIGHTS_MANAGER));
 					break;
 				case UiUtils.ELECTRICAL_MANAGER:
-					mDevicesListCache.get(UiUtils.ELECTRICAL_MANAGER).add(mDevicesModel);
+					mDevicesListCache.put(UiUtils.ELECTRICAL_MANAGER, DataUtil.getSortManagementDevices(
+							ShowDevicesGroupFragmentActivity.this, mDataHelper,
+							UiUtils.ELECTRICAL_MANAGER));
 					break;
 				case UiUtils.ENERGY_CONSERVATION:
-					mDevicesListCache.get(UiUtils.ENERGY_CONSERVATION).add(mDevicesModel);
+					mDevicesListCache.put(UiUtils.ENERGY_CONSERVATION, DataUtil.getSortManagementDevices(
+							ShowDevicesGroupFragmentActivity.this, mDataHelper,
+							UiUtils.ENERGY_CONSERVATION));
 					break;
 				case UiUtils.OTHER:
-					mDevicesListCache.get(UiUtils.OTHER).add(mDevicesModel);
+					mDevicesListCache.put(UiUtils.OTHER, DataUtil.getSortManagementDevices(
+							ShowDevicesGroupFragmentActivity.this, mDataHelper,
+							UiUtils.OTHER));
 					break;
 
 				default:
@@ -1108,7 +1164,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 
 				@Override
 				public void run() {
-					resetFragment();
+					mDevicesBaseAdapter.notifyDataSetChanged();
 				}
 			});
 		}
@@ -1143,34 +1199,34 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 
 	}
 
-	public class UpdateICELestTask extends
-			AsyncTask<List<DevicesModel>, Integer, Integer> {
-
-		@Override
-		protected Integer doInBackground(List<DevicesModel>... params) {
-			// TODO Auto-generated method stub
-			List<DevicesModel> updateList = params[0];
-			if (null == updateList || updateList.size() == 0) {
-				return null;
-			} else {
-				String where = " ieee=? and ep=? ";
-				ContentValues v;
-				SQLiteDatabase db = mDataHelper.getSQLiteDatabase();
-				for (DevicesModel devicesModel : updateList) {
-					String[] args = { devicesModel.getmIeee().trim(),
-							devicesModel.getmEP().trim() };
-					String status = devicesModel.getmOnOffStatus();
-					v = new ContentValues();
-					v.put(DevicesModel.ON_OFF_STATUS, status == "1" ? "1" : "0");
-					mDataHelper.update(db, DataHelper.DEVICES_TABLE, v, where,
-							args);
-				}
-				mDataHelper.close(db);
-			}
-			return null;
-		}
-
-	}
+//	public class UpdateICELestTask extends
+//			AsyncTask<List<DevicesModel>, Integer, Integer> {
+//
+//		@Override
+//		protected Integer doInBackground(List<DevicesModel>... params) {
+//			// TODO Auto-generated method stub
+//			List<DevicesModel> updateList = params[0];
+//			if (null == updateList || updateList.size() == 0) {
+//				return null;
+//			} else {
+//				String where = " ieee=? and ep=? ";
+//				ContentValues v;
+//				SQLiteDatabase db = mDataHelper.getSQLiteDatabase();
+//				for (DevicesModel devicesModel : updateList) {
+//					String[] args = { devicesModel.getmIeee().trim(),
+//							devicesModel.getmEP().trim() };
+//					String status = devicesModel.getmOnOffStatus();
+//					v = new ContentValues();
+//					v.put(DevicesModel.ON_OFF_STATUS, status == "1" ? "1" : "0");
+//					mDataHelper.update(db, DataHelper.DEVICES_TABLE, v, where,
+//							args);
+//				}
+//				mDataHelper.close(db);
+//			}
+//			return null;
+//		}
+//
+//	}
 
 	/***
 	 * 根据ieee和ep确定该设备在界面对应的列表里面的位置

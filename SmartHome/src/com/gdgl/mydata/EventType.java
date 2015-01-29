@@ -60,6 +60,8 @@ public class EventType {
 	public static final EventType ROOMDATAMAIN;
 	public static final EventType MODIFYDEVICEROOMID;
 	public static final EventType CHANGEDEVICENAME;
+	public static final EventType HEARTTIME;
+	public static final EventType READHEARTTIME;
 
 	static {
 		LOGIN = new EventType("login", id);
@@ -114,6 +116,8 @@ public class EventType {
 		ROOMDATAMAIN = new EventType("roomDataMain", nextId());
 		MODIFYDEVICEROOMID = new EventType("modifyDeviceRoomId", nextId());
 		CHANGEDEVICENAME = new EventType("changedevicename", nextId());
+		HEARTTIME = new EventType("hearttime", nextId());
+		READHEARTTIME = new EventType("readhearttime", nextId());
 	}
 
 	private static int nextId() {

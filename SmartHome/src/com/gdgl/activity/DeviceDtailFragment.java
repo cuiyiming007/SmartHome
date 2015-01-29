@@ -1,5 +1,8 @@
 package com.gdgl.activity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,8 +20,10 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
+import com.gdgl.activity.RegionDevicesActivity.UpdateICELestTask;
 import com.gdgl.app.ApplicationController;
 import com.gdgl.libjingle.LibjingleSendManager;
+import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.DeviceManager;
 import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.Manger;
@@ -26,9 +31,17 @@ import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
+import com.gdgl.mydata.Event;
+import com.gdgl.mydata.EventType;
+import com.gdgl.mydata.SimpleResponseData;
+import com.gdgl.mydata.Callback.CallbackResponseCommon;
 import com.gdgl.mydata.Callback.CallbackResponseType2;
+import com.gdgl.mydata.getlocalcielist.CIEresponse_params;
 import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
+import com.gdgl.util.JoinNetTimeDlg;
+import com.gdgl.util.TimeDlg;
+import com.gdgl.util.UiUtils;
 
 /***
  * 设备详情页
@@ -59,10 +72,10 @@ public class DeviceDtailFragment extends BaseFragment {
 	LinearLayout device_contorlLayout, device_seekbarLayout,
 			device_contorl_safeLayout, energy_attributeLayout,
 			device_aboutLayout, device_about_open_closeLayout,
-			device_about_contentLayout;
+			device_about_contentLayout, device_heart_layout;
 	Button device_onButton, device_offButton, device_inversionButton,
 			device_defense_onButton, device_defense_offButton,
-			begin_identifyButton;
+			begin_identifyButton, device_heartButton;
 	SeekBar device_seekBar;
 
 	CGIManager cgiManager;
@@ -92,6 +105,7 @@ public class DeviceDtailFragment extends BaseFragment {
 
 		cgiManager = CGIManager.getInstance();
 		cgiManager.addObserver(DeviceDtailFragment.this);
+		CallbackManager.getInstance().addObserver(DeviceDtailFragment.this);
 		DeviceManager.getInstance().addObserver(this);
 		libjingleSendManager = LibjingleSendManager.getInstance();
 
@@ -104,6 +118,7 @@ public class DeviceDtailFragment extends BaseFragment {
 		// TODO Auto-generated method stub
 		mView = inflater.inflate(R.layout.device_detail, null);
 		initView();
+		CGIManager.getInstance().getHeartTime(mDevices);
 		return mView;
 	}
 
@@ -125,12 +140,14 @@ public class DeviceDtailFragment extends BaseFragment {
 				.findViewById(R.id.device_about_open_close);
 		device_about_contentLayout = (LinearLayout) mView
 				.findViewById(R.id.device_about_content);
-
+		device_heart_layout = (LinearLayout) mView
+				.findViewById(R.id.device_heart_layout);
 		device_imgImageView = (ImageView) mView.findViewById(R.id.device_img);
 		device_nameTextView = (TextView) mView.findViewById(R.id.device_name);
 		device_regionTextView = (TextView) mView
 				.findViewById(R.id.device_region);
-
+		
+		device_heartButton = (Button) mView.findViewById(R.id.device_heart_btn);
 		device_onButton = (Button) mView.findViewById(R.id.device_on);
 		device_offButton = (Button) mView.findViewById(R.id.device_off);
 		device_inversionButton = (Button) mView
@@ -167,7 +184,8 @@ public class DeviceDtailFragment extends BaseFragment {
 				.findViewById(R.id.device_hw_version);
 		device_date_codeTextView = (TextView) mView
 				.findViewById(R.id.device_date_code);
-		
+		refreshOnOffButton();
+		refreshDefenseButton();
 		// 设备详情布局
 		setDeviceDetailLayout();
 		if (aboutdevice == WITH_DEVICE_ABOUT) {
@@ -179,6 +197,18 @@ public class DeviceDtailFragment extends BaseFragment {
 						.getmModelId().trim()));
 		device_nameTextView.setText(mDevices.getmDefaultDeviceName().trim());
 		device_regionTextView.setText(mDevices.getmDeviceRegion().trim());
+		
+		//心跳周期
+		device_heartButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				TimeDlg timeDlg = new TimeDlg(
+						(Context) getActivity(), mDevices, device_heartButton.getText().toString());
+				timeDlg.show();
+			}
+		});
 		
 		// 设备控制
 		device_onButton.setOnClickListener(new OnClickListener() {
@@ -496,9 +526,11 @@ public class DeviceDtailFragment extends BaseFragment {
 			device_contorlLayout.setVisibility(View.GONE);
 			break;
 		case DataHelper.IAS_ACE_DEVICETYPE:
+			device_heart_layout.setVisibility(View.VISIBLE);
 			device_contorlLayout.setVisibility(View.GONE);
 			break;
 		case DataHelper.IAS_ZONE_DEVICETYPE:
+			device_heart_layout.setVisibility(View.VISIBLE);
 			if (modelId.indexOf(DataHelper.Motion_Sensor) == 0) { // ZigBee动作感应器
 				device_contorlLayout.setVisibility(View.GONE);
 				device_contorl_safeLayout.setVisibility(View.VISIBLE);
@@ -533,10 +565,20 @@ public class DeviceDtailFragment extends BaseFragment {
 			break;
 		case DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE:
 			device_contorlLayout.setVisibility(View.GONE);
+			device_heart_layout.setVisibility(View.VISIBLE);
 			break;
 		default:
 			break;
 		}
+		
+//		if(mDevices.getmDeviceSort() == UiUtils.SECURITY_CONTROL){
+//			device_heart_layout.setVisibility(View.VISIBLE);
+//			if(mDevices.getmModelId().indexOf(DataHelper.One_key_operator) != -1){
+//				device_heart_layout.setVisibility(View.GONE);
+//			}
+//		}else{
+//			device_heart_layout.setVisibility(View.GONE);
+//		}
 	}
 
 	public void DeviceContorlOnOffClickDo(int status) {
@@ -819,6 +861,40 @@ public class DeviceDtailFragment extends BaseFragment {
 		device_seekBar.setProgress(state);
 		device_seekBar.invalidate();
 	}
+	
+	public void refreshDefense(ArrayList<CIEresponse_params> devDataList){
+		if(mDevices != null){
+			if (null != devDataList && devDataList.size() > 0) {
+				for (int i = 0; i < devDataList.size(); i++) {
+					CIEresponse_params cp = devDataList.get(i);
+					if(mDevices.getmIeee().equals(cp.getCie().getIeee()) && mDevices.getmEP().equals(cp.getCie().getEp())){
+						String s = cp.getCie().getElserec().getBbypass();
+						String status = s.trim().toLowerCase().equals("true") ? "1" : "0";	
+						mDevices.setmOnOffStatus(status);
+						refreshDefenseButton();
+					}
+				}
+			}
+		}
+	}
+	
+	public void refreshOnOffStatus(CallbackResponseType2 data){
+		if(mDevices != null){
+			if(mDevices.getmIeee().equals(data.getDeviceIeee()) && mDevices.getmEP().equals(data.getDeviceEp())){
+				mDevices.setmOnOffStatus(data.getValue());
+				refreshOnOffButton();
+			}
+		}
+	}
+	
+	public void refreshSecurity(String status){
+		if(mDevices != null){
+			if(mDevices.getmModelId().indexOf(DataHelper.One_key_operator) == 0){
+				mDevices.setmOnOffStatus(status);
+				refreshDefenseButton();
+			}
+		}	
+	}
 
 	public void refreshCurrent(String string) {
 		device_currentTextView.setText(string);
@@ -839,27 +915,122 @@ public class DeviceDtailFragment extends BaseFragment {
 		device_energyTextView.setText(string);
 		device_energyTextView.postInvalidate();
 	}
+	
+	public void refreshOnOffButton(){
+		if(mDevices.getmOnOffStatus().equals("1")){
+			device_onButton.setBackgroundResource(R.drawable.ui_device_detail_open_unpressed);
+			device_onButton.setClickable(false);
+			device_offButton.setBackgroundResource(R.drawable.ui_device_detail_close_style);
+			device_offButton.setClickable(true);
+		}else{
+			device_onButton.setBackgroundResource(R.drawable.ui_device_detail_open_style);
+			device_onButton.setClickable(true);
+			device_offButton.setBackgroundResource(R.drawable.ui_device_detail_close_unpressed);
+			device_offButton.setClickable(false);
+		}
+	}
+	
+	public void refreshDefenseButton(){
+		if(mDevices.getmModelId().indexOf(DataHelper.One_key_operator) == 0){
+			if(mDevices.getmOnOffStatus().equals("1")){
+				device_defense_onButton.setBackgroundResource(R.drawable.ui_device_detail_open_unpressed);
+				device_defense_onButton.setClickable(false);
+				device_defense_offButton.setBackgroundResource(R.drawable.ui_device_detail_close_style);
+				device_defense_offButton.setClickable(true);
+			}else{
+				device_defense_onButton.setBackgroundResource(R.drawable.ui_device_detail_open_style);
+				device_defense_onButton.setClickable(true);
+				device_defense_offButton.setBackgroundResource(R.drawable.ui_device_detail_close_unpressed);
+				device_defense_offButton.setClickable(false);
+			}
+		}else{
+			if(mDevices.getmOnOffStatus().equals("0")){
+				device_defense_onButton.setBackgroundResource(R.drawable.ui_device_detail_open_unpressed);
+				device_defense_onButton.setClickable(false);
+				device_defense_offButton.setBackgroundResource(R.drawable.ui_device_detail_close_style);
+				device_defense_offButton.setClickable(true);
+			}else{
+				device_defense_onButton.setBackgroundResource(R.drawable.ui_device_detail_open_style);
+				device_defense_onButton.setClickable(true);
+				device_defense_offButton.setBackgroundResource(R.drawable.ui_device_detail_close_unpressed);
+				device_defense_offButton.setClickable(false);
+			}
+		}
+		
+	}
 
 	@Override
 	public void update(Manger observer, Object object) {
-		// if (null != mDialog) {
-		// mDialog.dismiss();
-		// mDialog = null;
-		// }
-		// final Event event = (Event) object;
-		// if (EventType.LOCALIASCIEBYPASSZONE == event.getType()
-		// || EventType.LOCALIASCIEUNBYPASSZONE == event.getType()) {
-		// if (event.isSuccess()) {
-		// mDevices.setmOnOffStatus(status ? "0" : "1");
-		// updateStatusOnUIThread();
-		// ContentValues c = new ContentValues();
-		// c.put(DevicesModel.ON_OFF_STATUS, status ? "0" : "1");
-		// // mUpdateDevice.updateDevices(mDevices, c);
-		// } else {
-		// Toast.makeText(getActivity(), "操作失败", Toast.LENGTH_SHORT);
-		// }
-		// }
+		final Event event = (Event) object;
+		if (EventType.READHEARTTIME == event.getType()) {
+			if (event.isSuccess() == true) {
+				final Bundle data = (Bundle) event
+						.getData();
+				if(data.getString("ieee").equals(mDevices.getmIeee()) && data.getString("ep").equals(mDevices.getmEP())){
+					if(data.getInt("time") == 0){
+						return;
+					}
+					device_heartButton.post(new Runnable() {
+						@Override
+						public void run() {
+							device_heartButton.setText(secToTime(data.getInt("time")));
+						}
+					});
+				}
+			}
+		}else if(EventType.HEARTTIME == event.getType()){
+			if (event.isSuccess() == true) {
+				final CallbackResponseCommon data = (CallbackResponseCommon) event
+						.getData();
+				if(data.getIEEE().equals(mDevices.getmIeee()) && data.getEP().equals(mDevices.getmEP())){
+					if(data.getValue().equals("")){
+						return;
+					}
+					device_heartButton.post(new Runnable() {
+						@Override
+						public void run() {
+							device_heartButton.setText(secToTime(Integer.parseInt(data.getValue())));
+						}
+					});
+					
+				}
+			}
+		}
+		
 	}
+
+    public String secToTime(int time) {
+        String timeStr = null;
+        int hour = 0;
+        int minute = 0;
+        int second = 0;
+        if (time <= 0)
+            return "00:00:00";
+        else {    	
+            minute = time / 60;
+            if (minute < 60) {
+                second = time % 60;
+                timeStr = "00" + ":" + unitFormat(minute) + ":" + unitFormat(second);
+            } else {
+                hour = minute / 60;
+                if (hour > 99)
+                    return "99:59:59";
+                minute = minute % 60;
+                second = time - hour * 3600 - minute * 60;
+                timeStr = unitFormat(hour) + ":" + unitFormat(minute) + ":" + unitFormat(second);
+            }
+        }
+        return timeStr;
+    }
+
+    public String unitFormat(int i) {
+        String retStr = null;
+        if (i >= 0 && i < 10)
+            retStr = "0" + Integer.toString(i);
+        else
+            retStr = "" + i;
+        return retStr;
+    }
 
 	// private void updateStatusByList(ArrayList<CIEresponse_params>
 	// devDataList) {

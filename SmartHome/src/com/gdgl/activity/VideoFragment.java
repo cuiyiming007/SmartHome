@@ -88,8 +88,8 @@ public class VideoFragment extends Fragment implements UIListener,
 		content_view = (GridView) mView.findViewById(R.id.content_view);
 		adapter = new CustomeAdapter();
 		content_view.setAdapter(adapter);
-		content_view.setLayoutAnimation(UiUtils
-				.getAnimationController((Context) getActivity()));
+//		content_view.setLayoutAnimation(UiUtils
+//				.getAnimationController((Context) getActivity()));
 		content_view.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -126,8 +126,8 @@ public class VideoFragment extends Fragment implements UIListener,
 		content_view.setVisibility(View.VISIBLE);
 
 		content_view.setAdapter(adapter);
-		content_view.setLayoutAnimation(UiUtils
-				.getAnimationController((Context) getActivity()));
+//		content_view.setLayoutAnimation(UiUtils
+//				.getAnimationController((Context) getActivity()));
 		super.onResume();
 	}
 

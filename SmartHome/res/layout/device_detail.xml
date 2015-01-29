@@ -298,6 +298,35 @@
                     android:textColor="#ffffff" />
             </LinearLayout>
         </LinearLayout>
+        
+	    <LinearLayout
+	       android:id="@+id/device_heart_layout"
+	       android:layout_width="match_parent"
+	       android:layout_height="wrap_content"
+	       android:layout_marginTop="10dp"
+	       android:gravity="center_vertical"
+	       android:visibility="gone"
+	       android:orientation="horizontal" >
+	
+	       <TextView
+	           android:layout_width="wrap_content"
+	           android:layout_height="wrap_content"
+	           android:layout_marginLeft="22dp"
+	           android:text="心跳周期"
+	           android:textColor="#ffffff"
+	           android:textSize="18sp" />
+	
+	       <Button
+	           android:id="@+id/device_heart_btn"
+	           android:layout_width="wrap_content"
+	           android:layout_height="wrap_content"
+	           android:layout_marginLeft="10dp"
+	           android:gravity="center"
+	           android:hint="00:00:00"
+	           android:padding="5dp"
+	           android:textColor="@color/ui_button_selector_blue_text"
+	           android:background="@drawable/ui_button_selector_blue" />
+        </LinearLayout>  
 
         <View
             android:layout_width="match_parent"
