@@ -213,12 +213,19 @@ public class VideoActivity extends FragmentActivity implements UIListener {
 	
 	public void closeTheThread() {
 		Log.i(TAG, "finish video ipc_channel=" + String.valueOf(ipc_channel));
-		CallbackManager.getInstance().deleteObserver(this);
-		decodeh264.setIsVideoRun(false);
-		decodeh264.initalThread();
-		isVisible = false;
 		Network.closeVideoSocket();
 		LibjingleVideoSocket.closeVideoSocket();
+		
+		try {
+			decodeh264.dataInputStream.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		decodeh264.setIsVideoRun(false);
+		decodeh264.initalThread();
+		CallbackManager.getInstance().deleteObserver(this);
+		isVisible = false;
 	}
 	
 	class captureImageTask extends AsyncTask<Integer, Object, Boolean> {

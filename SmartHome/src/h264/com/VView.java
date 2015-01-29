@@ -231,13 +231,16 @@ public class VView extends View implements Runnable {
 
 			if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
 				try {
-					LibjinglePackHandler packHandler = new LibjinglePackHandler(recstr);
+					LibjinglePackHandler packHandler = new LibjinglePackHandler(
+							recstr);
 					recstr = packHandler.result;
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
+
+			Log.i(TAG, "data:" + recstr);
 
 			try {
 				// ����ַ����JSON����
@@ -253,7 +256,7 @@ public class VView extends View implements Runnable {
 				}
 			} catch (JSONException ex) {
 				ret = false;
-				Log.d("DecodeH264 run", "JSONObject error");
+				Log.e("DecodeH264 run", "JSONObject error");
 				break;
 			}
 

@@ -407,10 +407,16 @@ public class LoginActivity extends Activity implements OnClickListener,
 						@Override
 						public void run() {
 							LibjingleSendManager.getInstance().getDeviceEndPoint();
-							LibjingleSendManager.getInstance().GetLocalIASCIEOperation();
 							LibjingleSendManager.getInstance().GetAllRoomInfo();
 							LibjingleSendManager.getInstance().GetAllBindList();
-//							LibjingleSendManager.getInstance().getLocalCIEList();
+							try {
+								Thread.sleep(2000);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							LibjingleSendManager.getInstance().GetLocalIASCIEOperation();
+							LibjingleSendManager.getInstance().getLocalCIEList();
 						}
 					}).start();
 					getFromSharedPreferences.setsharedPreferences(LoginActivity.this);
