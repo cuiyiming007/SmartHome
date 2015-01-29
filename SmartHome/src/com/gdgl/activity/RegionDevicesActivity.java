@@ -599,43 +599,6 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 					});
 				}
 			}
-		} else if (EventType.GETICELIST == event.getType()) {
-			if (event.isSuccess()) {
-				ArrayList<CIEresponse_params> devDataList = (ArrayList<CIEresponse_params>) event
-						.getData();
-
-				List<DevicesModel> safeList = mList;
-
-				List<DevicesModel> updatsLis = new ArrayList<DevicesModel>();// 需要刷新的集合
-				if (null != devDataList && devDataList.size() > 0) {
-					for (int i = 0; i < devDataList.size(); i++) {
-						CIEresponse_params cp = devDataList.get(i);
-
-						int m = getDevicesPostion(cp.getCie().getIeee(), cp
-								.getCie().getEp(), safeList);
-						if (-1 != m) {
-							String s = cp.getCie().getElserec().getBbypass();
-							String status = s.trim().toLowerCase()
-									.equals("true") ? "1" : "0";
-							if (!status.equals(safeList.get(m)
-									.getmOnOffStatus())) {
-								safeList.get(m).setmOnOffStatus(status);
-								updatsLis.add(safeList.get(m));
-							}
-						}
-					}
-					region_name.post(new Runnable() {
-						@Override
-						public void run() {
-							// setdata(mCurrentList);
-							mDevicesBaseAdapter.notifyDataSetChanged();
-						}
-					});
-					if (null != updatsLis && updatsLis.size() > 0) {
-						new UpdateICELestTask().execute(updatsLis);
-					}
-				}
-			}
 		} else if (EventType.LOCALIASCIEBYPASSZONE == event.getType()) {
 				if (event.isSuccess()) {
 					Bundle bundle = (Bundle) event.getData();
@@ -643,7 +606,13 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 							bundle.getString("EP"), mList);
 					if (m != -1) {
 						mList.get(m).setmOnOffStatus(bundle.getString("PARAM"));
-						mDevicesBaseAdapter.notifyDataSetChanged();
+						region_name.post(new Runnable() {
+							@Override
+							public void run() {
+								// setDataActivity.setdata(mDeviceList);
+								mDevicesBaseAdapter.notifyDataSetChanged();
+							}
+						});
 					}
 				}
 		} else if (EventType.LOCALIASCIEOPERATION == event.getType()) {
@@ -816,34 +785,5 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 			}
 		} 
 	}
-	
-	public class UpdateICELestTask extends
-	AsyncTask<List<DevicesModel>, Integer, Integer> {
-
-	@Override
-	protected Integer doInBackground(List<DevicesModel>... params) {
-		// TODO Auto-generated method stub
-		List<DevicesModel> updateList = params[0];
-		if (null == updateList || updateList.size() == 0) {
-			return null;
-		} else {
-			String where = " ieee=? and ep=? ";
-			ContentValues v;
-			SQLiteDatabase db = mDataHelper.getSQLiteDatabase();
-			for (DevicesModel devicesModel : updateList) {
-				String[] args = { devicesModel.getmIeee().trim(),
-						devicesModel.getmEP().trim() };
-				String status = devicesModel.getmOnOffStatus();
-				v = new ContentValues();
-				v.put(DevicesModel.ON_OFF_STATUS, status == "1" ? "1" : "0");
-				mDataHelper.update(db, DataHelper.DEVICES_TABLE, v, where,
-						args);
-			}
-			mDataHelper.close(db);
-		}
-		return null;
-	}
-
-}
 
 }

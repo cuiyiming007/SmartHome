@@ -3,7 +3,7 @@
     <!-- 背景图 -->
     <item android:id="@+android:id/background" android:drawable="@drawable/bar_up" />
     <!-- 第二进度图 -->
-    <item android:id="@+id/SecondaryProgress" android:drawable="@drawable/bar_up" />
+    <item android:id="@+android:id/SecondaryProgress" android:drawable="@drawable/bar_up" />
     <!-- 进度度 -->
     <item android:id="@+android:id/progress" android:drawable="@drawable/bar_dn" />
 </layer-list>
