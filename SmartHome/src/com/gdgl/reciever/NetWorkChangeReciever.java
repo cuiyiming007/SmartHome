@@ -1,6 +1,6 @@
 package com.gdgl.reciever;
 
-import com.gdgl.service.SmartService;
+import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.util.NetUtil;
 
 import android.content.BroadcastReceiver;
@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.NetworkInfo.State;
-import android.widget.Toast;
 
 public class NetWorkChangeReciever extends BroadcastReceiver {
 	State wifiState = null;
@@ -52,6 +51,8 @@ public class NetWorkChangeReciever extends BroadcastReceiver {
 //			Intent serviceIntent;
 //			serviceIntent =new Intent(context, SmartService.class);
 //			context.startService(serviceIntent);
+			NetworkConnectivity.networkStatus = NetworkConnectivity.getInstance()
+					.getConnecitivityNetwork();
 		}
 	}
 
