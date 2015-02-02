@@ -57,11 +57,11 @@ public class LibjinglePackHandler {
 		} else {
 			this.gl_status = 0;
 		}
-
-		this.request_id = root.getInt("request_id");
-		this.gl_msgtype = root.getInt("gl_msgtype");
-		this.jid = root.getString("jid");
-
+		if (!(this.gl_status < 0)) {
+			this.request_id = root.getInt("request_id");
+			this.gl_msgtype = root.getInt("gl_msgtype");
+			this.jid = root.getString("jid");
+		}
 		JSONObject sub;
 
 		if (this.gl_status > 0) {

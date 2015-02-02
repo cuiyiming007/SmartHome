@@ -110,9 +110,6 @@
         </activity>
 
         <service android:name="com.gdgl.service.SmartService" >
-            <intent-filter>          
-		        <action android:name="com.gdgl.service.SmartService" />  
-		    </intent-filter> 
         </service>
         <service android:name="com.gdgl.service.LibjingleService" >
         </service>
@@ -122,7 +119,6 @@
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
-        <receiver android:name="com.gdgl.reciever.HeartReceiver" />
     </application>
 
 </manifest>
