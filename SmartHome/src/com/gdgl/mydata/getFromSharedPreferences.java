@@ -13,6 +13,7 @@ import com.gdgl.util.UiUtils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 public class getFromSharedPreferences {
 
@@ -277,6 +278,7 @@ public class getFromSharedPreferences {
 	public static ArrayList<HashMap<String, String>> getUserList(){
 		ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
 		String userListString = mSharedPreferences.getString(UiUtils.USERLIST,UiUtils.EMPTY_STR);
+		Log.i("userListString", userListString);
 		if(userListString.equals("")){
 			return list;
 		}
@@ -321,6 +323,7 @@ public class getFromSharedPreferences {
 				list.get(current).put("pwd", pwd);
 			}
 		}
+		Log.i("commitStrStr", list.toString());
 		commitStrStr(UiUtils.USERLIST, list.toString());
 	}
 	

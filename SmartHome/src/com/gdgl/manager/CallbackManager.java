@@ -409,6 +409,11 @@ public class CallbackManager extends Manger {
 						"Callback msgType=" + 2 + " level" + common.toString());
 				ContentValues c = new ContentValues();
 				c.put(DevicesModel.LEVEL, common.getValue());
+				if(common.getValue().equals("0")){
+					c.put(DevicesModel.ON_OFF_STATUS, "0");
+				}else{
+					c.put(DevicesModel.ON_OFF_STATUS, "1");
+				}
 				Paremeters p = new Paremeters();
 				p.callbackmsg2 = common;
 				p.c = c;

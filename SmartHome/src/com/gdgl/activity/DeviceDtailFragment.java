@@ -855,10 +855,16 @@ public class DeviceDtailFragment extends BaseFragment {
 		if(!data.getDeviceIeee().equals(mDevices.getmIeee())){
 			return;
 		}
+		if(data.getValue().equals("0")){
+			mDevices.setmOnOffStatus("0");
+		}else{
+			mDevices.setmOnOffStatus("1");
+		}
 		int level = Integer.parseInt(data.getValue());
 		int state = level * 100 / 254;
 		device_seekBar.setProgress(state);
 		device_seekBar.invalidate();
+		refreshOnOffButton();
 	}
 	
 	public void refreshDefense(ArrayList<CIEresponse_params> devDataList){

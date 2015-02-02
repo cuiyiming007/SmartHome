@@ -165,7 +165,7 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 		} else {
 			nodevices.setVisibility(View.GONE);
 		}
-		registerForContextMenu(content_view);
+		registerForContextMenu(content_view.getRefreshableView());
 	}
 	
 	private class GetDataTask extends AsyncTask<Void, Void, String>{
@@ -270,15 +270,15 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 	@Override
 	public void refreshFragment() {
 		initData();
-		if (null == mregions || mregions.size() == 0) {
-			nodevices.setVisibility(View.VISIBLE);
-		} else {
-			nodevices.setVisibility(View.GONE);
-		}
-		Log.i("zgs", "refreshFragment->mregions.size()=" + mregions.size());
-		mCustomeAdapter.setList(mregions);
-		// content_view.setAdapter(mCustomeAdapter);
-		mCustomeAdapter.notifyDataSetChanged();
+//		if (null == mregions || mregions.size() == 0) {
+//			nodevices.setVisibility(View.VISIBLE);
+//		} else {
+//			nodevices.setVisibility(View.GONE);
+//		}
+//		Log.i("zgs", "refreshFragment->mregions.size()=" + mregions.size());
+//		mCustomeAdapter.setList(mregions);
+//		// content_view.setAdapter(mCustomeAdapter);
+//		mCustomeAdapter.notifyDataSetChanged();
 	}
 
 	@Override
@@ -344,6 +344,16 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 					}
 				});
 			}
+		}else if(event.getType() == EventType.ROOMDATAMAIN){
+			if (event.isSuccess()) {
+				nodevices.post(new Runnable() {
+
+					@Override
+					public void run() {
+						refreshFragment();
+					}
+				});
+			}
 		}
 	}
 
@@ -374,7 +384,7 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 				DataHelper.ROOMINFO_TABLE, " room_id = ? ", strings);
 		mSQLiteDatabase.close();
 		if (result == 1) {
-			refreshFragment();
+			//refreshFragment();
 		}
 		// mregions.remove(currentRoom);
 		// refreshFragment();
