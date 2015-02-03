@@ -4,21 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gdgl.activity.SmartHome.refreshAdapter;
-import com.gdgl.activity.UIinterface.IFragmentCallbak;
 import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.DataHelper;
-import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.Region.Room;
+import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.AddDlg;
 import com.gdgl.util.AddDlg.AddDialogcallback;
 import com.gdgl.util.MyOkCancleDlg;
-import com.gdgl.util.UiUtils;
+import com.gdgl.util.VersionDlg;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
@@ -44,8 +43,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.GridView;
-
 
 /***
  * 最外层区域菜单
@@ -53,11 +52,11 @@ import android.widget.GridView;
  * @author Trice
  * 
  */
-public class RegionsFragment extends Fragment implements refreshAdapter, 
+public class RegionsFragment extends Fragment implements refreshAdapter,
 		Dialogcallback, UIListener, AddDialogcallback {
-	
+
 	PullToRefreshGridView content_view;
-	//GridView content_view;
+	// GridView content_view;
 	View mView;
 	List<Room> mregions;
 	Room currentRoom;
@@ -121,12 +120,13 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 	private void initview() {
 		// TODO Auto-generated method stub
 		nodevices = (ViewGroup) mView.findViewById(R.id.nodevices);
-		content_view = (PullToRefreshGridView) mView.findViewById(R.id.content_view);
+		content_view = (PullToRefreshGridView) mView
+				.findViewById(R.id.content_view);
 		mCustomeAdapter = new CustomeAdapter();
 		mCustomeAdapter.setList(mregions);
 		content_view.setAdapter(mCustomeAdapter);
-//		content_view.setLayoutAnimation(UiUtils
-//				.getAnimationController((Context) getActivity()));
+		// content_view.setLayoutAnimation(UiUtils
+		// .getAnimationController((Context) getActivity()));
 		content_view.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View view, int index,
@@ -142,20 +142,18 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 			}
 
 		});
-		content_view.setOnRefreshListener(new OnRefreshListener<GridView>(){
+		content_view.setOnRefreshListener(new OnRefreshListener<GridView>() {
 
 			@Override
 			public void onRefresh(PullToRefreshBase<GridView> refreshView) {
 				// TODO Auto-generated method stub
-				String label = DateUtils.formatDateTime(
-						getActivity().getApplicationContext(), System.currentTimeMillis(),
-						DateUtils.FORMAT_SHOW_TIME
-								| DateUtils.FORMAT_SHOW_DATE
+				String label = DateUtils.formatDateTime(getActivity()
+						.getApplicationContext(), System.currentTimeMillis(),
+						DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE
 								| DateUtils.FORMAT_ABBREV_ALL);
 
 				// Update the LastUpdatedLabel
-				refreshView.getLoadingLayoutProxy()
-						.setLastUpdatedLabel(label);
+				refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
 				Log.i("setOnRefreshListener", "setOnRefreshListener");
 				new GetDataTask().execute();
 			}
@@ -165,10 +163,27 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 		} else {
 			nodevices.setVisibility(View.GONE);
 		}
-		registerForContextMenu(content_view);
+		
+		if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+			registerForContextMenu(content_view);
+		} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+			content_view.setOnItemLongClickListener(new OnItemLongClickListener() {
+
+				@Override
+				public boolean onItemLongClick(AdapterView<?> parent,
+						View view, int position, long id) {
+					// TODO Auto-generated method stub
+					VersionDlg vd = new VersionDlg(getActivity());
+					vd.setContent(getResources().getString(R.string.Unable_In_InternetState));
+					vd.show();
+					return true;
+				}
+				
+			});
+		}
 	}
-	
-	private class GetDataTask extends AsyncTask<Void, Void, String>{
+
+	private class GetDataTask extends AsyncTask<Void, Void, String> {
 
 		@Override
 		protected String doInBackground(Void... params) {
@@ -182,13 +197,13 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 			}
 			return null;
 		}
-		@Override
-		protected void onPostExecute(String result){		
-			content_view.onRefreshComplete(); 
-		}
-		
-	}
 
+		@Override
+		protected void onPostExecute(String result) {
+			content_view.onRefreshComplete();
+		}
+
+	}
 
 	@Override
 	public void onPause() {
@@ -266,7 +281,7 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 			mRoomList = s;
 		}
 	}
-	
+
 	@Override
 	public void refreshFragment() {
 		initData();
@@ -284,9 +299,16 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
-		menu.setHeaderTitle("编辑&删除");
-		menu.add(1, 1, 0, "编辑");
-		menu.add(1, 2, 0, "删除");
+		if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+			menu.setHeaderTitle("编辑&删除");
+			menu.add(1, 1, 0, "编辑");
+			menu.add(1, 2, 0, "删除");
+		} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+			VersionDlg vd = new VersionDlg(getActivity());
+			vd.setContent(getResources().getString(
+					R.string.Unable_In_InternetState));
+			vd.show();
+		}
 		// TODO Auto-generated method stub
 		super.onCreateContextMenu(menu, v, menuInfo);
 	}
@@ -326,12 +348,12 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 		final Event event = (Event) object;
 		if (event.getType() == EventType.GETALLROOM) {
 			if (event.isSuccess()) {
-				mregions=(List<Room>)event.getData();
+				mregions = (List<Room>) event.getData();
 				nodevices.post(new Runnable() {
 
 					@Override
 					public void run() {
-						for(Room mRoom : mregions){
+						for (Room mRoom : mregions) {
 							Log.i("mRoom name", mRoom.getroom_name());
 						}
 						if (null == mregions || mregions.size() == 0) {

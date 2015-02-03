@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -19,6 +18,7 @@ import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -34,9 +34,11 @@ import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.video.VideoNode;
 import com.gdgl.mydata.video.VideoResponse;
+import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyOkCancleDlg;
 import com.gdgl.util.UiUtils;
+import com.gdgl.util.VersionDlg;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 
 public class VideoFragment extends Fragment implements UIListener,
@@ -88,8 +90,8 @@ public class VideoFragment extends Fragment implements UIListener,
 		content_view = (GridView) mView.findViewById(R.id.content_view);
 		adapter = new CustomeAdapter();
 		content_view.setAdapter(adapter);
-//		content_view.setLayoutAnimation(UiUtils
-//				.getAnimationController((Context) getActivity()));
+		// content_view.setLayoutAnimation(UiUtils
+		// .getAnimationController((Context) getActivity()));
 		content_view.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -110,7 +112,23 @@ public class VideoFragment extends Fragment implements UIListener,
 		} else {
 			nodevices.setVisibility(View.GONE);
 		}
-		registerForContextMenu(content_view);
+		if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+			registerForContextMenu(content_view);
+		} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+			content_view.setOnItemLongClickListener(new OnItemLongClickListener() {
+
+				@Override
+				public boolean onItemLongClick(AdapterView<?> parent,
+						View view, int position, long id) {
+					// TODO Auto-generated method stub
+					VersionDlg vd = new VersionDlg(getActivity());
+					vd.setContent(getResources().getString(R.string.Unable_In_InternetState));
+					vd.show();
+					return true;
+				}
+				
+			});
+		}
 	}
 
 	@Override
@@ -126,8 +144,8 @@ public class VideoFragment extends Fragment implements UIListener,
 		content_view.setVisibility(View.VISIBLE);
 
 		content_view.setAdapter(adapter);
-//		content_view.setLayoutAnimation(UiUtils
-//				.getAnimationController((Context) getActivity()));
+		// content_view.setLayoutAnimation(UiUtils
+		// .getAnimationController((Context) getActivity()));
 		super.onResume();
 	}
 
@@ -186,7 +204,7 @@ public class VideoFragment extends Fragment implements UIListener,
 			} else {
 				mViewHolder = (ViewHolder) convertView.getTag();
 			}
-			//mViewHolder.funcImg.setImageResource(R.drawable.video3);
+			// mViewHolder.funcImg.setImageResource(R.drawable.video3);
 			mViewHolder.funcText.setText(mList.get(position).getAliases());
 			return convertView;
 		}
@@ -201,7 +219,7 @@ public class VideoFragment extends Fragment implements UIListener,
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
-//		Log.i("", "编辑&删除");
+		// Log.i("", "编辑&删除");
 		menu.setHeaderTitle("编辑&删除");
 		menu.add(0, 1, 0, "编辑");
 		menu.add(0, 2, 0, "删除");
@@ -210,7 +228,7 @@ public class VideoFragment extends Fragment implements UIListener,
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-		if(item.getGroupId() != 0){
+		if (item.getGroupId() != 0) {
 			return false;
 		}
 		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
@@ -219,11 +237,10 @@ public class VideoFragment extends Fragment implements UIListener,
 		currentVideoNode = mList.get(position);
 		int menuIndex = item.getItemId();
 		if (1 == menuIndex) {
-			if(videoInfoDialog == null){
-				videoInfoDialog = new VideoInfoDialog(
-						getActivity(), VideoInfoDialog.Edit, this,
-						currentVideoNode);
-			}else{
+			if (videoInfoDialog == null) {
+				videoInfoDialog = new VideoInfoDialog(getActivity(),
+						VideoInfoDialog.Edit, this, currentVideoNode);
+			} else {
 				videoInfoDialog.setVideoNode(currentVideoNode);
 			}
 			videoInfoDialog.setContent("编辑" + currentVideoNode.getAliases());
@@ -285,8 +302,8 @@ public class VideoFragment extends Fragment implements UIListener,
 
 	public void updateEditVideoList(VideoNode videoNode) {
 		String id = videoNode.getId();
-		for(int i=0; i<mList.size(); i++){
-			if(mList.get(i).getId().equals(id)){
+		for (int i = 0; i < mList.size(); i++) {
+			if (mList.get(i).getId().equals(id)) {
 				mList.set(i, videoNode);
 			}
 		}

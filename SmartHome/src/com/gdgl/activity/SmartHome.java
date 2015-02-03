@@ -28,12 +28,14 @@ import com.gdgl.manager.WarnManager;
 import com.gdgl.model.TabInfo;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
+import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.AddDlg;
 import com.gdgl.util.AddDlg.AddDialogcallback;
 import com.gdgl.util.MyApplication;
 import com.gdgl.util.PullToRefreshViewPager;
 import com.gdgl.util.SelectPicPopupWindow;
+import com.gdgl.util.VersionDlg;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 
@@ -55,8 +57,8 @@ public class SmartHome extends FragmentActivity implements
 	VideoInfoAddDialog mAddDlg;
 
 	ImageButton devicesButton, videoButton, regionButton, scenceButton;
-	List<ImageButton> mImageButtonsList =new ArrayList<ImageButton>();
-	
+	List<ImageButton> mImageButtonsList = new ArrayList<ImageButton>();
+
 	TextView unreadMessageView;
 
 	int mCurrentTab = 0;
@@ -112,24 +114,24 @@ public class SmartHome extends FragmentActivity implements
 		mTitle = (TextView) findViewById(R.id.title);
 		notifyButton = (Button) findViewById(R.id.alarm_btn);
 		unreadMessageView = (TextView) findViewById(R.id.unread_tv);
-		
-		devicesButton =(ImageButton)findViewById(R.id.devices_btn);
-		videoButton=(ImageButton)findViewById(R.id.video_urveillance_btn);
-		regionButton=(ImageButton)findViewById(R.id.region_btn);
-		scenceButton=(ImageButton)findViewById(R.id.scence_btn);
-		
+
+		devicesButton = (ImageButton) findViewById(R.id.devices_btn);
+		videoButton = (ImageButton) findViewById(R.id.video_urveillance_btn);
+		regionButton = (ImageButton) findViewById(R.id.region_btn);
+		scenceButton = (ImageButton) findViewById(R.id.scence_btn);
+
 		mImageButtonsList.add(devicesButton);
 		mImageButtonsList.add(videoButton);
 		mImageButtonsList.add(regionButton);
 		mImageButtonsList.add(scenceButton);
 		setTab_TitleButtonColour(mCurrentTab);
-		
+
 		TitleClickLister mTitleClickLister = new TitleClickLister();
 		for (int m = 0; m < mImageButtonsList.size(); m++) {
 			mImageButtonsList.get(m).setOnClickListener(mTitleClickLister);
 		}
 		initadd();
-		
+
 	}
 
 	private void initadd() {
@@ -140,40 +142,55 @@ public class SmartHome extends FragmentActivity implements
 		} else {
 			mAdd.setVisibility(View.VISIBLE);
 		}
-		mAdd.setOnClickListener(new OnClickListener() {
+		if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+			mAdd.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
-				if (2 == mCurrentTab) {
-					AddDlg mAddDlg = new AddDlg(SmartHome.this, AddDlg.REGION);
-					mAddDlg.setContent("添加区域");
-					mAddDlg.setType("区域名称");
-					mAddDlg.setDialogCallback(SmartHome.this);
-					mAddDlg.show();
-				} else if (3 == mCurrentTab) {
-					AddDlg mAddDlg = new AddDlg(SmartHome.this, AddDlg.SCENE);
-					mAddDlg.setContent("添加场景");
-					mAddDlg.setType("场景名称");
-					mAddDlg.setDialogCallback(SmartHome.this);
-					mAddDlg.show();
-					// } else if (0 == mCurrentTab) {
-					// Intent i = new Intent();
-					// i.setClass(SmartHome.this, AddCommonUsedActivity.class);
-					// startActivity(i);
-				} else if (1 == mCurrentTab) {
-					if(mAddDlg == null){
-						mAddDlg = new VideoInfoAddDialog(
-								SmartHome.this, VideoInfoDialog.Add, videoFragment);
-					}else{
-						mAddDlg.getInitVideoNode();
+				@Override
+				public void onClick(View v) {
+					if (2 == mCurrentTab) {
+						AddDlg mAddDlg = new AddDlg(SmartHome.this,
+								AddDlg.REGION);
+						mAddDlg.setContent("添加区域");
+						mAddDlg.setType("区域名称");
+						mAddDlg.setDialogCallback(SmartHome.this);
+						mAddDlg.show();
+					} else if (3 == mCurrentTab) {
+						AddDlg mAddDlg = new AddDlg(SmartHome.this,
+								AddDlg.SCENE);
+						mAddDlg.setContent("添加场景");
+						mAddDlg.setType("场景名称");
+						mAddDlg.setDialogCallback(SmartHome.this);
+						mAddDlg.show();
+						// } else if (0 == mCurrentTab) {
+						// Intent i = new Intent();
+						// i.setClass(SmartHome.this,
+						// AddCommonUsedActivity.class);
+						// startActivity(i);
+					} else if (1 == mCurrentTab) {
+						if (mAddDlg == null) {
+							mAddDlg = new VideoInfoAddDialog(SmartHome.this,
+									VideoInfoDialog.Add, videoFragment);
+						} else {
+							mAddDlg.getInitVideoNode();
+						}
+						mAddDlg.setContent("添加");
+						// mAddDlg.setType("区域名称");
+						// mAddDlg.setDialogCallback(SmartHome.this);
+						mAddDlg.show();
 					}
-					mAddDlg.setContent("添加");
-					// mAddDlg.setType("区域名称");
-					// mAddDlg.setDialogCallback(SmartHome.this);
-					mAddDlg.show();
 				}
-			}
-		});
+			});
+		} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+			mAdd.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					VersionDlg vd = new VersionDlg(SmartHome.this);
+					vd.setContent(getResources().getString(R.string.Unable_In_InternetState));
+					vd.show();
+				}
+			});
+		}
 		notifyButton.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -203,47 +220,44 @@ public class SmartHome extends FragmentActivity implements
 			}
 			mViewPager.setCurrentItem(index);
 
-			mImageButtonsList.get(index).setBackgroundResource(TAB_TITLE_SELECTED[index]);
+			mImageButtonsList.get(index).setBackgroundResource(
+					TAB_TITLE_SELECTED[index]);
 
 			mTitle.setText(TAB_TITLE_NAME[index]);
-//		    mTextViewList.get(index).setTextColor(mSelectedColor);
-//
-//			mTitle.setText(mTextViewList.get(index).getText());
+			// mTextViewList.get(index).setTextColor(mSelectedColor);
+			//
+			// mTitle.setText(mTextViewList.get(index).getText());
 		}
 	}
 
-	private static String[] TAB_TITLE_NAME = {
-		"设备","监控","区域","场景"};
-	private static int[] TAB_TITLE_SELECTED ={
-		R.drawable.ui_tabtitle_devices_pressed,
-		R.drawable.ui_tabtitle_video_pressed,
-		R.drawable.ui_tabtitle_region_pressed,
-		R.drawable.ui_tabtitle_scence_pressed};
-	private static int[] TAB_TITLE_UNSELECTED ={
-		R.drawable.ui_tabtitle_devices,
-		R.drawable.ui_tabtitle_video,
-		R.drawable.ui_tabtitle_region,
-		R.drawable.ui_tabtitle_scence};
-	
+	private static String[] TAB_TITLE_NAME = { "设备", "监控", "区域", "场景" };
+	private static int[] TAB_TITLE_SELECTED = {
+			R.drawable.ui_tabtitle_devices_pressed,
+			R.drawable.ui_tabtitle_video_pressed,
+			R.drawable.ui_tabtitle_region_pressed,
+			R.drawable.ui_tabtitle_scence_pressed };
+	private static int[] TAB_TITLE_UNSELECTED = {
+			R.drawable.ui_tabtitle_devices, R.drawable.ui_tabtitle_video,
+			R.drawable.ui_tabtitle_region, R.drawable.ui_tabtitle_scence };
+
 	public void setTab_TitleButtonColour(int m) {
 		getTheNumberOfTabTitlePressed(null);
 		mImageButtonsList.get(m).setBackgroundResource(TAB_TITLE_SELECTED[m]);
 		mTitle.setText(TAB_TITLE_NAME[m]);
 	}
-	
+
 	public int getTheNumberOfTabTitlePressed(View v) {
 		int m;
-		for(m=0;m<mImageButtonsList.size();m++) {
-			if(mImageButtonsList.get(m).equals(v)) {
+		for (m = 0; m < mImageButtonsList.size(); m++) {
+			if (mImageButtonsList.get(m).equals(v)) {
 				return m;
 			}
-			mImageButtonsList.get(m).setBackgroundResource(TAB_TITLE_UNSELECTED[m]);
+			mImageButtonsList.get(m).setBackgroundResource(
+					TAB_TITLE_UNSELECTED[m]);
 		}
 		return m;
 	}
-	
-	
-	
+
 	public void showSetWindow() {
 		mSetWindow = new SelectPicPopupWindow(SmartHome.this, mSetOnClick);
 		mSetWindow.showAtLocation(SmartHome.this.findViewById(R.id.set),
@@ -374,7 +388,7 @@ public class SmartHome extends FragmentActivity implements
 		// TODO Auto-generated method stub
 		mCurrentTab = arg0;
 		setTab_TitleButtonColour(arg0);
-//		setMyTextColor(arg0);
+		// setMyTextColor(arg0);
 		if (mCurrentTab == 0) {
 			mAdd.setVisibility(View.GONE);
 		} else {

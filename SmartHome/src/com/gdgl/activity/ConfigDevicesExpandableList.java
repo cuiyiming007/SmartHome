@@ -15,10 +15,12 @@ import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
+import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.EditDevicesDlg;
 import com.gdgl.util.MyOkCancleDlg;
 import com.gdgl.util.UiUtils;
+import com.gdgl.util.VersionDlg;
 import com.gdgl.util.EditDevicesDlg.EditDialogcallback;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 
@@ -34,8 +36,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ImageView;
@@ -168,7 +172,22 @@ public class ConfigDevicesExpandableList extends BaseFragment implements
 					}
 				});
 
-		registerForContextMenu(deviceExpandableListView);
+		if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+			registerForContextMenu(deviceExpandableListView);
+		} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+			deviceExpandableListView.setOnItemLongClickListener(new OnItemLongClickListener() {
+
+				@Override
+				public boolean onItemLongClick(AdapterView<?> parent,
+						View view, int position, long id) {
+					// TODO Auto-generated method stub
+					VersionDlg vd = new VersionDlg(getActivity());
+					vd.setContent(getResources().getString(R.string.Unable_In_InternetState));
+					vd.show();
+					return true;
+				}
+			});
+		}
 	}
 
 	@Override
