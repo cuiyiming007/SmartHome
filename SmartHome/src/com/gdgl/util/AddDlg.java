@@ -115,7 +115,7 @@ public class AddDlg {
 
 			@Override
 			public void onClick(View v) {
-				String mN = mName.getText().toString();
+				String mN = Uri.encode(mName.getText().toString());
 				updateRegion(mRoom, mN);	
 				mAddDialogcallback.refreshdata();
 				dismiss();
@@ -133,13 +133,7 @@ public class AddDlg {
 	}
 	
 	protected void updateRegion(Room room, String name){
-		DataHelper mDateHelper = new DataHelper(mContext);
-		SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
-		ContentValues cv = new ContentValues();         
-		cv.put(GetRoomInfo_response.ROOM_NAME, name);
-		mDateHelper.update(mSQLiteDatabase, DataHelper.ROOMINFO_TABLE, cv, 
-				GetRoomInfo_response.ROOM_ID + "=?", 
-				new String[]{""+room.getroom_id()});
+		CGIManager.getInstance().ZBAddRoomDataMain(""+room.getroom_id(), name, room.getroompic());
 	}
 
 	protected void saveRemoteControl(String trim) {

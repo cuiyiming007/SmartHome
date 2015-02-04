@@ -34,10 +34,12 @@ public class TimeDlg {
 		editHour = (EditText) dialog.findViewById(R.id.edit_hour);
 		editMinute = (EditText) dialog.findViewById(R.id.edit_minute);
 		editSecond = (EditText) dialog.findViewById(R.id.edit_second);
-		String time[] = timeStr.split(":");
-		editHour.setText(time[0]);
-		editMinute.setText(time[1]);
-		editSecond.setText(time[2]);
+		if(timeStr != null && !timeStr.equals("")){
+			String time[] = timeStr.split(":");
+			editHour.setText(time[0]);
+			editMinute.setText(time[1]);
+			editSecond.setText(time[2]);
+		}	
 		save = (Button) dialog.findViewById(R.id.btn_save);
 		save.setOnClickListener(new View.OnClickListener() {
 

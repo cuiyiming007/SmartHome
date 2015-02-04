@@ -925,12 +925,12 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 							public void run() {
 								// setDataActivity.setdata(mDeviceList);
 								mDevicesBaseAdapter.notifyDataSetChanged();
-								if (!isTop) {
-									// DeviceDtailFragment.getInstance()
-									// .refreshLevel(valueString);
-									DeviceDtailFragment.getInstance()
-											.refreshLevel(detaildata);
-								}
+//								if (!isTop) {
+//									// DeviceDtailFragment.getInstance()
+//									// .refreshLevel(valueString);
+//									DeviceDtailFragment.getInstance()
+//											.refreshLevel(detaildata);
+//								}
 							}
 						});
 
@@ -946,149 +946,151 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 				// if failed,prompt a Toast
 				// mError.setVisibility(View.VISIBLE);
 			}
-		} else if (EventType.CURRENT == event.getType()) {
-			if (event.isSuccess() == true) {
-				// data maybe null
-				CallbackResponseType2 data = (CallbackResponseType2) event
-						.getData();
-				int m = getDevicesPostion(data.getDeviceIeee(),
-						data.getDeviceEp(), mCurrentList);
-				final String valueString = data.getValue();
-				if (-1 != m) {
-					if (null != data.getValue()) {
-						mCurrentList.get(m).setmCurrent(valueString);
-
-						title.post(new Runnable() {
-							@Override
-							public void run() {
-								// setDataActivity.setdata(mDeviceList);
-								mDevicesBaseAdapter.notifyDataSetChanged();
-								if (!isTop) {
-									DeviceDtailFragment.getInstance()
-											.refreshCurrent(valueString);
-								}
-							}
-						});
-
-						// ContentValues c = new ContentValues();
-						// c.put(DevicesModel.CURRENT, data.getValue());
-						// Paremeters p = new Paremeters();
-						// p.dm = mCurrentList.get(m);
-						// p.c = c;
-						// new UpdateDeviceStatusToDatabaseTask().execute(p);
-					}
-				}
-			} else {
-				// if failed,prompt a Toast
-				// mError.setVisibility(View.VISIBLE);
-			}
-		} else if (EventType.VOLTAGE == event.getType()) {
-			if (event.isSuccess() == true) {
-				// data maybe null
-				CallbackResponseType2 data = (CallbackResponseType2) event
-						.getData();
-				int m = getDevicesPostion(data.getDeviceIeee(),
-						data.getDeviceEp(), mCurrentList);
-				final String valueString = data.getValue();
-				if (-1 != m) {
-					if (null != data.getValue()) {
-						mCurrentList.get(m).setmVoltage(data.getValue());
-						title.post(new Runnable() {
-							@Override
-							public void run() {
-								// setDataActivity.setdata(mDeviceList);
-								mDevicesBaseAdapter.notifyDataSetChanged();
-								if (!isTop) {
-									DeviceDtailFragment.getInstance()
-											.refreshVoltage(valueString);
-								}
-							}
-						});
-
-						// ContentValues c = new ContentValues();
-						// c.put(DevicesModel.VOLTAGE, data.getValue());
-						// Paremeters p = new Paremeters();
-						// p.dm = mCurrentList.get(m);
-						// p.c = c;
-						// new UpdateDeviceStatusToDatabaseTask().execute(p);
-					}
-				}
-			} else {
-				// if failed,prompt a Toast
-				// mError.setVisibility(View.VISIBLE);
-			}
-		} else if (EventType.ENERGY == event.getType()) {
-			if (event.isSuccess() == true) {
-				// data maybe null
-				CallbackResponseType2 data = (CallbackResponseType2) event
-						.getData();
-				int m = getDevicesPostion(data.getDeviceIeee(),
-						data.getDeviceEp(), mCurrentList);
-				final String valueString = String.valueOf(Float.parseFloat(data
-						.getValue()));
-				if (-1 != m) {
-					if (null != data.getValue()) {
-						mCurrentList.get(m).setmEnergy(data.getValue());
-						title.post(new Runnable() {
-							@Override
-							public void run() {
-								// setDataActivity.setdata(mDeviceList);
-								mDevicesBaseAdapter.notifyDataSetChanged();
-								if (!isTop) {
-									DeviceDtailFragment.getInstance()
-											.refreshEnergy(valueString);
-								}
-							}
-						});
-
-						// ContentValues c = new ContentValues();
-						// c.put(DevicesModel.ENERGY, data.getValue());
-						// Paremeters p = new Paremeters();
-						// p.dm = mCurrentList.get(m);
-						// p.c = c;
-						// new UpdateDeviceStatusToDatabaseTask().execute(p);
-					}
-				}
-			} else {
-				// if failed,prompt a Toast
-				// mError.setVisibility(View.VISIBLE);
-			}
-		} else if (EventType.POWER == event.getType()) {
-			if (event.isSuccess() == true) {
-				// data maybe null
-				CallbackResponseType2 data = (CallbackResponseType2) event
-						.getData();
-				int m = getDevicesPostion(data.getDeviceIeee(),
-						data.getDeviceEp(), mCurrentList);
-				final String valueString = data.getValue();
-				if (-1 != m) {
-					if (null != data.getValue()) {
-						mCurrentList.get(m).setmPower(data.getValue());
-						title.post(new Runnable() {
-							@Override
-							public void run() {
-								// setDataActivity.setdata(mDeviceList);
-								mDevicesBaseAdapter.notifyDataSetChanged();
-								if (!isTop) {
-									DeviceDtailFragment.getInstance()
-											.refreshPower(valueString);
-								}
-							}
-						});
-
-						// ContentValues c = new ContentValues();
-						// c.put(DevicesModel.POWER, data.getValue());
-						// Paremeters p = new Paremeters();
-						// p.dm = mCurrentList.get(m);
-						// p.c = c;
-						// new UpdateDeviceStatusToDatabaseTask().execute(p);
-					}
-				}
-			} else {
-				// if failed,prompt a Toast
-				// mError.setVisibility(View.VISIBLE);
-			}
-		} else if (EventType.WARN == event.getType()) {
+		} 
+//			else if (EventType.CURRENT == event.getType()) {
+//			if (event.isSuccess() == true) {
+//				// data maybe null
+//				CallbackResponseType2 data = (CallbackResponseType2) event
+//						.getData();
+//				int m = getDevicesPostion(data.getDeviceIeee(),
+//						data.getDeviceEp(), mCurrentList);
+//				final String valueString = data.getValue();
+//				if (-1 != m) {
+//					if (null != data.getValue()) {
+//						mCurrentList.get(m).setmCurrent(valueString);
+//
+//						title.post(new Runnable() {
+//							@Override
+//							public void run() {
+//								// setDataActivity.setdata(mDeviceList);
+//								mDevicesBaseAdapter.notifyDataSetChanged();
+//								if (!isTop) {
+//									DeviceDtailFragment.getInstance()
+//											.refreshCurrent(valueString);
+//								}
+//							}
+//						});
+//
+//						// ContentValues c = new ContentValues();
+//						// c.put(DevicesModel.CURRENT, data.getValue());
+//						// Paremeters p = new Paremeters();
+//						// p.dm = mCurrentList.get(m);
+//						// p.c = c;
+//						// new UpdateDeviceStatusToDatabaseTask().execute(p);
+//					}
+//				}
+//			} else {
+//				// if failed,prompt a Toast
+//				// mError.setVisibility(View.VISIBLE);
+//			}
+//		} else if (EventType.VOLTAGE == event.getType()) {
+//			if (event.isSuccess() == true) {
+//				// data maybe null
+//				CallbackResponseType2 data = (CallbackResponseType2) event
+//						.getData();
+//				int m = getDevicesPostion(data.getDeviceIeee(),
+//						data.getDeviceEp(), mCurrentList);
+//				final String valueString = data.getValue();
+//				if (-1 != m) {
+//					if (null != data.getValue()) {
+//						mCurrentList.get(m).setmVoltage(data.getValue());
+//						title.post(new Runnable() {
+//							@Override
+//							public void run() {
+//								// setDataActivity.setdata(mDeviceList);
+//								mDevicesBaseAdapter.notifyDataSetChanged();
+//								if (!isTop) {
+//									DeviceDtailFragment.getInstance()
+//											.refreshVoltage(valueString);
+//								}
+//							}
+//						});
+//
+//						// ContentValues c = new ContentValues();
+//						// c.put(DevicesModel.VOLTAGE, data.getValue());
+//						// Paremeters p = new Paremeters();
+//						// p.dm = mCurrentList.get(m);
+//						// p.c = c;
+//						// new UpdateDeviceStatusToDatabaseTask().execute(p);
+//					}
+//				}
+//			} else {
+//				// if failed,prompt a Toast
+//				// mError.setVisibility(View.VISIBLE);
+//			}
+//		} else if (EventType.ENERGY == event.getType()) {
+//			if (event.isSuccess() == true) {
+//				// data maybe null
+//				CallbackResponseType2 data = (CallbackResponseType2) event
+//						.getData();
+//				int m = getDevicesPostion(data.getDeviceIeee(),
+//						data.getDeviceEp(), mCurrentList);
+//				final String valueString = String.valueOf(Float.parseFloat(data
+//						.getValue()));
+//				if (-1 != m) {
+//					if (null != data.getValue()) {
+//						mCurrentList.get(m).setmEnergy(data.getValue());
+//						title.post(new Runnable() {
+//							@Override
+//							public void run() {
+//								// setDataActivity.setdata(mDeviceList);
+//								mDevicesBaseAdapter.notifyDataSetChanged();
+//								if (!isTop) {
+//									DeviceDtailFragment.getInstance()
+//											.refreshEnergy(valueString);
+//								}
+//							}
+//						});
+//
+//						// ContentValues c = new ContentValues();
+//						// c.put(DevicesModel.ENERGY, data.getValue());
+//						// Paremeters p = new Paremeters();
+//						// p.dm = mCurrentList.get(m);
+//						// p.c = c;
+//						// new UpdateDeviceStatusToDatabaseTask().execute(p);
+//					}
+//				}
+//			} else {
+//				// if failed,prompt a Toast
+//				// mError.setVisibility(View.VISIBLE);
+//			}
+//		} else if (EventType.POWER == event.getType()) {
+//			if (event.isSuccess() == true) {
+//				// data maybe null
+//				CallbackResponseType2 data = (CallbackResponseType2) event
+//						.getData();
+//				int m = getDevicesPostion(data.getDeviceIeee(),
+//						data.getDeviceEp(), mCurrentList);
+//				final String valueString = data.getValue();
+//				if (-1 != m) {
+//					if (null != data.getValue()) {
+//						mCurrentList.get(m).setmPower(data.getValue());
+//						title.post(new Runnable() {
+//							@Override
+//							public void run() {
+//								// setDataActivity.setdata(mDeviceList);
+//								mDevicesBaseAdapter.notifyDataSetChanged();
+//								if (!isTop) {
+//									DeviceDtailFragment.getInstance()
+//											.refreshPower(valueString);
+//								}
+//							}
+//						});
+//
+//						// ContentValues c = new ContentValues();
+//						// c.put(DevicesModel.POWER, data.getValue());
+//						// Paremeters p = new Paremeters();
+//						// p.dm = mCurrentList.get(m);
+//						// p.c = c;
+//						// new UpdateDeviceStatusToDatabaseTask().execute(p);
+//					}
+//				}
+//			} else {
+//				// if failed,prompt a Toast
+//				// mError.setVisibility(View.VISIBLE);
+//			}
+//		} 
+			else if (EventType.WARN == event.getType()) {
 			title.post(new Runnable() {
 
 				@Override

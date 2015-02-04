@@ -237,99 +237,12 @@ public class LoginActivity extends Activity implements OnClickListener,
 	}
 
 	public void startAPPService(String alias) {
-//		final String malias = alias;
-//		new Thread(new Runnable() {
-//			
-//			@Override
-//			public void run() {
-//				isLogin = true;
-//				// TODO Auto-generated method stub
-//				Message showMsg = new Message();
-//				showMsg.what = SHOWDLG;
-//				mHandler.sendMessage(showMsg);
-//				
-//				NetworkConnectivity.networkStatus = NetworkConnectivity.getInstance()
-//						.getConnecitivityNetwork();
-//				try {
-//					Thread.sleep(500);
-//				} catch (InterruptedException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//				isLogin = false;
-//				Message hideMsg = new Message();
-//				hideMsg.what = HIDEDLG;
-//				mHandler.sendMessage(hideMsg);
-//				
-//				switch (NetworkConnectivity.networkStatus) {
-//				case NetworkConnectivity.NO_NETWORK:
-//					Message msg1 = new Message();
-//					msg1.what = TOAST;
-//					Bundle bundle1 = new Bundle();
-//					bundle1.putString("toast", "未连接任何网络");
-//					msg1.setData(bundle1);
-//					mHandler.sendMessage(msg1);
-//					//Toast.makeText(getApplicationContext(), "未连接任何网络", Toast.LENGTH_SHORT).show();
-//					break;
-//				case NetworkConnectivity.INTERNET:
-//					Intent libserviceIntent = new Intent(LoginActivity.this, LibjingleService.class);
-//					getFromSharedPreferences.setsharedPreferences(LoginActivity.this);
-//					getFromSharedPreferences.setLogin(accountInfo, false, false);
-//					startService(libserviceIntent);
-//
-//					break;
-//				case NetworkConnectivity.LAN:
-//					DataHelper mDateHelper = new DataHelper(
-//							ApplicationController.getInstance());
-//					SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
-//					String where = " mac=? or alias=? ";
-//					String[] args = { malias, malias };
-//					String[] columns = { "ip" };
-//					Cursor cursor = mSQLiteDatabase.query(DataHelper.GATEWAY_TABLE,
-//							columns, where, args, null, null, null);
-//
-//					// .rawQuery("select * from gateway_table where mac = \'883314EF8B2D\' or alias = \'883314EF8B2D\'",null);
-//
-//					if (cursor.getCount() > 0) {
-//						// cursor.moveToFirst();
-//						if (cursor.moveToFirst()) {
-//							Log.i("cursor",
-//									cursor.getString(cursor.getColumnIndex("ip")));
-//							String ip = cursor.getString(cursor.getColumnIndex("ip"));
-//
-//							NetUtil.getInstance().setGatewayIP(ip);
-////							Intent serviceIntent = new Intent(LoginActivity.this, SmartService.class);
-//							Intent serviceIntent = new Intent("com.gdgl.service.SmartService");
-//							startService(serviceIntent);
-//							LoginManager.getInstance().doLogin(accountInfo);
-//						}
-//						mSQLiteDatabase.close();
-//					} else {
-//						Message msg2 = new Message();
-//						msg2.what = TOAST;
-//						Bundle bundle2 = new Bundle();
-//						bundle2.putString("toast", "没有网关或者用户名不正确");
-//						msg2.setData(bundle2);
-//						mHandler.sendMessage(msg2);
-////						Toast.makeText(getApplicationContext(), "没有网关或者用户名不正确",
-////								Toast.LENGTH_SHORT).show();
-//					}
-//					break;
-//				default:
-//					Message msg3 = new Message();
-//					msg3.what = TOAST;
-//					Bundle bundle3 = new Bundle();
-//					bundle3.putString("toast", "连接失败,请稍后重试");
-//					msg3.setData(bundle3);
-//					mHandler.sendMessage(msg3);
-////					Toast.makeText(getApplicationContext(), "连接失败,请稍后重试", Toast.LENGTH_SHORT).show();
-//					break;
-//				}
-//			}
-//		}).start();
+		dialog_view.setVisibility(View.VISIBLE);
+
 		switch (NetworkConnectivity.networkStatus) {
 		case NetworkConnectivity.NO_NETWORK:
 			Toast.makeText(getApplicationContext(), "未连接任何网络", Toast.LENGTH_SHORT).show();
+			dialog_view.setVisibility(View.GONE);
 			break;
 		case NetworkConnectivity.INTERNET:
 			Intent libserviceIntent = new Intent(this, LibjingleService.class);
@@ -370,6 +283,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 			}
 			break;
 		default:
+			dialog_view.setVisibility(View.GONE);
 			Toast.makeText(getApplicationContext(), "连接失败,请稍后重试", Toast.LENGTH_SHORT).show();
 			break;
 		}
@@ -445,7 +359,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 				}
 			}
 		}
-
+		dialog_view.setVisibility(View.GONE);
 	}
 
 	private void loginSwitch(LoginResponse response) {
@@ -509,6 +423,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 					.show();
 			break;
 		}
+		dialog_view.setVisibility(View.GONE);
 	}
 
 	private void initUserPopView() {

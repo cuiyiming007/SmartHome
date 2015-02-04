@@ -1752,7 +1752,7 @@ public class CGIManager extends Manger {
 		// TODO Auto-generated method stub
 		Bundle data = params[0];
 		ContentValues c = new ContentValues();
-		c.put(DevicesModel.HEART_TIME, data.getInt("param1"));
+		c.put(DevicesModel.HEART_TIME, data.getInt("time"));
 		
 		String where = " ieee = ? and ep = ?";
 		String ieee = data.getString("ieee");
