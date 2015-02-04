@@ -1,7 +1,6 @@
 package com.gdgl.activity;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -32,15 +31,12 @@ import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
-import com.gdgl.mydata.SimpleResponseData;
 import com.gdgl.mydata.Callback.CallbackResponseCommon;
 import com.gdgl.mydata.Callback.CallbackResponseType2;
 import com.gdgl.mydata.getlocalcielist.CIEresponse_params;
 import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
-import com.gdgl.util.JoinNetTimeDlg;
 import com.gdgl.util.TimeDlg;
-import com.gdgl.util.UiUtils;
 
 /***
  * 设备详情页

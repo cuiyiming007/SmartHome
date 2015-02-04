@@ -1744,8 +1744,7 @@ public class CGIManager extends Manger {
 
 	}
 	
-	public class UpdateDeviceHeartTimeToDatabaseTask extends
-	AsyncTask<Bundle, Integer, Integer> {
+	class UpdateDeviceHeartTimeToDatabaseTask extends AsyncTask<Bundle, Integer, Integer> {
 
 	@Override
 	protected Integer doInBackground(Bundle... params) {

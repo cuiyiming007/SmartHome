@@ -3,12 +3,26 @@ package com.gdgl.libjingle;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.os.Bundle;
 import android.util.Log;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.StringRequest;
+import com.gdgl.app.ApplicationController;
 import com.gdgl.manager.Manger;
+import com.gdgl.manager.CGIManager.UpdateDeviceHeartTimeToDatabaseTask;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.LibjingleSendStructure;
 import com.gdgl.model.SimpleDevicesModel;
+import com.gdgl.mydata.Event;
+import com.gdgl.mydata.EventType;
+import com.gdgl.util.NetUtil;
+import com.gdgl.util.UiUtils;
 
 public class LibjingleSendManager extends Manger {
 
@@ -1265,6 +1279,35 @@ public class LibjingleSendManager extends Manger {
 		mStructure.setRequest_id(reqid);
 		mStructure.setGl_msgtype(LibjinglePackHandler.MT_URL);
 		mStructure.setAPI_type(LibjingleSendStructure.IDENTIFYDEVICE);
+		sendList.add(mStructure);
+	}
+	public void getHeartTime(DevicesModel mDevices) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("ieee", mDevices.getmIeee());
+		paraMap.put("ep", mDevices.getmEP());
+		paraMap.put("operatortype", "4");
+		paraMap.put("param1", "");
+		paraMap.put("param2", "");
+		paraMap.put("param3", "");
+		
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
+		String param = hashMap2ParamString(paraMap);
+		
+		String url = LibjingleNetUtil.getInstance().getLocalhostURL(
+				"iasZoneOperation.cgi", param);
+		String jid = LibjinglePackHandler.getJid();
+		int reqid = getReqID();
+
+		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
+		// Log.i(TAG, packag);
+		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+
+		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
+		mStructure.setRequest_id(reqid);
+		mStructure.setGl_msgtype(LibjinglePackHandler.MT_URL);
+		mStructure.setAPI_type(LibjingleSendStructure.READHEARTTIME);
 		sendList.add(mStructure);
 	}
 

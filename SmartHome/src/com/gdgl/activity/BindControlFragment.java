@@ -119,17 +119,8 @@ public class BindControlFragment extends BaseFragment implements UIListener {
 			
 			bindableDevicesLis=new ArrayList<DevicesModel>();
 			bindableDevicesLis = dh.queryForDevicesList(db,
-					DataHelper.DEVICES_TABLE, null, where, args, null, null, null,
+					DataHelper.DEVICES_TABLE, null, where, args, null, null, DevicesModel.DEVICE_PRIORITY,
 					null);
-			if (null != bindableDevicesLis && bindableDevicesLis.size() > 0) {
-				for (DevicesModel devicesModel : bindableDevicesLis) {
-					if (null == devicesModel.getmDefaultDeviceName()
-							|| devicesModel.getmDefaultDeviceName().trim().equals("")) {
-						devicesModel.setmDefaultDeviceName(DataUtil.getDefaultDevicesName((Context) getActivity(),
-								devicesModel.getmModelId(), devicesModel.getmEP()));
-					}
-				}
-			}
 			dh.close(db);
 
 			return 1;

@@ -67,7 +67,8 @@ interface LibjingleSendColumns extends BaseColumns {
 	public static final int DELDEVICECHECKSUBDATA = 104;
 	public static final int GETDEVICECHECKMAIN = 105;
 	public static final int GETDEVICECHECKSUB = 106;
-
+	
+	public static final int READHEARTTIME = 130;
 	public static final int IDENTIFYDEVICE = 131;
 	public static final int ZBGETCHANNEL = 132;
 	public static final int FACTORYRESET = 133;

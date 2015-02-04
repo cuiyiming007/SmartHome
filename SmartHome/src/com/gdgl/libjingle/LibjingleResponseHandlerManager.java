@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
@@ -47,7 +48,7 @@ import com.google.gson.Gson;
 public class LibjingleResponseHandlerManager extends Manger {
 
 	private final static String TAG = "LibjingleRecievedResponseHandlerManager";
-	
+
 	final static String LABEL = "<!##!>";
 	static String preString = ""; // 处理包头被拆开的情况
 	static int byte_content = -1; // 数据长度，全局变量
@@ -70,7 +71,8 @@ public class LibjingleResponseHandlerManager extends Manger {
 		int readBytes = 0;
 		while ((readBytes = inputStream.read(buffer)) > 0) {
 			String response = new String(buffer, 0, readBytes);
-			Log.i(TAG, "len: " + response.length()+" handleInputStream:" + response);
+			Log.i(TAG, "len: " + response.length() + " handleInputStream:"
+					+ response);
 			sub_String(response);
 
 			// message = UiUtils.formatResponseString(message);
@@ -125,6 +127,7 @@ public class LibjingleResponseHandlerManager extends Manger {
 			sub_String(subStr2);
 		}
 	}
+
 	// 处理包头被拆的情况
 	public static void add_String_Pre(String str_pre) {
 		preString += str_pre;
@@ -135,6 +138,7 @@ public class LibjingleResponseHandlerManager extends Manger {
 			}
 		}
 	}
+
 	// 拆开包的长度和数据
 	public static void sub_Label(String str_in) {
 		String[] temp = str_in.split(LABEL);
@@ -142,6 +146,7 @@ public class LibjingleResponseHandlerManager extends Manger {
 		data_all = temp[1];
 		add_Data("");
 	}
+
 	// 连接数据
 	public static void add_Data(String data_in) {
 		data_all += data_in;
@@ -151,16 +156,18 @@ public class LibjingleResponseHandlerManager extends Manger {
 			byte_content = -1;
 			data_all = "";
 		} else if (byte_content < data_buffer.length) {
-//			String data = data_all.substring(0, byte_content);
+			// String data = data_all.substring(0, byte_content);
 			String data = new String(data_buffer, 0, byte_content);
 			handle_Json(data);
-//			preString = data_all.substring(byte_content);
-			preString = new String(data_buffer, byte_content, data_buffer.length);
+			// preString = data_all.substring(byte_content);
+			preString = new String(data_buffer, byte_content,
+					data_buffer.length);
 			byte_content = -1;
 			data_all = "";
 		}
 	}
-	//解析json
+
+	// 解析json
 	public static void handle_Json(String json) {
 		try {
 			packHandler = new LibjinglePackHandler(json);
@@ -170,7 +177,7 @@ public class LibjingleResponseHandlerManager extends Manger {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void recievedPackType(int msgtype) {
 		switch (msgtype) {
 		case LibjinglePackHandler.MT_URL:
@@ -305,6 +312,9 @@ public class LibjingleResponseHandlerManager extends Manger {
 				event95.setData(status95);
 				notifyObservers(event95);
 				break;
+			case LibjingleSendStructure.READHEARTTIME:
+				new UpdateDeviceHeartTime().execute(response);
+				break;
 
 			case LibjingleSendStructure.DELBINDDATA:
 			case LibjingleSendStructure.MANAGELEAVENODE:
@@ -421,34 +431,33 @@ public class LibjingleResponseHandlerManager extends Manger {
 					.handleCIEString(params[0]);
 			ArrayList<CIEresponse_params> devDataList = data
 					.getResponseparamList();
-			
+
 			DataHelper mDateHelper = new DataHelper(
 					ApplicationController.getInstance());
 			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
-			
+
 			String where = " ieee=? and ep=? ";
 			ContentValues v;
 			for (CIEresponse_params cp : devDataList) {
-				String[] args = { cp.getCie().getIeee(),
-						cp.getCie().getEp() };
+				String[] args = { cp.getCie().getIeee(), cp.getCie().getEp() };
 				String status = cp.getCie().getElserec().getBbypass();
-				String value = status.trim().toLowerCase()
-						.equals("true") ? "1" : "0";
+				String value = status.trim().toLowerCase().equals("true") ? "1"
+						: "0";
 				v = new ContentValues();
 				v.put(DevicesModel.ON_OFF_STATUS, value);
-				mDateHelper.update(mSQLiteDatabase, DataHelper.DEVICES_TABLE, v, where,
-						args);
+				mDateHelper.update(mSQLiteDatabase, DataHelper.DEVICES_TABLE,
+						v, where, args);
 			}
 			mSQLiteDatabase.close();
 			return devDataList;
 		}
 
-//		@Override
-//		protected void onPostExecute(Object result) {
-//			Event event = new Event(EventType.GETICELIST, true);
-//			event.setData(result);
-//			notifyObservers(event);
-//		}
+		// @Override
+		// protected void onPostExecute(Object result) {
+		// Event event = new Event(EventType.GETICELIST, true);
+		// event.setData(result);
+		// notifyObservers(event);
+		// }
 
 	}
 
@@ -555,5 +564,47 @@ public class LibjingleResponseHandlerManager extends Manger {
 			notifyObservers(event);
 		}
 
+	}
+
+	class UpdateDeviceHeartTime extends AsyncTask<String, Bundle, Bundle> {
+		@Override
+		protected Bundle doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			String response = params[0];
+			Bundle bundle = new Bundle();
+			try {
+				JSONObject json = new JSONObject(response);
+				JSONObject jsonParams = json.getJSONObject("response_params");
+				bundle.putString("ieee", jsonParams.getString("ieee"));
+				bundle.putString("ep", jsonParams.getString("ep"));
+				bundle.putInt("time", jsonParams.getInt("param1"));
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			ContentValues c = new ContentValues();
+			c.put(DevicesModel.HEART_TIME, bundle.getInt("param1"));
+
+			String where = " ieee = ? and ep = ?";
+			String ieee = bundle.getString("ieee");
+			String ep = bundle.getString("ep");
+			String[] args = { ieee, ep };
+			DataHelper mDateHelper = new DataHelper(
+					ApplicationController.getInstance());
+			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
+			mDateHelper.update(mSQLiteDatabase, DataHelper.DEVICES_TABLE, c,
+					where, args);
+			mDateHelper.close(mSQLiteDatabase);
+			return bundle;
+		}
+
+		@Override
+		protected void onPostExecute(Bundle bundle) {
+			// TODO Auto-generated method stub
+			Event event = new Event(EventType.READHEARTTIME, true);
+			event.setData(bundle);
+			notifyObservers(event);
+			super.onPostExecute(bundle);
+		}
 	}
 }

@@ -594,7 +594,7 @@
                         android:alpha="0.5"
                         android:background="#0097c6"
                         android:gravity="center_vertical"
-                        android:paddingLeft="10dp"
+                        android:paddingLeft="5dp"
                         android:text="00137A000000EE66"
                         android:textColor="#000000"
                         android:textSize="15sp" />
@@ -628,7 +628,7 @@
                         android:alpha="0.5"
                         android:background="#0097c6"
                         android:gravity="center_vertical"
-                        android:paddingLeft="10dp"
+                        android:paddingLeft="5dp"
                         android:text="01"
                         android:textColor="#000000"
                         android:textSize="15sp" />
@@ -662,7 +662,7 @@
                         android:alpha="0.5"
                         android:background="#0097c6"
                         android:gravity="center_vertical"
-                        android:paddingLeft="10dp"
+                        android:paddingLeft="5dp"
                         android:text="0.1"
                         android:textColor="#000000"
                         android:textSize="15sp" />
@@ -696,7 +696,7 @@
                         android:alpha="0.5"
                         android:background="#0097c6"
                         android:gravity="center_vertical"
-                        android:paddingLeft="10dp"
+                        android:paddingLeft="5dp"
                         android:text="0.1"
                         android:textColor="#000000"
                         android:textSize="15sp" />
@@ -730,7 +730,7 @@
                         android:alpha="0.5"
                         android:background="#0097c6"
                         android:gravity="center_vertical"
-                        android:paddingLeft="10dp"
+                        android:paddingLeft="5dp"
                         android:text="20141114"
                         android:textColor="#000000"
                         android:textSize="15sp" />
