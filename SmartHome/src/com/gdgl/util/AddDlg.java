@@ -1,10 +1,7 @@
 package com.gdgl.util;
 
-import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import com.gdgl.manager.CGIManager;
 import com.gdgl.model.DevicesGroup;
@@ -16,7 +13,6 @@ import com.gdgl.mydata.Region.Room;
 import com.gdgl.smarthome.R;
 
 import android.app.Dialog;
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;

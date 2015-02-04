@@ -3,25 +3,12 @@ package com.gdgl.libjingle;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.os.Bundle;
 import android.util.Log;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.StringRequest;
-import com.gdgl.app.ApplicationController;
 import com.gdgl.manager.Manger;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.LibjingleSendStructure;
 import com.gdgl.model.SimpleDevicesModel;
-import com.gdgl.mydata.Event;
-import com.gdgl.mydata.EventType;
-import com.gdgl.util.NetUtil;
-import com.gdgl.util.UiUtils;
 
 public class LibjingleSendManager extends Manger {
 

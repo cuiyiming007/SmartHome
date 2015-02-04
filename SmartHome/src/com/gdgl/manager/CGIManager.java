@@ -22,7 +22,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.gdgl.app.ApplicationController;
-import com.gdgl.manager.CallbackManager.ParemetersResponse;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.DataHelper;
@@ -35,7 +34,6 @@ import com.gdgl.mydata.ResponseParamsEndPoint;
 import com.gdgl.mydata.SimpleResponseData;
 import com.gdgl.mydata.Callback.CallbackBindListDevices;
 import com.gdgl.mydata.Callback.CallbackBindListMessage;
-import com.gdgl.mydata.Callback.CallbackResponseCommon;
 import com.gdgl.mydata.Region.GetRoomInfo_response;
 import com.gdgl.mydata.Region.Room;
 import com.gdgl.mydata.Region.RoomData_response_params;
@@ -82,14 +80,16 @@ public class CGIManager extends Manger {
 
 	/***
 	 * addBindData
-	 * @param bindtype  0 为正常绑定，1 为虚拟EP绑定
+	 * 
+	 * @param bindtype
+	 *            0 为正常绑定，1 为虚拟EP绑定
 	 * @param devout_ieee
 	 * @param devout_ep
 	 * @param mDevices
 	 * @param cluster_id
 	 */
-	public void addBindData(String bindtype,String devout_ieee,String devout_ep,
-			DevicesModel mDevices,String cluster_id) {
+	public void addBindData(String bindtype, String devout_ieee,
+			String devout_ep, DevicesModel mDevices, String cluster_id) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("bindtype", bindtype);
 		paraMap.put("sourceieee", devout_ieee);
@@ -99,7 +99,7 @@ public class CGIManager extends Manger {
 		paraMap.put("clusterid", cluster_id);
 		paraMap.put("hasbind", "0");
 		paraMap.put("desttype", "3");
-		
+
 		paraMap.put("callback", "1234");
 		paraMap.put("encodemethod", "NONE");
 		paraMap.put("sign", "AAA");
@@ -139,8 +139,8 @@ public class CGIManager extends Manger {
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
 
-	public void delBindData(String bindtype,String devout_ieee,String devout_ep,
-			DevicesModel mDevices,String cluster_id) {
+	public void delBindData(String bindtype, String devout_ieee,
+			String devout_ep, DevicesModel mDevices, String cluster_id) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("bindtype", bindtype);
 		paraMap.put("sourceieee", devout_ieee);
@@ -150,7 +150,7 @@ public class CGIManager extends Manger {
 		paraMap.put("clusterid", cluster_id);
 		paraMap.put("hasbind", "0");
 		paraMap.put("desttype", "3");
-		
+
 		paraMap.put("callback", "1234");
 		paraMap.put("encodemethod", "NONE");
 		paraMap.put("sign", "AAA");
@@ -163,7 +163,7 @@ public class CGIManager extends Manger {
 
 	public void GetAllBindList() {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
-		
+
 		paraMap.put("callback", "1234");
 		paraMap.put("encodemethod", "NONE");
 		paraMap.put("sign", "AAA");
@@ -173,8 +173,8 @@ public class CGIManager extends Manger {
 		Listener<String> responseListener = new Listener<String>() {
 			@Override
 			public void onResponse(String response) {
-				Log.i("CGIManager getBindList Response:%n %s",response);
-				if(response!=null&&response.length()>0) {
+				Log.i("CGIManager getBindList Response:%n %s", response);
+				if (response != null && response.length() > 0) {
 					new GetBindingTask().execute(response);
 				}
 			}
@@ -184,12 +184,12 @@ public class CGIManager extends Manger {
 
 			@Override
 			public void onErrorResponse(VolleyError error) {
-				if(error!=null&&error.getMessage()!=null) {
+				if (error != null && error.getMessage() != null) {
 					Log.e("getBindList Error: ", error.getMessage());
 				} else {
 					Log.e("getBindList Error: ", "Volley error!");
 				}
-				
+
 			}
 		};
 
@@ -209,7 +209,7 @@ public class CGIManager extends Manger {
 	public void deleteNode(String ieee) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", ieee);
-		
+
 		paraMap.put("callback", "1234");
 		paraMap.put("encodemethod", "NONE");
 		paraMap.put("sign", "AAA");
@@ -227,11 +227,11 @@ public class CGIManager extends Manger {
 	 * @param model
 	 */
 
-	public void setPermitJoinOn(String ieee,int time) {
+	public void setPermitJoinOn(String ieee, int time) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", ieee);
 		paraMap.put("second", String.valueOf(time));
-		
+
 		paraMap.put("callback", "1234");
 		paraMap.put("encodemethod", "NONE");
 		paraMap.put("sign", "AAA");
@@ -242,11 +242,11 @@ public class CGIManager extends Manger {
 
 		simpleVolleyRequset(url, EventType.SETPERMITJOINON);
 	}
-	
+
 	public void setAllPermitJoinOn(int time) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("second", String.valueOf(time));
-		
+
 		paraMap.put("callback", "1234");
 		paraMap.put("encodemethod", "NONE");
 		paraMap.put("sign", "AAA");
@@ -261,8 +261,7 @@ public class CGIManager extends Manger {
 	/***
 	 * 2.3 插座
 	 */
-	public void MainsOutLetOperation(DevicesModel model,
-			int operationType) {
+	public void MainsOutLetOperation(DevicesModel model, int operationType) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", model.getmIeee());
 		paraMap.put("ep", model.getmEP());
@@ -270,7 +269,7 @@ public class CGIManager extends Manger {
 		paraMap.put("param1", "1");
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
-		
+
 		paraMap.put("callback", "1234");
 		paraMap.put("encodemethod", "NONE");
 		paraMap.put("sign", "AAA");
@@ -292,8 +291,8 @@ public class CGIManager extends Manger {
 	 * control features; provides information update feature of the brightness
 	 * level.
 	 */
-	public void dimmableLightOperation(DevicesModel model,
-			int operationType, int param1) {
+	public void dimmableLightOperation(DevicesModel model, int operationType,
+			int param1) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", model.getmIeee());
 		paraMap.put("ep", model.getmEP());
@@ -301,7 +300,7 @@ public class CGIManager extends Manger {
 		paraMap.put("param1", String.valueOf(param1));
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
-		
+
 		paraMap.put("callback", "1234");
 		paraMap.put("encodemethod", "NONE");
 		paraMap.put("sign", "AAA");
@@ -343,7 +342,7 @@ public class CGIManager extends Manger {
 		paraMap.put("param1", "1");
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
-		
+
 		paraMap.put("callback", "1234");
 		paraMap.put("encodemethod", "NONE");
 		paraMap.put("sign", "AAA");
@@ -392,7 +391,7 @@ public class CGIManager extends Manger {
 		paraMap.put("param1", "1");
 		paraMap.put("param2", "2");
 		paraMap.put("operatortype", "1");
-		
+
 		paraMap.put("callback", "1234");
 		paraMap.put("encodemethod", "NONE");
 		paraMap.put("sign", "AAA");
@@ -434,7 +433,7 @@ public class CGIManager extends Manger {
 		paraMap.put("param1", "1");
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
-		
+
 		paraMap.put("callback", "1234");
 		paraMap.put("encodemethod", "NONE");
 		paraMap.put("sign", "AAA");
@@ -476,7 +475,7 @@ public class CGIManager extends Manger {
 		paraMap.put("param1", "1");
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
-		
+
 		paraMap.put("callback", "1234");
 		paraMap.put("encodemethod", "NONE");
 		paraMap.put("sign", "AAA");
@@ -489,7 +488,7 @@ public class CGIManager extends Manger {
 			@Override
 			public void onResponse(SimpleResponseData arg0) {
 				SimpleResponseData data = arg0;
-				Bundle bundle=new Bundle();
+				Bundle bundle = new Bundle();
 				bundle.putString("IEEE", data.getIeee());
 				bundle.putString("EP", data.getEp());
 				bundle.putString("PARAM", data.getParam1());
@@ -497,27 +496,28 @@ public class CGIManager extends Manger {
 				event.setData(bundle);
 				notifyObservers(event);
 			}
-			
+
 		};
 		ErrorListener errorListener = new ErrorListener() {
 
 			@Override
 			public void onErrorResponse(VolleyError error) {
-				if (error!=null&&error.getMessage()!=null) {
-				Log.e("ResponseError: ", error.getMessage());
-				VolleyErrorHelper.getMessage(error, ApplicationController.getInstance());
+				if (error != null && error.getMessage() != null) {
+					Log.e("ResponseError: ", error.getMessage());
+					VolleyErrorHelper.getMessage(error,
+							ApplicationController.getInstance());
 				}
 				Event event = new Event(EventType.LIGHTSENSOROPERATION, false);
 				event.setData(error);
 				notifyObservers(event);
 			}
 		};
-		
+
 		CustomRequest<SimpleResponseData> request = new CustomRequest<SimpleResponseData>(
 				url, "response_params", SimpleResponseData.class,
 				respondListener, errorListener);
 		ApplicationController.getInstance().addToRequestQueue(request);
-//		simpleVolleyRequset(url, EventType.LIGHTSENSOROPERATION);
+		// simpleVolleyRequset(url, EventType.LIGHTSENSOROPERATION);
 
 	}
 
@@ -532,7 +532,7 @@ public class CGIManager extends Manger {
 		paraMap.put("param1", String.valueOf(level));
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
-		
+
 		paraMap.put("callback", "1234");
 		paraMap.put("encodemethod", "NONE");
 		paraMap.put("sign", "AAA");
@@ -550,14 +550,13 @@ public class CGIManager extends Manger {
 	 * 查看当前全局布防状态（通过Param1的值判断）： 0：全部撤防 1：白天布防模式 2：夜间布防模式 3：全部布防
 	 * 
 	 */
-	public void LocalIASCIEOperation(DevicesModel model,
-			final int operationType) {
+	public void LocalIASCIEOperation(DevicesModel model, final int operationType) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("operatortype", String.valueOf(operationType));
 		paraMap.put("param1", "1");
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
-		
+
 		paraMap.put("callback", "1234");
 		paraMap.put("encodemethod", "NONE");
 		paraMap.put("sign", "AAA");
@@ -569,24 +568,26 @@ public class CGIManager extends Manger {
 		Listener<String> responseListener = new Listener<String>() {
 			@Override
 			public void onResponse(String response) {
-//				String jsonString = UiUtils.formatResponseString(response);
-//				if (operationType == 5) {
-//					Gson gson = new Gson();
-//					LocalIASCIEOperationResponseData data = gson.fromJson(
-//							jsonString, LocalIASCIEOperationResponseData.class);
-//					String status = data.getResponse_params().getParam1().trim();
-//					Log.i(TAG,
-//							"LocalIASCIEOperation get status is "
-//									+ String.valueOf(status));
-//					Event event = new Event(EventType.LOCALIASCIEOPERATION, true);
-//					event.setData(status);
-//					notifyObservers(event);
-//				}else {
-//					String status=String.valueOf(operationType);
-//					Event event = new Event(EventType.LOCALIASCIEOPERATION, true);
-//					event.setData(status);
-//					notifyObservers(event);
-//				}
+				// String jsonString = UiUtils.formatResponseString(response);
+				// if (operationType == 5) {
+				// Gson gson = new Gson();
+				// LocalIASCIEOperationResponseData data = gson.fromJson(
+				// jsonString, LocalIASCIEOperationResponseData.class);
+				// String status = data.getResponse_params().getParam1().trim();
+				// Log.i(TAG,
+				// "LocalIASCIEOperation get status is "
+				// + String.valueOf(status));
+				// Event event = new Event(EventType.LOCALIASCIEOPERATION,
+				// true);
+				// event.setData(status);
+				// notifyObservers(event);
+				// }else {
+				// String status=String.valueOf(operationType);
+				// Event event = new Event(EventType.LOCALIASCIEOPERATION,
+				// true);
+				// event.setData(status);
+				// notifyObservers(event);
+				// }
 			}
 		};
 
@@ -608,14 +609,15 @@ public class CGIManager extends Manger {
 		ApplicationController.getInstance().addToRequestQueue(req);
 		// simpleVolleyRequset(url, EventType.LOCALIASCIEOPERATION);
 	}
-	//operatortype=5 全局布防状态
+
+	// operatortype=5 全局布防状态
 	public void GetLocalIASCIEOperation() {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("operatortype", "5");
 		paraMap.put("param1", "1");
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
-		
+
 		paraMap.put("callback", "1234");
 		paraMap.put("encodemethod", "NONE");
 		paraMap.put("sign", "AAA");
@@ -628,36 +630,41 @@ public class CGIManager extends Manger {
 			@Override
 			public void onResponse(String response) {
 				String jsonString = UiUtils.formatResponseString(response);
-					Gson gson = new Gson();
-					LocalIASCIEOperationResponseData data = gson.fromJson(
-							jsonString, LocalIASCIEOperationResponseData.class);
-					String status = data.getResponse_params().getParam1().trim();
-					Log.i(TAG,"LocalIASCIEOperation get status is "
-									+ String.valueOf(status));
-					int value = Integer.parseInt(status);
-					switch (value) {
-					case 0:
-						status = "0";
-						break;
-					case 3:
-						status = "1";
-					default:
-						break;
-					}
+				Gson gson = new Gson();
+				LocalIASCIEOperationResponseData data = gson.fromJson(
+						jsonString, LocalIASCIEOperationResponseData.class);
+				String status = data.getResponse_params().getParam1().trim();
+				Log.i(TAG,
+						"LocalIASCIEOperation get status is "
+								+ String.valueOf(status));
+				int value = Integer.parseInt(status);
+				switch (value) {
+				case 0:
+					status = "0";
+					break;
+				case 3:
+					status = "1";
+				default:
+					break;
+				}
 
-					DataHelper mDataHelper= new DataHelper(ApplicationController.getInstance());
-					SQLiteDatabase mSQLiteDatabase = mDataHelper.getSQLiteDatabase();
-					
-					String where = " model_id like ? ";
-					String[] args = { DataHelper.One_key_operator + "%" };
-					ContentValues c = new ContentValues();
-					c.put(DevicesModel.ON_OFF_STATUS, status);
-					
-					mDataHelper.update(mSQLiteDatabase,DataHelper.DEVICES_TABLE, c, where, args);
-					mDataHelper.close(mSQLiteDatabase);
-//					Event event = new Event(EventType.LOCALIASCIEOPERATION, true);
-//					event.setData(status);
-//					notifyObservers(event);
+				DataHelper mDataHelper = new DataHelper(
+						ApplicationController.getInstance());
+				SQLiteDatabase mSQLiteDatabase = mDataHelper
+						.getSQLiteDatabase();
+
+				String where = " model_id like ? ";
+				String[] args = { DataHelper.One_key_operator + "%" };
+				ContentValues c = new ContentValues();
+				c.put(DevicesModel.ON_OFF_STATUS, status);
+
+				mDataHelper.update(mSQLiteDatabase, DataHelper.DEVICES_TABLE,
+						c, where, args);
+				mDataHelper.close(mSQLiteDatabase);
+				// Event event = new Event(EventType.LOCALIASCIEOPERATION,
+				// true);
+				// event.setData(status);
+				// notifyObservers(event);
 			}
 		};
 
@@ -676,7 +683,7 @@ public class CGIManager extends Manger {
 		ApplicationController.getInstance().addToRequestQueue(req);
 		// simpleVolleyRequset(url, EventType.LOCALIASCIEOPERATION);
 	}
-	
+
 	/***
 	 * 2.1安防设备布防LocalIASCIE ByPassZone
 	 * 
@@ -685,7 +692,7 @@ public class CGIManager extends Manger {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("zone_ieee", model.getmIeee());
 		paraMap.put("zone_ep", model.getmEP());
-		
+
 		paraMap.put("callback", "1234");
 		paraMap.put("encodemethod", "NONE");
 		paraMap.put("sign", "AAA");
@@ -705,7 +712,7 @@ public class CGIManager extends Manger {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("zone_ieee", model.getmIeee());
 		paraMap.put("zone_ep", model.getmEP());
-		
+
 		paraMap.put("callback", "1234");
 		paraMap.put("encodemethod", "NONE");
 		paraMap.put("sign", "AAA");
@@ -738,8 +745,8 @@ public class CGIManager extends Manger {
 	 * 
 	 * GetIRDisableTime 10
 	 */
-	public void iASZoneOperationCommon(DevicesModel model,
-			int operationType, int param1) {
+	public void iASZoneOperationCommon(DevicesModel model, int operationType,
+			int param1) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", model.getmIeee());
 		paraMap.put("ep", model.getmEP());
@@ -747,7 +754,7 @@ public class CGIManager extends Manger {
 		paraMap.put("param1", String.valueOf(param1));
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
-		
+
 		paraMap.put("callback", "1234");
 		paraMap.put("encodemethod", "NONE");
 		paraMap.put("sign", "AAA");
@@ -818,8 +825,7 @@ public class CGIManager extends Manger {
 	 * 
 	 * GetTemperatureMeasuredValue11
 	 */
-	public void temperatureSensorOperation(DevicesModel model,
-			int operationType) {
+	public void temperatureSensorOperation(DevicesModel model, int operationType) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", model.getmIeee());
 		paraMap.put("ep", model.getmEP());
@@ -827,7 +833,7 @@ public class CGIManager extends Manger {
 		paraMap.put("param1", "1");
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
-		
+
 		paraMap.put("callback", "1234");
 		paraMap.put("encodemethod", "NONE");
 		paraMap.put("sign", "AAA");
@@ -842,41 +848,43 @@ public class CGIManager extends Manger {
 		} else {
 			type = EventType.HUMIDITY;
 		}
-		
+
 		Listener<SimpleResponseData> respondListener = new Listener<SimpleResponseData>() {
 			@Override
 			public void onResponse(SimpleResponseData arg0) {
 				SimpleResponseData data = arg0;
-				Bundle bundle=new Bundle();
+				Bundle bundle = new Bundle();
 				bundle.putString("IEEE", data.getIeee());
 				bundle.putString("EP", data.getEp());
-				String value=String.valueOf(Float.valueOf(data.getParam1())/1000);
+				String value = String
+						.valueOf(Float.valueOf(data.getParam1()) / 1000);
 				bundle.putString("PARAM", value);
 				Event event = new Event(type, true);
 				event.setData(bundle);
 				notifyObservers(event);
 			}
-			
+
 		};
 		ErrorListener errorListener = new ErrorListener() {
 
 			@Override
 			public void onErrorResponse(VolleyError error) {
-				if (error!=null&&error.getMessage()!=null) {
-				Log.e("ResponseError: ", error.getMessage());
-				VolleyErrorHelper.getMessage(error, ApplicationController.getInstance());
+				if (error != null && error.getMessage() != null) {
+					Log.e("ResponseError: ", error.getMessage());
+					VolleyErrorHelper.getMessage(error,
+							ApplicationController.getInstance());
 				}
 				Event event = new Event(type, false);
 				event.setData(error);
 				notifyObservers(event);
 			}
 		};
-		
+
 		CustomRequest<SimpleResponseData> request = new CustomRequest<SimpleResponseData>(
 				url, "response_params", SimpleResponseData.class,
 				respondListener, errorListener);
 		ApplicationController.getInstance().addToRequestQueue(request);
-//		simpleVolleyRequset(url, type);
+		// simpleVolleyRequset(url, type);
 	}
 
 	/***
@@ -884,8 +892,7 @@ public class CGIManager extends Manger {
 	 * 
 	 * GetHumidity 0
 	 */
-	public void rangeExtenderOperation(DevicesModel model,
-			int operationType) {
+	public void rangeExtenderOperation(DevicesModel model, int operationType) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", model.getmIeee());
 		paraMap.put("ep", model.getmEP());
@@ -893,7 +900,7 @@ public class CGIManager extends Manger {
 		paraMap.put("param1", "1");
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
-		
+
 		paraMap.put("callback", "1234");
 		paraMap.put("encodemethod", "NONE");
 		paraMap.put("sign", "AAA");
@@ -924,7 +931,7 @@ public class CGIManager extends Manger {
 		paraMap.put("param1", "1");
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
-		
+
 		paraMap.put("callback", "1234");
 		paraMap.put("encodemethod", "NONE");
 		paraMap.put("sign", "AAA");
@@ -936,7 +943,6 @@ public class CGIManager extends Manger {
 		simpleVolleyRequset(url, EventType.IASACE);
 	}
 
-	
 	/***
 	 * 打开红外学习设备，准备学习 成功返回的数据跟跟BindResponseData一样
 	 * 
@@ -944,14 +950,13 @@ public class CGIManager extends Manger {
 	 * @param index
 	 * @param operation
 	 */
-	public void beginLearnIR(DevicesModel model, int index,
-			String operation) {
+	public void beginLearnIR(DevicesModel model, int index, String operation) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", model.getmIeee());
 		paraMap.put("ep", model.getmEP());
 		paraMap.put("hadaemonindex", String.valueOf(index));
 		paraMap.put("irdisplayname", operation);
-		
+
 		paraMap.put("callback", "1234");
 		paraMap.put("encodemethod", "NONE");
 		paraMap.put("sign", "AAA");
@@ -962,11 +967,12 @@ public class CGIManager extends Manger {
 			public void onResponse(String response) {
 				response = UiUtils.formatResponseString(response);
 				Log.i("CGIManager beginLearnIR Response:%n %s", response);
-//				Gson gson = new Gson();
-//				BindResponseData statusData = gson.fromJson(response.toString(), BindResponseData.class);
-//				Event event = new Event(EventType.BEGINLEARNIR, true);
-//				event.setData(statusData);
-//				notifyObservers(event);
+				// Gson gson = new Gson();
+				// BindResponseData statusData =
+				// gson.fromJson(response.toString(), BindResponseData.class);
+				// Event event = new Event(EventType.BEGINLEARNIR, true);
+				// event.setData(statusData);
+				// notifyObservers(event);
 			}
 		};
 		String url = NetUtil.getInstance().getCumstomURL(
@@ -1004,7 +1010,7 @@ public class CGIManager extends Manger {
 		paraMap.put("ieee", model.getmIeee());
 		paraMap.put("ep", model.getmEP());
 		paraMap.put("hadaemonindex", String.valueOf(index));
-		
+
 		paraMap.put("callback", "1234");
 		paraMap.put("encodemethod", "NONE");
 		paraMap.put("sign", "AAA");
@@ -1045,23 +1051,23 @@ public class CGIManager extends Manger {
 		ApplicationController.getInstance().addToRequestQueue(req);
 
 	}
-	
+
 	public void DeleteIR(DevicesModel model, int index) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", model.getmIeee());
 		paraMap.put("ep", model.getmEP());
 		paraMap.put("hadaemonindex", String.valueOf(index));
-		
+
 		paraMap.put("callback", "1234");
 		paraMap.put("encodemethod", "NONE");
 		paraMap.put("sign", "AAA");
 		String param = hashMap2ParamString(paraMap);
-		
+
 		String url = NetUtil.getInstance().getCumstomURL(
 				NetUtil.getInstance().IP, "DeleteIR.cgi", param);
 		Log.i("CGIManager DeleteIR Request:%n %s", url);
-		
-		StringRequest req = new StringRequest(url, 
+
+		StringRequest req = new StringRequest(url,
 				new Response.Listener<String>() {
 
 					@Override
@@ -1075,8 +1081,7 @@ public class CGIManager extends Manger {
 						event.setData(statusData);
 						notifyObservers(event);
 					}
-				},
-				new Response.ErrorListener() {
+				}, new Response.ErrorListener() {
 					@Override
 					public void onErrorResponse(VolleyError error) {
 						String errorString = null;
@@ -1098,7 +1103,7 @@ public class CGIManager extends Manger {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", model.getmIeee());
 		paraMap.put("ep", model.getmEP());
-		
+
 		paraMap.put("callback", "1234");
 		paraMap.put("encodemethod", "NONE");
 		paraMap.put("sign", "AAA");
@@ -1115,8 +1120,7 @@ public class CGIManager extends Manger {
 		String url = NetUtil.getInstance().getCumstomURL(
 				NetUtil.getInstance().IP,
 				"GetDeviceLearnedIRDataInformation.cgi", param);
-		Log.i("CGIManager GetDeviceLearnedIRDataInformation Request:%n %s",
-				url);
+		Log.i("CGIManager GetDeviceLearnedIRDataInformation Request:%n %s", url);
 		StringRequest req = new StringRequest(url, responseListener,
 				new Response.ErrorListener() {
 					@Override
@@ -1127,7 +1131,8 @@ public class CGIManager extends Manger {
 							errorString = VolleyErrorHelper.getMessage(error,
 									ApplicationController.getInstance());
 						}
-						Event event = new Event(EventType.GETDEVICELEARNED, false);
+						Event event = new Event(EventType.GETDEVICELEARNED,
+								false);
 						event.setData(errorString);
 						notifyObservers(event);
 					}
@@ -1141,24 +1146,23 @@ public class CGIManager extends Manger {
 	 */
 	public void GetAllRoomInfo() {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
-		
+
 		paraMap.put("callback", "1234");
 		paraMap.put("encodemethod", "NONE");
 		paraMap.put("sign", "AAA");
 		String param = hashMap2ParamString(paraMap);
-		
+
 		String url = NetUtil.getInstance().getCumstomURL(
-				NetUtil.getInstance().IP, "getAllRoomInfo.cgi",param);
-		
-		StringRequestChina req = new StringRequestChina(url, 
+				NetUtil.getInstance().IP, "getAllRoomInfo.cgi", param);
+
+		StringRequestChina req = new StringRequestChina(url,
 				new Response.Listener<String>() {
 					@Override
 					public void onResponse(String response) {
 						Log.i("CGIManager GetRoomInfo Response:%n %s", response);
 						new GetAllRoomInfoTask().execute(response);
 					}
-				},
-				new Response.ErrorListener() {
+				}, new Response.ErrorListener() {
 					@Override
 					public void onErrorResponse(VolleyError error) {
 						String errorString = null;
@@ -1175,51 +1179,51 @@ public class CGIManager extends Manger {
 		// add the request object to the queue to be executed
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
-	
+
 	/***
 	 * 获取指定房间的设备EP信息
+	 * 
 	 * @param rid
 	 */
 	public void GetEPByRoomIndex(String rid) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("rid", rid);
-		
+
 		paraMap.put("callback", "1234");
 		paraMap.put("encodemethod", "NONE");
 		paraMap.put("sign", "AAA");
 		String param = hashMap2ParamString(paraMap);
-		
+
 		String url = NetUtil.getInstance().getCumstomURL(
-				NetUtil.getInstance().IP, "getEPByRoomIndex.cgi",param);
-		
-		StringRequest req = new StringRequest(url, 
+				NetUtil.getInstance().IP, "getEPByRoomIndex.cgi", param);
+
+		StringRequest req = new StringRequest(url,
 				new Response.Listener<String>() {
 					@Override
 					public void onResponse(String response) {
 						new GetEPbyRoomIndexTask().execute(response);
 					}
-				},
-				new Response.ErrorListener() {
+				}, new Response.ErrorListener() {
 					@Override
 					public void onErrorResponse(VolleyError error) {
-//						String errorString = null;
-//						if (error != null && error.getMessage() != null) {
-//							VolleyLog.e("Error: ", error.getMessage());
-//							errorString = VolleyErrorHelper.getMessage(error,
-//									ApplicationController.getInstance());
-//						}
-//						Event event = new Event(EventType.DELETEIR, false);
-//						event.setData(errorString);
-//						notifyObservers(event);
+						// String errorString = null;
+						// if (error != null && error.getMessage() != null) {
+						// VolleyLog.e("Error: ", error.getMessage());
+						// errorString = VolleyErrorHelper.getMessage(error,
+						// ApplicationController.getInstance());
+						// }
+						// Event event = new Event(EventType.DELETEIR, false);
+						// event.setData(errorString);
+						// notifyObservers(event);
 					}
 				});
 		// add the request object to the queue to be executed
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
-	
-	
+
 	/**
 	 * 添加房间
+	 * 
 	 * @param rid
 	 * @param roomname
 	 * @param roompic
@@ -1229,15 +1233,15 @@ public class CGIManager extends Manger {
 		paraMap.put("rid", rid);
 		paraMap.put("roomname", roomname);
 		paraMap.put("roompic", roompic);
-		
+
 		paraMap.put("callback", "1234");
 		paraMap.put("encodemethod", "NONE");
 		paraMap.put("sign", "AAA");
 		String param = hashMap2ParamString(paraMap);
-		
+
 		String url = NetUtil.getInstance().getCumstomURL(
-				NetUtil.getInstance().IP, "zbAddRoomDataMain.cgi",param);
-		StringRequest req = new StringRequest(url, 
+				NetUtil.getInstance().IP, "zbAddRoomDataMain.cgi", param);
+		StringRequest req = new StringRequest(url,
 				new Response.Listener<String>() {
 					@Override
 					public void onResponse(String response) {
@@ -1245,14 +1249,14 @@ public class CGIManager extends Manger {
 						Log.i("CGIManager AddRoomData Response:%n %s", response);
 						Gson gson = new Gson();
 						RoomData_response_params data = gson.fromJson(
-								response.toString(), RoomData_response_params.class);
-						String status=data.getstatus();
+								response.toString(),
+								RoomData_response_params.class);
+						String status = data.getstatus();
 						Event event = new Event(EventType.ROOMDATAMAIN, true);
 						event.setData(status);
 						notifyObservers(event);
 					}
-				},
-				new Response.ErrorListener() {
+				}, new Response.ErrorListener() {
 					@Override
 					public void onErrorResponse(VolleyError error) {
 						String errorString = null;
@@ -1267,53 +1271,55 @@ public class CGIManager extends Manger {
 					}
 				}) {
 			@Override
-			public Map<String, String> getHeaders()
-					throws AuthFailureError {
+			public Map<String, String> getHeaders() throws AuthFailureError {
 				// TODO Auto-generated method stub
-				HashMap<String, String> headers = new HashMap<String, String>();  
-				//headers.put("Charset", "UTF-8");  
-				headers.put("Content-Type", "application/json; charset=UTF-8");  
-				headers.put("Accept-Encoding", "gzip,deflate,sdch");  
+				HashMap<String, String> headers = new HashMap<String, String>();
+				// headers.put("Charset", "UTF-8");
+				headers.put("Content-Type", "application/json; charset=UTF-8");
+				headers.put("Accept-Encoding", "gzip,deflate,sdch");
 				headers.put("Accept-Language", "zh-CN,zh;q=0.8");
-				return headers;  
+				return headers;
 			}
 		};
 		// add the request object to the queue to be executed
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
-	
+
 	/***
 	 * 删除指定房间
+	 * 
 	 * @param rid
 	 */
 	public void ZBDeleteRoomDataMainByID(String rid) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("rid", rid);
-		
+
 		paraMap.put("callback", "1234");
 		paraMap.put("encodemethod", "NONE");
 		paraMap.put("sign", "AAA");
 		String param = hashMap2ParamString(paraMap);
-		
-		String url = NetUtil.getInstance().getCumstomURL(
-				NetUtil.getInstance().IP, "zbDeleteRoomDataMainByID.cgi",param);
-		
-		StringRequest req = new StringRequest(url, 
+
+		String url = NetUtil.getInstance()
+				.getCumstomURL(NetUtil.getInstance().IP,
+						"zbDeleteRoomDataMainByID.cgi", param);
+
+		StringRequest req = new StringRequest(url,
 				new Response.Listener<String>() {
 					@Override
 					public void onResponse(String response) {
 						response = UiUtils.formatResponseString(response);
-						Log.i("CGIManager DeleteRoomData Response:%n %s", response);
+						Log.i("CGIManager DeleteRoomData Response:%n %s",
+								response);
 						Gson gson = new Gson();
 						RoomData_response_params data = gson.fromJson(
-								response.toString(), RoomData_response_params.class);
-						String status=data.getstatus();
+								response.toString(),
+								RoomData_response_params.class);
+						String status = data.getstatus();
 						Event event = new Event(EventType.ROOMDATAMAIN, true);
 						event.setData(status);
 						notifyObservers(event);
 					}
-				},
-				new Response.ErrorListener() {
+				}, new Response.ErrorListener() {
 					@Override
 					public void onErrorResponse(VolleyError error) {
 						String errorString = null;
@@ -1330,9 +1336,10 @@ public class CGIManager extends Manger {
 		// add the request object to the queue to be executed
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
-	
+
 	/**
 	 * 修改设备的room id
+	 * 
 	 * @param model
 	 * @param new_roomid
 	 */
@@ -1341,31 +1348,33 @@ public class CGIManager extends Manger {
 		paraMap.put("ieee", model.getmIeee());
 		paraMap.put("ep", model.getmEP());
 		paraMap.put("new_roomid", new_roomid);
-		
+
 		paraMap.put("callback", "1234");
 		paraMap.put("encodemethod", "NONE");
 		paraMap.put("sign", "AAA");
 		String param = hashMap2ParamString(paraMap);
-		
+
 		String url = NetUtil.getInstance().getCumstomURL(
-				NetUtil.getInstance().IP, "ModifyDeviceRoomId.cgi",param);
-		
-		StringRequest req = new StringRequest(url, 
+				NetUtil.getInstance().IP, "ModifyDeviceRoomId.cgi", param);
+
+		StringRequest req = new StringRequest(url,
 				new Response.Listener<String>() {
 					@Override
 					public void onResponse(String response) {
 						response = UiUtils.formatResponseString(response);
-						Log.i("CGIManager ModifyDeviceRoomId Response:%n %s", response);
+						Log.i("CGIManager ModifyDeviceRoomId Response:%n %s",
+								response);
 						Gson gson = new Gson();
 						RoomData_response_params data = gson.fromJson(
-								response.toString(), RoomData_response_params.class);
-						String status=data.getstatus();
-						Event event = new Event(EventType.MODIFYDEVICEROOMID, true);
+								response.toString(),
+								RoomData_response_params.class);
+						String status = data.getstatus();
+						Event event = new Event(EventType.MODIFYDEVICEROOMID,
+								true);
 						event.setData(status);
 						notifyObservers(event);
 					}
-				},
-				new Response.ErrorListener() {
+				}, new Response.ErrorListener() {
 					@Override
 					public void onErrorResponse(VolleyError error) {
 						String errorString = null;
@@ -1374,7 +1383,8 @@ public class CGIManager extends Manger {
 							errorString = VolleyErrorHelper.getMessage(error,
 									ApplicationController.getInstance());
 						}
-						Event event = new Event(EventType.MODIFYDEVICEROOMID, false);
+						Event event = new Event(EventType.MODIFYDEVICEROOMID,
+								false);
 						event.setData(errorString);
 						notifyObservers(event);
 					}
@@ -1382,9 +1392,10 @@ public class CGIManager extends Manger {
 		// add the request object to the queue to be executed
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
+
 	/***
-	 * 设备识别
-	 * 识别某个设备，即让某个设备的指示灯闪烁指定的时间。
+	 * 设备识别 识别某个设备，即让某个设备的指示灯闪烁指定的时间。
+	 * 
 	 * @param model
 	 * @param time
 	 */
@@ -1393,118 +1404,122 @@ public class CGIManager extends Manger {
 		paraMap.put("ieee", model.getmIeee());
 		paraMap.put("ep", model.getmEP());
 		paraMap.put("time", time);
-		
+
 		paraMap.put("callback", "1234");
 		paraMap.put("encodemethod", "NONE");
 		paraMap.put("sign", "AAA");
 		String param = hashMap2ParamString(paraMap);
-		
+
 		String url = NetUtil.getInstance().getCumstomURL(
-				NetUtil.getInstance().IP, "identifyDevice.cgi",param);
+				NetUtil.getInstance().IP, "identifyDevice.cgi", param);
 		Log.i("CGIManager IdentifyDevice url:%n %s", url);
-		StringRequest req = new StringRequest(url, 
+		StringRequest req = new StringRequest(url,
 				new Response.Listener<String>() {
 					@Override
 					public void onResponse(String response) {
 						response = UiUtils.formatResponseString(response);
-						Log.i("CGIManager IdentifyDevice Response:%n %s", response);
+						Log.i("CGIManager IdentifyDevice Response:%n %s",
+								response);
 					}
-				},
-				new Response.ErrorListener() {
+				}, new Response.ErrorListener() {
 					@Override
 					public void onErrorResponse(VolleyError error) {
 						if (error != null && error.getMessage() != null) {
-							VolleyLog.e("CGIManager IdentifyDevice Error: ", error.getMessage());
-							
+							VolleyLog.e("CGIManager IdentifyDevice Error: ",
+									error.getMessage());
+
 						}
 					}
 				});
 		// add the request object to the queue to be executed
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
-	
-	
+
 	/***
-	 * 修改设备名称
-	 * this function is to change device name
+	 * 修改设备名称 this function is to change device name
+	 * 
 	 * @author Trice
-	 *
+	 * 
 	 */
 	public void ChangeDeviceName(DevicesModel model, String newname) {
-		String oldname=model.getmName().replace(" ", "%20");
+		String oldname = model.getmName().replace(" ", "%20");
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", model.getmIeee());
 		paraMap.put("ep", model.getmEP());
 		paraMap.put("oldname", oldname);
 		paraMap.put("newname", newname);
-		
+
 		paraMap.put("callback", "1234");
 		paraMap.put("encodemethod", "NONE");
 		paraMap.put("sign", "AAA");
 		String param = hashMap2ParamString(paraMap);
-		
+
 		String url = NetUtil.getInstance().getCumstomURL(
-				NetUtil.getInstance().IP, "ChangeDeviceName.cgi?",param);
+				NetUtil.getInstance().IP, "ChangeDeviceName.cgi?", param);
 		Log.i("CGIManager ChangeDeviceName url:%n %s", url);
-		
-		StringRequest req = new StringRequest(url, 
+
+		StringRequest req = new StringRequest(url,
 				new Response.Listener<String>() {
 					@Override
 					public void onResponse(String response) {
 						response = UiUtils.formatResponseString(response);
-//						Log.i("CGIManager ChangeDeviceName Response:%n %s", response);
+						// Log.i("CGIManager ChangeDeviceName Response:%n %s",
+						// response);
 					}
-				},
-				new Response.ErrorListener() {
+				}, new Response.ErrorListener() {
 					@Override
 					public void onErrorResponse(VolleyError error) {
 						if (error != null && error.getMessage() != null) {
-							VolleyLog.e("CGIManager ChangeDeviceName Error: ", error.getMessage());
-							
+							VolleyLog.e("CGIManager ChangeDeviceName Error: ",
+									error.getMessage());
+
 						}
 					}
 				});
 		// add the request object to the queue to be executed
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
-	public void ChangeDeviceName(String ieee, String ep, String oldname, String newname) {
-		String old_name=oldname.replace(" ", "%20");
+
+	public void ChangeDeviceName(String ieee, String ep, String oldname,
+			String newname) {
+		String old_name = oldname.replace(" ", "%20");
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", ieee);
 		paraMap.put("ep", ep);
 		paraMap.put("oldname", old_name);
 		paraMap.put("newname", newname);
-		
+
 		paraMap.put("callback", "1234");
 		paraMap.put("encodemethod", "NONE");
 		paraMap.put("sign", "AAA");
 		String param = hashMap2ParamString(paraMap);
-		
+
 		String url = NetUtil.getInstance().getCumstomURL(
-				NetUtil.getInstance().IP, "ChangeDeviceName.cgi?",param);
+				NetUtil.getInstance().IP, "ChangeDeviceName.cgi?", param);
 		Log.i("CGIManager ChangeDeviceName url:%n %s", url);
-		
-		StringRequest req = new StringRequest(url, 
+
+		StringRequest req = new StringRequest(url,
 				new Response.Listener<String>() {
 					@Override
 					public void onResponse(String response) {
 						response = UiUtils.formatResponseString(response);
-//						Log.i("CGIManager ChangeDeviceName Response:%n %s", response);
+						// Log.i("CGIManager ChangeDeviceName Response:%n %s",
+						// response);
 					}
-				},
-				new Response.ErrorListener() {
+				}, new Response.ErrorListener() {
 					@Override
 					public void onErrorResponse(VolleyError error) {
 						if (error != null && error.getMessage() != null) {
-							VolleyLog.e("CGIManager ChangeDeviceName Error: ", error.getMessage());
-							
+							VolleyLog.e("CGIManager ChangeDeviceName Error: ",
+									error.getMessage());
+
 						}
 					}
 				});
 		// add the request object to the queue to be executed
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
-	
+
 	/***
 	 * 获取安防设备心跳周期
 	 * 
@@ -1517,53 +1532,37 @@ public class CGIManager extends Manger {
 		paraMap.put("param1", "");
 		paraMap.put("param2", "");
 		paraMap.put("param3", "");
-		
+
 		paraMap.put("callback", "1234");
 		paraMap.put("encodemethod", "NONE");
 		paraMap.put("sign", "AAA");
 		String param = hashMap2ParamString(paraMap);
-		
+
 		String url = NetUtil.getInstance().getCumstomURL(
 				NetUtil.getInstance().IP, "iasZoneOperation.cgi", param);
 		Log.i("CGIManager getHeartTime Request:%n %s", url);
-		StringRequest req = new StringRequest(url, 
+		StringRequest req = new StringRequest(url,
 				new Response.Listener<String>() {
 					@Override
 					public void onResponse(String response) {
 						response = UiUtils.formatResponseString(response);
-						Log.i("CGIManager getHeartTime Response:%n %s", response);
-						Bundle bundle = new Bundle();
-						try {
-							JSONObject json = new JSONObject(response);
-							JSONObject jsonParams = json.getJSONObject("response_params");
-							bundle.putString("ieee", jsonParams.getString("ieee"));
-							bundle.putString("ep", jsonParams.getString("ep"));
-							bundle.putInt("time", jsonParams.getInt("param1"));
-						} catch (JSONException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-											
-						Event event = new Event(EventType.READHEARTTIME, true);
-						event.setData(bundle);
-						notifyObservers(event);
-						
-						new UpdateDeviceHeartTimeToDatabaseTask().execute(bundle);
+						new UpdateDeviceHeartTimeToDatabaseTask()
+								.execute(response);
 					}
-				},
-				new Response.ErrorListener() {
+				}, new Response.ErrorListener() {
 					@Override
 					public void onErrorResponse(VolleyError error) {
 						if (error != null && error.getMessage() != null) {
-							VolleyLog.e("CGIManager getHeartTime Error: ", error.getMessage());
-							
+							VolleyLog.e("CGIManager getHeartTime Error: ",
+									error.getMessage());
+
 						}
 					}
 				});
 		// add the request object to the queue to be executed
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
-	
+
 	/***
 	 * 设定安防设备心跳周期
 	 * 
@@ -1575,72 +1574,74 @@ public class CGIManager extends Manger {
 		paraMap.put("ieee", mDevices.getmIeee());
 		paraMap.put("ep", mDevices.getmEP());
 		paraMap.put("operatortype", "1");
-		paraMap.put("param1", ""+time);
+		paraMap.put("param1", "" + time);
 		paraMap.put("param2", "");
 		paraMap.put("param3", "");
-		
+
 		paraMap.put("callback", "1234");
 		paraMap.put("encodemethod", "NONE");
 		paraMap.put("sign", "AAA");
 		String param = hashMap2ParamString(paraMap);
-		Listener<String> responseListener = new Listener<String>() {
-			@Override
-			public void onResponse(String response) {
-				response = UiUtils.formatResponseString(response);
-				Log.i("CGIManager setHeartTime Response:%n %s", response);
-			}
-		};
 		String url = NetUtil.getInstance().getCumstomURL(
 				NetUtil.getInstance().IP, "iasZoneOperation.cgi", param);
 		Log.i("CGIManager setHeartTime Request:%n %s", url);
-		StringRequest req = new StringRequest(url, 
+		StringRequest req = new StringRequest(url,
 				new Response.Listener<String>() {
 					@Override
 					public void onResponse(String response) {
 						response = UiUtils.formatResponseString(response);
 					}
-				},
-				new Response.ErrorListener() {
+				}, new Response.ErrorListener() {
 					@Override
 					public void onErrorResponse(VolleyError error) {
 						if (error != null && error.getMessage() != null) {
-							VolleyLog.e("CGIManager setHeartTime Error: ", error.getMessage());
-							
+							VolleyLog.e("CGIManager setHeartTime Error: ",
+									error.getMessage());
+
 						}
 					}
 				});
 		// add the request object to the queue to be executed
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
-	
-	
+
 	class GetBindingTask extends AsyncTask<String, Object, Object> {
 		@Override
 		protected Object doInBackground(String... params) {
 			BindingDataEntity data = VolleyOperation
 					.handleBindingString(params[0]);
-			if(data!=null) {
-				ArrayList<CallbackBindListMessage> bindingInfo=data.getResponse_paramsList();
-				
+			if (data != null) {
+				ArrayList<CallbackBindListMessage> bindingInfo = data
+						.getResponse_paramsList();
+
 				DataHelper mDateHelper = new DataHelper(
 						ApplicationController.getInstance());
-				SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
-				
+				SQLiteDatabase mSQLiteDatabase = mDateHelper
+						.getSQLiteDatabase();
+
 				mSQLiteDatabase.beginTransaction();
 				try {
 					mSQLiteDatabase.delete(DataHelper.BIND_TABLE, null, null);
-					for(CallbackBindListMessage bindingParam:bindingInfo) {
-						ArrayList<CallbackBindListDevices> mBindedDevicesList= bindingParam.getList();
-						if(mBindedDevicesList!=null&&mBindedDevicesList.size()>0) {
-							for(CallbackBindListDevices bindingDivice:mBindedDevicesList) {
+					for (CallbackBindListMessage bindingParam : bindingInfo) {
+						ArrayList<CallbackBindListDevices> mBindedDevicesList = bindingParam
+								.getList();
+						if (mBindedDevicesList != null
+								&& mBindedDevicesList.size() > 0) {
+							for (CallbackBindListDevices bindingDivice : mBindedDevicesList) {
 								ContentValues c = new ContentValues();
-								c.put(BindingDataEntity.DEVOUT_IEEE,bindingParam.getIeee());
-								c.put(BindingDataEntity.DEVOUT_EP,bindingParam.getEp());
-								c.put(BindingDataEntity.DEVIN_IEEE,bindingDivice.getIeee());
-								c.put(BindingDataEntity.DEVIN_EP,bindingDivice.getEp());
-								c.put(BindingDataEntity.CLUSTER,bindingDivice.getCid());
-								
-								mSQLiteDatabase.insert(DataHelper.BIND_TABLE, null, c);
+								c.put(BindingDataEntity.DEVOUT_IEEE,
+										bindingParam.getIeee());
+								c.put(BindingDataEntity.DEVOUT_EP,
+										bindingParam.getEp());
+								c.put(BindingDataEntity.DEVIN_IEEE,
+										bindingDivice.getIeee());
+								c.put(BindingDataEntity.DEVIN_EP,
+										bindingDivice.getEp());
+								c.put(BindingDataEntity.CLUSTER,
+										bindingDivice.getCid());
+
+								mSQLiteDatabase.insert(DataHelper.BIND_TABLE,
+										null, c);
 							}
 						}
 					}
@@ -1658,10 +1659,10 @@ public class CGIManager extends Manger {
 
 		@Override
 		protected void onPostExecute(Object result) {
-			
+
 		}
 	}
-	
+
 	class GetDeviceLearnedTask extends AsyncTask<String, Object, Object> {
 
 		@Override
@@ -1670,36 +1671,41 @@ public class CGIManager extends Manger {
 					.handleDeviceLearnedString(params[0]);
 			return dataEntity;
 		}
+
 		@Override
 		protected void onPostExecute(Object result) {
-			
+
 			Event event = new Event(EventType.GETDEVICELEARNED, true);
 			event.setData(result);
 			notifyObservers(event);
 		}
 	}
-	
+
 	class GetAllRoomInfoTask extends AsyncTask<String, Object, List<Room>> {
 		@Override
 		protected List<Room> doInBackground(String... params) {
-			RespondDataEntity<GetRoomInfo_response> data = VolleyOperation.handleRoomInfoString(params[0]);
-			ArrayList<GetRoomInfo_response> roomInfoList = data.getResponseparamList();
+			RespondDataEntity<GetRoomInfo_response> data = VolleyOperation
+					.handleRoomInfoString(params[0]);
+			ArrayList<GetRoomInfo_response> roomInfoList = data
+					.getResponseparamList();
 			ArrayList<Room> roomList = new ArrayList<Room>();
-			
+
 			DataHelper mDateHelper = new DataHelper(
 					ApplicationController.getInstance());
 			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
-			for(GetRoomInfo_response info:roomInfoList) {
+			for (GetRoomInfo_response info : roomInfoList) {
 				ContentValues c = new ContentValues();
 				c.put(DevicesModel.DEVICE_REGION, info.getroom().getroom_name());
 				String where = " rid = ? ";
 				int rid = info.getroom().getroom_id();
-				String[] args = { rid+"" };
-				mDateHelper.update(mSQLiteDatabase, DataHelper.DEVICES_TABLE, c, where, args);
+				String[] args = { rid + "" };
+				mDateHelper.update(mSQLiteDatabase, DataHelper.DEVICES_TABLE,
+						c, where, args);
 				roomList.add(info.getroom());
 			}
 			mDateHelper.emptyTable(mSQLiteDatabase, DataHelper.ROOMINFO_TABLE);
-			mDateHelper.insertRoomInfoList(mSQLiteDatabase, DataHelper.ROOMINFO_TABLE, null, roomInfoList);
+			mDateHelper.insertRoomInfoList(mSQLiteDatabase,
+					DataHelper.ROOMINFO_TABLE, null, roomInfoList);
 			mSQLiteDatabase.close();
 			return roomList;
 		}
@@ -1711,7 +1717,7 @@ public class CGIManager extends Manger {
 			notifyObservers(event);
 		}
 	}
-	
+
 	class GetEPbyRoomIndexTask extends AsyncTask<String, Object, Object> {
 		@Override
 		protected Object doInBackground(String... params) {
@@ -1720,15 +1726,16 @@ public class CGIManager extends Manger {
 			ArrayList<ResponseParamsEndPoint> devDataList = data
 					.getResponseparamList();
 
-//			DataHelper mDateHelper = new DataHelper(
-//					ApplicationController.getInstance());
-//			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
-//			List<DevicesModel> mList = mDateHelper.queryForDevicesList(
-//					mSQLiteDatabase, DataHelper.DEVICES_TABLE, null, null,
-//					null, null, null, null, null);
-//			
-//			mDateHelper.emptyTable(mSQLiteDatabase,DataHelper.DEVICES_TABLE);
-//			mDateHelper.insertEndPointList(mSQLiteDatabase,DataHelper.DEVICES_TABLE, null, devDataList);
+			// DataHelper mDateHelper = new DataHelper(
+			// ApplicationController.getInstance());
+			// SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
+			// List<DevicesModel> mList = mDateHelper.queryForDevicesList(
+			// mSQLiteDatabase, DataHelper.DEVICES_TABLE, null, null,
+			// null, null, null, null, null);
+			//
+			// mDateHelper.emptyTable(mSQLiteDatabase,DataHelper.DEVICES_TABLE);
+			// mDateHelper.insertEndPointList(mSQLiteDatabase,DataHelper.DEVICES_TABLE,
+			// null, devDataList);
 
 			// mDateHelper.close(mSQLiteDatabase);
 			// [TODO]transfer to SimpleDevicesModel
@@ -1743,28 +1750,49 @@ public class CGIManager extends Manger {
 		}
 
 	}
-	
-	class UpdateDeviceHeartTimeToDatabaseTask extends AsyncTask<Bundle, Integer, Integer> {
 
-	@Override
-	protected Integer doInBackground(Bundle... params) {
-		// TODO Auto-generated method stub
-		Bundle data = params[0];
-		ContentValues c = new ContentValues();
-		c.put(DevicesModel.HEART_TIME, data.getInt("time"));
-		
-		String where = " ieee = ? and ep = ?";
-		String ieee = data.getString("ieee");
-		String ep = data.getString("ep");
-		String[] args = { ieee, ep };
-		DataHelper mDateHelper = new DataHelper(
-				ApplicationController.getInstance());
-		SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
-		int result = mDateHelper.update(mSQLiteDatabase,
-				DataHelper.DEVICES_TABLE, c, where, args);
-		mDateHelper.close(mSQLiteDatabase);
-		return result;
+	class UpdateDeviceHeartTimeToDatabaseTask extends
+			AsyncTask<String, Bundle, Bundle> {
+
+		@Override
+		protected Bundle doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			String response = params[0];
+			Bundle bundle = new Bundle();
+			try {
+				JSONObject json = new JSONObject(response);
+				JSONObject jsonParams = json.getJSONObject("response_params");
+				bundle.putString("ieee", jsonParams.getString("ieee"));
+				bundle.putString("ep", jsonParams.getString("ep"));
+				bundle.putInt("time", jsonParams.getInt("param1"));
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			ContentValues c = new ContentValues();
+			c.put(DevicesModel.HEART_TIME, bundle.getInt("time"));
+
+			String where = " ieee = ? and ep = ?";
+			String ieee = bundle.getString("ieee");
+			String ep = bundle.getString("ep");
+			String[] args = { ieee, ep };
+			DataHelper mDateHelper = new DataHelper(
+					ApplicationController.getInstance());
+			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
+			mDateHelper.update(mSQLiteDatabase, DataHelper.DEVICES_TABLE, c,
+					where, args);
+			mDateHelper.close(mSQLiteDatabase);
+			return bundle;
+		}
+
+		@Override
+		protected void onPostExecute(Bundle result) {
+			// TODO Auto-generated method stub
+			Event event = new Event(EventType.READHEARTTIME, true);
+			event.setData(result);
+			notifyObservers(event);
+			super.onPostExecute(result);
+		}
+
 	}
-
-}
 }
