@@ -7,6 +7,5 @@
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="F:/Trice/JAVA Workspace/SmartHome/SmartHome/libs/TestinAgent-ndk-v1.7.1.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

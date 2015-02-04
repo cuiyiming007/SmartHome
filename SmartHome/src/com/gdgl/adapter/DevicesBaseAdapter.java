@@ -313,7 +313,7 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 						public void onProgressChanged(SeekBar seekBar,
 								int progress, boolean fromUser) {
 							// TODO Auto-generated method stub
-							currentLevel = progress * 255 / 100;
+							currentLevel = progress * 254 / 100;
 							mDevices.setmLevel(String.valueOf(currentLevel));
 						}
 					});

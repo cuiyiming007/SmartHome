@@ -188,9 +188,15 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 											mDevicesModel);
 									startActivity(intent);
 								} else {
+									Log.i("mDevicesModel outside", mDevicesModel.getmOnOffStatus() + " :　" + mDevicesModel.getmLevel());
 									Fragment mFragment = null;
-									mFragment = DeviceDtailFragment
-											.getInstance();
+									if (mDevicesModel.getmDeviceId() == DataHelper.SHADE_DEVICETYPE || mDevicesModel.getmDeviceId() == DataHelper.DIMEN_LIGHTS_DEVICETYPE) {
+										mFragment = new DeviceDtailFragment();
+									}else{
+										mFragment = DeviceDtailFragment
+												.getInstance();
+									}
+									
 									Bundle extras = new Bundle();
 									extras.putSerializable(
 											Constants.PASS_OBJECT,

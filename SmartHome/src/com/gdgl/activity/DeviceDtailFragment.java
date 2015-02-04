@@ -11,12 +11,14 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
 import com.gdgl.app.ApplicationController;
@@ -37,6 +39,8 @@ import com.gdgl.mydata.getlocalcielist.CIEresponse_params;
 import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.TimeDlg;
+import com.gdgl.util.UiUtils;
+import com.gdgl.util.VersionDlg;
 
 /***
  * 设备详情页
@@ -113,7 +117,6 @@ public class DeviceDtailFragment extends BaseFragment {
 		// TODO Auto-generated method stub
 		mView = inflater.inflate(R.layout.device_detail, null);
 		initView();
-		CGIManager.getInstance().getHeartTime(mDevices);
 		return mView;
 	}
 
@@ -199,6 +202,12 @@ public class DeviceDtailFragment extends BaseFragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+					VersionDlg vd = new VersionDlg(getActivity());
+					vd.setContent(getResources().getString(R.string.Unable_In_InternetState));
+					vd.show();
+					return;
+				}
 				TimeDlg timeDlg = new TimeDlg(
 						(Context) getActivity(), mDevices, device_heartButton.getText().toString());
 				timeDlg.show();
@@ -267,10 +276,10 @@ public class DeviceDtailFragment extends BaseFragment {
 			}
 		});
 		if (mDevices.getmDeviceId() == DataHelper.DIMEN_LIGHTS_DEVICETYPE) {
-
 			int level = Integer.parseInt(mDevices.getmLevel());
 			int state = level * 100 / 254;
 			device_seekBar.setProgress(state);
+			device_seekBar.invalidate();
 			device_seekBar.setOnTouchListener(new OnTouchListener() {
 
 				@Override
@@ -332,7 +341,6 @@ public class DeviceDtailFragment extends BaseFragment {
 					});
 		}
 		if (mDevices.getmDeviceId() == DataHelper.SHADE_DEVICETYPE) {
-
 			int level = Integer.parseInt(mDevices.getmLevel());
 			int state = level * 100 / 254;
 			device_seekBar.setProgress(state);
@@ -522,10 +530,12 @@ public class DeviceDtailFragment extends BaseFragment {
 			break;
 		case DataHelper.IAS_ACE_DEVICETYPE:
 			device_heart_layout.setVisibility(View.VISIBLE);
+			getHeartTime();
 			device_contorlLayout.setVisibility(View.GONE);
 			break;
 		case DataHelper.IAS_ZONE_DEVICETYPE:
 			device_heart_layout.setVisibility(View.VISIBLE);
+			getHeartTime();
 			if (modelId.indexOf(DataHelper.Motion_Sensor) == 0) { // ZigBee动作感应器
 				device_contorlLayout.setVisibility(View.GONE);
 				device_contorl_safeLayout.setVisibility(View.VISIBLE);
@@ -561,6 +571,7 @@ public class DeviceDtailFragment extends BaseFragment {
 		case DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE:
 			device_contorlLayout.setVisibility(View.GONE);
 			device_heart_layout.setVisibility(View.VISIBLE);
+			getHeartTime();
 			break;
 		default:
 			break;
@@ -574,6 +585,15 @@ public class DeviceDtailFragment extends BaseFragment {
 //		}else{
 //			device_heart_layout.setVisibility(View.GONE);
 //		}
+	}
+	
+	public void getHeartTime(){
+		DevicesModel mDevicesModel = DataUtil.getDeviceModelByIeee(mDevices.getmIeee(), mDataHelper, mDataHelper.getReadableDatabase());
+		if(mDevicesModel.getmHeartTime() == 0){
+			CGIManager.getInstance().getHeartTime(mDevices);
+		}else{
+			device_heartButton.setText(secToTime(mDevicesModel.getmHeartTime()));
+		}	
 	}
 
 	public void DeviceContorlOnOffClickDo(int status) {
@@ -848,19 +868,21 @@ public class DeviceDtailFragment extends BaseFragment {
 	}
 	
 	public void refreshLevel(CallbackResponseType2 data) {
-		if(!data.getDeviceIeee().equals(mDevices.getmIeee())){
-			return;
+		if(mDevices != null){
+			if(!data.getDeviceIeee().equals(mDevices.getmIeee())){
+				return;
+			}
+			if(data.getValue().equals("0")){
+				mDevices.setmOnOffStatus("0");
+			}else{
+				mDevices.setmOnOffStatus("1");
+			}
+			int level = Integer.parseInt(data.getValue());
+			int state = level * 100 / 254;
+			device_seekBar.setProgress(state);
+			device_seekBar.invalidate();
+			refreshOnOffButton();
 		}
-		if(data.getValue().equals("0")){
-			mDevices.setmOnOffStatus("0");
-		}else{
-			mDevices.setmOnOffStatus("1");
-		}
-		int level = Integer.parseInt(data.getValue());
-		int state = level * 100 / 254;
-		device_seekBar.setProgress(state);
-		device_seekBar.invalidate();
-		refreshOnOffButton();
 	}
 	
 	public void refreshDefense(ArrayList<CIEresponse_params> devDataList){
@@ -924,6 +946,9 @@ public class DeviceDtailFragment extends BaseFragment {
 			device_offButton.setBackgroundResource(R.drawable.ui_device_detail_close_style);
 			device_offButton.setClickable(true);
 		}else{
+			int state = 0;
+			device_seekBar.setProgress(state);
+			device_seekBar.invalidate();
 			device_onButton.setBackgroundResource(R.drawable.ui_device_detail_open_style);
 			device_onButton.setClickable(true);
 			device_offButton.setBackgroundResource(R.drawable.ui_device_detail_close_unpressed);
@@ -996,7 +1021,115 @@ public class DeviceDtailFragment extends BaseFragment {
 					
 				}
 			}
-		}
+		}else if (EventType.MOVE_TO_LEVEL == event.getType()) {
+			if (event.isSuccess() == true) {
+				// data maybe null
+				CallbackResponseType2 data = (CallbackResponseType2) event
+						.getData();
+				if(!data.getDeviceIeee().equals(mDevices.getmIeee())){
+					return;
+				}
+				String valueString = data.getValue();
+				if (null != data.getValue()) {
+					mDevices.setmLevel(valueString);
+					if(data.getValue().equals("0")){
+						mDevices.setmOnOffStatus("0");
+					}else{
+						mDevices.setmOnOffStatus("1");
+					}
+					int level = Integer.parseInt(valueString);
+					final int state = level * 100 / 254;
+					device_seekBar.post(new Runnable() {
+						@Override
+						public void run() {
+							device_seekBar.setProgress(state);
+							device_seekBar.invalidate();
+							refreshOnOffButton();
+						}
+					});
+				}
+			} 
+		}else if (EventType.CURRENT == event.getType()) {
+			if (event.isSuccess() == true) {
+				// data maybe null
+				CallbackResponseType2 data = (CallbackResponseType2) event
+						.getData();
+				if(!data.getDeviceIeee().equals(mDevices.getmIeee())){
+					return;
+				}
+				final String valueString = data.getValue();
+				if (null != data.getValue()) {
+					mDevices.setmCurrent(valueString);
+
+					device_seekBar.post(new Runnable() {
+						@Override
+						public void run() {
+							refreshCurrent(valueString);
+						}
+					});
+				}
+			}		
+		} else if (EventType.VOLTAGE == event.getType()) {
+			if (event.isSuccess() == true) {
+				// data maybe null
+				CallbackResponseType2 data = (CallbackResponseType2) event
+						.getData();
+				if(!data.getDeviceIeee().equals(mDevices.getmIeee())){
+					return;
+				}
+				final String valueString = data.getValue();
+				if (null != data.getValue()) {
+					mDevices.setmVoltage(valueString);
+
+					device_seekBar.post(new Runnable() {
+						@Override
+						public void run() {
+							refreshVoltage(valueString);
+						}
+					});
+				}
+			}		
+		} else if (EventType.ENERGY == event.getType()) {
+			if (event.isSuccess() == true) {
+				// data maybe null
+				CallbackResponseType2 data = (CallbackResponseType2) event
+						.getData();
+				if(!data.getDeviceIeee().equals(mDevices.getmIeee())){
+					return;
+				}
+				final String valueString = data.getValue();
+				if (null != data.getValue()) {
+					mDevices.setmEnergy(valueString);
+
+					device_seekBar.post(new Runnable() {
+						@Override
+						public void run() {
+							refreshEnergy(valueString);
+						}
+					});
+				}
+			}		
+		} else if (EventType.POWER == event.getType()) {
+			if (event.isSuccess() == true) {
+				// data maybe null
+				CallbackResponseType2 data = (CallbackResponseType2) event
+						.getData();
+				if(!data.getDeviceIeee().equals(mDevices.getmIeee())){
+					return;
+				}
+				final String valueString = data.getValue();
+				if (null != data.getValue()) {
+					mDevices.setmPower(valueString);
+
+					device_seekBar.post(new Runnable() {
+						@Override
+						public void run() {
+							refreshPower(valueString);
+						}
+					});
+				}
+			}		
+		} 
 	}
 	
     public String secToTime(int time) {

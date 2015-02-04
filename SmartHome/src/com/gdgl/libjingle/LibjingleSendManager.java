@@ -15,7 +15,6 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.gdgl.app.ApplicationController;
 import com.gdgl.manager.Manger;
-import com.gdgl.manager.CGIManager.UpdateDeviceHeartTimeToDatabaseTask;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.LibjingleSendStructure;
 import com.gdgl.model.SimpleDevicesModel;

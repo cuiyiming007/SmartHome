@@ -165,7 +165,7 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 		}
 		
 		if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
-			registerForContextMenu(content_view);
+			registerForContextMenu(content_view.getRefreshableView());
 		} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
 			content_view.setOnItemLongClickListener(new OnItemLongClickListener() {
 
@@ -181,7 +181,6 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 				
 			});
 		}
-		registerForContextMenu(content_view.getRefreshableView());
 	}
 
 	private class GetDataTask extends AsyncTask<Void, Void, String> {
@@ -304,11 +303,6 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 			menu.setHeaderTitle("编辑&删除");
 			menu.add(1, 1, 0, "编辑");
 			menu.add(1, 2, 0, "删除");
-		} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
-			VersionDlg vd = new VersionDlg(getActivity());
-			vd.setContent(getResources().getString(
-					R.string.Unable_In_InternetState));
-			vd.show();
 		}
 		// TODO Auto-generated method stub
 		super.onCreateContextMenu(menu, v, menuInfo);
