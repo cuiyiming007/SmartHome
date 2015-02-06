@@ -108,6 +108,7 @@ public class LibjingleNetUtil {
 		} catch (Exception e) {
 			// TODO: handle exception
 			Log.e(TAG, "RecieveFromLibjingleSocket error：" + e.getMessage());
+			recieveFromLibjingleSocket();
 		}
 	}
 

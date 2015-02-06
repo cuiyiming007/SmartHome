@@ -20,11 +20,11 @@
  *******************************************************************************/
 package com.gdgl.libjingle;
 
-import java.util.Map;
-import java.util.HashMap;
 import java.util.UUID;
 
 import org.json.*;
+
+import android.util.Log;
 
 import com.gdgl.app.ApplicationController;
 import com.gdgl.mydata.getFromSharedPreferences;
@@ -70,6 +70,7 @@ public class LibjinglePackHandler {
 
 			switch (this.gl_msgtype) {
 			case MT_URL:
+				Log.i("LibjinglePackHandler", "test5");
 				if (this.status > 0) {
 					this.result = getJsonSubStr(sub.getString("result"));
 				}

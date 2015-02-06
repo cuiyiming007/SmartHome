@@ -72,9 +72,10 @@ public class LibjingleResponseHandlerManager extends Manger {
 	}
 
 	public static void handleInputStream(InputStream inputStream)
-			throws IOException {
+			throws IOException, UnsupportedEncodingException {
 		byte[] buffer = new byte[51200];
 		int readBytes = 0;
+		Log.i(TAG, "test1");
 		while ((readBytes = inputStream.read(buffer)) > 0) {
 			String response = new String(buffer, 0, readBytes, "utf-8");
 			Log.i(TAG, "len: " + response.length() + " handleInputStream:"
@@ -221,7 +222,7 @@ public class LibjingleResponseHandlerManager extends Manger {
 				break;
 			}
 		}
-		if (api_type > 0) {
+		if (api_type > 0 && packHandler.status==1) {
 			String response = packHandler.result;
 			response = UiUtils.formatResponseString(response);
 
