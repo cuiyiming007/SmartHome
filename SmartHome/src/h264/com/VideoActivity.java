@@ -28,6 +28,8 @@ import android.widget.Toast;
 
 import com.gdgl.activity.ConfigActivity;
 import com.gdgl.activity.VideoFragment;
+import com.gdgl.libjingle.LibjingleResponseHandlerManager;
+import com.gdgl.libjingle.LibjingleSendManager;
 import com.gdgl.libjingle.LibjingleVideoSocket;
 import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.Manger;
@@ -97,8 +99,12 @@ public class VideoActivity extends FragmentActivity implements UIListener {
 		addTitle();
 		addRecordBtn();
 		CallbackManager.getInstance().addObserver(this);
-		new playVideoTask().execute(ipc_channel);
-		
+		LibjingleResponseHandlerManager.getInstance().addObserver(this);
+		if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+			new playVideoTask().execute(ipc_channel);
+		} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+			LibjingleSendManager.getInstance().sendVideoReq(ipc_channel);
+		}
 		LinearLayout mBack = (LinearLayout) findViewById(R.id.goback);
 		mBack.setOnClickListener(new OnClickListener() {
 			@Override
@@ -144,11 +150,10 @@ public class VideoActivity extends FragmentActivity implements UIListener {
 
 	}
 
-	
-	
 	private void addTitle() {
 		LayoutInflater layoutInflater = LayoutInflater.from(this);
-		View viewTitle = layoutInflater.inflate(R.layout.toptitle_with_return, null);
+		View viewTitle = layoutInflater.inflate(R.layout.toptitle_with_return,
+				null);
 		TextView title = (TextView) viewTitle.findViewById(R.id.title);
 		if (flag == 0)
 			viewTitle.setVisibility(View.GONE);
@@ -184,21 +189,23 @@ public class VideoActivity extends FragmentActivity implements UIListener {
 	}
 
 	private LinearLayout.LayoutParams setTitlePortrait() {
-		float density=getResources().getDisplayMetrics().density;
+		float density = getResources().getDisplayMetrics().density;
 		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.MATCH_PARENT,(int)(density*60+0.5));
+				LinearLayout.LayoutParams.MATCH_PARENT,
+				(int) (density * 60 + 0.5));
 		params.topMargin = 0;
 		params.gravity = Gravity.TOP;
 		return params;
 	}
-	
-	//按手机返回键
+
+	// 按手机返回键
 	@Override
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
 		finish();
 		super.onBackPressed();
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -210,24 +217,24 @@ public class VideoActivity extends FragmentActivity implements UIListener {
 		closeTheThread();
 		super.finish();
 	}
-	
+
 	public void closeTheThread() {
 		Log.i(TAG, "finish video ipc_channel=" + String.valueOf(ipc_channel));
-		Network.closeVideoSocket();
-		LibjingleVideoSocket.closeVideoSocket();
-		
-		try {
-			decodeh264.dataInputStream.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (decodeh264.dataInputStream != null) {
+			try {
+				decodeh264.dataInputStream.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		decodeh264.setIsVideoRun(false);
 		decodeh264.initalThread();
 		CallbackManager.getInstance().deleteObserver(this);
+		LibjingleResponseHandlerManager.getInstance().deleteObserver(this);
 		isVisible = false;
 	}
-	
+
 	class captureImageTask extends AsyncTask<Integer, Object, Boolean> {
 
 		@Override
@@ -249,105 +256,51 @@ public class VideoActivity extends FragmentActivity implements UIListener {
 		}
 	}
 
-//	class playVideoTask extends AsyncTask<Integer, Object, Integer> {
-//
-//		@Override
-//		protected Integer doInBackground(Integer... params) {
-//			boolean isconnect = Network.isVideoSocketConnect();		
-//			if (isconnect == true) {
-//				if(decodeh264.dataInputStream==null) {
-//					decodeh264.dataInputStream=(DataInputStream)getLastCustomNonConfigurationInstance();
-//				}
-//				return 1;
-//			} else {
-//				// handleError();
-//				Log.i(TAG, "start video ipc_channel=" + String.valueOf(ipc_channel));
-//				decodeh264.initalThread();
-//				Network.connectServer();
-//				if (Network.isVideoSocketConnect() == true) {
-//					Network.sendVideoReq(ipc_channel);
-//					try {
-//						decodeh264.dataInputStream = new DataInputStream(
-//								Network.socket.getInputStream());
-//					} catch (IOException e1) {
-//						Log.e(TAG, "doInBackground:" + e1.getMessage());
-//						// handleError();
-//						return 3;
-//					}
-//				} else {
-//					return 3;
-//				}
-//				if(decodeh264.getStartFlag() == true) {
-//					return 2;
-//				}
-//				return 3;
-//			}
-//		}
-//
-//		@Override
-//		protected void onPostExecute(Integer result) {
-//			super.onPostExecute(result);
-//			switch (result) {
-//			case 2:
-//				decodeh264.PlayVideo();
-//				break;
-//			case 3:
-//				handleError();
-//				break;
-//			default:
-//				break;
-//			}
-////			if (result) {
-////				decodeh264.PlayVideo();
-////			} else {
-////				handleError();
-////			}
-//		}
-//	}
-	
 	class playVideoTask extends AsyncTask<Integer, Object, Boolean> {
 
 		@Override
 		protected Boolean doInBackground(Integer... params) {
 			Log.i(TAG, "start video ipc_channel=" + String.valueOf(ipc_channel));
 			decodeh264.initalThread();
-			
-			if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
-				Network.connectServer();
-				boolean isconnect = Network.isVideoSocketConnect();
-				if (isconnect == true) {
-					Network.sendVideoReq(ipc_channel);
-					try {
-						decodeh264.dataInputStream = new DataInputStream(
-								Network.socket.getInputStream());
-					} catch (IOException e1) {
-						Log.e(TAG, "doInBackground:" + e1.getMessage());
-						// handleError();
-						return false;
-					}
-				} else {
+
+			// if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN)
+			// {
+			Network.connectServer();
+			boolean isconnect = Network.isVideoSocketConnect();
+			if (isconnect == true) {
+				Network.sendVideoReq(ipc_channel);
+				try {
+					decodeh264.dataInputStream = new DataInputStream(
+							Network.socket.getInputStream());
+				} catch (IOException e1) {
+					Log.e(TAG, "doInBackground:" + e1.getMessage());
 					// handleError();
 					return false;
 				}
-			} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
-				LibjingleVideoSocket.connectServer();
-				boolean isconnect = LibjingleVideoSocket.isVideoSocketConnect();
-				if (isconnect == true) {
-					LibjingleVideoSocket.sendVideoReq(ipc_channel);
-					try {
-						decodeh264.dataInputStream = new DataInputStream(
-								LibjingleVideoSocket.videosocket.getInputStream());
-					} catch (IOException e1) {
-						Log.e(TAG, "doInBackground:" + e1.getMessage());
-						// handleError();
-						return false;
-					}
-				} else {
-					// handleError();
-					return false;
-				}
+			} else {
+				// handleError();
+				return false;
 			}
-			
+			// } else if (NetworkConnectivity.networkStatus ==
+			// NetworkConnectivity.INTERNET) {
+			// LibjingleVideoSocket.connectServer();
+			// boolean isconnect = LibjingleVideoSocket.isVideoSocketConnect();
+			// if (isconnect == true) {
+			// LibjingleVideoSocket.sendVideoReq(ipc_channel);
+			// try {
+			// decodeh264.dataInputStream = new DataInputStream(
+			// LibjingleVideoSocket.videosocket.getInputStream());
+			// } catch (IOException e1) {
+			// Log.e(TAG, "doInBackground:" + e1.getMessage());
+			// // handleError();
+			// return false;
+			// }
+			// } else {
+			// // handleError();
+			// return false;
+			// }
+			// }
+
 			return decodeh264.getStartFlag() == true;
 		}
 
@@ -361,6 +314,34 @@ public class VideoActivity extends FragmentActivity implements UIListener {
 			}
 		}
 
+	}
+
+	class playVideoWithLibjingleTask extends AsyncTask<Void, Void, Boolean> {
+
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			// TODO Auto-generated method stub
+			LibjingleVideoSocket.connectServer();
+			boolean isconnect = LibjingleVideoSocket.isVideoSocketConnect();
+			try {
+				decodeh264.dataInputStream = new DataInputStream(
+						LibjingleVideoSocket.videosocket.getInputStream());
+			} catch (IOException e1) {
+				Log.e(TAG, "doInBackground:" + e1.getMessage());
+				// handleError();
+				return false;
+			}
+			return isconnect;
+		}
+
+		@Override
+		protected void onPostExecute(Boolean result) {
+			// TODO Auto-generated method stub
+			if (result) {
+				decodeh264.PlayVideo();
+			}
+			super.onPostExecute(result);
+		}
 	}
 
 	public void handleError() {
@@ -383,6 +364,7 @@ public class VideoActivity extends FragmentActivity implements UIListener {
 		updateMessageNum();
 		super.onResume();
 	}
+
 	@Override
 	protected void onPause() {
 		Log.i(TAG, "onPause" + String.valueOf(ipc_channel));
@@ -403,8 +385,8 @@ public class VideoActivity extends FragmentActivity implements UIListener {
 
 	@Override
 	public void update(Manger observer, Object object) {
-		Event data = (Event) object;
-		if (EventType.WARN == data.getType()) {
+		Event event = (Event) object;
+		if (EventType.WARN == event.getType()) {
 			notifyButton.post(new Runnable() {
 
 				@Override
@@ -412,13 +394,20 @@ public class VideoActivity extends FragmentActivity implements UIListener {
 					updateMessageNum();
 				}
 			});
+		} else if (EventType.REQUESTVIDEO == event.getType()) {
+			if (event.isSuccess() == true) {
+				String result = (String) event.getData();
+				if (decodeh264.getStartFlag(result)) {
+					new playVideoWithLibjingleTask().execute();
+				}
+			}
 		}
 
 	}
-//	@Override
-//	public Object onRetainCustomNonConfigurationInstance() {
-//		// TODO Auto-generated method stub
-//		DataInputStream inputStream=decodeh264.dataInputStream;
-//		return inputStream;
-//	}
+	// @Override
+	// public Object onRetainCustomNonConfigurationInstance() {
+	// // TODO Auto-generated method stub
+	// DataInputStream inputStream=decodeh264.dataInputStream;
+	// return inputStream;
+	// }
 }

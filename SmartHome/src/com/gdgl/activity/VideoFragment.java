@@ -26,6 +26,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gdgl.activity.UIinterface.IFragmentCallbak;
+import com.gdgl.libjingle.LibjingleResponseHandlerManager;
+import com.gdgl.libjingle.LibjingleSendManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
 import com.gdgl.manager.VideoManager;
@@ -37,7 +39,6 @@ import com.gdgl.mydata.video.VideoResponse;
 import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyOkCancleDlg;
-import com.gdgl.util.UiUtils;
 import com.gdgl.util.VersionDlg;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 
@@ -72,6 +73,7 @@ public class VideoFragment extends Fragment implements UIListener,
 		mView = inflater.inflate(R.layout.devices_main_fragment, null);
 		initview();
 		VideoManager.getInstance().addObserver(this);
+		LibjingleResponseHandlerManager.getInstance().addObserver(this);
 		return mView;
 	}
 
@@ -79,7 +81,11 @@ public class VideoFragment extends Fragment implements UIListener,
 	public void setUserVisibleHint(boolean isVisibleToUser) {
 		super.setUserVisibleHint(isVisibleToUser);
 		if (isVisibleToUser == true) {
-			VideoManager.getInstance().getIPClist();
+			if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+				VideoManager.getInstance().getIPClist();
+			} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+				LibjingleSendManager.getInstance().getIPClist();
+			}
 		}
 	}
 
@@ -152,6 +158,7 @@ public class VideoFragment extends Fragment implements UIListener,
 	@Override
 	public void onDestroy() {
 		VideoManager.getInstance().deleteObserver(this);
+		LibjingleResponseHandlerManager.getInstance().deleteObserver(this);
 		super.onDestroy();
 	}
 

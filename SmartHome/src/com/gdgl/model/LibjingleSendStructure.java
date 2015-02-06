@@ -73,6 +73,9 @@ interface LibjingleSendColumns extends BaseColumns {
 	public static final int ZBGETCHANNEL = 132;
 	public static final int FACTORYRESET = 133;
 	public static final int REBUILDNETWORKBYPARAM = 134;
+	
+	public static final int GETVIDEOLIST = 200;
+	public static final int REQUESTVIDEO = 201;
 
 }
 /***

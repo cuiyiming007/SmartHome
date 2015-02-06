@@ -274,19 +274,12 @@ public class VideoManager extends Manger {
 					ApplicationController.getInstance());
 			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
 
-			// List<VideoNode>
-			// mList=DataHelper.getVideoList(ApplicationController.getInstance(),mDateHelper);
-			// if
-			// (response.getList()!=null&&response.getList().size()!=mList.size())
-			// {
 			mDateHelper.emptyTable(mSQLiteDatabase, DataHelper.VIDEO_TABLE);
 			ArrayList<VideoNode> videoNodesFromSever = decodeAlias2Chinese(response);
 			if(videoNodesFromSever!=null) {
 				mDateHelper.insertVideoList(mSQLiteDatabase,
 						DataHelper.VIDEO_TABLE, null, videoNodesFromSever);
 			}
-			// }
-			// mDateHelper.close(mSQLiteDatabase);
 			mSQLiteDatabase.close();
 			return response;
 		}
@@ -303,7 +296,6 @@ public class VideoManager extends Manger {
 					} catch (UnsupportedEncodingException e) {
 						e.printStackTrace();
 					}
-					
 				}
 			}
 			return videoNodesFromSever;

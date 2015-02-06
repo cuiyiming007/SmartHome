@@ -3,12 +3,14 @@ package com.gdgl.libjingle;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.util.Log;
 
 import com.gdgl.manager.Manger;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.LibjingleSendStructure;
-import com.gdgl.model.SimpleDevicesModel;
 
 public class LibjingleSendManager extends Manger {
 
@@ -347,7 +349,7 @@ public class LibjingleSendManager extends Manger {
 	 * 
 	 * UnLockDoor 8
 	 */
-	public void doorLockOperationCommon(SimpleDevicesModel model,
+	public void doorLockOperationCommon(DevicesModel model,
 			int operationType) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", model.getmIeee());
@@ -920,7 +922,7 @@ public class LibjingleSendManager extends Manger {
 	 * 
 	 * RefreshDeviceCIEAddr 3
 	 */
-	public void iASACE(SimpleDevicesModel model, int operationType) {
+	public void iASACE(DevicesModel model, int operationType) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", model.getmIeee());
 		paraMap.put("ep", model.getmEP());
@@ -1294,6 +1296,54 @@ public class LibjingleSendManager extends Manger {
 		mStructure.setRequest_id(reqid);
 		mStructure.setGl_msgtype(LibjinglePackHandler.MT_URL);
 		mStructure.setAPI_type(LibjingleSendStructure.READHEARTTIME);
+		sendList.add(mStructure);
+	}
+	
+	/**
+	 * *********************************************************************************************************************
+	 * 视频请求
+	 */
+	
+	//获取摄像头列表
+	public void getIPClist() {
+		String url = LibjingleNetUtil.getInstance().getVideoURL("getIPClist.cgi");
+
+		String jid = LibjinglePackHandler.getJid();
+		int reqid = getReqID();
+
+		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
+		// Log.i(TAG, packag);
+		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+
+		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
+		mStructure.setRequest_id(reqid);
+		mStructure.setGl_msgtype(LibjinglePackHandler.MT_URL);
+		mStructure.setAPI_type(LibjingleSendStructure.GETVIDEOLIST);
+		sendList.add(mStructure);
+	}
+	//申请视频数据
+	public void sendVideoReq(int channelNum) {
+		String jid = LibjinglePackHandler.getJid();
+		int reqid = getReqID();
+		JSONObject videoCommand = new JSONObject();
+		JSONObject send = new JSONObject();
+		try {
+			send.put("action", "startvideo");
+			send.put("channel", channelNum);
+			videoCommand.put("request_id", reqid);
+			videoCommand.put("gl_msgtype", LibjinglePackHandler.MT_IpcVideo);
+			videoCommand.put("jid", jid);
+			videoCommand.put("send", send);
+			String packag = videoCommand.toString();
+			Log.i(TAG, packag);
+			LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+		} catch (JSONException ex) {
+			
+		}
+		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
+		mStructure.setRequest_id(reqid);
+		mStructure.setGl_msgtype(LibjinglePackHandler.MT_IpcVideo);
+		mStructure.setAPI_type(LibjingleSendStructure.REQUESTVIDEO);
 		sendList.add(mStructure);
 	}
 

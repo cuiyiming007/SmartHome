@@ -31,6 +31,10 @@ public class LibjingleNetUtil {
 		return LocalhostStr + resource + "?" + param;
 	}
 	
+	public String getVideoURL(String resource) {
+		String LocalhostStr="http://localhost/cgi-bin/rest/network/";
+		return LocalhostStr + resource;
+	}
 	
 	public void startLibjingleSocket() {
 		new Thread(new Runnable() {
@@ -104,6 +108,7 @@ public class LibjingleNetUtil {
 		} catch (Exception e) {
 			// TODO: handle exception
 			Log.e(TAG, "RecieveFromLibjingleSocket error：" + e.getMessage());
+			recieveFromLibjingleSocket();
 		}
 	}
 

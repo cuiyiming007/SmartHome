@@ -348,9 +348,6 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 
 					@Override
 					public void run() {
-						for (Room mRoom : mregions) {
-							Log.i("mRoom name", mRoom.getroom_name());
-						}
 						if (null == mregions || mregions.size() == 0) {
 							nodevices.setVisibility(View.VISIBLE);
 						} else {
