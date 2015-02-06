@@ -285,12 +285,12 @@ public class DeviceManager extends Manger {
 			return devDataList;
 		}
 
-//		@Override
-//		protected void onPostExecute(Object result) {
-//			Event event = new Event(EventType.GETICELIST, true);
-//			event.setData(result);
-//			notifyObservers(event);
-//		}
+		@Override
+		protected void onPostExecute(Object result) {
+			Event event = new Event(EventType.GETICELIST, true);
+			event.setData(result);
+			notifyObservers(event);
+		}
 
 	}
 }

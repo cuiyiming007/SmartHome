@@ -25,7 +25,6 @@ import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
-import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.mydata.Callback.CallbackResponseType2;
 import com.gdgl.mydata.getlocalcielist.CIEresponse_params;
 import com.gdgl.smarthome.R;
@@ -786,47 +785,47 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 					}
 				}
 			}
-//		} else if (EventType.GETICELIST == event.getType()) {
-//			if (event.isSuccess()) {
-//				ArrayList<CIEresponse_params> devDataList = (ArrayList<CIEresponse_params>) event
-//						.getData();
-//
-//				List<DevicesModel> safeList = mDevicesListCache
-//						.get(UiUtils.SECURITY_CONTROL);
-//
+		} else if (EventType.GETICELIST == event.getType()) {
+			if (event.isSuccess()) {
+				ArrayList<CIEresponse_params> devDataList = (ArrayList<CIEresponse_params>) event
+						.getData();
+
+				List<DevicesModel> safeList = mDevicesListCache
+						.get(UiUtils.SECURITY_CONTROL);
+
 //				List<DevicesModel> updatsLis = new ArrayList<DevicesModel>();// 需要刷新的集合
-//				if (null != devDataList && devDataList.size() > 0) {
-//					for (int i = 0; i < devDataList.size(); i++) {
-//						CIEresponse_params cp = devDataList.get(i);
-//
-//						int m = getDevicesPostion(cp.getCie().getIeee(), cp
-//								.getCie().getEp(), safeList);
-//						if (-1 != m) {
-//							String s = cp.getCie().getElserec().getBbypass();
-//							String status = s.trim().toLowerCase()
-//									.equals("true") ? "1" : "0";
+				if (null != devDataList && devDataList.size() > 0) {
+					for (int i = 0; i < devDataList.size(); i++) {
+						CIEresponse_params cp = devDataList.get(i);
+
+						int m = getDevicesPostion(cp.getCie().getIeee(), cp
+								.getCie().getEp(), safeList);
+						if (-1 != m) {
+							String s = cp.getCie().getElserec().getBbypass();
+							String status = s.trim().toLowerCase()
+									.equals("true") ? "1" : "0";
 //							if (!status.equals(safeList.get(m)
 //									.getmOnOffStatus())) {
-//								safeList.get(m).setmOnOffStatus(status);
+								safeList.get(m).setmOnOffStatus(status);
 //								updatsLis.add(safeList.get(m));
 //							}
-//						}
-//					}
-//					if (UiUtils.SECURITY_CONTROL == mListIndex) {
-//						// mCurrentList = safeList;
-//						title.post(new Runnable() {
-//							@Override
-//							public void run() {
-//								// setdata(mCurrentList);
-//								mDevicesBaseAdapter.notifyDataSetChanged();
-//							}
-//						});
-//					}
+						}
+					}
+					if (UiUtils.SECURITY_CONTROL == mListIndex) {
+						// mCurrentList = safeList;
+						title.post(new Runnable() {
+							@Override
+							public void run() {
+								// setdata(mCurrentList);
+								mDevicesBaseAdapter.notifyDataSetChanged();
+							}
+						});
+					}
 //					if (null != updatsLis && updatsLis.size() > 0) {
 //						new UpdateICELestTask().execute(updatsLis);
 //					}
-//				}
-//			}
+				}
+			}
 		} else if (EventType.LOCALIASCIEBYPASSZONE == event.getType()) {
 			if (event.isSuccess()) {
 				Bundle bundle = (Bundle) event.getData();

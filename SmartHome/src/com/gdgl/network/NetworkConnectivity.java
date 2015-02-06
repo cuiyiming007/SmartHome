@@ -15,7 +15,6 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 public class NetworkConnectivity {
 	public static int networkStatus;// 当前网络状态量

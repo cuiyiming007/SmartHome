@@ -62,6 +62,7 @@ public class EventType {
 	public static final EventType CHANGEDEVICENAME;
 	public static final EventType HEARTTIME;
 	public static final EventType READHEARTTIME;
+	public static final EventType REQUESTVIDEO;
 
 	static {
 		LOGIN = new EventType("login", id);
@@ -118,6 +119,7 @@ public class EventType {
 		CHANGEDEVICENAME = new EventType("changedevicename", nextId());
 		HEARTTIME = new EventType("hearttime", nextId());
 		READHEARTTIME = new EventType("readhearttime", nextId());
+		REQUESTVIDEO = new EventType("requestvideo", nextId());
 	}
 
 	private static int nextId() {

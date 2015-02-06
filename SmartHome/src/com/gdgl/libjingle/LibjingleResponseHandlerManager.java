@@ -2,7 +2,10 @@ package com.gdgl.libjingle;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.json.JSONException;
@@ -17,6 +20,7 @@ import android.util.Log;
 import com.gdgl.app.ApplicationController;
 import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.Manger;
+import com.gdgl.manager.VideoManager;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.LibjingleSendStructure;
 import com.gdgl.mydata.DataHelper;
@@ -35,6 +39,8 @@ import com.gdgl.mydata.bind.BindResponseData;
 import com.gdgl.mydata.binding.BindingDataEntity;
 import com.gdgl.mydata.getlocalcielist.CIEresponse_params;
 import com.gdgl.mydata.getlocalcielist.LocalIASCIEOperationResponseData;
+import com.gdgl.mydata.video.VideoNode;
+import com.gdgl.mydata.video.VideoResponse;
 import com.gdgl.network.VolleyOperation;
 import com.gdgl.util.UiUtils;
 import com.google.gson.Gson;
@@ -70,7 +76,7 @@ public class LibjingleResponseHandlerManager extends Manger {
 		byte[] buffer = new byte[51200];
 		int readBytes = 0;
 		while ((readBytes = inputStream.read(buffer)) > 0) {
-			String response = new String(buffer, 0, readBytes);
+			String response = new String(buffer, 0, readBytes, "utf-8");
 			Log.i(TAG, "len: " + response.length() + " handleInputStream:"
 					+ response);
 			sub_String(response);
@@ -187,11 +193,17 @@ public class LibjingleResponseHandlerManager extends Manger {
 			CallbackManager.getInstance().handleCallbackResponse(
 					packHandler.result);
 			break;
+		case LibjinglePackHandler.MT_IpcVideo:
+			String status6 = packHandler.result;
+			Event event6 = new Event(EventType.REQUESTVIDEO, true);
+			event6.setData(status6);
+			notifyObservers(event6);
+			break;
 		case LibjinglePackHandler.MT_NetStat:
-			String status = packHandler.result;
-			Event event = new Event(EventType.LIBJINGLE_STATUS, true);
-			event.setData(status);
-			notifyObservers(event);
+			String status14 = packHandler.result;
+			Event event14 = new Event(EventType.LIBJINGLE_STATUS, true);
+			event14.setData(status14);
+			notifyObservers(event14);
 			break;
 		default:
 			break;
@@ -315,7 +327,10 @@ public class LibjingleResponseHandlerManager extends Manger {
 			case LibjingleSendStructure.READHEARTTIME:
 				new UpdateDeviceHeartTime().execute(response);
 				break;
-
+			case LibjingleSendStructure.GETVIDEOLIST:
+				new GetVideoListTast().execute(response);
+				break;
+				
 			case LibjingleSendStructure.DELBINDDATA:
 			case LibjingleSendStructure.MANAGELEAVENODE:
 			case LibjingleSendStructure.SETPERMITJOINON:
@@ -605,6 +620,54 @@ public class LibjingleResponseHandlerManager extends Manger {
 			event.setData(bundle);
 			notifyObservers(event);
 			super.onPostExecute(bundle);
+		}
+	}
+	
+	class GetVideoListTast extends AsyncTask<String, Object, VideoResponse> {
+		@Override
+		protected VideoResponse doInBackground(String... params) {
+			VideoResponse response = VideoManager.getInstance().handleVideoResponse(params[0]);
+
+			DataHelper mDateHelper = new DataHelper(
+					ApplicationController.getInstance());
+			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
+
+			mDateHelper.emptyTable(mSQLiteDatabase, DataHelper.VIDEO_TABLE);
+			ArrayList<VideoNode> videoNodesFromSever = decodeAlias2Chinese(response);
+			if(videoNodesFromSever!=null) {
+				mDateHelper.insertVideoList(mSQLiteDatabase,
+						DataHelper.VIDEO_TABLE, null, videoNodesFromSever);
+			}
+			mSQLiteDatabase.close();
+			return response;
+		}
+		private ArrayList<VideoNode> decodeAlias2Chinese(VideoResponse response) {
+			ArrayList<VideoNode> videoNodesFromSever = response.getList();
+			if(videoNodesFromSever!=null) {
+				for (Iterator<VideoNode> iterator = videoNodesFromSever.iterator(); iterator
+						.hasNext();) {
+					VideoNode videoNode = (VideoNode) iterator.next();
+					try {
+						videoNode.setAliases(URLDecoder.decode(
+								videoNode.getAliases(), "UTF-8"));
+					} catch (UnsupportedEncodingException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			return videoNodesFromSever;
+		}
+		@Override
+		protected void onPostExecute(VideoResponse result) {
+			Event event = new Event(EventType.GETVIDEOLIST, true);
+			if (result == null || result.getList().size() == 0) {
+				event.setSuccess(false);
+				notifyObservers(event);
+			} else if (result.getList().size() > 0) {
+				event.setData(result);
+				notifyObservers(event);
+			}
+			super.onPostExecute(result);
 		}
 	}
 }

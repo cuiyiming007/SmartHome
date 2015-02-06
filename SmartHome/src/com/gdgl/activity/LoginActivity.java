@@ -307,6 +307,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 				loginSwitch(response);
 			} else {
 				// if failed,prompt a Toast
+				dialog_view.setVisibility(View.GONE);
 				Toast.makeText(getApplicationContext(), "连接网关失败",
 						Toast.LENGTH_SHORT).show();
 			}
@@ -324,6 +325,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 							LibjingleSendManager.getInstance().getDeviceEndPoint();
 							LibjingleSendManager.getInstance().GetAllRoomInfo();
 							LibjingleSendManager.getInstance().GetAllBindList();
+							LibjingleSendManager.getInstance().getIPClist();
 							try {
 								Thread.sleep(2000);
 							} catch (InterruptedException e) {
@@ -359,7 +361,6 @@ public class LoginActivity extends Activity implements OnClickListener,
 				}
 			}
 		}
-		dialog_view.setVisibility(View.GONE);
 	}
 
 	private void loginSwitch(LoginResponse response) {

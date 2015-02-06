@@ -13,7 +13,6 @@ import org.json.JSONObject;
 import video_decoder.H264;
 
 import com.gdgl.libjingle.LibjinglePackHandler;
-import com.gdgl.libjingle.LibjingleVideoSocket;
 import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.util.ComUtil;
 
@@ -22,7 +21,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Bitmap.Config;
-import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -273,6 +271,26 @@ public class VView extends View implements Runnable {
 			}
 
 		}// while(true)
+		return ret;
+	}
+
+	public boolean getStartFlag(String recstr) {
+		boolean ret = false;
+		try {
+			// ����ַ����JSON����
+			JSONObject responseCommand = new JSONObject(recstr);
+			// ��ȡ�����
+			int status = responseCommand.getInt("status");
+			if (status == 0x01) {
+				ret = true;
+				Log.d("DecodeH264 run", "recieved start flag ipc is online");
+			} else {
+				Log.e("getStartFlag()", "video failed");
+			}
+		} catch (JSONException ex) {
+			ret = false;
+			Log.e("DecodeH264 run", "JSONObject error");
+		}
 		return ret;
 	}
 

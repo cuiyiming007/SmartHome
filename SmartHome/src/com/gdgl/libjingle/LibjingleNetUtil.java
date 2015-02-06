@@ -31,6 +31,10 @@ public class LibjingleNetUtil {
 		return LocalhostStr + resource + "?" + param;
 	}
 	
+	public String getVideoURL(String resource) {
+		String LocalhostStr="http://localhost/cgi-bin/rest/network/";
+		return LocalhostStr + resource;
+	}
 	
 	public void startLibjingleSocket() {
 		new Thread(new Runnable() {

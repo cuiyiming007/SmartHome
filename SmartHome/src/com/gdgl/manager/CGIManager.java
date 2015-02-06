@@ -661,10 +661,9 @@ public class CGIManager extends Manger {
 				mDataHelper.update(mSQLiteDatabase, DataHelper.DEVICES_TABLE,
 						c, where, args);
 				mDataHelper.close(mSQLiteDatabase);
-				// Event event = new Event(EventType.LOCALIASCIEOPERATION,
-				// true);
-				// event.setData(status);
-				// notifyObservers(event);
+				Event event = new Event(EventType.LOCALIASCIEOPERATION, true);
+				event.setData(status);
+				notifyObservers(event);
 			}
 		};
 
