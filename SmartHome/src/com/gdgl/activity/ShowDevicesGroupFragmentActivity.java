@@ -25,7 +25,6 @@ import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
-import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.mydata.Callback.CallbackResponseType2;
 import com.gdgl.mydata.getlocalcielist.CIEresponse_params;
 import com.gdgl.smarthome.R;
@@ -920,6 +919,11 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 				if (-1 != m) {
 					if (null != data.getValue()) {
 						mCurrentList.get(m).setmLevel(valueString);
+						if(Integer.parseInt(valueString) < 7){
+							mCurrentList.get(m).setmOnOffStatus("0");
+						}else{
+							mCurrentList.get(m).setmOnOffStatus("1");
+						}
 						title.post(new Runnable() {
 							@Override
 							public void run() {

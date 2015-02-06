@@ -48,6 +48,10 @@ public class TimeDlg {
 				int newTime = Integer.parseInt(editHour.getText().toString()) * 3600
 							+ Integer.parseInt(editMinute.getText().toString()) * 60
 							+ Integer.parseInt(editSecond.getText().toString());
+				if(newTime < 30){
+					Toast.makeText(mContext, "心跳周期不能低于30秒,请重新设置!",Toast.LENGTH_SHORT).show();
+					return;
+				}
 				CGIManager.getInstance().setHeartTime(mDevices, newTime);
 				dismiss();
 			}

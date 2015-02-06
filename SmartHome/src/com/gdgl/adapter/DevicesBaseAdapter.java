@@ -278,10 +278,8 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 			int level = Integer.parseInt(mDevices.getmLevel());
 			int state = level * 100 / 254;
 			devices_seek_bar.setProgress(state);
-			if (state == 0) {
+			if (mDevices.getmOnOffStatus().trim().equals("0")) {
 				devices_state.setText("关");
-			} else if (state == 100) {
-				devices_state.setText("开");
 			} else {
 				devices_state.setText("开" + state + "%");
 			}
@@ -345,7 +343,7 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 				|| mDevices.getmDeviceId() == DataHelper.RANGE_EXTENDER_DEVICETYPE) {
 			devices_state.setVisibility(View.INVISIBLE);
 		} else if (mDevices.getmDeviceId() == DataHelper.SHADE_DEVICETYPE) {
-			if (mDevices.getmLevel().trim().equals("0")) {
+			if (mDevices.getmOnOffStatus().trim().equals("0")) {
 				devices_state.setText("关");
 				devices_switch.setChecked(false);
 			} else {

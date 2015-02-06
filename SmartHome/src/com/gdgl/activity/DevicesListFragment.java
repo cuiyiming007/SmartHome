@@ -84,8 +84,11 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 
 	public static final int WITH_OPERATE = 0;
 	public static final int WITHOUT_OPERATE = 2;
-
+	
+	DataHelper mDateHelper;
+	
 	private int type = 1;
+	private String mRoomid = "";
 	/***
 	 * 用于存储当前列表的Item
 	 */
@@ -99,7 +102,13 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 		Bundle extras = getArguments();
 		if (null != extras) {
 			type = extras.getInt(Constants.OPERATOR, WITH_OPERATE);
+			switch(type){
+			case WITH_OPERATE:
+				mRoomid = extras.getString(RegionDevicesActivity.REGION_ID, "");
+				break;
+			}
 		}
+		mDateHelper = new DataHelper((Context) getActivity());
 		CGIManager.getInstance().addObserver(DevicesListFragment.this);
 	}
 
@@ -149,6 +158,12 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 							refreshView.getLoadingLayoutProxy()
 									.setLastUpdatedLabel(label);
 
+							if(type == WITH_OPERATE){
+								if(!mRoomid.equals("")){
+									new GetDataByRoomTask().execute(mRoomid);
+									return;
+								}
+							}
 							// Do work to refresh the list here.
 							mRefreshData.refreshListData();
 						}
@@ -439,6 +454,28 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 	public void onFragmentResult(int requsetId, boolean result, Object data) {
 		String status = (String) data;
 		onekeyControlDevice.setmOnOffStatus(status);
+	}
+	
+	private class GetDataByRoomTask extends AsyncTask<String, Void, String> {
+
+		@Override
+		protected String doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			CGIManager.getInstance().GetEPByRoomIndex(params[0]);
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			stopRefresh();
+		}
+
 	}
 
 }

@@ -1197,7 +1197,7 @@ public class CGIManager extends Manger {
 		String url = NetUtil.getInstance().getCumstomURL(
 				NetUtil.getInstance().IP, "getEPByRoomIndex.cgi", param);
 
-		StringRequest req = new StringRequest(url,
+		StringRequestChina req = new StringRequestChina(url,
 				new Response.Listener<String>() {
 					@Override
 					public void onResponse(String response) {
@@ -1725,21 +1725,18 @@ public class CGIManager extends Manger {
 					.handleEndPointString(params[0]);
 			ArrayList<ResponseParamsEndPoint> devDataList = data
 					.getResponseparamList();
+			List<DevicesModel> mDevicesList = DataHelper.convertToDevicesModel(devDataList);
+			DataHelper mDateHelper = new DataHelper(
+					ApplicationController.getInstance());
+			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
 
-			// DataHelper mDateHelper = new DataHelper(
-			// ApplicationController.getInstance());
-			// SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
-			// List<DevicesModel> mList = mDateHelper.queryForDevicesList(
-			// mSQLiteDatabase, DataHelper.DEVICES_TABLE, null, null,
-			// null, null, null, null, null);
-			//
-			// mDateHelper.emptyTable(mSQLiteDatabase,DataHelper.DEVICES_TABLE);
-			// mDateHelper.insertEndPointList(mSQLiteDatabase,DataHelper.DEVICES_TABLE,
-			// null, devDataList);
-
-			// mDateHelper.close(mSQLiteDatabase);
-			// [TODO]transfer to SimpleDevicesModel
-			return devDataList;
+			for(DevicesModel mDevices : mDevicesList){
+				ContentValues c = new ContentValues();
+				c.put(DevicesModel.R_ID, mDevices.getmRid());
+				mDateHelper.update(mSQLiteDatabase, DataHelper.DEVICES_TABLE, c, " ieee=? ", new String[] { mDevices.getmIeee() });
+			}
+			mSQLiteDatabase.close();
+			return mDevicesList;
 		}
 
 		@Override

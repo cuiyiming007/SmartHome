@@ -409,8 +409,9 @@ public class CallbackManager extends Manger {
 						"Callback msgType=" + 2 + " level" + common.toString());
 				ContentValues c = new ContentValues();
 				c.put(DevicesModel.LEVEL, common.getValue());
-				if(common.getValue().equals("0")){
+				if(Integer.parseInt(common.getValue()) < 7){
 					c.put(DevicesModel.ON_OFF_STATUS, "0");
+					
 				}else{
 					c.put(DevicesModel.ON_OFF_STATUS, "1");
 				}
@@ -418,7 +419,6 @@ public class CallbackManager extends Manger {
 				p.callbackmsg2 = common;
 				p.c = c;
 				new UpdateDeviceStatusToDatabaseTask().execute(p);
-
 				Event event = new Event(EventType.MOVE_TO_LEVEL, true);
 				event.setData(common);
 				notifyObservers(event);

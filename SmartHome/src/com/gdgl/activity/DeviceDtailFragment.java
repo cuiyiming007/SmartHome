@@ -576,20 +576,15 @@ public class DeviceDtailFragment extends BaseFragment {
 		default:
 			break;
 		}
-		
-//		if(mDevices.getmDeviceSort() == UiUtils.SECURITY_CONTROL){
-//			device_heart_layout.setVisibility(View.VISIBLE);
-//			if(mDevices.getmModelId().indexOf(DataHelper.One_key_operator) != -1){
-//				device_heart_layout.setVisibility(View.GONE);
-//			}
-//		}else{
-//			device_heart_layout.setVisibility(View.GONE);
-//		}
 	}
 	
 	public void getHeartTime(){
 		DevicesModel mDevicesModel = DataUtil.getDeviceModelByIeee(mDevices.getmIeee(), mDataHelper, mDataHelper.getReadableDatabase());
 		if(mDevicesModel.getmHeartTime() == 0){
+			if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET){
+				LibjingleSendManager.getInstance().getHeartTime(mDevices);
+				return;
+			}
 			CGIManager.getInstance().getHeartTime(mDevices);
 		}else{
 			device_heartButton.setText(secToTime(mDevicesModel.getmHeartTime()));
@@ -872,7 +867,7 @@ public class DeviceDtailFragment extends BaseFragment {
 			if(!data.getDeviceIeee().equals(mDevices.getmIeee())){
 				return;
 			}
-			if(data.getValue().equals("0")){
+			if(Integer.parseInt(data.getValue()) < 7){
 				mDevices.setmOnOffStatus("0");
 			}else{
 				mDevices.setmOnOffStatus("1");
@@ -1032,7 +1027,7 @@ public class DeviceDtailFragment extends BaseFragment {
 				String valueString = data.getValue();
 				if (null != data.getValue()) {
 					mDevices.setmLevel(valueString);
-					if(data.getValue().equals("0")){
+					if(Integer.parseInt(valueString) < 7){
 						mDevices.setmOnOffStatus("0");
 					}else{
 						mDevices.setmOnOffStatus("1");

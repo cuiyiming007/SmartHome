@@ -279,6 +279,7 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 			mDevicesListFragment = new DevicesListFragment();
 			Bundle extras = new Bundle();
 			extras.putInt(Constants.OPERATOR, DevicesListFragment.WITH_OPERATE);
+			extras.putString(REGION_ID, mRoomid);
 			mDevicesListFragment.setArguments(extras);
 			fragmentTransaction.replace(R.id.devices_control_fragment,
 					mDevicesListFragment, "LightsControlFragment");
@@ -665,7 +666,12 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 				final String valueString = data.getValue();
 				if (-1 != m) {
 					if (null != data.getValue()) {
-						mList.get(m).setmLevel(data.getValue());
+						mList.get(m).setmLevel(valueString);
+						if(Integer.parseInt(valueString) < 7){
+							mList.get(m).setmOnOffStatus("0");
+						}else{
+							mList.get(m).setmOnOffStatus("1");
+						}
 						region_name.post(new Runnable() {
 							@Override
 							public void run() {
@@ -673,9 +679,6 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 								mDevicesBaseAdapter.notifyDataSetChanged();
 							}
 						});
-						mList.get(m).setmLevel(valueString);
-						mDevicesBaseAdapter.notifyDataSetChanged();
-						DeviceDtailFragment.getInstance().refreshLevel(detaildata);
 					}
 				}
 			} else {
@@ -783,7 +786,25 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 				// if failed,prompt a Toast
 				// mError.setVisibility(View.VISIBLE);
 			}
-		} 
+		} else if(EventType.GETEPBYROOMINDEX == event.getType()){
+			if (event.isSuccess() == true) {
+				mList = (List<DevicesModel>) event
+						.getData();
+				mDevicesBaseAdapter.setList(mList);
+				Log.i("device first", mList.get(0).toString());
+				for(DevicesModel mdevice : mList){
+					mdevice.setmDeviceRegion(mRoomname);
+					Log.i("IEEE", mdevice.getmIeee());
+				}
+				region_name.post(new Runnable() {
+					@Override
+					public void run() {
+						mDevicesBaseAdapter.notifyDataSetChanged();
+					}
+				});
+				
+			}
+		}
 	}
 
 }

@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import com.gdgl.app.ApplicationController;
 import com.gdgl.manager.CGIManager;
+import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.DevParam;
 import com.gdgl.mydata.Node;
@@ -639,8 +640,16 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 		setmPower(d.getPower());
 		setmVoltage(d.getVoltage());
 		setmLevel(d.getLevel());
-		setmOnOffStatus(d.getOn_off_status() == null ? "0" : d
-				.getOn_off_status());
+		if(getmDeviceId() == DataHelper.DIMEN_LIGHTS_DEVICETYPE || getmDeviceId() == DataHelper.SHADE_DEVICETYPE){
+			if(getmLevel().equals("0")){
+				setmOnOffStatus("0");
+			}else{
+				setmOnOffStatus("1");
+			}
+		}else{
+			setmOnOffStatus(d.getOn_off_status() == null ? "0" : d
+					.getOn_off_status());
+		}	
 		setmTemperature(d.getTemp() == null ? -100 : Integer.parseInt(d
 				.getTemp()) / 10000);
 		setmHumidity(d.getHum() == null ? -100 : Integer.parseInt(d.getHum()));

@@ -14,6 +14,7 @@ import com.gdgl.model.DevicesGroup;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.Callback.CallbackWarnMessage;
+import com.gdgl.mydata.Region.Room;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.UiUtils;
 
@@ -650,6 +651,19 @@ public class DataUtil {
 		// db.close();
 		return mList;
 
+	}
+	
+	public static Room getRoomByID(String id, DataHelper dh,
+			SQLiteDatabase db) {
+		String where = " _id=? ";
+		String[] args = { id + "" };
+		List<Room> mList = dh.queryForRoomList(db,
+				DataHelper.ROOMINFO_TABLE, null, where, args, null, null, null,
+				null);
+		if (null != mList && mList.size() > 0) {
+			return mList.get(0);
+		}
+		return null;
 	}
 
 	public static DevicesModel getDeviceModelByIeee(String ieee, DataHelper dh,
