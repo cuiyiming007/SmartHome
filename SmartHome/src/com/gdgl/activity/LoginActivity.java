@@ -374,13 +374,10 @@ public class LoginActivity extends Activity implements OnClickListener,
 			} else {
 				getFromSharedPreferences.setLogin(accountInfo, false, false);
 			}
-			// getFromSharedPreferences.setLogin(accountInfo, false, false);
 			getFromSharedPreferences.setUserList(mName.getText().toString(),
 					mPwd.getText().toString());
 			getFromSharedPreferences.setCloud(mCloud.getText().toString());
 			getFromSharedPreferences.setCloudList(mCloud.getText().toString());
-			// getFromSharedPreferences.setharedPreferences(this);
-			// getFromSharedPreferences.setName(newName.trim());
 			Intent intent = new Intent(LoginActivity.this, SmartHome.class);
 			startActivity(intent);
 			this.finish();

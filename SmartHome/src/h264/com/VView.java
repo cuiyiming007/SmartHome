@@ -117,6 +117,21 @@ public class VView extends View implements Runnable {
 		// scaleWidth = (float)1.3;
 		// scaleHeight = scaleWidth*9/16;
 	}
+	
+	public void refreshView(int deviceWidth,
+			int deviceheight, int flag){
+		this.gdeviceHeight = deviceheight;
+		this.gdeviceWith = deviceWidth;
+		if (flag == 1)
+			setPortrait();
+		else
+			setLandScape();
+
+		int i = 0;
+		for (i = 0; i < mPixel.length; i++) {
+			mPixel[i] = (byte) 0x00;
+		}
+	}
 
 	private void setScaleLandScape() {
 		scaleWidth = ((float) newWidth) / h264Width * 16 / 14;
