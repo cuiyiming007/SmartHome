@@ -469,6 +469,27 @@ public class ConfigDevicesExpandableList extends BaseFragment implements
 					expandableAdapter.notifyDataSetChanged();
 				}
 			});
+		} else if (EventType.DELETENODE == event.getType()) {
+			if (event.isSuccess()) {
+				final String delete_ieee = (String) event.getData();
+				for(int i=0;i<mDeviceSort_ChildList.size();i++) {
+					for(int j=0;j<mDeviceSort_ChildList.get(i).size();j++) {
+						DevicesModel tempDevModel=mDeviceSort_ChildList.get(i).get(j);
+						if(tempDevModel.getmIeee().equals(delete_ieee)) {
+							mDeviceSort_ChildList.get(i).remove(j);
+							deviceExpandableListView.post(new Runnable() {
+
+								@Override
+								public void run() {
+									// TODO Auto-generated method stub
+									expandableAdapter.notifyDataSetChanged();
+								}
+							});
+						}
+					}
+				}
+				
+			}
 		}
 	}
 

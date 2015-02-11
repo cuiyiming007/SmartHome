@@ -1159,34 +1159,4 @@ public class DeviceDtailFragment extends BaseFragment {
             retStr = "" + i;
         return retStr;
     }
-
-	// private void updateStatusByList(ArrayList<CIEresponse_params>
-	// devDataList) {
-	// for (CIEresponse_params ciEresponse_params : devDataList) {
-	// // 过滤出本页面设备的Ieee
-	// if (ciEresponse_params.getCie().getIeee()
-	// .equals(mDevices.getmIeee())) {
-	// String bypass = ciEresponse_params.getCie().getElserec()
-	// .getBbypass();
-	// // 异或运算，当bypass的值和status的值不同时，刷新界面和数据库
-	// if (!stringToBoolean(bypass) ^ status) {
-	// updateStatusOnUIThread();
-	// // [TODO]刷新数据库
-	// }
-	// break;
-	// }
-	//
-	// }
-	// }
-
-	// private void updateStatusOnUIThread() {
-	// mView.post(new Runnable() {
-	// @Override
-	// public void run() {
-	// setImagRes(device_imgImageView, status);
-	// }
-	// });
-	// }
-
-
 }

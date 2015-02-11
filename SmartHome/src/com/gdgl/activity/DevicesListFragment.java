@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.gdgl.activity.ShowDevicesGroupFragmentActivity.adapterSeter;
 import com.gdgl.activity.UIinterface.IFragmentCallbak;
+import com.gdgl.adapter.DevicesBaseAdapter;
 import com.gdgl.app.ApplicationController;
 import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.Manger;
@@ -68,7 +69,7 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 	 * 列表上的ui的adapter
 	 * 跟ShowDevicesGroupFragmentActivity的DevicesBaseAdapter对应，父类引用指向子类对象
 	 */
-	BaseAdapter mBaseAdapter;
+	DevicesBaseAdapter mBaseAdapter;
 	private refreshData mRefreshData;
 	LinearLayout list_root;
 
@@ -84,9 +85,9 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 
 	public static final int WITH_OPERATE = 0;
 	public static final int WITHOUT_OPERATE = 2;
-	
+
 	DataHelper mDateHelper;
-	
+
 	private int type = 1;
 	private String mRoomid = "";
 	/***
@@ -102,7 +103,7 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 		Bundle extras = getArguments();
 		if (null != extras) {
 			type = extras.getInt(Constants.OPERATOR, WITH_OPERATE);
-			switch(type){
+			switch (type) {
 			case WITH_OPERATE:
 				mRoomid = extras.getString(RegionDevicesActivity.REGION_ID, "");
 				break;
@@ -158,8 +159,8 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 							refreshView.getLoadingLayoutProxy()
 									.setLastUpdatedLabel(label);
 
-							if(type == WITH_OPERATE){
-								if(!mRoomid.equals("")){
+							if (type == WITH_OPERATE) {
+								if (!mRoomid.equals("")) {
 									new GetDataByRoomTask().execute(mRoomid);
 									return;
 								}
@@ -185,12 +186,16 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 							if (mDevicesModel.getmModelId().indexOf("ZA01") != 0
 									&& mDevicesModel.getmModelId().indexOf(
 											DataHelper.Emergency_Button) != 0
-									&& mDevicesModel.getmModelId().indexOf(
-											DataHelper.Emergency_Button_On_Wall) != 0
+									&& mDevicesModel
+											.getmModelId()
+											.indexOf(
+													DataHelper.Emergency_Button_On_Wall) != 0
 									&& mDevicesModel.getmDeviceId() == DataHelper.IAS_ZONE_DEVICETYPE
 									&& onekeyControlDevice != null
-									&& onekeyControlDevice.getmOnOffStatus().equals("0")) {
-								VersionDlg vd = new VersionDlg((Context) getActivity());
+									&& onekeyControlDevice.getmOnOffStatus()
+											.equals("0")) {
+								VersionDlg vd = new VersionDlg(
+										(Context) getActivity());
 								vd.setContent("安防控制中心已关闭");
 								vd.show();
 							} else {
@@ -203,15 +208,19 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 											mDevicesModel);
 									startActivity(intent);
 								} else {
-									Log.i("mDevicesModel outside", mDevicesModel.getmOnOffStatus() + " :　" + mDevicesModel.getmLevel());
+									Log.i("mDevicesModel outside",
+											mDevicesModel.getmOnOffStatus()
+													+ " :　"
+													+ mDevicesModel.getmLevel());
 									Fragment mFragment = null;
-									if (mDevicesModel.getmDeviceId() == DataHelper.SHADE_DEVICETYPE || mDevicesModel.getmDeviceId() == DataHelper.DIMEN_LIGHTS_DEVICETYPE) {
+									if (mDevicesModel.getmDeviceId() == DataHelper.SHADE_DEVICETYPE
+											|| mDevicesModel.getmDeviceId() == DataHelper.DIMEN_LIGHTS_DEVICETYPE) {
 										mFragment = new DeviceDtailFragment();
-									}else{
+									} else {
 										mFragment = DeviceDtailFragment
 												.getInstance();
 									}
-									
+
 									Bundle extras = new Bundle();
 									extras.putSerializable(
 											Constants.PASS_OBJECT,
@@ -345,7 +354,7 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 	public void setAdapter(BaseAdapter mAdapter) {
 		// TODO Auto-generated method stub
 		mBaseAdapter = null;
-		mBaseAdapter = mAdapter;
+		mBaseAdapter = (DevicesBaseAdapter)mAdapter;
 		initList();
 	}
 
@@ -407,12 +416,12 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 						});
 					}
 				}
-//				ProcessUpdate(data);
+				// ProcessUpdate(data);
 			} else {
 				// if failed,prompt a Toast
 				// mError.setVisibility(View.VISIBLE);
 			}
-		}else if (EventType.LOCALIASCIEOPERATION == event.getType()) {
+		} else if (EventType.LOCALIASCIEOPERATION == event.getType()) {
 			if (event.isSuccess() == true) {
 				String status = (String) event.getData();
 				onekeyControlDevice.setmOnOffStatus(status);
@@ -455,7 +464,7 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 		String status = (String) data;
 		onekeyControlDevice.setmOnOffStatus(status);
 	}
-	
+
 	private class GetDataByRoomTask extends AsyncTask<String, Void, String> {
 
 		@Override

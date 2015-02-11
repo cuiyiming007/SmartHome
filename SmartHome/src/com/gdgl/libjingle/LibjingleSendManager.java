@@ -1346,5 +1346,4 @@ public class LibjingleSendManager extends Manger {
 		mStructure.setAPI_type(LibjingleSendStructure.REQUESTVIDEO);
 		sendList.add(mStructure);
 	}
-
 }

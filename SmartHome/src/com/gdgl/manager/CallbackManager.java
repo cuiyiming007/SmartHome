@@ -143,7 +143,7 @@ public class CallbackManager extends Manger {
 				Log.i(TAG, "Callback msgType=" + msgType + "DimmerSwitch");
 				break;
 			case 7:
-				 Log.i(TAG, "Callback msgType=" + msgType + "OnOffLightSwitch");
+//				 Log.i(TAG, "Callback msgType=" + msgType + "OnOffLightSwitch");
 				 JSONObject json = new JSONObject(response);
 				 if(json.getInt("callbackType") == 3){
 					 CallbackResponseCommon iasZone7 = gson.fromJson(response,
@@ -318,6 +318,20 @@ public class CallbackManager extends Manger {
 				mDateHelper.update(mSQLiteDatabase33, DataHelper.DEVICES_TABLE,
 						c33, where33, args33);
 				mDateHelper.close(mSQLiteDatabase33);
+				break;
+			case 34:
+				String ieee34 = (String) jsonRsponse.get("IEEE");
+				Log.i(TAG, "Callback msgType=" + msgType + "  "+ieee34);
+				SQLiteDatabase mSQLiteDatabase34 = mDateHelper
+						.getSQLiteDatabase();
+				String where34 = " ieee=? ";
+				String[] args34 = { ieee34 };
+				mDateHelper.delete(mSQLiteDatabase34, DataHelper.DEVICES_TABLE, where34, args34);
+				mDateHelper.close(mSQLiteDatabase34);
+				
+				Event event34 = new Event(EventType.DELETENODE, true);
+				event34.setData(ieee34);
+				notifyObservers(event34);
 				break;
 			default:
 				break;

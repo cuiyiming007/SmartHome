@@ -218,7 +218,23 @@ public class CGIManager extends Manger {
 		String url = NetUtil.getInstance().getCumstomURL(
 				NetUtil.getInstance().IP, "manageLeaveNode.cgi", param);
 
-		simpleVolleyRequset(url, EventType.DELETENODE);
+		Listener<String> responseListener = new Listener<String>() {
+			@Override
+			public void onResponse(String response) {
+				Log.i("manageLeaveNode Response:%n %s", response);
+			}
+		};
+		ErrorListener errorListener = new ErrorListener() {
+
+			@Override
+			public void onErrorResponse(VolleyError error) {
+
+			}
+		};
+
+		StringRequest req = new StringRequest(url, responseListener,
+				errorListener);
+		ApplicationController.getInstance().addToRequestQueue(req);
 	}
 
 	/***

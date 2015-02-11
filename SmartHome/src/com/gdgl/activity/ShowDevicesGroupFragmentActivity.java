@@ -873,6 +873,24 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 				}
 				// new UpdateICELestTask().execute(updatsLis);
 			}
+		} else if (EventType.DELETENODE == event.getType()) {
+			if (event.isSuccess()) {
+				String delete_ieee = (String) event.getData();
+				for (int i = 0; i < mCurrentList.size(); i++) {
+					DevicesModel tempDevModel = mCurrentList.get(i);
+					if (tempDevModel.getmIeee().equals(delete_ieee)) {
+						mCurrentList.remove(i);
+						title.post(new Runnable() {
+
+							@Override
+							public void run() {
+								// TODO Auto-generated method stub
+								mDevicesBaseAdapter.notifyDataSetChanged();
+							}
+						});
+					}
+				}
+			}
 		} else if (EventType.ON_OFF_STATUS == event.getType()) {
 			if (event.isSuccess() == true) {
 				// data maybe null
