@@ -28,6 +28,7 @@ import com.gdgl.manager.WarnManager;
 import com.gdgl.model.TabInfo;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
+import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.AddDlg;
@@ -73,8 +74,26 @@ public class SmartHome extends FragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		MyApplication.getInstance().addActivity(this);
+		saveLoginData();
 		init();
 
+	}
+	
+	private void saveLoginData(){
+		getFromSharedPreferences.setsharedPreferences(SmartHome.this);
+		Intent intent = getIntent();
+		String name = intent.getStringExtra("name");
+		String pwd = intent.getStringExtra("pwd");
+		String cloud = intent.getStringExtra("cloud");
+		boolean remenber = intent.getBooleanExtra("remenber", true);
+		if (remenber) {
+			getFromSharedPreferences.setLogin(name, pwd, true);
+		} else {
+			getFromSharedPreferences.setLogin(name, pwd, false);
+		}
+		getFromSharedPreferences.setUserList(name, pwd);
+		getFromSharedPreferences.setCloud(cloud);
+		getFromSharedPreferences.setCloudList(cloud);
 	}
 
 	private void init() {

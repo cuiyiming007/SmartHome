@@ -7,6 +7,7 @@ import java.io.DataInputStream;
 import java.io.IOException;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
@@ -52,6 +53,7 @@ public class VideoActivity extends FragmentActivity implements UIListener {
 	VideoNode mVideoNode;
 	private boolean isVisible = false;
 	TextView unreadMessageView;
+	View viewTitle;
 	Button notifyButton;
 	Button addButton;
 	Button setButton;
@@ -76,11 +78,6 @@ public class VideoActivity extends FragmentActivity implements UIListener {
 		if (null != mVideoNode) {
 			ipc_channel = Integer.parseInt(mVideoNode.getId());
 		}
-
-		Resources res = getResources();
-		Drawable backDrawable = res.getDrawable(R.color.white);
-		this.getWindow().setBackgroundDrawable(backDrawable);
-
 		this.getWindow().setFlags(
 				WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
 				WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -130,6 +127,10 @@ public class VideoActivity extends FragmentActivity implements UIListener {
 			this.getWindow().setFlags(
 					WindowManager.LayoutParams.FLAG_FULLSCREEN,
 					WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		}else{
+			Resources res = getResources();
+			Drawable backDrawable = res.getDrawable(R.color.white);
+			this.getWindow().setBackgroundDrawable(backDrawable);
 		}
 	}
 
@@ -152,7 +153,7 @@ public class VideoActivity extends FragmentActivity implements UIListener {
 
 	private void addTitle() {
 		LayoutInflater layoutInflater = LayoutInflater.from(this);
-		View viewTitle = layoutInflater.inflate(R.layout.toptitle_with_return,
+		viewTitle = layoutInflater.inflate(R.layout.toptitle_with_return,
 				null);
 		TextView title = (TextView) viewTitle.findViewById(R.id.title);
 		if (flag == 0)
@@ -370,6 +371,29 @@ public class VideoActivity extends FragmentActivity implements UIListener {
 		Log.i(TAG, "onPause" + String.valueOf(ipc_channel));
 		isVisible = false;
 		super.onPause();
+	}
+	
+	public void onConfigurationChanged(Configuration newConfig){
+		super.onConfigurationChanged(newConfig);              
+		if(newConfig.orientation==Configuration.ORIENTATION_LANDSCAPE){            
+			Log.i("onConfigurationChanged","当前屏幕为横屏"); 
+			captureImageBtn.setVisibility(View.GONE);
+			viewTitle.setVisibility(View.GONE);
+		}else{            
+			Log.i("onConfigurationChanged","当前屏幕为竖屏");  
+			captureImageBtn.setVisibility(View.VISIBLE);
+			viewTitle.setVisibility(View.VISIBLE);
+		}
+		Display display = getWindowManager().getDefaultDisplay();
+		Point size = new Point();
+		display.getSize(size);
+		int screenWidth = size.x;
+		int screenHeight = size.y;
+		flag = screenHeight > screenWidth ? 1 : 0;
+		addBackground();
+		// 获取屏幕宽度和高度
+		// display = getWindowManager().getDefaultDisplay();
+		decodeh264.refreshView(screenWidth, screenHeight, flag);
 	}
 
 	private void updateMessageNum() {
