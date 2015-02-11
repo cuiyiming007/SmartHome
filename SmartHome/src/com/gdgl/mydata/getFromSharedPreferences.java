@@ -2,7 +2,9 @@ package com.gdgl.mydata;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -95,6 +97,18 @@ public class getFromSharedPreferences {
 		mEditor.putBoolean(UiUtils.IS_REMERBER_PWD, isRemerber);
 		mEditor.putBoolean(UiUtils.IS_AUTO_LOGIN, isAuto);
 
+		return mEditor.commit();
+	}
+	
+	public static boolean setLogin(String name, String pwd, boolean isRemerber){
+		mEditor = mSharedPreferences.edit();
+		mEditor.putString(UiUtils.NAME, name);
+		if(isRemerber){
+			mEditor.putString(UiUtils.PWD, pwd);
+		}else{
+			mEditor.putString(UiUtils.PWD, "");
+		}
+		mEditor.putBoolean(UiUtils.IS_REMERBER_PWD, isRemerber);
 		return mEditor.commit();
 	}
 
@@ -278,7 +292,6 @@ public class getFromSharedPreferences {
 	public static ArrayList<HashMap<String, String>> getUserList(){
 		ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
 		String userListString = mSharedPreferences.getString(UiUtils.USERLIST,UiUtils.EMPTY_STR);
-		Log.i("userListString", userListString);
 		if(userListString.equals("")){
 			return list;
 		}
@@ -323,8 +336,10 @@ public class getFromSharedPreferences {
 				list.get(current).put("pwd", pwd);
 			}
 		}
-		Log.i("commitStrStr", list.toString());
-		commitStrStr(UiUtils.USERLIST, list.toString());
+		if(list.size() == 0){
+			return;
+		}
+		commitStrStr(UiUtils.USERLIST, hashMapListToJson(list));
 	}
 	
 	public static void removeUserList(String use, String pwd){
@@ -384,7 +399,10 @@ public class getFromSharedPreferences {
 				list.add(map);
 			}
 		}
-		commitStrStr(UiUtils.CLOUDLIST, list.toString());
+		if(list.size() == 0){
+			return;
+		}
+		commitStrStr(UiUtils.CLOUDLIST, hashMapListToJson(list));
 	}
 	
 	public static void removeCloudList(String cloud){
@@ -405,5 +423,23 @@ public class getFromSharedPreferences {
 	public static void setCloud(String cloud){
 		commitStrStr(UiUtils.CLOUD, cloud);
 	}
+	
+	public static String hashMapListToJson(ArrayList<HashMap<String, String>> list) {
+		String string = "[";
+		for(HashMap<String, String> map : list){
+			string += "{";  
+	        for (Iterator it = map.entrySet().iterator(); it.hasNext();) {  
+	            Entry e = (Entry) it.next();  
+	            string += "\"" + e.getKey() + "\":";  
+	            string += "\"" + e.getValue() + "\",";  
+	        }  
+	        string = string.substring(0, string.lastIndexOf(","));  
+	        string += "},"; 
+		}
+		string = string.substring(0, string.lastIndexOf(","));  
+		string += "]"; 
+        return string;  
+    }  
+
 
 }

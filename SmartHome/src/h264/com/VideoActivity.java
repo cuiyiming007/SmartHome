@@ -78,7 +78,9 @@ public class VideoActivity extends FragmentActivity implements UIListener {
 		if (null != mVideoNode) {
 			ipc_channel = Integer.parseInt(mVideoNode.getId());
 		}
-
+		this.getWindow().setFlags(
+				WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
+				WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		// getWindow().setBackgroundDrawableResource(R.drawable.new_bacg);
 		Display display = getWindowManager().getDefaultDisplay();
 		Point size = new Point();
@@ -129,10 +131,6 @@ public class VideoActivity extends FragmentActivity implements UIListener {
 			Resources res = getResources();
 			Drawable backDrawable = res.getDrawable(R.color.white);
 			this.getWindow().setBackgroundDrawable(backDrawable);
-
-			this.getWindow().setFlags(
-					WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
-					WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		}
 	}
 

@@ -246,8 +246,6 @@ public class LoginActivity extends Activity implements OnClickListener,
 			break;
 		case NetworkConnectivity.INTERNET:
 			Intent libserviceIntent = new Intent(this, LibjingleService.class);
-			getFromSharedPreferences.setsharedPreferences(LoginActivity.this);
-			getFromSharedPreferences.setLogin(accountInfo, false, false);
 			startService(libserviceIntent);
 
 			break;
@@ -336,17 +334,11 @@ public class LoginActivity extends Activity implements OnClickListener,
 							LibjingleSendManager.getInstance().getLocalCIEList();
 						}
 					}).start();
-					getFromSharedPreferences.setsharedPreferences(LoginActivity.this);
-					if (mRem.isChecked()) {
-						getFromSharedPreferences.setLogin(accountInfo, true, false);
-					} else {
-						getFromSharedPreferences.setLogin(accountInfo, false, false);
-					}
-					getFromSharedPreferences.setUserList(mName.getText().toString(),
-							mPwd.getText().toString());
-					getFromSharedPreferences.setCloud(mCloud.getText().toString());
-					getFromSharedPreferences.setCloudList(mCloud.getText().toString());
 					Intent intent = new Intent(LoginActivity.this, SmartHome.class);
+					intent.putExtra("name", mName.getText().toString());
+					intent.putExtra("pwd", mPwd.getText().toString());
+					intent.putExtra("remenber", mRem.isChecked());
+					intent.putExtra("cloud", mCloud.getText().toString());
 					startActivity(intent);
 					this.finish();
 					break;
@@ -368,17 +360,11 @@ public class LoginActivity extends Activity implements OnClickListener,
 		switch (i) {
 		case 0:
 			accountInfo.setId(response.getId());
-			getFromSharedPreferences.setsharedPreferences(LoginActivity.this);
-			if (mRem.isChecked()) {
-				getFromSharedPreferences.setLogin(accountInfo, true, false);
-			} else {
-				getFromSharedPreferences.setLogin(accountInfo, false, false);
-			}
-			getFromSharedPreferences.setUserList(mName.getText().toString(),
-					mPwd.getText().toString());
-			getFromSharedPreferences.setCloud(mCloud.getText().toString());
-			getFromSharedPreferences.setCloudList(mCloud.getText().toString());
 			Intent intent = new Intent(LoginActivity.this, SmartHome.class);
+			intent.putExtra("name", mName.getText().toString());
+			intent.putExtra("pwd", mPwd.getText().toString());
+			intent.putExtra("remenber", mRem.isChecked());
+			intent.putExtra("cloud", mCloud.getText().toString());
 			startActivity(intent);
 			this.finish();
 			break;
