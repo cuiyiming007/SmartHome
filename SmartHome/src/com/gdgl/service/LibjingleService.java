@@ -92,6 +92,8 @@ public class LibjingleService extends Service {
 	public void onDestroy() {
 		// TODO Auto-generated method stub
 		Log.i("LibjingleService", "LibjingleService onDestroy!");
+		LibjingleNetUtil.getInstance().initLibjingleSocket();
+		System.gc();
 		stopSelf();
 		super.onDestroy();
 	}

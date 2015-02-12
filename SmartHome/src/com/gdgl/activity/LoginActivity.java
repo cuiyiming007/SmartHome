@@ -53,8 +53,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class LoginActivity extends Activity implements OnClickListener,
-		UIListener {
-//	int networkStatus;// 当前网络状态量
+		UIListener,Dialogcallback {
+	// int networkStatus;// 当前网络状态量
 	private EditText mName, mPwd, mCloud;
 	private CheckBox mRem, mAut;
 	private TextView gaoji_text;
@@ -69,15 +69,18 @@ public class LoginActivity extends Activity implements OnClickListener,
 	private static final int SHOWDLG = 1;
 	private static final int HIDEDLG = 0;
 	private static final int TOAST = 3;
-//	private boolean isLogin = false;
+	
+	private boolean exitDlgFlag = false;
+
+	// private boolean isLogin = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login);
-//		Intent intent = getIntent();
-//		networkStatus = intent.getIntExtra("networkStatus", 0);
+		// Intent intent = getIntent();
+		// networkStatus = intent.getIntExtra("networkStatus", 0);
 		initView();
 	}
 
@@ -119,9 +122,9 @@ public class LoginActivity extends Activity implements OnClickListener,
 		gaoji.setOnClickListener(this);
 		LoginManager.getInstance().addObserver(this);
 		LibjingleResponseHandlerManager.getInstance().addObserver(this);
-		mHandler = new Handler(){
-			public void handleMessage(Message msg){
-				switch(msg.what){
+		mHandler = new Handler() {
+			public void handleMessage(Message msg) {
+				switch (msg.what) {
 				case SHOWDLG:
 					dialog_view.setVisibility(View.VISIBLE);
 					break;
@@ -129,23 +132,25 @@ public class LoginActivity extends Activity implements OnClickListener,
 					dialog_view.setVisibility(View.GONE);
 				case TOAST:
 					String toastStr = msg.getData().getString("toast");
-					if(toastStr == null || toastStr.equals("")){
+					if (toastStr == null || toastStr.equals("")) {
 						return;
 					}
-					Toast.makeText(getApplicationContext(), toastStr, Toast.LENGTH_SHORT).show();
+					Toast.makeText(getApplicationContext(), toastStr,
+							Toast.LENGTH_SHORT).show();
 				}
 			}
 		};
 	}
+
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		int id = v.getId();
 		switch (id) {
 		case R.id.login:
-//			if(isLogin){
-//				return;
-//			}
+			// if(isLogin){
+			// return;
+			// }
 			accountInfo = new AccountInfo();
 			accountInfo.setAccount(mName.getText().toString());
 			accountInfo.setPassword(mPwd.getText().toString());
@@ -174,9 +179,9 @@ public class LoginActivity extends Activity implements OnClickListener,
 				Toast.makeText(getApplicationContext(), "用户名应为6-16字符",
 						Toast.LENGTH_SHORT).show();
 			}
-//			 Intent intent = new Intent(LoginActivity.this, SmartHome.class);
-//			 startActivity(intent);
-//			 this.finish();
+			// Intent intent = new Intent(LoginActivity.this, SmartHome.class);
+			// startActivity(intent);
+			// this.finish();
 			break;
 		case R.id.gaoji:
 			if (gaoji_Layout.getVisibility() == View.GONE) {
@@ -241,7 +246,8 @@ public class LoginActivity extends Activity implements OnClickListener,
 
 		switch (NetworkConnectivity.networkStatus) {
 		case NetworkConnectivity.NO_NETWORK:
-			Toast.makeText(getApplicationContext(), "未连接任何网络", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "未连接任何网络",
+					Toast.LENGTH_SHORT).show();
 			dialog_view.setVisibility(View.GONE);
 			break;
 		case NetworkConnectivity.INTERNET:
@@ -276,16 +282,20 @@ public class LoginActivity extends Activity implements OnClickListener,
 				}
 				mSQLiteDatabase.close();
 			} else {
-				Toast.makeText(getApplicationContext(), "没有网关或者用户名不正确",
-						Toast.LENGTH_SHORT).show();
+				NetworkConnectivity.networkStatus = NetworkConnectivity.INTERNET;
+				Intent libserviceIntent1 = new Intent(this,
+						LibjingleService.class);
+				startService(libserviceIntent1);
+
 			}
 			break;
 		default:
 			dialog_view.setVisibility(View.GONE);
-			Toast.makeText(getApplicationContext(), "连接失败,请稍后重试", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "连接失败,请稍后重试",
+					Toast.LENGTH_SHORT).show();
 			break;
 		}
-		//dialog_view.setVisibility(View.GONE);
+		// dialog_view.setVisibility(View.GONE);
 	}
 
 	@Override
@@ -312,6 +322,15 @@ public class LoginActivity extends Activity implements OnClickListener,
 		}
 		if (EventType.LIBJINGLE_STATUS == event.getType()) {
 			if (event.isSuccess() == true) {
+				mLogin.post(new Runnable() {
+
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						dialog_view.setVisibility(View.GONE);
+					}
+				});
+
 				int status = Integer.parseInt((String) event.getData());
 				switch (status) {
 				case 2:
@@ -320,7 +339,8 @@ public class LoginActivity extends Activity implements OnClickListener,
 
 						@Override
 						public void run() {
-							LibjingleSendManager.getInstance().getDeviceEndPoint();
+							LibjingleSendManager.getInstance()
+									.getDeviceEndPoint();
 							LibjingleSendManager.getInstance().GetAllRoomInfo();
 							LibjingleSendManager.getInstance().GetAllBindList();
 							LibjingleSendManager.getInstance().getIPClist();
@@ -330,11 +350,14 @@ public class LoginActivity extends Activity implements OnClickListener,
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
-							LibjingleSendManager.getInstance().GetLocalIASCIEOperation();
-							LibjingleSendManager.getInstance().getLocalCIEList();
+							LibjingleSendManager.getInstance()
+									.GetLocalIASCIEOperation();
+							LibjingleSendManager.getInstance()
+									.getLocalCIEList();
 						}
 					}).start();
-					Intent intent = new Intent(LoginActivity.this, SmartHome.class);
+					Intent intent = new Intent(LoginActivity.this,
+							SmartHome.class);
 					intent.putExtra("name", mName.getText().toString());
 					intent.putExtra("pwd", mPwd.getText().toString());
 					intent.putExtra("remenber", mRem.isChecked());
@@ -343,11 +366,29 @@ public class LoginActivity extends Activity implements OnClickListener,
 					this.finish();
 					break;
 				case -1:
-				case -2:
 				case -3:
 					Toast.makeText(getApplicationContext(), "通道连接网关失败",
-							Toast.LENGTH_SHORT).show();	
+							Toast.LENGTH_SHORT).show();
 					break;
+				case -2:
+//					Toast.makeText(getApplicationContext(), "登录失败，请重新登录！",
+//							Toast.LENGTH_SHORT).show();
+					Intent stopLibservice = new Intent(this,
+							LibjingleService.class);
+					stopService(stopLibservice);
+					mLogin.post(new Runnable() {
+						
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							exitDlgFlag = true;
+							MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(LoginActivity.this);
+							mMyOkCancleDlg.setDialogCallback(LoginActivity.this);
+							mMyOkCancleDlg.setContent("登录失败，请重新登录！");
+							mMyOkCancleDlg.show();
+						}
+					});
+					
 				default:
 					break;
 				}
@@ -452,6 +493,12 @@ public class LoginActivity extends Activity implements OnClickListener,
 		return list;
 	}
 
+	public void onBackPressed() {
+		Intent libserviceIntent = new Intent(this, LibjingleService.class);
+		stopService(libserviceIntent);
+		System.exit(0);
+	};
+	
 	class MyAdapter extends BaseAdapter implements Dialogcallback {
 		String useCur;
 		String pwdCur;
@@ -599,6 +646,16 @@ public class LoginActivity extends Activity implements OnClickListener,
 					}
 				}
 			}
+		}
+	}
+
+	@Override
+	public void dialogdo() {
+		// TODO Auto-generated method stub
+		if(exitDlgFlag) {
+			Intent libserviceIntent = new Intent(this, LibjingleService.class);
+			stopService(libserviceIntent);
+			System.exit(0);
 		}
 	}
 }

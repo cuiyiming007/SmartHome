@@ -16,6 +16,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.gdgl.app.ApplicationController;
 import com.gdgl.manager.CallbackManager;
@@ -202,6 +203,10 @@ public class LibjingleResponseHandlerManager extends Manger {
 			break;
 		case LibjinglePackHandler.MT_NetStat:
 			String status14 = packHandler.result;
+			if (status14.equals("-2")) {
+				Toast.makeText(ApplicationController.getInstance(),
+						"连接服务器失败，请重新登录！", Toast.LENGTH_LONG).show();
+			}
 			Event event14 = new Event(EventType.LIBJINGLE_STATUS, true);
 			event14.setData(status14);
 			notifyObservers(event14);
@@ -222,7 +227,7 @@ public class LibjingleResponseHandlerManager extends Manger {
 				break;
 			}
 		}
-		if (api_type > 0 && packHandler.status==1) {
+		if (api_type > 0 && packHandler.status == 1) {
 			String response = packHandler.result;
 			response = UiUtils.formatResponseString(response);
 
@@ -331,7 +336,7 @@ public class LibjingleResponseHandlerManager extends Manger {
 			case LibjingleSendStructure.GETVIDEOLIST:
 				new GetVideoListTast().execute(response);
 				break;
-				
+
 			case LibjingleSendStructure.DELBINDDATA:
 			case LibjingleSendStructure.MANAGELEAVENODE:
 			case LibjingleSendStructure.SETPERMITJOINON:
@@ -623,11 +628,12 @@ public class LibjingleResponseHandlerManager extends Manger {
 			super.onPostExecute(bundle);
 		}
 	}
-	
+
 	class GetVideoListTast extends AsyncTask<String, Object, VideoResponse> {
 		@Override
 		protected VideoResponse doInBackground(String... params) {
-			VideoResponse response = VideoManager.getInstance().handleVideoResponse(params[0]);
+			VideoResponse response = VideoManager.getInstance()
+					.handleVideoResponse(params[0]);
 
 			DataHelper mDateHelper = new DataHelper(
 					ApplicationController.getInstance());
@@ -635,18 +641,19 @@ public class LibjingleResponseHandlerManager extends Manger {
 
 			mDateHelper.emptyTable(mSQLiteDatabase, DataHelper.VIDEO_TABLE);
 			ArrayList<VideoNode> videoNodesFromSever = decodeAlias2Chinese(response);
-			if(videoNodesFromSever!=null) {
+			if (videoNodesFromSever != null) {
 				mDateHelper.insertVideoList(mSQLiteDatabase,
 						DataHelper.VIDEO_TABLE, null, videoNodesFromSever);
 			}
 			mSQLiteDatabase.close();
 			return response;
 		}
+
 		private ArrayList<VideoNode> decodeAlias2Chinese(VideoResponse response) {
 			ArrayList<VideoNode> videoNodesFromSever = response.getList();
-			if(videoNodesFromSever!=null) {
-				for (Iterator<VideoNode> iterator = videoNodesFromSever.iterator(); iterator
-						.hasNext();) {
+			if (videoNodesFromSever != null) {
+				for (Iterator<VideoNode> iterator = videoNodesFromSever
+						.iterator(); iterator.hasNext();) {
 					VideoNode videoNode = (VideoNode) iterator.next();
 					try {
 						videoNode.setAliases(URLDecoder.decode(
@@ -658,6 +665,7 @@ public class LibjingleResponseHandlerManager extends Manger {
 			}
 			return videoNodesFromSever;
 		}
+
 		@Override
 		protected void onPostExecute(VideoResponse result) {
 			Event event = new Event(EventType.GETVIDEOLIST, true);

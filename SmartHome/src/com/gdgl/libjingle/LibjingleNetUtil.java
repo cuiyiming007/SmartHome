@@ -8,41 +8,41 @@ import java.net.Socket;
 import android.os.Looper;
 import android.util.Log;
 
-
 public class LibjingleNetUtil {
 
 	private final static String TAG = "LibjingleNetUtil";
-	
+
 	private static LibjingleNetUtil instance;
-	
+
 	public static Socket tcpSocket;
 	public InputStream inputStream;
 	public OutputStream outputStream;
-	
+	private Boolean recieveMsgFlag = false;
+
 	public static LibjingleNetUtil getInstance() {
 		if (instance == null) {
 			instance = new LibjingleNetUtil();
 		}
 		return instance;
 	}
-	
+
 	public String getLocalhostURL(String resource, String param) {
-		String LocalhostStr="http://localhost/cgi-bin/rest/network/";
+		String LocalhostStr = "http://localhost/cgi-bin/rest/network/";
 		return LocalhostStr + resource + "?" + param;
 	}
-	
+
 	public String getVideoURL(String resource) {
-		String LocalhostStr="http://localhost/cgi-bin/rest/network/";
+		String LocalhostStr = "http://localhost/cgi-bin/rest/network/";
 		return LocalhostStr + resource;
 	}
-	
+
 	public void startLibjingleSocket() {
 		new Thread(new Runnable() {
 
 			@Override
 			public void run() {
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(500);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -52,41 +52,47 @@ public class LibjingleNetUtil {
 			}
 		}).start();
 	}
-	
+
 	public void connectAndRecieveFromLibjingleSocket() {
 		Log.i(TAG, "start ConnectLibjingleSocket");
 		initLibjingleSocket();
 		connectLibjingleSocket();
 		recieveFromLibjingleSocket();
 	}
-	
+
 	public void initLibjingleSocket() {
-		if (tcpSocket != null) {
-			try {
+		recieveMsgFlag = false;
+		try {
+			if (tcpSocket != null) {
+				inputStream.close();
+				outputStream.close();
 				tcpSocket.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				tcpSocket = null;
 			}
-			tcpSocket = null;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+
 	}
-	
+
 	public void connectLibjingleSocket() {
 		try {
 			tcpSocket = new Socket("127.0.0.1", 5020);
-			Log.i(TAG, "getReceiveBufferSize"+tcpSocket.getReceiveBufferSize());
+			Log.i(TAG,
+					"getReceiveBufferSize" + tcpSocket.getReceiveBufferSize());
 			inputStream = tcpSocket.getInputStream();
 			outputStream = tcpSocket.getOutputStream();
+			recieveMsgFlag = true;
 			Log.i(TAG, "connectLibjingleSocketsuccessful");
 		} catch (Exception e) {
 			// TODO: handle exception
 			Log.e(TAG, "connectLibjingleSocket error：" + e.getMessage());
 		}
 	}
-	
+
 	public void sendMsgToLibjingleSocket(String msg) {
-		byte buffer[]=msg.getBytes();
+		byte buffer[] = msg.getBytes();
 		try {
 			outputStream.write(buffer);
 			outputStream.flush();
@@ -96,12 +102,13 @@ public class LibjingleNetUtil {
 		}
 		Log.i(TAG, "sendMsgToLibjingleSocket successful");
 	}
-	
+
 	public void recieveFromLibjingleSocket() {
 		try {
-			while (true) {
+			while (recieveMsgFlag) {
 				if (inputStream != null && inputStream.available() > 0) {
-					LibjingleResponseHandlerManager.handleInputStream(inputStream);
+					LibjingleResponseHandlerManager
+							.handleInputStream(inputStream);
 					// Log.i("callbakcSocket recieve", inputStream.toString());
 				}
 			}
@@ -112,5 +119,4 @@ public class LibjingleNetUtil {
 		}
 	}
 
-	
 }

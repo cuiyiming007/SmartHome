@@ -26,6 +26,7 @@ import org.json.*;
 
 import android.util.Log;
 
+import com.gdgl.activity.LoginActivity;
 import com.gdgl.app.ApplicationController;
 import com.gdgl.mydata.getFromSharedPreferences;
 
@@ -119,13 +120,14 @@ public class LibjinglePackHandler {
 
 	public static String getJid() {
 		String user, server, uuid;
-		getFromSharedPreferences.setsharedPreferences(ApplicationController
-				.getInstance());
-		if (!getFromSharedPreferences.getUid().equals("")) {
-			user = getFromSharedPreferences.getUid();
-		} else {
-			user = getFromSharedPreferences.getName();
-		}
+//		getFromSharedPreferences.setsharedPreferences(ApplicationController
+//				.getInstance());
+//		if (!getFromSharedPreferences.getUid().equals("")) {
+//			user = getFromSharedPreferences.getUid();
+//		} else {
+//			user = getFromSharedPreferences.getName();
+//		}
+		user = LoginActivity.loginAccountInfo.getAccount();
 		server = "121.199.21.14";
 		uuid = getUUID();
 
