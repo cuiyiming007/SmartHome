@@ -87,7 +87,11 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 	private void initData() {
 		// TODO Auto-generated method stub
 		mregions = new ArrayList<Room>();
-		CGIManager.getInstance().GetAllRoomInfo();
+		if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+			CGIManager.getInstance().GetAllRoomInfo();
+		} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+			
+		}
 		mDateHelper = new DataHelper((Context) getActivity());
 		SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
 		mregions = mDateHelper.queryForRoomList(mSQLiteDatabase,

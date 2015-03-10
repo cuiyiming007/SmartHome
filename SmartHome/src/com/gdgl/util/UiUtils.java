@@ -52,8 +52,8 @@ public class UiUtils {
 	public static final String N_REM_PWD_ACT = "not_remeber_pwd";
 
 	public static final String AUTO_LOGIN_ACT = "AutoLogin";
-	
-	public static final String UUID="uuid"; //通道模块参数
+
+	public static final String UUID = "uuid"; // 通道模块参数
 
 	public static int ILLEGAI_UID = -1;
 
@@ -106,8 +106,6 @@ public class UiUtils {
 		}
 		return tags;
 	}
-
-	
 
 	public static int[] getImgByType(int type) {
 		int[] imgs = null;
@@ -236,7 +234,7 @@ public class UiUtils {
 			R.drawable.ui_devices_electricalcontrol_style,
 			R.drawable.ui_devices_environmentalcontrol_style,
 			R.drawable.ui_devices_energyconservation_style,
-			R.drawable.ui_devices_others_style};
+			R.drawable.ui_devices_others_style };
 	public static String[] DEVICES_MANAGER_TAGS = { "照明管理", "电器控制", "安全防护",
 			"环境监测", "节能", "其它" };
 	public static String[] DEVICES_MANAGER_TAGS_NEW = { "安全防护", "电器控制", "环境监测",
@@ -319,7 +317,9 @@ public class UiUtils {
 
 	public static String customString(String s) {
 		// s = s.substring(s.indexOf("{"), s.length() - 1);
-		s = s.substring(s.indexOf("{"), s.lastIndexOf("}") + 1);
+		if (s.contains("{")) {
+			s = s.substring(s.indexOf("{"), s.lastIndexOf("}") + 1);
+		}
 		return s;
 	}
 
