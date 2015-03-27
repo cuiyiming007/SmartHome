@@ -213,7 +213,15 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 	public void setmCurPowerResource(String mCurPowerResource) {
 		this.mCurPowerResource = mCurPowerResource;
 	}
+	
+	public String getCurpowersourcelevel() {
+		return curpowersourcelevel;
+	}
 
+	public void setCurpowersourcelevel(String curpowersourcelevel) {
+		this.curpowersourcelevel = curpowersourcelevel;
+	}
+	
 	public String getmIeee() {
 		return mIeee;
 	}
@@ -533,69 +541,63 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 	public void setmOnlineStatus(String status){
 		this.mOnlineStatus = status;
 	}
-
+	
+	//避免在内部调用Getters/Setters方法:因为字段搜寻要比方法调用效率高得多，直接访问某个字段可能要比通过getters方法来去访问这个字段快3到7倍.
 	public ContentValues convertContentValues() {
 		ContentValues mContentValues = new ContentValues();
 
-		mContentValues.put(DevicesBaseColumns.ALL_COUNT, getmAllCount());
-		mContentValues.put(DevicesBaseColumns.CURCOUNT, getmCurCount());
-		mContentValues.put(DevicesBaseColumns.DEVICE_ID, getmDeviceId());
-		mContentValues.put(DevicesBaseColumns.R_ID, getmRid());
-		mContentValues.put(DevicesBaseColumns.PIC_NAME, getmPicName());
-		mContentValues.put(DevicesBaseColumns.PROFILE_ID, getmProfileId());
-		mContentValues.put(DevicesBaseColumns.POWER_RESOURCE,
-				getmPowerResource());
-		mContentValues.put(DevicesBaseColumns.CUR_POWER_RESOURCE,
-				getmCurPowerResource());
-		mContentValues.put(DevicesBaseColumns.CURPOWERSOURCELEVEL,
-				getCurpowersourcelevel());
+		mContentValues.put(DevicesBaseColumns.ALL_COUNT, mAllCount);
+		mContentValues.put(DevicesBaseColumns.CURCOUNT, mCurCount);
+		mContentValues.put(DevicesBaseColumns.DEVICE_ID, mDeviceId);
+		mContentValues.put(DevicesBaseColumns.R_ID, mRid);
+		mContentValues.put(DevicesBaseColumns.PIC_NAME, mPicName);
+		mContentValues.put(DevicesBaseColumns.PROFILE_ID, mProfileId);
+		mContentValues.put(DevicesBaseColumns.POWER_RESOURCE, mPowerResource);
+		mContentValues.put(DevicesBaseColumns.CUR_POWER_RESOURCE, mCurPowerResource);
+		mContentValues.put(DevicesBaseColumns.CURPOWERSOURCELEVEL, curpowersourcelevel);
 
-		mContentValues.put(DevicesBaseColumns.IEEE, getmIeee());
-		mContentValues.put(DevicesBaseColumns.NWK_ADDR, getmNWKAddr());
-		mContentValues.put(DevicesBaseColumns.NODE_EN_NAME, getmNodeENNAme());
-		mContentValues.put(DevicesBaseColumns.MANUFACTORY, getmManufactory());
-		mContentValues.put(DevicesBaseColumns.ZCL_VERSTION, getmZCLVersion());
-		mContentValues.put(DevicesBaseColumns.STACK_VERSTION,
-				getmStackVerstion());
-		mContentValues.put(DevicesBaseColumns.APP_VERSTION, getmAppVersion());
-		mContentValues.put(DevicesBaseColumns.HW_VERSTION, getmHwVersion());
-		mContentValues.put(DevicesBaseColumns.DATE_CODE, getmDateCode());
-		mContentValues.put(DevicesBaseColumns.MODEL_ID, getmModelId());
-		mContentValues.put(DevicesBaseColumns.NODE_TYPE, getmNodeType());
+		mContentValues.put(DevicesBaseColumns.IEEE, mIeee);
+		mContentValues.put(DevicesBaseColumns.NWK_ADDR, mNWKAddr);
+		mContentValues.put(DevicesBaseColumns.NODE_EN_NAME, mNodeENNAme);
+		mContentValues.put(DevicesBaseColumns.MANUFACTORY, mManufactory);
+		mContentValues.put(DevicesBaseColumns.ZCL_VERSTION, mZCLVersion);
+		mContentValues.put(DevicesBaseColumns.STACK_VERSTION, mStackVerstion);
+		mContentValues.put(DevicesBaseColumns.APP_VERSTION, mAppVersion);
+		mContentValues.put(DevicesBaseColumns.HW_VERSTION, mHwVersion);
+		mContentValues.put(DevicesBaseColumns.DATE_CODE, mDateCode);
+		mContentValues.put(DevicesBaseColumns.MODEL_ID, mModelId);
+		mContentValues.put(DevicesBaseColumns.NODE_TYPE, mNodeType);
 
-		mContentValues.put(DevicesBaseColumns.EP, getmEP());
-		mContentValues.put(DevicesBaseColumns.NAME, getmName());
-		mContentValues.put(DevicesBaseColumns.CURRENT, getmCurrent());
-		mContentValues.put(DevicesBaseColumns.ENERGY, getmEnergy());
-		mContentValues.put(DevicesBaseColumns.POWER, getmPower());
-		mContentValues.put(DevicesBaseColumns.VOLTAGE, getmVoltage());
-		mContentValues.put(DevicesBaseColumns.LEVEL, getmLevel());
-		mContentValues.put(DevicesBaseColumns.ON_OFF_STATUS, getmOnOffStatus());
-		mContentValues.put(DevicesBaseColumns.TEMPERATURE, getmTemperature());
-		mContentValues.put(DevicesBaseColumns.HUMIDITY, getmHumidity());
-		mContentValues.put(DevicesBaseColumns.BRIGHTNESS, getmBrightness());
-		mContentValues.put(DevicesBaseColumns.EP_MODEL_ID, getmEPModelId());
+		mContentValues.put(DevicesBaseColumns.EP, mEP);
+		mContentValues.put(DevicesBaseColumns.NAME, mName);
+		mContentValues.put(DevicesBaseColumns.CURRENT, mCurrent);
+		mContentValues.put(DevicesBaseColumns.ENERGY, mEnergy);
+		mContentValues.put(DevicesBaseColumns.POWER, mPower);
+		mContentValues.put(DevicesBaseColumns.VOLTAGE, mVoltage);
+		mContentValues.put(DevicesBaseColumns.LEVEL, mlevel);
+		mContentValues.put(DevicesBaseColumns.ON_OFF_STATUS, mOnOffStatus);
+		mContentValues.put(DevicesBaseColumns.TEMPERATURE, mTemperature);
+		mContentValues.put(DevicesBaseColumns.HUMIDITY, mHumidity);
+		mContentValues.put(DevicesBaseColumns.BRIGHTNESS, mBrightness);
+		mContentValues.put(DevicesBaseColumns.EP_MODEL_ID, mEPModelId);
 
-		mContentValues.put(DevicesBaseColumns.CURRENT_MAX, getmCurrentMax());
-		mContentValues.put(DevicesBaseColumns.CURRENT_MIN, getmCurrentMin());
-		mContentValues.put(DevicesBaseColumns.VOLTAGE_MAX, getmVoltageMax());
-		mContentValues.put(DevicesBaseColumns.VOLTAGE_MIN, getmVoltageMin());
-		mContentValues.put(DevicesBaseColumns.ENERGY_MAX, getmEnergyMax());
-		mContentValues.put(DevicesBaseColumns.ENERGY_MIN, getmEnergyMin());
+		mContentValues.put(DevicesBaseColumns.CURRENT_MAX, mCurrentMax);
+		mContentValues.put(DevicesBaseColumns.CURRENT_MIN, mCurrentMin);
+		mContentValues.put(DevicesBaseColumns.VOLTAGE_MAX, mVoltageMax);
+		mContentValues.put(DevicesBaseColumns.VOLTAGE_MIN, mVoltageMin);
+		mContentValues.put(DevicesBaseColumns.ENERGY_MAX, mEnergyMax);
+		mContentValues.put(DevicesBaseColumns.ENERGY_MIN, mEnergyMin);
 
-		mContentValues.put(DevicesBaseColumns.CLUSTER_ID, getmClusterID());
-		mContentValues.put(DevicesBaseColumns.DEVICE_SORT, getmDeviceSort());
+		mContentValues.put(DevicesBaseColumns.CLUSTER_ID, mClusterID);
+		mContentValues.put(DevicesBaseColumns.DEVICE_SORT, mDeviceSort);
 		mContentValues
-				.put(DevicesBaseColumns.DEVICE_REGION, getmDeviceRegion());
-		mContentValues.put(DevicesBaseColumns.DEFAULT_DEVICE_NAME,
-				getmDefaultDeviceName());
-		mContentValues.put(DevicesBaseColumns.DEVICE_PRIORITY,
-				getmDevicePriority());
+				.put(DevicesBaseColumns.DEVICE_REGION, mDeviceRegion);
+		mContentValues.put(DevicesBaseColumns.DEFAULT_DEVICE_NAME, mDefaultDeviceName);
+		mContentValues.put(DevicesBaseColumns.DEVICE_PRIORITY, mDevicePriority);
 
-		mContentValues.put(DevicesBaseColumns.LAST_UPDATE_TIME,
-				getmLastDateTime());
-		mContentValues.put(DevicesBaseColumns.ON_OFF_LINE, getmOnOffLine());
-		mContentValues.put(DevicesBaseColumns.HEART_TIME, getmHeartTime());
+		mContentValues.put(DevicesBaseColumns.LAST_UPDATE_TIME, mLastDateTime);
+		mContentValues.put(DevicesBaseColumns.ON_OFF_LINE, mOnOffLine);
+		mContentValues.put(DevicesBaseColumns.HEART_TIME, mHeartTime);
 
 		return mContentValues;
 	}
@@ -609,70 +611,70 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 		DevParam d = r.getDevparam();
 		Node n = d.getNode();
 
-		setmAllCount(r.getAllcount());
-		setmCurCount(r.getCurcount());
-		setmDeviceId(r.getDevice_id() == null ? -1 : Integer.parseInt(r
+		mAllCount = (r.getAllcount());
+		mCurCount = (r.getCurcount());
+		mDeviceId = (r.getDevice_id() == null ? -1 : Integer.parseInt(r
 				.getDevice_id()));
-		setmRid(r.getRid());
-		setmPicName(r.getPicname());
-		setmProfileId(r.getProfileid());
-		setmPowerResource(r.getPowersource());
-		setmCurPowerResource(r.getCurpowersource());
-		setCurpowersourcelevel(r.getCurpowersourcelevel());
+		mRid = (r.getRid());
+		mPicName = (r.getPicname());
+		mProfileId = (r.getProfileid());
+		mPowerResource = (r.getPowersource());
+		mCurPowerResource = (r.getCurpowersource());
+		curpowersourcelevel = (r.getCurpowersourcelevel());
 
-		setmIeee(n.getIeee() == null ? "" : n.getIeee());
-		setmNWKAddr(n.getNwk_addr() == null ? "" : n.getNwk_addr());
-		setmNodeENNAme(n.getName() == null ? "" : n.getName());
-		setmManufactory(n.getManufactory());
-		setmZCLVersion(n.getZcl_version());
-		setmStackVerstion(n.getStack_version());
-		setmAppVersion(n.getApp_version());
-		setmHwVersion(n.getHw_version());
-		setmDateCode(n.getDate_code());
-		setmModelId(n.getModel_id() == null ? "" : n.getModel_id());
-		setmNodeType(n.getNode_type() == null ? "" : n.getNode_type());
+		mIeee = (n.getIeee() == null ? "" : n.getIeee());
+		mNWKAddr = (n.getNwk_addr() == null ? "" : n.getNwk_addr());
+		mNodeENNAme = (n.getName() == null ? "" : n.getName());
+		mManufactory = (n.getManufactory());
+		mZCLVersion = (n.getZcl_version());
+		mStackVerstion = (n.getStack_version());
+		mAppVersion = (n.getApp_version());
+		mHwVersion = (n.getHw_version());
+		mDateCode = (n.getDate_code());
+		mModelId = (n.getModel_id() == null ? "" : n.getModel_id());
+		mNodeType = (n.getNode_type() == null ? "" : n.getNode_type());
 
-		setmEP(d.getEp() == null ? "" : d.getEp());
-		setmName(d.getName() == null ? "" : d.getName());
-		setmCurrent(d.getCurrent());
-		setmEnergy(d.getEnergy() == null ? null : String.valueOf(Float
+		mEP = (d.getEp() == null ? "" : d.getEp());
+		mName = (d.getName() == null ? "" : d.getName());
+		mCurrent = (d.getCurrent());
+		mEnergy = (d.getEnergy() == null ? null : String.valueOf(Float
 				.parseFloat(d.getEnergy()) / 10000));
-		setmPower(d.getPower());
-		setmVoltage(d.getVoltage());
-		setmLevel(d.getLevel());
-		if(getmDeviceId() == DataHelper.DIMEN_LIGHTS_DEVICETYPE || getmDeviceId() == DataHelper.SHADE_DEVICETYPE){
-			if(getmLevel().equals("0")){
-				setmOnOffStatus("0");
+		mPower = (d.getPower());
+		mVoltage = (d.getVoltage());
+		mlevel = (d.getLevel());
+		if(mDeviceId == DataHelper.DIMEN_LIGHTS_DEVICETYPE || mDeviceId == DataHelper.SHADE_DEVICETYPE){
+			if(mlevel.equals("0")){
+				mOnOffStatus = ("0");
 			}else{
-				setmOnOffStatus("1");
+				mOnOffStatus = ("1");
 			}
 		}else{
-			setmOnOffStatus(d.getOn_off_status() == null ? "0" : d
+			mOnOffStatus = (d.getOn_off_status() == null ? "0" : d
 					.getOn_off_status());
 		}	
-		setmTemperature(d.getTemp() == null ? -100 : Integer.parseInt(d
+		mTemperature = (d.getTemp() == null ? -100 : Integer.parseInt(d
 				.getTemp()) / 10000);
-		setmHumidity(d.getHum() == null ? -100 : Integer.parseInt(d.getHum()));
-		setmBrightness(d.getBrightness() == null ? -100 : Integer.parseInt(d
+		mHumidity = (d.getHum() == null ? -100 : Integer.parseInt(d.getHum()));
+		mBrightness = (d.getBrightness() == null ? -100 : Integer.parseInt(d
 				.getBrightness()));
-		setmEPModelId(d.getEp_model_id() == null ? "" : d.getEp_model_id());
+		mEPModelId = (d.getEp_model_id() == null ? "" : d.getEp_model_id());
 
-		setmCurrentMax(d.getCurrentmax());
-		setmCurrentMin(d.getCurrentmin());
-		setmVoltageMax(d.getVoltagemax());
-		setmVoltageMin(d.getVoltagemin());
-		setmEnergyMax(d.getEnergymax());
-		setmEnergyMin(d.getEnergymin());
+		mCurrentMax = (d.getCurrentmax());
+		mCurrentMin = (d.getCurrentmin());
+		mVoltageMax = (d.getVoltagemax());
+		mVoltageMin = (d.getVoltagemin());
+		mEnergyMax = (d.getEnergymax());
+		mEnergyMin = (d.getEnergymin());
 
-		setmClusterID(DataUtil.getClusterIdByDeviceid_Modelid(n.getModel_id(),
+		mClusterID = (DataUtil.getClusterIdByDeviceid_Modelid(n.getModel_id(),
 				d.getEp()));
-		setmDeviceSort(DataUtil.getDefaultDevicesSort(
+		mDeviceSort = (DataUtil.getDefaultDevicesSort(
 				Integer.parseInt(r.getDevice_id()), n.getModel_id()));
-		setmDeviceRegion("");
-		Log.i("", DataUtil.getDefaultDevicesName(
-				ApplicationController.getInstance(), getmModelId(), getmEP()));
+		mDeviceRegion = ("");
+//		Log.i("", DataUtil.getDefaultDevicesName(
+//				ApplicationController.getInstance(), getmModelId(), getmEP()));
 		String[] nameString = DataUtil.getDefaultDevicesName(
-				ApplicationController.getInstance(), getmModelId(), getmEP())
+				ApplicationController.getInstance(), mModelId, mEP)
 				.split("\\*\\*");
 		Log.i("", nameString[0] + "*" + nameString[1]);
 		if (d.getName().equals(nameString[0])) {
@@ -682,18 +684,178 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 							getmIeee().length()) + ")");
 			CGIManager.getInstance().ChangeDeviceName(getmIeee(), d.getEp(),
 					d.getName(), newname);
-			setmDefaultDeviceName(nameString[1]
+			mDefaultDeviceName = (nameString[1]
 					+ "("
 					+ getmIeee().substring(getmIeee().length() - 4,
 							getmIeee().length()) + ")");
 		} else {
-			setmDefaultDeviceName(d.getName());
+			mDefaultDeviceName = (d.getName());
 		}
-		setmDevicePriority(DataUtil.getDefaultDevicesPriority(n.getModel_id()));
+		mDevicePriority = (DataUtil.getDefaultDevicesPriority(n.getModel_id()));
 
-		setmLastDateTime(System.currentTimeMillis());
-		setmOnOffLine(DEVICE_ON_LINE);
+		mLastDateTime = (System.currentTimeMillis());
+		mOnOffLine = (DEVICE_ON_LINE);
 	}
+//	public ContentValues convertContentValues() {
+//		ContentValues mContentValues = new ContentValues();
+//
+//		mContentValues.put(DevicesBaseColumns.ALL_COUNT, getmAllCount());
+//		mContentValues.put(DevicesBaseColumns.CURCOUNT, getmCurCount());
+//		mContentValues.put(DevicesBaseColumns.DEVICE_ID, getmDeviceId());
+//		mContentValues.put(DevicesBaseColumns.R_ID, getmRid());
+//		mContentValues.put(DevicesBaseColumns.PIC_NAME, getmPicName());
+//		mContentValues.put(DevicesBaseColumns.PROFILE_ID, getmProfileId());
+//		mContentValues.put(DevicesBaseColumns.POWER_RESOURCE,
+//				getmPowerResource());
+//		mContentValues.put(DevicesBaseColumns.CUR_POWER_RESOURCE,
+//				getmCurPowerResource());
+//		mContentValues.put(DevicesBaseColumns.CURPOWERSOURCELEVEL,
+//				getCurpowersourcelevel());
+//
+//		mContentValues.put(DevicesBaseColumns.IEEE, getmIeee());
+//		mContentValues.put(DevicesBaseColumns.NWK_ADDR, getmNWKAddr());
+//		mContentValues.put(DevicesBaseColumns.NODE_EN_NAME, getmNodeENNAme());
+//		mContentValues.put(DevicesBaseColumns.MANUFACTORY, getmManufactory());
+//		mContentValues.put(DevicesBaseColumns.ZCL_VERSTION, getmZCLVersion());
+//		mContentValues.put(DevicesBaseColumns.STACK_VERSTION,
+//				getmStackVerstion());
+//		mContentValues.put(DevicesBaseColumns.APP_VERSTION, getmAppVersion());
+//		mContentValues.put(DevicesBaseColumns.HW_VERSTION, getmHwVersion());
+//		mContentValues.put(DevicesBaseColumns.DATE_CODE, getmDateCode());
+//		mContentValues.put(DevicesBaseColumns.MODEL_ID, getmModelId());
+//		mContentValues.put(DevicesBaseColumns.NODE_TYPE, getmNodeType());
+//
+//		mContentValues.put(DevicesBaseColumns.EP, getmEP());
+//		mContentValues.put(DevicesBaseColumns.NAME, getmName());
+//		mContentValues.put(DevicesBaseColumns.CURRENT, getmCurrent());
+//		mContentValues.put(DevicesBaseColumns.ENERGY, getmEnergy());
+//		mContentValues.put(DevicesBaseColumns.POWER, getmPower());
+//		mContentValues.put(DevicesBaseColumns.VOLTAGE, getmVoltage());
+//		mContentValues.put(DevicesBaseColumns.LEVEL, getmLevel());
+//		mContentValues.put(DevicesBaseColumns.ON_OFF_STATUS, getmOnOffStatus());
+//		mContentValues.put(DevicesBaseColumns.TEMPERATURE, getmTemperature());
+//		mContentValues.put(DevicesBaseColumns.HUMIDITY, getmHumidity());
+//		mContentValues.put(DevicesBaseColumns.BRIGHTNESS, getmBrightness());
+//		mContentValues.put(DevicesBaseColumns.EP_MODEL_ID, getmEPModelId());
+//
+//		mContentValues.put(DevicesBaseColumns.CURRENT_MAX, getmCurrentMax());
+//		mContentValues.put(DevicesBaseColumns.CURRENT_MIN, getmCurrentMin());
+//		mContentValues.put(DevicesBaseColumns.VOLTAGE_MAX, getmVoltageMax());
+//		mContentValues.put(DevicesBaseColumns.VOLTAGE_MIN, getmVoltageMin());
+//		mContentValues.put(DevicesBaseColumns.ENERGY_MAX, getmEnergyMax());
+//		mContentValues.put(DevicesBaseColumns.ENERGY_MIN, getmEnergyMin());
+//
+//		mContentValues.put(DevicesBaseColumns.CLUSTER_ID, getmClusterID());
+//		mContentValues.put(DevicesBaseColumns.DEVICE_SORT, getmDeviceSort());
+//		mContentValues
+//				.put(DevicesBaseColumns.DEVICE_REGION, getmDeviceRegion());
+//		mContentValues.put(DevicesBaseColumns.DEFAULT_DEVICE_NAME,
+//				getmDefaultDeviceName());
+//		mContentValues.put(DevicesBaseColumns.DEVICE_PRIORITY,
+//				getmDevicePriority());
+//
+//		mContentValues.put(DevicesBaseColumns.LAST_UPDATE_TIME,
+//				getmLastDateTime());
+//		mContentValues.put(DevicesBaseColumns.ON_OFF_LINE, getmOnOffLine());
+//		mContentValues.put(DevicesBaseColumns.HEART_TIME, getmHeartTime());
+//
+//		return mContentValues;
+//	}
+//
+//	public DevicesModel() {
+//	}
+//
+//	// ResponseParamsEndPoint
+//	public DevicesModel(ResponseParamsEndPoint r) {
+//
+//		DevParam d = r.getDevparam();
+//		Node n = d.getNode();
+//
+//		setmAllCount(r.getAllcount());
+//		setmCurCount(r.getCurcount());
+//		setmDeviceId(r.getDevice_id() == null ? -1 : Integer.parseInt(r
+//				.getDevice_id()));
+//		setmRid(r.getRid());
+//		setmPicName(r.getPicname());
+//		setmProfileId(r.getProfileid());
+//		setmPowerResource(r.getPowersource());
+//		setmCurPowerResource(r.getCurpowersource());
+//		setCurpowersourcelevel(r.getCurpowersourcelevel());
+//
+//		setmIeee(n.getIeee() == null ? "" : n.getIeee());
+//		setmNWKAddr(n.getNwk_addr() == null ? "" : n.getNwk_addr());
+//		setmNodeENNAme(n.getName() == null ? "" : n.getName());
+//		setmManufactory(n.getManufactory());
+//		setmZCLVersion(n.getZcl_version());
+//		setmStackVerstion(n.getStack_version());
+//		setmAppVersion(n.getApp_version());
+//		setmHwVersion(n.getHw_version());
+//		setmDateCode(n.getDate_code());
+//		setmModelId(n.getModel_id() == null ? "" : n.getModel_id());
+//		setmNodeType(n.getNode_type() == null ? "" : n.getNode_type());
+//
+//		setmEP(d.getEp() == null ? "" : d.getEp());
+//		setmName(d.getName() == null ? "" : d.getName());
+//		setmCurrent(d.getCurrent());
+//		setmEnergy(d.getEnergy() == null ? null : String.valueOf(Float
+//				.parseFloat(d.getEnergy()) / 10000));
+//		setmPower(d.getPower());
+//		setmVoltage(d.getVoltage());
+//		setmLevel(d.getLevel());
+//		if(getmDeviceId() == DataHelper.DIMEN_LIGHTS_DEVICETYPE || getmDeviceId() == DataHelper.SHADE_DEVICETYPE){
+//			if(getmLevel().equals("0")){
+//				setmOnOffStatus("0");
+//			}else{
+//				setmOnOffStatus("1");
+//			}
+//		}else{
+//			setmOnOffStatus(d.getOn_off_status() == null ? "0" : d
+//					.getOn_off_status());
+//		}	
+//		setmTemperature(d.getTemp() == null ? -100 : Integer.parseInt(d
+//				.getTemp()) / 10000);
+//		setmHumidity(d.getHum() == null ? -100 : Integer.parseInt(d.getHum()));
+//		setmBrightness(d.getBrightness() == null ? -100 : Integer.parseInt(d
+//				.getBrightness()));
+//		setmEPModelId(d.getEp_model_id() == null ? "" : d.getEp_model_id());
+//
+//		setmCurrentMax(d.getCurrentmax());
+//		setmCurrentMin(d.getCurrentmin());
+//		setmVoltageMax(d.getVoltagemax());
+//		setmVoltageMin(d.getVoltagemin());
+//		setmEnergyMax(d.getEnergymax());
+//		setmEnergyMin(d.getEnergymin());
+//
+//		setmClusterID(DataUtil.getClusterIdByDeviceid_Modelid(n.getModel_id(),
+//				d.getEp()));
+//		setmDeviceSort(DataUtil.getDefaultDevicesSort(
+//				Integer.parseInt(r.getDevice_id()), n.getModel_id()));
+//		setmDeviceRegion("");
+//		Log.i("", DataUtil.getDefaultDevicesName(
+//				ApplicationController.getInstance(), getmModelId(), getmEP()));
+//		String[] nameString = DataUtil.getDefaultDevicesName(
+//				ApplicationController.getInstance(), getmModelId(), getmEP())
+//				.split("\\*\\*");
+//		Log.i("", nameString[0] + "*" + nameString[1]);
+//		if (d.getName().equals(nameString[0])) {
+//			String newname = Uri.encode(nameString[1]
+//					+ "("
+//					+ getmIeee().substring(getmIeee().length() - 4,
+//							getmIeee().length()) + ")");
+//			CGIManager.getInstance().ChangeDeviceName(getmIeee(), d.getEp(),
+//					d.getName(), newname);
+//			setmDefaultDeviceName(nameString[1]
+//					+ "("
+//					+ getmIeee().substring(getmIeee().length() - 4,
+//							getmIeee().length()) + ")");
+//		} else {
+//			setmDefaultDeviceName(d.getName());
+//		}
+//		setmDevicePriority(DataUtil.getDefaultDevicesPriority(n.getModel_id()));
+//
+//		setmLastDateTime(System.currentTimeMillis());
+//		setmOnOffLine(DEVICE_ON_LINE);
+//	}
 
 	@Override
 	public String toString() {
@@ -720,14 +882,6 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 				+ mLastDateTime + ", mOnOffLine=" + mOnOffLine
 				+ ", mDefaultDeviceName=" + mDefaultDeviceName + ", mValue1="
 				+ mValue1 + ", mValue2=" + mValue2 + "]";
-	}
-
-	public String getCurpowersourcelevel() {
-		return curpowersourcelevel;
-	}
-
-	public void setCurpowersourcelevel(String curpowersourcelevel) {
-		this.curpowersourcelevel = curpowersourcelevel;
 	}
 
 }

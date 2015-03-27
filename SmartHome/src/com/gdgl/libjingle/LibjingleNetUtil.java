@@ -1,5 +1,6 @@
 package com.gdgl.libjingle;
 
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -16,6 +17,7 @@ public class LibjingleNetUtil {
 
 	public static Socket tcpSocket;
 	public InputStream inputStream;
+	public DataInputStream dataInputStream;
 	public OutputStream outputStream;
 	private Boolean recieveMsgFlag = false;
 
@@ -83,6 +85,7 @@ public class LibjingleNetUtil {
 					"getReceiveBufferSize" + tcpSocket.getReceiveBufferSize());
 			inputStream = tcpSocket.getInputStream();
 			outputStream = tcpSocket.getOutputStream();
+			dataInputStream = new DataInputStream(inputStream);
 			recieveMsgFlag = true;
 			Log.i(TAG, "connectLibjingleSocketsuccessful");
 		} catch (Exception e) {
@@ -106,9 +109,9 @@ public class LibjingleNetUtil {
 	public void recieveFromLibjingleSocket() {
 		try {
 			while (recieveMsgFlag) {
-				if (inputStream != null && inputStream.available() > 0) {
+				if (dataInputStream != null && dataInputStream.available() > 0) {
 					LibjingleResponseHandlerManager
-							.handleInputStream(inputStream);
+							.handleInputStream(dataInputStream);
 					// Log.i("callbakcSocket recieve", inputStream.toString());
 				}
 			}

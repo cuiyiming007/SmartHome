@@ -1,5 +1,6 @@
 package com.gdgl.libjingle;
 
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -60,7 +61,7 @@ public class LibjingleResponseHandlerManager extends Manger {
 	static String preString = ""; // 处理包头被拆开的情况
 	static int byte_content = -1; // 数据长度，全局变量
 	static String data_all = ""; // 数据缓存
-
+	
 	private static LibjingleResponseHandlerManager instance;
 
 	static LibjinglePackHandler packHandler;
@@ -72,19 +73,33 @@ public class LibjingleResponseHandlerManager extends Manger {
 		return instance;
 	}
 
-	public static void handleInputStream(InputStream inputStream)
+//	public static void handleInputStream(InputStream inputStream)
+//			throws IOException, UnsupportedEncodingException {
+//		byte[] buffer = new byte[51200];
+//		int readBytes = 0;
+//		Log.i(TAG, "test1");
+//		while ((readBytes = inputStream.read(buffer)) > 0) {
+//			String response = new String(buffer, 0, readBytes, "utf-8");
+//			Log.i(TAG, "len: " + response.length() + " handleInputStream:"
+//					+ response);
+//			sub_String(response);
+//
+//			// message = UiUtils.formatResponseString(message);
+//		}
+//	}
+	public static void handleInputStream(DataInputStream dataInputStream)
 			throws IOException, UnsupportedEncodingException {
+		byte[] headbuffer = new byte[8];
 		byte[] buffer = new byte[51200];
-		int readBytes = 0;
-		Log.i(TAG, "test1");
-		while ((readBytes = inputStream.read(buffer)) > 0) {
-			String response = new String(buffer, 0, readBytes, "utf-8");
-			Log.i(TAG, "len: " + response.length() + " handleInputStream:"
-					+ response);
-			sub_String(response);
-
-			// message = UiUtils.formatResponseString(message);
-		}
+		
+		dataInputStream.readFully(headbuffer, 0, 8);
+		String dataLen = new String(headbuffer);
+		int readBytes = Integer.parseInt(dataLen);
+		Log.i(TAG, readBytes+"");
+		dataInputStream.readFully(buffer, 0, readBytes);
+		String msg = new String(buffer, 0, readBytes, "utf-8");
+		Log.i(TAG, msg);
+		handle_Json(msg);
 	}
 
 	public static void sub_String(String str) {

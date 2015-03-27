@@ -71,7 +71,6 @@ public class LibjinglePackHandler {
 
 			switch (this.gl_msgtype) {
 			case MT_URL:
-				Log.i("LibjinglePackHandler", "test5");
 				if (this.status > 0) {
 					this.result = getJsonSubStr(sub.getString("result"));
 				}
