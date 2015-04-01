@@ -14,6 +14,7 @@ import video_decoder.H264;
 
 import com.gdgl.libjingle.LibjinglePackHandler;
 import com.gdgl.network.NetworkConnectivity;
+import com.gdgl.smarthome.R;
 import com.gdgl.util.ComUtil;
 
 import android.content.Context;
@@ -21,10 +22,17 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Bitmap.Config;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.ContactsContract.CommonDataKinds.Relation;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 import android.widget.Toast;
 
 public class VView extends View implements Runnable {
@@ -65,6 +73,8 @@ public class VView extends View implements Runnable {
 			.createBitmap(h264Width, h264Height, Config.RGB_565);
 	Bitmap newbm;
 	int mTrans = 0x0F0F0F0F;
+	
+	private LinearLayout loadingLayout;
 
 	/*
 	 * public native int InitDecoder(int width, int height);
@@ -86,12 +96,12 @@ public class VView extends View implements Runnable {
 		setFocusable(true);
 		this.gdeviceHeight = deviceheight;
 		this.gdeviceWith = deviceWidth;
-
+		
 		if (flag == 1)
 			setPortrait();
 		else
 			setLandScape();
-
+		
 		int i = 0;
 		for (i = 0; i < mPixel.length; i++) {
 			mPixel[i] = (byte) 0x00;
@@ -106,6 +116,28 @@ public class VView extends View implements Runnable {
 				super.handleMessage(msg);
 			}
 		};
+		InitLoadingLayout();
+	}
+	
+	private void InitLoadingLayout(){
+		//初始化载入界面Layout
+		loadingLayout = new LinearLayout(context);
+		loadingLayout.setLayoutParams(new LinearLayout.LayoutParams(  
+				gdeviceWith, gdeviceHeight)); 
+		loadingLayout.setBackgroundResource(R.color.black);
+		loadingLayout.setOrientation(LinearLayout.VERTICAL);
+		loadingLayout.setGravity(Gravity.CENTER);
+		//loadingLayout.setVisibility(View.GONE);
+		videoActivity.setContentView(loadingLayout);
+		
+		ProgressBar mProgressBar = new ProgressBar(context);   
+		mProgressBar.setIndeterminateDrawable(context.getResources().getDrawable(R.drawable.progress_login_dlg_icon));
+		mProgressBar.setIndeterminate(false);
+		LinearLayout.LayoutParams mProgressBarParams = new LinearLayout.LayoutParams(new LinearLayout.LayoutParams(  
+				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)); 
+		loadingLayout.addView(mProgressBar, mProgressBarParams);
+		
+
 	}
 
 	// �������ű���

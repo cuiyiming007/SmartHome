@@ -152,6 +152,9 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 				}
 				mDevicesListCache.put(UiUtils.SECURITY_CONTROL, safeList);
 			}
+			
+			
+			//getDevicesPostion(intent.getStringExtra("ieee"), intent.getStringExtra("ep"), safeList);
 			// 照明管理
 			List<DevicesModel> LightList = mDevicesListCache
 					.get(UiUtils.LIGHTS_MANAGER);
@@ -202,12 +205,20 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 
 			initNoContent();
 			initFancyCoverFlow();
-			initDevicesListFragment();
+			Intent intent = getIntent();
+			if(intent.getStringExtra("ieee") != null && intent.getStringExtra("ep") != null){
+				int safePosition = getDevicesPostion(intent.getStringExtra("ieee"), intent.getStringExtra("ep"), mDevicesListCache
+						.get(UiUtils.SECURITY_CONTROL));
+				initDevicesListFragmentWithPosition(safePosition);
+			}else{
+				initDevicesListFragment();
+			}
+			
 
 			initTitleByTag(mListIndex);
 
 			requestData(mListIndex);
-
+			//	mDevicesListFragment.setSelectedPostion(10);
 			// mDeviceManager.getLocalCIEList();
 			//
 			// if (1 == result) {
@@ -385,6 +396,24 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
 		mDevicesListFragment = new DevicesListFragment();
+		mDevicesListFragment.initList();
+		fragmentTransaction.replace(R.id.devices_control_fragment,
+				mDevicesListFragment, "LightsControlFragment");
+		mDevicesListFragment.setAdapter(mDevicesBaseAdapter);
+		fragmentTransaction.commit();
+	}
+	
+	private void initDevicesListFragmentWithPosition(int position) {
+		// TODO Auto-generated method stub
+		mDevicesBaseAdapter = new DevicesBaseAdapter(
+				ShowDevicesGroupFragmentActivity.this, this);
+		mDevicesBaseAdapter.setList(mCurrentList);
+		FragmentTransaction fragmentTransaction = fragmentManager
+				.beginTransaction();
+		mDevicesListFragment = new DevicesListFragment();
+		Bundle bundle = new Bundle();
+		bundle.putInt("position", position);
+		mDevicesListFragment.setArguments(bundle);
 		mDevicesListFragment.initList();
 		fragmentTransaction.replace(R.id.devices_control_fragment,
 				mDevicesListFragment, "LightsControlFragment");

@@ -21,6 +21,7 @@ import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.Callback.CallbackResponseType2;
 import com.gdgl.smarthome.R;
+import com.gdgl.util.UiUtils;
 import com.gdgl.util.VersionDlg;
 import com.gdgl.util.MyOkCancleDlg;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
@@ -134,7 +135,20 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 		initList();
 		setListeners();
 		registerForContextMenu(mPullToRefreshListView.getRefreshableView());
-		mPullToRefreshListView.setAdapter(mBaseAdapter);
+		mPullToRefreshListView.setAdapter(mBaseAdapter);	
+		initPosition();
+	}
+	
+	private void initPosition(){
+		Bundle bundle = getArguments();
+		if(bundle != null){
+			int position = 0;
+			position = bundle.getInt("position");
+			if(position > 0){
+				mPullToRefreshListView.getRefreshableView().setSelection(position -1);
+			}	
+		}
+		
 	}
 
 	private void setListeners() {
