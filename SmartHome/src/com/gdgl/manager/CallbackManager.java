@@ -383,6 +383,8 @@ public class CallbackManager extends Manger {
 				ShowDevicesGroupFragmentActivity.class);
 		i.putExtra(ShowDevicesGroupFragmentActivity.ACTIVITY_SHOW_DEVICES_TYPE,
 				UiUtils.SECURITY_CONTROL);
+		i.putExtra("ieee", warnmessage.getZone_ieee());
+		i.putExtra("ep", warnmessage.getZone_ep());
 		// makeNotify(i, warnmessage.getDetailmessage(),
 		// warnmessage.getDetailmessage() + "收到报警信息，请注意！");
 		makeNotify(i, warnmessage.getZone_name(),
