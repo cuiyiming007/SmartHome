@@ -53,7 +53,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class LoginActivity extends Activity implements OnClickListener,
-		UIListener, Dialogcallback {
+		UIListener,Dialogcallback {
 	// int networkStatus;// 当前网络状态量
 	private EditText mName, mPwd, mCloud;
 	private CheckBox mRem, mAut;
