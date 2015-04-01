@@ -53,7 +53,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class LoginActivity extends Activity implements OnClickListener,
-		UIListener,Dialogcallback {
+		UIListener, Dialogcallback {
 	// int networkStatus;// 当前网络状态量
 	private EditText mName, mPwd, mCloud;
 	private CheckBox mRem, mAut;
@@ -69,7 +69,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 	private static final int SHOWDLG = 1;
 	private static final int HIDEDLG = 0;
 	private static final int TOAST = 3;
-	
+
 	private boolean exitDlgFlag = false;
 
 	// private boolean isLogin = false;
@@ -372,24 +372,26 @@ public class LoginActivity extends Activity implements OnClickListener,
 							Toast.LENGTH_SHORT).show();
 					break;
 				case -2:
-//					Toast.makeText(getApplicationContext(), "登录失败，请重新登录！",
-//							Toast.LENGTH_SHORT).show();
+					// Toast.makeText(getApplicationContext(), "登录失败，请重新登录！",
+					// Toast.LENGTH_SHORT).show();
 					Intent stopLibservice = new Intent(this,
 							LibjingleService.class);
 					stopService(stopLibservice);
 					mLogin.post(new Runnable() {
-						
+
 						@Override
 						public void run() {
 							// TODO Auto-generated method stub
 							exitDlgFlag = true;
-							MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(LoginActivity.this);
-							mMyOkCancleDlg.setDialogCallback(LoginActivity.this);
+							MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
+									LoginActivity.this);
+							mMyOkCancleDlg
+									.setDialogCallback(LoginActivity.this);
 							mMyOkCancleDlg.setContent("登录失败，请重新登录！");
 							mMyOkCancleDlg.show();
 						}
 					});
-					
+
 				default:
 					break;
 				}
@@ -401,7 +403,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 		int i = Integer.parseInt(response.getResponse_params().getStatus());
 		switch (i) {
 		case 0:
-//			accountInfo.setId(response.getId());
+			// accountInfo.setId(response.getId());
 			Intent intent = new Intent(LoginActivity.this, SmartHome.class);
 			intent.putExtra("id", response.getId());
 			intent.putExtra("name", mName.getText().toString());
@@ -500,7 +502,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 		stopService(libserviceIntent);
 		System.exit(0);
 	};
-	
+
 	class MyAdapter extends BaseAdapter implements Dialogcallback {
 		String useCur;
 		String pwdCur;
@@ -654,7 +656,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 	@Override
 	public void dialogdo() {
 		// TODO Auto-generated method stub
-		if(exitDlgFlag) {
+		if (exitDlgFlag) {
 			Intent libserviceIntent = new Intent(this, LibjingleService.class);
 			stopService(libserviceIntent);
 			System.exit(0);
