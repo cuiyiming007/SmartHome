@@ -82,10 +82,12 @@ public class SmartHome extends FragmentActivity implements
 	private void saveLoginData(){
 		getFromSharedPreferences.setsharedPreferences(SmartHome.this);
 		Intent intent = getIntent();
+		String id = intent.getStringExtra("id");
 		String name = intent.getStringExtra("name");
 		String pwd = intent.getStringExtra("pwd");
 		String cloud = intent.getStringExtra("cloud");
 		boolean remenber = intent.getBooleanExtra("remenber", true);
+		getFromSharedPreferences.setUid(id);
 		if (remenber) {
 			getFromSharedPreferences.setLogin(name, pwd, true);
 		} else {

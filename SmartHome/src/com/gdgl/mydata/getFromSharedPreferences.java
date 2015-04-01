@@ -127,6 +127,14 @@ public class getFromSharedPreferences {
 
 		return mEditor.commit();
 	}
+	
+	public static boolean setUid(String uid) {
+		mEditor = mSharedPreferences.edit();
+
+		mEditor.putString(UiUtils.UID, uid);
+
+		return mEditor.commit();
+	}
 
 	public static String getUUID() {
 		return mSharedPreferences.getString(UiUtils.UUID, UiUtils.EMPTY_STR);

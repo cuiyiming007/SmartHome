@@ -3,6 +3,7 @@ package com.gdgl.activity;
 /***
  * 修改用户名界面
  */
+import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.LoginManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
@@ -78,6 +79,8 @@ public class ChangeNameFragment extends Fragment implements UIListener {
 
 		mLoginManager = LoginManager.getInstance();
 		mLoginManager.addObserver(ChangeNameFragment.this);
+		CallbackManager.getInstance().addObserver(ChangeNameFragment.this);
+		
 		btn_commit.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -127,6 +130,7 @@ public class ChangeNameFragment extends Fragment implements UIListener {
 		// TODO Auto-generated method stub
 		super.onDestroy();
 		mLoginManager.deleteObserver(ChangeNameFragment.this);
+		CallbackManager.getInstance().deleteObserver(ChangeNameFragment.this);
 	}
 
 	@Override
@@ -138,8 +142,10 @@ public class ChangeNameFragment extends Fragment implements UIListener {
 
 			if (event.isSuccess() == true) {
 				// data maybe null
-				LoginResponse response = (LoginResponse) event.getData();
-				changeNameSwitch(response);
+//				LoginResponse response = (LoginResponse) event.getData();
+//				changeNameSwitch(response);
+				int status = (Integer)event.getData();
+				changeNameSwitch(status);
 			} else {
 				// if failed,prompt a Toast
 				Toast.makeText(getActivity(), "连接网关失败", Toast.LENGTH_SHORT)
@@ -148,25 +154,51 @@ public class ChangeNameFragment extends Fragment implements UIListener {
 		}
 	}
 
-	private void changeNameSwitch(LoginResponse response) {
-		int i = Integer.parseInt(response.getResponse_params().getStatus());
-		switch (i) {
+	private void changeNameSwitch(int status) {
+//		int i = Integer.parseInt(response.getResponse_params().getStatus());
+		switch (status) {
 		case 0:
-			Toast.makeText(getActivity(), "修改成功", Toast.LENGTH_SHORT).show();
+			mView.post(new Runnable() {
+				
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					Toast.makeText(getActivity(), "修改成功", Toast.LENGTH_SHORT).show();
+				}
+			});
 			getFromSharedPreferences
 					.setsharedPreferences((Context) getActivity());
 			getFromSharedPreferences.setName(newName.trim());
 			break;
-		case 39:
-			Toast.makeText(getActivity(), "原用户名错误，请重新输入", Toast.LENGTH_SHORT)
-					.show();
+		case -39:
+			mView.post(new Runnable() {
+				
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					Toast.makeText(getActivity(), "原用户名错误，请重新输入", Toast.LENGTH_SHORT).show();
+				}
+			});
 			break;
-		case 44:
-			Toast.makeText(getActivity(), "用户名未做任何修改", Toast.LENGTH_SHORT)
-					.show();
+		case -44:
+			mView.post(new Runnable() {
+				
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					Toast.makeText(getActivity(), "用户名未做任何修改", Toast.LENGTH_SHORT).show();
+				}
+			});
 			break;
 		default:
-			Toast.makeText(getActivity(), "修改失败", Toast.LENGTH_SHORT).show();
+			mView.post(new Runnable() {
+				
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					Toast.makeText(getActivity(), "修改失败", Toast.LENGTH_SHORT).show();
+				}
+			});
 			break;
 		}
 	}

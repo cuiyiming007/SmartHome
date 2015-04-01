@@ -2,6 +2,7 @@ package com.gdgl.manager;
 
 import java.util.ArrayList;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Notification;
@@ -105,6 +106,9 @@ public class CallbackManager extends Manger {
 			int msgType = (Integer) jsonRsponse.get("msgtype");
 			//Log.i(TAG, "Callback msgType=" + msgType);
 			switch (msgType) {
+			case 0:
+				handleGlexerCallback(response);
+				break;
 			case 1:
 				Log.i(TAG, "Callback msgType=" + msgType + "heartbeat");
 				break;
@@ -343,6 +347,35 @@ public class CallbackManager extends Manger {
 
 	}
 	
+	private void handleGlexerCallback(String response) throws JSONException {
+		JSONObject jsonRsponse = new JSONObject(response);
+		int mainid = (Integer) jsonRsponse.get("mainid");
+		int subid = (Integer) jsonRsponse.get("subid");
+		Log.i(TAG, response);
+		if(mainid == 1) { //user opraters message of Guanglian APIs
+			switch (subid) {
+			case 1: //modifyPassword
+				int status1 = (Integer) jsonRsponse.get("status");
+				
+				Event event1 = new Event(EventType.MODIFYPASSWORD, true);
+				event1.setData(status1);
+				notifyObservers(event1);
+				break;
+			case 2:
+				int status2 = (Integer) jsonRsponse.get("status");
+				
+				Event event2 = new Event(EventType.MODIFYALIAS, true);
+				event2.setData(status2);
+				notifyObservers(event2);
+				break;
+			default:
+				break;
+			}
+			
+		}
+		
+	}
+	
 	private void handlerCallbackResponseCommon(CallbackResponseCommon response) {
 		int callbackType = Integer.parseInt(response.getCallbackType());
 		switch(callbackType){
@@ -383,6 +416,8 @@ public class CallbackManager extends Manger {
 				ShowDevicesGroupFragmentActivity.class);
 		i.putExtra(ShowDevicesGroupFragmentActivity.ACTIVITY_SHOW_DEVICES_TYPE,
 				UiUtils.SECURITY_CONTROL);
+		i.putExtra("ieee", warnmessage.getZone_ieee());
+		i.putExtra("ep", warnmessage.getZone_ep());
 		// makeNotify(i, warnmessage.getDetailmessage(),
 		// warnmessage.getDetailmessage() + "收到报警信息，请注意！");
 		makeNotify(i, warnmessage.getZone_name(),

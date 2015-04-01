@@ -358,6 +358,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 					}).start();
 					Intent intent = new Intent(LoginActivity.this,
 							SmartHome.class);
+					intent.putExtra("id", "");
 					intent.putExtra("name", mName.getText().toString());
 					intent.putExtra("pwd", mPwd.getText().toString());
 					intent.putExtra("remenber", mRem.isChecked());
@@ -400,8 +401,9 @@ public class LoginActivity extends Activity implements OnClickListener,
 		int i = Integer.parseInt(response.getResponse_params().getStatus());
 		switch (i) {
 		case 0:
-			accountInfo.setId(response.getId());
+//			accountInfo.setId(response.getId());
 			Intent intent = new Intent(LoginActivity.this, SmartHome.class);
+			intent.putExtra("id", response.getId());
 			intent.putExtra("name", mName.getText().toString());
 			intent.putExtra("pwd", mPwd.getText().toString());
 			intent.putExtra("remenber", mRem.isChecked());
