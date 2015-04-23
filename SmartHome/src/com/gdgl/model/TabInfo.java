@@ -1,8 +1,5 @@
 package com.gdgl.model;
 
-
-
-
 import com.gdgl.activity.SmartHome.refreshAdapter;
 
 import android.support.v4.app.Fragment;

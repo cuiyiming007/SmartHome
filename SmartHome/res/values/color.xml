@@ -292,4 +292,19 @@
     <color name="default_background_begin">#00b0ec</color><!--黑色 -->
     
     <color name="blue_default">#00b6ee</color><!--蓝色自定义 -->
+ 
+<!--
+	new for Drawer
+--> 
+	<color name="myPrimaryColor">#3F51B5</color>
+    <color name="myPrimaryDarkColor">#3F51B5</color>
+    <color name="myAccentColor">#3F51B5</color>
+    <color name="myDrawerBackground">#F2F2F2</color>
+    <color name="myWindowBackground">#DEDEDE</color>
+    <color name="myTextPrimaryColor">#FFFFFF</color>
+    <color name="myNavigationColor">#000000</color>
+
+    <color name="selected_gray">#ffdbdbdb</color>  
+    <color name="transparent">#00000000</color>
+    
 </resources>

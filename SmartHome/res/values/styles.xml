@@ -2,19 +2,41 @@
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.    -->
-    <style name="AppBaseTheme" parent="android:Theme.Light">
-        <!--
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        -->
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+    <!--
+	<style name="AppBaseTheme" parent="android:Theme.Light">
+    </style>
+    -->
+
+
+<!-- 	new for Drawer  -->
+    <style name="AppBaseTheme" parent="Theme.AppCompat.NoActionBar">
+
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/myPrimaryColor</item>
+        <item name="colorPrimaryDark">@color/myPrimaryDarkColor</item>
+        <item name="colorAccent">@color/myAccentColor</item>
+        <item name="android:textColorPrimary">@color/myTextPrimaryColor</item>
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+        <item name="android:windowBackground">@color/white</item>
+    </style>
+
+    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="color">@android:color/white</item>
+    </style>
+
+    <style name="ToolBarStyle" parent="">
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
     </style>
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
+
     <!-- 自定义loading dialog -->
     <style name="loading_dialog">
         <item name="android:windowNoTitle">true</item>
@@ -39,11 +61,10 @@
         <item name="android:button">@drawable/expand_style</item>
     </style>
 
-
     <style name="light_control_style" parent="@android:style/Widget.CompoundButton.CheckBox">
         <item name="android:button">@drawable/lights_control_checkbox</item>
         <item name="android:layout_gravity">center</item>
-         <item name="android:gravity">center</item>
+        <item name="android:gravity">center</item>
     </style>
 
     <style name="switch_checkbox_style" parent="@android:style/Widget.CompoundButton.CheckBox">
@@ -67,13 +88,13 @@
         <item name="android:windowEnterAnimation">@anim/slide_left_in</item>
         <item name="android:windowExitAnimation">@anim/slide_right_out</item>
     </style>
-	
+
     <style name="scene_light_checkbox_style" parent="@android:style/Widget.CompoundButton.CheckBox">
         <item name="android:button">@drawable/scene_light_checkbox_bg</item>
     </style>
-    
-   <style name="scene_anfang_checkbox_style" parent="@android:style/Widget.CompoundButton.CheckBox">
+
+    <style name="scene_anfang_checkbox_style" parent="@android:style/Widget.CompoundButton.CheckBox">
         <item name="android:button">@drawable/scene_bufang_checkbox_bg</item>
     </style>
-    
+
 </resources>

@@ -13,7 +13,6 @@ import com.gdgl.adapter.SceneDevicesListAdapter;
 import com.gdgl.adapter.SceneDevicesListAdapter.DevicesObserver;
 import com.gdgl.model.DevicesGroup;
 import com.gdgl.model.DevicesModel;
-import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
@@ -26,16 +25,16 @@ import com.gdgl.util.EditDevicesDlg.EditDialogcallback;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -46,7 +45,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class SceneDevicesActivity extends Activity implements DevicesObserver,
+public class SceneDevicesActivity extends FragmentActivity implements DevicesObserver,
 		AddChecked, refreshData, UpdateDevice,EditDialogcallback,Dialogcallback,setData {
 	public static final String SCENE_NAME = "scene_name";
 
@@ -257,7 +256,7 @@ public class SceneDevicesActivity extends Activity implements DevicesObserver,
 	private void initData() {
 		// TODO Auto-generated method stub
 		
-		fragmentManager = getFragmentManager();
+		fragmentManager = getSupportFragmentManager();
 		
 		initSceneDevicesList();
 		initAddToRegionDevicesList();

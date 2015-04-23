@@ -14,7 +14,7 @@ import com.gdgl.mydata.LoginResponse;
 import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.smarthome.R;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;

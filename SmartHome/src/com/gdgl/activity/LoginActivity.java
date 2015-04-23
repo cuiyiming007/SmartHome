@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.HashMap;
 
 import com.gdgl.app.ApplicationController;
+import com.gdgl.drawer.MainActivity;
 import com.gdgl.libjingle.LibjingleResponseHandlerManager;
 import com.gdgl.libjingle.LibjingleSendManager;
 import com.gdgl.manager.LoginManager;
@@ -357,7 +358,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 						}
 					}).start();
 					Intent intent = new Intent(LoginActivity.this,
-							SmartHome.class);
+							MainActivity.class);
 					intent.putExtra("id", "");
 					intent.putExtra("name", mName.getText().toString());
 					intent.putExtra("pwd", mPwd.getText().toString());
@@ -404,7 +405,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 		switch (i) {
 		case 0:
 			// accountInfo.setId(response.getId());
-			Intent intent = new Intent(LoginActivity.this, SmartHome.class);
+			Intent intent = new Intent(LoginActivity.this, MainActivity.class);
 			intent.putExtra("id", response.getId());
 			intent.putExtra("name", mName.getText().toString());
 			intent.putExtra("pwd", mPwd.getText().toString());

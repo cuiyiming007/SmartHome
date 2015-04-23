@@ -24,9 +24,9 @@ import com.gdgl.util.MyLogoutDlg.Dialogcallback;
 import com.gdgl.util.SlideMenu;
 import com.gdgl.util.VersionDlg;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -247,7 +247,7 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 		initFragment();
 
 		mHandler.sendEmptyMessageDelayed(1, 150);
-		fragmentManager = getFragmentManager();
+		fragmentManager = getSupportFragmentManager();
 		Log.i("FragmentManager Count", fragmentManager.getBackStackEntryCount()
 				+ "");
 	}
@@ -256,7 +256,7 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 		// TODO Auto-generated method stub
 		config_name.setText(all_dev.getText().toString());
 		if (null == fragmentManager) {
-			fragmentManager = this.getFragmentManager();
+			fragmentManager = this.getSupportFragmentManager();
 		}
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
@@ -435,4 +435,5 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 		}
 		super.onBackPressed();
 	}
+
 }

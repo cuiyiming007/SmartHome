@@ -21,23 +21,22 @@ import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.Callback.CallbackResponseType2;
-import com.gdgl.mydata.getlocalcielist.CIEresponse_params;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyOkCancleDlg;
 import com.gdgl.util.EditDevicesDlg.EditDialogcallback;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -51,7 +50,7 @@ import android.widget.TextView;
  * @author Trice
  * 
  */
-public class RegionDevicesActivity extends Activity implements DevicesObserver,
+public class RegionDevicesActivity extends FragmentActivity implements DevicesObserver,
 		AddChecked, refreshData, UpdateDevice, EditDialogcallback,
 		Dialogcallback, setData, UIListener {
 	public static final String REGION_NAME = "region_name";
@@ -252,7 +251,7 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 	private void initData() {
 		// TODO Auto-generated method stub
 
-		fragmentManager = getFragmentManager();
+		fragmentManager = getSupportFragmentManager();
 		mcgiManager = CGIManager.getInstance();
 		mcgiManager.addObserver(this);
 

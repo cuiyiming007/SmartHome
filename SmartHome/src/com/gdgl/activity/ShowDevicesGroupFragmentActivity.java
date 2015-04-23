@@ -33,9 +33,9 @@ import com.gdgl.util.SelectPicPopupWindow;
 import com.gdgl.util.UiUtils;
 
 import android.annotation.SuppressLint;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -383,8 +383,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		mDeviceManager.addObserver(this);
 		CallbackManager.getInstance().addObserver(this);
 
-		fragmentManager = this.getFragmentManager();
-
+		fragmentManager = this.getSupportFragmentManager();
 		new GetDevicesInSortTask().execute(1);
 	}
 

@@ -75,4 +75,11 @@
 	<string name="Unable_In_InternetState">"外网状态此功能不可用"</string>
 	<drawable name="background">#ffffff</drawable>
 	<drawable name="backgroundblack">#000000</drawable>
+	
+<!--
+	new for Drawer  
+-->
+	<string name="drawer_open">Menu opened</string>
+    <string name="drawer_close">Menu closed</string>
+    
 </resources>

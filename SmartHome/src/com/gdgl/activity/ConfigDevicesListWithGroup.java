@@ -23,7 +23,7 @@ import com.gdgl.util.UiUtils;
 import com.gdgl.util.EditDevicesDlg.EditDialogcallback;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

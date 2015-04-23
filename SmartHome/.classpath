@@ -2,8 +2,8 @@
 <classpath>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
-	<classpathentry exported="true" kind="lib" path="libs/android-support-v4.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/Android_SDK_v1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/android-support-v7-recyclerview.jar" sourcepath="D:/AndroidADT/sdk/extras/android/platform_frameworks_support-master/v7/recyclerview"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>

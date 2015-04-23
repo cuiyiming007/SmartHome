@@ -17,7 +17,7 @@ import com.gdgl.util.AddDlg.AddDialogcallback;
 import com.gdgl.util.CircleProgressBar;
 import com.gdgl.util.JoinNetTimeDlg;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -171,7 +171,7 @@ public class JoinNetFragment extends Fragment implements UIListener,
 				if (null != scapedDeviveList && scapedDeviveList.size() > 0) {
 					mJoinNetDevicesListFragment.setList(scapedDeviveList);
 				}
-				c.setFragment(mJoinNetDevicesListFragment);
+				c.setFragment((Fragment)mJoinNetDevicesListFragment);
 			}
 		});
 	}

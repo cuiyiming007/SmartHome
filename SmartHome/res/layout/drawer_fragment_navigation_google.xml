@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:background="@android:color/white"
+                android:id="@+id/googleDrawer">
+
+    <View
+        android:layout_width="match_parent"
+        android:background="#1f000000"
+        android:layout_height="1dp"
+        android:id="@+id/separator"
+        android:layout_below="@+id/navigationHeader"
+        android:layout_marginBottom="8dp"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/drawerList"
+        android:layout_width="match_parent"
+        android:clickable="true"
+        android:focusableInTouchMode="true"
+        android:scrollbars="vertical"
+        android:focusable="true"
+        android:fitsSystemWindows="true"
+        android:layout_height="match_parent"
+        android:background="@color/myDrawerBackground"
+        android:layout_below="@+id/separator"/>
+
+</RelativeLayout>

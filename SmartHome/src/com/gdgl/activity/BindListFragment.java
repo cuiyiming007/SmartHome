@@ -14,7 +14,7 @@ import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.smarthome.R;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;

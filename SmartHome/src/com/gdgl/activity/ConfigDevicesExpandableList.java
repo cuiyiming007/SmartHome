@@ -24,7 +24,7 @@ import com.gdgl.util.VersionDlg;
 import com.gdgl.util.EditDevicesDlg.EditDialogcallback;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -76,7 +76,7 @@ public class ConfigDevicesExpandableList extends BaseFragment implements
 
 	DataHelper mDh;
 
-	CGIManager temptureManager;
+	CGIManager cgiManager;
 	DeviceManager mDeviceManager;
 
 	@Override
@@ -90,8 +90,8 @@ public class ConfigDevicesExpandableList extends BaseFragment implements
 	private void initData() {
 		// TODO Auto-generated method stub
 
-		temptureManager = CGIManager.getInstance();
-		temptureManager.addObserver(this);
+		cgiManager = CGIManager.getInstance();
+		cgiManager.addObserver(this);
 
 		mDeviceManager = DeviceManager.getInstance();
 		mDeviceManager.addObserver(this);
@@ -135,7 +135,7 @@ public class ConfigDevicesExpandableList extends BaseFragment implements
 	public void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
-		temptureManager.deleteObserver(this);
+		cgiManager.deleteObserver(this);
 		mDeviceManager.deleteObserver(this);
 		CallbackManager.getInstance().deleteObserver(this);
 	}

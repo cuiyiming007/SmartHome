@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.gdgl.smarthome"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/toolbar_card"
+        android:layout_marginStart="-4.5dp"
+        android:layout_marginEnd="-4.5dp"
+        android:layout_marginTop="-6.5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="?attr/colorPrimary"
+        app:cardMaxElevation="4dp"
+        app:cardElevation="4dp" >
+
+        <include
+            android:id="@+id/toolbar_actionbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/toolbar_default" />
+    </android.support.v7.widget.CardView>
+
+    <android.support.v4.widget.DrawerLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/drawer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar_card" >
+
+        <LinearLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" />
+
+        <!-- android:layout_marginTop="?android:attr/actionBarSize" -->
+
+        <fragment
+            android:id="@+id/fragment_drawer"
+            android:name="com.gdgl.drawer.NavigationDrawerFragment"
+            android:layout_width="@dimen/navigation_drawer_width"
+            android:layout_height="match_parent"
+            android:layout_gravity="start" />
+    </android.support.v4.widget.DrawerLayout>
+
+</RelativeLayout>

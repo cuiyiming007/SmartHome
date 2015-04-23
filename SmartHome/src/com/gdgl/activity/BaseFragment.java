@@ -9,7 +9,7 @@ import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.Callback.CallbackResponseType2;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.ContentValues;
 import android.content.Context;
 import android.os.AsyncTask;

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.gdgl.smarthome"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:descendantFocusability="blocksDescendants"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res/com.gdgl.smarthome"
+        android:id="@+id/card_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/ui_cardview_selector_blue"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="2dp" >
+
+        <!-- android:foreground="?android:attr/selectableItemBackground" -->
+
+        <ImageView
+            android:id="@+id/func_img"
+            android:layout_width="130dp"
+            android:layout_height="106dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:src="@drawable/ui_video_play_style" />
+    </android.support.v7.widget.CardView>
+
+    <TextView
+        android:id="@+id/func_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="海康"
+        android:textColor="#0aa7dc"
+        android:textSize="16dp" />
+
+</LinearLayout>
