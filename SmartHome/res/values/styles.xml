@@ -14,7 +14,7 @@
     <style name="AppBaseTheme" parent="Theme.AppCompat.NoActionBar">
 
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/myPrimaryColor</item>
+        <item name="colorPrimary">@color/blue_default</item>
         <item name="colorPrimaryDark">@color/myPrimaryDarkColor</item>
         <item name="colorAccent">@color/myAccentColor</item>
         <item name="android:textColorPrimary">@color/myTextPrimaryColor</item>

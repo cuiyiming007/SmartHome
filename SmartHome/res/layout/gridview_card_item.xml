@@ -13,7 +13,8 @@
         android:id="@+id/card_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/ui_cardview_selector_blue"
+        app:cardBackgroundColor="@color/blue_default"
+        
         android:foreground="?android:attr/selectableItemBackground"
         app:cardCornerRadius="10dp"
         app:cardElevation="2dp" >

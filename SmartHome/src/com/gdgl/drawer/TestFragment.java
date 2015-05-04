@@ -3,6 +3,8 @@ package com.gdgl.drawer;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import com.gc.materialdesign.views.ButtonFlat;
+import com.gc.materialdesign.views.ButtonFloat;
 import com.gdgl.activity.DeviceDtailFragment;
 import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.CallbackManager;
@@ -14,6 +16,8 @@ import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
 import com.gdgl.smarthome.R;
+import com.gdgl.util.AddDlg;
+import com.gdgl.util.AddDlg.AddDialogcallback;
 
 import android.content.Context;
 import android.content.Intent;
@@ -22,7 +26,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
@@ -37,6 +43,7 @@ public class TestFragment extends Fragment implements UIListener {
 	List<DevicesModel> mDeviceList;
 	View mView;
 	ViewGroup nodevices;
+	ButtonFloat mButtonFloat;
 
 	DataHelper mDh;
 
@@ -88,6 +95,7 @@ public class TestFragment extends Fragment implements UIListener {
 		nodevices = (ViewGroup) mView.findViewById(R.id.nodevices);
 		nodevices.setVisibility(View.GONE);
 		content_view = (GridView) mView.findViewById(R.id.content_view);
+		mButtonFloat = (ButtonFloat) mView.findViewById(R.id.buttonFloat);
 //		content_view.setBackgroundResource(R.color.blue_default);
 		// content_view.setLayoutAnimation(UiUtils
 		// .getAnimationController((Context) getActivity()));
@@ -116,6 +124,20 @@ public class TestFragment extends Fragment implements UIListener {
 //				FragmentTransaction mFragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
 //				mFragmentTransaction.replace(R.id.container, mFragment);
 //				mFragmentTransaction.commit();
+			}
+		});
+		
+		mButtonFloat.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+//				AddDlg mAddDlg = new AddDlg(getActivity(),
+//						AddDlg.REGION);
+//				mAddDlg.setContent("添加区域");
+//				mAddDlg.setType("区域名称");
+//				mAddDlg.setDialogCallback(TestFragment.this);
+//				mAddDlg.show();
 			}
 		});
 	}
@@ -175,7 +197,6 @@ public class TestFragment extends Fragment implements UIListener {
 			mViewHolder.funcImg.setImageResource(DataUtil.getDefaultDevicesSmallIcon(
 					mAdapeterDevicesModel.getmDeviceId(), mAdapeterDevicesModel.getmModelId().trim()));
 			mViewHolder.funcText.setText(mAdapeterDevicesModel.getmDefaultDeviceName());
-			
 //			mViewHolder.funcCardView.setCardBackgroundColor(getResources().getColor(R.color.ui_cardview_selector_blue));
 			return convertView;
 		}
@@ -192,26 +213,6 @@ public class TestFragment extends Fragment implements UIListener {
 		}
 
 	}
-
-	@Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		content_view.setVisibility(View.GONE);
-	}
-
-//	@Override
-//	public void onResume() {
-//		// TODO Auto-generated method stub
-//		content_view.setVisibility(View.VISIBLE);
-//
-//		// content_view.setLayoutAnimation(UiUtils
-//		// .getAnimationController((Context) getActivity()));
-//		CustomeAdapter mGridviewAdapter = new GridviewAdapter(0,
-//				(Context) getActivity());
-//		content_view.setAdapter(mGridviewAdapter);
-//		super.onResume();
-//	}
 
 	@Override
 	public void update(Manger observer, Object object) {

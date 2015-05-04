@@ -13,6 +13,6 @@
     <item
         android:id="@+id/menu_search"
         android:orderInCategory="1"
-        android:title="Menu item"
+        android:title="Add"
         app:showAsAction="never"/>
 </menu>
