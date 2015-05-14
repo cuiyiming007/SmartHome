@@ -5,12 +5,13 @@ import java.util.List;
 
 import com.gdgl.app.ApplicationController;
 import com.gdgl.model.ContentValuesListener;
-import com.gdgl.model.DevicesGroup;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.Callback.CallbackWarnMessage;
 import com.gdgl.mydata.Region.GetRoomInfo_response;
 import com.gdgl.mydata.Region.Room;
 import com.gdgl.mydata.binding.BindingDataEntity;
+import com.gdgl.mydata.scene.SceneDevice;
+import com.gdgl.mydata.scene.SceneInfo;
 import com.gdgl.mydata.video.VideoNode;
 import com.gdgl.util.UiUtils;
 
@@ -73,33 +74,39 @@ public class DataHelper extends SQLiteOpenHelper {
 
 	public static final String DATABASE_NAME = "smarthome";
 	public static final String DEVICES_TABLE = "devices";
-	public static final String GROUP_TABLE = "groups";
+	public static final String SCENE_TABLE = "scene_table";
+	public static final String SCENE_DEVICES_TABLE = "scene_devices_table";
 	public static final String VIDEO_TABLE = "video";
 	public static final String MESSAGE_TABLE = "message_table";
 	public static final String ROOMINFO_TABLE = "roominfo_table";
 	public static final String BIND_TABLE = "bind_table";
 	public static final String GATEWAY_TABLE = "gateway_table";
+	public static final String LINKAGE_TABLE = "linkage_table";
 	public static final int DATEBASE_VERSTION = 4;
 
 	public StringBuilder deviceStringBuilder;
-	public StringBuilder mAStringBuilder;
+	public StringBuilder sceneStringBuilder;
+	public StringBuilder sceneDevicesStringBuilder;
 	public StringBuilder videoStringBuilder;
 	public StringBuilder messageStringBuilder;
 	public StringBuilder roominfoStringBuilder;
 	public StringBuilder bindStringBuilder;
 	public StringBuilder gatewayStringBuilder;
+	public StringBuilder linkageStringBuilder;
 
 	// public SQLiteDatabase db;
 
 	public DataHelper(Context contex) {
 		super(contex, DATABASE_NAME, null, DATEBASE_VERSTION);
 		deviceStringBuilder = new StringBuilder();
-		mAStringBuilder = new StringBuilder();
+		sceneStringBuilder = new StringBuilder();
+		sceneDevicesStringBuilder = new StringBuilder();
 		videoStringBuilder = new StringBuilder();
 		messageStringBuilder = new StringBuilder();
 		roominfoStringBuilder = new StringBuilder();
 		bindStringBuilder = new StringBuilder();
 		gatewayStringBuilder = new StringBuilder();
+		linkageStringBuilder = new StringBuilder();
 		// db = getWritableDatabase();
 		// TODO Auto-generated constructor stub
 	}
@@ -166,9 +173,19 @@ public class DataHelper extends SQLiteOpenHelper {
 		deviceStringBuilder.append(DevicesModel.ONLINE_STATUS + " VARCHAR,");
 		deviceStringBuilder.append(DevicesModel.ON_OFF_LINE + " INTEGER )");
 
-		// group table create string
-		mAStringBuilder.append("CREATE TABLE " + GROUP_TABLE + " (");
-		mAStringBuilder.append(DevicesGroup._ID
+		// scene table create string
+		sceneStringBuilder.append("CREATE TABLE " + SCENE_TABLE + " (");
+		sceneStringBuilder.append(SceneInfo._ID
+				+ " INTEGER PRIMARY KEY AUTOINCREMENT,");
+		sceneStringBuilder.append(SceneInfo.SCENE_ID + " INTEGER,");
+		sceneStringBuilder.append(SceneInfo.SCENE_NAME + " VARCHAR(48),");
+		sceneStringBuilder.append(SceneInfo.SCENE_ACTIONS + " VARCHAR,");
+		sceneStringBuilder.append(SceneInfo.SCENE_INDEX + " INTEGER )");
+
+		// scene_devices table create string
+		sceneDevicesStringBuilder.append("CREATE TABLE " + SCENE_DEVICES_TABLE
+				+ " (");
+		sceneDevicesStringBuilder.append(SceneDevice._ID
 				+ " INTEGER PRIMARY KEY AUTOINCREMENT,");
 		mAStringBuilder.append(DevicesGroup.DEVICES_IEEE + " VARCHAR(16),");
 		mAStringBuilder.append(DevicesGroup.GROUP_NAME + " VARCHAR(48),");
@@ -254,6 +271,18 @@ public class DataHelper extends SQLiteOpenHelper {
 		gatewayStringBuilder.append("mac" + " VARCHAR(14),");
 		gatewayStringBuilder.append("alias" + " VARCHAR(16),");
 		gatewayStringBuilder.append("ip" + " VARCHAR)");
+		
+		// linkage table create string
+		linkageStringBuilder.append("CREATE TABLE " + LINKAGE_TABLE + " (");
+		linkageStringBuilder.append("_id"
+				+ " INTEGER PRIMARY KEY AUTOINCREMENT,");
+		linkageStringBuilder.append(Linkage.LID + " INTEGER,");
+		linkageStringBuilder.append(Linkage.LNKNAME + " VARCHAR,");
+		linkageStringBuilder.append(Linkage.TRGIEEE + " VARCHAR(16),");
+		linkageStringBuilder.append(Linkage.TRGEP + " VARCHAR(16),");
+		linkageStringBuilder.append(Linkage.TRGCND + " VARCHAR(48),");
+		linkageStringBuilder.append(Linkage.LNKACT + " VARCHAR(48),");
+		linkageStringBuilder.append(Linkage.ENABLE + " INTEGER)");
 	}
 
 	@Override
@@ -262,12 +291,14 @@ public class DataHelper extends SQLiteOpenHelper {
 		initStringBuilder();
 
 		db.execSQL(deviceStringBuilder.toString());
-		db.execSQL(mAStringBuilder.toString());
+		db.execSQL(sceneStringBuilder.toString());
+		db.execSQL(sceneDevicesStringBuilder.toString());
 		db.execSQL(videoStringBuilder.toString());
 		db.execSQL(messageStringBuilder.toString());
 		db.execSQL(roominfoStringBuilder.toString());
 		db.execSQL(bindStringBuilder.toString());
 		db.execSQL(gatewayStringBuilder.toString());
+		db.execSQL(linkageStringBuilder.toString());
 		// Log.i("roominfoStringBuilder", "zgs-> " +
 		// roominfoStringBuilder.toString());
 	}
@@ -276,12 +307,14 @@ public class DataHelper extends SQLiteOpenHelper {
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		// TODO Auto-generated method stub
 		db.execSQL("DROP TABLE IF EXISTS " + DEVICES_TABLE);
-		db.execSQL("DROP TABLE IF EXISTS " + GROUP_TABLE);
+		db.execSQL("DROP TABLE IF EXISTS " + SCENE_TABLE);
+		db.execSQL("DROP TABLE IF EXISTS " + SCENE_DEVICES_TABLE);
 		db.execSQL("DROP TABLE IF EXISTS " + VIDEO_TABLE);
 		db.execSQL("DROP TABLE IF EXISTS " + MESSAGE_TABLE);
 		db.execSQL("DROP TABLE IF EXISTS " + ROOMINFO_TABLE);
 		db.execSQL("DROP TABLE IF EXISTS " + BIND_TABLE);
 		db.execSQL("DROP TABLE IF EXISTS " + GATEWAY_TABLE);
+		db.execSQL("DROP TABLE IF EXISTS " + LINKAGE_TABLE);
 		onCreate(db);
 	}
 
@@ -505,6 +538,39 @@ public class DataHelper extends SQLiteOpenHelper {
 		}
 		return result;
 	}
+	
+	public long insertLinkage(SQLiteDatabase db, String table,
+			String nullColumnHack, Linkage values) {
+		long result = 0;
+		try {
+			result = db.insert(table, nullColumnHack,
+					values.convertContentValues());
+			// db.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+		} finally {
+			db.close();
+		}
+		return result;
+
+	}
+
+	public long insertLinkageList(SQLiteDatabase db, String table,
+			String nullColumnHack, List<Linkage> values) {
+		long result = 0;
+		try {
+			for (Linkage linkage : values) {
+				result = db.insert(table, nullColumnHack,
+						linkage.convertContentValues());
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		} finally {
+			db.close();
+		}
+		return result;
+
+	}
 
 	public int deleteDeviceWithGroup(Context c, SQLiteDatabase db,
 			String table, String whereClause, String[] whereArgs) {
@@ -538,7 +604,7 @@ public class DataHelper extends SQLiteOpenHelper {
 				// DevicesModel.DEVICE_OFF_LINE);
 				// db.update(table, c, " ieee=? ", new String[] { string });
 				db.delete(table, " ieee=? ", new String[] { string });
-				db.delete(DataHelper.GROUP_TABLE, " devices_ieee=? ",
+				db.delete(DataHelper.SCENE_DEVICES_TABLE, " devices_ieee=? ",
 						new String[] { string });
 				if (null != mIeees && mIeees.contains(string.trim())) {
 					mIeees.remove(string.trim());
@@ -589,7 +655,7 @@ public class DataHelper extends SQLiteOpenHelper {
 		} catch (Exception e) {
 			// TODO: handle exception
 		} finally {
-			db.close();
+//			db.close();
 		}
 		return c;
 	}
@@ -620,6 +686,36 @@ public class DataHelper extends SQLiteOpenHelper {
 			mList.add(mVideoNode);
 		}
 		cursor.close();
+		// db.close();
+		return mList;
+
+	}
+	
+	public static List<Linkage> queryForLinkageList(SQLiteDatabase db,
+			String table, String selection, String[] selectionArgs) {
+		List<Linkage> mList = new ArrayList<Linkage>();
+		Linkage linkage = null;
+		Cursor c = db.query(table, null, selection, selectionArgs, null, null,
+				null, null);
+		while (c.moveToNext()) {
+			linkage = new Linkage();
+			linkage.setLid(c.getInt(c
+					.getColumnIndex(Linkage.LID)));
+			linkage.setLnkname(c.getString(c
+					.getColumnIndex(Linkage.LNKNAME)));
+			linkage.setTrgieee(c.getString(c
+					.getColumnIndex(Linkage.TRGIEEE)));
+			linkage.setTrgep(c.getString(c
+					.getColumnIndex(Linkage.TRGEP)));
+			linkage.setTrgcnd(c.getString(c
+					.getColumnIndex(Linkage.TRGCND)));
+			linkage.setLnkact(c.getString(c
+					.getColumnIndex(Linkage.LNKACT)));
+			linkage.setEnable(c.getInt(c
+					.getColumnIndex(Linkage.ENABLE)));
+			mList.add(linkage);
+		}
+		c.close();
 		// db.close();
 		return mList;
 
@@ -757,30 +853,51 @@ public class DataHelper extends SQLiteOpenHelper {
 		return mList;
 	}
 
-	public List<DevicesGroup> queryForGroupList(Context con, SQLiteDatabase db,
-			String table, String[] columns, String selection,
-			String[] selectionArgs, String groupBy, String having,
-			String orderBy, String limit) {
-		List<DevicesGroup> mList = new ArrayList<DevicesGroup>();
-		DevicesGroup mDevicesModel = null;
-		Cursor c = db.query(table, columns, selection, selectionArgs, groupBy,
-				having, orderBy, limit);
+	public List<SceneInfo> queryForSceneInfoList(SQLiteDatabase db,
+			String[] columns, String selection, String[] selectionArgs,
+			String groupBy, String having, String orderBy, String limit) {
+		List<SceneInfo> mList = new ArrayList<SceneInfo>();
+		SceneInfo mSceneInfo = null;
+		Cursor c = db.query(DataHelper.SCENE_TABLE, columns, selection,
+				selectionArgs, groupBy, having, orderBy, limit);
 		while (c.moveToNext()) {
 
-			mDevicesModel = new DevicesGroup(con);
-			mDevicesModel.setDevicesState(c.getInt(c
-					.getColumnIndex(DevicesGroup.ON_OFF_STATUS)) == 0);
-			mDevicesModel.setDevicesValue(c.getInt(c
-					.getColumnIndex(DevicesGroup.DEVICES_VALUE)));
-			mDevicesModel.setEp(c.getString(c.getColumnIndex(DevicesGroup.EP)));
-			mDevicesModel.setGroupId(c.getInt(c
-					.getColumnIndex(DevicesGroup.GROUP_ID)));
-			mDevicesModel.setGroupName(c.getString(c
-					.getColumnIndex(DevicesGroup.GROUP_NAME)));
-			mDevicesModel.setIeee(c.getString(c
-					.getColumnIndex(DevicesGroup.DEVICES_IEEE)));
+			mSceneInfo = new SceneInfo();
+			mSceneInfo.setSid(c.getInt(c.getColumnIndex(SceneInfo.SCENE_ID)));
+			mSceneInfo.setScnname(c.getString(c
+					.getColumnIndex(SceneInfo.SCENE_NAME)));
+			mSceneInfo.setScnaction(c.getString(c
+					.getColumnIndex(SceneInfo.SCENE_ACTIONS)));
+			mSceneInfo.setScnindex(c.getInt(c
+					.getColumnIndex(SceneInfo.SCENE_INDEX)));
+			mList.add(mSceneInfo);
+		}
+		c.close();
+		db.close();
+		return mList;
+	}
 
-			mList.add(mDevicesModel);
+	public List<SceneDevice> queryForSceneDevicesList(SQLiteDatabase db,
+			String[] columns, String selection, String[] selectionArgs,
+			String groupBy, String having, String orderBy, String limit) {
+		List<SceneDevice> mList = new ArrayList<SceneDevice>();
+		SceneDevice mSceneDevice = null;
+		Cursor c = db.query(DataHelper.SCENE_DEVICES_TABLE, columns, selection,
+				selectionArgs, groupBy, having, orderBy, limit);
+		while (c.moveToNext()) {
+
+			mSceneDevice = new SceneDevice();
+			mSceneDevice
+					.setSid(c.getInt(c.getColumnIndex(SceneDevice.SCENE_ID)));
+			mSceneDevice
+			.setActionType(c.getInt(c.getColumnIndex(SceneDevice.ACTION_TYPE)));
+			mSceneDevice.setIeee(c.getString(c
+					.getColumnIndex(SceneDevice.DEVICE_IEEE)));
+			mSceneDevice.setEp(c.getString(c
+					.getColumnIndex(SceneDevice.DEVICE_EP)));
+			mSceneDevice.setDevicesStatus(c.getInt(c
+					.getColumnIndex(SceneDevice.DEVICESTATS)));
+			mList.add(mSceneDevice);
 		}
 		c.close();
 		db.close();

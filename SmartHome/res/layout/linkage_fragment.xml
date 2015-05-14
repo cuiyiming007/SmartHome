@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <include
+        android:id="@+id/nodevices"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        layout="@layout/no_devices" />
+
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        xmlns:ptr="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/linkage_list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:cacheColorHint="#00000000"
+        android:divider="#ffffff"
+        android:dividerHeight="1dp"
+        android:listSelector="@drawable/ui_devices_devicelist_bgwithcorners_style"
+        android:fadingEdge="none"
+        android:fastScrollEnabled="false"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false"
+        android:scrollbars="none"
+        android:smoothScrollbar="true"
+        ptr:ptrHeaderBackground="#D3D3D3"
+        ptr:ptrHeaderTextColor="#000000" />
+
+    <com.gc.materialdesign.views.ButtonFloat
+        android:id="@+id/buttonFloat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="24dp"
+        android:background="#1E88E5"
+        materialdesign:animate="true"
+        materialdesign:iconDrawable="@drawable/ic_action_new" />
+
+</RelativeLayout>
