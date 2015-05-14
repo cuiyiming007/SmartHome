@@ -180,7 +180,6 @@ public class DataHelper extends SQLiteOpenHelper {
 		// scene table create string
 		sceneStringBuilder.append("CREATE TABLE " + SCENE_TABLE + " (");
 		sceneStringBuilder.append(SceneInfo._ID
-<<<<<<< HEAD
 				+ " INTEGER PRIMARY KEY AUTOINCREMENT,");
 		sceneStringBuilder.append(SceneInfo.SCENE_ID + " INTEGER,");
 		sceneStringBuilder.append(SceneInfo.SCENE_NAME + " VARCHAR(48),");
@@ -191,8 +190,6 @@ public class DataHelper extends SQLiteOpenHelper {
 		sceneDevicesStringBuilder.append("CREATE TABLE " + SCENE_DEVICES_TABLE
 				+ " (");
 		sceneDevicesStringBuilder.append(SceneDevice._ID
-=======
->>>>>>> branch 'app2.0_branch' of https://github.com/justek-Wade/SmartHome.git
 				+ " INTEGER PRIMARY KEY AUTOINCREMENT,");
 		sceneStringBuilder.append(SceneInfo.SCENE_ID + " INTEGER,");
 		sceneStringBuilder.append(SceneInfo.SCENE_NAME + " VARCHAR(48),");
@@ -890,36 +887,6 @@ public class DataHelper extends SQLiteOpenHelper {
 			mSceneInfo.setScnindex(c.getInt(c
 					.getColumnIndex(SceneInfo.SCENE_INDEX)));
 			mList.add(mSceneInfo);
-<<<<<<< HEAD
-		}
-		c.close();
-		db.close();
-		return mList;
-	}
-
-	public List<SceneDevice> queryForSceneDevicesList(SQLiteDatabase db,
-			String[] columns, String selection, String[] selectionArgs,
-			String groupBy, String having, String orderBy, String limit) {
-		List<SceneDevice> mList = new ArrayList<SceneDevice>();
-		SceneDevice mSceneDevice = null;
-		Cursor c = db.query(DataHelper.SCENE_DEVICES_TABLE, columns, selection,
-				selectionArgs, groupBy, having, orderBy, limit);
-		while (c.moveToNext()) {
-
-			mSceneDevice = new SceneDevice();
-			mSceneDevice
-					.setSid(c.getInt(c.getColumnIndex(SceneDevice.SCENE_ID)));
-			mSceneDevice
-			.setActionType(c.getInt(c.getColumnIndex(SceneDevice.ACTION_TYPE)));
-			mSceneDevice.setIeee(c.getString(c
-					.getColumnIndex(SceneDevice.DEVICE_IEEE)));
-			mSceneDevice.setEp(c.getString(c
-					.getColumnIndex(SceneDevice.DEVICE_EP)));
-			mSceneDevice.setDevicesStatus(c.getInt(c
-					.getColumnIndex(SceneDevice.DEVICESTATS)));
-			mList.add(mSceneDevice);
-=======
->>>>>>> branch 'app2.0_branch' of https://github.com/justek-Wade/SmartHome.git
 		}
 		c.close();
 		db.close();
