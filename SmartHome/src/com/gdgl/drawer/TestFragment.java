@@ -3,7 +3,6 @@ package com.gdgl.drawer;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import com.gc.materialdesign.views.ButtonFlat;
 import com.gc.materialdesign.views.ButtonFloat;
 import com.gdgl.activity.DeviceDtailFragment;
 import com.gdgl.manager.CGIManager;
@@ -16,8 +15,6 @@ import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
 import com.gdgl.smarthome.R;
-import com.gdgl.util.AddDlg;
-import com.gdgl.util.AddDlg.AddDialogcallback;
 
 import android.content.Context;
 import android.content.Intent;
@@ -26,7 +23,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -119,11 +115,6 @@ public class TestFragment extends Fragment implements UIListener {
 				intent.putExtras(extras);
 				intent.setClass(getActivity(), DeviceDetailActivity.class);
 				startActivity(intent);
-//				Fragment mFragment = new DeviceDtailFragment();
-//				mFragment.setArguments(extras);
-//				FragmentTransaction mFragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-//				mFragmentTransaction.replace(R.id.container, mFragment);
-//				mFragmentTransaction.commit();
 			}
 		});
 		
@@ -132,12 +123,9 @@ public class TestFragment extends Fragment implements UIListener {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-//				AddDlg mAddDlg = new AddDlg(getActivity(),
-//						AddDlg.REGION);
-//				mAddDlg.setContent("添加区域");
-//				mAddDlg.setType("区域名称");
-//				mAddDlg.setDialogCallback(TestFragment.this);
-//				mAddDlg.show();
+				 Intent i = new Intent();
+				 i.setClass(getActivity(), JoinNetActivity.class);
+				 startActivity(i);
 			}
 		});
 	}

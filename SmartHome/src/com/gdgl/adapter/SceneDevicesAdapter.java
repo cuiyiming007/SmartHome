@@ -4,12 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.gdgl.model.DevicesGroup;
 import com.gdgl.model.DevicesModel;
-import com.gdgl.model.SimpleDevicesModel;
-import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.getFromSharedPreferences;
+import com.gdgl.mydata.scene.SceneDevice;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.UiUtils;
 
@@ -119,12 +117,8 @@ public class SceneDevicesAdapter extends BaseAdapter {
 		View mView = convertView;
 		final ViewHolder mHolder;
 		final DevicesModel mDevices = mDevicesList.get(position);
-		final DevicesGroup mDevicesGroup=new DevicesGroup(mContext);
-		mDevicesGroup.setDevicesState(mDevices.getmOnOffStatus().trim().equals("1"));
-		mDevicesGroup.setEp(mDevices.getmEP());
-		mDevicesGroup.setGroupId(GroupId);
-		mDevicesGroup.setGroupName(GroupName);
-		mDevicesGroup.setIeee(mDevices.getmIeee());
+		final SceneDevice mDevicesGroup=new SceneDevice();
+		
 		
 		int type = getItemViewType(position);
 		if(null == mView){
@@ -191,7 +185,7 @@ public class SceneDevicesAdapter extends BaseAdapter {
 				break;
 			case NO_OPERATOR:
 				mView = LayoutInflater.from(mContext).inflate(
-				R.layout.scene_item_nooperator, null);
+				R.layout.scene_device_add_item, null);
 				mHolder.devices_img = (ImageView) mView
 						.findViewById(R.id.devices_img);
 				mHolder.devices_name = (TextView) mView
@@ -246,7 +240,6 @@ public class SceneDevicesAdapter extends BaseAdapter {
 						boolean fromUser) {
 					// TODO Auto-generated method stub
 					mHolder.text_value.setText(progress+"%");
-					mDevicesGroup.setDevicesValue(progress);
 					mHolder.selected.setChecked(true);
 					isSelected.put(position, true);
 					DevicesValue.put(position, progress);
@@ -278,8 +271,8 @@ public class SceneDevicesAdapter extends BaseAdapter {
 
 	
 	public interface AddChecked{
-		public void AddCheckedDevices(DevicesGroup s);
-		public void DeletedCheckedDevices(DevicesGroup s);
+		public void AddCheckedDevices(SceneDevice s);
+		public void DeletedCheckedDevices(SceneDevice s);
 	}
 	
 	public class ViewHolder {

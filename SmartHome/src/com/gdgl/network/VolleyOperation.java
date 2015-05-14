@@ -2,6 +2,7 @@ package com.gdgl.network;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,6 +29,7 @@ import com.gdgl.mydata.binding.BindingDataEntity;
 import com.gdgl.mydata.binding.BindingDivice;
 import com.gdgl.mydata.binding.Binding_response_params;
 import com.gdgl.mydata.getlocalcielist.CIEresponse_params;
+import com.gdgl.mydata.scene.SceneInfo;
 import com.gdgl.util.UiUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -179,6 +181,11 @@ public class VolleyOperation {
 		response = UiUtils.formatResponseString(response);
 		return parseJSON2CallBindList(response);
 	}
+	public static List<SceneInfo> handleSceneInfoListString(String response) {
+		response = UiUtils.formatResponseString(response);
+		return parseJSON2SceneInfoList(response);
+	}
+	
 	/***
 	 * 
 	 * @param s
@@ -380,6 +387,23 @@ public class VolleyOperation {
 		}
 		dataEntity.setResponseparamList(list);
 		return dataEntity;
+	}
+	
+	public static List<SceneInfo> parseJSON2SceneInfoList(String s) {
+		Gson gson = new Gson();
+		JsonParser parser =new JsonParser();
+		List<SceneInfo> list = new ArrayList<SceneInfo>();
+		JsonObject jsonObject = parser.parse(s).getAsJsonObject();
+		JsonElement statusElement = jsonObject.get("status");
+		if(Integer.parseInt(statusElement.toString()) == 0) {
+			JsonArray jsonArray = jsonObject.getAsJsonArray("list");
+			for (int i = 0; i < jsonArray.size(); i++) {
+				JsonElement el = jsonArray.get(i);
+				SceneInfo tmp = gson.fromJson(el, SceneInfo.class);
+				list.add(tmp);
+			}
+		}
+		return list;
 	}
 	
 	

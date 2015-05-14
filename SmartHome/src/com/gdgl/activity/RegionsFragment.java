@@ -3,6 +3,7 @@ package com.gdgl.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gc.materialdesign.views.ButtonFloat;
 import com.gdgl.activity.SmartHome.refreshAdapter;
 import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.Manger;
@@ -38,6 +39,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -62,6 +64,7 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 	Room currentRoom;
 	CustomeAdapter mCustomeAdapter;
 	ViewGroup nodevices;
+	ButtonFloat mButtonFloat;
 
 	DataHelper mDateHelper;
 
@@ -90,7 +93,7 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 		if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
 			CGIManager.getInstance().GetAllRoomInfo();
 		} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
-			
+
 		}
 		mDateHelper = new DataHelper((Context) getActivity());
 		SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
@@ -126,6 +129,7 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 		nodevices = (ViewGroup) mView.findViewById(R.id.nodevices);
 		content_view = (PullToRefreshGridView) mView
 				.findViewById(R.id.content_view);
+		mButtonFloat = (ButtonFloat) mView.findViewById(R.id.buttonFloat);
 		mCustomeAdapter = new CustomeAdapter();
 		mCustomeAdapter.setList(mregions);
 		content_view.setAdapter(mCustomeAdapter);
@@ -162,28 +166,43 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 				new GetDataTask().execute();
 			}
 		});
+		mButtonFloat.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				AddDlg mAddDlg = new AddDlg(getActivity(),
+						AddDlg.REGION);
+				mAddDlg.setContent("添加区域");
+				mAddDlg.setType("区域名称");
+				mAddDlg.setDialogCallback(RegionsFragment.this);
+				mAddDlg.show();
+			}
+		});
 		if (null == mregions || mregions.size() == 0) {
 			nodevices.setVisibility(View.VISIBLE);
 		} else {
 			nodevices.setVisibility(View.GONE);
 		}
-		
+
 		if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
 			registerForContextMenu(content_view.getRefreshableView());
 		} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
-			content_view.setOnItemLongClickListener(new OnItemLongClickListener() {
+			content_view
+					.setOnItemLongClickListener(new OnItemLongClickListener() {
 
-				@Override
-				public boolean onItemLongClick(AdapterView<?> parent,
-						View view, int position, long id) {
-					// TODO Auto-generated method stub
-					VersionDlg vd = new VersionDlg(getActivity());
-					vd.setContent(getResources().getString(R.string.Unable_In_InternetState));
-					vd.show();
-					return true;
-				}
-				
-			});
+						@Override
+						public boolean onItemLongClick(AdapterView<?> parent,
+								View view, int position, long id) {
+							// TODO Auto-generated method stub
+							VersionDlg vd = new VersionDlg(getActivity());
+							vd.setContent(getResources().getString(
+									R.string.Unable_In_InternetState));
+							vd.show();
+							return true;
+						}
+
+					});
 		}
 	}
 
@@ -289,15 +308,15 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 	@Override
 	public void refreshFragment() {
 		initData();
-//		if (null == mregions || mregions.size() == 0) {
-//			nodevices.setVisibility(View.VISIBLE);
-//		} else {
-//			nodevices.setVisibility(View.GONE);
-//		}
-//		Log.i("zgs", "refreshFragment->mregions.size()=" + mregions.size());
-//		mCustomeAdapter.setList(mregions);
-//		// content_view.setAdapter(mCustomeAdapter);
-//		mCustomeAdapter.notifyDataSetChanged();
+		// if (null == mregions || mregions.size() == 0) {
+		// nodevices.setVisibility(View.VISIBLE);
+		// } else {
+		// nodevices.setVisibility(View.GONE);
+		// }
+		// Log.i("zgs", "refreshFragment->mregions.size()=" + mregions.size());
+		// mCustomeAdapter.setList(mregions);
+		// // content_view.setAdapter(mCustomeAdapter);
+		// mCustomeAdapter.notifyDataSetChanged();
 	}
 
 	@Override
@@ -362,7 +381,7 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 					}
 				});
 			}
-		}else if(event.getType() == EventType.ROOMDATAMAIN){
+		} else if (event.getType() == EventType.ROOMDATAMAIN) {
 			if (event.isSuccess()) {
 				nodevices.post(new Runnable() {
 
@@ -402,7 +421,7 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 				DataHelper.ROOMINFO_TABLE, " room_id = ? ", strings);
 		mSQLiteDatabase.close();
 		if (result == 1) {
-			//refreshFragment();
+			// refreshFragment();
 		}
 		// mregions.remove(currentRoom);
 		// refreshFragment();
@@ -411,7 +430,7 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 	@Override
 	public void refreshdata() {
 		// TODO Auto-generated method stub
-		refreshFragment();
+		initData();
 	}
 
 }

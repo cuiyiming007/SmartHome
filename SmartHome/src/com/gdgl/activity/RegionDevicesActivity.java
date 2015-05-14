@@ -3,7 +3,6 @@ package com.gdgl.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gdgl.activity.BaseControlFragment.UpdateDevice;
 import com.gdgl.activity.DevicesListFragment.refreshData;
 import com.gdgl.activity.DevicesListFragment.setData;
 import com.gdgl.adapter.AllDevicesAdapter;
@@ -51,7 +50,7 @@ import android.widget.TextView;
  * 
  */
 public class RegionDevicesActivity extends FragmentActivity implements DevicesObserver,
-		AddChecked, refreshData, UpdateDevice, EditDialogcallback,
+		AddChecked, refreshData, EditDialogcallback,
 		Dialogcallback, setData, UIListener {
 	public static final String REGION_NAME = "region_name";
 	public static final String REGION_ID = "region_id";
@@ -376,12 +375,6 @@ public class RegionDevicesActivity extends FragmentActivity implements DevicesOb
 			}
 
 		}
-	}
-
-	@Override
-	public void saveDevicesName(String name) {
-		// TODO Auto-generated method stub
-
 	}
 
 	public boolean updateDevices(DevicesModel sd, ContentValues c) {

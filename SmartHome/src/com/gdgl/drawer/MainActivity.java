@@ -1,16 +1,14 @@
 package com.gdgl.drawer;
 
-import h264.com.VideoInfoAddDialog;
-import h264.com.VideoInfoDialog;
-
 import com.gdgl.activity.RegionsFragment;
-import com.gdgl.activity.VideoFragment;
+import com.gdgl.activity.ScenesFragment;
+import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.smarthome.R;
-import com.gdgl.util.AddDlg;
 import com.gdgl.util.AddDlg.AddDialogcallback;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -28,8 +26,6 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerC
     private NavigationDrawerFragment mNavigationDrawerFragment;
     int currentTab = 0;
     private Fragment mfragment;
-    
-    private VideoFragment videoFragment = new VideoFragment();
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,18 +66,6 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerC
 //						// i.setClass(SmartHome.this,
 //						// AddCommonUsedActivity.class);
 //						// startActivity(i);
-//					} else if (2 == currentTab) {
-//						VideoInfoAddDialog addDlg;
-////						if (addDlg == null) {
-//							addDlg = new VideoInfoAddDialog(MainActivity.this,
-//									VideoInfoDialog.Add, videoFragment);
-////						} else {
-////							addDlg.getInitVideoNode();
-////						}
-////						addDlg.setContent("添加");
-//						// mAddDlg.setType("区域名称");
-//						// mAddDlg.setDialogCallback(SmartHome.this);
-//						addDlg.show();
 //					}
 //					break;
 
@@ -95,7 +79,27 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerC
         mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager().findFragmentById(R.id.fragment_drawer);
         mNavigationDrawerFragment.setup(R.id.fragment_drawer, (DrawerLayout) findViewById(R.id.drawer), mToolbar);
         
+        saveLoginData();
     }
+    
+	private void saveLoginData(){
+		getFromSharedPreferences.setsharedPreferences(MainActivity.this);
+		Intent intent = getIntent();
+		String id = intent.getStringExtra("id");
+		String name = intent.getStringExtra("name");
+		String pwd = intent.getStringExtra("pwd");
+		String cloud = intent.getStringExtra("cloud");
+		boolean remenber = intent.getBooleanExtra("remenber", true);
+		getFromSharedPreferences.setUid(id);
+		if (remenber) {
+			getFromSharedPreferences.setLogin(name, pwd, true);
+		} else {
+			getFromSharedPreferences.setLogin(name, pwd, false);
+		}
+		getFromSharedPreferences.setUserList(name, pwd);
+		getFromSharedPreferences.setCloud(cloud);
+		getFromSharedPreferences.setCloudList(cloud);
+	}
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -114,7 +118,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerC
 			mfragment = new RegionsFragment();
 			break;
 		case 2:
-			mfragment = videoFragment;
+			mfragment = new ScenesFragment();
 			break;
 		default:
 			break;

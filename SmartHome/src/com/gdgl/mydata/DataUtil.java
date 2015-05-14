@@ -10,11 +10,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.gdgl.app.ApplicationController;
-import com.gdgl.model.DevicesGroup;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.Callback.CallbackWarnMessage;
 import com.gdgl.mydata.Region.Room;
+import com.gdgl.mydata.scene.SceneDevice;
+import com.gdgl.mydata.scene.SceneInfo;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.UiUtils;
 
@@ -482,6 +483,18 @@ public class DataUtil {
 
 		return result;
 	}
+	
+	//Timing and Scene ActionParam type
+	public static int getTimingSceneActionParamType(int deviceId) {
+		int type = 3;
+		if(deviceId == DataHelper.COMBINED_INTERFACE_DEVICETYPE) {
+			type = 1;
+		}
+		if(deviceId == DataHelper.IAS_ZONE_DEVICETYPE) {
+			type = 2;
+		}
+		return type;
+	}
 
 	public static List<DevicesModel> convertToDevicesModel(
 			RespondDataEntity<ResponseParamsEndPoint> r) {
@@ -726,23 +739,23 @@ public class DataUtil {
 		return listDevicesModel;
 	}
 
-	public static List<String> getScenes(Context c, DataHelper dh) {
+	public static List<SceneDevice> getScenes(Context c, DataHelper dh) {
 
 		if (null == dh) {
 			dh = new DataHelper(c);
 		}
-		List<DevicesGroup> listDevicesModel = new ArrayList<DevicesGroup>();
-		List<String> scenes = new ArrayList<String>();
+		List<SceneDevice> listDevicesModel = new ArrayList<SceneDevice>();
+		List<SceneDevice> scenes = new ArrayList<SceneDevice>();
 
-		SQLiteDatabase db = dh.getSQLiteDatabase();
-		listDevicesModel = dh.queryForGroupList(c, db, DataHelper.GROUP_TABLE,
-				null, null, null, null, null, null, null);
-
-		for (DevicesGroup d : listDevicesModel) {
-			if (!scenes.contains(d.getGroupName())) {
-				scenes.add(d.getGroupName());
-			}
-		}
+//		SQLiteDatabase db = dh.getSQLiteDatabase();
+//		listDevicesModel = dh.queryForSceneDevicesList(c, db, DataHelper.SCENE_DEVICES_TABLE,
+//				null, null, null, null, null, null, null);
+//
+//		for (SceneDevice d : listDevicesModel) {
+//			if (!scenes.contains(d.getGroupName())) {
+//				scenes.add(d.getGroupName());
+//			}
+//		}
 		return scenes;
 	}
 
@@ -753,49 +766,26 @@ public class DataUtil {
 			dh = new DataHelper(c);
 		}
 		String[] args = { name };
-		List<DevicesGroup> listDevicesModel = new ArrayList<DevicesGroup>();
+		List<SceneDevice> listDevicesModel = new ArrayList<SceneDevice>();
 		List<DevicesModel> scenes = new ArrayList<DevicesModel>();
-
-		SQLiteDatabase db = dh.getSQLiteDatabase();
-		listDevicesModel = dh.queryForGroupList(c, db, DataHelper.GROUP_TABLE,
-				null, " group_name=? ", args, null, null, null, null);
-
-		for (DevicesGroup d : listDevicesModel) {
-			String ieee = d.getIeee();
-			if (!ieee.equals("-1")) {
-				String[] ag = { d.getIeee() };
-				String where = " ieee=? ";
-				List<DevicesModel> mm = dh.queryForDevicesList(db,
-						DataHelper.DEVICES_TABLE, null, where, ag, null, null,
-						null, null);
-				if (null != mm && mm.size() > 0) {
-					scenes.add(mm.get(0));
-				}
-			}
-		}
+//
+//		SQLiteDatabase db = dh.getSQLiteDatabase();
+//		listDevicesModel = dh.queryForSceneDevicesList(c, db, DataHelper.SCENE_DEVICES_TABLE,
+//				null, " group_name=? ", args, null, null, null, null);
+//
+//		for (SceneDevice d : listDevicesModel) {
+//			String ieee = d.getIeee();
+//			if (!ieee.equals("-1")) {
+//				String[] ag = { d.getIeee() };
+//				String where = " ieee=? ";
+//				List<DevicesModel> mm = dh.queryForDevicesList(db,
+//						DataHelper.DEVICES_TABLE, null, where, ag, null, null,
+//						null, null);
+//				if (null != mm && mm.size() > 0) {
+//					scenes.add(mm.get(0));
+//				}
+//			}
+//		}
 		return scenes;
 	}
-
-	public static DevicesGroup getOneScenesDevices(Context c, DataHelper dh,
-			String ieee) {
-
-		if (null == dh) {
-			dh = new DataHelper(c);
-		}
-		String[] args = { ieee };
-		List<DevicesGroup> listDevicesModel = new ArrayList<DevicesGroup>();
-		List<SimpleDevicesModel> scenes = new ArrayList<SimpleDevicesModel>();
-
-		SQLiteDatabase db = dh.getSQLiteDatabase();
-		listDevicesModel = dh.queryForGroupList(c, db, DataHelper.GROUP_TABLE,
-				null, " devices_ieee=? ", args, null, null, null, null);
-
-		if (null != listDevicesModel && listDevicesModel.size() > 0) {
-			return listDevicesModel.get(0);
-		}
-
-		return null;
-
-	}
-
 }

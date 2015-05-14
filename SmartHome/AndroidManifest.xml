@@ -116,6 +116,9 @@
          <activity
              android:name="com.gdgl.drawer.DeviceDetailActivity">
          </activity>
+         <activity
+             android:name="com.gdgl.drawer.JoinNetActivity">
+         </activity>
 
         <service android:name="com.gdgl.service.SmartService" >
         </service>
