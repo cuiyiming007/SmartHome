@@ -191,16 +191,6 @@ public class DataHelper extends SQLiteOpenHelper {
 				+ " (");
 		sceneDevicesStringBuilder.append(SceneDevice._ID
 				+ " INTEGER PRIMARY KEY AUTOINCREMENT,");
-		sceneStringBuilder.append(SceneInfo.SCENE_ID + " INTEGER,");
-		sceneStringBuilder.append(SceneInfo.SCENE_NAME + " VARCHAR(48),");
-		sceneStringBuilder.append(SceneInfo.SCENE_ACTIONS + " VARCHAR,");
-		sceneStringBuilder.append(SceneInfo.SCENE_INDEX + " INTEGER )");
-
-		// scene_devices table create string
-		sceneDevicesStringBuilder.append("CREATE TABLE " + SCENE_DEVICES_TABLE
-				+ " (");
-		sceneDevicesStringBuilder.append(SceneDevice._ID
-				+ " INTEGER PRIMARY KEY AUTOINCREMENT,");
 		sceneDevicesStringBuilder.append(SceneDevice.SCENE_ID + " INTEGER,");
 		sceneDevicesStringBuilder.append(SceneDevice.ACTION_TYPE + " INTEGER,");
 		sceneDevicesStringBuilder.append(SceneDevice.DEVICE_IEEE
