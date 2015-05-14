@@ -31,6 +31,7 @@ public class SceneLinkageManager extends Manger {
 		return instance;
 	}
 
+	// Scene API
 	public void AddScene(String scnname, String scnaction, int scnindex) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("scnname", scnname);
@@ -59,8 +60,9 @@ public class SceneLinkageManager extends Manger {
 				});
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
-	
-	public void EditScene(String scnname, String scnaction, int scnindex, int sid) {
+
+	public void EditScene(String scnname, String scnaction, int scnindex,
+			int sid) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("scnname", scnname);
 		paraMap.put("scnaction", scnaction);
@@ -89,7 +91,7 @@ public class SceneLinkageManager extends Manger {
 				});
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
-	
+
 	public void DelScene(int sid) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("sid", Integer.toString(sid));
@@ -124,6 +126,7 @@ public class SceneLinkageManager extends Manger {
 
 		String url = NetUtil.getInstance().getCumstomURL(
 				NetUtil.getInstance().IP, "DoScene.cgi", param);
+<<<<<<< HEAD
 
 		StringRequestChina req = new StringRequestChina(url,
 				new Listener<String>() {
@@ -147,6 +150,8 @@ public class SceneLinkageManager extends Manger {
 	public void GetSceneList() {
 		String url = NetUtil.getInstance().getVideoURL(
 				NetUtil.getInstance().IP, "GetSceneList.cgi");
+=======
+>>>>>>> branch 'app2.0_branch' of https://github.com/justek-Wade/SmartHome.git
 
 		StringRequestChina req = new StringRequestChina(url,
 				new Listener<String>() {
@@ -266,7 +271,7 @@ public class SceneLinkageManager extends Manger {
 				new Listener<String>() {
 
 					@Override
-					public void onResponse(String response) {
+					public void onResponse(String arg0) {
 						// TODO Auto-generated method stub
 
 					}
@@ -280,6 +285,7 @@ public class SceneLinkageManager extends Manger {
 				});
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
+<<<<<<< HEAD
 	
 	public void EnableLinkage(int enable, int lid){
 		HashMap<String, String> paraMap = new HashMap<String, String>();
@@ -310,6 +316,31 @@ public class SceneLinkageManager extends Manger {
 	}
 	
 	
+=======
+
+	public void GetSceneList() {
+		String url = NetUtil.getInstance().getVideoURL(
+				NetUtil.getInstance().IP, "GetSceneList.cgi");
+
+		StringRequestChina req = new StringRequestChina(url,
+				new Listener<String>() {
+
+					@Override
+					public void onResponse(String response) {
+						// TODO Auto-generated method stub
+						new GetSceneListTask().execute(response);
+					}
+				}, new ErrorListener() {
+
+					@Override
+					public void onErrorResponse(VolleyError arg0) {
+						// TODO Auto-generated method stub
+
+					}
+				});
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
+>>>>>>> branch 'app2.0_branch' of https://github.com/justek-Wade/SmartHome.git
 
 	class GetSceneListTask extends AsyncTask<String, Void, Void> {
 

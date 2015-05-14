@@ -1,5 +1,8 @@
 package com.gdgl.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Fragment;
 import android.content.Context;
 import android.view.Gravity;
@@ -20,6 +23,7 @@ import com.gdgl.activity.SwitchControlFragment;
 import com.gdgl.activity.WarnningControlFragment;
 import com.gdgl.adapter.SceneDevicesAdapter;
 import com.gdgl.mydata.DataHelper;
+import com.gdgl.mydata.scene.SceneDevice;
 import com.gdgl.smarthome.R;
 
 public class UiUtils {
@@ -323,6 +327,23 @@ public class UiUtils {
 		return s;
 	}
 
+	public static List<SceneDevice> parseActionParamsToSceneDevices(int sId, String params) {
+		List<SceneDevice> sceneDevicesList = new ArrayList<SceneDevice>();
+		if(params.contains("@")) {
+			String[] actionparams = params.split("@");
+			for (int i = 0; i < actionparams.length; i++) {
+				SceneDevice sceneDevice = new SceneDevice(actionparams[i]);
+				sceneDevice.setSid(sId);
+				sceneDevicesList.add(sceneDevice);
+			}
+		} else {
+			SceneDevice sceneDevice = new SceneDevice(params);
+			sceneDevice.setSid(sId);
+			sceneDevicesList.add(sceneDevice);
+		}
+		return sceneDevicesList;
+	}
+	
 	public static Toast getToast(Context c) {
 		LayoutInflater inflater = LayoutInflater.from(c);
 		View layout = inflater.inflate(R.layout.custom_toast, null);

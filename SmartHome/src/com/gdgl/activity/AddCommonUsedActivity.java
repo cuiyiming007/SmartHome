@@ -355,7 +355,7 @@ public class AddCommonUsedActivity extends Activity {
 		}
 
 		List<String> temp = new ArrayList<String>();
-		temp = DataUtil.getScenes(AddCommonUsedActivity.this, null);
+//		temp = DataUtil.getScenes(AddCommonUsedActivity.this, null);
 
 		for (String string : temp) {
 			if (!mExitScene.contains(string)) {

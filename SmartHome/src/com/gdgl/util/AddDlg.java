@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gdgl.manager.CGIManager;
-import com.gdgl.model.DevicesGroup;
 import com.gdgl.model.RemoteControl;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.getFromSharedPreferences;
@@ -67,16 +66,11 @@ public class AddDlg {
 					if (null != mN && !mN.trim().equals("")) {
 						saveRegion(mN.trim());
 					}
-				}else if(mType==SCENE){
-					if (null != mN && !mN.trim().equals("")) {
-						saveScene(mN.trim());
-					}
 				}else if(mType==REMOTE_CONTROL){
 					if (null != mN && !mN.trim().equals("")) {
 						saveRemoteControl(mN.trim());
 					}
 				}
-				
 				mAddDialogcallback.refreshdata();
 				dismiss();
 			}
@@ -145,25 +139,6 @@ public class AddDlg {
 		}
 		mControlList.add(rc);
 		getFromSharedPreferences.addRemoteControlList(mControlList);
-	}
-
-	protected void saveScene(String trim) {
-		// TODO Auto-generated method stub
-		getFromSharedPreferences.setsharedPreferences(mContext);
-		DevicesGroup dg=new DevicesGroup(mContext);
-		dg.setDevicesState(false);
-		dg.setEp("");
-		dg.setIeee("-1");
-		dg.setGroupName(trim);
-		dg.setGroupId(getFromSharedPreferences.getSceneId());
-		dg.setDevicesValue(0);
-		DataHelper dh=new DataHelper(mContext);
-		ArrayList<DevicesGroup> al=new ArrayList<DevicesGroup>();
-		al.add(dg);
-		for (DevicesGroup devicesGroup : al) {
-			dh.insertGroup(dh.getReadableDatabase(), DataHelper.GROUP_TABLE, null,devicesGroup.convertContentValues());
-		}
-		
 	}
 
 	protected void saveRegion(String mN) {

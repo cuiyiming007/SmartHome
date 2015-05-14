@@ -15,6 +15,7 @@ import android.util.Log;
 import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.DeviceManager;
+import com.gdgl.manager.SceneLinkageManager;
 import com.gdgl.manager.VideoManager;
 import com.gdgl.mydata.Constants;
 import com.gdgl.util.NetUtil;
@@ -83,6 +84,7 @@ public class SmartService extends Service {
 		CGIManager.getInstance().GetAllRoomInfo();
 		CGIManager.getInstance().GetAllBindList();
 		VideoManager.getInstance().getIPClist();
+		SceneLinkageManager.getInstance().GetSceneList();
 		new Thread(new Runnable() {
 			@Override
 			public void run() {

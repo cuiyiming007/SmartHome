@@ -59,6 +59,11 @@ public class EventType {
 	public static final EventType GETEPBYROOMINDEX;
 	public static final EventType ROOMDATAMAIN;
 	public static final EventType MODIFYDEVICEROOMID;
+	
+	public static final EventType ADDSCENE;
+	public static final EventType EDITSCENE;
+	public static final EventType DELSCENE;
+	
 	public static final EventType CHANGEDEVICENAME;
 	public static final EventType HEARTTIME;
 	public static final EventType READHEARTTIME;
@@ -116,6 +121,11 @@ public class EventType {
 		GETEPBYROOMINDEX = new EventType("getEPByRoomIndex", nextId());
 		ROOMDATAMAIN = new EventType("roomDataMain", nextId());
 		MODIFYDEVICEROOMID = new EventType("modifyDeviceRoomId", nextId());
+		
+		ADDSCENE = new EventType("AddScene", nextId());
+		EDITSCENE = new EventType("EditScene", nextId());
+		DELSCENE = new EventType("DelScene", nextId());
+		
 		CHANGEDEVICENAME = new EventType("changedevicename", nextId());
 		HEARTTIME = new EventType("hearttime", nextId());
 		READHEARTTIME = new EventType("readhearttime", nextId());

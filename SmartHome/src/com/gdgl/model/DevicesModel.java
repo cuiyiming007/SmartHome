@@ -68,7 +68,7 @@ interface DevicesBaseColumns extends BaseColumns {
 
 	public static final String LAST_UPDATE_TIME = "last_update_time";
 	public static final String ON_OFF_LINE = "on_off_line";
-	
+
 	public static final String HEART_TIME = "heart_time";
 	public static final String ONLINE_STATUS = "online_status";
 
@@ -213,7 +213,7 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 	public void setmCurPowerResource(String mCurPowerResource) {
 		this.mCurPowerResource = mCurPowerResource;
 	}
-	
+
 	public String getCurpowersourcelevel() {
 		return curpowersourcelevel;
 	}
@@ -221,7 +221,7 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 	public void setCurpowersourcelevel(String curpowersourcelevel) {
 		this.curpowersourcelevel = curpowersourcelevel;
 	}
-	
+
 	public String getmIeee() {
 		return mIeee;
 	}
@@ -525,24 +525,24 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 	public void setmValue2(int mValue2) {
 		this.mValue2 = mValue2;
 	}
-	
-	public int getmHeartTime(){
+
+	public int getmHeartTime() {
 		return mHeartTime;
 	}
-	
-	public void setmHeartTime(int time){
+
+	public void setmHeartTime(int time) {
 		this.mHeartTime = time;
 	}
-	
-	public String getmOnlineStatus(){
+
+	public String getmOnlineStatus() {
 		return mOnlineStatus;
 	}
-	
-	public void setmOnlineStatus(String status){
+
+	public void setmOnlineStatus(String status) {
 		this.mOnlineStatus = status;
 	}
-	
-	//避免在内部调用Getters/Setters方法:因为字段搜寻要比方法调用效率高得多，直接访问某个字段可能要比通过getters方法来去访问这个字段快3到7倍.
+
+	// 避免在内部调用Getters/Setters方法:因为字段搜寻要比方法调用效率高得多，直接访问某个字段可能要比通过getters方法来去访问这个字段快3到7倍.
 	public ContentValues convertContentValues() {
 		ContentValues mContentValues = new ContentValues();
 
@@ -553,8 +553,10 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 		mContentValues.put(DevicesBaseColumns.PIC_NAME, mPicName);
 		mContentValues.put(DevicesBaseColumns.PROFILE_ID, mProfileId);
 		mContentValues.put(DevicesBaseColumns.POWER_RESOURCE, mPowerResource);
-		mContentValues.put(DevicesBaseColumns.CUR_POWER_RESOURCE, mCurPowerResource);
-		mContentValues.put(DevicesBaseColumns.CURPOWERSOURCELEVEL, curpowersourcelevel);
+		mContentValues.put(DevicesBaseColumns.CUR_POWER_RESOURCE,
+				mCurPowerResource);
+		mContentValues.put(DevicesBaseColumns.CURPOWERSOURCELEVEL,
+				curpowersourcelevel);
 
 		mContentValues.put(DevicesBaseColumns.IEEE, mIeee);
 		mContentValues.put(DevicesBaseColumns.NWK_ADDR, mNWKAddr);
@@ -590,9 +592,9 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 
 		mContentValues.put(DevicesBaseColumns.CLUSTER_ID, mClusterID);
 		mContentValues.put(DevicesBaseColumns.DEVICE_SORT, mDeviceSort);
-		mContentValues
-				.put(DevicesBaseColumns.DEVICE_REGION, mDeviceRegion);
-		mContentValues.put(DevicesBaseColumns.DEFAULT_DEVICE_NAME, mDefaultDeviceName);
+		mContentValues.put(DevicesBaseColumns.DEVICE_REGION, mDeviceRegion);
+		mContentValues.put(DevicesBaseColumns.DEFAULT_DEVICE_NAME,
+				mDefaultDeviceName);
 		mContentValues.put(DevicesBaseColumns.DEVICE_PRIORITY, mDevicePriority);
 
 		mContentValues.put(DevicesBaseColumns.LAST_UPDATE_TIME, mLastDateTime);
@@ -616,7 +618,8 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 		mDeviceId = (r.getDevice_id() == null ? -1 : Integer.parseInt(r
 				.getDevice_id()));
 		mRid = (r.getRid());
-		mPicName = (r.getPicname());
+		mPicName = Integer.toString(DataUtil.getDefaultDevicesSmallIcon(
+				mDeviceId, n.getModel_id()));
 		mProfileId = (r.getProfileid());
 		mPowerResource = (r.getPowersource());
 		mCurPowerResource = (r.getCurpowersource());
@@ -642,16 +645,17 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 		mPower = (d.getPower());
 		mVoltage = (d.getVoltage());
 		mlevel = (d.getLevel());
-		if(mDeviceId == DataHelper.DIMEN_LIGHTS_DEVICETYPE || mDeviceId == DataHelper.SHADE_DEVICETYPE){
-			if(mlevel.equals("0")){
+		if (mDeviceId == DataHelper.DIMEN_LIGHTS_DEVICETYPE
+				|| mDeviceId == DataHelper.SHADE_DEVICETYPE) {
+			if (mlevel.equals("0")) {
 				mOnOffStatus = ("0");
-			}else{
+			} else {
 				mOnOffStatus = ("1");
 			}
-		}else{
+		} else {
 			mOnOffStatus = (d.getOn_off_status() == null ? "0" : d
 					.getOn_off_status());
-		}	
+		}
 		mTemperature = (d.getTemp() == null ? -100 : Integer.parseInt(d
 				.getTemp()) / 10000);
 		mHumidity = (d.getHum() == null ? -100 : Integer.parseInt(d.getHum()));
@@ -671,11 +675,11 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 		mDeviceSort = (DataUtil.getDefaultDevicesSort(
 				Integer.parseInt(r.getDevice_id()), n.getModel_id()));
 		mDeviceRegion = ("");
-//		Log.i("", DataUtil.getDefaultDevicesName(
-//				ApplicationController.getInstance(), getmModelId(), getmEP()));
+		// Log.i("", DataUtil.getDefaultDevicesName(
+		// ApplicationController.getInstance(), getmModelId(), getmEP()));
 		String[] nameString = DataUtil.getDefaultDevicesName(
-				ApplicationController.getInstance(), mModelId, mEP)
-				.split("\\*\\*");
+				ApplicationController.getInstance(), mModelId, mEP).split(
+				"\\*\\*");
 		Log.i("", nameString[0] + "*" + nameString[1]);
 		if (d.getName().equals(nameString[0])) {
 			String newname = Uri.encode(nameString[1]
@@ -696,166 +700,168 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 		mLastDateTime = (System.currentTimeMillis());
 		mOnOffLine = (DEVICE_ON_LINE);
 	}
-//	public ContentValues convertContentValues() {
-//		ContentValues mContentValues = new ContentValues();
-//
-//		mContentValues.put(DevicesBaseColumns.ALL_COUNT, getmAllCount());
-//		mContentValues.put(DevicesBaseColumns.CURCOUNT, getmCurCount());
-//		mContentValues.put(DevicesBaseColumns.DEVICE_ID, getmDeviceId());
-//		mContentValues.put(DevicesBaseColumns.R_ID, getmRid());
-//		mContentValues.put(DevicesBaseColumns.PIC_NAME, getmPicName());
-//		mContentValues.put(DevicesBaseColumns.PROFILE_ID, getmProfileId());
-//		mContentValues.put(DevicesBaseColumns.POWER_RESOURCE,
-//				getmPowerResource());
-//		mContentValues.put(DevicesBaseColumns.CUR_POWER_RESOURCE,
-//				getmCurPowerResource());
-//		mContentValues.put(DevicesBaseColumns.CURPOWERSOURCELEVEL,
-//				getCurpowersourcelevel());
-//
-//		mContentValues.put(DevicesBaseColumns.IEEE, getmIeee());
-//		mContentValues.put(DevicesBaseColumns.NWK_ADDR, getmNWKAddr());
-//		mContentValues.put(DevicesBaseColumns.NODE_EN_NAME, getmNodeENNAme());
-//		mContentValues.put(DevicesBaseColumns.MANUFACTORY, getmManufactory());
-//		mContentValues.put(DevicesBaseColumns.ZCL_VERSTION, getmZCLVersion());
-//		mContentValues.put(DevicesBaseColumns.STACK_VERSTION,
-//				getmStackVerstion());
-//		mContentValues.put(DevicesBaseColumns.APP_VERSTION, getmAppVersion());
-//		mContentValues.put(DevicesBaseColumns.HW_VERSTION, getmHwVersion());
-//		mContentValues.put(DevicesBaseColumns.DATE_CODE, getmDateCode());
-//		mContentValues.put(DevicesBaseColumns.MODEL_ID, getmModelId());
-//		mContentValues.put(DevicesBaseColumns.NODE_TYPE, getmNodeType());
-//
-//		mContentValues.put(DevicesBaseColumns.EP, getmEP());
-//		mContentValues.put(DevicesBaseColumns.NAME, getmName());
-//		mContentValues.put(DevicesBaseColumns.CURRENT, getmCurrent());
-//		mContentValues.put(DevicesBaseColumns.ENERGY, getmEnergy());
-//		mContentValues.put(DevicesBaseColumns.POWER, getmPower());
-//		mContentValues.put(DevicesBaseColumns.VOLTAGE, getmVoltage());
-//		mContentValues.put(DevicesBaseColumns.LEVEL, getmLevel());
-//		mContentValues.put(DevicesBaseColumns.ON_OFF_STATUS, getmOnOffStatus());
-//		mContentValues.put(DevicesBaseColumns.TEMPERATURE, getmTemperature());
-//		mContentValues.put(DevicesBaseColumns.HUMIDITY, getmHumidity());
-//		mContentValues.put(DevicesBaseColumns.BRIGHTNESS, getmBrightness());
-//		mContentValues.put(DevicesBaseColumns.EP_MODEL_ID, getmEPModelId());
-//
-//		mContentValues.put(DevicesBaseColumns.CURRENT_MAX, getmCurrentMax());
-//		mContentValues.put(DevicesBaseColumns.CURRENT_MIN, getmCurrentMin());
-//		mContentValues.put(DevicesBaseColumns.VOLTAGE_MAX, getmVoltageMax());
-//		mContentValues.put(DevicesBaseColumns.VOLTAGE_MIN, getmVoltageMin());
-//		mContentValues.put(DevicesBaseColumns.ENERGY_MAX, getmEnergyMax());
-//		mContentValues.put(DevicesBaseColumns.ENERGY_MIN, getmEnergyMin());
-//
-//		mContentValues.put(DevicesBaseColumns.CLUSTER_ID, getmClusterID());
-//		mContentValues.put(DevicesBaseColumns.DEVICE_SORT, getmDeviceSort());
-//		mContentValues
-//				.put(DevicesBaseColumns.DEVICE_REGION, getmDeviceRegion());
-//		mContentValues.put(DevicesBaseColumns.DEFAULT_DEVICE_NAME,
-//				getmDefaultDeviceName());
-//		mContentValues.put(DevicesBaseColumns.DEVICE_PRIORITY,
-//				getmDevicePriority());
-//
-//		mContentValues.put(DevicesBaseColumns.LAST_UPDATE_TIME,
-//				getmLastDateTime());
-//		mContentValues.put(DevicesBaseColumns.ON_OFF_LINE, getmOnOffLine());
-//		mContentValues.put(DevicesBaseColumns.HEART_TIME, getmHeartTime());
-//
-//		return mContentValues;
-//	}
-//
-//	public DevicesModel() {
-//	}
-//
-//	// ResponseParamsEndPoint
-//	public DevicesModel(ResponseParamsEndPoint r) {
-//
-//		DevParam d = r.getDevparam();
-//		Node n = d.getNode();
-//
-//		setmAllCount(r.getAllcount());
-//		setmCurCount(r.getCurcount());
-//		setmDeviceId(r.getDevice_id() == null ? -1 : Integer.parseInt(r
-//				.getDevice_id()));
-//		setmRid(r.getRid());
-//		setmPicName(r.getPicname());
-//		setmProfileId(r.getProfileid());
-//		setmPowerResource(r.getPowersource());
-//		setmCurPowerResource(r.getCurpowersource());
-//		setCurpowersourcelevel(r.getCurpowersourcelevel());
-//
-//		setmIeee(n.getIeee() == null ? "" : n.getIeee());
-//		setmNWKAddr(n.getNwk_addr() == null ? "" : n.getNwk_addr());
-//		setmNodeENNAme(n.getName() == null ? "" : n.getName());
-//		setmManufactory(n.getManufactory());
-//		setmZCLVersion(n.getZcl_version());
-//		setmStackVerstion(n.getStack_version());
-//		setmAppVersion(n.getApp_version());
-//		setmHwVersion(n.getHw_version());
-//		setmDateCode(n.getDate_code());
-//		setmModelId(n.getModel_id() == null ? "" : n.getModel_id());
-//		setmNodeType(n.getNode_type() == null ? "" : n.getNode_type());
-//
-//		setmEP(d.getEp() == null ? "" : d.getEp());
-//		setmName(d.getName() == null ? "" : d.getName());
-//		setmCurrent(d.getCurrent());
-//		setmEnergy(d.getEnergy() == null ? null : String.valueOf(Float
-//				.parseFloat(d.getEnergy()) / 10000));
-//		setmPower(d.getPower());
-//		setmVoltage(d.getVoltage());
-//		setmLevel(d.getLevel());
-//		if(getmDeviceId() == DataHelper.DIMEN_LIGHTS_DEVICETYPE || getmDeviceId() == DataHelper.SHADE_DEVICETYPE){
-//			if(getmLevel().equals("0")){
-//				setmOnOffStatus("0");
-//			}else{
-//				setmOnOffStatus("1");
-//			}
-//		}else{
-//			setmOnOffStatus(d.getOn_off_status() == null ? "0" : d
-//					.getOn_off_status());
-//		}	
-//		setmTemperature(d.getTemp() == null ? -100 : Integer.parseInt(d
-//				.getTemp()) / 10000);
-//		setmHumidity(d.getHum() == null ? -100 : Integer.parseInt(d.getHum()));
-//		setmBrightness(d.getBrightness() == null ? -100 : Integer.parseInt(d
-//				.getBrightness()));
-//		setmEPModelId(d.getEp_model_id() == null ? "" : d.getEp_model_id());
-//
-//		setmCurrentMax(d.getCurrentmax());
-//		setmCurrentMin(d.getCurrentmin());
-//		setmVoltageMax(d.getVoltagemax());
-//		setmVoltageMin(d.getVoltagemin());
-//		setmEnergyMax(d.getEnergymax());
-//		setmEnergyMin(d.getEnergymin());
-//
-//		setmClusterID(DataUtil.getClusterIdByDeviceid_Modelid(n.getModel_id(),
-//				d.getEp()));
-//		setmDeviceSort(DataUtil.getDefaultDevicesSort(
-//				Integer.parseInt(r.getDevice_id()), n.getModel_id()));
-//		setmDeviceRegion("");
-//		Log.i("", DataUtil.getDefaultDevicesName(
-//				ApplicationController.getInstance(), getmModelId(), getmEP()));
-//		String[] nameString = DataUtil.getDefaultDevicesName(
-//				ApplicationController.getInstance(), getmModelId(), getmEP())
-//				.split("\\*\\*");
-//		Log.i("", nameString[0] + "*" + nameString[1]);
-//		if (d.getName().equals(nameString[0])) {
-//			String newname = Uri.encode(nameString[1]
-//					+ "("
-//					+ getmIeee().substring(getmIeee().length() - 4,
-//							getmIeee().length()) + ")");
-//			CGIManager.getInstance().ChangeDeviceName(getmIeee(), d.getEp(),
-//					d.getName(), newname);
-//			setmDefaultDeviceName(nameString[1]
-//					+ "("
-//					+ getmIeee().substring(getmIeee().length() - 4,
-//							getmIeee().length()) + ")");
-//		} else {
-//			setmDefaultDeviceName(d.getName());
-//		}
-//		setmDevicePriority(DataUtil.getDefaultDevicesPriority(n.getModel_id()));
-//
-//		setmLastDateTime(System.currentTimeMillis());
-//		setmOnOffLine(DEVICE_ON_LINE);
-//	}
+
+	// public ContentValues convertContentValues() {
+	// ContentValues mContentValues = new ContentValues();
+	//
+	// mContentValues.put(DevicesBaseColumns.ALL_COUNT, getmAllCount());
+	// mContentValues.put(DevicesBaseColumns.CURCOUNT, getmCurCount());
+	// mContentValues.put(DevicesBaseColumns.DEVICE_ID, getmDeviceId());
+	// mContentValues.put(DevicesBaseColumns.R_ID, getmRid());
+	// mContentValues.put(DevicesBaseColumns.PIC_NAME, getmPicName());
+	// mContentValues.put(DevicesBaseColumns.PROFILE_ID, getmProfileId());
+	// mContentValues.put(DevicesBaseColumns.POWER_RESOURCE,
+	// getmPowerResource());
+	// mContentValues.put(DevicesBaseColumns.CUR_POWER_RESOURCE,
+	// getmCurPowerResource());
+	// mContentValues.put(DevicesBaseColumns.CURPOWERSOURCELEVEL,
+	// getCurpowersourcelevel());
+	//
+	// mContentValues.put(DevicesBaseColumns.IEEE, getmIeee());
+	// mContentValues.put(DevicesBaseColumns.NWK_ADDR, getmNWKAddr());
+	// mContentValues.put(DevicesBaseColumns.NODE_EN_NAME, getmNodeENNAme());
+	// mContentValues.put(DevicesBaseColumns.MANUFACTORY, getmManufactory());
+	// mContentValues.put(DevicesBaseColumns.ZCL_VERSTION, getmZCLVersion());
+	// mContentValues.put(DevicesBaseColumns.STACK_VERSTION,
+	// getmStackVerstion());
+	// mContentValues.put(DevicesBaseColumns.APP_VERSTION, getmAppVersion());
+	// mContentValues.put(DevicesBaseColumns.HW_VERSTION, getmHwVersion());
+	// mContentValues.put(DevicesBaseColumns.DATE_CODE, getmDateCode());
+	// mContentValues.put(DevicesBaseColumns.MODEL_ID, getmModelId());
+	// mContentValues.put(DevicesBaseColumns.NODE_TYPE, getmNodeType());
+	//
+	// mContentValues.put(DevicesBaseColumns.EP, getmEP());
+	// mContentValues.put(DevicesBaseColumns.NAME, getmName());
+	// mContentValues.put(DevicesBaseColumns.CURRENT, getmCurrent());
+	// mContentValues.put(DevicesBaseColumns.ENERGY, getmEnergy());
+	// mContentValues.put(DevicesBaseColumns.POWER, getmPower());
+	// mContentValues.put(DevicesBaseColumns.VOLTAGE, getmVoltage());
+	// mContentValues.put(DevicesBaseColumns.LEVEL, getmLevel());
+	// mContentValues.put(DevicesBaseColumns.ON_OFF_STATUS, getmOnOffStatus());
+	// mContentValues.put(DevicesBaseColumns.TEMPERATURE, getmTemperature());
+	// mContentValues.put(DevicesBaseColumns.HUMIDITY, getmHumidity());
+	// mContentValues.put(DevicesBaseColumns.BRIGHTNESS, getmBrightness());
+	// mContentValues.put(DevicesBaseColumns.EP_MODEL_ID, getmEPModelId());
+	//
+	// mContentValues.put(DevicesBaseColumns.CURRENT_MAX, getmCurrentMax());
+	// mContentValues.put(DevicesBaseColumns.CURRENT_MIN, getmCurrentMin());
+	// mContentValues.put(DevicesBaseColumns.VOLTAGE_MAX, getmVoltageMax());
+	// mContentValues.put(DevicesBaseColumns.VOLTAGE_MIN, getmVoltageMin());
+	// mContentValues.put(DevicesBaseColumns.ENERGY_MAX, getmEnergyMax());
+	// mContentValues.put(DevicesBaseColumns.ENERGY_MIN, getmEnergyMin());
+	//
+	// mContentValues.put(DevicesBaseColumns.CLUSTER_ID, getmClusterID());
+	// mContentValues.put(DevicesBaseColumns.DEVICE_SORT, getmDeviceSort());
+	// mContentValues
+	// .put(DevicesBaseColumns.DEVICE_REGION, getmDeviceRegion());
+	// mContentValues.put(DevicesBaseColumns.DEFAULT_DEVICE_NAME,
+	// getmDefaultDeviceName());
+	// mContentValues.put(DevicesBaseColumns.DEVICE_PRIORITY,
+	// getmDevicePriority());
+	//
+	// mContentValues.put(DevicesBaseColumns.LAST_UPDATE_TIME,
+	// getmLastDateTime());
+	// mContentValues.put(DevicesBaseColumns.ON_OFF_LINE, getmOnOffLine());
+	// mContentValues.put(DevicesBaseColumns.HEART_TIME, getmHeartTime());
+	//
+	// return mContentValues;
+	// }
+	//
+	// public DevicesModel() {
+	// }
+	//
+	// // ResponseParamsEndPoint
+	// public DevicesModel(ResponseParamsEndPoint r) {
+	//
+	// DevParam d = r.getDevparam();
+	// Node n = d.getNode();
+	//
+	// setmAllCount(r.getAllcount());
+	// setmCurCount(r.getCurcount());
+	// setmDeviceId(r.getDevice_id() == null ? -1 : Integer.parseInt(r
+	// .getDevice_id()));
+	// setmRid(r.getRid());
+	// setmPicName(r.getPicname());
+	// setmProfileId(r.getProfileid());
+	// setmPowerResource(r.getPowersource());
+	// setmCurPowerResource(r.getCurpowersource());
+	// setCurpowersourcelevel(r.getCurpowersourcelevel());
+	//
+	// setmIeee(n.getIeee() == null ? "" : n.getIeee());
+	// setmNWKAddr(n.getNwk_addr() == null ? "" : n.getNwk_addr());
+	// setmNodeENNAme(n.getName() == null ? "" : n.getName());
+	// setmManufactory(n.getManufactory());
+	// setmZCLVersion(n.getZcl_version());
+	// setmStackVerstion(n.getStack_version());
+	// setmAppVersion(n.getApp_version());
+	// setmHwVersion(n.getHw_version());
+	// setmDateCode(n.getDate_code());
+	// setmModelId(n.getModel_id() == null ? "" : n.getModel_id());
+	// setmNodeType(n.getNode_type() == null ? "" : n.getNode_type());
+	//
+	// setmEP(d.getEp() == null ? "" : d.getEp());
+	// setmName(d.getName() == null ? "" : d.getName());
+	// setmCurrent(d.getCurrent());
+	// setmEnergy(d.getEnergy() == null ? null : String.valueOf(Float
+	// .parseFloat(d.getEnergy()) / 10000));
+	// setmPower(d.getPower());
+	// setmVoltage(d.getVoltage());
+	// setmLevel(d.getLevel());
+	// if(getmDeviceId() == DataHelper.DIMEN_LIGHTS_DEVICETYPE || getmDeviceId()
+	// == DataHelper.SHADE_DEVICETYPE){
+	// if(getmLevel().equals("0")){
+	// setmOnOffStatus("0");
+	// }else{
+	// setmOnOffStatus("1");
+	// }
+	// }else{
+	// setmOnOffStatus(d.getOn_off_status() == null ? "0" : d
+	// .getOn_off_status());
+	// }
+	// setmTemperature(d.getTemp() == null ? -100 : Integer.parseInt(d
+	// .getTemp()) / 10000);
+	// setmHumidity(d.getHum() == null ? -100 : Integer.parseInt(d.getHum()));
+	// setmBrightness(d.getBrightness() == null ? -100 : Integer.parseInt(d
+	// .getBrightness()));
+	// setmEPModelId(d.getEp_model_id() == null ? "" : d.getEp_model_id());
+	//
+	// setmCurrentMax(d.getCurrentmax());
+	// setmCurrentMin(d.getCurrentmin());
+	// setmVoltageMax(d.getVoltagemax());
+	// setmVoltageMin(d.getVoltagemin());
+	// setmEnergyMax(d.getEnergymax());
+	// setmEnergyMin(d.getEnergymin());
+	//
+	// setmClusterID(DataUtil.getClusterIdByDeviceid_Modelid(n.getModel_id(),
+	// d.getEp()));
+	// setmDeviceSort(DataUtil.getDefaultDevicesSort(
+	// Integer.parseInt(r.getDevice_id()), n.getModel_id()));
+	// setmDeviceRegion("");
+	// Log.i("", DataUtil.getDefaultDevicesName(
+	// ApplicationController.getInstance(), getmModelId(), getmEP()));
+	// String[] nameString = DataUtil.getDefaultDevicesName(
+	// ApplicationController.getInstance(), getmModelId(), getmEP())
+	// .split("\\*\\*");
+	// Log.i("", nameString[0] + "*" + nameString[1]);
+	// if (d.getName().equals(nameString[0])) {
+	// String newname = Uri.encode(nameString[1]
+	// + "("
+	// + getmIeee().substring(getmIeee().length() - 4,
+	// getmIeee().length()) + ")");
+	// CGIManager.getInstance().ChangeDeviceName(getmIeee(), d.getEp(),
+	// d.getName(), newname);
+	// setmDefaultDeviceName(nameString[1]
+	// + "("
+	// + getmIeee().substring(getmIeee().length() - 4,
+	// getmIeee().length()) + ")");
+	// } else {
+	// setmDefaultDeviceName(d.getName());
+	// }
+	// setmDevicePriority(DataUtil.getDefaultDevicesPriority(n.getModel_id()));
+	//
+	// setmLastDateTime(System.currentTimeMillis());
+	// setmOnOffLine(DEVICE_ON_LINE);
+	// }
 
 	@Override
 	public String toString() {

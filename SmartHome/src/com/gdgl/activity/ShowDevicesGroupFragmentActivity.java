@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.gdgl.GalleryFlow.FancyCoverFlow;
-import com.gdgl.activity.BaseControlFragment.UpdateDevice;
 import com.gdgl.activity.DevicesListFragment.refreshData;
 import com.gdgl.activity.DevicesListFragment.setData;
 import com.gdgl.adapter.DevicesBaseAdapter;
@@ -56,7 +55,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.TextView;
 
 public class ShowDevicesGroupFragmentActivity extends FragmentActivity
-		implements refreshData, DevicesObserver, UpdateDevice,
+		implements refreshData, DevicesObserver,
 		EditDialogcallback, setData, UIListener {
 
 	private static final String TAG = "ShowDevicesGroupFragmentActivity";
@@ -579,12 +578,6 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 
 	public interface EditDevicesName {
 		public void editDevicesName();
-	}
-
-	@Override
-	public void saveDevicesName(String name) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

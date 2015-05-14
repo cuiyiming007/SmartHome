@@ -21,7 +21,6 @@ import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.Callback.CallbackResponseType2;
 import com.gdgl.smarthome.R;
-import com.gdgl.util.UiUtils;
 import com.gdgl.util.VersionDlg;
 import com.gdgl.util.MyOkCancleDlg;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
@@ -51,8 +50,6 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
-import android.widget.SeekBar;
-import android.widget.Switch;
 
 public class DevicesListFragment extends BaseFragment implements adapterSeter,
 		IFragmentCallbak {
@@ -60,8 +57,6 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 	private static final String TAG = "DevicesListFragment";
 	private View mView;
 	PullToRefreshListView mPullToRefreshListView;
-	Switch switchBar;
-	SeekBar seekBar;
 	private setData setDataActivity;
 	DevicesModel mDevicesModel;
 	DevicesModel onekeyopratorModel;
@@ -130,8 +125,6 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 		setLayout();
 		mPullToRefreshListView = (PullToRefreshListView) mView
 				.findViewById(R.id.devices_list);
-		switchBar = (Switch) mView.findViewById(R.id.switch_btn);
-		seekBar = (SeekBar) mView.findViewById(R.id.devices_seek_bar);
 		initList();
 		setListeners();
 		registerForContextMenu(mPullToRefreshListView.getRefreshableView());

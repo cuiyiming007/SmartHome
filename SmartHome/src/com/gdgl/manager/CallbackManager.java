@@ -1,6 +1,7 @@
 package com.gdgl.manager;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,6 +33,8 @@ import com.gdgl.mydata.Callback.CallbackResponseCommon;
 import com.gdgl.mydata.Callback.CallbackResponseType2;
 import com.gdgl.mydata.Callback.CallbackWarnMessage;
 import com.gdgl.mydata.binding.BindingDataEntity;
+import com.gdgl.mydata.scene.SceneDevice;
+import com.gdgl.mydata.scene.SceneInfo;
 import com.gdgl.network.VolleyOperation;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.NetUtil;
@@ -104,7 +107,7 @@ public class CallbackManager extends Manger {
 			Gson gson = new Gson();
 			JSONObject jsonRsponse = new JSONObject(response);
 			int msgType = (Integer) jsonRsponse.get("msgtype");
-			//Log.i(TAG, "Callback msgType=" + msgType);
+			// Log.i(TAG, "Callback msgType=" + msgType);
 			switch (msgType) {
 			case 0:
 				handleGlexerCallback(response);
@@ -147,13 +150,14 @@ public class CallbackManager extends Manger {
 				Log.i(TAG, "Callback msgType=" + msgType + "DimmerSwitch");
 				break;
 			case 7:
-//				 Log.i(TAG, "Callback msgType=" + msgType + "OnOffLightSwitch");
-				 JSONObject json = new JSONObject(response);
-				 if(json.getInt("callbackType") == 3){
-					 CallbackResponseCommon iasZone7 = gson.fromJson(response,
-								CallbackResponseCommon.class);
-					 handlerCallbackResponseCommon(iasZone7);
-				 }
+				// Log.i(TAG, "Callback msgType=" + msgType +
+				// "OnOffLightSwitch");
+				JSONObject json = new JSONObject(response);
+				if (json.getInt("callbackType") == 3) {
+					CallbackResponseCommon iasZone7 = gson.fromJson(response,
+							CallbackResponseCommon.class);
+					handlerCallbackResponseCommon(iasZone7);
+				}
 				break;
 			case 8:
 				CallbackResponseCommon IASWarmingDevice = gson.fromJson(
@@ -272,8 +276,8 @@ public class CallbackManager extends Manger {
 				String ieee32 = (String) jsonRsponse.get("ZONE_IEEE");
 				String ep32 = (String) jsonRsponse.get("ZONE_EP");
 				String statusString32 = (String) jsonRsponse.get("state");
-//				Log.i(TAG, "Callback msgType=" + msgType
-//						+ " on-off bypass:"+ieee32+ep32+statusString32);
+				// Log.i(TAG, "Callback msgType=" + msgType
+				// + " on-off bypass:"+ieee32+ep32+statusString32);
 				String status32 = "";
 				if (statusString32.equals("unbypass")) {
 					status32 = "0";
@@ -281,7 +285,7 @@ public class CallbackManager extends Manger {
 				if (statusString32.equals("bypass")) {
 					status32 = "1";
 				}
-				
+
 				Bundle bundle32 = new Bundle();
 				bundle32.putString("IEEE", ieee32);
 				bundle32.putString("EP", ep32);
@@ -289,7 +293,7 @@ public class CallbackManager extends Manger {
 				Event event32 = new Event(EventType.LOCALIASCIEBYPASSZONE, true);
 				event32.setData(bundle32);
 				notifyObservers(event32);
-				
+
 				String where32 = " ieee = ? and ep = ?";
 				String[] args32 = { ieee32, ep32 };
 				ContentValues c32 = new ContentValues();
@@ -325,14 +329,15 @@ public class CallbackManager extends Manger {
 				break;
 			case 34:
 				String ieee34 = (String) jsonRsponse.get("IEEE");
-				Log.i(TAG, "Callback msgType=" + msgType + "  "+ieee34);
+				Log.i(TAG, "Callback msgType=" + msgType + "  " + ieee34);
 				SQLiteDatabase mSQLiteDatabase34 = mDateHelper
 						.getSQLiteDatabase();
 				String where34 = " ieee=? ";
 				String[] args34 = { ieee34 };
-				mDateHelper.delete(mSQLiteDatabase34, DataHelper.DEVICES_TABLE, where34, args34);
+				mDateHelper.delete(mSQLiteDatabase34, DataHelper.DEVICES_TABLE,
+						where34, args34);
 				mDateHelper.close(mSQLiteDatabase34);
-				
+
 				Event event34 = new Event(EventType.DELETENODE, true);
 				event34.setData(ieee34);
 				notifyObservers(event34);
@@ -346,24 +351,25 @@ public class CallbackManager extends Manger {
 		}
 
 	}
-	
+
 	private void handleGlexerCallback(String response) throws JSONException {
+		Gson gson = new Gson();
 		JSONObject jsonRsponse = new JSONObject(response);
 		int mainid = (Integer) jsonRsponse.get("mainid");
 		int subid = (Integer) jsonRsponse.get("subid");
 		Log.i(TAG, response);
-		if(mainid == 1) { //user opraters message of Guanglian APIs
+		if (mainid == 1) { // user opraters message of Guanglian APIs
 			switch (subid) {
-			case 1: //modifyPassword
+			case 1: // modifyPassword
 				int status1 = (Integer) jsonRsponse.get("status");
-				
+
 				Event event1 = new Event(EventType.MODIFYPASSWORD, true);
 				event1.setData(status1);
 				notifyObservers(event1);
 				break;
 			case 2:
 				int status2 = (Integer) jsonRsponse.get("status");
-				
+
 				Event event2 = new Event(EventType.MODIFYALIAS, true);
 				event2.setData(status2);
 				notifyObservers(event2);
@@ -371,14 +377,102 @@ public class CallbackManager extends Manger {
 			default:
 				break;
 			}
-			
 		}
-		
+		if (mainid == 4) { // scene opraters
+			switch (subid) {
+			case 1: // add scene
+				int status1 = (Integer) jsonRsponse.get("status");
+				if (status1 < 0) {
+					Event event1_error = new Event(EventType.ADDSCENE, false);
+					event1_error.setData(status1);
+					notifyObservers(event1_error);
+					break;
+				}
+				SceneInfo sceneInfo1 = gson.fromJson(response, SceneInfo.class);
+				Event event1 = new Event(EventType.ADDSCENE, true);
+				event1.setData(sceneInfo1);
+
+				SQLiteDatabase mSqLiteDatabase1 = mDateHelper
+						.getSQLiteDatabase();
+				mSqLiteDatabase1.insert(DataHelper.SCENE_TABLE, null,
+						sceneInfo1.convertContentValues());
+				List<SceneDevice> sceneDevicesList1 = UiUtils
+						.parseActionParamsToSceneDevices(sceneInfo1.getSid(),
+								sceneInfo1.getScnaction());
+				for (SceneDevice sceneDevice : sceneDevicesList1) {
+					mSqLiteDatabase1.insert(DataHelper.SCENE_DEVICES_TABLE,
+							null, sceneDevice.convertContentValues());
+				}
+				mSqLiteDatabase1.close();
+
+				notifyObservers(event1);
+				break;
+			case 2: // edit scene
+				int status2 = (Integer) jsonRsponse.get("status");
+				if (status2 < 0) {
+					Event event2_error = new Event(EventType.EDITSCENE, false);
+					event2_error.setData(status2);
+					notifyObservers(event2_error);
+					break;
+				}
+				SceneInfo sceneInfo2 = gson.fromJson(response, SceneInfo.class);
+				Event event2 = new Event(EventType.EDITSCENE, true);
+				event2.setData(sceneInfo2);
+
+				SQLiteDatabase mSqLiteDatabase2 = mDateHelper
+						.getSQLiteDatabase();
+				String where2 = SceneInfo.SCENE_ID + " = ? ";
+				String[] arg2 = { sceneInfo2.getSid() + "" };
+				mSqLiteDatabase2.delete(DataHelper.SCENE_TABLE, where2, arg2);
+				mSqLiteDatabase2.insert(DataHelper.SCENE_TABLE, null,
+						sceneInfo2.convertContentValues());
+
+				where2 = SceneDevice.SCENE_ID + " = ? ";
+				mSqLiteDatabase2.delete(DataHelper.SCENE_DEVICES_TABLE, where2,
+						arg2);
+				List<SceneDevice> sceneDevicesList2 = UiUtils
+						.parseActionParamsToSceneDevices(sceneInfo2.getSid(),
+								sceneInfo2.getScnaction());
+				for (SceneDevice sceneDevice : sceneDevicesList2) {
+					mSqLiteDatabase2.insert(DataHelper.SCENE_DEVICES_TABLE,
+							null, sceneDevice.convertContentValues());
+				}
+				mSqLiteDatabase2.close();
+
+				notifyObservers(event2);
+				break;
+			case 3:
+				int status3 = (Integer) jsonRsponse.get("status");
+				if (status3 < 0) {
+					Event event3_error = new Event(EventType.DELSCENE, false);
+					event3_error.setData(status3);
+					notifyObservers(event3_error);
+					break;
+				}
+				int sid3 = (Integer) jsonRsponse.get("sid");
+				Event event3 = new Event(EventType.DELSCENE, true);
+				event3.setData(sid3);
+				notifyObservers(event3);
+
+				SQLiteDatabase mSqLiteDatabase3 = mDateHelper
+						.getSQLiteDatabase();
+				String where3 = SceneInfo.SCENE_ID + " = ? ";
+				String[] arg3 = { sid3 + "" };
+				mSqLiteDatabase3.delete(DataHelper.SCENE_TABLE, where3, arg3);
+				where3 = SceneDevice.SCENE_ID + " = ? ";
+				mSqLiteDatabase3.delete(DataHelper.SCENE_DEVICES_TABLE, where3,
+						arg3);
+				break;
+			default:
+				break;
+			}
+		}
+
 	}
-	
+
 	private void handlerCallbackResponseCommon(CallbackResponseCommon response) {
 		int callbackType = Integer.parseInt(response.getCallbackType());
-		switch(callbackType){
+		switch (callbackType) {
 		case 3:
 			ContentValues c = new ContentValues();
 			c.put(DevicesModel.HEART_TIME, response.getValue());
@@ -388,7 +482,7 @@ public class CallbackManager extends Manger {
 			Event event = new Event(EventType.HEARTTIME, true);
 			event.setData(response);
 			notifyObservers(event);
-			
+
 			new UpdateDeviceHeartTimeToDatabaseTask().execute(p);
 
 			break;
@@ -458,10 +552,10 @@ public class CallbackManager extends Manger {
 						"Callback msgType=" + 2 + " level" + common.toString());
 				ContentValues c = new ContentValues();
 				c.put(DevicesModel.LEVEL, common.getValue());
-				if(Integer.parseInt(common.getValue()) < 7){
+				if (Integer.parseInt(common.getValue()) < 7) {
 					c.put(DevicesModel.ON_OFF_STATUS, "0");
-					
-				}else{
+
+				} else {
 					c.put(DevicesModel.ON_OFF_STATUS, "1");
 				}
 				Paremeters p = new Paremeters();
@@ -674,7 +768,7 @@ public class CallbackManager extends Manger {
 		public CallbackResponseType2 callbackmsg2;
 		public ContentValues c;
 	}
-	
+
 	class ParemetersResponse {
 		public CallbackResponseCommon response;
 		public ContentValues c;
@@ -702,17 +796,17 @@ public class CallbackManager extends Manger {
 		}
 
 	}
-	
+
 	public class UpdateDeviceHeartTimeToDatabaseTask extends
-		AsyncTask<ParemetersResponse, Integer, Integer> {
-	
+			AsyncTask<ParemetersResponse, Integer, Integer> {
+
 		@Override
 		protected Integer doInBackground(ParemetersResponse... params) {
 			// TODO Auto-generated method stub
 			ParemetersResponse par = params[0];
 			CallbackResponseCommon response = par.response;
 			ContentValues c = par.c;
-		
+
 			String where = " ieee = ? and ep = ?";
 			String ieee = response.getIEEE();
 			String ep = response.getEP();
@@ -723,7 +817,7 @@ public class CallbackManager extends Manger {
 			mDateHelper.close(mSQLiteDatabase);
 			return result;
 		}
-	
+
 	}
 
 	void makeNotify(Intent i, String title, String message) {

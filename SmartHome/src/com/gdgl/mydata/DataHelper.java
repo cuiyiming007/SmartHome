@@ -29,7 +29,7 @@ public class DataHelper extends SQLiteOpenHelper {
 	public static final int COMBINED_INTERFACE_DEVICETYPE = 7; // 协调器(即一键布防)
 	public static final int RANGE_EXTENDER_DEVICETYPE = 8; // 红外控制器
 	public static final int MAINS_POWER_OUTLET_DEVICETYPE = 9; // 开关模块（单路）、中规电能检测墙面插座、电能检测插座
-	public static final int ON_OFF_LIGHT_DEVICETYPE = 256; // 开关模块（四路） 
+	public static final int ON_OFF_LIGHT_DEVICETYPE = 256; // 开关模块（四路）
 	public static final int DIMEN_LIGHTS_DEVICETYPE = 257; // 吸顶电能检测调光模块
 	public static final int DIMEN_SWITCH_DEVICETYPE = 260; // 调光开关(开关）
 	public static final int LIGHT_SENSOR_DEVICETYPE = 262; // 光线感应器
@@ -41,9 +41,11 @@ public class DataHelper extends SQLiteOpenHelper {
 
 	public static final String Motion_Sensor = "ZB11A"; // ZigBee动作感应器
 	public static final String Magnetic_Window = "Z311A"; // ZigBee窗磁
-	public static final String Emergency_Button = "Z308"; // ZigBee紧急按钮       （！改）
-	public static final String Emergency_Button_On_Wall = "ZB02I"; // ZigBee墙面紧急按钮       （！新加）
-	public static final String Doors_and_windows_sensor_switch = "Z311J"; // 门窗感应开关   （！改）
+	public static final String Emergency_Button = "Z308"; // ZigBee紧急按钮 （！改）
+	public static final String Emergency_Button_On_Wall = "ZB02I"; // ZigBee墙面紧急按钮
+																	// （！新加）
+	public static final String Doors_and_windows_sensor_switch = "Z311J"; // 门窗感应开关
+																			// （！改）
 	public static final String Smoke_Detectors = "ZA01A"; // 烟雾感应器
 	public static final String Combustible_Gas_Detector_Gas = "ZA01B"; // 可燃气体探测器（煤气）
 	public static final String Combustible_Gas_Detector_CO = "ZA01C"; // 可燃气体探测器（一氧化碳）
@@ -59,13 +61,15 @@ public class DataHelper extends SQLiteOpenHelper {
 	public static final String Infrared_controller = "Z211"; // ZigBee红外控制器
 	public static final String Indoor_temperature_sensor = "Z711"; // ZigBee室内型温湿度感应器
 	public static final String Light_Sensor = "Z311G"; // ZigBee光线感应器
-	public static final String Light_Sensor_With_OnOff = "Z311B"; // 灯控光感器     （！新加）
-	public static final String Light_Sensor_With_Dimmer = "Z311H"; // 调光器     （！新加）
+	public static final String Light_Sensor_With_OnOff = "Z311B"; // 灯控光感器 （！新加）
+	public static final String Light_Sensor_With_Dimmer = "Z311H"; // 调光器 （！新加）
 	public static final String Multi_key_remote_control = "Z503"; // ZigBee多键遥控器
 	public static final String Doorbell_button = "Z312"; // ZigBee门铃按键
 	public static final String Switch_Module_Single = "Z805B"; // ZigBee开关模块（单路）
-	public static final String Switch_Module_Double = "Z806"; // ZigBee开关模块（双路）  （！新加）
-	public static final String Switch_Module_Quadruple = "Z811"; // ZigBee开关模块（四路）  （！新加）
+	public static final String Switch_Module_Double = "Z806"; // ZigBee开关模块（双路）
+																// （！新加）
+	public static final String Switch_Module_Quadruple = "Z811"; // ZigBee开关模块（四路）
+																	// （！新加）
 	public static final String Energy_detection_dimming_module = "Z817B"; // 吸顶电能检测调光模块
 	public static final String Pro_RF = "Z100BI"; // ZigBee Pro RF ģ��
 	public static final String RS232_adapter = "ZL01A"; // ��ҵ��ZigBee RS232适配器
@@ -176,6 +180,19 @@ public class DataHelper extends SQLiteOpenHelper {
 		// scene table create string
 		sceneStringBuilder.append("CREATE TABLE " + SCENE_TABLE + " (");
 		sceneStringBuilder.append(SceneInfo._ID
+<<<<<<< HEAD
+				+ " INTEGER PRIMARY KEY AUTOINCREMENT,");
+		sceneStringBuilder.append(SceneInfo.SCENE_ID + " INTEGER,");
+		sceneStringBuilder.append(SceneInfo.SCENE_NAME + " VARCHAR(48),");
+		sceneStringBuilder.append(SceneInfo.SCENE_ACTIONS + " VARCHAR,");
+		sceneStringBuilder.append(SceneInfo.SCENE_INDEX + " INTEGER )");
+
+		// scene_devices table create string
+		sceneDevicesStringBuilder.append("CREATE TABLE " + SCENE_DEVICES_TABLE
+				+ " (");
+		sceneDevicesStringBuilder.append(SceneDevice._ID
+=======
+>>>>>>> branch 'app2.0_branch' of https://github.com/justek-Wade/SmartHome.git
 				+ " INTEGER PRIMARY KEY AUTOINCREMENT,");
 		sceneStringBuilder.append(SceneInfo.SCENE_ID + " INTEGER,");
 		sceneStringBuilder.append(SceneInfo.SCENE_NAME + " VARCHAR(48),");
@@ -187,13 +204,14 @@ public class DataHelper extends SQLiteOpenHelper {
 				+ " (");
 		sceneDevicesStringBuilder.append(SceneDevice._ID
 				+ " INTEGER PRIMARY KEY AUTOINCREMENT,");
-		mAStringBuilder.append(DevicesGroup.DEVICES_IEEE + " VARCHAR(16),");
-		mAStringBuilder.append(DevicesGroup.GROUP_NAME + " VARCHAR(48),");
-		mAStringBuilder.append(DevicesGroup.DEVICES_VALUE + " INTEGER,");
-		mAStringBuilder.append(DevicesGroup.EP + " VARCHAR(16),");
-		mAStringBuilder.append(DevicesGroup.GROUP_ID + " INTEGER,");
-		mAStringBuilder.append(DevicesGroup.GROUP_STATE + " INTEGER,");
-		mAStringBuilder.append(DevicesGroup.ON_OFF_STATUS + " INTEGER )");
+		sceneDevicesStringBuilder.append(SceneDevice.SCENE_ID + " INTEGER,");
+		sceneDevicesStringBuilder.append(SceneDevice.ACTION_TYPE + " INTEGER,");
+		sceneDevicesStringBuilder.append(SceneDevice.DEVICE_IEEE
+				+ " VARCHAR(16),");
+		sceneDevicesStringBuilder.append(SceneDevice.DEVICE_EP
+				+ " VARCHAR(16),");
+		sceneDevicesStringBuilder
+				.append(SceneDevice.DEVICESTATS + " INTEGER )");
 
 		// video table create string
 		videoStringBuilder.append("CREATE TABLE " + VIDEO_TABLE + " (");
@@ -439,7 +457,8 @@ public class DataHelper extends SQLiteOpenHelper {
 
 	public long insertMessageList(SQLiteDatabase db, String table,
 			String nullColumnHack, ArrayList<CallbackWarnMessage> arrayList) {
-		getFromSharedPreferences.setsharedPreferences(ApplicationController.getInstance());
+		getFromSharedPreferences.setsharedPreferences(ApplicationController
+				.getInstance());
 		String usename = getFromSharedPreferences.getName();
 		long result = -100;
 		// List<DevicesModel> mList = convertToDevicesModel(r);
@@ -449,7 +468,7 @@ public class DataHelper extends SQLiteOpenHelper {
 				ContentValues c = contentvalue.convertContentValues();
 				c.put(CallbackWarnMessage.USENAME, usename);
 				long m = db.insert(table, nullColumnHack, c);
-				//if (-1 == m) {
+				// if (-1 == m) {
 				if (-1 != m) {
 					result = m;
 				}
@@ -636,7 +655,7 @@ public class DataHelper extends SQLiteOpenHelper {
 	public int update(SQLiteDatabase db, String table, ContentValues values,
 			String whereClause, String[] whereArgs) {
 		int result = db.update(table, values, whereClause, whereArgs);
-//		db.close();
+		// db.close();
 		return result;
 	}
 
@@ -871,6 +890,36 @@ public class DataHelper extends SQLiteOpenHelper {
 			mSceneInfo.setScnindex(c.getInt(c
 					.getColumnIndex(SceneInfo.SCENE_INDEX)));
 			mList.add(mSceneInfo);
+<<<<<<< HEAD
+		}
+		c.close();
+		db.close();
+		return mList;
+	}
+
+	public List<SceneDevice> queryForSceneDevicesList(SQLiteDatabase db,
+			String[] columns, String selection, String[] selectionArgs,
+			String groupBy, String having, String orderBy, String limit) {
+		List<SceneDevice> mList = new ArrayList<SceneDevice>();
+		SceneDevice mSceneDevice = null;
+		Cursor c = db.query(DataHelper.SCENE_DEVICES_TABLE, columns, selection,
+				selectionArgs, groupBy, having, orderBy, limit);
+		while (c.moveToNext()) {
+
+			mSceneDevice = new SceneDevice();
+			mSceneDevice
+					.setSid(c.getInt(c.getColumnIndex(SceneDevice.SCENE_ID)));
+			mSceneDevice
+			.setActionType(c.getInt(c.getColumnIndex(SceneDevice.ACTION_TYPE)));
+			mSceneDevice.setIeee(c.getString(c
+					.getColumnIndex(SceneDevice.DEVICE_IEEE)));
+			mSceneDevice.setEp(c.getString(c
+					.getColumnIndex(SceneDevice.DEVICE_EP)));
+			mSceneDevice.setDevicesStatus(c.getInt(c
+					.getColumnIndex(SceneDevice.DEVICESTATS)));
+			mList.add(mSceneDevice);
+=======
+>>>>>>> branch 'app2.0_branch' of https://github.com/justek-Wade/SmartHome.git
 		}
 		c.close();
 		db.close();
@@ -904,10 +953,9 @@ public class DataHelper extends SQLiteOpenHelper {
 		return mList;
 	}
 
-	public List<Room> queryForRoomList(SQLiteDatabase db,
-			String table, String[] columns, String selection,
-			String[] selectionArgs, String groupBy, String having,
-			String orderBy, String limit) {
+	public List<Room> queryForRoomList(SQLiteDatabase db, String table,
+			String[] columns, String selection, String[] selectionArgs,
+			String groupBy, String having, String orderBy, String limit) {
 		List<Room> mList = new ArrayList<Room>();
 		Room roominfo = null;
 		Cursor c = db.query(table, columns, selection, selectionArgs, groupBy,

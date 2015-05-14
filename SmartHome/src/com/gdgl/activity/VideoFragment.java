@@ -1,6 +1,7 @@
 package com.gdgl.activity;
 
 import h264.com.VideoActivity;
+import h264.com.VideoInfoAddDialog;
 import h264.com.VideoInfoDialog;
 
 import java.util.List;
@@ -16,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -25,7 +27,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gc.materialdesign.views.ButtonFloat;
 import com.gdgl.activity.UIinterface.IFragmentCallbak;
+import com.gdgl.drawer.JoinNetActivity;
 import com.gdgl.libjingle.LibjingleResponseHandlerManager;
 import com.gdgl.libjingle.LibjingleSendManager;
 import com.gdgl.manager.Manger;
@@ -49,6 +53,7 @@ public class VideoFragment extends Fragment implements UIListener,
 	ViewGroup nodevices;
 	CustomeAdapter adapter;
 	VideoInfoDialog videoInfoDialog;
+	ButtonFloat mButtonFloat;
 
 	public static final String PASS_OBJECT = "pass_object";
 	List<VideoNode> mList;
@@ -94,6 +99,7 @@ public class VideoFragment extends Fragment implements UIListener,
 		nodevices = (ViewGroup) mView.findViewById(R.id.nodevices);
 		nodevices.setVisibility(View.GONE);
 		content_view = (GridView) mView.findViewById(R.id.content_view);
+		mButtonFloat = (ButtonFloat) mView.findViewById(R.id.buttonFloat);
 		adapter = new CustomeAdapter();
 		content_view.setAdapter(adapter);
 		// content_view.setLayoutAnimation(UiUtils
@@ -113,6 +119,18 @@ public class VideoFragment extends Fragment implements UIListener,
 			}
 
 		});
+		mButtonFloat.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				VideoInfoAddDialog addDlg;
+				addDlg = new VideoInfoAddDialog(getActivity(),
+						VideoInfoDialog.Add, VideoFragment.this);
+				addDlg.setContent("添加");
+				addDlg.show();
+			}
+		});
 		if (null == mList || mList.size() == 0) {
 			nodevices.setVisibility(View.VISIBLE);
 		} else {
@@ -121,19 +139,21 @@ public class VideoFragment extends Fragment implements UIListener,
 		if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
 			registerForContextMenu(content_view);
 		} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
-			content_view.setOnItemLongClickListener(new OnItemLongClickListener() {
+			content_view
+					.setOnItemLongClickListener(new OnItemLongClickListener() {
 
-				@Override
-				public boolean onItemLongClick(AdapterView<?> parent,
-						View view, int position, long id) {
-					// TODO Auto-generated method stub
-					VersionDlg vd = new VersionDlg(getActivity());
-					vd.setContent(getResources().getString(R.string.Unable_In_InternetState));
-					vd.show();
-					return true;
-				}
-				
-			});
+						@Override
+						public boolean onItemLongClick(AdapterView<?> parent,
+								View view, int position, long id) {
+							// TODO Auto-generated method stub
+							VersionDlg vd = new VersionDlg(getActivity());
+							vd.setContent(getResources().getString(
+									R.string.Unable_In_InternetState));
+							vd.show();
+							return true;
+						}
+
+					});
 		}
 	}
 
