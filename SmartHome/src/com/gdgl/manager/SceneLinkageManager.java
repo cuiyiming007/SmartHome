@@ -168,6 +168,148 @@ public class SceneLinkageManager extends Manger {
 				});
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
+	
+	public void AddLinkage(String lnkname, String trgieee, String trgep, String trgcnd, String lnkact, int enable){
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("lnkname", lnkname);
+		paraMap.put("trgieee", trgieee);
+		paraMap.put("trgep", trgep);
+		paraMap.put("trgcnd", trgcnd);
+		paraMap.put("lnkact", lnkact);
+		paraMap.put("enable", Integer.toString(enable));
+		String param = hashMap2ParamString(paraMap);
+
+		String url = NetUtil.getInstance().getCumstomURL(
+				NetUtil.getInstance().IP, "AddLinkage.cgi", param);
+
+		StringRequestChina req = new StringRequestChina(url,
+				new Listener<String>() {
+
+					@Override
+					public void onResponse(String arg0) {
+						// TODO Auto-generated method stub
+
+					}
+				}, new ErrorListener() {
+
+					@Override
+					public void onErrorResponse(VolleyError arg0) {
+						// TODO Auto-generated method stub
+
+					}
+				});
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
+	
+	public void EditLinkage(String lnkname, String trgieee, String trgep, String trgcnd, String lnkact, int enable, int lid){
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("lnkname", lnkname);
+		paraMap.put("trgieee", trgieee);
+		paraMap.put("trgep", trgep);
+		paraMap.put("trgcnd", trgcnd);
+		paraMap.put("lnkact", lnkact);
+		paraMap.put("enable", Integer.toString(enable));
+		paraMap.put("lid", Integer.toString(lid));
+		String param = hashMap2ParamString(paraMap);
+
+		String url = NetUtil.getInstance().getCumstomURL(
+				NetUtil.getInstance().IP, "EditLinkage.cgi", param);
+
+		StringRequestChina req = new StringRequestChina(url,
+				new Listener<String>() {
+
+					@Override
+					public void onResponse(String arg0) {
+						// TODO Auto-generated method stub
+
+					}
+				}, new ErrorListener() {
+
+					@Override
+					public void onErrorResponse(VolleyError arg0) {
+						// TODO Auto-generated method stub
+
+					}
+				});
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
+	
+	public void DeleteLinkage(int lid){
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("lid", Integer.toString(lid));
+		String param = hashMap2ParamString(paraMap);
+
+		String url = NetUtil.getInstance().getCumstomURL(
+				NetUtil.getInstance().IP, "DeleteLinkage.cgi", param);
+
+		StringRequestChina req = new StringRequestChina(url,
+				new Listener<String>() {
+
+					@Override
+					public void onResponse(String arg0) {
+						// TODO Auto-generated method stub
+
+					}
+				}, new ErrorListener() {
+
+					@Override
+					public void onErrorResponse(VolleyError arg0) {
+						// TODO Auto-generated method stub
+
+					}
+				});
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
+	
+	public void GetLinkageList(){
+		String url = NetUtil.getInstance().getVideoURL(
+				NetUtil.getInstance().IP, "GetLinkageList.cgi");
+		StringRequestChina req = new StringRequestChina(url,
+				new Listener<String>() {
+
+					@Override
+					public void onResponse(String arg0) {
+						// TODO Auto-generated method stub
+
+					}
+				}, new ErrorListener() {
+
+					@Override
+					public void onErrorResponse(VolleyError arg0) {
+						// TODO Auto-generated method stub
+
+					}
+				});
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
+	
+	public void EnableLinkage(int enable, int lid){
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("enable", Integer.toString(enable));
+		paraMap.put("lid", Integer.toString(lid));
+		String param = hashMap2ParamString(paraMap);
+
+		String url = NetUtil.getInstance().getCumstomURL(
+				NetUtil.getInstance().IP, "EnableLinkage.cgi", param);
+
+		StringRequestChina req = new StringRequestChina(url,
+				new Listener<String>() {
+
+					@Override
+					public void onResponse(String arg0) {
+						// TODO Auto-generated method stub
+
+					}
+				}, new ErrorListener() {
+
+					@Override
+					public void onErrorResponse(VolleyError arg0) {
+						// TODO Auto-generated method stub
+
+					}
+				});
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
 
 	class GetSceneListTask extends AsyncTask<String, Void, Void> {
 

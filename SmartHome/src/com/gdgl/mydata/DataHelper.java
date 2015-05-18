@@ -85,6 +85,7 @@ public class DataHelper extends SQLiteOpenHelper {
 	public static final String ROOMINFO_TABLE = "roominfo_table";
 	public static final String BIND_TABLE = "bind_table";
 	public static final String GATEWAY_TABLE = "gateway_table";
+	public static final String LINKAGE_TABLE = "linkage_table";
 	public static final int DATEBASE_VERSTION = 4;
 
 	public StringBuilder deviceStringBuilder;
@@ -95,6 +96,7 @@ public class DataHelper extends SQLiteOpenHelper {
 	public StringBuilder roominfoStringBuilder;
 	public StringBuilder bindStringBuilder;
 	public StringBuilder gatewayStringBuilder;
+	public StringBuilder linkageStringBuilder;
 
 	// public SQLiteDatabase db;
 
@@ -108,6 +110,7 @@ public class DataHelper extends SQLiteOpenHelper {
 		roominfoStringBuilder = new StringBuilder();
 		bindStringBuilder = new StringBuilder();
 		gatewayStringBuilder = new StringBuilder();
+		linkageStringBuilder = new StringBuilder();
 		// db = getWritableDatabase();
 		// TODO Auto-generated constructor stub
 	}
@@ -273,6 +276,18 @@ public class DataHelper extends SQLiteOpenHelper {
 		gatewayStringBuilder.append("mac" + " VARCHAR(14),");
 		gatewayStringBuilder.append("alias" + " VARCHAR(16),");
 		gatewayStringBuilder.append("ip" + " VARCHAR)");
+		
+		// linkage table create string
+		linkageStringBuilder.append("CREATE TABLE " + LINKAGE_TABLE + " (");
+		linkageStringBuilder.append("_id"
+				+ " INTEGER PRIMARY KEY AUTOINCREMENT,");
+		linkageStringBuilder.append(Linkage.LID + " INTEGER,");
+		linkageStringBuilder.append(Linkage.LNKNAME + " VARCHAR,");
+		linkageStringBuilder.append(Linkage.TRGIEEE + " VARCHAR(16),");
+		linkageStringBuilder.append(Linkage.TRGEP + " VARCHAR(16),");
+		linkageStringBuilder.append(Linkage.TRGCND + " VARCHAR(48),");
+		linkageStringBuilder.append(Linkage.LNKACT + " VARCHAR(48),");
+		linkageStringBuilder.append(Linkage.ENABLE + " INTEGER)");
 	}
 
 	@Override
@@ -288,6 +303,7 @@ public class DataHelper extends SQLiteOpenHelper {
 		db.execSQL(roominfoStringBuilder.toString());
 		db.execSQL(bindStringBuilder.toString());
 		db.execSQL(gatewayStringBuilder.toString());
+		db.execSQL(linkageStringBuilder.toString());
 		// Log.i("roominfoStringBuilder", "zgs-> " +
 		// roominfoStringBuilder.toString());
 	}
@@ -303,6 +319,7 @@ public class DataHelper extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE IF EXISTS " + ROOMINFO_TABLE);
 		db.execSQL("DROP TABLE IF EXISTS " + BIND_TABLE);
 		db.execSQL("DROP TABLE IF EXISTS " + GATEWAY_TABLE);
+		db.execSQL("DROP TABLE IF EXISTS " + LINKAGE_TABLE);
 		onCreate(db);
 	}
 
@@ -527,6 +544,39 @@ public class DataHelper extends SQLiteOpenHelper {
 		}
 		return result;
 	}
+	
+	public long insertLinkage(SQLiteDatabase db, String table,
+			String nullColumnHack, Linkage values) {
+		long result = 0;
+		try {
+			result = db.insert(table, nullColumnHack,
+					values.convertContentValues());
+			// db.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+		} finally {
+			db.close();
+		}
+		return result;
+
+	}
+
+	public long insertLinkageList(SQLiteDatabase db, String table,
+			String nullColumnHack, List<Linkage> values) {
+		long result = 0;
+		try {
+			for (Linkage linkage : values) {
+				result = db.insert(table, nullColumnHack,
+						linkage.convertContentValues());
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		} finally {
+			db.close();
+		}
+		return result;
+
+	}
 
 	public int deleteDeviceWithGroup(Context c, SQLiteDatabase db,
 			String table, String whereClause, String[] whereArgs) {
@@ -642,6 +692,36 @@ public class DataHelper extends SQLiteOpenHelper {
 			mList.add(mVideoNode);
 		}
 		cursor.close();
+		// db.close();
+		return mList;
+
+	}
+	
+	public static List<Linkage> queryForLinkageList(SQLiteDatabase db,
+			String table, String selection, String[] selectionArgs) {
+		List<Linkage> mList = new ArrayList<Linkage>();
+		Linkage linkage = null;
+		Cursor c = db.query(table, null, selection, selectionArgs, null, null,
+				null, null);
+		while (c.moveToNext()) {
+			linkage = new Linkage();
+			linkage.setLid(c.getInt(c
+					.getColumnIndex(Linkage.LID)));
+			linkage.setLnkname(c.getString(c
+					.getColumnIndex(Linkage.LNKNAME)));
+			linkage.setTrgieee(c.getString(c
+					.getColumnIndex(Linkage.TRGIEEE)));
+			linkage.setTrgep(c.getString(c
+					.getColumnIndex(Linkage.TRGEP)));
+			linkage.setTrgcnd(c.getString(c
+					.getColumnIndex(Linkage.TRGCND)));
+			linkage.setLnkact(c.getString(c
+					.getColumnIndex(Linkage.LNKACT)));
+			linkage.setEnable(c.getInt(c
+					.getColumnIndex(Linkage.ENABLE)));
+			mList.add(linkage);
+		}
+		c.close();
 		// db.close();
 		return mList;
 
