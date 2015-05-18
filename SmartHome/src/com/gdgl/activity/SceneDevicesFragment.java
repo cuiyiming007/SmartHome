@@ -7,21 +7,22 @@ import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.scene.SceneDevice;
 import com.gdgl.smarthome.R;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 
 import android.support.v4.app.Fragment;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Switch;
@@ -65,29 +66,6 @@ public class SceneDevicesFragment extends Fragment {
 				.findViewById(R.id.devices_list);
 		mButtonFloat = (ButtonFloat) mView.findViewById(R.id.buttonFloat);
 		mButtonFloat.setVisibility(View.VISIBLE);
-//		devices_list_view
-//				.setOnRefreshListener(new OnRefreshListener<ListView>() {
-//
-//					@Override
-//					public void onRefresh(
-//							PullToRefreshBase<ListView> refreshView) {
-//						// TODO Auto-generated method stub
-//						// if (1 == refreshTag) {
-//						// } else {
-//						// refreshTag = 1;
-//						// String label =
-//						// DateUtils.formatDateTime(getActivity(),
-//						// System.currentTimeMillis(),
-//						// DateUtils.FORMAT_SHOW_TIME
-//						// | DateUtils.FORMAT_SHOW_DATE
-//						// | DateUtils.FORMAT_ABBREV_ALL);
-//						//
-//						// // Update the LastUpdatedLabel
-//						// refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(
-//						// label);
-//						// }
-//					}
-//				});
 		devices_list_view.setAdapter(mBaseAdapter);
 
 		mButtonFloat.setOnClickListener(new OnClickListener() {
@@ -99,8 +77,32 @@ public class SceneDevicesFragment extends Fragment {
 				changeFragment.setFragment(new SceneDevicesAddFragment());
 			}
 		});
+		registerForContextMenu(devices_list_view);
 	}
 
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
+		// TODO Auto-generated method stub
+		menu.setHeaderTitle("删除设备");
+		menu.add(0, 1, 0, "删除");
+		super.onCreateContextMenu(menu, v, menuInfo);
+	}
+	
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
+				.getMenuInfo();
+		int position = info.position;
+		int menuIndex = item.getItemId();
+		if (1 == menuIndex) {
+			mSceneDevicesList.remove(position);
+			mBaseAdapter.notifyDataSetChanged();
+		}
+		return super.onContextItemSelected(item);
+	}
+	
 	public class SceneDevicesListAdapter extends BaseAdapter {
 
 		public SceneDevicesListAdapter(List<SceneDevice> list) {

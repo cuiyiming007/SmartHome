@@ -109,6 +109,7 @@ public class SceneDevicesActivity extends ActionBarActivity implements
 		toolbarParams.setMargins(5, 0, 5, 0);
 		titleEditText.setLayoutParams(toolbarParams);
 		titleEditText.setText(sceneName);
+		titleEditText.setSelection(sceneName.length());
 
 		mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
 		mToolbar.addView(titleEditText);
