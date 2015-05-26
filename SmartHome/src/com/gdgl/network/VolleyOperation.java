@@ -30,6 +30,7 @@ import com.gdgl.mydata.binding.BindingDivice;
 import com.gdgl.mydata.binding.Binding_response_params;
 import com.gdgl.mydata.getlocalcielist.CIEresponse_params;
 import com.gdgl.mydata.scene.SceneInfo;
+import com.gdgl.mydata.timing.TimingAction;
 import com.gdgl.util.UiUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -184,6 +185,10 @@ public class VolleyOperation {
 	public static List<SceneInfo> handleSceneInfoListString(String response) {
 		response = UiUtils.formatResponseString(response);
 		return parseJSON2SceneInfoList(response);
+	}
+	public static List<TimingAction> handleTimingActionListString(String response) {
+		response = UiUtils.formatResponseString(response);
+		return parseJSON2TimingActionList(response);
 	}
 	
 	/***
@@ -400,6 +405,23 @@ public class VolleyOperation {
 			for (int i = 0; i < jsonArray.size(); i++) {
 				JsonElement el = jsonArray.get(i);
 				SceneInfo tmp = gson.fromJson(el, SceneInfo.class);
+				list.add(tmp);
+			}
+		}
+		return list;
+	}
+	
+	public static List<TimingAction> parseJSON2TimingActionList(String s) {
+		Gson gson = new Gson();
+		JsonParser parser =new JsonParser();
+		List<TimingAction> list = new ArrayList<TimingAction>();
+		JsonObject jsonObject = parser.parse(s).getAsJsonObject();
+		JsonElement statusElement = jsonObject.get("status");
+		if(Integer.parseInt(statusElement.toString()) == 0) {
+			JsonArray jsonArray = jsonObject.getAsJsonArray("list");
+			for (int i = 0; i < jsonArray.size(); i++) {
+				JsonElement el = jsonArray.get(i);
+				TimingAction tmp = gson.fromJson(el, TimingAction.class);
 				list.add(tmp);
 			}
 		}

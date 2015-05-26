@@ -119,6 +119,9 @@
          <activity
              android:name="com.gdgl.drawer.JoinNetActivity">
          </activity>
+         <activity
+             android:name="com.gdgl.activity.TimingAddActivity">
+         </activity>
 
         <service android:name="com.gdgl.service.SmartService" >
         </service>

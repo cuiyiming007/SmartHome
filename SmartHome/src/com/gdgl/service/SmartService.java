@@ -85,6 +85,7 @@ public class SmartService extends Service {
 		CGIManager.getInstance().GetAllBindList();
 		VideoManager.getInstance().getIPClist();
 		SceneLinkageManager.getInstance().GetSceneList();
+		SceneLinkageManager.getInstance().GetTimeActionList();
 		new Thread(new Runnable() {
 			@Override
 			public void run() {

@@ -150,9 +150,6 @@ public class ScenesFragment extends Fragment implements UIListener, Dialogcallba
 
 		private List<SceneInfo> mList;
 
-		public CustomeAdapter() {
-		}
-
 		@Override
 		public int getCount() {
 			// TODO Auto-generated method stub

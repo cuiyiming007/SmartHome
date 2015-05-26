@@ -60,6 +60,11 @@ public class EventType {
 	public static final EventType ROOMDATAMAIN;
 	public static final EventType MODIFYDEVICEROOMID;
 	
+	public static final EventType ADDTIMINGACTION;
+	public static final EventType EDITTIMINGACTION;
+	public static final EventType DELTIMINGACTION;
+	public static final EventType ENABLETIMINGACTION;
+	
 	public static final EventType ADDSCENE;
 	public static final EventType EDITSCENE;
 	public static final EventType DELSCENE;
@@ -121,6 +126,11 @@ public class EventType {
 		GETEPBYROOMINDEX = new EventType("getEPByRoomIndex", nextId());
 		ROOMDATAMAIN = new EventType("roomDataMain", nextId());
 		MODIFYDEVICEROOMID = new EventType("modifyDeviceRoomId", nextId());
+		
+		ADDTIMINGACTION = new EventType("AddTimeAction", nextId());
+		EDITTIMINGACTION = new EventType("EditTimeAction", nextId());
+		DELTIMINGACTION = new EventType("DelTimeAction", nextId());
+		ENABLETIMINGACTION = new EventType("EnableTimeAction", nextId());
 		
 		ADDSCENE = new EventType("AddScene", nextId());
 		EDITSCENE = new EventType("EditScene", nextId());

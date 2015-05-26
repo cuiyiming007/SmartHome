@@ -31,13 +31,10 @@ import android.widget.TextView;
 public class SceneDevicesFragment extends Fragment {
 
 	private View mView;
-//	PullToRefreshListView devices_list_view;
 	ListView devices_list_view;
 	ButtonFloat mButtonFloat;
 
 	public List<SceneDevice> mSceneDevicesList;
-
-	int refreshTag = 0;
 
 	BaseAdapter mBaseAdapter;
 

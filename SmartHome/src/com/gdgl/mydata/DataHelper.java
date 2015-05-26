@@ -12,8 +12,8 @@ import com.gdgl.mydata.Region.Room;
 import com.gdgl.mydata.binding.BindingDataEntity;
 import com.gdgl.mydata.scene.SceneDevice;
 import com.gdgl.mydata.scene.SceneInfo;
+import com.gdgl.mydata.timing.TimingAction;
 import com.gdgl.mydata.video.VideoNode;
-import com.gdgl.util.UiUtils;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -86,6 +86,7 @@ public class DataHelper extends SQLiteOpenHelper {
 	public static final String BIND_TABLE = "bind_table";
 	public static final String GATEWAY_TABLE = "gateway_table";
 	public static final String LINKAGE_TABLE = "linkage_table";
+	public static final String TIMINGACTION_TABLE = "timingaction_table";
 	public static final int DATEBASE_VERSTION = 4;
 
 	public StringBuilder deviceStringBuilder;
@@ -97,6 +98,7 @@ public class DataHelper extends SQLiteOpenHelper {
 	public StringBuilder bindStringBuilder;
 	public StringBuilder gatewayStringBuilder;
 	public StringBuilder linkageStringBuilder;
+	public StringBuilder timingactionStringBuilder;
 
 	// public SQLiteDatabase db;
 
@@ -111,6 +113,7 @@ public class DataHelper extends SQLiteOpenHelper {
 		bindStringBuilder = new StringBuilder();
 		gatewayStringBuilder = new StringBuilder();
 		linkageStringBuilder = new StringBuilder();
+		timingactionStringBuilder = new StringBuilder();
 		// db = getWritableDatabase();
 		// TODO Auto-generated constructor stub
 	}
@@ -276,7 +279,7 @@ public class DataHelper extends SQLiteOpenHelper {
 		gatewayStringBuilder.append("mac" + " VARCHAR(14),");
 		gatewayStringBuilder.append("alias" + " VARCHAR(16),");
 		gatewayStringBuilder.append("ip" + " VARCHAR)");
-		
+
 		// linkage table create string
 		linkageStringBuilder.append("CREATE TABLE " + LINKAGE_TABLE + " (");
 		linkageStringBuilder.append("_id"
@@ -288,6 +291,19 @@ public class DataHelper extends SQLiteOpenHelper {
 		linkageStringBuilder.append(Linkage.TRGCND + " VARCHAR(48),");
 		linkageStringBuilder.append(Linkage.LNKACT + " VARCHAR(48),");
 		linkageStringBuilder.append(Linkage.ENABLE + " INTEGER)");
+
+		// timingaction table create string
+		timingactionStringBuilder.append("CREATE TABLE " + TIMINGACTION_TABLE + " (");
+		timingactionStringBuilder.append("_id"
+				+ " INTEGER PRIMARY KEY AUTOINCREMENT,");
+		timingactionStringBuilder.append(TimingAction.TIMING_ID + " INTEGER,");
+		timingactionStringBuilder.append(TimingAction.TIMING_NAME + " VARCHAR,");
+		timingactionStringBuilder.append(TimingAction.TIMING_ACTPARA + " VARCHAR,");
+		timingactionStringBuilder.append(TimingAction.TIMING_ACTMODE + " INTEGER,");
+		timingactionStringBuilder.append(TimingAction.TIMING_PARA1 + " VARCHAR,");
+		timingactionStringBuilder.append(TimingAction.TIMING_PARA2 + " INTEGER,");
+		timingactionStringBuilder.append(TimingAction.TIMING_PARA3 + " VARCHAR,");
+		timingactionStringBuilder.append(TimingAction.TIMING_ENABLE + " INTEGER)");
 	}
 
 	@Override
@@ -304,6 +320,7 @@ public class DataHelper extends SQLiteOpenHelper {
 		db.execSQL(bindStringBuilder.toString());
 		db.execSQL(gatewayStringBuilder.toString());
 		db.execSQL(linkageStringBuilder.toString());
+		db.execSQL(timingactionStringBuilder.toString());
 		// Log.i("roominfoStringBuilder", "zgs-> " +
 		// roominfoStringBuilder.toString());
 	}
@@ -320,6 +337,7 @@ public class DataHelper extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE IF EXISTS " + BIND_TABLE);
 		db.execSQL("DROP TABLE IF EXISTS " + GATEWAY_TABLE);
 		db.execSQL("DROP TABLE IF EXISTS " + LINKAGE_TABLE);
+		db.execSQL("DROP TABLE IF EXISTS " + TIMINGACTION_TABLE);
 		onCreate(db);
 	}
 
@@ -484,20 +502,6 @@ public class DataHelper extends SQLiteOpenHelper {
 
 	}
 
-	public long insertGroup(SQLiteDatabase db, String table,
-			String nullColumnHack, ContentValues c) {
-		long m = 0;
-		try {
-			m = db.insert(table, nullColumnHack, c);
-			// db.close();
-		} catch (Exception e) {
-			// TODO: handle exception
-		} finally {
-			db.close();
-		}
-		return m;
-	}
-
 	public long insertAddRoomInfo(SQLiteDatabase db, String table,
 			String nullColumnHack, ArrayList<Room> r) {
 
@@ -544,7 +548,7 @@ public class DataHelper extends SQLiteOpenHelper {
 		}
 		return result;
 	}
-	
+
 	public long insertLinkage(SQLiteDatabase db, String table,
 			String nullColumnHack, Linkage values) {
 		long result = 0;
@@ -578,62 +582,6 @@ public class DataHelper extends SQLiteOpenHelper {
 
 	}
 
-	public int deleteDeviceWithGroup(Context c, SQLiteDatabase db,
-			String table, String whereClause, String[] whereArgs) {
-		String[] iees = null;
-		if (whereArgs[0].contains(",")) {
-			iees = whereArgs[0].split(",");
-		} else {
-			iees = whereArgs;
-		}
-		StringBuilder sb = new StringBuilder();
-		getFromSharedPreferences.setsharedPreferences(c);
-
-		List<String> mIeees = new ArrayList<String>();
-		String comm = getFromSharedPreferences.getCommonUsed();
-		if (null != comm && !comm.trim().equals("")) {
-			String[] result = comm.split("@@");
-			for (String string : result) {
-				if (!string.trim().equals("")) {
-					if (string.indexOf(UiUtils.DEVICES_FLAG) == 0) {
-						mIeees.add(string.replace(UiUtils.DEVICES_FLAG, "")
-								.trim());
-					}
-				}
-			}
-		}
-
-		try {
-			for (String string : iees) {
-				// ContentValues c = new ContentValues();
-				// c.put(DevicesModel.ON_OFF_LINE,
-				// DevicesModel.DEVICE_OFF_LINE);
-				// db.update(table, c, " ieee=? ", new String[] { string });
-				db.delete(table, " ieee=? ", new String[] { string });
-				db.delete(DataHelper.SCENE_DEVICES_TABLE, " devices_ieee=? ",
-						new String[] { string });
-				if (null != mIeees && mIeees.contains(string.trim())) {
-					mIeees.remove(string.trim());
-				}
-			}
-			// db.close();
-		} catch (Exception e) {
-			// TODO: handle exception
-		} finally {
-			db.close();
-		}
-
-		if (null != mIeees && mIeees.size() > 0) {
-			for (String strings : mIeees) {
-				sb.append(UiUtils.REGION_FLAG + strings + "@@");
-			}
-		} else {
-			sb.append("@@");
-		}
-		getFromSharedPreferences.setCommonUsed(sb.toString());
-		return 0;
-	}
-
 	public int delete(SQLiteDatabase db, String table, String whereClause,
 			String[] whereArgs) {
 		return db.delete(table, whereClause, whereArgs);
@@ -661,7 +609,7 @@ public class DataHelper extends SQLiteOpenHelper {
 		} catch (Exception e) {
 			// TODO: handle exception
 		} finally {
-//			db.close();
+			// db.close();
 		}
 		return c;
 	}
@@ -696,7 +644,7 @@ public class DataHelper extends SQLiteOpenHelper {
 		return mList;
 
 	}
-	
+
 	public static List<Linkage> queryForLinkageList(SQLiteDatabase db,
 			String table, String selection, String[] selectionArgs) {
 		List<Linkage> mList = new ArrayList<Linkage>();
@@ -705,20 +653,13 @@ public class DataHelper extends SQLiteOpenHelper {
 				null, null);
 		while (c.moveToNext()) {
 			linkage = new Linkage();
-			linkage.setLid(c.getInt(c
-					.getColumnIndex(Linkage.LID)));
-			linkage.setLnkname(c.getString(c
-					.getColumnIndex(Linkage.LNKNAME)));
-			linkage.setTrgieee(c.getString(c
-					.getColumnIndex(Linkage.TRGIEEE)));
-			linkage.setTrgep(c.getString(c
-					.getColumnIndex(Linkage.TRGEP)));
-			linkage.setTrgcnd(c.getString(c
-					.getColumnIndex(Linkage.TRGCND)));
-			linkage.setLnkact(c.getString(c
-					.getColumnIndex(Linkage.LNKACT)));
-			linkage.setEnable(c.getInt(c
-					.getColumnIndex(Linkage.ENABLE)));
+			linkage.setLid(c.getInt(c.getColumnIndex(Linkage.LID)));
+			linkage.setLnkname(c.getString(c.getColumnIndex(Linkage.LNKNAME)));
+			linkage.setTrgieee(c.getString(c.getColumnIndex(Linkage.TRGIEEE)));
+			linkage.setTrgep(c.getString(c.getColumnIndex(Linkage.TRGEP)));
+			linkage.setTrgcnd(c.getString(c.getColumnIndex(Linkage.TRGCND)));
+			linkage.setLnkact(c.getString(c.getColumnIndex(Linkage.LNKACT)));
+			linkage.setEnable(c.getInt(c.getColumnIndex(Linkage.ENABLE)));
 			mList.add(linkage);
 		}
 		c.close();
@@ -895,8 +836,8 @@ public class DataHelper extends SQLiteOpenHelper {
 			mSceneDevice = new SceneDevice();
 			mSceneDevice
 					.setSid(c.getInt(c.getColumnIndex(SceneDevice.SCENE_ID)));
-			mSceneDevice
-			.setActionType(c.getInt(c.getColumnIndex(SceneDevice.ACTION_TYPE)));
+			mSceneDevice.setActionType(c.getInt(c
+					.getColumnIndex(SceneDevice.ACTION_TYPE)));
 			mSceneDevice.setIeee(c.getString(c
 					.getColumnIndex(SceneDevice.DEVICE_IEEE)));
 			mSceneDevice.setEp(c.getString(c
@@ -910,6 +851,38 @@ public class DataHelper extends SQLiteOpenHelper {
 		return mList;
 	}
 
+	public List<TimingAction> queryForTimingActionList(SQLiteDatabase db,
+			String[] columns, String selection, String[] selectionArgs,
+			String groupBy, String having, String orderBy, String limit) {
+		List<TimingAction> mList = new ArrayList<TimingAction>();
+		TimingAction mTimingAction = null;
+		Cursor c = db.query(DataHelper.TIMINGACTION_TABLE, columns, selection,
+				selectionArgs, groupBy, having, orderBy, limit);
+		while (c.moveToNext()) {
+
+			mTimingAction = new TimingAction();
+			mTimingAction.setTid(c.getInt(c.getColumnIndex(TimingAction.TIMING_ID)));
+			mTimingAction.setTimingname(c.getString(c
+					.getColumnIndex(TimingAction.TIMING_NAME)));
+			mTimingAction.setActpara(c.getString(c
+					.getColumnIndex(TimingAction.TIMING_ACTPARA)));
+			mTimingAction.setActmode(c.getInt(c
+					.getColumnIndex(TimingAction.TIMING_ACTMODE)));
+			mTimingAction.setPara1(c.getString(c
+					.getColumnIndex(TimingAction.TIMING_PARA1)));
+			mTimingAction.setPara2(c.getInt(c
+					.getColumnIndex(TimingAction.TIMING_PARA2)));
+			mTimingAction.setPara3(c.getString(c
+					.getColumnIndex(TimingAction.TIMING_PARA3)));
+			mTimingAction.setTimingEnable(c.getInt(c
+					.getColumnIndex(TimingAction.TIMING_ENABLE)));
+			mList.add(mTimingAction);
+		}
+		c.close();
+		db.close();
+		return mList;
+	}
+	
 	public List<Room> queryForRoomList(SQLiteDatabase db, String table,
 			String[] columns, String selection, String[] selectionArgs,
 			String groupBy, String having, String orderBy, String limit) {

@@ -16,6 +16,11 @@ interface LinkageColumns extends BaseColumns {
 }
 
 public class Linkage implements LinkageColumns, Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4010318745509649607L;
+	
 	private int lid;
 	private String lnkname = "";
 	private String trgieee = "";

@@ -2,6 +2,7 @@ package com.gdgl.drawer;
 
 import com.gdgl.activity.RegionsFragment;
 import com.gdgl.activity.ScenesFragment;
+import com.gdgl.activity.TimingFragment;
 import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.AddDlg.AddDialogcallback;
@@ -119,6 +120,9 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerC
 			break;
 		case 2:
 			mfragment = new ScenesFragment();
+			break;
+		case 3:
+			mfragment = new TimingFragment();
 			break;
 		default:
 			break;

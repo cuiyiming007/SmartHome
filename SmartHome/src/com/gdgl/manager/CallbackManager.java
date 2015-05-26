@@ -35,6 +35,7 @@ import com.gdgl.mydata.Callback.CallbackWarnMessage;
 import com.gdgl.mydata.binding.BindingDataEntity;
 import com.gdgl.mydata.scene.SceneDevice;
 import com.gdgl.mydata.scene.SceneInfo;
+import com.gdgl.mydata.timing.TimingAction;
 import com.gdgl.network.VolleyOperation;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.NetUtil;
@@ -373,6 +374,110 @@ public class CallbackManager extends Manger {
 				Event event2 = new Event(EventType.MODIFYALIAS, true);
 				event2.setData(status2);
 				notifyObservers(event2);
+				break;
+			default:
+				break;
+			}
+		}
+		if (mainid == 3) { // timing opraters
+			switch (subid) {
+			case 1: // add timingact
+				int status1 = (Integer) jsonRsponse.get("status");
+				if (status1 < 0) {
+					Event event1_error = new Event(EventType.ADDTIMINGACTION,
+							false);
+					event1_error.setData(status1);
+					notifyObservers(event1_error);
+					break;
+				}
+				TimingAction timingAction1 = gson.fromJson(response,
+						TimingAction.class);
+				timingAction1.setActpara(timingAction1.getActpara());
+				timingAction1.setPara3(timingAction1.getPara3());
+				Event event1 = new Event(EventType.ADDTIMINGACTION, true);
+				event1.setData(timingAction1);
+
+				SQLiteDatabase mSqLiteDatabase1 = mDateHelper
+						.getSQLiteDatabase();
+				mSqLiteDatabase1.insert(DataHelper.TIMINGACTION_TABLE, null,
+						timingAction1.convertContentValues());
+				mSqLiteDatabase1.close();
+
+				notifyObservers(event1);
+				break;
+			case 2: // edit timingact
+				int status2 = (Integer) jsonRsponse.get("status");
+				if (status2 < 0) {
+					Event event2_error = new Event(EventType.EDITTIMINGACTION,
+							false);
+					event2_error.setData(status2);
+					notifyObservers(event2_error);
+					break;
+				}
+				TimingAction timingAction2 = gson.fromJson(response,
+						TimingAction.class);
+				timingAction2.setActpara(timingAction2.getActpara());
+				timingAction2.setPara3(timingAction2.getPara3());
+				Event event2 = new Event(EventType.EDITTIMINGACTION, true);
+				event2.setData(timingAction2);
+
+				SQLiteDatabase mSqLiteDatabase2 = mDateHelper
+						.getSQLiteDatabase();
+				String where2 = TimingAction.TIMING_ID + " = ? ";
+				String[] arg2 = { timingAction2.getTid() + "" };
+				mSqLiteDatabase2.delete(DataHelper.TIMINGACTION_TABLE, where2,
+						arg2);
+				mSqLiteDatabase2.insert(DataHelper.TIMINGACTION_TABLE, null,
+						timingAction2.convertContentValues());
+				mSqLiteDatabase2.close();
+
+				notifyObservers(event2);
+				break;
+			case 3: // delete timingact
+				int status3 = (Integer) jsonRsponse.get("status");
+				if (status3 < 0) {
+					Event event3_error = new Event(EventType.DELTIMINGACTION,
+							false);
+					event3_error.setData(status3);
+					notifyObservers(event3_error);
+					break;
+				}
+				int tid3 = (Integer) jsonRsponse.get("tid");
+				Event event3 = new Event(EventType.DELTIMINGACTION, true);
+				event3.setData(tid3);
+				notifyObservers(event3);
+
+				SQLiteDatabase mSqLiteDatabase3 = mDateHelper
+						.getSQLiteDatabase();
+				String where3 = TimingAction.TIMING_ID + " = ? ";
+				String[] arg3 = { tid3 + "" };
+				mSqLiteDatabase3.delete(DataHelper.TIMINGACTION_TABLE, where3,
+						arg3);
+				break;
+			case 4: // enable timingact
+				int status4 = (Integer) jsonRsponse.get("status");
+				if (status4 < 0) {
+					Event event4_error = new Event(
+							EventType.ENABLETIMINGACTION, false);
+					event4_error.setData(status4);
+					notifyObservers(event4_error);
+					break;
+				}
+				int tid4 = (Integer) jsonRsponse.get("tid");
+				int enable4 = (Integer) jsonRsponse.get("enable");
+				int[] temp = {tid4, enable4};
+				Event event4 = new Event(EventType.ENABLETIMINGACTION, true);
+				event4.setData(temp);
+				notifyObservers(event4);
+
+				SQLiteDatabase mSqLiteDatabase4 = mDateHelper
+						.getSQLiteDatabase();
+				String where4 = TimingAction.TIMING_ID + " = ? ";
+				String[] arg4 = { tid4 + "" };
+				ContentValues c4 = new ContentValues();
+				c4.put(TimingAction.TIMING_ENABLE, enable4);
+				mDateHelper.update(mSqLiteDatabase4,
+						DataHelper.TIMINGACTION_TABLE, c4, where4, arg4);
 				break;
 			default:
 				break;

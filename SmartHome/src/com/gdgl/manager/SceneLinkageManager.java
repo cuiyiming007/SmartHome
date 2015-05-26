@@ -13,6 +13,7 @@ import com.gdgl.app.ApplicationController;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.scene.SceneDevice;
 import com.gdgl.mydata.scene.SceneInfo;
+import com.gdgl.mydata.timing.TimingAction;
 import com.gdgl.network.StringRequestChina;
 import com.gdgl.network.VolleyOperation;
 import com.gdgl.util.NetUtil;
@@ -168,8 +169,10 @@ public class SceneLinkageManager extends Manger {
 				});
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
-	
-	public void AddLinkage(String lnkname, String trgieee, String trgep, String trgcnd, String lnkact, int enable){
+
+	// Linkage API
+	public void AddLinkage(String lnkname, String trgieee, String trgep,
+			String trgcnd, String lnkact, int enable) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("lnkname", lnkname);
 		paraMap.put("trgieee", trgieee);
@@ -200,8 +203,9 @@ public class SceneLinkageManager extends Manger {
 				});
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
-	
-	public void EditLinkage(String lnkname, String trgieee, String trgep, String trgcnd, String lnkact, int enable, int lid){
+
+	public void EditLinkage(String lnkname, String trgieee, String trgep,
+			String trgcnd, String lnkact, int enable, int lid) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("lnkname", lnkname);
 		paraMap.put("trgieee", trgieee);
@@ -233,8 +237,8 @@ public class SceneLinkageManager extends Manger {
 				});
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
-	
-	public void DeleteLinkage(int lid){
+
+	public void DeleteLinkage(int lid) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("lid", Integer.toString(lid));
 		String param = hashMap2ParamString(paraMap);
@@ -260,8 +264,8 @@ public class SceneLinkageManager extends Manger {
 				});
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
-	
-	public void GetLinkageList(){
+
+	public void GetLinkageList() {
 		String url = NetUtil.getInstance().getVideoURL(
 				NetUtil.getInstance().IP, "GetLinkageList.cgi");
 		StringRequestChina req = new StringRequestChina(url,
@@ -282,8 +286,8 @@ public class SceneLinkageManager extends Manger {
 				});
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
-	
-	public void EnableLinkage(int enable, int lid){
+
+	public void EnableLinkage(int enable, int lid) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("enable", Integer.toString(enable));
 		paraMap.put("lid", Integer.toString(lid));
@@ -291,6 +295,153 @@ public class SceneLinkageManager extends Manger {
 
 		String url = NetUtil.getInstance().getCumstomURL(
 				NetUtil.getInstance().IP, "EnableLinkage.cgi", param);
+
+		StringRequestChina req = new StringRequestChina(url,
+				new Listener<String>() {
+
+					@Override
+					public void onResponse(String arg0) {
+						// TODO Auto-generated method stub
+
+					}
+				}, new ErrorListener() {
+
+					@Override
+					public void onErrorResponse(VolleyError arg0) {
+						// TODO Auto-generated method stub
+
+					}
+				});
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
+
+	// Timing API
+	public void AddTimeAction(String actname, String actpara, int actmode,
+			String para1, int para2, String para3, int enable) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("actname", actname);
+		paraMap.put("actpara", actpara);
+		paraMap.put("actmode", Integer.toString(actmode));
+		paraMap.put("para1", para1);
+		paraMap.put("para2", Integer.toString(para2));
+		paraMap.put("para3", para3);
+		paraMap.put("enable", Integer.toString(enable));
+		String param = hashMap2ParamString(paraMap);
+
+		String url = NetUtil.getInstance().getCumstomURL(
+				NetUtil.getInstance().IP, "AddTimeAction.cgi", param);
+
+		StringRequestChina req = new StringRequestChina(url,
+				new Listener<String>() {
+
+					@Override
+					public void onResponse(String arg0) {
+						// TODO Auto-generated method stub
+
+					}
+				}, new ErrorListener() {
+
+					@Override
+					public void onErrorResponse(VolleyError arg0) {
+						// TODO Auto-generated method stub
+
+					}
+				});
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
+
+	public void EditTimeAction(String actname, String actpara, int actmode,
+			String para1, int para2, String para3, int enable, int tid) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("actname", actname);
+		paraMap.put("actpara", actpara);
+		paraMap.put("actmode", Integer.toString(actmode));
+		paraMap.put("para1", para1);
+		paraMap.put("para2", Integer.toString(para2));
+		paraMap.put("para3", para3);
+		paraMap.put("tid", Integer.toString(tid));
+		paraMap.put("enable", Integer.toString(enable));
+		String param = hashMap2ParamString(paraMap);
+
+		String url = NetUtil.getInstance().getCumstomURL(
+				NetUtil.getInstance().IP, "EditTimeAction.cgi", param);
+
+		StringRequestChina req = new StringRequestChina(url,
+				new Listener<String>() {
+
+					@Override
+					public void onResponse(String arg0) {
+						// TODO Auto-generated method stub
+
+					}
+				}, new ErrorListener() {
+
+					@Override
+					public void onErrorResponse(VolleyError arg0) {
+						// TODO Auto-generated method stub
+
+					}
+				});
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
+
+	public void DelTimeAction(int tid) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("tid", Integer.toString(tid));
+		String param = hashMap2ParamString(paraMap);
+
+		String url = NetUtil.getInstance().getCumstomURL(
+				NetUtil.getInstance().IP, "DelTimeAction.cgi", param);
+
+		StringRequestChina req = new StringRequestChina(url,
+				new Listener<String>() {
+
+					@Override
+					public void onResponse(String arg0) {
+						// TODO Auto-generated method stub
+
+					}
+				}, new ErrorListener() {
+
+					@Override
+					public void onErrorResponse(VolleyError arg0) {
+						// TODO Auto-generated method stub
+
+					}
+				});
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
+
+	public void GetTimeActionList() {
+		String url = NetUtil.getInstance().getVideoURL(
+				NetUtil.getInstance().IP, "GetTimeActionList.cgi");
+		StringRequestChina req = new StringRequestChina(url,
+				new Listener<String>() {
+
+					@Override
+					public void onResponse(String arg0) {
+						// TODO Auto-generated method stub
+						new GetTimingActionListTask().execute(arg0);
+					}
+				}, new ErrorListener() {
+
+					@Override
+					public void onErrorResponse(VolleyError arg0) {
+						// TODO Auto-generated method stub
+
+					}
+				});
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
+
+	public void EnableTimeAction(int enable, int tid) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("enable", Integer.toString(enable));
+		paraMap.put("tid", Integer.toString(tid));
+		String param = hashMap2ParamString(paraMap);
+
+		String url = NetUtil.getInstance().getCumstomURL(
+				NetUtil.getInstance().IP, "EnableTimeAction.cgi", param);
 
 		StringRequestChina req = new StringRequestChina(url,
 				new Listener<String>() {
@@ -322,9 +473,10 @@ public class SceneLinkageManager extends Manger {
 					ApplicationController.getInstance());
 			SQLiteDatabase mSqLiteDatabase = mDateHelper.getSQLiteDatabase();
 			mDateHelper.emptyTable(mSqLiteDatabase, DataHelper.SCENE_TABLE);
-			mDateHelper.emptyTable(mSqLiteDatabase, DataHelper.SCENE_DEVICES_TABLE);
-			
-			for(SceneInfo sceneInfo:mSceneInfoList) {
+			mDateHelper.emptyTable(mSqLiteDatabase,
+					DataHelper.SCENE_DEVICES_TABLE);
+
+			for (SceneInfo sceneInfo : mSceneInfoList) {
 				mSqLiteDatabase.insert(DataHelper.SCENE_TABLE, null,
 						sceneInfo.convertContentValues());
 
@@ -339,6 +491,27 @@ public class SceneLinkageManager extends Manger {
 			mSqLiteDatabase.close();
 			return null;
 		}
+	}
 
+	class GetTimingActionListTask extends AsyncTask<String, Void, Void> {
+
+		@Override
+		protected Void doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			List<TimingAction> mTimingActionsList = VolleyOperation
+					.handleTimingActionListString(params[0]);
+			DataHelper mDateHelper = new DataHelper(
+					ApplicationController.getInstance());
+			SQLiteDatabase mSqLiteDatabase = mDateHelper.getSQLiteDatabase();
+			mDateHelper.emptyTable(mSqLiteDatabase,
+					DataHelper.TIMINGACTION_TABLE);
+
+			for (TimingAction timingAction : mTimingActionsList) {
+				mSqLiteDatabase.insert(DataHelper.TIMINGACTION_TABLE, null,
+						timingAction.convertContentValues());
+			}
+			mSqLiteDatabase.close();
+			return null;
+		}
 	}
 }

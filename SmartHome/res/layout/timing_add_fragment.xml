@@ -1,0 +1,111 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.gdgl.smarthome"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingTop="2dp" >
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/add_device"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardElevation="2dp" >
+
+            <include
+                android:id="@+id/device_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/scene_device_item"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/no_device"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:gravity="center"
+                android:text="点击添加设备"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="30sp" />
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            style="?android:attr/listSeparatorTextViewStyle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:paddingLeft="5dp"
+            android:text="重复"
+            android:textColor="@android:color/darker_gray" />
+
+        <LinearLayout
+            android:id="@+id/weekGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <ToggleButton style="@style/RecurrenceDayOfWeekToggleStyle" />
+
+            <ToggleButton style="@style/RecurrenceDayOfWeekToggleStyle" />
+
+            <ToggleButton style="@style/RecurrenceDayOfWeekToggleStyle" />
+
+            <ToggleButton style="@style/RecurrenceDayOfWeekToggleStyle" />
+
+            <ToggleButton style="@style/RecurrenceDayOfWeekToggleStyle" />
+
+            <ToggleButton style="@style/RecurrenceDayOfWeekToggleStyle" />
+
+            <ToggleButton style="@style/RecurrenceDayOfWeekToggleStyle" />
+        </LinearLayout>
+
+        <TextView
+            style="?android:attr/listSeparatorTextViewStyle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="-2dp"
+            android:paddingLeft="5dp"
+            android:text="时间"
+            android:textColor="@android:color/darker_gray" />
+
+        <TimePicker
+            android:id="@+id/tpPicker"
+            android:layout_marginTop="-12dp"
+            android:layout_marginBottom="-12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        
+        <TextView
+            android:id="@+id/dateText"
+            style="?android:attr/listSeparatorTextViewStyle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="-2dp"
+            android:paddingLeft="5dp"
+            android:text="日期"
+            android:textColor="@android:color/darker_gray" />
+        
+        <DatePicker
+            android:id="@+id/dpPicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-12dp"
+            android:layout_marginBottom="-12dp"
+            android:calendarViewShown="false"
+             />
+
+    </LinearLayout>
+
+</ScrollView>

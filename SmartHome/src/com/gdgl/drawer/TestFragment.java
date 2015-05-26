@@ -133,9 +133,6 @@ public class TestFragment extends Fragment implements UIListener {
 	private class CustomeAdapter extends BaseAdapter {
 		private List<DevicesModel> mAdapterDevicesList;
 
-		public CustomeAdapter() {
-		}
-
 		@Override
 		public int getCount() {
 			// TODO Auto-generated method stub
