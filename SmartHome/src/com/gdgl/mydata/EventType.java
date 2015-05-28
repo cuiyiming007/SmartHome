@@ -44,9 +44,12 @@ public class EventType {
 	public static final EventType GETICELIST;
 	public static final EventType BINDDEVICE;
 	public static final EventType UNBINDDEVICE;
+	
 	public static final EventType ADDIPC;
 	public static final EventType EDITIPC;
 	public static final EventType DELETEIPC;
+	public static final EventType IPCONLINESTATUS;
+	
 	public static final EventType GETBINDLIST;
 	public static final EventType BEGINLEARNIR;
 	public static final EventType BEGINAPPLYIR;
@@ -111,9 +114,12 @@ public class EventType {
 		ENERGY = new EventType("energy", nextId());
 		BINDDEVICE = new EventType("bindDevice", nextId());
 		UNBINDDEVICE = new EventType("unbindDevice", nextId());
+		
 		ADDIPC = new EventType("addIPC", nextId());
 		EDITIPC = new EventType("editIPC", nextId());
 		DELETEIPC = new EventType("deleteIPC", nextId());
+		IPCONLINESTATUS = new EventType("ipcOnlineStatus", nextId());
+		
 		GETBINDLIST = new EventType("getBindList", nextId());
 		BEGINLEARNIR = new EventType("beginLearnIR", nextId());
 		BEGINAPPLYIR = new EventType("beginApplyIR", nextId());

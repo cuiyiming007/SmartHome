@@ -213,7 +213,10 @@ public class DataHelper extends SQLiteOpenHelper {
 		videoStringBuilder.append(VideoNode.IPC_IPADDR + " INTEGER,");
 		videoStringBuilder.append(VideoNode.NAME + " VARCHAR(16),");
 		videoStringBuilder.append(VideoNode.PASSWORD + " INTEGER,");
-		videoStringBuilder.append(VideoNode.RTSPORT + " INTEGER)");
+		videoStringBuilder.append(VideoNode.RTSPORT + " INTEGER,");
+		videoStringBuilder.append(VideoNode.IPC_INDEX + " INTEGER,");
+		videoStringBuilder.append(VideoNode.ROOMID + " INTEGER,");
+		videoStringBuilder.append(VideoNode.IPC_STATUS + " VARCHAR)");
 
 		// message table create string
 		messageStringBuilder.append("CREATE TABLE " + MESSAGE_TABLE + " (");
@@ -293,17 +296,25 @@ public class DataHelper extends SQLiteOpenHelper {
 		linkageStringBuilder.append(Linkage.ENABLE + " INTEGER)");
 
 		// timingaction table create string
-		timingactionStringBuilder.append("CREATE TABLE " + TIMINGACTION_TABLE + " (");
+		timingactionStringBuilder.append("CREATE TABLE " + TIMINGACTION_TABLE
+				+ " (");
 		timingactionStringBuilder.append("_id"
 				+ " INTEGER PRIMARY KEY AUTOINCREMENT,");
 		timingactionStringBuilder.append(TimingAction.TIMING_ID + " INTEGER,");
-		timingactionStringBuilder.append(TimingAction.TIMING_NAME + " VARCHAR,");
-		timingactionStringBuilder.append(TimingAction.TIMING_ACTPARA + " VARCHAR,");
-		timingactionStringBuilder.append(TimingAction.TIMING_ACTMODE + " INTEGER,");
-		timingactionStringBuilder.append(TimingAction.TIMING_PARA1 + " VARCHAR,");
-		timingactionStringBuilder.append(TimingAction.TIMING_PARA2 + " INTEGER,");
-		timingactionStringBuilder.append(TimingAction.TIMING_PARA3 + " VARCHAR,");
-		timingactionStringBuilder.append(TimingAction.TIMING_ENABLE + " INTEGER)");
+		timingactionStringBuilder
+				.append(TimingAction.TIMING_NAME + " VARCHAR,");
+		timingactionStringBuilder.append(TimingAction.TIMING_ACTPARA
+				+ " VARCHAR,");
+		timingactionStringBuilder.append(TimingAction.TIMING_ACTMODE
+				+ " INTEGER,");
+		timingactionStringBuilder.append(TimingAction.TIMING_PARA1
+				+ " VARCHAR,");
+		timingactionStringBuilder.append(TimingAction.TIMING_PARA2
+				+ " INTEGER,");
+		timingactionStringBuilder.append(TimingAction.TIMING_PARA3
+				+ " VARCHAR,");
+		timingactionStringBuilder.append(TimingAction.TIMING_ENABLE
+				+ " INTEGER)");
 	}
 
 	@Override
@@ -637,6 +648,12 @@ public class DataHelper extends SQLiteOpenHelper {
 					.getColumnIndex(VideoNode.PASSWORD)));
 			mVideoNode.setRtspport(cursor.getString(cursor
 					.getColumnIndex(VideoNode.RTSPORT)));
+			mVideoNode.setIndex(cursor.getInt(cursor
+					.getColumnIndex(VideoNode.IPC_INDEX)));
+			mVideoNode.setRoomId(cursor.getInt(cursor
+					.getColumnIndex(VideoNode.ROOMID)));
+			mVideoNode.setIpc_status(cursor.getString(cursor
+					.getColumnIndex(VideoNode.IPC_STATUS)));
 			mList.add(mVideoNode);
 		}
 		cursor.close();
@@ -861,7 +878,8 @@ public class DataHelper extends SQLiteOpenHelper {
 		while (c.moveToNext()) {
 
 			mTimingAction = new TimingAction();
-			mTimingAction.setTid(c.getInt(c.getColumnIndex(TimingAction.TIMING_ID)));
+			mTimingAction.setTid(c.getInt(c
+					.getColumnIndex(TimingAction.TIMING_ID)));
 			mTimingAction.setTimingname(c.getString(c
 					.getColumnIndex(TimingAction.TIMING_NAME)));
 			mTimingAction.setActpara(c.getString(c
@@ -882,7 +900,7 @@ public class DataHelper extends SQLiteOpenHelper {
 		db.close();
 		return mList;
 	}
-	
+
 	public List<Room> queryForRoomList(SQLiteDatabase db, String table,
 			String[] columns, String selection, String[] selectionArgs,
 			String groupBy, String having, String orderBy, String limit) {

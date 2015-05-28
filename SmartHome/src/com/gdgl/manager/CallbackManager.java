@@ -36,6 +36,7 @@ import com.gdgl.mydata.binding.BindingDataEntity;
 import com.gdgl.mydata.scene.SceneDevice;
 import com.gdgl.mydata.scene.SceneInfo;
 import com.gdgl.mydata.timing.TimingAction;
+import com.gdgl.mydata.video.VideoNode;
 import com.gdgl.network.VolleyOperation;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.NetUtil;
@@ -359,7 +360,7 @@ public class CallbackManager extends Manger {
 		int mainid = (Integer) jsonRsponse.get("mainid");
 		int subid = (Integer) jsonRsponse.get("subid");
 		Log.i(TAG, response);
-		if (mainid == 1) { // user opraters message of Guanglian APIs
+		if (mainid == 1) { // user operations message of Guanglian APIs
 			switch (subid) {
 			case 1: // modifyPassword
 				int status1 = (Integer) jsonRsponse.get("status");
@@ -368,7 +369,7 @@ public class CallbackManager extends Manger {
 				event1.setData(status1);
 				notifyObservers(event1);
 				break;
-			case 2:
+			case 2: // modifyAlias
 				int status2 = (Integer) jsonRsponse.get("status");
 
 				Event event2 = new Event(EventType.MODIFYALIAS, true);
@@ -379,7 +380,100 @@ public class CallbackManager extends Manger {
 				break;
 			}
 		}
-		if (mainid == 3) { // timing opraters
+		if (mainid == 2) { // video operations
+			switch (subid) {
+			case 1: // addIPC
+				int status1 = (Integer) jsonRsponse.get("status");
+				if (status1 < 0) {
+					Event event1_error = new Event(EventType.ADDIPC, false);
+					event1_error.setData(status1);
+					notifyObservers(event1_error);
+					break;
+				}
+				VideoNode videoNode1 = gson.fromJson(response, VideoNode.class);
+
+				Event event1 = new Event(EventType.ADDIPC, true);
+				event1.setData(videoNode1);
+
+				SQLiteDatabase mSqLiteDatabase1 = mDateHelper
+						.getSQLiteDatabase();
+				mSqLiteDatabase1.insert(DataHelper.VIDEO_TABLE, null,
+						videoNode1.convertContentValues());
+				mSqLiteDatabase1.close();
+
+				notifyObservers(event1);
+				break;
+			case 2: // editIPC
+				int status2 = (Integer) jsonRsponse.get("status");
+				if (status2 < 0) {
+					Event event2_error = new Event(EventType.EDITIPC, false);
+					event2_error.setData(status2);
+					notifyObservers(event2_error);
+					break;
+				}
+				VideoNode videoNode2 = gson.fromJson(response, VideoNode.class);
+
+				Event event2 = new Event(EventType.EDITIPC, true);
+				event2.setData(videoNode2);
+
+				SQLiteDatabase mSqLiteDatabase2 = mDateHelper
+						.getSQLiteDatabase();
+				String where2 = VideoNode.ID + " = ? ";
+				String[] arg2 = { videoNode2.getId() };
+				mSqLiteDatabase2.delete(DataHelper.VIDEO_TABLE, where2, arg2);
+				mSqLiteDatabase2.insert(DataHelper.VIDEO_TABLE, null,
+						videoNode2.convertContentValues());
+				mSqLiteDatabase2.close();
+
+				notifyObservers(event2);
+				break;
+			case 3: // deleteIPC
+				int status3 = (Integer) jsonRsponse.get("status");
+				if (status3 < 0) {
+					Event event3_error = new Event(EventType.DELETEIPC, false);
+					event3_error.setData(status3);
+					notifyObservers(event3_error);
+					break;
+				}
+				int videoID3 = (Integer) jsonRsponse.get("id");
+				Event event3 = new Event(EventType.DELETEIPC, true);
+				event3.setData(videoID3);
+				notifyObservers(event3);
+
+				SQLiteDatabase mSqLiteDatabase3 = mDateHelper
+						.getSQLiteDatabase();
+				String where3 = VideoNode.ID + " = ? ";
+				String[] arg3 = { videoID3 + "" };
+				mSqLiteDatabase3.delete(DataHelper.VIDEO_TABLE, where3, arg3);
+				break;
+			case 4: // ipc online status
+				String ipc_status = (String) jsonRsponse.get("ipc_status_list");
+				char[] ipcStatusList = ipc_status.toCharArray();
+				
+				Event event4 = new Event(EventType.IPCONLINESTATUS, true);
+				event4.setData(ipcStatusList);
+				notifyObservers(event4);
+				
+				SQLiteDatabase mSqLiteDatabase4 = mDateHelper
+						.getSQLiteDatabase();
+				ContentValues c4 = new ContentValues();
+				String where4 = VideoNode.ID + " = ? ";
+				for (int i = 0; i < ipcStatusList.length; i++) {
+					if (ipcStatusList[i] != 'c') {
+						String[] arg4 = { i + "" };
+						c4.put(VideoNode.IPC_STATUS,
+								String.valueOf(ipcStatusList[i]));
+						mDateHelper.update(mSqLiteDatabase4,
+								DataHelper.VIDEO_TABLE, c4, where4, arg4);
+					}
+				}
+				mSqLiteDatabase4.close();
+				break;
+			default:
+				break;
+			}
+		}
+		if (mainid == 3) { // timing operations
 			switch (subid) {
 			case 1: // add timingact
 				int status1 = (Integer) jsonRsponse.get("status");
@@ -465,7 +559,7 @@ public class CallbackManager extends Manger {
 				}
 				int tid4 = (Integer) jsonRsponse.get("tid");
 				int enable4 = (Integer) jsonRsponse.get("enable");
-				int[] temp = {tid4, enable4};
+				int[] temp = { tid4, enable4 };
 				Event event4 = new Event(EventType.ENABLETIMINGACTION, true);
 				event4.setData(temp);
 				notifyObservers(event4);
@@ -478,12 +572,13 @@ public class CallbackManager extends Manger {
 				c4.put(TimingAction.TIMING_ENABLE, enable4);
 				mDateHelper.update(mSqLiteDatabase4,
 						DataHelper.TIMINGACTION_TABLE, c4, where4, arg4);
+				mSqLiteDatabase4.close();
 				break;
 			default:
 				break;
 			}
 		}
-		if (mainid == 4) { // scene opraters
+		if (mainid == 4) { // scene operations
 			switch (subid) {
 			case 1: // add scene
 				int status1 = (Integer) jsonRsponse.get("status");
