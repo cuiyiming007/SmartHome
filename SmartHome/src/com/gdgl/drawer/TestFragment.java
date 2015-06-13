@@ -1,10 +1,10 @@
 package com.gdgl.drawer;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import com.gc.materialdesign.views.ButtonFloat;
-import com.gdgl.activity.DeviceDtailFragment;
 import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.DeviceManager;
@@ -14,6 +14,9 @@ import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
+import com.gdgl.mydata.Event;
+import com.gdgl.mydata.EventType;
+import com.gdgl.mydata.Callback.CallbackResponseType2;
 import com.gdgl.smarthome.R;
 
 import android.content.Context;
@@ -41,6 +44,7 @@ public class TestFragment extends Fragment implements UIListener {
 	ViewGroup nodevices;
 	ButtonFloat mButtonFloat;
 
+	CustomeAdapter mCustomeAdapter;
 	DataHelper mDh;
 
 	CGIManager cgiManager;
@@ -58,9 +62,6 @@ public class TestFragment extends Fragment implements UIListener {
 
 		cgiManager = CGIManager.getInstance();
 		cgiManager.addObserver(this);
-
-		mDeviceManager = DeviceManager.getInstance();
-		mDeviceManager.addObserver(this);
 
 		CallbackManager.getInstance().addObserver(this);
 
@@ -92,10 +93,10 @@ public class TestFragment extends Fragment implements UIListener {
 		nodevices.setVisibility(View.GONE);
 		content_view = (GridView) mView.findViewById(R.id.content_view);
 		mButtonFloat = (ButtonFloat) mView.findViewById(R.id.buttonFloat);
-//		content_view.setBackgroundResource(R.color.blue_default);
+		// content_view.setBackgroundResource(R.color.blue_default);
 		// content_view.setLayoutAnimation(UiUtils
 		// .getAnimationController((Context) getActivity()));
-		CustomeAdapter mCustomeAdapter = new CustomeAdapter();
+		mCustomeAdapter = new CustomeAdapter();
 		mCustomeAdapter.setList(mDeviceList);
 		content_view.setAdapter(mCustomeAdapter);
 		content_view.setOnItemClickListener(new OnItemClickListener() {
@@ -104,28 +105,26 @@ public class TestFragment extends Fragment implements UIListener {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				// TODO Auto-generated method stub
-				DevicesModel mDevicesModel = (DevicesModel) mDeviceList.get(position);
+				DevicesModel mDevicesModel = (DevicesModel) mDeviceList
+						.get(position);
 				Intent intent = new Intent();
-				
+
 				Bundle extras = new Bundle();
-				extras.putSerializable(Constants.PASS_OBJECT,
-						mDevicesModel);
-				extras.putInt(Constants.PASS_DEVICE_ABOUT,
-						DeviceDtailFragment.WITH_DEVICE_ABOUT);
+				extras.putSerializable(Constants.PASS_OBJECT, mDevicesModel);
 				intent.putExtras(extras);
-				intent.setClass(getActivity(), DeviceDetailActivity.class);
+				intent.setClass(getActivity(), DeviceControlActivity.class);
 				startActivity(intent);
 			}
 		});
-		
+
 		mButtonFloat.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				 Intent i = new Intent();
-				 i.setClass(getActivity(), JoinNetActivity.class);
-				 startActivity(i);
+				Intent i = new Intent();
+				i.setClass(getActivity(), JoinNetActivity.class);
+				startActivity(i);
 			}
 		});
 	}
@@ -144,24 +143,21 @@ public class TestFragment extends Fragment implements UIListener {
 			// TODO Auto-generated method stub
 			return mAdapterDevicesList.get(position);
 		}
-		
+
 		@Override
 		public long getItemId(int position) {
 			// TODO Auto-generated method stub
 			return 0;
 		}
 
-		public String getItemName(int position) {
-			return mAdapterDevicesList.get(position).getmDefaultDeviceName();
-		}
-
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			
+
 			if (null == mAdapterDevicesList) {
 				return convertView;
 			}
-			DevicesModel mAdapeterDevicesModel = mAdapterDevicesList.get(position);
+			DevicesModel mAdapeterDevicesModel = mAdapterDevicesList
+					.get(position);
 			// TODO Auto-generated method stub
 			ViewHolder mViewHolder;
 			if (null == convertView) {
@@ -172,17 +168,20 @@ public class TestFragment extends Fragment implements UIListener {
 						.findViewById(R.id.func_img);
 				mViewHolder.funcText = (TextView) convertView
 						.findViewById(R.id.func_name);
-				mViewHolder.funcCardView = (CardView) convertView.findViewById(R.id.card_view);
-//				mViewHolder.funcCardView.setCardBackgroundColor(getResources().getColor(R.color.ui_cardview_selector_blue));
+				mViewHolder.funcCardView = (CardView) convertView
+						.findViewById(R.id.card_view);
+				// mViewHolder.funcCardView.setCardBackgroundColor(getResources().getColor(R.color.ui_cardview_selector_blue));
 				convertView.setTag(mViewHolder);
 			} else {
 				mViewHolder = (ViewHolder) convertView.getTag();
 			}
-			
-			mViewHolder.funcImg.setImageResource(DataUtil.getDefaultDevicesSmallIcon(
-					mAdapeterDevicesModel.getmDeviceId(), mAdapeterDevicesModel.getmModelId().trim()));
-			mViewHolder.funcText.setText(mAdapeterDevicesModel.getmDefaultDeviceName());
-//			mViewHolder.funcCardView.setCardBackgroundColor(getResources().getColor(R.color.ui_cardview_selector_blue));
+
+			mViewHolder.funcImg.setImageResource(DataUtil
+					.getDefaultDevicesSmallIcon(
+							mAdapeterDevicesModel.getmDeviceId(),
+							mAdapeterDevicesModel.getmModelId().trim()));
+			mViewHolder.funcText.setText(mAdapeterDevicesModel
+					.getmDefaultDeviceName());
 			return convertView;
 		}
 
@@ -200,18 +199,222 @@ public class TestFragment extends Fragment implements UIListener {
 	}
 
 	@Override
+	public void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		cgiManager.deleteObserver(this);
+		CallbackManager.getInstance().deleteObserver(this);
+	}
+	@Override
 	public void update(Manger observer, Object object) {
 		// TODO Auto-generated method stub
+		final Event event = (Event) object;
+		if (EventType.LIGHTSENSOROPERATION == event.getType()) {
+			// data maybe null
+			if (event.isSuccess()) {
+				Bundle bundle = (Bundle) event.getData();
+				int m = getDevicesPostion(bundle.getString("IEEE"),
+						bundle.getString("EP"), mDeviceList);
+				if (m != -1) {
+					String light = bundle.getString("PARAM");
+					mDeviceList.get(m).setmBrightness(Integer.parseInt(light));
+				}
+			} else {
+			}
+		} else if (EventType.TEMPERATURESENSOROPERATION == event.getType()) {
+			if (event.isSuccess()) {
+				Bundle bundle = (Bundle) event.getData();
+				int m = getDevicesPostion(bundle.getString("IEEE"),
+						bundle.getString("EP"), mDeviceList);
+				if (m != -1) {
+					String temperature = bundle.getString("PARAM");
+					mDeviceList.get(m).setmTemperature(
+							Float.parseFloat(temperature));
+				}
+			}
+		} else if (EventType.HUMIDITY == event.getType()) {
+			if (event.isSuccess()) {
+				Bundle bundle = (Bundle) event.getData();
+				int m = getDevicesPostion(bundle.getString("IEEE"),
+						bundle.getString("EP"), mDeviceList);
+				if (m != -1) {
+					String humidity = bundle.getString("PARAM");
+					mDeviceList.get(m).setmHumidity(Float.parseFloat(humidity));
+				}
+			}
+		} else if (EventType.LOCALIASCIEBYPASSZONE == event.getType()) {
+			if (event.isSuccess()) {
+				Bundle bundle = (Bundle) event.getData();
+				int m = getDevicesPostion(bundle.getString("IEEE"),
+						bundle.getString("EP"), mDeviceList);
+				if (m != -1) {
+					mDeviceList.get(m).setmOnOffStatus(
+							bundle.getString("PARAM"));
+				}
+			}
+		} else if (EventType.LOCALIASCIEOPERATION == event.getType()) {
+			if (event.isSuccess() == true) {
+
+				String status = (String) event.getData();
+				if (null != mDeviceList && mDeviceList.size() > 0) {
+					for (int m = 0; m < mDeviceList.size(); m++) {
+						if (mDeviceList.get(m).getmModelId()
+								.indexOf(DataHelper.One_key_operator) == 0) {
+							mDeviceList.get(m).setmOnOffStatus(status);
+							break;
+						}
+					}
+				}
+			}
+		} else if (EventType.DELETENODE == event.getType()) {
+			if (event.isSuccess()) {
+				String delete_ieee = (String) event.getData();
+				for (int i = 0; i < mDeviceList.size(); i++) {
+					DevicesModel tempDevModel = mDeviceList.get(i);
+					if (tempDevModel.getmIeee().equals(delete_ieee)) {
+						mDeviceList.remove(i);
+						mView.post(new Runnable() {
+
+							@Override
+							public void run() {
+								// TODO Auto-generated method stub
+								mCustomeAdapter.notifyDataSetChanged();
+							}
+						});
+					}
+				}
+			}
+		} else if (EventType.ON_OFF_STATUS == event.getType()) {
+			if (event.isSuccess() == true) {
+				// data maybe null
+				CallbackResponseType2 data = (CallbackResponseType2) event
+						.getData();
+				int m = getDevicesPostion(data.getDeviceIeee(),
+						data.getDeviceEp(), mDeviceList);
+				if (-1 != m) {
+					if (null != data.getValue()) {
+						mDeviceList.get(m).setmOnOffStatus(data.getValue());
+					}
+				}
+			}
+		} else if (EventType.MOVE_TO_LEVEL == event.getType()) {
+			if (event.isSuccess() == true) {
+				// data maybe null
+				CallbackResponseType2 data = (CallbackResponseType2) event
+						.getData();
+				int m = getDevicesPostion(data.getDeviceIeee(),
+						data.getDeviceEp(), mDeviceList);
+				String valueString = data.getValue();
+				if (-1 != m) {
+					if (null != data.getValue()) {
+						mDeviceList.get(m).setmLevel(valueString);
+						if (Integer.parseInt(valueString) < 7) {
+							mDeviceList.get(m).setmOnOffStatus("0");
+						} else {
+							mDeviceList.get(m).setmOnOffStatus("1");
+						}
+					}
+				}
+			}
+		} else if (EventType.CURRENT == event.getType()) {
+			if (event.isSuccess() == true) {
+				// data maybe null
+				CallbackResponseType2 data = (CallbackResponseType2) event
+						.getData();
+				int m = getDevicesPostion(data.getDeviceIeee(),
+						data.getDeviceEp(), mDeviceList);
+				String valueString = data.getValue();
+				if (-1 != m) {
+					if (null != data.getValue()) {
+						mDeviceList.get(m).setmCurrent(valueString);
+					}
+				}
+			}
+		} else if (EventType.VOLTAGE == event.getType()) {
+			if (event.isSuccess() == true) {
+				// data maybe null
+				CallbackResponseType2 data = (CallbackResponseType2) event
+						.getData();
+				int m = getDevicesPostion(data.getDeviceIeee(),
+						data.getDeviceEp(), mDeviceList);
+				if (-1 != m) {
+					if (null != data.getValue()) {
+						mDeviceList.get(m).setmVoltage(data.getValue());
+					}
+				}
+			}
+		} else if (EventType.ENERGY == event.getType()) {
+			if (event.isSuccess() == true) {
+				// data maybe null
+				CallbackResponseType2 data = (CallbackResponseType2) event
+						.getData();
+				int m = getDevicesPostion(data.getDeviceIeee(),
+						data.getDeviceEp(), mDeviceList);
+				if (-1 != m) {
+					if (null != data.getValue()) {
+						mDeviceList.get(m).setmEnergy(data.getValue());
+					}
+				}
+			}
+		} else if (EventType.POWER == event.getType()) {
+			if (event.isSuccess() == true) {
+				// data maybe null
+				CallbackResponseType2 data = (CallbackResponseType2) event
+						.getData();
+				int m = getDevicesPostion(data.getDeviceIeee(),
+						data.getDeviceEp(), mDeviceList);
+				if (-1 != m) {
+					if (null != data.getValue()) {
+						mDeviceList.get(m).setmPower(data.getValue());
+					}
+				}
+			}
+		} else if (EventType.SCAPEDDEVICE == event.getType()) {
+			ArrayList<DevicesModel> scapedList = (ArrayList<DevicesModel>) event
+					.getData();
+			for (DevicesModel mDevicesModel : scapedList) {
+				mDeviceList.add(mDevicesModel);
+			}
+			mView.post(new Runnable() {
+
+				@Override
+				public void run() {
+					mCustomeAdapter.notifyDataSetChanged();
+				}
+			});
+		}
 
 	}
 
-	public class getDataInBackgroundTask extends AsyncTask<Integer, Integer, Integer> {
+	private int getDevicesPostion(String ieee, String ep,
+			List<DevicesModel> deviceList) {
+		if (null == ieee || null == ep) {
+			return -1;
+		}
+		if (ieee.trim().equals("") || ep.trim().equals("")) {
+			return -1;
+		}
+		if (null != deviceList && deviceList.size() > 0) {
+			for (int m = 0; m < deviceList.size(); m++) {
+				DevicesModel dm = deviceList.get(m);
+				if (ieee.trim().equals(dm.getmIeee().trim())
+						&& ep.trim().equals(dm.getmEP().trim())) {
+					return m;
+				}
+			}
+		}
+		return -1;
+
+	}
+
+	public class getDataInBackgroundTask extends
+			AsyncTask<Integer, Integer, Integer> {
 		@Override
 		protected Integer doInBackground(Integer... params) {
 			// TODO Auto-generated method stub
 			mDeviceList = mDh.queryForDevicesList(mDh.getSQLiteDatabase(),
-							DataHelper.DEVICES_TABLE, null, null, null, null, null,
-							DevicesModel.DEVICE_PRIORITY, null);
+					DataHelper.DEVICES_TABLE, null, null, null, null, null,
+					DevicesModel.DEVICE_PRIORITY, null);
 			mDh.getSQLiteDatabase().close();
 			return 1;
 		}

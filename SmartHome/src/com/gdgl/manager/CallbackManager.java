@@ -896,8 +896,10 @@ public class CallbackManager extends Manger {
 			if (clusterId == 1794) {
 				Log.i(TAG,
 						"Callback msgType=" + 2 + " energy" + common.toString());
+				float value = Float.parseFloat(common.getValue());
+				common.setValue(String.valueOf(value));
 				ContentValues c = new ContentValues();
-				c.put(DevicesModel.ENERGY, common.getValue());
+				c.put(DevicesModel.ENERGY, String.valueOf(value));
 				Paremeters p = new Paremeters();
 				p.callbackmsg2 = common;
 				p.c = c;

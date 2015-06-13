@@ -1,6 +1,5 @@
 package com.gdgl.drawer;
 
-import com.gdgl.activity.DeviceDtailFragment;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.Constants;
 import com.gdgl.smarthome.R;
@@ -13,7 +12,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 
-public class DeviceDetailActivity extends ActionBarActivity {
+public class DeviceControlActivity extends ActionBarActivity {
     private Toolbar mToolbar;
     private ActionBar mActionBar;
 
@@ -36,7 +35,7 @@ public class DeviceDetailActivity extends ActionBarActivity {
         mActionBar.setDisplayShowTitleEnabled(true);
         mActionBar.setTitle(name);
         
-        Fragment mfragent = new DeviceDtailFragment();
+        Fragment mfragent = new DeviceControlFragment();
         mfragent.setArguments(mBundle);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         

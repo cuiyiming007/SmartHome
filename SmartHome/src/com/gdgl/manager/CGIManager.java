@@ -24,6 +24,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.gdgl.app.ApplicationController;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
+import com.gdgl.model.historydata.HistoryData;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DeviceLearnedParam;
 import com.gdgl.mydata.Event;
@@ -47,6 +48,9 @@ import com.gdgl.network.VolleyOperation;
 import com.gdgl.util.NetUtil;
 import com.gdgl.util.UiUtils;
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 /***
  * 
@@ -1620,6 +1624,96 @@ public class CGIManager extends Manger {
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
 
+	// 获取历史信息
+	public void getHistoryDataByTime(String deviceIeee, String ep,
+			String attribute, String stratTime, String endTime) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("deviceID", deviceIeee);
+		paraMap.put("deviceEp", ep);
+		paraMap.put("attrName", attribute);
+		paraMap.put("startTime", stratTime);
+		paraMap.put("endTime", endTime);
+		String param = hashMap2ParamString(paraMap);
+
+		String url = "http://121.199.21.14:8888/SmartHome/getdata_byDate?"
+				+ param;
+		StringRequest req = new StringRequest(url,
+				new Response.Listener<String>() {
+					@Override
+					public void onResponse(String response) {
+						response = UiUtils.formatResponseString(response);
+						Gson gson = new Gson();
+						JsonParser parser = new JsonParser();
+						JsonObject jsonObject = parser.parse(response).getAsJsonObject();
+						int code = jsonObject.get("returnCode").getAsInt();
+						if(code == 104) {
+							JsonElement data = jsonObject.get("data");
+							HistoryData historyData = gson.fromJson(data, HistoryData.class);
+							Event event = new Event(EventType.GETHISTORYDATA, true);
+							event.setData(historyData);
+							notifyObservers(event);
+						} else {
+							Event event = new Event(EventType.GETHISTORYDATA, false);
+							notifyObservers(event);
+						}
+					}
+				}, new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+						if (error != null && error.getMessage() != null) {
+							VolleyLog.e("CGIManager setHeartTime Error: ",
+									error.getMessage());
+
+						}
+					}
+				});
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
+
+	public void getHistoryDataNum(String deviceIeee, String ep,
+			String attribute, int number) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("deviceID", deviceIeee);
+		paraMap.put("deviceEp", ep);
+		paraMap.put("attrName", attribute);
+		paraMap.put("dataPointNum", number+"");
+		String param = hashMap2ParamString(paraMap);
+
+		String url = "http://121.199.21.14:8888/SmartHome/getdata_byNum?"
+				+ param;
+		Log.i("", url);
+		StringRequest req = new StringRequest(url,
+				new Response.Listener<String>() {
+					@Override
+					public void onResponse(String response) {
+						response = UiUtils.formatResponseString(response);
+						Gson gson = new Gson();
+						JsonParser parser = new JsonParser();
+						JsonObject jsonObject = parser.parse(response).getAsJsonObject();
+						int code = jsonObject.get("returnCode").getAsInt();
+						if(code == 104) {
+							JsonElement data = jsonObject.get("data");
+							HistoryData historyData = gson.fromJson(data, HistoryData.class);
+							Event event = new Event(EventType.GETHISTORYDATA, true);
+							event.setData(historyData);
+							notifyObservers(event);
+						} else {
+							Event event = new Event(EventType.GETHISTORYDATA, false);
+							notifyObservers(event);
+						}
+					}
+				}, new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+						if (error != null && error.getMessage() != null) {
+							VolleyLog.e("CGIManager setHeartTime Error: ",
+									error.getMessage());
+						}
+					}
+				});
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
+	
 	class GetBindingTask extends AsyncTask<String, Object, Object> {
 		@Override
 		protected Object doInBackground(String... params) {
@@ -1740,15 +1834,17 @@ public class CGIManager extends Manger {
 					.handleEndPointString(params[0]);
 			ArrayList<ResponseParamsEndPoint> devDataList = data
 					.getResponseparamList();
-			List<DevicesModel> mDevicesList = DataHelper.convertToDevicesModel(devDataList);
+			List<DevicesModel> mDevicesList = DataHelper
+					.convertToDevicesModel(devDataList);
 			DataHelper mDateHelper = new DataHelper(
 					ApplicationController.getInstance());
 			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
 
-			for(DevicesModel mDevices : mDevicesList){
+			for (DevicesModel mDevices : mDevicesList) {
 				ContentValues c = new ContentValues();
 				c.put(DevicesModel.R_ID, mDevices.getmRid());
-				mDateHelper.update(mSQLiteDatabase, DataHelper.DEVICES_TABLE, c, " ieee=? ", new String[] { mDevices.getmIeee() });
+				mDateHelper.update(mSQLiteDatabase, DataHelper.DEVICES_TABLE,
+						c, " ieee=? ", new String[] { mDevices.getmIeee() });
 			}
 			mSQLiteDatabase.close();
 			return mDevicesList;

@@ -11,14 +11,12 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
 import com.gdgl.app.ApplicationController;
@@ -39,7 +37,6 @@ import com.gdgl.mydata.getlocalcielist.CIEresponse_params;
 import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.TimeDlg;
-import com.gdgl.util.UiUtils;
 import com.gdgl.util.VersionDlg;
 
 /***

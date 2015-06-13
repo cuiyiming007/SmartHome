@@ -73,7 +73,7 @@ public class SceneLinkageManager extends Manger {
 
 		String url = NetUtil.getInstance().getCumstomURL(
 				NetUtil.getInstance().IP, "EditScene.cgi", param);
-
+		
 		StringRequestChina req = new StringRequestChina(url,
 				new Listener<String>() {
 

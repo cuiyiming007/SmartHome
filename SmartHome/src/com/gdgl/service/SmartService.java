@@ -81,9 +81,9 @@ public class SmartService extends Service {
 	public void startLANService() {
 		// =============================server======================
 		DeviceManager.getInstance().getDeviceEndPoint();
+		VideoManager.getInstance().getIPClist();
 		CGIManager.getInstance().GetAllRoomInfo();
 		CGIManager.getInstance().GetAllBindList();
-		VideoManager.getInstance().getIPClist();
 		SceneLinkageManager.getInstance().GetSceneList();
 		SceneLinkageManager.getInstance().GetTimeActionList();
 		new Thread(new Runnable() {

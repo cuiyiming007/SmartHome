@@ -47,28 +47,11 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerC
 			public boolean onMenuItemClick(MenuItem item) {
 				// TODO Auto-generated method stub
 				switch (item.getItemId()) {
-//				case R.id.menu_search:
-//					if (1 == currentTab) {
-//						AddDlg mAddDlg = new AddDlg(MainActivity.this,
-//								AddDlg.REGION);
-//						mAddDlg.setContent("添加区域");
-//						mAddDlg.setType("区域名称");
-//						mAddDlg.setDialogCallback(MainActivity.this);
-//						mAddDlg.show();
-////					} else if (3 == currentTab) {
-////						AddDlg mAddDlg = new AddDlg(MainActivity.this,
-////								AddDlg.SCENE);
-////						mAddDlg.setContent("添加场景");
-////						mAddDlg.setType("场景名称");
-////						mAddDlg.setDialogCallback(MainActivity.this);
-////						mAddDlg.show();
-//						// } else if (0 == mCurrentTab) {
-//						// Intent i = new Intent();
-//						// i.setClass(SmartHome.this,
-//						// AddCommonUsedActivity.class);
-//						// startActivity(i);
-//					}
-//					break;
+				case R.id.menu_alarm:
+					Intent i = new Intent(MainActivity.this,
+							AlarmMessageActivity.class);
+					startActivity(i);
+					break;
 
 				default:
 					break;
@@ -104,7 +87,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerC
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.menu_alarm, menu);
         return super.onCreateOptionsMenu(menu);
     }
     

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical" >
+
+        <ToggleButton
+            android:id="@+id/device_control_button"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:background="@drawable/test1"
+            android:textOff=""
+            android:textOn="" />
+
+        <TextView
+            android:id="@+id/device_control_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="打开"
+            android:textSize="14sp" />
+
+        <SeekBar
+            android:id="@+id/device_seek_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:focusable="true"
+            android:maxHeight="5dp"
+            android:minHeight="5dp"
+            android:progress="50"
+            android:progressDrawable="@drawable/seekbar_progress"
+            android:thumb="@drawable/tuodong_btn"
+            android:thumbOffset="0dp"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <com.gdgl.tabstrip.PagerSlidingTabStrip
+        xmlns:app="http://schemas.android.com/apk/res/com.gdgl.smarthome"
+        android:id="@+id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="48dip"
+        android:background="@drawable/background_tab"
+        app:pstsIndicatorHeight="4dp"
+        app:pstsUnderlineHeight="1dp" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tabs" />
+
+</LinearLayout>

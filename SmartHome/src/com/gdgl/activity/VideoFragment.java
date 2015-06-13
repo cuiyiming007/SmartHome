@@ -194,6 +194,9 @@ public class VideoFragment extends Fragment implements UIListener,
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			// TODO Auto-generated method stub
+			if(mList==null) {
+				return convertView;
+			}
 			ViewHolder mViewHolder;
 			if (null == convertView) {
 				mViewHolder = new ViewHolder();

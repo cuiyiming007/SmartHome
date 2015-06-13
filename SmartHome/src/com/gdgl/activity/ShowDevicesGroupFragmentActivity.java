@@ -1142,12 +1142,6 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 					setdata(mCurrentList);
 				}
 			});
-		} else if(EventType.SCAPEDDEVICE == event.getType()){
-			Log.i("ShowDevices SCAPEDDEVICE", "SCAPEDDEVICE");
-			ArrayList<DevicesModel> scapedList = (ArrayList<DevicesModel>) event.getData();
-			for(DevicesModel mDevicesModel : scapedList){
-				Log.i("mDevicesModel ", "IEEE = "+mDevicesModel.getmIeee());
-			}
 		} else if (EventType.SCAPEDDEVICE == event.getType()) {
 			ArrayList<DevicesModel> scapedList = (ArrayList<DevicesModel>) event
 					.getData();

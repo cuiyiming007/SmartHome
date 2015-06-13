@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +40,9 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
     private int mCurrentSelectedPosition;
     private  Toolbar mToolBar;
 
+    //add by Trice
+    private TextView mUserSet;
+    private TextView mExit;
 
     @Nullable
     @Override
@@ -55,6 +59,13 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         adapter.setNavigationDrawerCallbacks(this);
         mDrawerList.setAdapter(adapter);
         selectItem(mCurrentSelectedPosition);
+        
+        mUserSet = (TextView) view.findViewById(R.id.set_app);
+        mUserSet.setText("设置");
+        mUserSet.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ui2_userset), null, null, null);
+        mExit = (TextView) view.findViewById(R.id.exit_app);
+        mExit.setText("退出");
+        mExit.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ui2_exit), null, null, null);
         return view;
     }
 
@@ -151,10 +162,10 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
 
     public List<NavigationItem> getMenu() {
         List<NavigationItem> items = new ArrayList<NavigationItem>();
-        items.add(new NavigationItem("设备", getResources().getDrawable(R.drawable.device_pic)));
-        items.add(new NavigationItem("区域", getResources().getDrawable(R.drawable.ic_menu_check)));
-        items.add(new NavigationItem("情景", getResources().getDrawable(R.drawable.ic_menu_check)));
-        items.add(new NavigationItem("定时", getResources().getDrawable(R.drawable.ic_menu_check)));
+        items.add(new NavigationItem("设备", getResources().getDrawable(R.drawable.ui2_equipment_press)));
+        items.add(new NavigationItem("区域", getResources().getDrawable(R.drawable.ui2__area_press)));
+        items.add(new NavigationItem("情景", getResources().getDrawable(R.drawable.ui2_situation_press)));
+        items.add(new NavigationItem("定时", getResources().getDrawable(R.drawable.ui2_time_press)));
         return items;
     }
 
