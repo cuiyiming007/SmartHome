@@ -7,19 +7,22 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.BaseColumns;
 
-interface VideoNodeColumns extends BaseColumns {
-	public static final String _ID = "_id";
-	public static final String ID = "id";
-	public static final String IPC_IPADDR = "ipc_ipaddr";
-	public static final String NAME = "name";
-	public static final String PASSWORD = "password";
-	public static final String RTSPORT = "rtspport";
-	public static final String HTTPPORT = "httpport";
-	public static final String ALIAS = "alias";
+interface VideoNodeColumns extends BaseColumns
+{
+	public static final String _ID= "_id";
+	public static final String ID= "id";
+	public static final String IPC_IPADDR="ipc_ipaddr";
+	public static final String NAME="name";
+	public static final String PASSWORD="password";
+	public static final String RTSPORT="rtspport";
+	public static final String HTTPPORT="httpport";
+	public static final String ALIAS="alias";
 	public static final String IPC_INDEX = "ipc_index";
 	public static final String ROOMID = "roomid";
 	public static final String IPC_STATUS = "ipc_status";
-}
+	public static final int PRIORITY = 1000;
+	
+	}
 
 /***
  * "list": [ { "id": 0, "ipc_ipaddr": "192.168.1.164", "name": "admin",
@@ -29,6 +32,7 @@ interface VideoNodeColumns extends BaseColumns {
  * @author justek
  * 
  */
+
 public class VideoNode implements VideoNodeColumns, ContentValuesListener,
 		Parcelable {
 	private String id;

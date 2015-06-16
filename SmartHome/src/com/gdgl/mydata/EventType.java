@@ -79,6 +79,11 @@ public class EventType {
 	
 	public static final EventType GETHISTORYDATA;
 
+	public static final EventType ADDLINKAGE;
+	public static final EventType EDITLINKAGE;
+	public static final EventType DELETELINKAGE;
+	public static final EventType ENABLELINKAGE;
+	
 	static {
 		LOGIN = new EventType("login", id);
 		LIBJINGLE_STATUS = new EventType("libjingle_status", nextId());
@@ -148,6 +153,11 @@ public class EventType {
 		HEARTTIME = new EventType("hearttime", nextId());
 		READHEARTTIME = new EventType("readhearttime", nextId());
 		REQUESTVIDEO = new EventType("requestvideo", nextId());
+		
+		ADDLINKAGE = new EventType("AddLinkage", nextId());
+		EDITLINKAGE = new EventType("EditLinkage", nextId());
+		DELETELINKAGE = new EventType("DeleteLinkage", nextId());
+		ENABLELINKAGE = new EventType("EnableLinkage", nextId());
 		
 		GETHISTORYDATA = new EventType("gethistorydata", nextId());
 	}

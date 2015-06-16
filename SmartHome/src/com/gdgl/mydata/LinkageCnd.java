@@ -46,25 +46,21 @@ public class LinkageCnd{
 	public String getCndString(){
 		String cndString = "未定义";
 		if(!mark.equals("")){
-			cndString = name;
 			if(name.equals("temp")){
 				if(mark.equals("eq")){
-					cndString += "等于";
+					cndString = "温度等于";
 				}else if(mark.equals("bt")){
-					cndString += "大于";
+					cndString = "温度大于";
 				}else if(mark.equals("lt")){
-					cndString += "小于";			
-				}else if(mark.equals("be")){
-					cndString += "大于等于";
-				}else if(mark.equals("le")){
-					cndString += "小于等于";
+					cndString = "温度小于";			
 				}
+				cndString += data + "°C";
+			}else if(name.equals("Burglar")){
+				cndString = "触发警报";
 			}else if(name.equals("Fire")){
-				cndString += "eq";
-			}else if(name.equals("pass")){
-				cndString += "eq";
+				cndString = "触发警报";
 			}
-			cndString += data;
+			
 		}
 		return cndString;
 	}

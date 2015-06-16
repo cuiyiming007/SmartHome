@@ -180,6 +180,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         items.add(new NavigationItem("区域", getResources().getDrawable(R.drawable.ui2__area_press)));
         items.add(new NavigationItem("情景", getResources().getDrawable(R.drawable.ui2_situation_press)));
         items.add(new NavigationItem("定时", getResources().getDrawable(R.drawable.ui2_time_press)));
+        items.add(new NavigationItem("联动", getResources().getDrawable(R.drawable.ic_menu_check)));
         return items;
     }
 

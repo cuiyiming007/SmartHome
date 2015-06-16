@@ -17,10 +17,9 @@ interface LinkageColumns extends BaseColumns {
 
 public class Linkage implements LinkageColumns, Serializable{
 	/**
-	 * 
+	 * serialVersionUID作用： 序列化时为了保持版本的兼容性，即在版本升级时反序列化仍保持对象的唯一性。
 	 */
 	private static final long serialVersionUID = 4010318745509649607L;
-	
 	private int lid;
 	private String lnkname = "";
 	private String trgieee = "";

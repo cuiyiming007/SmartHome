@@ -24,6 +24,7 @@ import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
+import com.gdgl.mydata.Linkage;
 import com.gdgl.mydata.Callback.CallbackBeginLearnIRMessage;
 import com.gdgl.mydata.Callback.CallbackBindListDevices;
 import com.gdgl.mydata.Callback.CallbackBindListMessage;
@@ -662,6 +663,97 @@ public class CallbackManager extends Manger {
 				where3 = SceneDevice.SCENE_ID + " = ? ";
 				mSqLiteDatabase3.delete(DataHelper.SCENE_DEVICES_TABLE, where3,
 						arg3);
+				break;
+			default:
+				break;
+			}
+		}
+		if (mainid == 5) { // linkage
+			switch (subid) {
+			case 1: // add linkage
+				int status1 = (Integer) jsonRsponse.get("status");
+				if (status1 < 0) {
+					Event event1_error = new Event(EventType.ADDLINKAGE, false);
+					event1_error.setData(status1);
+					notifyObservers(event1_error);
+					break;
+				}
+				Linkage linkage1 = gson.fromJson(response, Linkage.class);
+				Event event1 = new Event(EventType.ADDLINKAGE, true);
+				event1.setData(linkage1);
+
+				SQLiteDatabase mSqLiteDatabase1 = mDateHelper
+						.getSQLiteDatabase();
+				mSqLiteDatabase1.insert(DataHelper.LINKAGE_TABLE, null,
+						linkage1.convertContentValues());
+				mSqLiteDatabase1.close();
+
+				notifyObservers(event1);
+				break;
+			case 2: // edit linkage
+				int status2 = (Integer) jsonRsponse.get("status");
+				if (status2 < 0) {
+					Event event2_error = new Event(EventType.EDITLINKAGE, false);
+					event2_error.setData(status2);
+					notifyObservers(event2_error);
+					break;
+				}
+				Linkage linkage2 = gson.fromJson(response, Linkage.class);
+				Event event2 = new Event(EventType.EDITLINKAGE, true);
+				event2.setData(linkage2);
+
+				SQLiteDatabase mSqLiteDatabase2 = mDateHelper
+						.getSQLiteDatabase();
+				String where2 = Linkage.LID + " = ? ";
+				String[] arg2 = { linkage2.getLid() + "" };
+				mSqLiteDatabase2.update(DataHelper.LINKAGE_TABLE, linkage2.convertContentValues(), where2,arg2);
+				mSqLiteDatabase2.close();
+
+				notifyObservers(event2);
+				break;
+			case 3: //delete linkage
+				int status3 = (Integer) jsonRsponse.get("status");
+				if (status3 < 0) {
+					Event event3_error = new Event(EventType.DELETELINKAGE, false);
+					event3_error.setData(status3);
+					notifyObservers(event3_error);
+					break;
+				}
+				int lid3 = (Integer) jsonRsponse.get("lid");
+				Event event3 = new Event(EventType.DELETELINKAGE, true);
+				event3.setData(lid3);
+
+				SQLiteDatabase mSqLiteDatabase3 = mDateHelper
+						.getSQLiteDatabase();
+				String where3 = Linkage.LID + " = ? ";
+				String[] arg3 = { lid3 + "" };
+				mSqLiteDatabase3.delete(DataHelper.LINKAGE_TABLE, where3, arg3);
+
+				notifyObservers(event3);
+				break;
+			case 4: // enable linkage
+				int status4 = (Integer) jsonRsponse.get("status");
+				if (status4 < 0) {
+					Event event4_error = new Event(EventType.ENABLELINKAGE, false);
+					event4_error.setData(status4);
+					notifyObservers(event4_error);
+					break;
+				}
+				int lid4 = (Integer) jsonRsponse.get("lid");
+				int enable4 = (Integer) jsonRsponse.get("enable");
+				Event event4 = new Event(EventType.ENABLELINKAGE, true);
+				event4.setData(enable4);
+
+				SQLiteDatabase mSqLiteDatabase4 = mDateHelper
+						.getSQLiteDatabase();
+				ContentValues cv = new ContentValues();         
+				cv.put(Linkage.ENABLE, enable4); 
+				String where4 = Linkage.LID + " = ? ";
+				String[] arg4 = { lid4 + "" };
+				mSqLiteDatabase4.update(DataHelper.LINKAGE_TABLE, cv, where4,arg4);
+				mSqLiteDatabase4.close();
+
+				notifyObservers(event4);
 				break;
 			default:
 				break;

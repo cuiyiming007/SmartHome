@@ -1,5 +1,6 @@
 package com.gdgl.drawer;
 
+import com.gdgl.activity.LinkageFragment;
 import com.gdgl.activity.RegionsFragment;
 import com.gdgl.activity.ScenesFragment;
 import com.gdgl.activity.TimingFragment;
@@ -106,6 +107,9 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerC
 			break;
 		case 3:
 			mfragment = new TimingFragment();
+			break;
+		case 4:
+			mfragment = new LinkageFragment();
 			break;
 		default:
 			break;

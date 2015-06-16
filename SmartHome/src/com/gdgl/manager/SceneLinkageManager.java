@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.android.volley.Response.Listener;
 import com.android.volley.Response.ErrorListener;
@@ -181,6 +182,7 @@ public class SceneLinkageManager extends Manger {
 		paraMap.put("lnkact", lnkact);
 		paraMap.put("enable", Integer.toString(enable));
 		String param = hashMap2ParamString(paraMap);
+		Log.i("AddLinkage", param);
 
 		String url = NetUtil.getInstance().getCumstomURL(
 				NetUtil.getInstance().IP, "AddLinkage.cgi", param);
@@ -215,7 +217,7 @@ public class SceneLinkageManager extends Manger {
 		paraMap.put("enable", Integer.toString(enable));
 		paraMap.put("lid", Integer.toString(lid));
 		String param = hashMap2ParamString(paraMap);
-
+		Log.i("EditLinkage", param);
 		String url = NetUtil.getInstance().getCumstomURL(
 				NetUtil.getInstance().IP, "EditLinkage.cgi", param);
 
@@ -244,7 +246,7 @@ public class SceneLinkageManager extends Manger {
 		String param = hashMap2ParamString(paraMap);
 
 		String url = NetUtil.getInstance().getCumstomURL(
-				NetUtil.getInstance().IP, "DeleteLinkage.cgi", param);
+				NetUtil.getInstance().IP, "DelLinkage.cgi", param);
 
 		StringRequestChina req = new StringRequestChina(url,
 				new Listener<String>() {
