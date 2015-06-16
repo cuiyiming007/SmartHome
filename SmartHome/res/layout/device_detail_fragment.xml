@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="22dp"
+                android:text="识别时间"
+                android:textColor="#696969"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/identify_time"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:gravity="center_horizontal|bottom"
+                android:hint="10"
+                android:inputType="number"
+                android:singleLine="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="s"
+                android:textColor="#696969"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/begin_identify"
+                    android:layout_width="70dp"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="25dp"
+                    android:background="@drawable/ui_button_green_small_style"
+                    android:maxWidth="80dp"
+                    android:minWidth="60dp"
+                    android:text="识别"
+                    android:textColor="#ffffff" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/device_heart_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="22dp"
+                android:text="心跳周期"
+                android:textColor="#696969"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/device_heart_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/ui_button_selector_blue"
+                android:gravity="center"
+                android:hint="00:00:00"
+                android:padding="5dp"
+                android:textColor="@color/ui_button_selector_blue_text" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:background="#696969"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:id="@+id/energy_attribute"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="22dp"
+                        android:text="电        流"
+                        android:textColor="#696969"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/device_current"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:gravity="center_horizontal"
+                        android:text="60"
+                        android:textColor="#047a9f"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:text="mA"
+                        android:textColor="#047a9f"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="22dp"
+                        android:text="电        压"
+                        android:textColor="#696969"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/device_voltage"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:gravity="center_horizontal"
+                        android:text="60"
+                        android:textColor="#047a9f"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:text="V"
+                        android:textColor="#047a9f"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="22dp"
+                        android:text="功        率"
+                        android:textColor="#696969"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/device_power"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:gravity="center_horizontal"
+                        android:text="60"
+                        android:textColor="#047a9f"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:text="W"
+                        android:textColor="#047a9f"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="22dp"
+                        android:text="电        能"
+                        android:textColor="#696969"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/device_energy"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:gravity="center_horizontal"
+                        android:text="60"
+                        android:textColor="#047a9f"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:text="kW·h"
+                        android:textColor="#047a9f"
+                        android:textSize="18sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="22dp"
+                    android:text="供电方式"
+                    android:textColor="#696969"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/device_powersource"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="45dp"
+                    android:layout_weight="1"
+                    android:text="外部电源"
+                    android:textColor="#047a9f"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/device_about"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical" >
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#696969" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="22dp"
+                android:layout_marginTop="10dp"
+                android:text="关于设备"
+                android:textColor="#696969"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:id="@+id/device_about_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="85dp"
+                        android:layout_height="22dp"
+                        android:layout_marginLeft="25dp"
+                        android:alpha="0.5"
+                        android:background="#0097c6"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="5dp"
+                        android:text="IEEE地址"
+                        android:textColor="#000000"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/device_ieee"
+                        android:layout_width="0dp"
+                        android:layout_height="22dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginRight="25dp"
+                        android:layout_weight="1"
+                        android:alpha="0.5"
+                        android:background="#0097c6"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="5dp"
+                        android:text="00137A000000EE66"
+                        android:textColor="#000000"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="85dp"
+                        android:layout_height="22dp"
+                        android:layout_marginLeft="25dp"
+                        android:alpha="0.5"
+                        android:background="#0097c6"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="5dp"
+                        android:text="End Point"
+                        android:textColor="#000000"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/device_ep"
+                        android:layout_width="0dp"
+                        android:layout_height="22dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginRight="25dp"
+                        android:layout_weight="1"
+                        android:alpha="0.5"
+                        android:background="#0097c6"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="5dp"
+                        android:text="01"
+                        android:textColor="#000000"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="85dp"
+                        android:layout_height="22dp"
+                        android:layout_marginLeft="25dp"
+                        android:alpha="0.5"
+                        android:background="#0097c6"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="5dp"
+                        android:text="软件版本"
+                        android:textColor="#000000"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/device_app_version"
+                        android:layout_width="0dp"
+                        android:layout_height="22dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginRight="25dp"
+                        android:layout_weight="1"
+                        android:alpha="0.5"
+                        android:background="#0097c6"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="5dp"
+                        android:text="0.1"
+                        android:textColor="#000000"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="85dp"
+                        android:layout_height="22dp"
+                        android:layout_marginLeft="25dp"
+                        android:alpha="0.5"
+                        android:background="#0097c6"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="5dp"
+                        android:text="硬件版本"
+                        android:textColor="#000000"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/device_hw_version"
+                        android:layout_width="0dp"
+                        android:layout_height="22dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginRight="25dp"
+                        android:layout_weight="1"
+                        android:alpha="0.5"
+                        android:background="#0097c6"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="5dp"
+                        android:text="0.1"
+                        android:textColor="#000000"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="85dp"
+                        android:layout_height="22dp"
+                        android:layout_marginLeft="25dp"
+                        android:alpha="0.5"
+                        android:background="#0097c6"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="5dp"
+                        android:text="版本日期"
+                        android:textColor="#000000"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/device_date_code"
+                        android:layout_width="0dp"
+                        android:layout_height="22dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginRight="25dp"
+                        android:layout_weight="1"
+                        android:alpha="0.5"
+                        android:background="#0097c6"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="5dp"
+                        android:text="20141114"
+                        android:textColor="#000000"
+                        android:textSize="15sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
