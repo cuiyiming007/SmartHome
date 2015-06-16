@@ -3,6 +3,7 @@ package com.gdgl.drawer;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -15,12 +16,14 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gdgl.activity.ConfigurationActivity_New;
 import com.gdgl.smarthome.R;
 
 /**
@@ -63,6 +66,17 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         mUserSet = (TextView) view.findViewById(R.id.set_app);
         mUserSet.setText("设置");
         mUserSet.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ui2_userset), null, null, null);
+        mUserSet.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent();
+				intent.setClass(getActivity(), ConfigurationActivity_New.class);
+				startActivity(intent);
+			}
+		});
+        
         mExit = (TextView) view.findViewById(R.id.exit_app);
         mExit.setText("退出");
         mExit.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ui2_exit), null, null, null);

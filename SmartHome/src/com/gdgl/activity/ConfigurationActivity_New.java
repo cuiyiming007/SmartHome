@@ -1,9 +1,4 @@
-package com.gdgl.drawer;
-
-import com.gdgl.activity.JoinNetFragment;
-import com.gdgl.activity.JoinNetFragment.ChangeFragment;
-import com.gdgl.smarthome.R;
-import com.gdgl.util.MyApplicationFragment;
+package com.gdgl.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,7 +8,11 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 
-public class JoinNetActivity extends ActionBarActivity implements ChangeFragment{
+import com.gdgl.activity.JoinNetFragment.ChangeFragment;
+import com.gdgl.smarthome.R;
+import com.gdgl.util.MyApplicationFragment;
+
+public class ConfigurationActivity_New extends ActionBarActivity implements ChangeFragment{
     private Toolbar mToolbar;
     private ActionBar mActionBar;
 
@@ -28,9 +27,9 @@ public class JoinNetActivity extends ActionBarActivity implements ChangeFragment
         mActionBar = getSupportActionBar();
         mActionBar.setDisplayHomeAsUpEnabled(true);
         mActionBar.setDisplayShowTitleEnabled(true);
-        mActionBar.setTitle("添加设备");
+        mActionBar.setTitle("设置");
         
-        Fragment mfragent = new JoinNetFragment();
+        Fragment mfragent = new ConfigurationFragment();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         
         fragmentTransaction.replace(R.id.container, mfragent);
