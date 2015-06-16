@@ -120,10 +120,19 @@
              android:name="com.gdgl.drawer.MainActivity">
          </activity>
          <activity
-             android:name="com.gdgl.drawer.DeviceDetailActivity">
+             android:name="com.gdgl.drawer.DeviceControlActivity">
          </activity>
          <activity
              android:name="com.gdgl.drawer.JoinNetActivity">
+         </activity>
+         <activity
+             android:name="com.gdgl.activity.TimingAddActivity">
+         </activity>
+         <activity
+             android:name="com.gdgl.drawer.AlarmMessageActivity">
+         </activity>
+         <activity
+             android:name="com.gdgl.activity.ConfigurationActivity_New">
          </activity>
 
         <service android:name="com.gdgl.service.SmartService" >

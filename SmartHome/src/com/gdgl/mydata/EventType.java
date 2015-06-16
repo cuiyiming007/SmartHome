@@ -44,6 +44,7 @@ public class EventType {
 	public static final EventType GETICELIST;
 	public static final EventType BINDDEVICE;
 	public static final EventType UNBINDDEVICE;
+	
 	public static final EventType ADDIPC;
 	public static final EventType EDITIPC;
 	public static final EventType DELETEIPC;

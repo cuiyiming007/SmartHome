@@ -48,9 +48,7 @@ public class JoinNetActivity extends ActionBarActivity implements ChangeFragment
 	public void setFragment(Fragment f) {
 		FragmentTransaction fragmentTransaction = getSupportFragmentManager()
 				.beginTransaction();
-		// fragmentTransaction.replace(R.id.fragment_continer, f);
 		fragmentTransaction.add(R.id.fragment_continer, f);
-		// fragmentTransaction.addToBackStack(null);
 		fragmentTransaction.commit();
 		MyApplicationFragment.getInstance().addFragment(f);
 	}

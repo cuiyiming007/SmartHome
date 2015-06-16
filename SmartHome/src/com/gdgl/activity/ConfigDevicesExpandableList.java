@@ -26,6 +26,7 @@ import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 
 import android.support.v4.app.Fragment;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -175,18 +176,20 @@ public class ConfigDevicesExpandableList extends BaseFragment implements
 		if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
 			registerForContextMenu(deviceExpandableListView);
 		} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
-			deviceExpandableListView.setOnItemLongClickListener(new OnItemLongClickListener() {
+			deviceExpandableListView
+					.setOnItemLongClickListener(new OnItemLongClickListener() {
 
-				@Override
-				public boolean onItemLongClick(AdapterView<?> parent,
-						View view, int position, long id) {
-					// TODO Auto-generated method stub
-					VersionDlg vd = new VersionDlg(getActivity());
-					vd.setContent(getResources().getString(R.string.Unable_In_InternetState));
-					vd.show();
-					return true;
-				}
-			});
+						@Override
+						public boolean onItemLongClick(AdapterView<?> parent,
+								View view, int position, long id) {
+							// TODO Auto-generated method stub
+							VersionDlg vd = new VersionDlg(getActivity());
+							vd.setContent(getResources().getString(
+									R.string.Unable_In_InternetState));
+							vd.show();
+							return true;
+						}
+					});
 		}
 	}
 
@@ -196,7 +199,7 @@ public class ConfigDevicesExpandableList extends BaseFragment implements
 		// TODO Auto-generated method stub
 
 		super.onCreateContextMenu(menu, v, menuInfo);
-		
+
 		ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) menuInfo;
 
 		int type = ExpandableListView
@@ -229,9 +232,9 @@ public class ConfigDevicesExpandableList extends BaseFragment implements
 					.getPackedPositionChild(info.packedPosition);
 		}
 		mCurrentList = mDeviceSort_ChildList.get(groupPos);
-		Log.i("groupPos = ", ""+groupPos);
+		Log.i("groupPos = ", "" + groupPos);
 		currentpostion = childPos;
-		Log.i("childPos = ", ""+childPos);
+		Log.i("childPos = ", "" + childPos);
 		DevicesModel mDevicesModel = (DevicesModel) mDeviceSort_ChildList.get(
 				groupPos).get(childPos);
 		int menuIndex = item.getItemId();
@@ -395,13 +398,12 @@ public class ConfigDevicesExpandableList extends BaseFragment implements
 		// TODO Auto-generated method stub
 		DevicesModel ds = mCurrentList.get(currentpostion);
 		CGIManager.getInstance().deleteNode(ds.getmIeee().trim());
-		int result = mDh.deleteDeviceWithGroup((Context) getActivity(),
-				mDh.getSQLiteDatabase(), DataHelper.DEVICES_TABLE, " ieee=? ",
-				new String[] { ds.getmIeee().trim() });
-		if (result >= 0) {
-			mCurrentList.remove(currentpostion);
-			expandableAdapter.notifyDataSetChanged();
-		}
+		SQLiteDatabase mSqLiteDatabase = mDh.getSQLiteDatabase();
+		mDh.delete(mSqLiteDatabase, DataHelper.DEVICES_TABLE,
+				" ieee=? ", new String[] { ds.getmIeee().trim() });
+		mSqLiteDatabase.close();
+		mCurrentList.remove(currentpostion);
+		expandableAdapter.notifyDataSetChanged();
 	}
 
 	@Override
@@ -421,10 +423,11 @@ public class ConfigDevicesExpandableList extends BaseFragment implements
 					}
 				});
 			}
-		} else if(EventType.SCAPEDDEVICE == event.getType()){
+		} else if (EventType.SCAPEDDEVICE == event.getType()) {
 			Log.i("ConfigDevices SCAPEDDEVICE", "SCAPEDDEVICE");
-			ArrayList<DevicesModel> scapedList = (ArrayList<DevicesModel>) event.getData();
-			for(DevicesModel mDevicesModel : scapedList){
+			ArrayList<DevicesModel> scapedList = (ArrayList<DevicesModel>) event
+					.getData();
+			for (DevicesModel mDevicesModel : scapedList) {
 				int sort = mDevicesModel.getmDeviceSort();
 				switch (sort) {
 				case UiUtils.ENVIRONMENTAL_CONTROL:
@@ -435,7 +438,7 @@ public class ConfigDevicesExpandableList extends BaseFragment implements
 					break;
 				case UiUtils.SECURITY_CONTROL:
 					mSecurityControl = DataUtil.getSortManagementDevices(
-							(Context) getActivity(), mDh, 
+							(Context) getActivity(), mDh,
 							UiUtils.SECURITY_CONTROL);
 					mDeviceSort_ChildList.set(0, mSecurityControl);
 					break;
@@ -452,9 +455,9 @@ public class ConfigDevicesExpandableList extends BaseFragment implements
 					mDeviceSort_ChildList.set(3, mEnergy);
 					break;
 				case UiUtils.OTHER:
-					mOther = DataUtil.getSortManagementDevices(
-							(Context) getActivity(), mDh, 
-							UiUtils.SWITCH_DEVICE);
+					mOther = DataUtil
+							.getSortManagementDevices((Context) getActivity(),
+									mDh, UiUtils.SWITCH_DEVICE);
 					mDeviceSort_ChildList.set(4, mOther);
 					break;
 
@@ -472,10 +475,11 @@ public class ConfigDevicesExpandableList extends BaseFragment implements
 		} else if (EventType.DELETENODE == event.getType()) {
 			if (event.isSuccess()) {
 				final String delete_ieee = (String) event.getData();
-				for(int i=0;i<mDeviceSort_ChildList.size();i++) {
-					for(int j=0;j<mDeviceSort_ChildList.get(i).size();j++) {
-						DevicesModel tempDevModel=mDeviceSort_ChildList.get(i).get(j);
-						if(tempDevModel.getmIeee().equals(delete_ieee)) {
+				for (int i = 0; i < mDeviceSort_ChildList.size(); i++) {
+					for (int j = 0; j < mDeviceSort_ChildList.get(i).size(); j++) {
+						DevicesModel tempDevModel = mDeviceSort_ChildList
+								.get(i).get(j);
+						if (tempDevModel.getmIeee().equals(delete_ieee)) {
 							mDeviceSort_ChildList.get(i).remove(j);
 							deviceExpandableListView.post(new Runnable() {
 
@@ -488,7 +492,7 @@ public class ConfigDevicesExpandableList extends BaseFragment implements
 						}
 					}
 				}
-				
+
 			}
 		}
 	}

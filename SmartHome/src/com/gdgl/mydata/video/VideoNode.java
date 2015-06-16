@@ -32,8 +32,9 @@ interface VideoNodeColumns extends BaseColumns
  * @author justek
  * 
  */
-public class VideoNode implements VideoNodeColumns,ContentValuesListener,Parcelable{
-	
+
+public class VideoNode implements VideoNodeColumns, ContentValuesListener,
+		Parcelable {
 	private String id;
 	private String ipc_ipaddr;
 	private String name;
@@ -141,8 +142,7 @@ public class VideoNode implements VideoNodeColumns,ContentValuesListener,Parcela
 
 		return mContentValues;
 	}
-	
-	
+
 	public static final Parcelable.Creator<VideoNode> CREATOR = new Creator<VideoNode>() {
 		public VideoNode createFromParcel(Parcel source) {
 			VideoNode mVideoNode = new VideoNode();
@@ -166,7 +166,6 @@ public class VideoNode implements VideoNodeColumns,ContentValuesListener,Parcela
 		}
 	};
 
-	
 	@Override
 	public void writeToParcel(Parcel parcel, int flags) {
 		parcel.writeString(alias);

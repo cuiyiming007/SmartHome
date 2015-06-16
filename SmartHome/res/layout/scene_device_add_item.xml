@@ -11,23 +11,17 @@
         android:paddingBottom="10dip"
         android:paddingTop="10dip" >
 
-        <LinearLayout
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="5dp"
-            android:background="@color/blue_default" >
-
-            <ImageView
-                android:id="@+id/devices_img"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center"
-                android:layout_marginBottom="2dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="2dp"
-                android:src="@drawable/seek_light" />
-        </LinearLayout>
+        <ImageView
+            android:id="@+id/devices_img"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="2dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="2dp"
+            android:src="@drawable/seek_light"
+            android:tint="@color/blue_default" />
 
         <View
             android:layout_width="2dp"
@@ -49,6 +43,7 @@
             android:textSize="15dp" />
 
         <View
+            android:id="@+id/custom_divider"
             android:layout_width="2dp"
             android:layout_height="match_parent"
             android:layout_marginBottom="5dp"

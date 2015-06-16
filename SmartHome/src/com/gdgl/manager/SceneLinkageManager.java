@@ -74,7 +74,7 @@ public class SceneLinkageManager extends Manger {
 
 		String url = NetUtil.getInstance().getCumstomURL(
 				NetUtil.getInstance().IP, "EditScene.cgi", param);
-
+		
 		StringRequestChina req = new StringRequestChina(url,
 				new Listener<String>() {
 
@@ -170,8 +170,10 @@ public class SceneLinkageManager extends Manger {
 				});
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
-	
-	public void AddLinkage(String lnkname, String trgieee, String trgep, String trgcnd, String lnkact, int enable){
+
+	// Linkage API
+	public void AddLinkage(String lnkname, String trgieee, String trgep,
+			String trgcnd, String lnkact, int enable) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("lnkname", lnkname);
 		paraMap.put("trgieee", trgieee);
@@ -203,8 +205,9 @@ public class SceneLinkageManager extends Manger {
 				});
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
-	
-	public void EditLinkage(String lnkname, String trgieee, String trgep, String trgcnd, String lnkact, int enable, int lid){
+
+	public void EditLinkage(String lnkname, String trgieee, String trgep,
+			String trgcnd, String lnkact, int enable, int lid) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("lnkname", lnkname);
 		paraMap.put("trgieee", trgieee);
@@ -236,8 +239,8 @@ public class SceneLinkageManager extends Manger {
 				});
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
-	
-	public void DeleteLinkage(int lid){
+
+	public void DeleteLinkage(int lid) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("lid", Integer.toString(lid));
 		String param = hashMap2ParamString(paraMap);
@@ -263,8 +266,8 @@ public class SceneLinkageManager extends Manger {
 				});
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
-	
-	public void GetLinkageList(){
+
+	public void GetLinkageList() {
 		String url = NetUtil.getInstance().getVideoURL(
 				NetUtil.getInstance().IP, "GetLinkageList.cgi");
 		StringRequestChina req = new StringRequestChina(url,
@@ -285,8 +288,8 @@ public class SceneLinkageManager extends Manger {
 				});
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
-	
-	public void EnableLinkage(int enable, int lid){
+
+	public void EnableLinkage(int enable, int lid) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("enable", Integer.toString(enable));
 		paraMap.put("lid", Integer.toString(lid));
@@ -513,3 +516,4 @@ public class SceneLinkageManager extends Manger {
 			return null;
 		}
 	}
+}

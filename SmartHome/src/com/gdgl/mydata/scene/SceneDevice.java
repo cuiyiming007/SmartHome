@@ -23,7 +23,7 @@ public class SceneDevice implements SceneDevicesColumn {
 	public SceneDevice() {
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	public SceneDevice(String actionParam) {
 		// TODO Auto-generated constructor stub
 		String[] params = actionParam.split(":");
@@ -33,7 +33,7 @@ public class SceneDevice implements SceneDevicesColumn {
 		ep = subparams[1];
 		devicesStatus = Integer.parseInt(subparams[2]);
 	}
-	
+
 	public int getSid() {
 		return sid;
 	}
@@ -41,14 +41,15 @@ public class SceneDevice implements SceneDevicesColumn {
 	public void setSid(int sid) {
 		this.sid = sid;
 	}
-	
+
 	public int getActionType() {
 		return actionType;
 	}
-	
+
 	public void setActionType(int type) {
 		this.actionType = type;
 	}
+
 	public String getIeee() {
 		return ieee;
 	}
@@ -64,7 +65,7 @@ public class SceneDevice implements SceneDevicesColumn {
 	public void setEp(String ep) {
 		this.ep = ep;
 	}
-	
+
 	public int getDevicesStatus() {
 		return devicesStatus;
 	}
@@ -84,10 +85,28 @@ public class SceneDevice implements SceneDevicesColumn {
 
 		return mContentValues;
 	}
-	
+
 	public String creatSceneParam() {
-		String actionParam = actionType + ":" + ieee + "-" + ep + "-" + devicesStatus;
-		
+		String actionParam = actionType + ":" + ieee + "-" + ep + "-"
+				+ devicesStatus;
+
 		return actionParam;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		// TODO Auto-generated method stub
+		if (o == this) {
+			return true;
+		}
+		if (!(o instanceof SceneDevice)) {
+			return false;
+		}
+		SceneDevice that = (SceneDevice) o;
+		if (!ieee.equals(that.getIeee()) || !ep.equals(that.getEp())
+				|| devicesStatus != that.getDevicesStatus()) {
+			return false;
+		}
+		return true;
 	}
 }

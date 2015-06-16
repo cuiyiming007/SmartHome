@@ -18,7 +18,6 @@ import com.gdgl.smarthome.R;
 import com.gdgl.util.MyApplicationFragment;
 
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -54,7 +53,6 @@ public class SceneDevicesActivity extends ActionBarActivity implements
 	private int sceneId;
 	private int sceneIndex;
 
-	String where = " device_region=? ";
 	// 情景中的设备
 	List<SceneDevice> mSceneDevicesList;
 	// 用于判断编辑时设备是否改变
@@ -65,8 +63,6 @@ public class SceneDevicesActivity extends ActionBarActivity implements
 	List<SceneDevice> mAddToSceneList = new ArrayList<SceneDevice>();
 
 	DataHelper mDataHelper;
-
-	FragmentManager fragmentManager;
 
 	DevicesListFragment mDevicesListFragment;
 
@@ -108,7 +104,9 @@ public class SceneDevicesActivity extends ActionBarActivity implements
 				Toolbar.LayoutParams.WRAP_CONTENT, Gravity.LEFT);
 		toolbarParams.setMargins(5, 0, 5, 0);
 		titleEditText.setLayoutParams(toolbarParams);
+		titleEditText.setTextColor(getResources().getColor(R.color.white));
 		titleEditText.setText(sceneName);
+		titleEditText.setSelection(sceneName.length());
 
 		mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
 		mToolbar.addView(titleEditText);
@@ -116,7 +114,6 @@ public class SceneDevicesActivity extends ActionBarActivity implements
 		mActionBar = getSupportActionBar();
 		mActionBar.setDisplayHomeAsUpEnabled(true);
 		mActionBar.setDisplayShowTitleEnabled(false);
-		// mActionBar.setCustomView(titleEditText);
 
 		mToolbar.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 
