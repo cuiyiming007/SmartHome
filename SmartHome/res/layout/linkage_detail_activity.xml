@@ -1,152 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res/com.gdgl.smarthome"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-
-	<LinearLayout 
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical">
-	    
-	    <LinearLayout 
-	        android:layout_width="match_parent"
-	        android:layout_height="0dp"
-	        android:layout_weight="1"
-	        android:orientation="horizontal">
-	        <TextView
-	            android:layout_width="0dp"
-	            android:layout_height="wrap_content"
-	            android:layout_weight="1"
-	            android:text="触发设备"
-                android:textColor="#ffffff"
-                android:textSize="15dp"/>
-	        <Spinner 
-	            android:id="@+id/spinner_cnd_device"
-	            android:layout_width="0dp"
-	            android:layout_height="wrap_content"
-	            android:layout_weight="1"/>
-	    </LinearLayout>  
-	    <LinearLayout 
-	        android:layout_width="match_parent"
-	        android:layout_height="0dp"
-	        android:layout_weight="1"
-	        android:orientation="horizontal">
-	        <TextView
-	            android:layout_width="0dp"
-	            android:layout_height="wrap_content"
-	            android:layout_weight="1"
-	            android:text="触发方式"
-                android:textColor="#ffffff"
-                android:textSize="15dp"/>
-	        <Spinner 
-	            android:id="@+id/spinner_cnd_type"
-	            android:layout_width="0dp"
-	            android:layout_height="wrap_content"
-	            android:layout_weight="1"/>
-	    </LinearLayout> 
-	    <LinearLayout 
-	        android:id="@+id/layout_cnd_data"
-	        android:layout_width="match_parent"
-	        android:layout_height="0dp"
-	        android:layout_weight="1"
-	        android:orientation="horizontal">
-	        <TextView
-	            android:layout_width="0dp"
-	            android:layout_height="wrap_content"
-	            android:layout_weight="1"
-	            android:text="触发数值"
-                android:textColor="#ffffff"
-                android:textSize="15dp"/>
-	        <EditText 
-	            android:id="@+id/edit_cnd_data"
-	            android:layout_width="0dp"
-	            android:layout_height="wrap_content"
-	            android:layout_weight="1"
-	            android:hint="请输入触发数值"/>
-	    </LinearLayout>  
-	</LinearLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray" />
     
-    <LinearLayout 
+    <android.support.v7.widget.CardView
+        android:id="@+id/toolbar_card"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical">
-	     <LinearLayout 
-	        android:layout_width="match_parent"
-	        android:layout_height="0dp"
-	        android:layout_weight="1"
-	        android:orientation="horizontal">
-	        <TextView
-	            android:layout_width="0dp"
-	            android:layout_height="wrap_content"
-	            android:layout_weight="1"
-	            android:text="联动设备"
-                android:textColor="#ffffff"
-                android:textSize="15dp"/>
-	        <Spinner 
-	            android:id="@+id/spinner_act_device"
-	            android:layout_width="0dp"
-	            android:layout_height="wrap_content"
-	            android:layout_weight="1"/>
-	    </LinearLayout>  
-	    <LinearLayout 
-	        android:layout_width="match_parent"
-	        android:layout_height="0dp"
-	        android:layout_weight="1"
-	        android:orientation="horizontal">
-	        <TextView
-	            android:layout_width="0dp"
-	            android:layout_height="wrap_content"
-	            android:layout_weight="1"
-	            android:text="联动方式"
-                android:textColor="#ffffff"
-                android:textSize="15dp"/>
-	        <Spinner 
-	            android:id="@+id/spinner_act_type"
-	            android:layout_width="0dp"
-	            android:layout_height="wrap_content"
-	            android:layout_weight="1"/>
-	    </LinearLayout> 
-	</LinearLayout>
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="-4.5dp"
+        android:layout_marginStart="-4.5dp"
+        android:layout_marginTop="-6.5dp"
+        app:cardBackgroundColor="?attr/colorPrimary"
+        app:cardElevation="4dp"
+        app:cardMaxElevation="4dp" >
 
-    <TextView
+        <include
+            android:id="@+id/toolbar_actionbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/toolbar_default" />
+    </android.support.v7.widget.CardView>
+
+    <LinearLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray" />
-    
-    <LinearLayout 
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
-	    <com.gc.materialdesign.views.ButtonRectangle
-	        android:id="@+id/btn_sure"
-	        android:layout_width="wrap_content"
-	        android:layout_height="50dp"
-	        android:layout_weight="1"
-	        android:background="#1E88E5"
-	        android:text="确定" />
-	    <com.gc.materialdesign.views.ButtonRectangle
-	        android:id="@+id/btn_cancel"
-	        android:layout_width="wrap_content"
-	        android:layout_height="50dp"
-	        android:layout_weight="1"
-	        android:background="#1E88E5"
-	        android:text="取消" />
-	     <com.gc.materialdesign.views.ButtonRectangle
-	        android:id="@+id/btn_delete"
-	        android:layout_width="wrap_content"
-	        android:layout_height="50dp"
-	        android:layout_weight="1"
-	        android:background="@color/red"
-	        android:text="删除" />
-	</LinearLayout>
+        android:layout_height="match_parent"
+        android:orientation="vertical"/>
+
+    <!-- android:layout_marginTop="?android:attr/actionBarSize" -->
 </LinearLayout>

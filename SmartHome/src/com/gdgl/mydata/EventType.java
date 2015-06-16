@@ -47,6 +47,8 @@ public class EventType {
 	public static final EventType ADDIPC;
 	public static final EventType EDITIPC;
 	public static final EventType DELETEIPC;
+	public static final EventType IPCONLINESTATUS;
+	
 	public static final EventType GETBINDLIST;
 	public static final EventType BEGINLEARNIR;
 	public static final EventType BEGINAPPLYIR;
@@ -60,6 +62,11 @@ public class EventType {
 	public static final EventType ROOMDATAMAIN;
 	public static final EventType MODIFYDEVICEROOMID;
 	
+	public static final EventType ADDTIMINGACTION;
+	public static final EventType EDITTIMINGACTION;
+	public static final EventType DELTIMINGACTION;
+	public static final EventType ENABLETIMINGACTION;
+	
 	public static final EventType ADDSCENE;
 	public static final EventType EDITSCENE;
 	public static final EventType DELSCENE;
@@ -68,7 +75,14 @@ public class EventType {
 	public static final EventType HEARTTIME;
 	public static final EventType READHEARTTIME;
 	public static final EventType REQUESTVIDEO;
+	
+	public static final EventType GETHISTORYDATA;
 
+	public static final EventType ADDLINKAGE;
+	public static final EventType EDITLINKAGE;
+	public static final EventType DELETELINKAGE;
+	public static final EventType ENABLELINKAGE;
+	
 	static {
 		LOGIN = new EventType("login", id);
 		LIBJINGLE_STATUS = new EventType("libjingle_status", nextId());
@@ -106,9 +120,12 @@ public class EventType {
 		ENERGY = new EventType("energy", nextId());
 		BINDDEVICE = new EventType("bindDevice", nextId());
 		UNBINDDEVICE = new EventType("unbindDevice", nextId());
+		
 		ADDIPC = new EventType("addIPC", nextId());
 		EDITIPC = new EventType("editIPC", nextId());
 		DELETEIPC = new EventType("deleteIPC", nextId());
+		IPCONLINESTATUS = new EventType("ipcOnlineStatus", nextId());
+		
 		GETBINDLIST = new EventType("getBindList", nextId());
 		BEGINLEARNIR = new EventType("beginLearnIR", nextId());
 		BEGINAPPLYIR = new EventType("beginApplyIR", nextId());
@@ -122,6 +139,11 @@ public class EventType {
 		ROOMDATAMAIN = new EventType("roomDataMain", nextId());
 		MODIFYDEVICEROOMID = new EventType("modifyDeviceRoomId", nextId());
 		
+		ADDTIMINGACTION = new EventType("AddTimeAction", nextId());
+		EDITTIMINGACTION = new EventType("EditTimeAction", nextId());
+		DELTIMINGACTION = new EventType("DelTimeAction", nextId());
+		ENABLETIMINGACTION = new EventType("EnableTimeAction", nextId());
+		
 		ADDSCENE = new EventType("AddScene", nextId());
 		EDITSCENE = new EventType("EditScene", nextId());
 		DELSCENE = new EventType("DelScene", nextId());
@@ -130,6 +152,13 @@ public class EventType {
 		HEARTTIME = new EventType("hearttime", nextId());
 		READHEARTTIME = new EventType("readhearttime", nextId());
 		REQUESTVIDEO = new EventType("requestvideo", nextId());
+		
+		ADDLINKAGE = new EventType("AddLinkage", nextId());
+		EDITLINKAGE = new EventType("EditLinkage", nextId());
+		DELETELINKAGE = new EventType("DeleteLinkage", nextId());
+		ENABLELINKAGE = new EventType("EnableLinkage", nextId());
+		
+		GETHISTORYDATA = new EventType("gethistorydata", nextId());
 	}
 
 	private static int nextId() {

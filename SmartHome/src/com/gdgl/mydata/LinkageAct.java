@@ -19,11 +19,15 @@ public class LinkageAct{
 	public LinkageAct(String actdata){
 		if(actdata != null){
 			String[] act = actdata.split(":");
-			String[] act_data = act[1].split("-");
 			type = act[0];
-			ieee = act_data[0];
-			ep = act_data[1];
-			arm = act_data[2];
+			if(act[1].indexOf("-") == 0){
+				String[] act_data = act[1].split("-");
+				ieee = act_data[0];
+				ep = act_data[1];
+				arm = act_data[2];
+			}else{
+				ieee = act[1];
+			}
 		}
 	}
 	
@@ -64,6 +68,8 @@ public class LinkageAct{
 		String actString = "未定义";
 		if(!type.equals("") && !arm.equals("")){
 			actString = ACTPARA[Integer.parseInt(type) - 1][Integer.parseInt(arm)];
+		}else{
+			actString = "拍照";
 		}
 		return actString;
 	}

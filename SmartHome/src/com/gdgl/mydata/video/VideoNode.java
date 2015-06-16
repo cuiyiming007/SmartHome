@@ -1,6 +1,5 @@
 package com.gdgl.mydata.video;
 
-
 import com.gdgl.model.ContentValuesListener;
 
 import android.content.ContentValues;
@@ -18,6 +17,10 @@ interface VideoNodeColumns extends BaseColumns
 	public static final String RTSPORT="rtspport";
 	public static final String HTTPPORT="httpport";
 	public static final String ALIAS="alias";
+	public static final String IPC_INDEX = "ipc_index";
+	public static final String ROOMID = "roomid";
+	public static final String IPC_STATUS = "ipc_status";
+	public static final int PRIORITY = 1000;
 	
 	}
 
@@ -30,6 +33,7 @@ interface VideoNodeColumns extends BaseColumns
  * 
  */
 public class VideoNode implements VideoNodeColumns,ContentValuesListener,Parcelable{
+	
 	private String id;
 	private String ipc_ipaddr;
 	private String name;
@@ -37,6 +41,9 @@ public class VideoNode implements VideoNodeColumns,ContentValuesListener,Parcela
 	private String rtspport;
 	private String httpport;
 	private String alias;
+	private int index;
+	private int roomid;
+	private String ipc_status;
 
 	public String getId() {
 		return id;
@@ -93,16 +100,44 @@ public class VideoNode implements VideoNodeColumns,ContentValuesListener,Parcela
 	public void setAliases(String aliases) {
 		this.alias = aliases;
 	}
+	
+	public int getIndex() {
+		return index;
+	}
+	
+	public void setIndex(int index) {
+		this.index = index;
+	}
+	
+	public int getRoomId() {
+		return roomid;
+	}
+	
+	public void setRoomId(int roomid) {
+		this.roomid = roomid;
+	}
+	
+	public String getIpc_status() {
+		return ipc_status;
+	}
+	
+	public void setIpc_status(String status) {
+		this.ipc_status = status;
+	}
+
 	public ContentValues convertContentValues() {
 		ContentValues mContentValues = new ContentValues();
 
 		mContentValues.put(VideoNodeColumns.ALIAS, getAliases());
 		mContentValues.put(VideoNodeColumns.HTTPPORT, getHttpport());
-		mContentValues.put(VideoNodeColumns.ID,getId());
+		mContentValues.put(VideoNodeColumns.ID, getId());
 		mContentValues.put(VideoNodeColumns.IPC_IPADDR, getIpc_ipaddr());
 		mContentValues.put(VideoNodeColumns.NAME, getName());
 		mContentValues.put(VideoNodeColumns.PASSWORD, getPassword());
 		mContentValues.put(VideoNodeColumns.RTSPORT, getRtspport());
+		mContentValues.put(VideoNodeColumns.IPC_INDEX, index);
+		mContentValues.put(VideoNodeColumns.ROOMID, roomid);
+		mContentValues.put(VideoNodeColumns.IPC_STATUS, ipc_status);
 
 		return mContentValues;
 	}
@@ -110,17 +145,20 @@ public class VideoNode implements VideoNodeColumns,ContentValuesListener,Parcela
 	
 	public static final Parcelable.Creator<VideoNode> CREATOR = new Creator<VideoNode>() {
 		public VideoNode createFromParcel(Parcel source) {
-			VideoNode mDevicesModel = new VideoNode();
+			VideoNode mVideoNode = new VideoNode();
 
-			mDevicesModel.setAliases(source.readString());
-			mDevicesModel.setHttpport(source.readString());
-			mDevicesModel.setId(source.readString());
-			mDevicesModel.setIpc_ipaddr(source.readString());
-			mDevicesModel.setName(source.readString());
-			mDevicesModel.setPassword(source.readString());
-			mDevicesModel.setRtspport(source.readString());
+			mVideoNode.setAliases(source.readString());
+			mVideoNode.setHttpport(source.readString());
+			mVideoNode.setId(source.readString());
+			mVideoNode.setIpc_ipaddr(source.readString());
+			mVideoNode.setName(source.readString());
+			mVideoNode.setPassword(source.readString());
+			mVideoNode.setRtspport(source.readString());
+			mVideoNode.setIndex(source.readInt());
+			mVideoNode.setRoomId(source.readInt());
+			mVideoNode.setIpc_status(source.readString());
 
-			return mDevicesModel;
+			return mVideoNode;
 		}
 
 		public VideoNode[] newArray(int size) {
@@ -138,6 +176,9 @@ public class VideoNode implements VideoNodeColumns,ContentValuesListener,Parcela
 		parcel.writeString(name);
 		parcel.writeString(password);
 		parcel.writeString(rtspport);
+		parcel.writeInt(index);
+		parcel.writeInt(roomid);
+		parcel.writeString(ipc_status);
 	}
 
 	@Override

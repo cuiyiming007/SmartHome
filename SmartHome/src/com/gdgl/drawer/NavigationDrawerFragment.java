@@ -3,6 +3,7 @@ package com.gdgl.drawer;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -15,11 +16,14 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gdgl.activity.ConfigurationActivity_New;
 import com.gdgl.smarthome.R;
 
 /**
@@ -39,6 +43,9 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
     private int mCurrentSelectedPosition;
     private  Toolbar mToolBar;
 
+    //add by Trice
+    private TextView mUserSet;
+    private TextView mExit;
 
     @Nullable
     @Override
@@ -55,6 +62,24 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         adapter.setNavigationDrawerCallbacks(this);
         mDrawerList.setAdapter(adapter);
         selectItem(mCurrentSelectedPosition);
+        
+        mUserSet = (TextView) view.findViewById(R.id.set_app);
+        mUserSet.setText("设置");
+        mUserSet.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ui2_userset), null, null, null);
+        mUserSet.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent();
+				intent.setClass(getActivity(), ConfigurationActivity_New.class);
+				startActivity(intent);
+			}
+		});
+        
+        mExit = (TextView) view.findViewById(R.id.exit_app);
+        mExit.setText("退出");
+        mExit.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ui2_exit), null, null, null);
         return view;
     }
 
@@ -151,9 +176,11 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
 
     public List<NavigationItem> getMenu() {
         List<NavigationItem> items = new ArrayList<NavigationItem>();
-        items.add(new NavigationItem("设备", getResources().getDrawable(R.drawable.ic_menu_check)));
-        items.add(new NavigationItem("区域", getResources().getDrawable(R.drawable.ic_menu_check)));
-        items.add(new NavigationItem("情景", getResources().getDrawable(R.drawable.ic_menu_check)));
+        items.add(new NavigationItem("设备", getResources().getDrawable(R.drawable.ui2_equipment_press)));
+        items.add(new NavigationItem("区域", getResources().getDrawable(R.drawable.ui2__area_press)));
+        items.add(new NavigationItem("情景", getResources().getDrawable(R.drawable.ui2_situation_press)));
+        items.add(new NavigationItem("定时", getResources().getDrawable(R.drawable.ui2_time_press)));
+        items.add(new NavigationItem("联动", getResources().getDrawable(R.drawable.ic_menu_check)));
         return items;
     }
 

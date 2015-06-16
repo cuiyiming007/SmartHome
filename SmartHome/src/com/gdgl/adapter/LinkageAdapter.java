@@ -1,6 +1,7 @@
 package com.gdgl.adapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.gdgl.app.ApplicationController;
 import com.gdgl.manager.SceneLinkageManager;
@@ -10,6 +11,7 @@ import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.Linkage;
 import com.gdgl.mydata.LinkageAct;
 import com.gdgl.mydata.LinkageCnd;
+import com.gdgl.mydata.video.VideoNode;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.UiUtils;
 
@@ -26,15 +28,30 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 public class LinkageAdapter extends BaseAdapter {
-	ArrayList<Linkage> linkageList;
+	List<Linkage> linkageList;
+	List<VideoNode> videoList;
 	Context mContext;
 
 	public LinkageAdapter(Context c) {
 		mContext = c;
 	}
 	
-	public void setList(ArrayList<Linkage> list){
-		linkageList = list;
+	private String getVideoName(String videoId){
+		String videoName = "未知摄像头";
+		for(VideoNode mVideo : videoList){
+			if(mVideo.getId().equals(videoId)){
+				videoName = mVideo.getName();
+			}
+		}
+		return videoName;	
+	}
+	
+	public void setList(List<Linkage> linkageList){
+		this.linkageList = linkageList;
+	}
+	
+	public void setVideoList(List<VideoNode> videoList){
+		this.videoList = videoList;
 	}
 	
 	@Override
@@ -92,7 +109,11 @@ public class LinkageAdapter extends BaseAdapter {
 		}
 		mViewHolder.devices_name.setText(device.getmDefaultDeviceName());
 		mViewHolder.devices_state.setText(linkageCnd.getCndString());
-		mViewHolder.act_name.setText(act.getmDefaultDeviceName());
+		if(linkageAct.getType().equals("4")){
+			mViewHolder.act_name.setText(getVideoName(linkageAct.getIeee()));
+		}else{
+			mViewHolder.act_name.setText(act.getmDefaultDeviceName());
+		}
 		mViewHolder.act_state.setText(linkageAct.getActString());
 		if(linkage.getEnable() > 0){
 			mViewHolder.switch_btn.setChecked(true);

@@ -10,8 +10,7 @@
         android:layout_height="match_parent"
         layout="@layout/no_devices" />
 
-    <com.handmark.pulltorefresh.library.PullToRefreshListView
-        xmlns:ptr="http://schemas.android.com/apk/res-auto"
+    <ListView
         android:id="@+id/linkage_list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -24,9 +23,7 @@
         android:footerDividersEnabled="false"
         android:headerDividersEnabled="false"
         android:scrollbars="none"
-        android:smoothScrollbar="true"
-        ptr:ptrHeaderBackground="#D3D3D3"
-        ptr:ptrHeaderTextColor="#000000" />
+        android:smoothScrollbar="true" />
 
     <com.gc.materialdesign.views.ButtonFloat
         android:id="@+id/buttonFloat"
