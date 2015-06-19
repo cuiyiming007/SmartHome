@@ -216,7 +216,9 @@ public class DataHelper extends SQLiteOpenHelper {
 		videoStringBuilder.append(VideoNode.RTSPORT + " INTEGER,");
 		videoStringBuilder.append(VideoNode.IPC_INDEX + " INTEGER,");
 		videoStringBuilder.append(VideoNode.ROOMID + " INTEGER,");
-		videoStringBuilder.append(VideoNode.IPC_STATUS + " VARCHAR)");
+		videoStringBuilder.append(VideoNode.IPC_STATUS + " VARCHAR,");
+		videoStringBuilder.append(VideoNode.DOMAIN_NAME + " VARCHAR,");
+		videoStringBuilder.append(VideoNode.SERIAL_NUM + " VARCHAR)");
 
 		// message table create string
 		messageStringBuilder.append("CREATE TABLE " + MESSAGE_TABLE + " (");
@@ -654,6 +656,10 @@ public class DataHelper extends SQLiteOpenHelper {
 					.getColumnIndex(VideoNode.ROOMID)));
 			mVideoNode.setIpc_status(cursor.getString(cursor
 					.getColumnIndex(VideoNode.IPC_STATUS)));
+			mVideoNode.setDomainName(cursor.getString(cursor
+					.getColumnIndex(VideoNode.DOMAIN_NAME)));
+			mVideoNode.setSerialNum(cursor.getString(cursor
+					.getColumnIndex(VideoNode.SERIAL_NUM)));
 			mList.add(mVideoNode);
 		}
 		cursor.close();

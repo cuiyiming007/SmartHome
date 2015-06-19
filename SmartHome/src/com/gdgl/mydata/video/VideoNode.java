@@ -20,6 +20,8 @@ interface VideoNodeColumns extends BaseColumns
 	public static final String IPC_INDEX = "ipc_index";
 	public static final String ROOMID = "roomid";
 	public static final String IPC_STATUS = "ipc_status";
+	public static final String DOMAIN_NAME = "domain_name";
+	public static final String SERIAL_NUM = "serial_num";
 	public static final int PRIORITY = 1000;
 	
 	}
@@ -45,6 +47,8 @@ public class VideoNode implements VideoNodeColumns, ContentValuesListener,
 	private int index;
 	private int roomid;
 	private String ipc_status;
+	private String domain_name;
+	private String serial_num;
 
 	public String getId() {
 		return id;
@@ -70,6 +74,22 @@ public class VideoNode implements VideoNodeColumns, ContentValuesListener,
 		this.name = name;
 	}
 
+	public String getDomainName() {
+		return domain_name;
+	}
+
+	public void setDomainName(String domain_name) {
+		this.domain_name = domain_name;
+	}
+	
+	public String getSerialNum() {
+		return serial_num;
+	}
+
+	public void setSerialNum(String serial_num) {
+		this.serial_num = serial_num;
+	}
+	
 	public String getPassword() {
 		return password;
 	}
@@ -139,6 +159,8 @@ public class VideoNode implements VideoNodeColumns, ContentValuesListener,
 		mContentValues.put(VideoNodeColumns.IPC_INDEX, index);
 		mContentValues.put(VideoNodeColumns.ROOMID, roomid);
 		mContentValues.put(VideoNodeColumns.IPC_STATUS, ipc_status);
+		mContentValues.put(VideoNodeColumns.DOMAIN_NAME, domain_name);
+		mContentValues.put(VideoNodeColumns.SERIAL_NUM, serial_num);
 
 		return mContentValues;
 	}
@@ -157,6 +179,8 @@ public class VideoNode implements VideoNodeColumns, ContentValuesListener,
 			mVideoNode.setIndex(source.readInt());
 			mVideoNode.setRoomId(source.readInt());
 			mVideoNode.setIpc_status(source.readString());
+			mVideoNode.setDomainName(source.readString());
+			mVideoNode.setSerialNum(source.readString());
 
 			return mVideoNode;
 		}
@@ -178,6 +202,8 @@ public class VideoNode implements VideoNodeColumns, ContentValuesListener,
 		parcel.writeInt(index);
 		parcel.writeInt(roomid);
 		parcel.writeString(ipc_status);
+		parcel.writeString(domain_name);
+		parcel.writeString(serial_num);
 	}
 
 	@Override

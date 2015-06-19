@@ -25,6 +25,7 @@ public class VideoInfoDialog {
 	EditText httpportEditText;
 	EditText passworeEditText;
 	EditText aliasEditText;
+	EditText serialEditText;
 	LinearLayout devices_region;
 	TextView text_name;
 	VideoNode videoNode;
@@ -46,6 +47,7 @@ public class VideoInfoDialog {
 		httpportEditText.setText(videoNode.getHttpport());
 		passworeEditText.setText(videoNode.getPassword());
 		aliasEditText.setText(videoNode.getAliases());
+		serialEditText.setText(videoNode.getSerialNum());
 	}
 
 	public VideoInfoDialog(Context c, int type, int index) {
@@ -64,6 +66,7 @@ public class VideoInfoDialog {
 		userNameEdit.setText(nameString);
 		passworeEditText.setText("");
 		aliasEditText.setText("");
+		serialEditText.setText("");
 	}
 
 	public VideoInfoDialog(Context c, int type) {
@@ -80,6 +83,7 @@ public class VideoInfoDialog {
 		passworeEditText = (EditText) dialog.findViewById(R.id.edit_password);
 		aliasEditText = (EditText) dialog.findViewById(R.id.edit_alias);
 		text_name = (TextView) dialog.findViewById(R.id.text_user_name);
+		serialEditText = (EditText) dialog.findViewById(R.id.edit_serial);
 
 		save = (Button) dialog.findViewById(R.id.btn_save);
 		save.setOnClickListener(new View.OnClickListener() {
@@ -113,6 +117,7 @@ public class VideoInfoDialog {
 		String nameString = userNameEdit.getText().toString();
 		String passwordString = passworeEditText.getText().toString();
 		String aliase = aliasEditText.getText().toString();
+		String serial = serialEditText.getText().toString();
 
 		videoNode.setAliases(aliase);
 		videoNode.setHttpport(httpport);
@@ -120,6 +125,8 @@ public class VideoInfoDialog {
 		videoNode.setIpc_ipaddr(ipString);
 		videoNode.setName(nameString);
 		videoNode.setPassword(passwordString);
+		videoNode.setSerialNum(serial);
+		videoNode.setDomainName("");
 		return videoNode;
 	}
 

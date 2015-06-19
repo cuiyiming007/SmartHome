@@ -96,8 +96,6 @@ public class VideoFragment extends Fragment implements UIListener,
 		mButtonFloat = (ButtonFloat) mView.findViewById(R.id.buttonFloat);
 		adapter = new CustomeAdapter();
 		content_view.setAdapter(adapter);
-		// content_view.setLayoutAnimation(UiUtils
-		// .getAnimationController((Context) getActivity()));
 		content_view.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -106,8 +104,10 @@ public class VideoFragment extends Fragment implements UIListener,
 				// TODO Auto-generated method stub
 				if (mList.get(position).getIpc_status().equals("a")) {
 					Bundle extras = new Bundle();
+//					Intent intent = new Intent((Context) getActivity(),
+//							VideoActivity.class);
 					Intent intent = new Intent((Context) getActivity(),
-							VideoActivity.class);
+							HikVideoActivity.class);
 					extras.putParcelable(PASS_OBJECT, mList.get(position));
 					intent.putExtras(extras);
 					startActivity(intent);
