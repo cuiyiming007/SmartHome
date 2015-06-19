@@ -71,7 +71,7 @@
 	<string name="Pro_RF"> "Pro RF 模块"</string>  
 	<string name="RS232_adapter"> "Combined Interface**工业级RS232适配器"</string>
 	<string name="Power_detect_socket"> "Mains Power Outlet**插座"</string> 
-	<string name="One_key_operator"> "Combined Interface**安防控制中心"</string>
+	<string name="One_key_operator"> "Combined Interface**网关"</string>
 	
 	<string name="Unable_In_InternetState">"外网状态此功能不可用"</string>
 	<drawable name="background">#ffffff</drawable>

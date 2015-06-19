@@ -74,7 +74,7 @@ public class SceneLinkageManager extends Manger {
 
 		String url = NetUtil.getInstance().getCumstomURL(
 				NetUtil.getInstance().IP, "EditScene.cgi", param);
-		
+
 		StringRequestChina req = new StringRequestChina(url,
 				new Listener<String>() {
 
@@ -482,12 +482,15 @@ public class SceneLinkageManager extends Manger {
 				mSqLiteDatabase.insert(DataHelper.SCENE_TABLE, null,
 						sceneInfo.convertContentValues());
 
-				List<SceneDevice> sceneDevicesList = UiUtils
-						.parseActionParamsToSceneDevices(sceneInfo.getSid(),
-								sceneInfo.getScnaction());
-				for (SceneDevice sceneDevice : sceneDevicesList) {
-					mSqLiteDatabase.insert(DataHelper.SCENE_DEVICES_TABLE,
-							null, sceneDevice.convertContentValues());
+				if (!sceneInfo.getScnaction().isEmpty()) {
+					List<SceneDevice> sceneDevicesList = UiUtils
+							.parseActionParamsToSceneDevices(
+									sceneInfo.getSid(),
+									sceneInfo.getScnaction());
+					for (SceneDevice sceneDevice : sceneDevicesList) {
+						mSqLiteDatabase.insert(DataHelper.SCENE_DEVICES_TABLE,
+								null, sceneDevice.convertContentValues());
+					}
 				}
 			}
 			mSqLiteDatabase.close();

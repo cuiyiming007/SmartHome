@@ -6,7 +6,6 @@ import com.gdgl.activity.ScenesFragment;
 import com.gdgl.activity.TimingFragment;
 import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.smarthome.R;
-import com.gdgl.util.AddDlg.AddDialogcallback;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -21,7 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class MainActivity extends ActionBarActivity implements NavigationDrawerCallbacks, AddDialogcallback {
+public class MainActivity extends ActionBarActivity implements NavigationDrawerCallbacks {
 
     private Toolbar mToolbar;
     private ActionBar mActionBar;
@@ -100,15 +99,12 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerC
 			mfragment = new DeviceTabFragment();
 			break;
 		case 1:
-			mfragment = new RegionsFragment();
-			break;
-		case 2:
 			mfragment = new ScenesFragment();
 			break;
-		case 3:
+		case 2:
 			mfragment = new TimingFragment();
 			break;
-		case 4:
+		case 3:
 			mfragment = new LinkageFragment();
 			break;
 		default:
@@ -124,17 +120,6 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerC
         if (mNavigationDrawerFragment.isDrawerOpen())
             mNavigationDrawerFragment.closeDrawer();
         else
-            super.onBackPressed();
+        	moveTaskToBack(false);
     }
-
-	public interface refreshAdapter {
-		public void refreshFragment();
-	}
-    
-	@Override
-	public void refreshdata() {
-		// TODO Auto-generated method stub
-		refreshAdapter mRefresh = (refreshAdapter)mfragment;
-		mRefresh.refreshFragment();
-	}
 }

@@ -46,7 +46,7 @@
                         android:alpha="0.85"
                         android:gravity="center"
                         android:text="旧密码："
-                        android:textColor="#ffffff"
+                        android:textColor="#AA000000"
                         android:textSize="18dp" />
 
                     <EditText
@@ -83,7 +83,7 @@
                         android:alpha="0.85"
                         android:gravity="center"
                         android:text="新密码："
-                        android:textColor="#ffffff"
+                        android:textColor="#AA000000"
                         android:textSize="18dp" />
 
                     <EditText
@@ -118,7 +118,7 @@
                         android:alpha="0.85"
                         android:gravity="center"
                         android:text="再确认："
-                        android:textColor="#ffffff"
+                        android:textColor="#AA000000"
                         android:textSize="18dp" />
 
                     <EditText

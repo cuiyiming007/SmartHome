@@ -112,8 +112,7 @@
 
     <color name="crimson">#DC143C</color><!--暗深红色 -->
 
-    <color name="palevioletred">#DB7093</color><!--苍紫罗兰色
--->
+    <color name="palevioletred">#DB7093</color><!--苍紫罗兰色-->
 
     <color name="goldenrod">#DAA520</color><!--金麒麟色 -->
     <color name="orchid">#DA70D6</color><!--淡紫色 -->
@@ -288,15 +287,12 @@
 
     <color name="black">#4F4F4F</color><!--黑色 -->
     
-    <color name="default_background_end">#0068b7</color><!--黑色 -->
-    <color name="default_background_begin">#00b0ec</color><!--黑色 -->
-    
     <color name="blue_default">#00b6ee</color><!--蓝色自定义 -->
  
 <!--
 	new for Drawer
 --> 
-	<color name="myPrimaryColor">#3F51B5</color>
+	<color name="myPrimaryColor">#00b6ee</color>
     <color name="myPrimaryDarkColor">#3F51B5</color>
     <color name="myAccentColor">#3F51B5</color>
     <color name="myDrawerBackground">#F2F2F2</color>
@@ -308,5 +304,10 @@
     <color name="transparent">#00000000</color>
     
     <color name="background_tab_pressed">#6633B5E5</color>
+    
+    <color name="text_gray">#686868</color>
+    <color name="text_dark_gray">#3d3d3d</color>
+    <color name="text_open_green">#96b01c</color>
+    <color name="text_close_red">#de2c2c</color>
     
 </resources>

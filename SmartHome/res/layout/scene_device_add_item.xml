@@ -20,8 +20,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="5dp"
             android:layout_marginTop="2dp"
-            android:src="@drawable/seek_light"
-            android:tint="@color/blue_default" />
+            android:src="@drawable/seek_light" />
 
         <View
             android:layout_width="2dp"
