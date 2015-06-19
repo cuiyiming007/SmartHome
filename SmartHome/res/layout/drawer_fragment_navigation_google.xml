@@ -3,7 +3,7 @@
     android:id="@+id/googleDrawer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="@color/myDrawerBackground"
     android:clickable="true" >
 
     <!-- android:layout_height="168dp" -->
@@ -12,7 +12,7 @@
         android:id="@+id/navigationHeader"
         android:layout_width="match_parent"
         android:layout_height="140dp"
-        android:background="@drawable/start"
+        android:background="@drawable/ui2_config_bg"
         android:paddingTop="24dp" >
 
         <ImageView
@@ -24,7 +24,8 @@
             android:layout_alignParentTop="true"
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="16dp"
+            android:src="@drawable/ui2_config_administrator" />
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -88,7 +89,7 @@
         android:alpha="0.87"
         android:drawablePadding="16dp"
         android:gravity="center_vertical"
-        android:textColor="#000000"
+        android:textColor="#3d3d3d"
         android:textSize="14sp" />
 
     <TextView
@@ -102,7 +103,7 @@
         android:alpha="0.87"
         android:drawablePadding="16dp"
         android:gravity="center_vertical"
-        android:textColor="#000000"
+        android:textColor="#3d3d3d"
         android:textSize="14sp" />
 
 </RelativeLayout>

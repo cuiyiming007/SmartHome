@@ -96,8 +96,6 @@ public class VideoFragment extends Fragment implements UIListener,
 		mButtonFloat = (ButtonFloat) mView.findViewById(R.id.buttonFloat);
 		adapter = new CustomeAdapter();
 		content_view.setAdapter(adapter);
-		// content_view.setLayoutAnimation(UiUtils
-		// .getAnimationController((Context) getActivity()));
 		content_view.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -197,11 +195,11 @@ public class VideoFragment extends Fragment implements UIListener,
 			if(mList==null) {
 				return convertView;
 			}
-			ViewHolder mViewHolder;
+			final ViewHolder mViewHolder;
 			if (null == convertView) {
 				mViewHolder = new ViewHolder();
 				convertView = LayoutInflater.from((Context) getActivity())
-						.inflate(R.layout.video_gridview_item, null);
+						.inflate(R.layout.gridview_card_item, null);
 				mViewHolder.funcImg = (ImageView) convertView
 						.findViewById(R.id.func_img);
 				mViewHolder.funcText = (TextView) convertView
@@ -210,12 +208,12 @@ public class VideoFragment extends Fragment implements UIListener,
 			} else {
 				mViewHolder = (ViewHolder) convertView.getTag();
 			}
+			
 			if (mList.get(position).getIpc_status().equals("a")) {
-				mViewHolder.funcImg
-						.setImageResource(R.drawable.ui_video_play_style);
+				mViewHolder.funcImg.setImageResource(R.drawable.ui2_device_video_style);
+				
 			} else {
-				mViewHolder.funcImg
-				.setImageResource(R.drawable.ui_video_notonline);
+				mViewHolder.funcImg.setImageResource(R.drawable.ui2_device_video_off);
 			}
 			mViewHolder.funcText.setText(mList.get(position).getAliases());
 			return convertView;

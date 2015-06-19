@@ -14,8 +14,7 @@
 	        android:layout_height="60dp"
 	        android:layout_marginLeft="5dp"
 	        android:layout_centerVertical="true"
-	        android:layout_alignParentLeft="true"
-	        android:tint="@color/blue_default" />
+	        android:layout_alignParentLeft="true" />
 	  	<ImageView
 	  	    android:id="@+id/warm_point"
 	        android:layout_width="15dp"

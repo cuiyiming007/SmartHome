@@ -3,6 +3,8 @@ package com.gdgl.drawer;
 import java.util.ArrayList;
 
 import android.graphics.Color;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,8 +12,10 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnTouchListener;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.SeekBar;
@@ -28,6 +32,7 @@ import com.gdgl.manager.UIListener;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.DataHelper;
+import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.Callback.CallbackResponseType2;
@@ -85,6 +90,10 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 		// TODO Auto-generated method stub
 		device_controlButton = (ToggleButton) mView
 				.findViewById(R.id.device_control_button);
+		device_controlButton.setChecked(getDeviceControlOnOff());
+		device_controlButton.setBackgroundResource(DataUtil
+				.getDefaultDevicesControlIcon(mDevices.getmDeviceId(),
+						mDevices.getmModelId()));
 		device_contor_statusTextView = (TextView) mView
 				.findViewById(R.id.device_control_status);
 
@@ -94,7 +103,9 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 
 		tabs = (PagerSlidingTabStrip) mView.findViewById(R.id.tabs);
 		tabs.setShouldExpand(true);
-		tabs.setTextSize((int)(getActivity().getResources().getDisplayMetrics().scaledDensity*15));
+		tabs.setTextSize((int) (getActivity().getResources()
+				.getDisplayMetrics().scaledDensity * 15));
+		tabs.setTextColorResource(R.color.text_gray);
 		tabs.setIndicatorColorResource(R.color.blue_default);
 
 		mfragments = new ArrayList<Fragment>();
@@ -107,10 +118,10 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 
 		// 设备控制布局
 		setDeviceControlLayout();
-		setDeviceControlText();
-		
+		setDeviceControlText(getDeviceControlOnOff());
+
 		// 设备图片、名称、区域
-		
+
 		// 设备控制
 		device_controlButton
 				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -135,6 +146,30 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 						}
 					}
 				});
+		if (device_controlButton.isClickable()) {
+			device_controlButton.setOnTouchListener(new OnTouchListener() {
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					Drawable mDrawable = getResources().getDrawable(DataUtil
+							.getDefaultDevicesControlIcon(mDevices.getmDeviceId(),
+									mDevices.getmModelId()));
+					switch (event.getAction()) {
+					case MotionEvent.ACTION_DOWN:
+						mDrawable.setColorFilter(Color.parseColor("#55888888"),
+								Mode.SRC_ATOP);
+						device_controlButton.setBackground(mDrawable);
+						return false;
+					case MotionEvent.ACTION_CANCEL:
+					case MotionEvent.ACTION_MOVE:
+					case MotionEvent.ACTION_UP:
+						mDrawable.clearColorFilter();
+						device_controlButton.setBackground(mDrawable);
+						return false;
+					}
+					return true;
+				}
+			});
+		}
 		if (mDevices.getmDeviceId() == DataHelper.DIMEN_LIGHTS_DEVICETYPE) {
 			int level = Integer.parseInt(mDevices.getmLevel());
 			int state = level * 100 / 254;
@@ -295,8 +330,9 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 		}
 	}
 
-	public void setDeviceControlText() {
+	public boolean getDeviceControlOnOff() {
 		int deviceId = mDevices.getmDeviceId();
+		boolean on_off = true;
 		switch (deviceId) {
 		case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:
 		case DataHelper.COMBINED_INTERFACE_DEVICETYPE:
@@ -304,22 +340,21 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 		case DataHelper.ON_OFF_LIGHT_DEVICETYPE:
 		case DataHelper.DIMEN_LIGHTS_DEVICETYPE:
 		case DataHelper.SHADE_DEVICETYPE:
-			setDeviceControlText(mDevices.getmOnOffStatus().equals("1") ? true
-					: false);
+			on_off = mDevices.getmOnOffStatus().equals("1") ? true : false;
 			break;
 		case DataHelper.IAS_ZONE_DEVICETYPE:
-			setDeviceControlText(mDevices.getmOnOffStatus().equals("0") ? true
-					: false);
+			on_off = mDevices.getmOnOffStatus().equals("0") ? true : false;
 			break;
 		default:
 			break;
 		}
+		return on_off;
 	}
 
 	public void setDeviceControlText(boolean check) {
 		if (check) {
-			device_contor_statusTextView.setTextColor(Color
-					.parseColor("#96b01c"));
+			device_contor_statusTextView.setTextColor(getResources().getColor(
+					R.color.text_open_green));
 			int deviceId = mDevices.getmDeviceId();
 			switch (deviceId) {
 			case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:
@@ -339,8 +374,8 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 				break;
 			}
 		} else {
-			device_contor_statusTextView.setTextColor(Color
-					.parseColor("#696969"));
+			device_contor_statusTextView.setTextColor(getResources().getColor(
+					R.color.text_gray));
 			int deviceId = mDevices.getmDeviceId();
 			switch (deviceId) {
 			case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:

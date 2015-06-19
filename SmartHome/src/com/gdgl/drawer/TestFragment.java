@@ -21,13 +21,15 @@ import com.gdgl.smarthome.R;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
@@ -99,23 +101,23 @@ public class TestFragment extends Fragment implements UIListener {
 		mCustomeAdapter = new CustomeAdapter();
 		mCustomeAdapter.setList(mDeviceList);
 		content_view.setAdapter(mCustomeAdapter);
-		content_view.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				// TODO Auto-generated method stub
-				DevicesModel mDevicesModel = (DevicesModel) mDeviceList
-						.get(position);
-				Intent intent = new Intent();
-
-				Bundle extras = new Bundle();
-				extras.putSerializable(Constants.PASS_OBJECT, mDevicesModel);
-				intent.putExtras(extras);
-				intent.setClass(getActivity(), DeviceControlActivity.class);
-				startActivity(intent);
-			}
-		});
+//		content_view.setOnItemClickListener(new OnItemClickListener() {
+//
+//			@Override
+//			public void onItemClick(AdapterView<?> parent, View view,
+//					int position, long id) {
+//				// TODO Auto-generated method stub
+//				DevicesModel mDevicesModel = (DevicesModel) mDeviceList
+//						.get(position);
+//				Intent intent = new Intent();
+//
+//				Bundle extras = new Bundle();
+//				extras.putSerializable(Constants.PASS_OBJECT, mDevicesModel);
+//				intent.putExtras(extras);
+//				intent.setClass(getActivity(), DeviceControlActivity.class);
+//				startActivity(intent);
+//			}
+//		});
 
 		mButtonFloat.setOnClickListener(new OnClickListener() {
 
@@ -156,10 +158,10 @@ public class TestFragment extends Fragment implements UIListener {
 			if (null == mAdapterDevicesList) {
 				return convertView;
 			}
-			DevicesModel mAdapeterDevicesModel = mAdapterDevicesList
+			final DevicesModel mAdapeterDevicesModel = mAdapterDevicesList
 					.get(position);
 			// TODO Auto-generated method stub
-			ViewHolder mViewHolder;
+			final ViewHolder mViewHolder;
 			if (null == convertView) {
 				mViewHolder = new ViewHolder();
 				convertView = LayoutInflater.from((Context) getActivity())
@@ -168,18 +170,40 @@ public class TestFragment extends Fragment implements UIListener {
 						.findViewById(R.id.func_img);
 				mViewHolder.funcText = (TextView) convertView
 						.findViewById(R.id.func_name);
-				mViewHolder.funcCardView = (CardView) convertView
-						.findViewById(R.id.card_view);
-				// mViewHolder.funcCardView.setCardBackgroundColor(getResources().getColor(R.color.ui_cardview_selector_blue));
 				convertView.setTag(mViewHolder);
 			} else {
 				mViewHolder = (ViewHolder) convertView.getTag();
 			}
 
 			mViewHolder.funcImg.setImageResource(DataUtil
-					.getDefaultDevicesSmallIcon(
+					.getDefaultDevicesIcon(
 							mAdapeterDevicesModel.getmDeviceId(),
 							mAdapeterDevicesModel.getmModelId().trim()));
+			mViewHolder.funcImg.setOnTouchListener(new OnTouchListener() {
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+
+					switch (event.getAction()) {
+					case MotionEvent.ACTION_DOWN:
+						mViewHolder.funcImg.setColorFilter(Color.parseColor("#55888888"));
+						return true;
+					case MotionEvent.ACTION_CANCEL:
+					case MotionEvent.ACTION_MOVE:
+						mViewHolder.funcImg.clearColorFilter();
+						return true;
+					case MotionEvent.ACTION_UP:
+						mViewHolder.funcImg.clearColorFilter();
+						Intent intent = new Intent();
+						Bundle extras = new Bundle();
+						extras.putSerializable(Constants.PASS_OBJECT, mAdapeterDevicesModel);
+						intent.putExtras(extras);
+						intent.setClass(getActivity(), DeviceControlActivity.class);
+						startActivity(intent);
+						return true;
+					}
+					return true;
+				}
+			});
 			mViewHolder.funcText.setText(mAdapeterDevicesModel
 					.getmDefaultDeviceName());
 			return convertView;
@@ -188,7 +212,6 @@ public class TestFragment extends Fragment implements UIListener {
 		class ViewHolder {
 			ImageView funcImg;
 			TextView funcText;
-			CardView funcCardView;
 		}
 
 		public void setList(List<DevicesModel> s) {

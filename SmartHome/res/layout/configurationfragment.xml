@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res/com.gdgl.smarthome"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/myDrawerBackground"
     android:orientation="vertical" >
 
     <TextView
@@ -29,11 +30,12 @@
             android:orientation="vertical" >
 
             <TextView
+                android:id="@+id/changealias"
                 android:layout_width="fill_parent"
                 android:layout_height="45dp"
-                android:drawableLeft="@drawable/ui2_config_alias"
+                android:drawableLeft="@drawable/ui2_set_alias"
                 android:drawablePadding="8dp"
-                android:drawableRight="@drawable/ir_dvdright_notlearned"
+                android:drawableRight="@drawable/ui2_set_choice"
                 android:gravity="center_vertical"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
@@ -48,11 +50,12 @@
                 android:background="@android:color/darker_gray" />
 
             <TextView
+                android:id="@+id/changepassword"
                 android:layout_width="fill_parent"
                 android:layout_height="45dp"
-                android:drawableLeft="@drawable/ui2_config_password"
+                android:drawableLeft="@drawable/ui2_set_password"
                 android:drawablePadding="8dp"
-                android:drawableRight="@drawable/ir_dvdright_notlearned"
+                android:drawableRight="@drawable/ui2_set_choice"
                 android:gravity="center_vertical"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
@@ -72,13 +75,13 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"  >
+            android:layout_height="wrap_content" >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="45dp"
                 android:layout_alignParentLeft="true"
-                android:drawableLeft="@drawable/ui2_config_video"
+                android:drawableLeft="@drawable/ui2_set_video"
                 android:drawablePadding="8dp"
                 android:gravity="center_vertical"
                 android:paddingLeft="16dp"
@@ -88,7 +91,7 @@
                 android:textSize="18sp" />
 
             <com.gc.materialdesign.views.CheckBox
-                android:id="@+id/selected"
+                android:id="@+id/enableipc"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_alignParentRight="true"
@@ -97,7 +100,6 @@
                 android:background="#1E88E5"
                 android:checked="true" >
             </com.gc.materialdesign.views.CheckBox>
-
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 
@@ -115,11 +117,12 @@
             android:orientation="vertical" >
 
             <TextView
+                android:id="@+id/feedback"
                 android:layout_width="fill_parent"
                 android:layout_height="45dp"
-                android:drawableLeft="@drawable/ui2_config_feedback"
+                android:drawableLeft="@drawable/ui2_set_feedback"
                 android:drawablePadding="8dp"
-                android:drawableRight="@drawable/ir_dvdright_notlearned"
+                android:drawableRight="@drawable/ui2_set_choice"
                 android:gravity="center_vertical"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
@@ -134,11 +137,12 @@
                 android:background="@android:color/darker_gray" />
 
             <TextView
+                android:id="@+id/aboutapp"
                 android:layout_width="fill_parent"
                 android:layout_height="45dp"
-                android:drawableLeft="@drawable/ui2_config_about"
+                android:drawableLeft="@drawable/ui2_set_about"
                 android:drawablePadding="8dp"
-                android:drawableRight="@drawable/ir_dvdright_notlearned"
+                android:drawableRight="@drawable/ui2_set_choice"
                 android:gravity="center_vertical"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
@@ -147,5 +151,10 @@
                 android:textSize="18sp" />
         </LinearLayout>
     </android.support.v7.widget.CardView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
 </LinearLayout>

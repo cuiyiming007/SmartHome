@@ -19,14 +19,17 @@ import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
@@ -175,7 +178,7 @@ public class ScenesFragment extends Fragment implements UIListener, Dialogcallba
 			if (null == convertView) {
 				mViewHolder = new ViewHolder();
 				convertView = LayoutInflater.from((Context) getActivity())
-						.inflate(R.layout.gridview_item, null);
+						.inflate(R.layout.gridview_card_item, null);
 				mViewHolder.funcImg = (ImageView) convertView
 						.findViewById(R.id.func_img);
 				mViewHolder.funcText = (TextView) convertView
@@ -184,7 +187,7 @@ public class ScenesFragment extends Fragment implements UIListener, Dialogcallba
 			} else {
 				mViewHolder = (ViewHolder) convertView.getTag();
 			}
-			mViewHolder.funcImg.setImageResource(R.drawable.scene);
+			mViewHolder.funcImg.setImageResource(R.drawable.ui2_scene_style);
 			mViewHolder.funcText.setText(mList.get(position).getScnname());
 			return convertView;
 		}
