@@ -130,7 +130,7 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 					public void onCheckedChanged(CompoundButton buttonView,
 							boolean isChecked) {
 						// TODO Auto-generated method stub
-						setDeviceControlText(isChecked);
+//						setDeviceControlText(isChecked);
 						if (isChecked) {
 							if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
 								DeviceContorlOnOffClickDo(ON);
@@ -150,8 +150,9 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 			device_controlButton.setOnTouchListener(new OnTouchListener() {
 				@Override
 				public boolean onTouch(View v, MotionEvent event) {
-					Drawable mDrawable = getResources().getDrawable(DataUtil
-							.getDefaultDevicesControlIcon(mDevices.getmDeviceId(),
+					Drawable mDrawable = getResources().getDrawable(
+							DataUtil.getDefaultDevicesControlIcon(
+									mDevices.getmDeviceId(),
 									mDevices.getmModelId()));
 					switch (event.getAction()) {
 					case MotionEvent.ACTION_DOWN:
@@ -679,7 +680,59 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 	@Override
 	public void update(Manger observer, Object object) {
 		final Event event = (Event) object;
-		if (EventType.MOVE_TO_LEVEL == event.getType()) {
+		if (EventType.LOCALIASCIEBYPASSZONE == event.getType()) {
+			if (event.isSuccess()) {
+				Bundle bundle = (Bundle) event.getData();
+				if (bundle.getString("IEEE").equals(mDevices.getmIeee())
+						&& bundle.getString("EP").equals(mDevices.getmEP())) {
+					mDevices.setmOnOffStatus(bundle.getString("PARAM"));
+
+					mView.post(new Runnable() {
+						@Override
+						public void run() {
+							setDeviceControlText(mDevices.getmOnOffStatus()
+									.equals("0") ? true : false);
+						}
+					});
+				}
+			}
+		} else if (EventType.LOCALIASCIEOPERATION == event.getType()) {
+			if (event.isSuccess() == true) {
+				String status = (String) event.getData();
+
+				if (mDevices.getmModelId().indexOf(DataHelper.One_key_operator) == 0) {
+					mDevices.setmOnOffStatus(status);
+
+					mView.post(new Runnable() {
+						@Override
+						public void run() {
+							setDeviceControlText(mDevices.getmOnOffStatus()
+									.equals("1") ? true : false);
+						}
+					});
+				}
+			}
+		} else if (EventType.ON_OFF_STATUS == event.getType()) {
+			if (event.isSuccess() == true) {
+				// data maybe null
+				CallbackResponseType2 data = (CallbackResponseType2) event
+						.getData();
+				if (data.getDeviceIeee().equals(mDevices.getmIeee())
+						&& data.getDeviceEp().equals(mDevices.getmEP())) {
+					if (null != data.getValue()) {
+						mDevices.setmOnOffStatus(data.getValue());
+
+						mView.post(new Runnable() {
+							@Override
+							public void run() {
+								setDeviceControlText(mDevices.getmOnOffStatus()
+										.equals("1") ? true : false);
+							}
+						});
+					}
+				}
+			}
+		} else if (EventType.MOVE_TO_LEVEL == event.getType()) {
 			if (event.isSuccess() == true) {
 				// data maybe null
 				CallbackResponseType2 data = (CallbackResponseType2) event
