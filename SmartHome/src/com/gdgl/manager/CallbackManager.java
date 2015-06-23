@@ -270,9 +270,10 @@ public class CallbackManager extends Manger {
 				mDateHelper.update(mSQLiteDatabase31, DataHelper.DEVICES_TABLE,
 						c31, where31, args31);
 				mDateHelper.close(mSQLiteDatabase31);
-
+				
+				String[] changeName = {ieee31, ep31, newname31};
 				Event event31 = new Event(EventType.CHANGEDEVICENAME, true);
-				event31.setData(newname31);
+				event31.setData(changeName);
 				notifyObservers(event31);
 				break;
 			case 32:

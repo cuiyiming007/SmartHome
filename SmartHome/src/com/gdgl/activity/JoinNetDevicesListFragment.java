@@ -2,23 +2,18 @@ package com.gdgl.activity;
 
 import java.util.List;
 
-import com.gdgl.manager.Manger;
+import com.gc.materialdesign.views.CheckBox;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
 import com.gdgl.smarthome.R;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 
-import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -34,14 +29,12 @@ import android.widget.TextView;
  * @author Trice
  *
  */
-public class JoinNetDevicesListFragment extends BaseFragment {
+public class JoinNetDevicesListFragment extends Fragment {
 
 	private View mView;
 
 	LinearLayout join_net_listLayout;
-	PullToRefreshListView devices_list;
-	int refreshTag = 0;
-	refreshData mRefreshData;
+	ListView devices_list;
 
 	List<DevicesModel> mDevList;
 	DataHelper mDH;
@@ -89,31 +82,6 @@ public class JoinNetDevicesListFragment extends BaseFragment {
 		}
 	}
 
-//	public boolean isInNet(DevicesModel s) {
-//
-//		for (SimpleDevicesModel sd : mInnetList) {
-//			if (sd.getmIeee().equals(s.getmIeee())
-//					&& sd.getmEP().equals(s.getmEP())) {
-//				return true;
-//			}
-//		}
-//		return false;
-//	}
-
-//	protected SimpleDevicesModel getDevicesByIeee(String iee, String EP) {
-//		// TODO Auto-generated method stub
-//		String[] args = { iee, EP };
-//		String where = " ieee=? and ep=? ";
-//		Context c = (Context) getActivity();
-//		List<SimpleDevicesModel> ls = DataUtil.getDevices(c, new DataHelper(c),
-//				args, where);
-//		SimpleDevicesModel smd = null;
-//		if (null != ls && ls.size() > 0) {
-//			smd = ls.get(0);
-//		}
-//		return smd;
-//	}
-
 	private void initView() {
 		// TODO Auto-generated method stub
 		join_net_listLayout = (LinearLayout) mView.findViewById(R.id.join_net_list);
@@ -130,49 +98,22 @@ public class JoinNetDevicesListFragment extends BaseFragment {
 		mNoContent.setText("未扫描到新设备");
 
 		mBack = (Button) mView.findViewById(R.id.back);
-		mBack.setOnClickListener(new OnClickListener() {
+		mBack.setVisibility(View.GONE);
+//		mBack.setOnClickListener(new OnClickListener() {
+//
+//			@Override
+//			public void onClick(View v) {
+//				// TODO Auto-generated method stub
+//				FragmentManager fm = getActivity().getSupportFragmentManager();
+//				fm.popBackStack();
+//			}
+//		});
 
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				FragmentManager fm = getActivity().getSupportFragmentManager();
-				fm.popBackStack();
-			}
-		});
-
-		devices_list = (PullToRefreshListView) mView
-				.findViewById(R.id.devices_list);
-
+		devices_list = (ListView) mView.findViewById(R.id.devices_list);
 		if (null == mDevList || mDevList.size() == 0) {
 			no_dev.setVisibility(View.VISIBLE);
 			deviceslist.setVisibility(View.GONE);
 		} else {
-			devices_list
-					.setOnRefreshListener(new OnRefreshListener<ListView>() {
-
-						@Override
-						public void onRefresh(
-								PullToRefreshBase<ListView> refreshView) {
-							// TODO Auto-generated method stub
-							if (1 == refreshTag) {
-							} else {
-								refreshTag = 1;
-								String label = DateUtils.formatDateTime(
-										getActivity(),
-										System.currentTimeMillis(),
-										DateUtils.FORMAT_SHOW_TIME
-												| DateUtils.FORMAT_SHOW_DATE
-												| DateUtils.FORMAT_ABBREV_ALL);
-
-								// Update the LastUpdatedLabel
-								refreshView.getLoadingLayoutProxy()
-										.setLastUpdatedLabel(label);
-
-								// Do work to refresh the list here.
-								mRefreshData.refreshListData();
-							}
-						}
-					});
 			mJoinNetAdapter.setList(mDevList);
 			devices_list.setAdapter(mJoinNetAdapter);
 		}
@@ -180,23 +121,9 @@ public class JoinNetDevicesListFragment extends BaseFragment {
 	}
 
 	@Override
-	public void stopRefresh() {
-		devices_list.onRefreshComplete();
-		refreshTag = 0;
-	}
-
-	@Override
 	public void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
-	}
-
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		if (!(activity instanceof refreshData)) {
-			throw new IllegalStateException("Activity必须实现refreshData接口");
-		}
-		mRefreshData = (refreshData) activity;
 	}
 
 //	public int isInList(String iee, String ep) {
@@ -217,47 +144,6 @@ public class JoinNetDevicesListFragment extends BaseFragment {
 //		return -1;
 //	}
 
-	@Override
-	public void update(Manger observer, Object object) {
-		// TODO Auto-generated method stub
-//
-//		final Event event = (Event) object;
-//		if (EventType.ON_OFF_STATUS == event.getType()) {
-//			if (event.isSuccess() == true) {
-//				// data maybe null
-//				CallbackResponseType2 data = (CallbackResponseType2) event
-//						.getData();
-//				int m = isInList(data.getDeviceIeee(), data.getDeviceEp());
-//				if (-1 != m) {
-//					if (null != data.getValue()) {
-//						mDevList.get(m).setmOnOffStatus(data.getValue());
-//						mJoinNetAdapter.setList(mDevList);
-//						mView.post(new Runnable() {
-//
-//							@Override
-//							public void run() {
-//								mJoinNetAdapter.notifyDataSetChanged();
-//							}
-//						});
-//					}
-//				}
-//				ProcessUpdate(data);
-//			} else {
-//				// if failed,prompt a Toast
-//				// mError.setVisibility(View.VISIBLE);
-//			}
-//		}
-	}
-
-	public interface refreshData {
-		public void refreshListData();
-
-		public DevicesModel getDeviceModle(int postion);
-
-		public void setFragment(Fragment mFragment, int postion);
-
-		public void setDevicesId(String id);
-	}
 
 	public Handler mHandler = new Handler() {
 		public void handleMessage(Message msg) {
@@ -275,20 +161,6 @@ public class JoinNetDevicesListFragment extends BaseFragment {
 			}
 		};
 	};
-
-//	public DevicesModel getDevicesByIeeeAndEp(String ieee, String ep) {
-//		if (null == ieee || ep == null || null == mDevList) {
-//			return null;
-//		}
-//
-//		for (DevicesModel ds : mDevList) {
-//			if (ds.getmIeee().trim().equals(ieee.trim())
-//					&& ds.getmEP().trim().equals(ep.trim())) {
-//				return ds;
-//			}
-//		}
-//		return null;
-//	}
 
 	public class JoinNetAdapter extends BaseAdapter {
 
@@ -338,41 +210,38 @@ public class JoinNetDevicesListFragment extends BaseFragment {
 
 			if (null == mView) {
 				mHolder = new ViewHolder();
-				mView = LayoutInflater.from((Context) getActivity()).inflate(
-						R.layout.devices_list_item_nooperator, null);
+
+				mView = LayoutInflater.from(getActivity()).inflate(
+						R.layout.scene_device_add_item, null);
 				mHolder.devices_img = (ImageView) mView
 						.findViewById(R.id.devices_img);
 				mHolder.devices_name = (TextView) mView
 						.findViewById(R.id.devices_name);
-				mHolder.devices_region = (TextView) mView
-						.findViewById(R.id.devices_region);
-				mHolder.devices_state = (TextView) mView
-						.findViewById(R.id.devices_state);
+				mHolder.custom_divider = (View) mView
+						.findViewById(R.id.custom_divider);
+				mHolder.selected = (CheckBox) mView.findViewById(R.id.selected);
 				mView.setTag(mHolder);
+
 			} else {
 				mHolder = (ViewHolder) mView.getTag();
 			}
-			
-			if (mDevices.getmDefaultDeviceName() == null || mDevices.getmDefaultDeviceName().trim().equals("")) {
-				mDevices.setmDefaultDeviceName(DataUtil.getDefaultDevicesName(
-						getActivity(), mDevices.getmModelId(), mDevices.getmEP()));
-			}
+
 			mHolder.devices_name.setText(mDevices.getmDefaultDeviceName());
-			
+
 			mHolder.devices_img.setImageResource(DataUtil
-					.getDefaultDevicesSmallIcon(mDevices.getmDeviceId(),mDevices.getmModelId().trim()));
-			
-			mHolder.devices_region.setVisibility(View.INVISIBLE);
-			mHolder.devices_state.setVisibility(View.INVISIBLE);
+					.getDefaultDevicesSmallIcon(mDevices.getmDeviceId(),
+							mDevices.getmModelId().trim()));
+			mHolder.custom_divider.setVisibility(View.GONE);
+			mHolder.selected.setVisibility(View.GONE);
 
 			return mView;
 		}
 
 		public class ViewHolder {
-			ImageView devices_img;
-			TextView devices_name;
-			TextView devices_region;
-			TextView devices_state;
+			public ImageView devices_img;
+			public TextView devices_name;
+			public CheckBox selected;
+			public View custom_divider;
 		}
 	}
 }

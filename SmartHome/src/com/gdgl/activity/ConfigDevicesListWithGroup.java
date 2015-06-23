@@ -698,7 +698,8 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 		final Event event = (Event) object;
 		if (EventType.CHANGEDEVICENAME == event.getType()) {
 			if (event.isSuccess()) {
-				final String name = (String)event.getData();
+				String[] changeName = (String[]) event.getData();
+				final String name = changeName[2];
 				ElecManagerlay.post(new Runnable() {
 					
 					@Override

@@ -7,7 +7,7 @@
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
-	<classpathentry kind="lib" path="D:/git/ui_branch_app2.0/SmartHome/SmartHome/libs/HCNetSDK.jar"/>
-	<classpathentry kind="lib" path="D:/git/ui_branch_app2.0/SmartHome/SmartHome/libs/PlayerSDK.jar"/>
+	<classpathentry kind="lib" path="libs/PlayerSDK.jar"/>
+	<classpathentry kind="lib" path="libs/HCNetSDK.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

@@ -55,7 +55,7 @@ public class AlarmMessageActivity extends ActionBarActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.menu_delete, menu);
+		getMenuInflater().inflate(R.menu.menu_messagedelete, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 

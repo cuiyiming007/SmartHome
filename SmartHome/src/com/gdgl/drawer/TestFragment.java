@@ -31,11 +31,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 
 public class TestFragment extends Fragment implements UIListener {
@@ -64,7 +62,7 @@ public class TestFragment extends Fragment implements UIListener {
 
 		cgiManager = CGIManager.getInstance();
 		cgiManager.addObserver(this);
-
+		DeviceManager.getInstance().addObserver(this);
 		CallbackManager.getInstance().addObserver(this);
 
 		mDh = new DataHelper((Context) getActivity());
@@ -226,6 +224,7 @@ public class TestFragment extends Fragment implements UIListener {
 		// TODO Auto-generated method stub
 		super.onDestroy();
 		cgiManager.deleteObserver(this);
+		DeviceManager.getInstance().deleteObserver(this);
 		CallbackManager.getInstance().deleteObserver(this);
 	}
 	@Override
@@ -286,24 +285,6 @@ public class TestFragment extends Fragment implements UIListener {
 							mDeviceList.get(m).setmOnOffStatus(status);
 							break;
 						}
-					}
-				}
-			}
-		} else if (EventType.DELETENODE == event.getType()) {
-			if (event.isSuccess()) {
-				String delete_ieee = (String) event.getData();
-				for (int i = 0; i < mDeviceList.size(); i++) {
-					DevicesModel tempDevModel = mDeviceList.get(i);
-					if (tempDevModel.getmIeee().equals(delete_ieee)) {
-						mDeviceList.remove(i);
-						mView.post(new Runnable() {
-
-							@Override
-							public void run() {
-								// TODO Auto-generated method stub
-								mCustomeAdapter.notifyDataSetChanged();
-							}
-						});
 					}
 				}
 			}
@@ -389,6 +370,46 @@ public class TestFragment extends Fragment implements UIListener {
 				if (-1 != m) {
 					if (null != data.getValue()) {
 						mDeviceList.get(m).setmPower(data.getValue());
+					}
+				}
+			}
+		} else if (EventType.DELETENODE == event.getType()) {
+			if (event.isSuccess()) {
+				String delete_ieee = (String) event.getData();
+				for (int i = 0; i < mDeviceList.size(); i++) {
+					DevicesModel tempDevModel = mDeviceList.get(i);
+					if (tempDevModel.getmIeee().equals(delete_ieee)) {
+						mDeviceList.remove(i);
+						mView.post(new Runnable() {
+
+							@Override
+							public void run() {
+								// TODO Auto-generated method stub
+								mCustomeAdapter.notifyDataSetChanged();
+							}
+						});
+					}
+				}
+			}
+		} else if (EventType.CHANGEDEVICENAME == event.getType()) {
+			if (event.isSuccess()) {
+				String[] changeName = (String[]) event.getData();
+				String ieee = changeName[0];
+				String ep = changeName[1];
+				String name = changeName[2];
+				for (int i = 0; i < mDeviceList.size(); i++) {
+					DevicesModel tempDevModel = mDeviceList.get(i);
+					if(tempDevModel.getmIeee().equals(ieee) && tempDevModel.getmEP().equals(ep)) {
+						mDeviceList.get(i).setmDefaultDeviceName(name);
+						mView.post(new Runnable() {
+
+							@Override
+							public void run() {
+								// TODO Auto-generated method stub
+								mCustomeAdapter.notifyDataSetChanged();
+							}
+						});
+						break;
 					}
 				}
 			}

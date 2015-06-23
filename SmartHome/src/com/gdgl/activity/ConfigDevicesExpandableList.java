@@ -398,12 +398,6 @@ public class ConfigDevicesExpandableList extends BaseFragment implements
 		// TODO Auto-generated method stub
 		DevicesModel ds = mCurrentList.get(currentpostion);
 		CGIManager.getInstance().deleteNode(ds.getmIeee().trim());
-		SQLiteDatabase mSqLiteDatabase = mDh.getSQLiteDatabase();
-		mDh.delete(mSqLiteDatabase, DataHelper.DEVICES_TABLE,
-				" ieee=? ", new String[] { ds.getmIeee().trim() });
-		mSqLiteDatabase.close();
-		mCurrentList.remove(currentpostion);
-		expandableAdapter.notifyDataSetChanged();
 	}
 
 	@Override
@@ -411,7 +405,8 @@ public class ConfigDevicesExpandableList extends BaseFragment implements
 		final Event event = (Event) object;
 		if (EventType.CHANGEDEVICENAME == event.getType()) {
 			if (event.isSuccess()) {
-				final String name = (String) event.getData();
+				String[] changeName = (String[]) event.getData();
+				final String name = changeName[2];
 				deviceExpandableListView.post(new Runnable() {
 
 					@Override

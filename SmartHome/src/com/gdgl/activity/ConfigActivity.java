@@ -3,14 +3,9 @@ package com.gdgl.activity;
 /***
  * 设置列表界面
  */
-import java.util.List;
-
 import com.gdgl.activity.BindControlFragment.backAction;
 import com.gdgl.activity.ConfigDevicesExpandableList.IntoDeviceDetailFragment;
-import com.gdgl.activity.JoinNetDevicesListFragment.refreshData;
 import com.gdgl.activity.JoinNetFragment.ChangeFragment;
-import com.gdgl.model.DevicesModel;
-import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.service.LibjingleService;
@@ -27,9 +22,7 @@ import com.gdgl.util.VersionDlg;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -42,7 +35,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class ConfigActivity extends BaseSlideMenuActivity implements
-		ChangeFragment, refreshData, backAction, IntoDeviceDetailFragment,
+		ChangeFragment, backAction, IntoDeviceDetailFragment,
 		Dialogcallback, DialogCheckBoxcallback {
 	private SlideMenu mSlideMenu;
 	private MyLogoutDlg mMyLogoutDlg;
@@ -309,26 +302,6 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 		});
 	}
 
-	private class GetDataTask extends
-			AsyncTask<Void, Void, List<SimpleDevicesModel>> {
-
-		@Override
-		protected List<SimpleDevicesModel> doInBackground(Void... params) {
-			// Simulates a background job.
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-			}
-			return null;
-		}
-
-		@Override
-		protected void onPostExecute(List<SimpleDevicesModel> result) {
-			super.onPostExecute(result);
-			mFragment.stopRefresh();
-		}
-	}
-
 	Handler mHandler = new Handler() {
 		public void handleMessage(Message msg) {
 			int what = msg.what;
@@ -352,30 +325,6 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 		// fragmentTransaction.addToBackStack(null);
 		fragmentTransaction.commit();
 		MyApplicationFragment.getInstance().addFragment(f);
-	}
-
-	@Override
-	public void refreshListData() {
-		// TODO Auto-generated method stub
-		new GetDataTask().execute();
-	}
-
-	@Override
-	public DevicesModel getDeviceModle(int postion) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setFragment(Fragment mFragment, int postion) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setDevicesId(String id) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
