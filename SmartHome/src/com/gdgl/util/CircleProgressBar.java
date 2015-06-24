@@ -39,7 +39,7 @@ public class CircleProgressBar extends View {
 		}
  
 		paint.setAntiAlias(true); // 设置画笔为抗锯齿
-		paint.setColor(0xff8B8989); // 设置画笔颜色
+		paint.setColor(0xffefefef); // 设置画笔颜色
 		canvas.drawColor(Color.TRANSPARENT); // 白色背景
 		paint.setStrokeWidth(progressStrokeWidth); //线宽
 		paint.setStyle(Style.STROKE);
@@ -50,7 +50,7 @@ public class CircleProgressBar extends View {
 		oval.bottom = height - progressStrokeWidth / 2; // 右下角y
  
 		canvas.drawArc(oval, -90, 360, false, paint); // 绘制白色圆圈，即进度条背景
-		paint.setColor(0xff20B2AA);
+		paint.setColor(0xff00bcd4);
 //		canvas.drawArc(oval, -90, ((float) progress / maxProgress) * 360, false, paint); // 绘制进度圆弧，这里是蓝色
 		canvas.drawArc(oval, -90, 360-((float) progress / maxProgress) * 360, false, paint); // 绘制进度圆弧，这里是蓝色
 		paint.setStrokeWidth(1);

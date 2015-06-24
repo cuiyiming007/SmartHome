@@ -11,7 +11,7 @@
         android:layout_height="200dp"
         android:layout_above="@+id/center_divider"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/circle_pro" />
+        android:background="@drawable/ui2_joinnet_circle" />
 
     <View
         android:id="@+id/center_divider"
