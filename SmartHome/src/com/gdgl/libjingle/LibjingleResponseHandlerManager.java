@@ -29,6 +29,7 @@ import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DeviceLearnedParam;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
+import com.gdgl.mydata.Linkage;
 import com.gdgl.mydata.RespondDataEntity;
 import com.gdgl.mydata.ResponseParamsEndPoint;
 import com.gdgl.mydata.SimpleResponseData;
@@ -41,6 +42,9 @@ import com.gdgl.mydata.bind.BindResponseData;
 import com.gdgl.mydata.binding.BindingDataEntity;
 import com.gdgl.mydata.getlocalcielist.CIEresponse_params;
 import com.gdgl.mydata.getlocalcielist.LocalIASCIEOperationResponseData;
+import com.gdgl.mydata.scene.SceneDevice;
+import com.gdgl.mydata.scene.SceneInfo;
+import com.gdgl.mydata.timing.TimingAction;
 import com.gdgl.mydata.video.VideoNode;
 import com.gdgl.mydata.video.VideoResponse;
 import com.gdgl.network.VolleyOperation;
@@ -369,6 +373,15 @@ public class LibjingleResponseHandlerManager extends Manger {
 			case LibjingleSendStructure.DELETEIR:
 			case LibjingleSendStructure.IDENTIFYDEVICE:
 				break;
+			case LibjingleSendStructure.GETSCENELIST:
+				new GetSceneListTask().execute(response);
+				break;
+			case LibjingleSendStructure.GETLINKAGELIST:
+				new GetLinkageListTask().execute(response);
+				break;
+			case LibjingleSendStructure.GETTIMEACTIONLIST:
+				new GetTimingActionListTask().execute(response);
+				break;
 			default:
 				break;
 			}
@@ -692,6 +705,83 @@ public class LibjingleResponseHandlerManager extends Manger {
 				notifyObservers(event);
 			}
 			super.onPostExecute(result);
+		}
+	}
+	
+	class GetLinkageListTask extends AsyncTask<String, Void, Void> {
+
+		@Override
+		protected Void doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			List<Linkage> mLinkageList = VolleyOperation
+					.handleLinkageListString(params[0]);
+			DataHelper mDateHelper = new DataHelper(
+					ApplicationController.getInstance());
+			SQLiteDatabase mSqLiteDatabase = mDateHelper.getSQLiteDatabase();
+			mDateHelper.emptyTable(mSqLiteDatabase, DataHelper.LINKAGE_TABLE);
+
+			for (Linkage linkage : mLinkageList) {
+				mSqLiteDatabase.insert(DataHelper.LINKAGE_TABLE, null,
+						linkage.convertContentValues());
+			}
+			mSqLiteDatabase.close();
+			return null;
+		}
+	}
+
+	class GetSceneListTask extends AsyncTask<String, Void, Void> {
+
+		@Override
+		protected Void doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			List<SceneInfo> mSceneInfoList = VolleyOperation
+					.handleSceneInfoListString(params[0]);
+			DataHelper mDateHelper = new DataHelper(
+					ApplicationController.getInstance());
+			SQLiteDatabase mSqLiteDatabase = mDateHelper.getSQLiteDatabase();
+			mDateHelper.emptyTable(mSqLiteDatabase, DataHelper.SCENE_TABLE);
+			mDateHelper.emptyTable(mSqLiteDatabase,
+					DataHelper.SCENE_DEVICES_TABLE);
+
+			for (SceneInfo sceneInfo : mSceneInfoList) {
+				mSqLiteDatabase.insert(DataHelper.SCENE_TABLE, null,
+						sceneInfo.convertContentValues());
+
+				if (!sceneInfo.getScnaction().isEmpty()) {
+					List<SceneDevice> sceneDevicesList = UiUtils
+							.parseActionParamsToSceneDevices(
+									sceneInfo.getSid(),
+									sceneInfo.getScnaction());
+					for (SceneDevice sceneDevice : sceneDevicesList) {
+						mSqLiteDatabase.insert(DataHelper.SCENE_DEVICES_TABLE,
+								null, sceneDevice.convertContentValues());
+					}
+				}
+			}
+			mSqLiteDatabase.close();
+			return null;
+		}
+	}
+
+	class GetTimingActionListTask extends AsyncTask<String, Void, Void> {
+
+		@Override
+		protected Void doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			List<TimingAction> mTimingActionsList = VolleyOperation
+					.handleTimingActionListString(params[0]);
+			DataHelper mDateHelper = new DataHelper(
+					ApplicationController.getInstance());
+			SQLiteDatabase mSqLiteDatabase = mDateHelper.getSQLiteDatabase();
+			mDateHelper.emptyTable(mSqLiteDatabase,
+					DataHelper.TIMINGACTION_TABLE);
+
+			for (TimingAction timingAction : mTimingActionsList) {
+				mSqLiteDatabase.insert(DataHelper.TIMINGACTION_TABLE, null,
+						timingAction.convertContentValues());
+			}
+			mSqLiteDatabase.close();
+			return null;
 		}
 	}
 }

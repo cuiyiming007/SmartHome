@@ -1346,4 +1346,56 @@ public class LibjingleSendManager extends Manger {
 		mStructure.setAPI_type(LibjingleSendStructure.REQUESTVIDEO);
 		sendList.add(mStructure);
 	}
+	
+	//获取场景列表
+	public void GetSceneList() {
+		String url = LibjingleNetUtil.getInstance().getVideoURL("GetSceneList.cgi");
+
+		String jid = LibjinglePackHandler.getJid();
+		int reqid = getReqID();
+
+		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
+		// Log.i(TAG, packag);
+		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+
+		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
+		mStructure.setRequest_id(reqid);
+		mStructure.setGl_msgtype(LibjinglePackHandler.MT_URL);
+		mStructure.setAPI_type(LibjingleSendStructure.GETVIDEOLIST);
+		sendList.add(mStructure);
+	}
+	//获取联动列表
+	public void GetLinkageList() {
+		String url = LibjingleNetUtil.getInstance().getVideoURL("GetLinkageList.cgi");
+
+		String jid = LibjinglePackHandler.getJid();
+		int reqid = getReqID();
+
+		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
+		// Log.i(TAG, packag);
+		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+
+		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
+		mStructure.setRequest_id(reqid);
+		mStructure.setGl_msgtype(LibjinglePackHandler.MT_URL);
+		mStructure.setAPI_type(LibjingleSendStructure.GETLINKAGELIST);
+		sendList.add(mStructure);
+	}
+	//获取定时列表
+	public void GetTimeActionList() {
+		String url = LibjingleNetUtil.getInstance().getVideoURL("GetTimeActionList.cgi");
+
+		String jid = LibjinglePackHandler.getJid();
+		int reqid = getReqID();
+
+		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
+		// Log.i(TAG, packag);
+		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+
+		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
+		mStructure.setRequest_id(reqid);
+		mStructure.setGl_msgtype(LibjinglePackHandler.MT_URL);
+		mStructure.setAPI_type(LibjingleSendStructure.GETTIMEACTIONLIST);
+		sendList.add(mStructure);
+	}
 }

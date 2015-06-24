@@ -32,6 +32,8 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.gdgl.activity.LinkageDetailActivity;
 import com.gdgl.activity.LinkageDevicesAddFragment.AddChecked;
 import com.gdgl.activity.LinkageDevicesAddFragment.LinkageDevicesAddListAdapter;
@@ -235,7 +237,15 @@ public class LinkageDetailFragment extends Fragment implements
 		this.mLinkage = mLinkage;
 	}
 	
-	public void updateLinkage(){
+	public boolean updateLinkage(){
+		if(trgDevices == null){
+			Toast.makeText(getActivity(),"请选择触发设备", Toast.LENGTH_SHORT).show();
+			return false;
+		}
+		if(actDevices == null){
+			Toast.makeText(getActivity(),"请选择联动设备", Toast.LENGTH_SHORT).show();
+			return false;
+		}
 		if(linkage_type == 1){
 			mLinkage.setTrgieee(trgDevices.getmIeee());
 			mLinkage.setTrgep(trgDevices.getmEP());
@@ -249,6 +259,7 @@ public class LinkageDetailFragment extends Fragment implements
 			mLinkage.setTrgcnd(getTrgcnd());
 			mLinkage.setLnkact(getLnkact());
 		}
+		return true;
 	}
 	
 	private String getTrgcnd(){
@@ -364,15 +375,19 @@ public class LinkageDetailFragment extends Fragment implements
 			act_notype_lay.setVisibility(View.GONE);
 			act_photo_lay.setVisibility(View.GONE);
 			act_onoff_lay.setVisibility(View.VISIBLE);
-			LinkageAct linkageAct = new LinkageAct(mLinkage.getLnkact());
-			if(linkageAct.getArm().equals("0")){	//关
-				onoff = 0;
-				act_on_btn.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
-				act_off_btn.setBackgroundResource(R.drawable.ui2_linkage_button_press);
-			}else{		//开
+			if(linkage_type == 2){
+				LinkageAct linkageAct = new LinkageAct(mLinkage.getLnkact());
+				if(linkageAct.getArm().equals("0")){	//关
+					onoff = 0;
+					act_on_btn.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
+					act_off_btn.setBackgroundResource(R.drawable.ui2_linkage_button_press);
+				}else{		//开
+					onoff = 1;
+					act_on_btn.setBackgroundResource(R.drawable.ui2_linkage_button_press);
+					act_off_btn.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
+				}
+			}else{
 				onoff = 1;
-				act_on_btn.setBackgroundResource(R.drawable.ui2_linkage_button_press);
-				act_off_btn.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
 			}
 		}
 		
@@ -391,24 +406,28 @@ public class LinkageDetailFragment extends Fragment implements
 			devices_temp_lay.setVisibility(View.VISIBLE);
 			devices_notype_lay.setVisibility(View.GONE);
 			devices_trg_lay.setVisibility(View.GONE);
-			LinkageCnd linkageCnd = new LinkageCnd(mLinkage.getTrgcnd());
-			if(linkageCnd.getMark().equals("bt")){
+			if(linkage_type == 2){
+				LinkageCnd linkageCnd = new LinkageCnd(mLinkage.getTrgcnd());
+				if(linkageCnd.getMark().equals("bt")){
+					temp = 0;
+					devices_bt_btn.setBackgroundResource(R.drawable.ui2_linkage_button_press);
+					devices_eq_btn.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
+					devices_lt_btn.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
+				}else if(linkageCnd.getMark().equals("eq")){
+					temp = 1;
+					devices_bt_btn.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
+					devices_eq_btn.setBackgroundResource(R.drawable.ui2_linkage_button_press);
+					devices_lt_btn.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
+				}else if(linkageCnd.getMark().equals("lt")){
+					temp = 2;
+					devices_bt_btn.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
+					devices_eq_btn.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
+					devices_lt_btn.setBackgroundResource(R.drawable.ui2_linkage_button_press);
+				}
+				devices_data_edit.setText(linkageCnd.getData());
+			}else{
 				temp = 0;
-				devices_bt_btn.setBackgroundResource(R.drawable.ui2_linkage_button_press);
-				devices_eq_btn.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
-				devices_lt_btn.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
-			}else if(linkageCnd.getMark().equals("eq")){
-				temp = 1;
-				devices_bt_btn.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
-				devices_eq_btn.setBackgroundResource(R.drawable.ui2_linkage_button_press);
-				devices_lt_btn.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
-			}else if(linkageCnd.getMark().equals("lt")){
-				temp = 2;
-				devices_bt_btn.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
-				devices_eq_btn.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
-				devices_lt_btn.setBackgroundResource(R.drawable.ui2_linkage_button_press);
 			}
-			devices_data_edit.setText(linkageCnd.getData());
 		}else{
 			devices_trg_lay.setVisibility(View.VISIBLE);
 			devices_temp_lay.setVisibility(View.GONE);
