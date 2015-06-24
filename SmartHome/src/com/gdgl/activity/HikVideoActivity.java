@@ -41,6 +41,7 @@ import com.gdgl.mydata.video.VideoNode;
 import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.ComUtil;
+import com.gdgl.util.MyApplicationFragment;
 import com.hikvision.netsdk.ExceptionCallBack;
 import com.hikvision.netsdk.HCNetSDK;
 import com.hikvision.netsdk.NET_DVR_CLIENTINFO;

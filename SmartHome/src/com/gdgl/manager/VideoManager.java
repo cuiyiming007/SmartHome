@@ -251,7 +251,7 @@ public class VideoManager extends Manger {
 		JsonParser parser = new JsonParser();
 		JsonObject jsonObject = parser.parse(json).getAsJsonObject();
 		VideoResponse dataEntity = new VideoResponse();
-		JsonElement actionElement = jsonObject.get("action");
+		String actionElement = jsonObject.get("action").toString();
 
 		ArrayList<VideoNode> list = new ArrayList<VideoNode>();
 		JsonArray jsonArray = jsonObject.getAsJsonArray("list");
@@ -266,7 +266,7 @@ public class VideoManager extends Manger {
 		VideoResponseParams params = gson.fromJson(paramsElement,
 				VideoResponseParams.class);
 
-		dataEntity.setAction(actionElement.toString());
+		dataEntity.setAction(actionElement);
 		dataEntity.setResponse_params(params);
 		dataEntity.setList(list);
 		Log.i(TAG, dataEntity.getAction());
