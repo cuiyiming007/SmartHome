@@ -345,6 +345,9 @@ public class LoginActivity extends Activity implements OnClickListener,
 							LibjingleSendManager.getInstance().GetAllRoomInfo();
 							LibjingleSendManager.getInstance().GetAllBindList();
 							LibjingleSendManager.getInstance().getIPClist();
+							LibjingleSendManager.getInstance().GetLinkageList();
+							LibjingleSendManager.getInstance().GetSceneList();
+							LibjingleSendManager.getInstance().GetTimeActionList();
 							try {
 								Thread.sleep(2000);
 							} catch (InterruptedException e) {

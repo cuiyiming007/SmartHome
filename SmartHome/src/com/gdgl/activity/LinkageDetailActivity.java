@@ -153,26 +153,27 @@ public class LinkageDetailActivity extends ActionBarActivity implements
 				// TODO Auto-generated method stub
 				switch (item.getItemId()) {
 				case R.id.menu_ok:
-					mLinkageDetailFragment.updateLinkage();
-					if (linkage_type == CREATE) {
-						SceneLinkageManager.getInstance().AddLinkage(
-								Uri.encode(titleEditText.getText().toString()), 
-								mLinkage.getTrgieee(), 
-								mLinkage.getTrgep(), 
-								mLinkage.getTrgcnd(), 
-								mLinkage.getLnkact(), 
-								mLinkage.getEnable());
-						finish();
-					}else if(linkage_type == EDIT){
-						SceneLinkageManager.getInstance().EditLinkage(
-								Uri.encode(titleEditText.getText().toString()), 
-								mLinkage.getTrgieee(), 
-								mLinkage.getTrgep(), 
-								mLinkage.getTrgcnd(), 
-								mLinkage.getLnkact(), 
-								mLinkage.getEnable(), 
-								mLinkage.getLid());	
-						finish();
+					if(mLinkageDetailFragment.updateLinkage()){
+						if (linkage_type == CREATE) {
+							SceneLinkageManager.getInstance().AddLinkage(
+									Uri.encode(titleEditText.getText().toString()), 
+									mLinkage.getTrgieee(), 
+									mLinkage.getTrgep(), 
+									mLinkage.getTrgcnd(), 
+									mLinkage.getLnkact(), 
+									mLinkage.getEnable());
+							finish();
+						}else if(linkage_type == EDIT){
+							SceneLinkageManager.getInstance().EditLinkage(
+									Uri.encode(titleEditText.getText().toString()), 
+									mLinkage.getTrgieee(), 
+									mLinkage.getTrgep(), 
+									mLinkage.getTrgcnd(), 
+									mLinkage.getLnkact(), 
+									mLinkage.getEnable(), 
+									mLinkage.getLid());	
+							finish();
+						}
 					}
 					break;
 
