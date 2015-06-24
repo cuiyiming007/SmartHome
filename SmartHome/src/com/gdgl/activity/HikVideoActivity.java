@@ -367,19 +367,19 @@ public class HikVideoActivity extends ActionBarActivity implements Callback
 	    m_oPsd = mVideoNode.getPassword();
 	    m_DVRName = "";
 	    m_DVRSerialNumber = mVideoNode.getSerialNum();
-	    if(m_DVRSerialNumber.equals("")){
-	    	if(m_oIPAddr.equals("192.168.1.174")){
-	 	    	m_DVRSerialNumber = "505323938";
-	 	    }else if(m_oIPAddr.equals("192.168.1.185")){
-	 	    	m_DVRSerialNumber = "451627563";
-	 	    }else if(m_oIPAddr.equals("192.168.1.109 ")){
-	 	    	m_DVRSerialNumber = "451573018";
-	 	    }else if(m_oIPAddr.equals("192.168.1.172")){
-	 	    	m_DVRSerialNumber = "466722322";
-	 	    }else if(m_oIPAddr.equals("192.168.1.173")){
-	 	    	m_DVRSerialNumber = "466722311";
-	 	    }
-	    }
+//	    if(m_DVRSerialNumber == null || m_DVRSerialNumber.equals("")){
+//	    	if(m_oIPAddr.equals("192.168.1.174")){
+//	 	    	m_DVRSerialNumber = "505323938";
+//	 	    }else if(m_oIPAddr.equals("192.168.1.185")){
+//	 	    	m_DVRSerialNumber = "451627563";
+//	 	    }else if(m_oIPAddr.equals("192.168.1.109 ")){
+//	 	    	m_DVRSerialNumber = "451573018";
+//	 	    }else if(m_oIPAddr.equals("192.168.1.172")){
+//	 	    	m_DVRSerialNumber = "466722322";
+//	 	    }else if(m_oIPAddr.equals("192.168.1.173")){
+//	 	    	m_DVRSerialNumber = "466722311";
+//	 	    }
+//	    }
   		return true;
     }
     

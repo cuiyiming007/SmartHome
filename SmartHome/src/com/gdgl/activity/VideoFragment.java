@@ -1,6 +1,5 @@
 package com.gdgl.activity;
 
-import h264.com.VideoActivity;
 import h264.com.VideoInfoDialog;
 
 import java.util.List;
@@ -270,7 +269,8 @@ public class VideoFragment extends Fragment implements UIListener,
 		final Event event = (Event) object;
 		if (event.getType() == EventType.ADDIPC) {
 			if (event.isSuccess()) {
-				mList.add((VideoNode) event.getData());
+				VideoNode videoNode = (VideoNode) event.getData();
+				mList.add(videoNode);
 				content_view.post(new Runnable() {
 
 					@Override

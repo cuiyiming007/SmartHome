@@ -50,6 +50,7 @@ public class VideoManager extends Manger {
 		Listener<String> responseListener = new Listener<String>() {
 			@Override
 			public void onResponse(String response) {
+
 				new GetVideoListTast().execute(response);
 			}
 		};
@@ -86,6 +87,8 @@ public class VideoManager extends Manger {
 		paraMap.put("password", videoNode.getPassword());
 		paraMap.put("alias", encodeString(videoNode.getAliases()));
 		paraMap.put("indexid", String.valueOf(videoNode.getIndex()));
+		paraMap.put("DomainName", String.valueOf(videoNode.getDomainName()));
+		paraMap.put("SerialNumber", String.valueOf(videoNode.getSerialNum()));
 		paraMap.put("roomid", "-1");
 		String param = hashMap2ParamString(paraMap);
 		Listener<String> responseListener = new Listener<String>() {
@@ -138,6 +141,8 @@ public class VideoManager extends Manger {
 		paraMap.put("password", videoNode.getPassword());
 		paraMap.put("alias", encodeString(videoNode.getAliases()));
 		paraMap.put("indexid", String.valueOf(videoNode.getIndex()));
+		paraMap.put("DomainName", String.valueOf(videoNode.getDomainName()));
+		paraMap.put("SerialNumber", String.valueOf(videoNode.getSerialNum()));
 		paraMap.put("roomid", "-1");
 		String param = hashMap2ParamString(paraMap);
 		Listener<String> responseListener = new Listener<String>() {

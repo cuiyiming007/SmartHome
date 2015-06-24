@@ -47,8 +47,8 @@ public class VideoNode implements VideoNodeColumns, ContentValuesListener,
 	private int index;
 	private int roomid;
 	private String ipc_status;
-	private String domain_name;
-	private String serial_num;
+	private String DomainName;
+	private String SerialNumber;
 
 	public String getId() {
 		return id;
@@ -75,19 +75,19 @@ public class VideoNode implements VideoNodeColumns, ContentValuesListener,
 	}
 
 	public String getDomainName() {
-		return domain_name;
+		return DomainName;
 	}
 
-	public void setDomainName(String domain_name) {
-		this.domain_name = domain_name;
+	public void setDomainName(String DomainName) {
+		this.DomainName = DomainName;
 	}
 	
 	public String getSerialNum() {
-		return serial_num;
+		return SerialNumber;
 	}
 
-	public void setSerialNum(String serial_num) {
-		this.serial_num = serial_num;
+	public void setSerialNum(String SerialNumber) {
+		this.SerialNumber = SerialNumber;
 	}
 	
 	public String getPassword() {
@@ -159,8 +159,8 @@ public class VideoNode implements VideoNodeColumns, ContentValuesListener,
 		mContentValues.put(VideoNodeColumns.IPC_INDEX, index);
 		mContentValues.put(VideoNodeColumns.ROOMID, roomid);
 		mContentValues.put(VideoNodeColumns.IPC_STATUS, ipc_status);
-		mContentValues.put(VideoNodeColumns.DOMAIN_NAME, domain_name);
-		mContentValues.put(VideoNodeColumns.SERIAL_NUM, serial_num);
+		mContentValues.put(VideoNodeColumns.DOMAIN_NAME, DomainName);
+		mContentValues.put(VideoNodeColumns.SERIAL_NUM, SerialNumber);
 
 		return mContentValues;
 	}
@@ -202,8 +202,8 @@ public class VideoNode implements VideoNodeColumns, ContentValuesListener,
 		parcel.writeInt(index);
 		parcel.writeInt(roomid);
 		parcel.writeString(ipc_status);
-		parcel.writeString(domain_name);
-		parcel.writeString(serial_num);
+		parcel.writeString(DomainName);
+		parcel.writeString(SerialNumber);
 	}
 
 	@Override

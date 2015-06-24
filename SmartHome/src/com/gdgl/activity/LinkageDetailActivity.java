@@ -110,13 +110,13 @@ public class LinkageDetailActivity extends ActionBarActivity implements
 
 		mDataHelper = new DataHelper(this);
 
-		img_trg_device = (ImageView)findViewById(R.id.img_trg_device);
-		img_act_device = (ImageView)findViewById(R.id.img_act_device);	
-		txt_trg_device = (TextView)findViewById(R.id.txt_trg_device);
-		txt_act_device = (TextView)findViewById(R.id.txt_act_device);
-		spinner_trg_type = (Spinner)findViewById(R.id.spinner_trg_type);
-		spinner_act_type = (Spinner)findViewById(R.id.spinner_act_type);
-		edit_trg_data = (EditText)findViewById(R.id.edit_trg_data);
+//		img_trg_device = (ImageView)findViewById(R.id.img_trg_device);
+//		img_act_device = (ImageView)findViewById(R.id.img_act_device);	
+//		txt_trg_device = (TextView)findViewById(R.id.txt_trg_device);
+//		txt_act_device = (TextView)findViewById(R.id.txt_act_device);
+//		spinner_trg_type = (Spinner)findViewById(R.id.spinner_trg_type);
+//		spinner_act_type = (Spinner)findViewById(R.id.spinner_act_type);
+//		edit_trg_data = (EditText)findViewById(R.id.edit_trg_data);
 
 		Bundle bundle = getIntent().getExtras();
 		Intent i = getIntent();

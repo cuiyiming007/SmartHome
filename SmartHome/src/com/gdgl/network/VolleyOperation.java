@@ -19,6 +19,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.gdgl.app.ApplicationController;
 import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.DeviceLearnedParam;
+import com.gdgl.mydata.Linkage;
 import com.gdgl.mydata.RespondDataEntity;
 import com.gdgl.mydata.ResponseParams;
 import com.gdgl.mydata.ResponseParamsEndPoint;
@@ -189,6 +190,10 @@ public class VolleyOperation {
 	public static List<TimingAction> handleTimingActionListString(String response) {
 		response = UiUtils.formatResponseString(response);
 		return parseJSON2TimingActionList(response);
+	}
+	public static List<Linkage> handleLinkageListString(String response) {
+		response = UiUtils.formatResponseString(response);
+		return parseJSON2LinkageList(response);
 	}
 	
 	/***
@@ -423,6 +428,23 @@ public class VolleyOperation {
 				JsonElement el = jsonArray.get(i);
 				TimingAction tmp = gson.fromJson(el, TimingAction.class);
 				list.add(tmp);
+			}
+		}
+		return list;
+	}
+	
+	public static List<Linkage> parseJSON2LinkageList(String s) {
+		Gson gson = new Gson();
+		JsonParser parser =new JsonParser();
+		List<Linkage> list = new ArrayList<Linkage>();
+		JsonObject jsonObject = parser.parse(s).getAsJsonObject();
+		JsonElement statusElement = jsonObject.get("status");
+		if(Integer.parseInt(statusElement.toString()) == 0) {
+			JsonArray jsonArray = jsonObject.getAsJsonArray("list");
+			for (int i = 0; i < jsonArray.size(); i++) {
+				JsonElement el = jsonArray.get(i);
+				Linkage linkage = gson.fromJson(el, Linkage.class);
+				list.add(linkage);
 			}
 		}
 		return list;

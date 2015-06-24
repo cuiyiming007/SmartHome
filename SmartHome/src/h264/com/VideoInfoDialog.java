@@ -57,7 +57,7 @@ public class VideoInfoDialog {
 		videoNode.setIndex(index);
 		
 		String port = "554";
-		String httpport = "80";
+		String httpport = "8000";
 		String nameString = "admin";
 
 		ipEditText.setText("");

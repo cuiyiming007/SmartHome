@@ -7,10 +7,31 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="5dip"
-        android:paddingTop="5dip" >
+        android:paddingBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="5dp" >
 
         <!-- android:background="@color/blue_default" -->
+        <LinearLayout
+            android:id="@+id/switch_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_alignParentRight="true">
+
+            <Switch
+                android:id="@+id/switch_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:focusable="false"
+                android:textOn="        "
+                android:textOff="        "
+                android:scaleX="0.6"
+                android:scaleY="0.51"
+                android:thumb="@drawable/ui_switch_insidepoint"
+                android:track="@drawable/ui_switch_style" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -20,20 +41,42 @@
             android:orientation="horizontal" >
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical" >
+                
+                <LinearLayout 
+                    android:layout_width="match_parent"
+                	android:layout_height="match_parent"
+                	android:orientation="horizontal" >
 
-                <TextView
-                    android:id="@+id/devices_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_weight="1"
-                    android:text="吸顶电能调光模块"
-                    android:textColor="#ffffff"
-                    android:textSize="15dp" />
+	                <ImageView 
+	                    android:id="@+id/devices_img"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_weight="1"/>
+	                
+	                
+	                <TextView
+	                    android:id="@+id/devices_name"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_weight="1"
+	                    android:text="吸顶电能调光模块"
+	                    android:textColor="#686868"
+	                    android:textSize="14dp"
+	                    android:layout_marginLeft="5dp"
+	                    android:ems="4"/>
+                
+                </LinearLayout>
+                
+                <View 
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#686868"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"/>
                 
                 <TextView
                     android:id="@+id/devices_state"
@@ -42,33 +85,63 @@
                     android:layout_marginLeft="5dp"
                     android:layout_weight="1"
                     android:text="开"
-                    android:textColor="#ffffff"
-                    android:textSize="14dp" />
+                    android:textColor="#686868"
+                    android:textSize="10dp" />
             </LinearLayout>
 
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:text="Act"
-                    android:textColor="#ffffff"
-                    android:textSize="15dp" />
+            
+<!--             <LinearLayout -->
+<!--                android:layout_width="50dp" -->
+<!--                android:layout_height="50dp" -->
+<!--                android:layout_weight="1" -->
+<!--                android:orientation="vertical"  -->
+<!--                android:layout_gravity="center_vertical"> -->
+                
+               <ImageView
+                   android:layout_width="50dp"
+                   android:layout_height="50dp"
+                   android:layout_gravity="center_vertical"
+                   android:background="@drawable/linkage" />
+<!--             </LinearLayout> -->
             
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_gravity=""
                 android:orientation="vertical" >
+                
+                <LinearLayout 
+                    android:layout_width="match_parent"
+                	android:layout_height="match_parent"
+                	android:orientation="horizontal" >
 
-                <TextView
-                    android:id="@+id/act_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_weight="1"
-                    android:text="吸顶电能调光模块"
-                    android:textColor="#ffffff"
-                    android:textSize="15dp" />
+	                <ImageView 
+	                    android:id="@+id/act_img"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_weight="1"/>
+	                
+	                
+	                <TextView
+	                    android:id="@+id/act_name"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_weight="1"
+	                    android:text="吸顶电能调光模块"
+	                    android:textColor="#686868"
+	                    android:textSize="14dp"
+	                    android:layout_marginLeft="5dp"
+	                    android:ems="4"/>
+                
+                </LinearLayout>
+                
+                <View 
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#686868"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"/>
                 
                 <TextView
                     android:id="@+id/act_state"
@@ -77,32 +150,12 @@
                     android:layout_marginLeft="5dp"
                     android:layout_weight="1"
                     android:text="开"
-                    android:textColor="#ffffff"
-                    android:textSize="14dp" />
+                    android:textColor="#686868"
+                    android:textSize="10dp" />
             </LinearLayout>
-               
-        </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/switch_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_alignParentRight="true">
-
-            <Switch
-                android:id="@+id/switch_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:focusable="false"
-                android:textOn="        "
-                android:textOff="        "
-                android:scaleX="0.6"
-                android:scaleY="0.51"
-                android:thumb="@drawable/ui_switch_insidepoint"
-                android:track="@drawable/ui_switch_style" />
-        </LinearLayout>
+		</LinearLayout>
+        
 
     </RelativeLayout>
 

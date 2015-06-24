@@ -96,4 +96,11 @@ public class Linkage implements LinkageColumns, Serializable{
 		mContentValues.put(LinkageColumns.ENABLE, getEnable());
 		return mContentValues;
 	}
+	
+	public String toString() {
+		return "Linkage [lid=" + lid + ", lnkname=" + lnkname
+				+ ", trgieee=" + trgieee + ", trgep=" + trgep
+				+ ", trgcnd=" + trgcnd + ", lnkact=" + lnkact + ", enable="
+				+ enable + "]";
+	}
 }

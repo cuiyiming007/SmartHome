@@ -12,6 +12,7 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.VolleyError;
 import com.gdgl.app.ApplicationController;
 import com.gdgl.mydata.DataHelper;
+import com.gdgl.mydata.Linkage;
 import com.gdgl.mydata.scene.SceneDevice;
 import com.gdgl.mydata.scene.SceneInfo;
 import com.gdgl.mydata.timing.TimingAction;
@@ -274,9 +275,9 @@ public class SceneLinkageManager extends Manger {
 				new Listener<String>() {
 
 					@Override
-					public void onResponse(String arg0) {
+					public void onResponse(String response) {
 						// TODO Auto-generated method stub
-
+						new GetLinkageListTask().execute(response);
 					}
 				}, new ErrorListener() {
 
@@ -462,6 +463,27 @@ public class SceneLinkageManager extends Manger {
 					}
 				});
 		ApplicationController.getInstance().addToRequestQueue(req);
+	}
+	
+	class GetLinkageListTask extends AsyncTask<String, Void, Void> {
+
+		@Override
+		protected Void doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			List<Linkage> mLinkageList = VolleyOperation
+					.handleLinkageListString(params[0]);
+			DataHelper mDateHelper = new DataHelper(
+					ApplicationController.getInstance());
+			SQLiteDatabase mSqLiteDatabase = mDateHelper.getSQLiteDatabase();
+			mDateHelper.emptyTable(mSqLiteDatabase, DataHelper.LINKAGE_TABLE);
+
+			for (Linkage linkage : mLinkageList) {
+				mSqLiteDatabase.insert(DataHelper.LINKAGE_TABLE, null,
+						linkage.convertContentValues());
+			}
+			mSqLiteDatabase.close();
+			return null;
+		}
 	}
 
 	class GetSceneListTask extends AsyncTask<String, Void, Void> {
