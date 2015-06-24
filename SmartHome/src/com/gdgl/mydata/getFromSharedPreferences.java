@@ -27,6 +27,16 @@ public class getFromSharedPreferences {
 				UiUtils.SharedPreferences_SETTING_INFOS, context.MODE_PRIVATE);
 	}
 
+	public static boolean getEnableIPC() {
+		return mSharedPreferences.getBoolean(UiUtils.ENABLE_IPC, true);
+	}
+	
+	public static boolean setEnableIPC(boolean enableIPC) {
+		mEditor = mSharedPreferences.edit();
+		mEditor.putBoolean(UiUtils.ENABLE_IPC, enableIPC);
+		return mEditor.commit();
+	}
+	
 	public static String getPwd() {
 		return mSharedPreferences.getString(UiUtils.PWD, UiUtils.EMPTY_STR);
 	}

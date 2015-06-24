@@ -1,7 +1,10 @@
 package com.gdgl.activity;
 
 import com.gc.materialdesign.views.CheckBox;
+import com.gc.materialdesign.views.CheckBox.OnCheckListener;
 import com.gdgl.activity.JoinNetFragment.ChangeFragment;
+import com.gdgl.drawer.DeviceTabFragment;
+import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.VersionDlg;
 
@@ -20,7 +23,8 @@ public class ConfigurationFragment extends Fragment {
 
 	View mView;
 	TextView changeAlias, changePassword, feedBack, aboutApp;
-	CheckBox enableIPC;
+
+	// CheckBox enableIPC;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -33,12 +37,15 @@ public class ConfigurationFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
+		getFromSharedPreferences.setsharedPreferences(getActivity());
+
 		mView = inflater.inflate(R.layout.configurationfragment, null);
 		changeAlias = (TextView) mView.findViewById(R.id.changealias);
 		changePassword = (TextView) mView.findViewById(R.id.changepassword);
 		feedBack = (TextView) mView.findViewById(R.id.feedback);
 		aboutApp = (TextView) mView.findViewById(R.id.aboutapp);
-		enableIPC = (CheckBox) mView.findViewById(R.id.enableipc);
+		final CheckBox enableIPC = (CheckBox) mView
+				.findViewById(R.id.enableipc);
 
 		changeAlias.setOnClickListener(new OnClickListener() {
 
@@ -117,6 +124,21 @@ public class ConfigurationFragment extends Fragment {
 					return false;
 				}
 				return true;
+			}
+		});
+		enableIPC.setOncheckListener(new OnCheckListener() {
+
+			@Override
+			public void onCheck(boolean check) {
+				// TODO Auto-generated method stub
+				DeviceTabFragment.ENABLE_VEDIO = check;
+				getFromSharedPreferences.setEnableIPC(check);
+			}
+		});
+		enableIPC.post(new Runnable() {
+			@Override
+			public void run() {
+				enableIPC.setChecked(DeviceTabFragment.ENABLE_VEDIO);
 			}
 		});
 		return mView;

@@ -30,6 +30,8 @@ public class UiUtils {
 
 	public static final String SharedPreferences_SETTING_INFOS = "SmartHome";
 
+	public static final String ENABLE_IPC = "enable_ipc";
+	
 	public static final String PWD = "Password";
 	public static final String NAME = "Name";
 	public static final String UID = "UserID";

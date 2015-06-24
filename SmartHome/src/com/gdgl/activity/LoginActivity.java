@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.HashMap;
 
 import com.gdgl.app.ApplicationController;
+import com.gdgl.drawer.DeviceTabFragment;
 import com.gdgl.drawer.MainActivity;
 import com.gdgl.libjingle.LibjingleResponseHandlerManager;
 import com.gdgl.libjingle.LibjingleSendManager;
@@ -103,6 +104,9 @@ public class LoginActivity extends Activity implements OnClickListener,
 		mRem = (CheckBox) findViewById(R.id.checkBox1);
 
 		getFromSharedPreferences.setsharedPreferences(LoginActivity.this);
+		
+		DeviceTabFragment.ENABLE_VEDIO = getFromSharedPreferences.getEnableIPC();
+		
 		if (!getFromSharedPreferences.getUid().equals("")) {
 			mName.setText(getFromSharedPreferences.getUid());
 		} else {
@@ -345,6 +349,9 @@ public class LoginActivity extends Activity implements OnClickListener,
 							LibjingleSendManager.getInstance().GetAllRoomInfo();
 							LibjingleSendManager.getInstance().GetAllBindList();
 							LibjingleSendManager.getInstance().getIPClist();
+							LibjingleSendManager.getInstance().GetLinkageList();
+							LibjingleSendManager.getInstance().GetSceneList();
+							LibjingleSendManager.getInstance().GetTimeActionList();
 							try {
 								Thread.sleep(2000);
 							} catch (InterruptedException e) {
