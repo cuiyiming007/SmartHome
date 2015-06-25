@@ -2,9 +2,7 @@ package com.gdgl.drawer;
 
 import java.util.ArrayList;
 
-import com.cetc54.ndksocket.PublicClass;
 import com.gdgl.activity.VideoFragment;
-import com.gdgl.activity.UIinterface.IFragmentCallbak;
 import com.gdgl.smarthome.R;
 import com.gdgl.tabstrip.PagerSlidingTabStrip;
 
@@ -21,6 +19,8 @@ public class DeviceTabFragment extends Fragment {
 
 	public static boolean ENABLE_VEDIO = true;
 
+	private boolean lasttime_enablevedio;
+
 	View mView;
 	private PagerSlidingTabStrip tabs;
 	private ViewPager pager;
@@ -30,6 +30,7 @@ public class DeviceTabFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
+		lasttime_enablevedio = ENABLE_VEDIO;
 		super.onCreate(savedInstanceState);
 	}
 
@@ -58,7 +59,7 @@ public class DeviceTabFragment extends Fragment {
 
 		mfragments = new ArrayList<Fragment>();
 		mfragments.add(new TestFragment());
-		if(ENABLE_VEDIO)
+		if (ENABLE_VEDIO)
 			mfragments.add(new VideoFragment());
 		adapter = new MyPagerAdapter(getChildFragmentManager(), mfragments);
 
@@ -69,10 +70,13 @@ public class DeviceTabFragment extends Fragment {
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
-		initView();
+		if (lasttime_enablevedio != ENABLE_VEDIO) {
+			initView();
+			lasttime_enablevedio = ENABLE_VEDIO;
+		}
 		super.onResume();
 	}
-	
+
 	public class MyPagerAdapter extends FragmentPagerAdapter {
 
 		private final String[] TITLES = { "传感器", "摄像头" };
@@ -96,14 +100,14 @@ public class DeviceTabFragment extends Fragment {
 
 		@Override
 		public int getCount() {
-//			return TITLES.length;
+			// return TITLES.length;
 			int number;
-			 if(ENABLE_VEDIO) {
-				 number = 2;
+			if (ENABLE_VEDIO) {
+				number = 2;
 			} else {
 				number = 1;
 			}
-			 return number;
+			return number;
 		}
 
 	}

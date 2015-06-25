@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gdgl.activity.ConfigurationActivity_New;
+import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyApplication;
 
@@ -53,6 +54,7 @@ public class NavigationDrawerFragment extends Fragment implements
 	private Toolbar mToolBar;
 
 	// add by Trice
+	private TextView mUserName;
 	private TextView mUserSet;
 	private TextView mExit;
 
@@ -75,7 +77,15 @@ public class NavigationDrawerFragment extends Fragment implements
 		adapter.setNavigationDrawerCallbacks(this);
 		mDrawerList.setAdapter(adapter);
 		selectItem(mCurrentSelectedPosition);
-
+		
+		getFromSharedPreferences.setsharedPreferences(getActivity());
+		String name = getFromSharedPreferences.getName().trim();
+		if (null == name || name.trim().equals("")) {
+			name = "Adminstartor";
+		}
+		mUserName = (TextView) view.findViewById(R.id.txtUsername);
+		mUserName.setText(name);
+		
 		mUserSet = (TextView) view.findViewById(R.id.set_app);
 		mUserSet.setText("设置");
 		mUserSet.setCompoundDrawablesWithIntrinsicBounds(getResources()
