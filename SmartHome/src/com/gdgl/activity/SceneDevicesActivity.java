@@ -90,7 +90,8 @@ public class SceneDevicesActivity extends ActionBarActivity implements
 			sceneName = "情景" + (sceneIndex + 1);
 			mSceneDevicesList = new ArrayList<SceneDevice>();
 		} else {
-			SceneInfo sceneInfo = (SceneInfo) i.getSerializableExtra(Constants.PASS_OBJECT);
+			SceneInfo sceneInfo = (SceneInfo) i
+					.getSerializableExtra(Constants.PASS_OBJECT);
 			sceneIndex = sceneInfo.getScnindex();
 			sceneName = sceneInfo.getScnname();
 			sceneId = sceneInfo.getSid();
@@ -123,7 +124,8 @@ public class SceneDevicesActivity extends ActionBarActivity implements
 				switch (item.getItemId()) {
 				case R.id.menu_ok:
 					if (fragment_flag == EDIT_FRAGMENT) {
-						sceneName = Uri.encode(titleEditText.getText().toString());
+						sceneName = Uri.encode(titleEditText.getText()
+								.toString());
 						if (scene_type == CREATE) {
 							if (mSceneDevicesList.size() < 1) {
 								Toast.makeText(SceneDevicesActivity.this,
@@ -136,15 +138,28 @@ public class SceneDevicesActivity extends ActionBarActivity implements
 							finish();
 						}
 						if (scene_type == EDIT) {
-							if (mSceneDevicesList
-									.equals(mSceneDevicesListBackup)) {
-								finish();
-							} else {
-								if (mSceneDevicesList.size() < 1) {
-									Toast.makeText(SceneDevicesActivity.this,
-											"请至少包含一个设备", Toast.LENGTH_SHORT)
-											.show();
+							if (sceneName.equals(titleEditText.getText()
+									.toString())) {
+								if (mSceneDevicesList
+										.equals(mSceneDevicesListBackup)) {
+									finish();
+								} else {
+									if (mSceneDevicesList.size() < 1) {
+										Toast.makeText(
+												SceneDevicesActivity.this,
+												"请至少包含一个设备", Toast.LENGTH_SHORT)
+												.show();
+										break;
+									}
+									String sceneParams = createSceneParams();
+									SceneLinkageManager.getInstance()
+											.EditScene(sceneName, sceneParams,
+													sceneIndex, sceneId);
+									finish();
 								}
+							} else {
+								sceneName = Uri.encode(titleEditText.getText()
+										.toString());
 								String sceneParams = createSceneParams();
 								SceneLinkageManager.getInstance().EditScene(
 										sceneName, sceneParams, sceneIndex,
@@ -198,7 +213,7 @@ public class SceneDevicesActivity extends ActionBarActivity implements
 		mSceneDevicesList = mDataHelper.queryForSceneDevicesList(db, null,
 				where, args, null, null, null, null);
 		mSceneDevicesListBackup = new ArrayList<SceneDevice>();
-		for(SceneDevice sceneDevice:mSceneDevicesList) {
+		for (SceneDevice sceneDevice : mSceneDevicesList) {
 			SceneDevice newSceneDevice = new SceneDevice();
 			newSceneDevice.setActionType(sceneDevice.getActionType());
 			newSceneDevice.setDevicesStatus(sceneDevice.getDevicesStatus());
@@ -239,8 +254,7 @@ public class SceneDevicesActivity extends ActionBarActivity implements
 	private String createSceneParams() {
 		StringBuilder paramStringBuilder = new StringBuilder();
 		for (SceneDevice msceneDevice : mSceneDevicesList) {
-			paramStringBuilder.append(msceneDevice
-					.creatSceneParam());
+			paramStringBuilder.append(msceneDevice.creatSceneParam());
 			paramStringBuilder.append("@");
 		}
 		paramStringBuilder.deleteCharAt(paramStringBuilder.length() - 1);

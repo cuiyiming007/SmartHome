@@ -33,7 +33,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-public class HistoryFragment extends Fragment implements UIListener {
+public class DeviceHistoryFragment extends Fragment implements UIListener {
 	static Map<String, String> attributeNameMap = new HashMap<String, String>();
 	static {
 		attributeNameMap.put("电流", "current");
@@ -63,7 +63,7 @@ public class HistoryFragment extends Fragment implements UIListener {
 	HistoryDataAdapter historyDataAdapter;
 	CGIManager cgiManager;
 	
-	public HistoryFragment(DevicesModel devicesModel) {
+	public DeviceHistoryFragment(DevicesModel devicesModel) {
 		mDevices = devicesModel;
 	}
 	

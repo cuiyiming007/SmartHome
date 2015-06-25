@@ -3,11 +3,9 @@ package com.gdgl.activity;
 /***
  * 最外层设备菜单
  */
-import java.util.ArrayList;
 import java.util.List;
 
 import com.gc.materialdesign.views.ButtonFloat;
-import com.gc.materialdesign.views.ButtonRectangle;
 import com.gdgl.adapter.LinkageAdapter;
 import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.Manger;
@@ -18,19 +16,16 @@ import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.Linkage;
-import com.gdgl.mydata.scene.SceneInfo;
 import com.gdgl.mydata.video.VideoNode;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyOkCancleDlg;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -40,7 +35,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
 import com.gdgl.activity.LinkageDetailActivity;

@@ -23,7 +23,7 @@ import android.widget.TextView;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.ToggleButton;
 
-import com.gdgl.activity.HistoryFragment;
+import com.gdgl.activity.DeviceHistoryFragment;
 import com.gdgl.libjingle.LibjingleSendManager;
 import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.CGIManager;
@@ -110,7 +110,7 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 
 		mfragments = new ArrayList<Fragment>();
 		mfragments.add(new DeviceDetailFragment_new(mDevices));
-		mfragments.add(new HistoryFragment(mDevices));
+		mfragments.add(new DeviceHistoryFragment(mDevices));
 		adapter = new MyPagerAdapter(getChildFragmentManager(), mfragments);
 
 		pager.setAdapter(adapter);
