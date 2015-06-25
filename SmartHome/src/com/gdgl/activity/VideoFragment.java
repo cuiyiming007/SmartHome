@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -209,7 +210,6 @@ public class VideoFragment extends Fragment implements UIListener,
 			} else {
 				mViewHolder = (ViewHolder) convertView.getTag();
 			}
-			
 			if (mList.get(position).getIpc_status().equals("a")) {
 				mViewHolder.funcImg.setImageResource(R.drawable.ui2_device_video_style);
 				

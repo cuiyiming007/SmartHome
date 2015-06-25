@@ -1361,7 +1361,7 @@ public class LibjingleSendManager extends Manger {
 		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
 		mStructure.setRequest_id(reqid);
 		mStructure.setGl_msgtype(LibjinglePackHandler.MT_URL);
-		mStructure.setAPI_type(LibjingleSendStructure.GETVIDEOLIST);
+		mStructure.setAPI_type(LibjingleSendStructure.GETSCENELIST);
 		sendList.add(mStructure);
 	}
 	//获取联动列表

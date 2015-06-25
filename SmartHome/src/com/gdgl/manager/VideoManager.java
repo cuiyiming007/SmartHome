@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -247,12 +248,11 @@ public class VideoManager extends Manger {
 
 	public VideoResponse handleVideoResponse(String result) {
 		String json = UiUtils.formatResponseString(result);
-		Log.i("handleVideoResponse", json);
 		Gson gson = new Gson();
 		JsonParser parser = new JsonParser();
 		JsonObject jsonObject = parser.parse(json).getAsJsonObject();
 		VideoResponse dataEntity = new VideoResponse();
-		//String actionElement = jsonObject.get("action").toString();
+		JsonElement actionElement = jsonObject.get("action");
 
 		ArrayList<VideoNode> list = new ArrayList<VideoNode>();
 		JsonArray jsonArray = jsonObject.getAsJsonArray("list");
@@ -263,14 +263,14 @@ public class VideoManager extends Manger {
 				list.add(tmp);
 			}
 		}
-//		JsonElement paramsElement = jsonObject.get("response_params");
-//		VideoResponseParams params = gson.fromJson(paramsElement,
-//				VideoResponseParams.class);
+		JsonElement paramsElement = jsonObject.get("response_params");
+		VideoResponseParams params = gson.fromJson(paramsElement,
+				VideoResponseParams.class);
 
-		//dataEntity.setAction(actionElement);
-		//dataEntity.setResponse_params(params);
+		dataEntity.setAction(actionElement.toString());
+		dataEntity.setResponse_params(params);
 		dataEntity.setList(list);
-		//Log.i(TAG, dataEntity.getAction());
+		Log.i(TAG, dataEntity.getAction());
 		return dataEntity;
 	}
 
