@@ -14,8 +14,7 @@
         <LinearLayout
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginLeft="5dp"
-            android:background="@color/blue_default" >
+            android:layout_marginLeft="5dp" >
 
             <ImageView
                 android:id="@+id/devices_img"

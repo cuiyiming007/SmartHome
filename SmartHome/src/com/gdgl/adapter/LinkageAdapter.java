@@ -118,7 +118,7 @@ public class LinkageAdapter extends BaseAdapter {
 		mViewHolder.devices_name.setText(device.getmDefaultDeviceName());
 		mViewHolder.devices_state.setText(linkageCnd.getCndString());
 		if(linkageAct.getType().equals("4")){
-			mViewHolder.act_img.setImageResource(R.drawable.ui2_device_video);
+			mViewHolder.act_img.setImageResource(R.drawable.ui2_device_video_small);
 			mViewHolder.act_name.setText(getVideoName(linkageAct.getIeee()));
 		}else{
 			mViewHolder.act_img.setImageResource(DataUtil.getDefaultDevicesSmallIcon(act.getmDeviceId(),act.getmModelId().trim()));

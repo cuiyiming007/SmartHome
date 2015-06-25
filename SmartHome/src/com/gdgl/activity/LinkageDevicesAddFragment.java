@@ -155,7 +155,7 @@ public class LinkageDevicesAddFragment extends Fragment {
 			mHolder.devices_name.setText(mDevices.getmDefaultDeviceName());
 
 			if(mDevices.getmDevicePriority() == 1000){
-				mHolder.devices_img.setImageResource(R.drawable.ui_video_play);
+				mHolder.devices_img.setImageResource(R.drawable.ui2_device_video);
 			}else{	
 				mHolder.devices_img.setImageResource(DataUtil
 						.getDefaultDevicesSmallIcon(mDevices.getmDeviceId(),
