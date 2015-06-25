@@ -37,13 +37,13 @@ public class JoinNetActivity extends ActionBarActivity implements ChangeFragment
         fragmentTransaction.commit();
         MyApplicationFragment.getInstance().addNewTask(mfragent);
     }
-
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
+    	getMenuInflater().inflate(R.menu.menu_empty, menu);
         return super.onCreateOptionsMenu(menu);
     }
-    
+
 	@Override
 	public void setFragment(Fragment f) {
 		FragmentTransaction fragmentTransaction = getSupportFragmentManager()

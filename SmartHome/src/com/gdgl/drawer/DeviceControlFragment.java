@@ -120,8 +120,6 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 		setDeviceControlLayout();
 		setDeviceControlText(getDeviceControlOnOff());
 
-		// 设备图片、名称、区域
-
 		// 设备控制
 		device_controlButton
 				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -130,7 +128,7 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 					public void onCheckedChanged(CompoundButton buttonView,
 							boolean isChecked) {
 						// TODO Auto-generated method stub
-//						setDeviceControlText(isChecked);
+						// setDeviceControlText(isChecked);
 						if (isChecked) {
 							if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
 								DeviceContorlOnOffClickDo(ON);
@@ -323,8 +321,8 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 			}
 			break;
 		case DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE:
-			device_contor_statusTextView.setVisibility(View.GONE);
-			device_controlButton.setClickable(false);
+			// device_contor_statusTextView.setVisibility(View.GONE);
+			// device_controlButton.setClickable(false);
 			break;
 		default:
 			break;
@@ -345,6 +343,9 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 			break;
 		case DataHelper.IAS_ZONE_DEVICETYPE:
 			on_off = mDevices.getmOnOffStatus().equals("0") ? true : false;
+			break;
+		case DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE:
+			on_off = true;
 			break;
 		default:
 			break;
@@ -370,6 +371,7 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 				device_contor_statusTextView.setText("布防");
 				break;
 			case DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE:
+				device_contor_statusTextView.setText("停止报警");
 				break;
 			default:
 				break;
@@ -391,6 +393,7 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 				device_contor_statusTextView.setText("撤防");
 				break;
 			case DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE:
+				device_contor_statusTextView.setText("停止报警");
 				break;
 			default:
 				break;
@@ -505,6 +508,9 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 				break;
 			}
 			break;
+		case DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE:
+			cgiManager.IASWarningDeviceOperationCommon(mDevices, 0);
+			break;
 		default:
 			break;
 		}
@@ -601,6 +607,9 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 			default:
 				break;
 			}
+			break;
+		case DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE:
+			libjingleSendManager.IASWarningDeviceOperationCommon(mDevices, 0);
 			break;
 		default:
 			break;

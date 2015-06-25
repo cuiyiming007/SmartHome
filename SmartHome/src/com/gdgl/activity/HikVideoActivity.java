@@ -18,10 +18,10 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.SurfaceHolder;
@@ -1119,6 +1119,12 @@ public class HikVideoActivity extends ActionBarActivity implements Callback {
 		HCNetSDK.getInstance().NET_DVR_Cleanup();
 	}
 
+	@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+    	getMenuInflater().inflate(R.menu.menu_empty, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		switch (keyCode) {

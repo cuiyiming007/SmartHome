@@ -443,7 +443,7 @@ public class DataUtil {
 				}
 				break;
 			case DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE:
-				result = R.drawable.ui2_device_alarm_control_style;
+				result = R.drawable.ui2_device_alarm_control_on;
 				break;
 			default:
 				result = R.drawable.ui_lightmanage_switchmodule;
