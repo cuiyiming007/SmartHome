@@ -16,7 +16,7 @@ import java.util.ArrayList;
  *
  */
 public class VideoResponse {
-	private String action;
+	private String action = "";
 	private VideoResponseParams response_params;
 	private ArrayList<VideoNode> list;
 	public String getAction() {
