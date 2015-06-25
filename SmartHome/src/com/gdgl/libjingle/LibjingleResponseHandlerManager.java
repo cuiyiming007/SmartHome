@@ -668,7 +668,8 @@ public class LibjingleResponseHandlerManager extends Manger {
 			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
 
 			mDateHelper.emptyTable(mSQLiteDatabase, DataHelper.VIDEO_TABLE);
-			ArrayList<VideoNode> videoNodesFromSever = decodeAlias2Chinese(response);
+//			ArrayList<VideoNode> videoNodesFromSever = decodeAlias2Chinese(response);
+			ArrayList<VideoNode> videoNodesFromSever = response.getList();
 			if (videoNodesFromSever != null) {
 				mDateHelper.insertVideoList(mSQLiteDatabase,
 						DataHelper.VIDEO_TABLE, null, videoNodesFromSever);

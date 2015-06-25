@@ -1,5 +1,8 @@
 package com.gdgl.manager;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -393,7 +396,12 @@ public class CallbackManager extends Manger {
 					break;
 				}
 				VideoNode videoNode1 = gson.fromJson(response, VideoNode.class);
-
+				try {
+					response = new URLDecoder().decode(response, "UTF-8");
+				} catch (UnsupportedEncodingException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				Event event1 = new Event(EventType.ADDIPC, true);
 				event1.setData(videoNode1);
 
@@ -413,8 +421,14 @@ public class CallbackManager extends Manger {
 					notifyObservers(event2_error);
 					break;
 				}
+				try {
+					response = new URLDecoder().decode(response, "UTF-8");
+				} catch (UnsupportedEncodingException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				VideoNode videoNode2 = gson.fromJson(response, VideoNode.class);
-
+				
 				Event event2 = new Event(EventType.EDITIPC, true);
 				event2.setData(videoNode2);
 
