@@ -780,6 +780,7 @@ public class CallbackManager extends Manger {
 		int callbackType = Integer.parseInt(response.getCallbackType());
 		switch (callbackType) {
 		case 3:
+			 Log.i(TAG, "HEART_TIME " +response.getValue());
 			ContentValues c = new ContentValues();
 			c.put(DevicesModel.HEART_TIME, response.getValue());
 			ParemetersResponse p = new ParemetersResponse();

@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.view.View.OnTouchListener;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -49,7 +50,9 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 	View mView;
 	DevicesModel mDevices;
 
-	TextView device_contor_statusTextView;
+	TextView device_contor_statusTextView, device_temperatureTextView,
+			device_humidityTextView;
+	LinearLayout device_temperaturesensorLayout;
 	ToggleButton device_controlButton;
 	SeekBar device_seekBar;
 
@@ -98,6 +101,18 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 				.findViewById(R.id.device_control_status);
 
 		device_seekBar = (SeekBar) mView.findViewById(R.id.device_seek_bar);
+
+		device_temperaturesensorLayout = (LinearLayout) mView
+				.findViewById(R.id.device_temperaturesensor);
+		device_temperatureTextView = (TextView) mView
+				.findViewById(R.id.device_temperature);
+		device_humidityTextView = (TextView) mView
+				.findViewById(R.id.device_humidity);
+		if (mDevices.getmDeviceId() == DataHelper.TEMPTURE_SENSOR_DEVICETYPE) {
+			device_temperatureTextView
+					.setText(mDevices.getmTemperature() + "°C");
+			device_humidityTextView.setText(mDevices.getmHumidity() + "%");
+		}
 
 		pager = (ViewPager) mView.findViewById(R.id.pager);
 
@@ -279,6 +294,7 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 		case DataHelper.TEMPTURE_SENSOR_DEVICETYPE:
 			device_contor_statusTextView.setVisibility(View.GONE);
 			device_controlButton.setClickable(false);
+			device_temperaturesensorLayout.setVisibility(View.VISIBLE);
 			break;
 		case DataHelper.IAS_ACE_DEVICETYPE:
 			device_contor_statusTextView.setVisibility(View.GONE);
@@ -764,6 +780,40 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 						public void run() {
 							device_seekBar.setProgress(state);
 							device_seekBar.invalidate();
+						}
+					});
+				}
+			}
+		} else if (EventType.TEMPERATURESENSOROPERATION == event.getType()) {
+			if (event.isSuccess()) {
+				Bundle bundle = (Bundle) event.getData();
+				if (bundle.getString("IEEE").equals(mDevices.getmIeee())
+						&& bundle.getString("EP").equals(mDevices.getmEP())) {
+
+					final String temperature = bundle.getString("PARAM");
+					mDevices.setmTemperature(Float.parseFloat(temperature));
+
+					mView.post(new Runnable() {
+						@Override
+						public void run() {
+							device_temperatureTextView.setText(temperature
+									+ "°C");
+						}
+					});
+				}
+			}
+		} else if (EventType.HUMIDITY == event.getType()) {
+			if (event.isSuccess()) {
+				Bundle bundle = (Bundle) event.getData();
+				if (bundle.getString("IEEE").equals(mDevices.getmIeee())
+						&& bundle.getString("EP").equals(mDevices.getmEP())) {
+					final String humidity = bundle.getString("PARAM");
+					mDevices.setmHumidity(Float.parseFloat(humidity));
+					mView.post(new Runnable() {
+						@Override
+						public void run() {
+							// setdata(mCurrentList);
+							device_humidityTextView.setText(humidity + "%");
 						}
 					});
 				}
