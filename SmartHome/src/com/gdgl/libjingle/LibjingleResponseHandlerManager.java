@@ -2,7 +2,6 @@ package com.gdgl.libjingle;
 
 import java.io.DataInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -668,8 +667,7 @@ public class LibjingleResponseHandlerManager extends Manger {
 			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
 
 			mDateHelper.emptyTable(mSQLiteDatabase, DataHelper.VIDEO_TABLE);
-//			ArrayList<VideoNode> videoNodesFromSever = decodeAlias2Chinese(response);
-			ArrayList<VideoNode> videoNodesFromSever = response.getList();
+			ArrayList<VideoNode> videoNodesFromSever = decodeAlias2Chinese(response);
 			if (videoNodesFromSever != null) {
 				mDateHelper.insertVideoList(mSQLiteDatabase,
 						DataHelper.VIDEO_TABLE, null, videoNodesFromSever);
