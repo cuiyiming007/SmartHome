@@ -85,8 +85,7 @@ public class TimingAddActivity extends ActionBarActivity {
 								mTimingAction.combine2Actpara(), 1,
 								mTimingAction.getPara1(),
 								mTimingAction.getPara2(),
-								mTimingAction.boolean2String(),
-								mTimingAction.getTimingEnable(),
+								mTimingAction.boolean2String(), 1,
 								mTimingAction.getTid());
 						finish();
 					}
