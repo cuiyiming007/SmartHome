@@ -333,7 +333,7 @@ public class SceneLinkageManager extends Manger {
 
 		String url = NetUtil.getInstance().getCumstomURL(
 				NetUtil.getInstance().IP, "AddTimeAction.cgi", param);
-
+		Log.i("", url);
 		StringRequestChina req = new StringRequestChina(url,
 				new Listener<String>() {
 

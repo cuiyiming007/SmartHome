@@ -708,10 +708,10 @@ public class DataUtil {
 	public static int getTimingSceneActionParamType(int deviceId) {
 		int type = 3;
 		if(deviceId == DataHelper.COMBINED_INTERFACE_DEVICETYPE) {
-			type = 1;
+			type = 2;
 		}
 		if(deviceId == DataHelper.IAS_ZONE_DEVICETYPE) {
-			type = 2;
+			type = 1;
 		}
 		return type;
 	}
