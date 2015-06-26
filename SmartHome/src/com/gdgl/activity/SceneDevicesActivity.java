@@ -235,6 +235,7 @@ public class SceneDevicesActivity extends ActionBarActivity implements
 				DevicesModel mModel = mAddList.get(i);
 				if (isInSceneDevicesList(mModel)) {
 					mAddList.remove(i);
+					i--;
 				}
 			}
 		}
