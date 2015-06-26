@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.gdgl.smarthome"
     android:versionCode="1"
-    android:versionName="V1.1.0.150626" >
+    android:versionName="V1.1.0.150626_LibjingleCallback" >
 
     <supports-screens
         android:anyDensity="true"
