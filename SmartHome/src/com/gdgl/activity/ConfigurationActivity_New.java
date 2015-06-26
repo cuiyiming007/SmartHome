@@ -12,37 +12,39 @@ import com.gdgl.activity.JoinNetFragment.ChangeFragment;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyApplicationFragment;
 
-public class ConfigurationActivity_New extends ActionBarActivity implements ChangeFragment{
-    private Toolbar mToolbar;
-    private ActionBar mActionBar;
+public class ConfigurationActivity_New extends ActionBarActivity implements
+		ChangeFragment {
+	private Toolbar mToolbar;
+	private ActionBar mActionBar;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.drawer_activity_secondary);
-        MyApplicationFragment.getInstance().setActivity(this);
-        
-        mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
-        setSupportActionBar(mToolbar);
-        mActionBar = getSupportActionBar();
-        mActionBar.setDisplayHomeAsUpEnabled(true);
-        mActionBar.setDisplayShowTitleEnabled(true);
-        mActionBar.setTitle("设置");
-        
-        Fragment mfragent = new ConfigurationFragment();
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        
-        fragmentTransaction.replace(R.id.container, mfragent);
-        fragmentTransaction.commit();
-        MyApplicationFragment.getInstance().addNewTask(mfragent);
-    }
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.drawer_activity_secondary);
+		MyApplicationFragment.getInstance().setActivity(this);
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-    	getMenuInflater().inflate(R.menu.menu_empty, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-    
+		mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
+		setSupportActionBar(mToolbar);
+		mActionBar = getSupportActionBar();
+		mActionBar.setDisplayHomeAsUpEnabled(true);
+		mActionBar.setDisplayShowTitleEnabled(true);
+		mActionBar.setTitle("设置");
+
+		Fragment mfragent = new ConfigurationFragment();
+		FragmentTransaction fragmentTransaction = getSupportFragmentManager()
+				.beginTransaction();
+
+		fragmentTransaction.replace(R.id.container, mfragent);
+		fragmentTransaction.commit();
+		MyApplicationFragment.getInstance().addNewTask(mfragent);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.menu_empty, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
 	@Override
 	public void setFragment(Fragment f) {
 		FragmentTransaction fragmentTransaction = getSupportFragmentManager()
@@ -51,15 +53,25 @@ public class ConfigurationActivity_New extends ActionBarActivity implements Chan
 		fragmentTransaction.commit();
 		MyApplicationFragment.getInstance().addFragment(f);
 	}
-	
-    @Override
-    public boolean onSupportNavigateUp() {
-    	// TODO Auto-generated method stub
-    	if (MyApplicationFragment.getInstance().getFragmentListSize() > 1) {
+
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		if (MyApplicationFragment.getInstance().getFragmentListSize() > 1) {
+			MyApplicationFragment.getInstance().removeLastFragment();
+		} else {
+			finish();
+		}
+	}
+
+	@Override
+	public boolean onSupportNavigateUp() {
+		// TODO Auto-generated method stub
+		if (MyApplicationFragment.getInstance().getFragmentListSize() > 1) {
 			MyApplicationFragment.getInstance().removeLastFragment();
 			return super.onSupportNavigateUp();
 		}
-    	finish();
-    	return super.onSupportNavigateUp();
-    }
+		finish();
+		return super.onSupportNavigateUp();
+	}
 }

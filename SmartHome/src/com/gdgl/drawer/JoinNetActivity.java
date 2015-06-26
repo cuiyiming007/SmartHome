@@ -53,6 +53,16 @@ public class JoinNetActivity extends ActionBarActivity implements ChangeFragment
 		MyApplicationFragment.getInstance().addFragment(f);
 	}
 	
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		if (MyApplicationFragment.getInstance().getFragmentListSize() > 1) {
+			MyApplicationFragment.getInstance().removeLastFragment();
+		} else {
+			finish();
+		}
+	}
+	
     @Override
     public boolean onSupportNavigateUp() {
     	// TODO Auto-generated method stub
