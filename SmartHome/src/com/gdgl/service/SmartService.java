@@ -82,8 +82,6 @@ public class SmartService extends Service {
 		// =============================server======================
 		DeviceManager.getInstance().getDeviceEndPoint();
 		VideoManager.getInstance().getIPClist();
-		CGIManager.getInstance().GetAllRoomInfo();
-		CGIManager.getInstance().GetAllBindList();
 		SceneLinkageManager.getInstance().GetSceneList();
 		SceneLinkageManager.getInstance().GetTimeActionList();
 		SceneLinkageManager.getInstance().GetLinkageList();

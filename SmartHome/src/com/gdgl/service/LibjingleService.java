@@ -2,7 +2,7 @@ package com.gdgl.service;
 
 import com.gdgl.activity.LoginActivity;
 import com.gdgl.app.ApplicationController;
-import com.gdgl.libjingle.LibjingleInit;
+import com.gdgl.libjingle.Libjingle;
 import com.gdgl.libjingle.LibjingleNetUtil;
 import com.gdgl.libjingle.LibjinglePackHandler;
 import com.gdgl.mydata.AccountInfo;
@@ -15,7 +15,7 @@ import android.os.IBinder;
 import android.util.Log;
 
 public class LibjingleService extends Service {
-	LibjingleInit libjingleInit;
+	Libjingle libjingle;
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -26,7 +26,7 @@ public class LibjingleService extends Service {
 	@Override
 	public void onCreate() {
 		// TODO Auto-generated method stub
-		libjingleInit = new LibjingleInit();
+		libjingle = Libjingle.getInstance();
 		Log.i("LibjingleService", "LibjingleService starts!");
 		try {
 			new Thread(new Runnable() {
@@ -34,28 +34,8 @@ public class LibjingleService extends Service {
 				@Override
 				public void run() {
 					Log.i("LibjingleService", "LibjingleInit starts!");
-					String cloudip = "121.199.21.14";
-					getFromSharedPreferences
-							.setsharedPreferences(ApplicationController
-									.getInstance());
-					if (!getFromSharedPreferences.getCloud().equals("")) {
-						cloudip = getFromSharedPreferences.getCloud();
-					}
-					AccountInfo info = LoginActivity.loginAccountInfo;
-					String name = info.getAccount();
-					String passwd = info.getPassword();
-					Log.i("LibjingleService", LibjinglePackHandler.getJid()
-							+ "  " + name + passwd + "  " + cloudip
-							+ "  networkStatus"
-							+ NetworkConnectivity.networkStatus);
-					libjingleInit.libjinglInit(LibjinglePackHandler.getJid(),
-							name + passwd, NetworkConnectivity.networkStatus,
-							cloudip);
-					// libjingleInit
-					// .libjinglInit(
-					// "ffeeddccbbaa@121.199.21.14/Cabcdefg123456",
-					// "FFEEDDCCBBAACCBBAA", 2, "121.199.21.14");
-					Log.i("LibjingleService", "LibjingleInit done!");
+					libjingle.init();
+					Log.i("LibjingleService", "Libjingle exit!");
 				}
 			}).start();
 		} catch (Exception e) {
@@ -70,7 +50,42 @@ public class LibjingleService extends Service {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		// TODO Auto-generated method stub
 		Log.i("LibjingleService", "LibjingleService onStartCommand!");
-		LibjingleNetUtil.getInstance().startLibjingleSocket();
+		try {
+			new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					Log.i("LibjingleService", "LibjingleLogin starts!");
+					String cloudip = "121.199.21.14:5222";
+					getFromSharedPreferences
+							.setsharedPreferences(ApplicationController
+									.getInstance());
+					if (!getFromSharedPreferences.getCloud().equals("")) {
+						cloudip = getFromSharedPreferences.getCloud();
+					}
+					AccountInfo info = LoginActivity.loginAccountInfo;
+					String name = info.getAccount();
+					String passwd = info.getPassword();
+					Log.i("LibjingleService", LibjinglePackHandler.getJid()
+							+ "  " + name + passwd + "  " + cloudip
+							+ "  networkStatus"
+							+ NetworkConnectivity.networkStatus);
+					libjingle.login(LibjinglePackHandler.getJid(), name + passwd, cloudip);
+//					libjingle.libjinglInit(LibjinglePackHandler.getJid(),
+//							name + passwd, NetworkConnectivity.networkStatus,
+//							cloudip);
+					// libjingleInit
+					// .libjinglInit(
+					// "ffeeddccbbaa@121.199.21.14/Cabcdefg123456",
+					// "FFEEDDCCBBAACCBBAA", 2, "121.199.21.14");
+					Log.i("LibjingleService", "LibjingleLogin done!");
+				}
+			}).start();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+//		LibjingleNetUtil.getInstance().startLibjingleSocket();
 		// new Thread(new Runnable() {
 		//
 		// @Override

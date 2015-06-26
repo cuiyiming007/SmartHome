@@ -54,7 +54,8 @@ public class LibjingleSendManager extends Manger {
 
 		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
 		Log.i(TAG, packag);
-		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+//		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+		Libjingle.getInstance().sendToGateway(packag);
 
 		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
 		mStructure.setRequest_id(reqid);
@@ -97,7 +98,7 @@ public class LibjingleSendManager extends Manger {
 
 		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
 		// Log.i(TAG, packag);
-		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+		Libjingle.getInstance().sendToGateway(packag);
 
 		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
 		mStructure.setRequest_id(reqid);
@@ -130,7 +131,7 @@ public class LibjingleSendManager extends Manger {
 
 		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
 		// Log.i(TAG, packag);
-		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+		Libjingle.getInstance().sendToGateway(packag);
 
 		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
 		mStructure.setRequest_id(reqid);
@@ -153,7 +154,7 @@ public class LibjingleSendManager extends Manger {
 
 		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
 		// Log.i(TAG, packag);
-		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+		Libjingle.getInstance().sendToGateway(packag);
 
 		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
 		mStructure.setRequest_id(reqid);
@@ -184,7 +185,7 @@ public class LibjingleSendManager extends Manger {
 
 		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
 		// Log.i(TAG, packag);
-		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+		Libjingle.getInstance().sendToGateway(packag);
 
 		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
 		mStructure.setRequest_id(reqid);
@@ -217,7 +218,7 @@ public class LibjingleSendManager extends Manger {
 
 		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
 		// Log.i(TAG, packag);
-		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+		Libjingle.getInstance().sendToGateway(packag);
 
 		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
 		mStructure.setRequest_id(reqid);
@@ -243,7 +244,7 @@ public class LibjingleSendManager extends Manger {
 
 		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
 		// Log.i(TAG, packag);
-		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+		Libjingle.getInstance().sendToGateway(packag);
 
 		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
 		mStructure.setRequest_id(reqid);
@@ -277,7 +278,7 @@ public class LibjingleSendManager extends Manger {
 
 		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
 		Log.i(TAG, packag);
-		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+		Libjingle.getInstance().sendToGateway(packag);
 
 		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
 		mStructure.setRequest_id(reqid);
@@ -319,7 +320,7 @@ public class LibjingleSendManager extends Manger {
 
 		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
 		// Log.i(TAG, packag);
-		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+		Libjingle.getInstance().sendToGateway(packag);
 
 		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
 		mStructure.setRequest_id(reqid);
@@ -372,7 +373,7 @@ public class LibjingleSendManager extends Manger {
 
 		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
 		// Log.i(TAG, packag);
-		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+		Libjingle.getInstance().sendToGateway(packag);
 
 		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
 		mStructure.setRequest_id(reqid);
@@ -432,7 +433,7 @@ public class LibjingleSendManager extends Manger {
 
 		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
 		// Log.i(TAG, packag);
-		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+		Libjingle.getInstance().sendToGateway(packag);
 
 		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
 		mStructure.setRequest_id(reqid);
@@ -485,7 +486,7 @@ public class LibjingleSendManager extends Manger {
 
 		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
 		// Log.i(TAG, packag);
-		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+		Libjingle.getInstance().sendToGateway(packag);
 
 		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
 		mStructure.setRequest_id(reqid);
@@ -538,7 +539,7 @@ public class LibjingleSendManager extends Manger {
 
 		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
 		// Log.i(TAG, packag);
-		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+		Libjingle.getInstance().sendToGateway(packag);
 
 		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
 		mStructure.setRequest_id(reqid);
@@ -573,7 +574,7 @@ public class LibjingleSendManager extends Manger {
 
 		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
 		// Log.i(TAG, packag);
-		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+		Libjingle.getInstance().sendToGateway(packag);
 
 		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
 		mStructure.setRequest_id(reqid);
@@ -608,7 +609,7 @@ public class LibjingleSendManager extends Manger {
 
 		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
 		// Log.i(TAG, packag);
-		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+		Libjingle.getInstance().sendToGateway(packag);
 
 		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
 		mStructure.setRequest_id(reqid);
@@ -637,7 +638,7 @@ public class LibjingleSendManager extends Manger {
 
 		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
 		// Log.i(TAG, packag);
-		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+		Libjingle.getInstance().sendToGateway(packag);
 
 		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
 		mStructure.setRequest_id(reqid);
@@ -668,7 +669,7 @@ public class LibjingleSendManager extends Manger {
 
 		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
 		// Log.i(TAG, packag);
-		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+		Libjingle.getInstance().sendToGateway(packag);
 
 		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
 		mStructure.setRequest_id(reqid);
@@ -699,7 +700,7 @@ public class LibjingleSendManager extends Manger {
 
 		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
 		// Log.i(TAG, packag);
-		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+		Libjingle.getInstance().sendToGateway(packag);
 
 		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
 		mStructure.setRequest_id(reqid);
@@ -723,7 +724,7 @@ public class LibjingleSendManager extends Manger {
 
 		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
 		// Log.i(TAG, packag);
-		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+		Libjingle.getInstance().sendToGateway(packag);
 
 		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
 		mStructure.setRequest_id(reqid);
@@ -775,7 +776,7 @@ public class LibjingleSendManager extends Manger {
 
 		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
 		// Log.i(TAG, packag);
-		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+		Libjingle.getInstance().sendToGateway(packag);
 
 		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
 		mStructure.setRequest_id(reqid);
@@ -834,7 +835,7 @@ public class LibjingleSendManager extends Manger {
 
 		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
 		// Log.i(TAG, packag);
-		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+		Libjingle.getInstance().sendToGateway(packag);
 
 		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
 		mStructure.setRequest_id(reqid);
@@ -865,7 +866,7 @@ public class LibjingleSendManager extends Manger {
 
 		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
 		// Log.i(TAG, packag);
-		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+		Libjingle.getInstance().sendToGateway(packag);
 
 		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
 		mStructure.setRequest_id(reqid);
@@ -902,7 +903,7 @@ public class LibjingleSendManager extends Manger {
 
 		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
 		// Log.i(TAG, packag);
-		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+		Libjingle.getInstance().sendToGateway(packag);
 
 		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
 		mStructure.setRequest_id(reqid);
@@ -944,7 +945,7 @@ public class LibjingleSendManager extends Manger {
 
 		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
 		// Log.i(TAG, packag);
-		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+		Libjingle.getInstance().sendToGateway(packag);
 
 		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
 		mStructure.setRequest_id(reqid);
@@ -979,7 +980,7 @@ public class LibjingleSendManager extends Manger {
 
 		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
 		// Log.i(TAG, packag);
-		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+		Libjingle.getInstance().sendToGateway(packag);
 
 		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
 		mStructure.setRequest_id(reqid);
@@ -1014,7 +1015,7 @@ public class LibjingleSendManager extends Manger {
 
 		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
 		// Log.i(TAG, packag);
-		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+		Libjingle.getInstance().sendToGateway(packag);
 
 		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
 		mStructure.setRequest_id(reqid);
@@ -1042,7 +1043,7 @@ public class LibjingleSendManager extends Manger {
 
 		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
 		// Log.i(TAG, packag);
-		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+		Libjingle.getInstance().sendToGateway(packag);
 
 		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
 		mStructure.setRequest_id(reqid);
@@ -1069,7 +1070,7 @@ public class LibjingleSendManager extends Manger {
 
 		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
 		// Log.i(TAG, packag);
-		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+		Libjingle.getInstance().sendToGateway(packag);
 
 		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
 		mStructure.setRequest_id(reqid);
@@ -1098,7 +1099,7 @@ public class LibjingleSendManager extends Manger {
 
 		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
 		// Log.i(TAG, packag);
-		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+		Libjingle.getInstance().sendToGateway(packag);
 
 		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
 		mStructure.setRequest_id(reqid);
@@ -1129,7 +1130,7 @@ public class LibjingleSendManager extends Manger {
 
 		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
 		// Log.i(TAG, packag);
-		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+		Libjingle.getInstance().sendToGateway(packag);
 
 		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
 		mStructure.setRequest_id(reqid);
@@ -1163,7 +1164,7 @@ public class LibjingleSendManager extends Manger {
 
 		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
 		// Log.i(TAG, packag);
-		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+		Libjingle.getInstance().sendToGateway(packag);
 
 		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
 		mStructure.setRequest_id(reqid);
@@ -1194,7 +1195,7 @@ public class LibjingleSendManager extends Manger {
 
 		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
 		// Log.i(TAG, packag);
-		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+		Libjingle.getInstance().sendToGateway(packag);
 
 		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
 		mStructure.setRequest_id(reqid);
@@ -1228,7 +1229,7 @@ public class LibjingleSendManager extends Manger {
 
 		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
 		// Log.i(TAG, packag);
-		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+		Libjingle.getInstance().sendToGateway(packag);
 
 		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
 		mStructure.setRequest_id(reqid);
@@ -1261,7 +1262,7 @@ public class LibjingleSendManager extends Manger {
 
 		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
 		// Log.i(TAG, packag);
-		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+		Libjingle.getInstance().sendToGateway(packag);
 
 		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
 		mStructure.setRequest_id(reqid);
@@ -1290,7 +1291,7 @@ public class LibjingleSendManager extends Manger {
 
 		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
 		// Log.i(TAG, packag);
-		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+		Libjingle.getInstance().sendToGateway(packag);
 
 		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
 		mStructure.setRequest_id(reqid);
@@ -1313,7 +1314,7 @@ public class LibjingleSendManager extends Manger {
 
 		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
 		// Log.i(TAG, packag);
-		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+		Libjingle.getInstance().sendToGateway(packag);
 
 		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
 		mStructure.setRequest_id(reqid);
@@ -1336,7 +1337,7 @@ public class LibjingleSendManager extends Manger {
 			videoCommand.put("send", send);
 			String packag = videoCommand.toString();
 			Log.i(TAG, packag);
-			LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+			Libjingle.getInstance().sendToGateway(packag);
 		} catch (JSONException ex) {
 			
 		}
@@ -1356,7 +1357,7 @@ public class LibjingleSendManager extends Manger {
 
 		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
 		// Log.i(TAG, packag);
-		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+		Libjingle.getInstance().sendToGateway(packag);
 
 		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
 		mStructure.setRequest_id(reqid);
@@ -1373,7 +1374,7 @@ public class LibjingleSendManager extends Manger {
 
 		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
 		// Log.i(TAG, packag);
-		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+		Libjingle.getInstance().sendToGateway(packag);
 
 		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
 		mStructure.setRequest_id(reqid);
@@ -1390,7 +1391,7 @@ public class LibjingleSendManager extends Manger {
 
 		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
 		// Log.i(TAG, packag);
-		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+		Libjingle.getInstance().sendToGateway(packag);
 
 		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
 		mStructure.setRequest_id(reqid);

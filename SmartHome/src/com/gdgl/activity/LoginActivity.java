@@ -10,6 +10,7 @@ import java.util.HashMap;
 import com.gdgl.app.ApplicationController;
 import com.gdgl.drawer.DeviceTabFragment;
 import com.gdgl.drawer.MainActivity;
+import com.gdgl.libjingle.Libjingle;
 import com.gdgl.libjingle.LibjingleResponseHandlerManager;
 import com.gdgl.libjingle.LibjingleSendManager;
 import com.gdgl.manager.LoginManager;
@@ -126,6 +127,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 		cloud_dropdown.setOnClickListener(this);
 		gaoji.setOnClickListener(this);
 		LoginManager.getInstance().addObserver(this);
+		Libjingle.getInstance().addObserver(this);
 		LibjingleResponseHandlerManager.getInstance().addObserver(this);
 		mHandler = new Handler() {
 			public void handleMessage(Message msg) {
@@ -306,6 +308,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 	@Override
 	protected void onDestroy() {
 		LoginManager.getInstance().deleteObserver(this);
+		Libjingle.getInstance().deleteObserver(this);
 		LibjingleResponseHandlerManager.getInstance().deleteObserver(this);
 		super.onDestroy();
 	}
@@ -336,18 +339,16 @@ public class LoginActivity extends Activity implements OnClickListener,
 					}
 				});
 
-				int status = Integer.parseInt((String) event.getData());
+//				int status = Integer.parseInt((String) event.getData());
+				int status = (Integer) event.getData();
 				switch (status) {
-				case 2:
-				case 3:
+				case 1:
 					new Thread(new Runnable() {
 
 						@Override
 						public void run() {
 							LibjingleSendManager.getInstance()
 									.getDeviceEndPoint();
-							LibjingleSendManager.getInstance().GetAllRoomInfo();
-							LibjingleSendManager.getInstance().GetAllBindList();
 							LibjingleSendManager.getInstance().getIPClist();
 							LibjingleSendManager.getInstance().GetLinkageList();
 							LibjingleSendManager.getInstance().GetSceneList();
