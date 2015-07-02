@@ -13,6 +13,7 @@ import com.gdgl.drawer.MainActivity;
 import com.gdgl.libjingle.Libjingle;
 import com.gdgl.libjingle.LibjingleResponseHandlerManager;
 import com.gdgl.libjingle.LibjingleSendManager;
+import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.LoginManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
@@ -82,8 +83,10 @@ public class LoginActivity extends Activity implements OnClickListener,
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login);
-		// Intent intent = getIntent();
-		// networkStatus = intent.getIntExtra("networkStatus", 0);
+		LoginManager.getInstance().addObserver(this);
+		Libjingle.getInstance().addObserver(this);
+		LibjingleResponseHandlerManager.getInstance().addObserver(this);
+		CGIManager.getInstance().addObserver(this);
 		initView();
 	}
 
@@ -126,9 +129,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 		user_dropdown.setOnClickListener(this);
 		cloud_dropdown.setOnClickListener(this);
 		gaoji.setOnClickListener(this);
-		LoginManager.getInstance().addObserver(this);
-		Libjingle.getInstance().addObserver(this);
-		LibjingleResponseHandlerManager.getInstance().addObserver(this);
+		
 		mHandler = new Handler() {
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
@@ -283,8 +284,8 @@ public class LoginActivity extends Activity implements OnClickListener,
 
 					NetUtil.getInstance().setGatewayIP(ip);
 
-					Intent serviceIntent = new Intent(this, SmartService.class);
-					startService(serviceIntent);
+//					Intent serviceIntent = new Intent(this, SmartService.class);
+//					startService(serviceIntent);
 					LoginManager.getInstance().doLogin(accountInfo);
 				}
 				mSQLiteDatabase.close();
@@ -310,6 +311,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 		LoginManager.getInstance().deleteObserver(this);
 		Libjingle.getInstance().deleteObserver(this);
 		LibjingleResponseHandlerManager.getInstance().deleteObserver(this);
+		CGIManager.getInstance().deleteObserver(this);
 		super.onDestroy();
 	}
 
@@ -323,13 +325,6 @@ public class LoginActivity extends Activity implements OnClickListener,
 				loginSwitch(response);
 			} else {
 				// if failed,prompt a Toast
-				dialog_view.setVisibility(View.GONE);
-				Toast.makeText(getApplicationContext(), "连接网关失败",
-						Toast.LENGTH_SHORT).show();
-			}
-		}
-		if (EventType.LIBJINGLE_STATUS == event.getType()) {
-			if (event.isSuccess() == true) {
 				mLogin.post(new Runnable() {
 
 					@Override
@@ -338,6 +333,12 @@ public class LoginActivity extends Activity implements OnClickListener,
 						dialog_view.setVisibility(View.GONE);
 					}
 				});
+				Toast.makeText(getApplicationContext(), "连接网关失败",
+						Toast.LENGTH_SHORT).show();
+			}
+		}
+		if (EventType.LIBJINGLE_STATUS == event.getType()) {
+			if (event.isSuccess() == true) {
 
 //				int status = Integer.parseInt((String) event.getData());
 				int status = (Integer) event.getData();
@@ -365,20 +366,27 @@ public class LoginActivity extends Activity implements OnClickListener,
 									.getLocalCIEList();
 						}
 					}).start();
-					Intent intent = new Intent(LoginActivity.this,
-							MainActivity.class);
-					intent.putExtra("id", "");
-					intent.putExtra("name", mName.getText().toString());
-					intent.putExtra("pwd", mPwd.getText().toString());
-					intent.putExtra("remenber", mRem.isChecked());
-					intent.putExtra("cloud", mCloud.getText().toString());
-					startActivity(intent);
-					this.finish();
+//					Intent intent = new Intent(LoginActivity.this,
+//							MainActivity.class);
+//					intent.putExtra("id", "");
+//					intent.putExtra("name", mName.getText().toString());
+//					intent.putExtra("pwd", mPwd.getText().toString());
+//					intent.putExtra("remenber", mRem.isChecked());
+//					intent.putExtra("cloud", mCloud.getText().toString());
+//					startActivity(intent);
+//					this.finish();
 					break;
-				case -1:
-				case -3:
-					Toast.makeText(getApplicationContext(), "通道连接网关失败",
+				case 0:
+					Toast.makeText(LoginActivity.this, "网关不在线,请检查网关网络状态",
 							Toast.LENGTH_SHORT).show();
+					mLogin.post(new Runnable() {
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							dialog_view.setVisibility(View.GONE);
+						}
+					});
 					break;
 				case -2:
 					// Toast.makeText(getApplicationContext(), "登录失败，请重新登录！",
@@ -405,6 +413,17 @@ public class LoginActivity extends Activity implements OnClickListener,
 					break;
 				}
 			}
+		} else if (EventType.LOCALIASCIEOPERATION == event.getType()) {
+			if (event.isSuccess() == true) {
+				Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+				intent.putExtra("id", "");
+				intent.putExtra("name", mName.getText().toString());
+				intent.putExtra("pwd", mPwd.getText().toString());
+				intent.putExtra("remenber", mRem.isChecked());
+				intent.putExtra("cloud", mCloud.getText().toString());
+				startActivity(intent);
+				this.finish();
+			}
 		}
 	}
 
@@ -412,38 +431,41 @@ public class LoginActivity extends Activity implements OnClickListener,
 		int i = Integer.parseInt(response.getResponse_params().getStatus());
 		switch (i) {
 		case 0:
-			// accountInfo.setId(response.getId());
-			Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-			intent.putExtra("id", response.getId());
-			intent.putExtra("name", mName.getText().toString());
-			intent.putExtra("pwd", mPwd.getText().toString());
-			intent.putExtra("remenber", mRem.isChecked());
-			intent.putExtra("cloud", mCloud.getText().toString());
-			startActivity(intent);
-			this.finish();
+			Intent serviceIntent = new Intent(this, SmartService.class);
+			startService(serviceIntent);
+//			Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//			intent.putExtra("id", response.getId());
+//			intent.putExtra("name", mName.getText().toString());
+//			intent.putExtra("pwd", mPwd.getText().toString());
+//			intent.putExtra("remenber", mRem.isChecked());
+//			intent.putExtra("cloud", mCloud.getText().toString());
+//			startActivity(intent);
+//			this.finish();
 			break;
 		case 24:
 			Toast.makeText(getApplicationContext(), "用户名不正确",
 					Toast.LENGTH_SHORT).show();
+			mLogin.post(new Runnable() {
+
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					dialog_view.setVisibility(View.GONE);
+				}
+			});
 			break;
 		case 29:
 			Toast.makeText(getApplicationContext(), "密码不正确", Toast.LENGTH_SHORT)
 					.show();
+			mLogin.post(new Runnable() {
+
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					dialog_view.setVisibility(View.GONE);
+				}
+			});
 			break;
-		// case 1:
-		// case 2:
-		// case 3:
-		// case 4:
-		// case 5:
-		// case 6:
-		// case 10:
-		// case 11:
-		// case 12:
-		// case 23:
-		// case 28:
-		// Toast.makeText(getApplicationContext(), "登录失败",
-		// Toast.LENGTH_SHORT).show();
-		// break;
 		case 20:
 		case 21:
 		case 22:
@@ -459,9 +481,16 @@ public class LoginActivity extends Activity implements OnClickListener,
 		default:
 			Toast.makeText(getApplicationContext(), "登录失败", Toast.LENGTH_SHORT)
 					.show();
+			mLogin.post(new Runnable() {
+
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					dialog_view.setVisibility(View.GONE);
+				}
+			});
 			break;
 		}
-		dialog_view.setVisibility(View.GONE);
 	}
 
 	private void initUserPopView() {

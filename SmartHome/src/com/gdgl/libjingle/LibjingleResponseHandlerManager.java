@@ -542,6 +542,10 @@ public class LibjingleResponseHandlerManager extends Manger {
 			mDataHelper.update(mSQLiteDatabase, DataHelper.DEVICES_TABLE, c,
 					where, args);
 			mDataHelper.close(mSQLiteDatabase);
+			
+			Event event = new Event(EventType.LOCALIASCIEOPERATION, true);
+			event.setData(status);
+			notifyObservers(event);
 			return null;
 		}
 	}

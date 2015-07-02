@@ -18,6 +18,7 @@ import android.util.Log;
 
 public class NetworkConnectivity {
 	public static int networkStatus;// 当前网络状态量
+	public static int netStatusLastTime;
 	
 	public static final int LAN = 1;
 	public static final int INTERNET = 2;

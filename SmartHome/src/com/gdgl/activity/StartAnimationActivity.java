@@ -73,6 +73,7 @@ public class StartAnimationActivity extends Activity {
 				Looper.prepare();
 				NetworkConnectivity.networkStatus = NetworkConnectivity.getInstance()
 						.getConnecitivityNetwork();
+				NetworkConnectivity.netStatusLastTime = NetworkConnectivity.networkStatus;
 			}
 		}).start();
 

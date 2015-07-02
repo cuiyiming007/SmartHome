@@ -84,6 +84,8 @@ public class EventType {
 	public static final EventType DELETELINKAGE;
 	public static final EventType ENABLELINKAGE;
 	
+	public static final EventType NETWORKCHANGE;
+	
 	static {
 		LOGIN = new EventType("login", id);
 		LIBJINGLE_STATUS = new EventType("libjingle_status", nextId());
@@ -160,6 +162,8 @@ public class EventType {
 		ENABLELINKAGE = new EventType("EnableLinkage", nextId());
 		
 		GETHISTORYDATA = new EventType("gethistorydata", nextId());
+		
+		NETWORKCHANGE = new EventType("networkchange", nextId());
 	}
 
 	private static int nextId() {

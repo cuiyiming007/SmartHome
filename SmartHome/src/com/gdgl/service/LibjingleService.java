@@ -2,6 +2,7 @@ package com.gdgl.service;
 
 import com.gdgl.activity.LoginActivity;
 import com.gdgl.app.ApplicationController;
+import com.gdgl.drawer.MainActivity;
 import com.gdgl.libjingle.Libjingle;
 import com.gdgl.libjingle.LibjingleNetUtil;
 import com.gdgl.libjingle.LibjinglePackHandler;
@@ -63,17 +64,24 @@ public class LibjingleService extends Service {
 					if (!getFromSharedPreferences.getCloud().equals("")) {
 						cloudip = getFromSharedPreferences.getCloud();
 					}
-					AccountInfo info = LoginActivity.loginAccountInfo;
-					String name = info.getAccount();
-					String passwd = info.getPassword();
+					String name, passwd;
+					if (MainActivity.LOGIN_STATUS) {
+						AccountInfo info = LoginActivity.loginAccountInfo;
+						name = info.getAccount();
+						passwd = info.getPassword();
+					} else {
+						name = getFromSharedPreferences.getName();
+						passwd = getFromSharedPreferences.getPwd();
+					}
 					Log.i("LibjingleService", LibjinglePackHandler.getJid()
 							+ "  " + name + passwd + "  " + cloudip
 							+ "  networkStatus"
 							+ NetworkConnectivity.networkStatus);
-					libjingle.login(LibjinglePackHandler.getJid(), name + passwd, cloudip);
-//					libjingle.libjinglInit(LibjinglePackHandler.getJid(),
-//							name + passwd, NetworkConnectivity.networkStatus,
-//							cloudip);
+					libjingle.login(LibjinglePackHandler.getJid(), name
+							+ passwd, cloudip);
+					// libjingle.libjinglInit(LibjinglePackHandler.getJid(),
+					// name + passwd, NetworkConnectivity.networkStatus,
+					// cloudip);
 					// libjingleInit
 					// .libjinglInit(
 					// "ffeeddccbbaa@121.199.21.14/Cabcdefg123456",
@@ -85,7 +93,7 @@ public class LibjingleService extends Service {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-//		LibjingleNetUtil.getInstance().startLibjingleSocket();
+		// LibjingleNetUtil.getInstance().startLibjingleSocket();
 		// new Thread(new Runnable() {
 		//
 		// @Override
@@ -108,8 +116,8 @@ public class LibjingleService extends Service {
 		// TODO Auto-generated method stub
 		Log.i("LibjingleService", "LibjingleService onDestroy!");
 		LibjingleNetUtil.getInstance().initLibjingleSocket();
+//		libjingle.exit();
 		System.gc();
-		stopSelf();
 		super.onDestroy();
 	}
 }

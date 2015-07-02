@@ -12,6 +12,7 @@ import android.os.IBinder;
 import android.os.SystemClock;
 import android.util.Log;
 
+import com.gdgl.drawer.MainActivity;
 import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.DeviceManager;
@@ -30,14 +31,18 @@ public class SmartService extends Service {
 	// private Intent brodcastIntent = new Intent("com.gdgl.activity.RECIEVER");
 	private IntentFilter intentFilter;
 	private HeartReceiver heartReceiver;
+
 	public IBinder onBind(Intent intent) {
 		return null;
 	}
 
 	public void initial() {
-
-		startLANService();
-
+		if (MainActivity.LOGIN_STATUS) {
+			startLANService();
+		}
+		// ===============================loacl=====================
+		CallbackManager.getInstance().startConnectServerByTCPTask();
+		startHB();
 		// new Thread(new Runnable() {
 		//
 		// @Override
@@ -69,14 +74,14 @@ public class SmartService extends Service {
 		heartReceiver = new HeartReceiver();
 		registerReceiver(heartReceiver, intentFilter);
 		// sendBroadcast(brodcastIntent);
-//		return super.onStartCommand(intent, flags, startId);
+		// return super.onStartCommand(intent, flags, startId);
 		return START_NOT_STICKY;
 	}
 
-//	public void onStart(Intent intent, int startId) {
-//		Log.i(TAG, "SmartHome service onStart!");
-//		initial();
-//	}
+	// public void onStart(Intent intent, int startId) {
+	// Log.i(TAG, "SmartHome service onStart!");
+	// initial();
+	// }
 
 	public void startLANService() {
 		// =============================server======================
@@ -98,19 +103,16 @@ public class SmartService extends Service {
 				DeviceManager.getInstance().getLocalCIEList();
 			}
 		}).start();
-		// ===============================loacl=====================
-		CallbackManager.getInstance().startConnectServerByTCPTask();
-		startHB();
 	}
 
 	public void startHB() {
-		if(mAlarmManager != null){
+		if (mAlarmManager != null) {
 			return;
 		}
 
 		mAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-//		Intent intent = new Intent(this, HeartReceiver.class);
-//		intent.setAction(Constants.ACTION_HEARTBEAT);
+		// Intent intent = new Intent(this, HeartReceiver.class);
+		// intent.setAction(Constants.ACTION_HEARTBEAT);
 		Intent intent = new Intent(Constants.ACTION_HEARTBEAT);
 		mPendingIntent = PendingIntent.getBroadcast(this, 0, intent,
 				PendingIntent.FLAG_UPDATE_CURRENT);
@@ -124,21 +126,21 @@ public class SmartService extends Service {
 	public void onDestroy() {
 		// TODO Auto-generated method stub
 		mAlarmManager.cancel(mPendingIntent);
-		//CallbackManager.getInstance().stopConnectServerByTCPTask();
+		// CallbackManager.getInstance().stopConnectServerByTCPTask();
 		Log.i("SmartService", "SmartService onDestroy!");
 		unregisterReceiver(heartReceiver);
 		super.onDestroy();
 	}
-	
-	class HeartReceiver extends BroadcastReceiver {
-		 
-	    private static final String TAG = "HeartReceiver";
 
-	    @Override
-	    public void onReceive(Context context, Intent intent) {
+	class HeartReceiver extends BroadcastReceiver {
+
+		private static final String TAG = "HeartReceiver";
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
 			NetUtil.getInstance().sendHeartBeat();
 			Log.i(TAG, "");
-	    }
+		}
 
 	}
 

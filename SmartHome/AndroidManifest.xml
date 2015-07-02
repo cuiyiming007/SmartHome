@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.gdgl.smarthome"
     android:versionCode="1"
-    android:versionName="V1.1.0.150626_LibjingleCallback" >
+    android:versionName="V1.1.1.150702_ChangeNetwork" >
 
     <supports-screens
         android:anyDensity="true"
@@ -147,11 +147,11 @@
         <service android:name="com.gdgl.service.LibjingleService" >
         </service>
 
-        <receiver android:name="com.gdgl.reciever.NetWorkChangeReciever" >
+        <!-- <receiver android:name="com.gdgl.reciever.NetWorkChangeReciever" >
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
-        </receiver>
+        </receiver>  -->
     </application>
 
 </manifest>

@@ -1,15 +1,21 @@
 package com.gdgl.drawer;
 
 import com.gdgl.activity.LinkageFragment;
-import com.gdgl.activity.RegionsFragment;
 import com.gdgl.activity.ScenesFragment;
 import com.gdgl.activity.TimingFragment;
+import com.gdgl.manager.Manger;
+import com.gdgl.manager.UIListener;
+import com.gdgl.mydata.Event;
+import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.getFromSharedPreferences;
+import com.gdgl.network.NetworkConnectivity;
+import com.gdgl.reciever.NetWorkChangeReciever;
 import com.gdgl.smarthome.R;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -18,31 +24,41 @@ import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.Toolbar.OnMenuItemClickListener;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
+public class MainActivity extends ActionBarActivity implements
+		NavigationDrawerCallbacks, UIListener {
 
-public class MainActivity extends ActionBarActivity implements NavigationDrawerCallbacks {
+	public static boolean LOGIN_STATUS = true;
 
-    private Toolbar mToolbar;
-    private ActionBar mActionBar;
-    private NavigationDrawerFragment mNavigationDrawerFragment;
-    int currentTab = 0;
-    private Fragment mfragment;
-    
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.drawer_activity_main);
-        mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
-        setSupportActionBar(mToolbar);
-        mActionBar = getSupportActionBar();
-        mActionBar.setHomeButtonEnabled(true);
-        mActionBar.setDisplayShowHomeEnabled(true);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        mActionBar.setDisplayShowTitleEnabled(true);
-        mActionBar.setTitle("设备");
+	private Toolbar mToolbar;
+	private ActionBar mActionBar;
+	private TextView tipsWithoutNet;
+	private NavigationDrawerFragment mNavigationDrawerFragment;
+	int currentTab = 0;
+	private Fragment mfragment;
 
-        mToolbar.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-			
+	NetWorkChangeReciever netWorkChangeReciever;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.drawer_activity_main);
+
+		tipsWithoutNet = (TextView) findViewById(R.id.checknet);
+		setTipText();
+		mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
+		setSupportActionBar(mToolbar);
+		mActionBar = getSupportActionBar();
+		mActionBar.setHomeButtonEnabled(true);
+		mActionBar.setDisplayShowHomeEnabled(true);
+		// getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		mActionBar.setDisplayShowTitleEnabled(true);
+		mActionBar.setTitle("设备");
+
+		mToolbar.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+
 			@Override
 			public boolean onMenuItemClick(MenuItem item) {
 				// TODO Auto-generated method stub
@@ -59,14 +75,30 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerC
 				return false;
 			}
 		});
-        
-        mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager().findFragmentById(R.id.fragment_drawer);
-        mNavigationDrawerFragment.setup(R.id.fragment_drawer, (DrawerLayout) findViewById(R.id.drawer), mToolbar);
-        
-        saveLoginData();
-    }
-    
-	private void saveLoginData(){
+
+		mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager()
+				.findFragmentById(R.id.fragment_drawer);
+		mNavigationDrawerFragment.setup(R.id.fragment_drawer,
+				(DrawerLayout) findViewById(R.id.drawer), mToolbar);
+
+		saveLoginData();
+
+		IntentFilter intentFilter = new IntentFilter();
+		intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+		netWorkChangeReciever = new NetWorkChangeReciever();
+		netWorkChangeReciever.addObserver(this);
+		registerReceiver(netWorkChangeReciever, intentFilter);
+	}
+
+	private void setTipText() {
+		if(NetworkConnectivity.networkStatus == 0) {
+			tipsWithoutNet.setVisibility(View.VISIBLE);
+		} else {
+			tipsWithoutNet.setVisibility(View.GONE);
+		}
+	}
+
+	private void saveLoginData() {
 		getFromSharedPreferences.setsharedPreferences(MainActivity.this);
 		Intent intent = getIntent();
 		String id = intent.getStringExtra("id");
@@ -85,16 +117,16 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerC
 		getFromSharedPreferences.setCloudList(cloud);
 	}
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_alarm, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-    
-    @Override
-    public void onNavigationDrawerItemSelected(int position) {
-    	currentTab = position;
-        switch (position) {
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.menu_alarm, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public void onNavigationDrawerItemSelected(int position) {
+		currentTab = position;
+		switch (position) {
 		case 0:
 			mfragment = new DeviceTabFragment();
 			break;
@@ -110,16 +142,43 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerC
 		default:
 			break;
 		}
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.container, mfragment);
-        fragmentTransaction.commit();
-    }
+		FragmentTransaction fragmentTransaction = getSupportFragmentManager()
+				.beginTransaction();
+		fragmentTransaction.replace(R.id.container, mfragment);
+		fragmentTransaction.commit();
+	}
 
-    @Override
-    public void onBackPressed() {
-        if (mNavigationDrawerFragment.isDrawerOpen())
-            mNavigationDrawerFragment.closeDrawer();
-        else
-        	moveTaskToBack(false);
-    }
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		netWorkChangeReciever.deleteObserver(this);
+		unregisterReceiver(netWorkChangeReciever);
+	}
+
+	@Override
+	public void onBackPressed() {
+		if (mNavigationDrawerFragment.isDrawerOpen())
+			mNavigationDrawerFragment.closeDrawer();
+		else
+			moveTaskToBack(false);
+	}
+
+	@Override
+	public void update(Manger observer, Object object) {
+		// TODO Auto-generated method stub
+		Event event = (Event) object;
+		if (EventType.NETWORKCHANGE == event.getType()) {
+			if (event.isSuccess() == true) {
+				mToolbar.post(new Runnable() {
+					
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						setTipText();
+					}
+				});
+			}
+		}
+	}
 }

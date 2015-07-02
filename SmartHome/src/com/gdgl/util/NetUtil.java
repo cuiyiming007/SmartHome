@@ -21,8 +21,10 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.gdgl.app.ApplicationController;
+import com.gdgl.drawer.MainActivity;
 import com.gdgl.manager.CallbackManager;
 import com.gdgl.mydata.DataHelper;
+import com.gdgl.mydata.getFromSharedPreferences;
 
 /***
  * Netwrok common function
@@ -156,7 +158,7 @@ public class NetUtil {
 		String result = "udp receive timeout.";
 		try {
 			udpSocket = new DatagramSocket();
-			udpSocket.setSoTimeout(2000);// 设置超时为2s
+			udpSocket.setSoTimeout(1000);// 设置超时为1s
 			// 使用InetAddress(Inet4Address).getByName把IP地址转换为网络地址
 			InetAddress serverAddress = InetAddress.getByName(serveraddress);
 			String str = "Who is smart gateway?";// 设置要发送的报文
@@ -184,7 +186,16 @@ public class NetUtil {
 					Log.i(TAG, "GateWay IP:" + ip + ":" + content);
 					try {
 						JSONObject jsonObject = new JSONObject(content);
-						result = jsonObject.getString("reply");
+						if(MainActivity.LOGIN_STATUS) {
+							result = jsonObject.getString("reply");
+						} else {
+							getFromSharedPreferences.setsharedPreferences(ApplicationController.getInstance());
+							String name = getFromSharedPreferences.getName().trim();
+							if(name.equals(jsonObject.getString("id"))||name.equals(jsonObject.getString("alias"))) {
+								IP = ip;
+								result = jsonObject.getString("reply");
+							}
+						}
 						gatewayList.add(ip + "@" + content);
 					} catch (Exception e) {
 						// TODO: handle exception
