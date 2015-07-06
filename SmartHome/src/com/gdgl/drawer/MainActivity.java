@@ -3,6 +3,7 @@ package com.gdgl.drawer;
 import com.gdgl.activity.LinkageFragment;
 import com.gdgl.activity.ScenesFragment;
 import com.gdgl.activity.TimingFragment;
+import com.gdgl.libjingle.Libjingle;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
 import com.gdgl.mydata.Event;
@@ -46,6 +47,8 @@ public class MainActivity extends ActionBarActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.drawer_activity_main);
 
+		MainActivity.LOGIN_STATUS = false;
+		
 		tipsWithoutNet = (TextView) findViewById(R.id.checknet);
 		setTipText();
 		mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
@@ -86,8 +89,10 @@ public class MainActivity extends ActionBarActivity implements
 		IntentFilter intentFilter = new IntentFilter();
 		intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
 		netWorkChangeReciever = new NetWorkChangeReciever();
-		netWorkChangeReciever.addObserver(this);
 		registerReceiver(netWorkChangeReciever, intentFilter);
+		
+		netWorkChangeReciever.addObserver(this);
+		Libjingle.getInstance().addObserver(this);
 	}
 
 	private void setTipText() {
@@ -153,6 +158,7 @@ public class MainActivity extends ActionBarActivity implements
 		// TODO Auto-generated method stub
 		super.onDestroy();
 		netWorkChangeReciever.deleteObserver(this);
+		Libjingle.getInstance().deleteObserver(this);
 		unregisterReceiver(netWorkChangeReciever);
 	}
 

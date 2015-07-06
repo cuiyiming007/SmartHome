@@ -24,6 +24,7 @@ import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.LoginResponse;
 import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.network.NetworkConnectivity;
+import com.gdgl.reciever.NetWorkChangeReciever;
 import com.gdgl.service.LibjingleService;
 import com.gdgl.service.SmartService;
 import com.gdgl.smarthome.R;
@@ -34,6 +35,7 @@ import com.gdgl.util.UiUtils;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -58,7 +60,8 @@ import android.widget.Toast;
 
 public class LoginActivity extends Activity implements OnClickListener,
 		UIListener,Dialogcallback {
-	// int networkStatus;// 当前网络状态量
+	NetWorkChangeReciever netWorkChangeReciever;
+	
 	private EditText mName, mPwd, mCloud;
 	private CheckBox mRem, mAut;
 	private TextView gaoji_text;
@@ -83,6 +86,12 @@ public class LoginActivity extends Activity implements OnClickListener,
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login);
+		
+		IntentFilter intentFilter = new IntentFilter();
+		intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+		netWorkChangeReciever = new NetWorkChangeReciever();
+		registerReceiver(netWorkChangeReciever, intentFilter);
+		
 		LoginManager.getInstance().addObserver(this);
 		Libjingle.getInstance().addObserver(this);
 		LibjingleResponseHandlerManager.getInstance().addObserver(this);
@@ -308,6 +317,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 
 	@Override
 	protected void onDestroy() {
+		unregisterReceiver(netWorkChangeReciever);
 		LoginManager.getInstance().deleteObserver(this);
 		Libjingle.getInstance().deleteObserver(this);
 		LibjingleResponseHandlerManager.getInstance().deleteObserver(this);
@@ -377,35 +387,26 @@ public class LoginActivity extends Activity implements OnClickListener,
 //					this.finish();
 					break;
 				case 0:
-					Toast.makeText(LoginActivity.this, "网关不在线,请检查网关网络状态",
-							Toast.LENGTH_SHORT).show();
 					mLogin.post(new Runnable() {
 
 						@Override
 						public void run() {
 							// TODO Auto-generated method stub
 							dialog_view.setVisibility(View.GONE);
+							Toast.makeText(LoginActivity.this, "网关不在线,请检查网关网络状态",
+									Toast.LENGTH_SHORT).show();
 						}
 					});
 					break;
-				case -2:
-					// Toast.makeText(getApplicationContext(), "登录失败，请重新登录！",
-					// Toast.LENGTH_SHORT).show();
-					Intent stopLibservice = new Intent(this,
-							LibjingleService.class);
-					stopService(stopLibservice);
+				case 4:
 					mLogin.post(new Runnable() {
 
 						@Override
 						public void run() {
 							// TODO Auto-generated method stub
-							exitDlgFlag = true;
-							MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
-									LoginActivity.this);
-							mMyOkCancleDlg
-									.setDialogCallback(LoginActivity.this);
-							mMyOkCancleDlg.setContent("登录失败，请重新登录！");
-							mMyOkCancleDlg.show();
+							dialog_view.setVisibility(View.GONE);
+							Toast.makeText(getApplicationContext(), "用户名或密码不正确",
+									Toast.LENGTH_SHORT).show();
 						}
 					});
 
@@ -443,7 +444,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 //			this.finish();
 			break;
 		case 24:
-			Toast.makeText(getApplicationContext(), "用户名不正确",
+			Toast.makeText(getApplicationContext(), "用户名或密码不正确",
 					Toast.LENGTH_SHORT).show();
 			mLogin.post(new Runnable() {
 
@@ -455,7 +456,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 			});
 			break;
 		case 29:
-			Toast.makeText(getApplicationContext(), "密码不正确", Toast.LENGTH_SHORT)
+			Toast.makeText(getApplicationContext(), "用户名或密码不正确", Toast.LENGTH_SHORT)
 					.show();
 			mLogin.post(new Runnable() {
 

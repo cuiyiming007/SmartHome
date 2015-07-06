@@ -28,3 +28,4 @@ release.properties
 .idea/
 out/
 /project.properties
+/logcat.bat

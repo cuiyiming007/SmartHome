@@ -109,8 +109,8 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 		device_humidityTextView = (TextView) mView
 				.findViewById(R.id.device_humidity);
 		if (mDevices.getmDeviceId() == DataHelper.TEMPTURE_SENSOR_DEVICETYPE) {
-			device_temperatureTextView
-					.setText(mDevices.getmTemperature() + "°C");
+			device_temperatureTextView.setText(mDevices.getmTemperature()
+					+ "°C");
 			device_humidityTextView.setText(mDevices.getmHumidity() + "%");
 		}
 
@@ -311,28 +311,28 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 			// == 0) { // 门窗感应开关
 			// }
 			if (modelId.indexOf(DataHelper.Emergency_Button) == 0) { // ZigBee紧急按钮
-				device_contor_statusTextView.setVisibility(View.GONE);
+				// device_contor_statusTextView.setVisibility(View.GONE);
 				device_controlButton.setClickable(false);
 			}
 			if (modelId.indexOf(DataHelper.Emergency_Button_On_Wall) == 0) { // ZigBee墙面紧急按钮
-				device_contor_statusTextView.setVisibility(View.GONE);
+				// device_contor_statusTextView.setVisibility(View.GONE);
 				device_controlButton.setClickable(false);
 			}
 			if (modelId.indexOf(DataHelper.Smoke_Detectors) == 0) { // 烟雾感应器
-				device_contor_statusTextView.setVisibility(View.GONE);
+				// device_contor_statusTextView.setVisibility(View.GONE);
 				device_controlButton.setClickable(false);
 			}
 			if (modelId.indexOf(DataHelper.Combustible_Gas_Detector_Gas) == 0) { // 可燃气体探测器（煤气)器
-				device_contor_statusTextView.setVisibility(View.GONE);
+				// device_contor_statusTextView.setVisibility(View.GONE);
 				device_controlButton.setClickable(false);
 			}
 			if (modelId.indexOf(DataHelper.Combustible_Gas_Detector_CO) == 0) { // 可燃气体探测器（一氧化碳)
-				device_contor_statusTextView.setVisibility(View.GONE);
+				// device_contor_statusTextView.setVisibility(View.GONE);
 				device_controlButton.setClickable(false);
 			}
 			if (modelId
 					.indexOf(DataHelper.Combustible_Gas_Detector_Natural_gas) == 0) { // 可燃气体探测器（天然气)
-				device_contor_statusTextView.setVisibility(View.GONE);
+				// device_contor_statusTextView.setVisibility(View.GONE);
 				device_controlButton.setClickable(false);
 			}
 			break;
@@ -347,6 +347,7 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 
 	public boolean getDeviceControlOnOff() {
 		int deviceId = mDevices.getmDeviceId();
+		String modelId = mDevices.getmModelId();
 		boolean on_off = true;
 		switch (deviceId) {
 		case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:
@@ -359,6 +360,16 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 			break;
 		case DataHelper.IAS_ZONE_DEVICETYPE:
 			on_off = mDevices.getmOnOffStatus().equals("0") ? true : false;
+			if (modelId.indexOf(DataHelper.Emergency_Button) == 0
+					|| modelId.indexOf(DataHelper.Emergency_Button_On_Wall) == 0
+					|| modelId.indexOf(DataHelper.Smoke_Detectors) == 0
+					|| modelId.indexOf(DataHelper.Combustible_Gas_Detector_Gas) == 0
+					|| modelId.indexOf(DataHelper.Combustible_Gas_Detector_CO) == 0
+					|| modelId
+							.indexOf(DataHelper.Combustible_Gas_Detector_Natural_gas) == 0) {
+				// ZigBee紧急按钮,ZigBee墙面紧急按钮,烟雾感应器,可燃气体探测器（煤气)器,可燃气体探测器（一氧化碳),可燃气体探测器（天然气)
+				on_off = true;
+			}
 			break;
 		case DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE:
 			on_off = true;
@@ -374,6 +385,7 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 			device_contor_statusTextView.setTextColor(getResources().getColor(
 					R.color.text_open_green));
 			int deviceId = mDevices.getmDeviceId();
+			String modelId = mDevices.getmModelId();
 			switch (deviceId) {
 			case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:
 			case DataHelper.MAINS_POWER_OUTLET_DEVICETYPE:
@@ -385,6 +397,16 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 			case DataHelper.COMBINED_INTERFACE_DEVICETYPE:
 			case DataHelper.IAS_ZONE_DEVICETYPE:
 				device_contor_statusTextView.setText("布防");
+				if (modelId.indexOf(DataHelper.Emergency_Button) == 0
+						|| modelId.indexOf(DataHelper.Emergency_Button_On_Wall) == 0
+						|| modelId.indexOf(DataHelper.Smoke_Detectors) == 0
+						|| modelId.indexOf(DataHelper.Combustible_Gas_Detector_Gas) == 0
+						|| modelId.indexOf(DataHelper.Combustible_Gas_Detector_CO) == 0
+						|| modelId
+								.indexOf(DataHelper.Combustible_Gas_Detector_Natural_gas) == 0) {
+					// ZigBee紧急按钮,ZigBee墙面紧急按钮,烟雾感应器,可燃气体探测器（煤气)器,可燃气体探测器（一氧化碳),可燃气体探测器（天然气)
+					device_contor_statusTextView.setText("24小时布防");
+				}
 				break;
 			case DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE:
 				device_contor_statusTextView.setText("停止报警");
@@ -717,6 +739,9 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 						public void run() {
 							setDeviceControlText(mDevices.getmOnOffStatus()
 									.equals("0") ? true : false);
+							device_controlButton.setChecked(mDevices
+									.getmOnOffStatus().equals("0") ? true
+									: false);
 						}
 					});
 				}
@@ -733,6 +758,9 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 						public void run() {
 							setDeviceControlText(mDevices.getmOnOffStatus()
 									.equals("1") ? true : false);
+							device_controlButton.setChecked(mDevices
+									.getmOnOffStatus().equals("1") ? true
+									: false);
 						}
 					});
 				}
@@ -752,6 +780,9 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 							public void run() {
 								setDeviceControlText(mDevices.getmOnOffStatus()
 										.equals("1") ? true : false);
+								device_controlButton.setChecked(mDevices
+										.getmOnOffStatus().equals("1") ? true
+										: false);
 							}
 						});
 					}

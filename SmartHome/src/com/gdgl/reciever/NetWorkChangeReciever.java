@@ -23,6 +23,8 @@ public class NetWorkChangeReciever extends BroadcastReceiver {
 	private Vector<UIListener> observers = new Vector<UIListener>();
 
 	public static final String ACTION = "android.net.conn.CONNECTIVITY_CHANGE";
+	
+	private boolean startWork = false; // 注册Reciever时不执行动作(第一次不执行)
 
 	public synchronized void addObserver(UIListener o) {
 		if (o == null) {
@@ -53,7 +55,12 @@ public class NetWorkChangeReciever extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		// TODO Auto-generated method stub
 		if (ACTION.equals(intent.getAction())) {
-			if (!MainActivity.LOGIN_STATUS) {
+			if (startWork && MainActivity.LOGIN_STATUS) {
+				NetworkConnectivity.networkStatus = NetworkConnectivity
+						.getInstance().getConnecitivityNetwork();
+				NetworkConnectivity.netStatusLastTime = NetworkConnectivity.networkStatus;
+			}
+			if (startWork && !MainActivity.LOGIN_STATUS) {
 
 				NetworkConnectivity.networkStatus = NetworkConnectivity
 						.getInstance().getConnecitivityNetwork();
@@ -65,9 +72,10 @@ public class NetWorkChangeReciever extends BroadcastReceiver {
 				switch (NetworkConnectivity.networkStatus) {
 				case NetworkConnectivity.LAN:
 					if (NetworkConnectivity.netStatusLastTime == NetworkConnectivity.INTERNET) {
-						Intent libserviceIntent = new Intent(context,
-								LibjingleService.class);
-						context.stopService(libserviceIntent);
+//						Intent libserviceIntent = new Intent(context,
+//								LibjingleService.class);
+//						context.stopService(libserviceIntent);
+						Libjingle.getInstance().stop();
 						Intent smartServiceIntent = new Intent(context,
 								SmartService.class);
 						context.startService(smartServiceIntent);
@@ -77,6 +85,10 @@ public class NetWorkChangeReciever extends BroadcastReceiver {
 						context.startService(smartServiceIntent);
 					}
 					NetworkConnectivity.netStatusLastTime = NetworkConnectivity.LAN;
+					
+					Event event = new Event(EventType.NETWORKCHANGE, true);
+					event.setData(NetworkConnectivity.networkStatus);
+					notifyObservers(event);
 					break;
 				case NetworkConnectivity.INTERNET:
 					if (NetworkConnectivity.netStatusLastTime == NetworkConnectivity.INTERNET) {
@@ -96,14 +108,14 @@ public class NetWorkChangeReciever extends BroadcastReceiver {
 					NetworkConnectivity.netStatusLastTime = NetworkConnectivity.INTERNET;
 					break;
 				default:
+					Event event_nonetwork = new Event(EventType.NETWORKCHANGE, true);
+					event_nonetwork.setData(NetworkConnectivity.networkStatus);
+					notifyObservers(event_nonetwork);
 					break;
 				}
-				
-				Event event = new Event(EventType.NETWORKCHANGE, true);
-				event.setData(NetworkConnectivity.networkStatus);
-				notifyObservers(event);
 			}
-			MainActivity.LOGIN_STATUS = false;
+//			MainActivity.LOGIN_STATUS = false;
+			startWork = true;
 		}
 	}
 

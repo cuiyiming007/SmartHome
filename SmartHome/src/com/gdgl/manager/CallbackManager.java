@@ -239,7 +239,7 @@ public class CallbackManager extends Manger {
 			case 29:
 				final CallbackJoinNetMessage joinNetMessage = gson.fromJson(
 						response, CallbackJoinNetMessage.class);
-				Log.i(TAG, "Callback msgType=" + msgType + " jionnet"
+				Log.i(TAG, "Callback msgType=" + msgType + " joinnet"
 						+ joinNetMessage.toString());
 				new Thread(new Runnable() {
 
@@ -394,13 +394,14 @@ public class CallbackManager extends Manger {
 					notifyObservers(event1_error);
 					break;
 				}
-				VideoNode videoNode1 = gson.fromJson(response, VideoNode.class);
 				try {
-					response = new URLDecoder().decode(response, "UTF-8");
+					new URLDecoder();
+					response = URLDecoder.decode(response, "UTF-8");
 				} catch (UnsupportedEncodingException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+				VideoNode videoNode1 = gson.fromJson(response, VideoNode.class);
 				Event event1 = new Event(EventType.ADDIPC, true);
 				event1.setData(videoNode1);
 
@@ -421,7 +422,8 @@ public class CallbackManager extends Manger {
 					break;
 				}
 				try {
-					response = new URLDecoder().decode(response, "UTF-8");
+					new URLDecoder();
+					response = URLDecoder.decode(response, "UTF-8");
 				} catch (UnsupportedEncodingException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

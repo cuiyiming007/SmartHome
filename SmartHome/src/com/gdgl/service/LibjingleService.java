@@ -52,10 +52,17 @@ public class LibjingleService extends Service {
 		// TODO Auto-generated method stub
 		Log.i("LibjingleService", "LibjingleService onStartCommand!");
 		try {
-			new Thread(new Runnable() {
 
+			new Thread(new Runnable() {
+				
 				@Override
 				public void run() {
+					try {
+						Thread.sleep(800);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} 
 					Log.i("LibjingleService", "LibjingleLogin starts!");
 					String cloudip = "121.199.21.14:5222";
 					getFromSharedPreferences
@@ -116,7 +123,9 @@ public class LibjingleService extends Service {
 		// TODO Auto-generated method stub
 		Log.i("LibjingleService", "LibjingleService onDestroy!");
 		LibjingleNetUtil.getInstance().initLibjingleSocket();
+//		Log.i("LibjingleService", "-------------> before exit");
 //		libjingle.exit();
+//		Log.i("LibjingleService", "-------------> after exit");
 		System.gc();
 		super.onDestroy();
 	}
