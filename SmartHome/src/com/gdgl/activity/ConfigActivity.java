@@ -6,7 +6,7 @@ package com.gdgl.activity;
 import com.gdgl.activity.BindControlFragment.backAction;
 import com.gdgl.activity.ConfigDevicesExpandableList.IntoDeviceDetailFragment;
 import com.gdgl.activity.JoinNetFragment.ChangeFragment;
-import com.gdgl.mydata.getFromSharedPreferences;
+import com.gdgl.mydata.AccountInfo;
 import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.service.LibjingleService;
 import com.gdgl.service.SmartService;
@@ -60,9 +60,9 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 		MyApplicationFragment.getInstance().setActivity(this);
 		setSlideRole(R.layout.config_content);
 		setSlideRole(R.layout.config_menu_new);
-
-		getFromSharedPreferences.setsharedPreferences(ConfigActivity.this);
-		String name = getFromSharedPreferences.getName().trim();
+		
+		AccountInfo info = LoginActivity.loginAccountInfo;
+		String name = info.getAccount();
 		if (null == name || name.trim().equals("")) {
 			name = "Adminstartor";
 		}

@@ -477,7 +477,7 @@ public class DataHelper extends SQLiteOpenHelper {
 			String nullColumnHack, ArrayList<CallbackWarnMessage> arrayList) {
 		getFromSharedPreferences.setsharedPreferences(ApplicationController
 				.getInstance());
-		String usename = getFromSharedPreferences.getName();
+		String usename = getFromSharedPreferences.getLoginName();
 		long result = -100;
 		// List<DevicesModel> mList = convertToDevicesModel(r);
 		db.beginTransaction();

@@ -190,7 +190,7 @@ public class NetUtil {
 							result = jsonObject.getString("reply");
 						} else {
 							getFromSharedPreferences.setsharedPreferences(ApplicationController.getInstance());
-							String name = getFromSharedPreferences.getName().trim();
+							String name = getFromSharedPreferences.getLoginName().trim();
 							if(name.equals(jsonObject.getString("id"))||name.equals(jsonObject.getString("alias"))) {
 								IP = ip;
 								result = jsonObject.getString("reply");

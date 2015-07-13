@@ -26,7 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gdgl.activity.ConfigurationActivity_New;
-import com.gdgl.mydata.getFromSharedPreferences;
+import com.gdgl.activity.LoginActivity;
+import com.gdgl.mydata.AccountInfo;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyApplication;
 
@@ -78,8 +79,8 @@ public class NavigationDrawerFragment extends Fragment implements
 		mDrawerList.setAdapter(adapter);
 		selectItem(mCurrentSelectedPosition);
 		
-		getFromSharedPreferences.setsharedPreferences(getActivity());
-		String name = getFromSharedPreferences.getName().trim();
+		AccountInfo info = LoginActivity.loginAccountInfo;
+		String name = info.getAccount();
 		if (null == name || name.trim().equals("")) {
 			name = "Adminstartor";
 		}

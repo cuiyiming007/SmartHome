@@ -10,7 +10,6 @@ import com.gdgl.manager.UIListener;
 import com.gdgl.mydata.AccountInfo;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
-import com.gdgl.mydata.LoginResponse;
 import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.smarthome.R;
 
@@ -32,9 +31,10 @@ public class ChangeNameFragment extends Fragment implements UIListener {
 
 	EditText old_name;
 	EditText new_name;
+	EditText password;
 	Button btn_commit;
 
-	String odlPwd, name;
+	String passWord, name;
 	String newName, oldName;
 	String id;
 	LoginManager mLoginManager;
@@ -45,6 +45,9 @@ public class ChangeNameFragment extends Fragment implements UIListener {
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		mLoginManager = LoginManager.getInstance();
+		mLoginManager.addObserver(ChangeNameFragment.this);
+		CallbackManager.getInstance().addObserver(ChangeNameFragment.this);
 	}
 
 	@Override
@@ -60,27 +63,15 @@ public class ChangeNameFragment extends Fragment implements UIListener {
 		// TODO Auto-generated method stub
 
 		getFromSharedPreferences.setsharedPreferences((Context) getActivity());
-		odlPwd = getFromSharedPreferences.getPwd();
-		name = getFromSharedPreferences.getName();
-		id = getFromSharedPreferences.getUid();
+		name = getFromSharedPreferences.getAliasName();
+		id = getFromSharedPreferences.getGatewayMAC();
 		new_name = (EditText) mView.findViewById(R.id.new_name);
-
+		password = (EditText) mView.findViewById(R.id.password);
+		
 		old_name = (EditText) mView.findViewById(R.id.old_name);
 		old_name.setText(name);
 
 		btn_commit = (Button) mView.findViewById(R.id.commit);
-
-		ch_name = (RelativeLayout) mView.findViewById(R.id.ch_name);
-		RelativeLayout.LayoutParams mLayoutParams = new RelativeLayout.LayoutParams(
-				RelativeLayout.LayoutParams.MATCH_PARENT,
-				RelativeLayout.LayoutParams.MATCH_PARENT);
-
-		ch_name.setLayoutParams(mLayoutParams);
-
-		mLoginManager = LoginManager.getInstance();
-		mLoginManager.addObserver(ChangeNameFragment.this);
-		CallbackManager.getInstance().addObserver(ChangeNameFragment.this);
-		
 		btn_commit.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -88,34 +79,48 @@ public class ChangeNameFragment extends Fragment implements UIListener {
 				// TODO Auto-generated method stub
 				oldName = old_name.getText().toString();
 				newName = new_name.getText().toString();
+				passWord = password.getText().toString();
 
 				if (null == oldName || oldName.length() <= 0) {
-					Toast.makeText(getActivity(), "请输入旧用户名", Toast.LENGTH_SHORT)
+					Toast.makeText(getActivity(), "请输入旧别名", Toast.LENGTH_SHORT)
 							.show();
 					old_name.requestFocus();
 					return;
 				} else if (oldName.length() > 5 && oldName.length() < 17) {
 
 					if (null == newName || newName.length() <= 0) {
-						Toast.makeText(getActivity(), "请输入新用户名",
+						Toast.makeText(getActivity(), "请输入新别名",
 								Toast.LENGTH_SHORT).show();
 						new_name.requestFocus();
 						return;
 					} else if (newName.length() > 5 && newName.length() < 17) {
-						AccountInfo account = new AccountInfo();
-						account.setAccount(oldName);
-						account.setPassword(odlPwd);
-						account.setId(id);
-						account.setAlias(oldName);
-						mLoginManager.modifyAlias(account, newName);
+						
+						if (null == passWord || passWord.length() <= 0) {
+							Toast.makeText(getActivity(), "请输入密码",
+									Toast.LENGTH_SHORT).show();
+							password.requestFocus();
+							return;
+						} else if (passWord.length() > 5 && passWord.length() < 17) {
+							AccountInfo account = new AccountInfo();
+							account.setAccount(oldName);
+							account.setPassword(passWord);
+							account.setId(id);
+							account.setAlias(oldName);
+							mLoginManager.modifyAlias(account, newName);
+						} else {
+							Toast.makeText(getActivity(), "密码应为6-16字符",
+									Toast.LENGTH_SHORT).show();
+							password.requestFocus();
+							return;
+						}
 					} else {
-						Toast.makeText(getActivity(), "新用户名应为6-16字符",
+						Toast.makeText(getActivity(), "新别名应为6-16字符",
 								Toast.LENGTH_SHORT).show();
 						new_name.requestFocus();
 						return;
 					}
 				} else {
-					Toast.makeText(getActivity(), "旧用户名应为6-16字符",
+					Toast.makeText(getActivity(), "旧别名应为6-16字符",
 							Toast.LENGTH_SHORT).show();
 					old_name.requestFocus();
 					return;
@@ -168,7 +173,7 @@ public class ChangeNameFragment extends Fragment implements UIListener {
 			});
 			getFromSharedPreferences
 					.setsharedPreferences((Context) getActivity());
-			getFromSharedPreferences.setName(newName.trim());
+			getFromSharedPreferences.setAliasName(newName.trim());
 			break;
 		case -39:
 			mView.post(new Runnable() {
@@ -176,7 +181,7 @@ public class ChangeNameFragment extends Fragment implements UIListener {
 				@Override
 				public void run() {
 					// TODO Auto-generated method stub
-					Toast.makeText(getActivity(), "原用户名错误，请重新输入", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getActivity(), "原别名错误，请重新输入", Toast.LENGTH_SHORT).show();
 				}
 			});
 			break;
@@ -186,7 +191,17 @@ public class ChangeNameFragment extends Fragment implements UIListener {
 				@Override
 				public void run() {
 					// TODO Auto-generated method stub
-					Toast.makeText(getActivity(), "用户名未做任何修改", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getActivity(), "别名未做任何修改", Toast.LENGTH_SHORT).show();
+				}
+			});
+			break;
+		case -49:
+			mView.post(new Runnable() {
+				
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					Toast.makeText(getActivity(), "别名已存在，请重新输入", Toast.LENGTH_SHORT).show();
 				}
 			});
 			break;

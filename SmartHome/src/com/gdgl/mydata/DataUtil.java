@@ -836,7 +836,7 @@ public class DataUtil {
 			DataHelper dh) {
 		getFromSharedPreferences.setsharedPreferences(ApplicationController
 				.getInstance());
-		String usename = getFromSharedPreferences.getName();
+		String usename = getFromSharedPreferences.getLoginName();
 		List<CallbackWarnMessage> mList = new ArrayList<CallbackWarnMessage>();
 		Cursor cursor = null;
 		SQLiteDatabase db = dh.getSQLiteDatabase();

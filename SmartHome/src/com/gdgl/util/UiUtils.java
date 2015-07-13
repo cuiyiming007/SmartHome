@@ -33,8 +33,9 @@ public class UiUtils {
 	public static final String ENABLE_IPC = "enable_ipc";
 	
 	public static final String PWD = "Password";
-	public static final String NAME = "Name";
-	public static final String UID = "UserID";
+	public static final String LOGIN_NAME = "Login_Name";
+	public static final String GATEWAY_MAC = "GatewayMAC";
+	public static final String ALIAS = "alias";
 	public static final String IS_REMERBER_PWD = "RemerberPwd";
 	public static final String IS_AUTO_LOGIN = "AutoLogin";
 

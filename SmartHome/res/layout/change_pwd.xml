@@ -5,149 +5,137 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <RelativeLayout
-        android:id="@+id/login_lay"
+    <LinearLayout
+        android:id="@+id/name_pwd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/center_divider"
-        android:layout_centerHorizontal="true" >
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:orientation="vertical" >
 
         <LinearLayout
-            android:id="@+id/name_pwd"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_gravity="center"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:orientation="vertical" >
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/imageView2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="2dp"
+                android:alpha="0.85"
+                android:gravity="center"
+                android:text="旧密码："
+                android:textColor="#AA000000"
+                android:textSize="18dp" />
+
+            <EditText
+                android:id="@+id/old_pwd"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:orientation="vertical" >
+                android:background="@drawable/corners"
+                android:paddingLeft="10dp"
+                android:password="true"
+                android:textColor="#000000"
+                android:textSize="18dp" >
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginBottom="5dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal" >
-
-                    <TextView
-                        android:id="@+id/imageView2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginLeft="2dp"
-                        android:layout_marginTop="2dp"
-                        android:alpha="0.85"
-                        android:gravity="center"
-                        android:text="旧密码："
-                        android:textColor="#AA000000"
-                        android:textSize="18dp" />
-
-                    <EditText
-                        android:id="@+id/old_pwd"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:background="@drawable/corners"
-                        android:paddingLeft="10dp"
-                        android:password="true"
-                        android:textColor="#000000"
-                        android:textSize="18dp" >
-
-                        <requestFocus />
-                    </EditText>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal" >
-
-                    <TextView
-                        android:id="@id/imageView2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginLeft="2dp"
-                        android:layout_marginTop="2dp"
-                        android:alpha="0.85"
-                        android:gravity="center"
-                        android:text="新密码："
-                        android:textColor="#AA000000"
-                        android:textSize="18dp" />
-
-                    <EditText
-                        android:id="@+id/new_pwd"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:background="@drawable/corners"
-                        android:paddingLeft="10dp"
-                        android:password="true"
-                        android:textColor="#000000"
-                        android:textSize="18dp" >
-                    </EditText>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal" >
-
-                    <TextView
-                        android:id="@id/imageView2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginLeft="2dp"
-                        android:layout_marginTop="2dp"
-                        android:alpha="0.85"
-                        android:gravity="center"
-                        android:text="再确认："
-                        android:textColor="#AA000000"
-                        android:textSize="18dp" />
-
-                    <EditText
-                        android:id="@+id/new_pwd_again"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:background="@drawable/corners"
-                        android:paddingLeft="10dp"
-                        android:password="true"
-                        android:textColor="#000000"
-                        android:textSize="18dp" >
-                    </EditText>
-                </LinearLayout>
-            </LinearLayout>
+                <requestFocus />
+            </EditText>
         </LinearLayout>
-    </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@id/imageView2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="2dp"
+                android:alpha="0.85"
+                android:gravity="center"
+                android:text="新密码："
+                android:textColor="#AA000000"
+                android:textSize="18dp" />
+
+            <EditText
+                android:id="@+id/new_pwd"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="@drawable/corners"
+                android:paddingLeft="10dp"
+                android:password="true"
+                android:textColor="#000000"
+                android:textSize="18dp" >
+            </EditText>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@id/imageView2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="2dp"
+                android:alpha="0.85"
+                android:gravity="center"
+                android:text="再确认："
+                android:textColor="#AA000000"
+                android:textSize="18dp" />
+
+            <EditText
+                android:id="@+id/new_pwd_again"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="@drawable/corners"
+                android:paddingLeft="10dp"
+                android:password="true"
+                android:textColor="#000000"
+                android:textSize="18dp" >
+            </EditText>
+        </LinearLayout>
+    </LinearLayout>
 
     <View
         android:id="@+id/center_divider"
-        android:layout_width="match_parent"
-        android:layout_height="1px"
+        android:layout_width="10dp"
+        android:layout_height="2dp"
         android:layout_centerInParent="true" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/center_divider"
+        android:layout_below="@+id/name_pwd"
+        android:layout_marginTop="5dp"
         android:layout_centerHorizontal="true"
         android:orientation="vertical" >
 
@@ -164,7 +152,6 @@
             android:text="提交"
             android:textColor="@color/ui_button_selector_blue_text"
             android:textSize="20dp" />
-
     </LinearLayout>
 
 </RelativeLayout>

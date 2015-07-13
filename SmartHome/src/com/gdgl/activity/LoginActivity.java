@@ -59,9 +59,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class LoginActivity extends Activity implements OnClickListener,
-		UIListener,Dialogcallback {
+		UIListener, Dialogcallback {
 	NetWorkChangeReciever netWorkChangeReciever;
-	
+
 	private EditText mName, mPwd, mCloud;
 	private CheckBox mRem, mAut;
 	private TextView gaoji_text;
@@ -86,12 +86,12 @@ public class LoginActivity extends Activity implements OnClickListener,
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login);
-		
+
 		IntentFilter intentFilter = new IntentFilter();
 		intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
 		netWorkChangeReciever = new NetWorkChangeReciever();
 		registerReceiver(netWorkChangeReciever, intentFilter);
-		
+
 		LoginManager.getInstance().addObserver(this);
 		Libjingle.getInstance().addObserver(this);
 		LibjingleResponseHandlerManager.getInstance().addObserver(this);
@@ -117,19 +117,17 @@ public class LoginActivity extends Activity implements OnClickListener,
 		mRem = (CheckBox) findViewById(R.id.checkBox1);
 
 		getFromSharedPreferences.setsharedPreferences(LoginActivity.this);
-		
-		DeviceTabFragment.ENABLE_VEDIO = getFromSharedPreferences.getEnableIPC();
-		
-		if (!getFromSharedPreferences.getUid().equals("")) {
-			mName.setText(getFromSharedPreferences.getUid());
-		} else {
-			mName.setText(getFromSharedPreferences.getName());
-		}
-		mPwd.setText(getFromSharedPreferences.getPwd());
+
+		DeviceTabFragment.ENABLE_VEDIO = getFromSharedPreferences
+				.getEnableIPC();
+
+		mName.setText(getFromSharedPreferences.getLoginName());
+		mPwd.setText("");
 		if (!getFromSharedPreferences.getCloud().equals("")) {
 			mCloud.setText(getFromSharedPreferences.getCloud());
 		}
 		if (getFromSharedPreferences.getIsRemerber()) {
+			mPwd.setText(getFromSharedPreferences.getPwd());
 			mRem.setChecked(true);
 		}
 		// mName.setText("BC6A2987D431");
@@ -138,7 +136,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 		user_dropdown.setOnClickListener(this);
 		cloud_dropdown.setOnClickListener(this);
 		gaoji.setOnClickListener(this);
-		
+
 		mHandler = new Handler() {
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
@@ -177,7 +175,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 
 			if (accountInfo.getAccount() == null
 					|| accountInfo.getAccount().length() <= 0) {
-				Toast.makeText(getApplicationContext(), "请输入用户名或网关MAC地址",
+				Toast.makeText(getApplicationContext(), "请输入用户名",
 						Toast.LENGTH_SHORT).show();
 			} else if (accountInfo.getAccount().length() > 5
 					&& accountInfo.getAccount().length() < 17) {
@@ -196,9 +194,6 @@ public class LoginActivity extends Activity implements OnClickListener,
 				Toast.makeText(getApplicationContext(), "用户名应为6-16字符",
 						Toast.LENGTH_SHORT).show();
 			}
-			// Intent intent = new Intent(LoginActivity.this, SmartHome.class);
-			// startActivity(intent);
-			// this.finish();
 			break;
 		case R.id.gaoji:
 			if (gaoji_Layout.getVisibility() == View.GONE) {
@@ -278,9 +273,9 @@ public class LoginActivity extends Activity implements OnClickListener,
 			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
 			String where = " mac=? or alias=? ";
 			String[] args = { alias, alias };
-			String[] columns = { "ip" };
+			// String[] columns = { "ip" };
 			Cursor cursor = mSQLiteDatabase.query(DataHelper.GATEWAY_TABLE,
-					columns, where, args, null, null, null);
+					null, where, args, null, null, null);
 
 			// .rawQuery("select * from gateway_table where mac = \'883314EF8B2D\' or alias = \'883314EF8B2D\'",null);
 
@@ -292,10 +287,11 @@ public class LoginActivity extends Activity implements OnClickListener,
 					String ip = cursor.getString(cursor.getColumnIndex("ip"));
 
 					NetUtil.getInstance().setGatewayIP(ip);
-
-//					Intent serviceIntent = new Intent(this, SmartService.class);
-//					startService(serviceIntent);
 					LoginManager.getInstance().doLogin(accountInfo);
+					getFromSharedPreferences.setAliasName(cursor
+							.getString(cursor.getColumnIndex("alias")));
+					getFromSharedPreferences.setGatewayMAC(cursor
+							.getString(cursor.getColumnIndex("mac")));
 				}
 				mSQLiteDatabase.close();
 			} else {
@@ -350,7 +346,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 		if (EventType.LIBJINGLE_STATUS == event.getType()) {
 			if (event.isSuccess() == true) {
 
-//				int status = Integer.parseInt((String) event.getData());
+				// int status = Integer.parseInt((String) event.getData());
 				int status = (Integer) event.getData();
 				switch (status) {
 				case 1:
@@ -363,7 +359,8 @@ public class LoginActivity extends Activity implements OnClickListener,
 							LibjingleSendManager.getInstance().getIPClist();
 							LibjingleSendManager.getInstance().GetLinkageList();
 							LibjingleSendManager.getInstance().GetSceneList();
-							LibjingleSendManager.getInstance().GetTimeActionList();
+							LibjingleSendManager.getInstance()
+									.GetTimeActionList();
 							try {
 								Thread.sleep(2000);
 							} catch (InterruptedException e) {
@@ -376,15 +373,15 @@ public class LoginActivity extends Activity implements OnClickListener,
 									.getLocalCIEList();
 						}
 					}).start();
-//					Intent intent = new Intent(LoginActivity.this,
-//							MainActivity.class);
-//					intent.putExtra("id", "");
-//					intent.putExtra("name", mName.getText().toString());
-//					intent.putExtra("pwd", mPwd.getText().toString());
-//					intent.putExtra("remenber", mRem.isChecked());
-//					intent.putExtra("cloud", mCloud.getText().toString());
-//					startActivity(intent);
-//					this.finish();
+					// Intent intent = new Intent(LoginActivity.this,
+					// MainActivity.class);
+					// intent.putExtra("id", "");
+					// intent.putExtra("name", mName.getText().toString());
+					// intent.putExtra("pwd", mPwd.getText().toString());
+					// intent.putExtra("remenber", mRem.isChecked());
+					// intent.putExtra("cloud", mCloud.getText().toString());
+					// startActivity(intent);
+					// this.finish();
 					break;
 				case 0:
 					mLogin.post(new Runnable() {
@@ -393,20 +390,22 @@ public class LoginActivity extends Activity implements OnClickListener,
 						public void run() {
 							// TODO Auto-generated method stub
 							dialog_view.setVisibility(View.GONE);
-							Toast.makeText(LoginActivity.this, "网关不在线,请检查网关网络状态",
-									Toast.LENGTH_SHORT).show();
+							Toast.makeText(LoginActivity.this,
+									"网关不在线,请检查网关网络状态", Toast.LENGTH_SHORT)
+									.show();
 						}
 					});
 					break;
 				case 4:
+					NetworkConnectivity.networkStatus = NetworkConnectivity.LAN;
 					mLogin.post(new Runnable() {
 
 						@Override
 						public void run() {
 							// TODO Auto-generated method stub
 							dialog_view.setVisibility(View.GONE);
-							Toast.makeText(getApplicationContext(), "用户名或密码不正确",
-									Toast.LENGTH_SHORT).show();
+							Toast.makeText(getApplicationContext(),
+									"用户名或密码不正确", Toast.LENGTH_SHORT).show();
 						}
 					});
 
@@ -416,8 +415,8 @@ public class LoginActivity extends Activity implements OnClickListener,
 			}
 		} else if (EventType.LOCALIASCIEOPERATION == event.getType()) {
 			if (event.isSuccess() == true) {
-				Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-				intent.putExtra("id", "");
+				Intent intent = new Intent(LoginActivity.this,
+						MainActivity.class);
 				intent.putExtra("name", mName.getText().toString());
 				intent.putExtra("pwd", mPwd.getText().toString());
 				intent.putExtra("remenber", mRem.isChecked());
@@ -434,14 +433,6 @@ public class LoginActivity extends Activity implements OnClickListener,
 		case 0:
 			Intent serviceIntent = new Intent(this, SmartService.class);
 			startService(serviceIntent);
-//			Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//			intent.putExtra("id", response.getId());
-//			intent.putExtra("name", mName.getText().toString());
-//			intent.putExtra("pwd", mPwd.getText().toString());
-//			intent.putExtra("remenber", mRem.isChecked());
-//			intent.putExtra("cloud", mCloud.getText().toString());
-//			startActivity(intent);
-//			this.finish();
 			break;
 		case 24:
 			Toast.makeText(getApplicationContext(), "用户名或密码不正确",
@@ -456,8 +447,8 @@ public class LoginActivity extends Activity implements OnClickListener,
 			});
 			break;
 		case 29:
-			Toast.makeText(getApplicationContext(), "用户名或密码不正确", Toast.LENGTH_SHORT)
-					.show();
+			Toast.makeText(getApplicationContext(), "用户名或密码不正确",
+					Toast.LENGTH_SHORT).show();
 			mLogin.post(new Runnable() {
 
 				@Override
@@ -660,7 +651,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 		public void showOkCancelDialog() {
 			mMyOkCancleDlg = new MyOkCancleDlg(LoginActivity.this);
 			mMyOkCancleDlg.setDialogCallback(MyAdapter.this);
-			mMyOkCancleDlg.setContent("确定要删除这笔资料吗?");
+			mMyOkCancleDlg.setContent("确定要删除此用户名吗?");
 			mMyOkCancleDlg.show();
 		}
 

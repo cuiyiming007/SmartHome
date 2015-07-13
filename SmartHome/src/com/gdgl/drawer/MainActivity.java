@@ -106,18 +106,17 @@ public class MainActivity extends ActionBarActivity implements
 	private void saveLoginData() {
 		getFromSharedPreferences.setsharedPreferences(MainActivity.this);
 		Intent intent = getIntent();
-		String id = intent.getStringExtra("id");
 		String name = intent.getStringExtra("name");
 		String pwd = intent.getStringExtra("pwd");
 		String cloud = intent.getStringExtra("cloud");
 		boolean remenber = intent.getBooleanExtra("remenber", true);
-		getFromSharedPreferences.setUid(id);
 		if (remenber) {
 			getFromSharedPreferences.setLogin(name, pwd, true);
+			getFromSharedPreferences.setUserList(name, pwd);
 		} else {
 			getFromSharedPreferences.setLogin(name, pwd, false);
+			getFromSharedPreferences.setUserList(name, "");
 		}
-		getFromSharedPreferences.setUserList(name, pwd);
 		getFromSharedPreferences.setCloud(cloud);
 		getFromSharedPreferences.setCloudList(cloud);
 	}

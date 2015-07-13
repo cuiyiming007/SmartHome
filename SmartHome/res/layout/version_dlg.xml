@@ -14,7 +14,7 @@
         android:layout_height="25dp"
         android:layout_marginTop="20dp"
         android:gravity="center"
-        android:text="广联电子科技 "
+        android:text="广东广联电子科技有限公司 "
         android:textColor="#000000"
         android:textSize="18dp" />
 

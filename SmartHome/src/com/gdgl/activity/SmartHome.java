@@ -85,7 +85,7 @@ public class SmartHome extends FragmentActivity implements
 		String pwd = intent.getStringExtra("pwd");
 		String cloud = intent.getStringExtra("cloud");
 		boolean remenber = intent.getBooleanExtra("remenber", true);
-		getFromSharedPreferences.setUid(id);
+		getFromSharedPreferences.setGatewayMAC(id);
 		if (remenber) {
 			getFromSharedPreferences.setLogin(name, pwd, true);
 		} else {

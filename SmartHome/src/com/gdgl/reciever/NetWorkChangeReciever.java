@@ -92,7 +92,7 @@ public class NetWorkChangeReciever extends BroadcastReceiver {
 					break;
 				case NetworkConnectivity.INTERNET:
 					if (NetworkConnectivity.netStatusLastTime == NetworkConnectivity.INTERNET) {
-						String name = getFromSharedPreferences.getName();
+						String name = getFromSharedPreferences.getLoginName();
 						String pwd = getFromSharedPreferences.getPwd();
 						Libjingle.getInstance().login(
 								LibjinglePackHandler.getJid(), name + pwd,

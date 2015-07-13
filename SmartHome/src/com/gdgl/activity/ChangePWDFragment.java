@@ -36,12 +36,13 @@ public class ChangePWDFragment extends Fragment implements UIListener {
 	String oldpwd, newpwd, newagain;
 	LoginManager mLoginManager;
 
-	RelativeLayout ch_pwd;
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		mLoginManager = LoginManager.getInstance();
+		mLoginManager.addObserver(ChangePWDFragment.this);
+		CallbackManager.getInstance().addObserver(ChangePWDFragment.this);
 	}
 
 	@Override
@@ -57,26 +58,13 @@ public class ChangePWDFragment extends Fragment implements UIListener {
 		// TODO Auto-generated method stub
 
 		getFromSharedPreferences.setsharedPreferences((Context) getActivity());
-		odlPwd = getFromSharedPreferences.getPwd();
-		name = getFromSharedPreferences.getName();
+		name = getFromSharedPreferences.getLoginName();
 
 		old_pwd = (EditText) mView.findViewById(R.id.old_pwd);
 		new_pwd = (EditText) mView.findViewById(R.id.new_pwd);
 		new_again = (EditText) mView.findViewById(R.id.new_pwd_again);
 
-		ch_pwd = (RelativeLayout) mView.findViewById(R.id.ch_pwd);
-		RelativeLayout.LayoutParams mLayoutParams = new RelativeLayout.LayoutParams(
-				RelativeLayout.LayoutParams.MATCH_PARENT,
-				RelativeLayout.LayoutParams.MATCH_PARENT);
-
-		ch_pwd.setLayoutParams(mLayoutParams);
-
 		btn_commit = (Button) mView.findViewById(R.id.commit);
-
-		mLoginManager = LoginManager.getInstance();
-		mLoginManager.addObserver(ChangePWDFragment.this);
-		CallbackManager.getInstance().addObserver(ChangePWDFragment.this);
-		
 		btn_commit.setOnClickListener(new OnClickListener() {
 
 			@Override

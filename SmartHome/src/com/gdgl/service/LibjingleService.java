@@ -77,7 +77,7 @@ public class LibjingleService extends Service {
 						name = info.getAccount();
 						passwd = info.getPassword();
 					} else {
-						name = getFromSharedPreferences.getName();
+						name = getFromSharedPreferences.getLoginName();
 						passwd = getFromSharedPreferences.getPwd();
 					}
 					Log.i("LibjingleService", LibjinglePackHandler.getJid()

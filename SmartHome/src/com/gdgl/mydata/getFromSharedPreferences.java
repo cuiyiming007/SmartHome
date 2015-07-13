@@ -15,7 +15,6 @@ import com.gdgl.util.UiUtils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 public class getFromSharedPreferences {
 
@@ -41,14 +40,18 @@ public class getFromSharedPreferences {
 		return mSharedPreferences.getString(UiUtils.PWD, UiUtils.EMPTY_STR);
 	}
 
-	public static String getName() {
-		return mSharedPreferences.getString(UiUtils.NAME, UiUtils.EMPTY_STR);
+	public static String getLoginName() {
+		return mSharedPreferences.getString(UiUtils.LOGIN_NAME, UiUtils.EMPTY_STR);
 	}
 
-	public static String getUid() {
-		return mSharedPreferences.getString(UiUtils.UID, UiUtils.EMPTY_STR);
+	public static String getGatewayMAC() {
+		return mSharedPreferences.getString(UiUtils.GATEWAY_MAC, UiUtils.EMPTY_STR);
 	}
 
+	public static String getAliasName() {
+		return mSharedPreferences.getString(UiUtils.ALIAS, UiUtils.EMPTY_STR);
+	}
+	
 	public static boolean getIsRemerber() {
 		return mSharedPreferences.getBoolean(UiUtils.IS_REMERBER_PWD, false);
 	}
@@ -61,8 +64,8 @@ public class getFromSharedPreferences {
 			boolean isAuto) {
 		mEditor = mSharedPreferences.edit();
 
-		mEditor.putString(UiUtils.UID, accountInfo.getId());
-		mEditor.putString(UiUtils.NAME, accountInfo.getAlias());
+		mEditor.putString(UiUtils.GATEWAY_MAC, accountInfo.getId());
+		mEditor.putString(UiUtils.LOGIN_NAME, accountInfo.getAlias());
 		if(isRemerber){
 			mEditor.putString(UiUtils.PWD, accountInfo.getPassword());
 		}else{
@@ -76,12 +79,9 @@ public class getFromSharedPreferences {
 	
 	public static boolean setLogin(String name, String pwd, boolean isRemerber){
 		mEditor = mSharedPreferences.edit();
-		mEditor.putString(UiUtils.NAME, name);
-		if(isRemerber){
-			mEditor.putString(UiUtils.PWD, pwd);
-		}else{
-			mEditor.putString(UiUtils.PWD, "");
-		}
+		mEditor.putString(UiUtils.LOGIN_NAME, name);
+		mEditor.putString(UiUtils.PWD, pwd);
+		
 		mEditor.putBoolean(UiUtils.IS_REMERBER_PWD, isRemerber);
 		return mEditor.commit();
 	}
@@ -94,22 +94,30 @@ public class getFromSharedPreferences {
 		return mEditor.commit();
 	}
 
-	public static boolean setName(String name) {
+	public static boolean setLoginName(String name) {
 		mEditor = mSharedPreferences.edit();
 
-		mEditor.putString(UiUtils.NAME, name);
+		mEditor.putString(UiUtils.LOGIN_NAME, name);
 
 		return mEditor.commit();
 	}
 	
-	public static boolean setUid(String uid) {
+	public static boolean setGatewayMAC(String uid) {
 		mEditor = mSharedPreferences.edit();
 
-		mEditor.putString(UiUtils.UID, uid);
+		mEditor.putString(UiUtils.GATEWAY_MAC, uid);
 
 		return mEditor.commit();
 	}
 
+	public static boolean setAliasName(String alias) {
+		mEditor = mSharedPreferences.edit();
+
+		mEditor.putString(UiUtils.ALIAS, alias);
+
+		return mEditor.commit();
+	}
+	
 	public static String getUUID() {
 		return mSharedPreferences.getString(UiUtils.UUID, UiUtils.EMPTY_STR);
 	}
