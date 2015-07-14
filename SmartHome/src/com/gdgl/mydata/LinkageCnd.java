@@ -55,10 +55,8 @@ public class LinkageCnd{
 					cndString = "温度小于";			
 				}
 				cndString += data + "°C";
-			}else if(name.equals("Burglar")){
-				cndString = "触发警报";
-			}else if(name.equals("Fire")){
-				cndString = "触发警报";
+			}else if(name.equals("alarm")){
+				cndString = "报警";
 			}
 			
 		}

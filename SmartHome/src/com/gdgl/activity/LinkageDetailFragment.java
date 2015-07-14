@@ -265,11 +265,14 @@ public class LinkageDetailFragment extends Fragment implements
 	private String getTrgcnd(){
 		String trgcnd = "";
 		if(trgDevices.getmModelId().indexOf((DataHelper.Magnetic_Window)) == 0){ //窗磁Z311A
-			trgcnd += "Burglar@eq@0";
+//			trgcnd += "Burglar@eq@0";
+			trgcnd += "alarm@eq@0";
 		}else if(trgDevices.getmModelId().indexOf((DataHelper.Motion_Sensor)) == 0){ //动作感应器ZB11A
-			trgcnd += "Burglar@eq@0";
+//			trgcnd += "Burglar@eq@0";
+			trgcnd += "alarm@eq@0";
 		}else if(trgDevices.getmModelId().indexOf((DataHelper.Smoke_Detectors)) == 0){ //烟雾感应器ZA01A
-			trgcnd += "Fire@eq@0";
+//			trgcnd += "Fire@eq@0";
+			trgcnd += "alarm@eq@0";
 		}else if(trgDevices.getmModelId().indexOf((DataHelper.Indoor_temperature_sensor)) == 0){ //温湿度感应器Z711
 			trgcnd += "temp@" + SPINNER_SIGN_DATA[temp] + "@" + devices_data_edit.getText().toString();	
 		}
