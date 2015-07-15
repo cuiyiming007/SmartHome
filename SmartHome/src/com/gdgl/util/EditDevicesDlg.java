@@ -1,7 +1,6 @@
 package com.gdgl.util;
 
 import com.gdgl.model.DevicesModel;
-import com.gdgl.mydata.DataHelper;
 import com.gdgl.smarthome.R;
 
 import android.app.Dialog;
@@ -9,7 +8,6 @@ import android.content.Context;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class EditDevicesDlg {
@@ -23,7 +21,7 @@ public class EditDevicesDlg {
 
 	EditText mName;
 	// EditText mRegion;
-	LinearLayout devices_region;
+//	LinearLayout devices_region;
 
 	public EditDevicesDlg(Context c, DevicesModel s) {
 		mContext = c;
@@ -33,26 +31,16 @@ public class EditDevicesDlg {
 		dialog.setContentView(R.layout.edit_devices_dlg);
 		textView = (TextView) dialog.findViewById(R.id.txt_title);
 
-		devices_region = (LinearLayout) dialog
-				.findViewById(R.id.devices_region);
+//		devices_region = (LinearLayout) dialog
+//				.findViewById(R.id.devices_region);
 
 		mName = (EditText) dialog.findViewById(R.id.edit_name);
-		// mRegion = (EditText) dialog.findViewById(R.id.edit_region);
 
 		final String name;
-//		if (mDevicesModel.getmModelId().contains(
-//				DataHelper.Wall_switch_double)
-//				|| mDevicesModel.getmModelId().contains(
-//						DataHelper.Wall_switch_triple)) {
-//			name = mDevicesModel.getmDefaultDeviceName();
-//			devices_region.setVisibility(View.GONE);
-//		} else {
-			name = mDevicesModel.getmDefaultDeviceName();
-//		}
-		final String region = mDevicesModel.getmDeviceRegion();
+		name = mDevicesModel.getmDefaultDeviceName();
+//		final String region = mDevicesModel.getmDeviceRegion();
 
 		mName.setText(name);
-		// mRegion.setText(region);
 
 		save = (Button) dialog.findViewById(R.id.btn_save);
 		save.setOnClickListener(new View.OnClickListener() {

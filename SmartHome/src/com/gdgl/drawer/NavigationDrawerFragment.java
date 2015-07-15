@@ -30,12 +30,14 @@ import com.gdgl.activity.LoginActivity;
 import com.gdgl.mydata.AccountInfo;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyApplication;
+import com.gdgl.util.MyOkCancleDlg;
+import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 
 /**
  * Created by poliveira on 24/10/2014.
  */
 public class NavigationDrawerFragment extends Fragment implements
-		NavigationDrawerCallbacks {
+		NavigationDrawerCallbacks, Dialogcallback {
 	private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
 	private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
 	private static final String PREFERENCES_FILE = "my_app_settings"; // TODO:
@@ -139,7 +141,12 @@ public class NavigationDrawerFragment extends Fragment implements
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				MyApplication.getInstance().finishSystem();
+				MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
+						getActivity());
+				mMyOkCancleDlg
+						.setDialogCallback((Dialogcallback) NavigationDrawerFragment.this);
+				mMyOkCancleDlg.setContent("退出SmartHome后,将不再接收报警信息.是否确认退出？");
+				mMyOkCancleDlg.show();
 			}
 		});
 		mExit.setOnTouchListener(new View.OnTouchListener() {
@@ -370,5 +377,11 @@ public class NavigationDrawerFragment extends Fragment implements
 		SharedPreferences sharedPref = ctx.getSharedPreferences(
 				PREFERENCES_FILE, Context.MODE_PRIVATE);
 		return sharedPref.getString(settingName, defaultValue);
+	}
+
+	@Override
+	public void dialogdo() {
+		// TODO Auto-generated method stub
+		MyApplication.getInstance().finishSystem();
 	}
 }

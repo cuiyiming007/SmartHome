@@ -16,6 +16,7 @@ import com.gdgl.util.UiUtils;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -242,8 +243,7 @@ public class AddCommonUsedActivity extends Activity {
 			if (tag != currentIndex) {
 				lt.get(currentIndex - 1).setBackground(null);
 				lr.get(currentIndex - 1).setVisibility(View.GONE);
-				tv.setBackground(getResources().getDrawable(
-						R.drawable.dlg_button_press));
+				tv.setBackgroundColor(Color.parseColor("#eeeeee"));
 				lr.get(tag - 1).setVisibility(View.VISIBLE);
 				switch (tag) {
 				case 1:

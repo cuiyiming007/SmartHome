@@ -73,9 +73,9 @@ public class DeviceControlActivity extends ActionBarActivity implements
 							DeviceControlActivity.this);
 					mMyOkCancleDlg
 							.setDialogCallback((Dialogcallback) DeviceControlActivity.this);
-					mMyOkCancleDlg.setContent("确定要删除"
+					mMyOkCancleDlg.setContent("确定要删除" + " "
 							+ mDevicesModel.getmDefaultDeviceName().trim()
-							+ "吗?");
+							+ " " + "吗?");
 					mMyOkCancleDlg.show();
 					break;
 				default:

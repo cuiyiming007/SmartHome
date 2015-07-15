@@ -24,6 +24,7 @@ import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
@@ -182,8 +183,7 @@ public class KongtiaoTvControlActivity extends Activity implements UIListener,
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				currentPostion = 1;
-				kongtiao.setBackground(getResources().getDrawable(
-						R.drawable.dlg_button_press));
+				kongtiao.setBackgroundColor(Color.parseColor("#eeeeee"));
 				tv.setBackground(null);
 
 				tv_control.setVisibility(View.GONE);
@@ -197,8 +197,7 @@ public class KongtiaoTvControlActivity extends Activity implements UIListener,
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				currentPostion = 2;
-				tv.setBackground(getResources().getDrawable(
-						R.drawable.dlg_button_press));
+				tv.setBackgroundColor(Color.parseColor("#eeeeee"));
 				kongtiao.setBackground(null);
 
 				kongtiao_control.setVisibility(View.GONE);

@@ -14,6 +14,8 @@ import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.timing.TimingAction;
 import com.gdgl.smarthome.R;
+import com.gdgl.util.MyOkCancleDlg;
+import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 
 import android.support.v4.app.Fragment;
 import android.content.Intent;
@@ -37,7 +39,7 @@ import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
 
-public class TimingFragment extends Fragment implements UIListener {
+public class TimingFragment extends Fragment implements UIListener, Dialogcallback {
 
 	public static final String[] WEEKS = {"周日","周一","周二","周三","周四","周五","周六"};
 	
@@ -48,6 +50,8 @@ public class TimingFragment extends Fragment implements UIListener {
 	List<TimingAction> mTimingaActionsList;
 	TimingActionListAdapter mTimingActionListAdapter;
 	DataHelper mDataHelper;
+	
+	int currentposition;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -119,10 +123,15 @@ public class TimingFragment extends Fragment implements UIListener {
 		// TODO Auto-generated method stub
 		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
 				.getMenuInfo();
-		int position = info.position;
+		currentposition = info.position;
 		int menuIndex = item.getItemId();
 		if (1 == menuIndex) {
-			SceneLinkageManager.getInstance().DelTimeAction(mTimingaActionsList.get(position).getTid());
+			MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
+					getActivity());
+			mMyOkCancleDlg
+					.setDialogCallback((Dialogcallback) TimingFragment.this);
+			mMyOkCancleDlg.setContent("确定要删除该定时吗?");
+			mMyOkCancleDlg.show();
 		}
 		return super.onContextItemSelected(item);
 	}
@@ -365,5 +374,11 @@ public class TimingFragment extends Fragment implements UIListener {
 				});
 			}
 		}
+	}
+
+	@Override
+	public void dialogdo() {
+		// TODO Auto-generated method stub
+		SceneLinkageManager.getInstance().DelTimeAction(mTimingaActionsList.get(currentposition).getTid());
 	}
 }

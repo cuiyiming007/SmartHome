@@ -94,7 +94,7 @@
                 android:gravity="center"
                 android:layout_weight="1"
                 android:text="场景"
-                android:background="@drawable/dlg_button_press"
+                android:background="@drawable/dlg_btn_style"
                 android:textColor="#000000"
             	android:textSize="16dp" />
 

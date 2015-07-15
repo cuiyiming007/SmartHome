@@ -4,50 +4,51 @@
     android:layout_width="300dp"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:background="@drawable/corners"
+    android:background="@drawable/dialogbackground"
     android:orientation="vertical" >
 
     <TextView
         android:id="@+id/txt_title"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:gravity="center"
-        android:textColor="#000000"
-        android:textSize="18dp" />
-    <View 
-        android:background="@drawable/divider_color"
-        android:layout_width="match_parent"
-        android:layout_marginTop="3dp"
-        android:layout_marginBottom="2dp"
-        android:layout_height="2px"/>
+        android:layout_height="wrap_content"
+        android:padding="24dp"
+        android:gravity="center_vertical"
+        android:textColor="@color/text_dark_gray"
+        android:textSize="16sp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp" >
-
-        <Button
-            android:id="@+id/btn_ok"
-            android:layout_width="110dp"
-            android:layout_height="40dp"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="10dp"
-            android:text="确   定"
-            android:background="@drawable/dlg_btn_style"
-            android:textColor="#000000"
-            android:textSize="18dp" />
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="8dp" >
 
         <Button
             android:id="@+id/btn_cancle"
-            android:layout_width="110dp"
-            android:layout_height="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:minWidth="64dp"
+            android:padding="8dp"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            android:text="取   消"
+            android:text="取消"
             android:background="@drawable/dlg_btn_style"
-            android:textColor="#000000"
-            android:textSize="18dp" />
+            android:textColor="@color/blue_default"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/btn_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="8dp"
+            android:layout_toLeftOf="@+id/btn_cancle"
+            android:background="@drawable/dlg_btn_style"
+            android:minWidth="64dp"
+            android:padding="8dp"
+            android:text="确定"
+            android:textColor="@color/blue_default"
+            android:textSize="15sp" />
+
     </RelativeLayout>
 
 </LinearLayout>
