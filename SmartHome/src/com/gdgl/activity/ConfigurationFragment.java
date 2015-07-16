@@ -99,6 +99,33 @@ public class ConfigurationFragment extends Fragment {
 				return true;
 			}
 		});
+		feedBack.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				changeFragment.setFragment(new FeedbackFragment());
+			}
+		});
+		feedBack.setOnTouchListener(new View.OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+
+				switch (event.getAction()) {
+				case MotionEvent.ACTION_DOWN:
+					feedBack.setBackgroundColor(getResources().getColor(
+							R.color.myDrawerBackground));
+					return false;
+				case MotionEvent.ACTION_CANCEL:
+				case MotionEvent.ACTION_MOVE:
+				case MotionEvent.ACTION_UP:
+					feedBack.setBackgroundColor(Color.TRANSPARENT);
+					return false;
+				}
+				return true;
+			}
+		});
 		aboutApp.setOnClickListener(new OnClickListener() {
 
 			@Override

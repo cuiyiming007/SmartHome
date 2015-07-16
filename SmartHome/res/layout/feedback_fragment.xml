@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="24dp" >
+
+        <EditText
+            android:id="@+id/feedback_edit"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/corners"
+            android:gravity="top|left"
+            android:hint="请输入你的意见或建议"
+            android:maxLength="400"
+            android:paddingTop="5dp"
+            android:paddingBottom="20dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" />
+
+        <TextView
+            android:id="@+id/feedback_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_marginBottom="3dp"
+            android:layout_marginRight="10dp"
+            android:text="0/400" />
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/feedback_commit"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/ui_button_selector_blue"
+        android:gravity="center"
+        android:text="提交"
+        android:textColor="@color/ui_button_selector_blue_text"
+        android:textSize="20dp" />
+
+</LinearLayout>

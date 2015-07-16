@@ -78,6 +78,7 @@ public class EventType {
 	public static final EventType REQUESTVIDEO;
 	
 	public static final EventType GETHISTORYDATA;
+	public static final EventType FEEDBACKTOSERVER;
 
 	public static final EventType ADDLINKAGE;
 	public static final EventType EDITLINKAGE;
@@ -162,6 +163,7 @@ public class EventType {
 		ENABLELINKAGE = new EventType("EnableLinkage", nextId());
 		
 		GETHISTORYDATA = new EventType("gethistorydata", nextId());
+		FEEDBACKTOSERVER = new EventType("feedbacktoserver", nextId());
 		
 		NETWORKCHANGE = new EventType("networkchange", nextId());
 	}

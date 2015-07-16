@@ -9,6 +9,7 @@ import com.gdgl.mydata.scene.SceneDevice;
 import com.gdgl.smarthome.R;
 
 import android.support.v4.app.Fragment;
+import android.R.integer;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -59,8 +60,7 @@ public class SceneDevicesFragment extends Fragment {
 	private void initView() {
 		// TODO Auto-generated method stub
 
-		devices_list_view = (ListView) mView
-				.findViewById(R.id.devices_list);
+		devices_list_view = (ListView) mView.findViewById(R.id.devices_list);
 		mButtonFloat = (ButtonFloat) mView.findViewById(R.id.buttonFloat);
 		mButtonFloat.setVisibility(View.VISIBLE);
 		devices_list_view.setAdapter(mBaseAdapter);
@@ -85,7 +85,7 @@ public class SceneDevicesFragment extends Fragment {
 		menu.add(0, 1, 0, "删除");
 		super.onCreateContextMenu(menu, v, menuInfo);
 	}
-	
+
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
@@ -99,7 +99,7 @@ public class SceneDevicesFragment extends Fragment {
 		}
 		return super.onContextItemSelected(item);
 	}
-	
+
 	public class SceneDevicesListAdapter extends BaseAdapter {
 
 		public SceneDevicesListAdapter(List<SceneDevice> list) {
@@ -162,17 +162,20 @@ public class SceneDevicesFragment extends Fragment {
 			}
 
 			SQLiteDatabase db = mDataHelper.getSQLiteDatabase();
-			String[] columns = { DevicesModel.PIC_NAME,
+			String[] columns = { DevicesModel.DEVICE_ID, DevicesModel.PIC_NAME,
 					DevicesModel.DEFAULT_DEVICE_NAME };
 			String where = " ieee=? and ep=? ";
 			String[] args = { mDevices.getIeee(), mDevices.getEp() };
 
 			Cursor cursor = mDataHelper.query(db, DataHelper.DEVICES_TABLE,
 					columns, where, args, null, null, null, null);
+			int deivceID = 0;
 			String picSource = Integer
 					.toString(R.drawable.ui_securitycontrol_alarm);
 			String deviceName = "";
 			while (cursor.moveToNext()) {
+				deivceID = cursor.getInt(cursor
+						.getColumnIndex(DevicesModel.DEVICE_ID));
 				deviceName = cursor.getString(cursor
 						.getColumnIndex(DevicesModel.DEFAULT_DEVICE_NAME));
 				picSource = cursor.getString(cursor
@@ -180,16 +183,48 @@ public class SceneDevicesFragment extends Fragment {
 			}
 			cursor.close();
 			db.close();
-			
+
+			final int deviceid = deivceID;
+
 			mHolder.devices_name.setText(deviceName);
 			mHolder.devices_img.setImageResource(Integer.parseInt(picSource));
 			if (mDevices.getDevicesStatus() == 0) {
 				mHolder.devices_switch.setChecked(false);
-				mHolder.devices_state.setText("关闭");
+				switch (deivceID) {
+				case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:
+				case DataHelper.MAINS_POWER_OUTLET_DEVICETYPE:
+				case DataHelper.ON_OFF_LIGHT_DEVICETYPE:
+				case DataHelper.DIMEN_LIGHTS_DEVICETYPE:
+				case DataHelper.SHADE_DEVICETYPE:
+					mHolder.devices_state.setText("关闭");
+					break;
+				case DataHelper.COMBINED_INTERFACE_DEVICETYPE:
+				case DataHelper.IAS_ZONE_DEVICETYPE:
+					mHolder.devices_state.setText("撤防");
+					break;
+				default:
+					mHolder.devices_state.setText("关闭");
+					break;
+				}
 			}
 			if (mDevices.getDevicesStatus() == 1) {
 				mHolder.devices_switch.setChecked(true);
-				mHolder.devices_state.setText("开启");
+				switch (deivceID) {
+				case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:
+				case DataHelper.MAINS_POWER_OUTLET_DEVICETYPE:
+				case DataHelper.ON_OFF_LIGHT_DEVICETYPE:
+				case DataHelper.DIMEN_LIGHTS_DEVICETYPE:
+				case DataHelper.SHADE_DEVICETYPE:
+					mHolder.devices_state.setText("打开");
+					break;
+				case DataHelper.COMBINED_INTERFACE_DEVICETYPE:
+				case DataHelper.IAS_ZONE_DEVICETYPE:
+					mHolder.devices_state.setText("布防");
+					break;
+				default:
+					mHolder.devices_state.setText("打开");
+					break;
+				}
 			}
 			mHolder.devices_switch
 					.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -199,13 +234,43 @@ public class SceneDevicesFragment extends Fragment {
 								boolean isChecked) {
 							// TODO Auto-generated method stub
 							if (isChecked) {
-								mHolder.devices_state.setText("开启");
+								switch (deviceid) {
+								case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:
+								case DataHelper.MAINS_POWER_OUTLET_DEVICETYPE:
+								case DataHelper.ON_OFF_LIGHT_DEVICETYPE:
+								case DataHelper.DIMEN_LIGHTS_DEVICETYPE:
+								case DataHelper.SHADE_DEVICETYPE:
+									mHolder.devices_state.setText("打开");
+									break;
+								case DataHelper.COMBINED_INTERFACE_DEVICETYPE:
+								case DataHelper.IAS_ZONE_DEVICETYPE:
+									mHolder.devices_state.setText("布防");
+									break;
+								default:
+									mHolder.devices_state.setText("打开");
+									break;
+								}
 								mDevices.setDevicesStatus(1);
-//								notifyDataSetChanged();
+								// notifyDataSetChanged();
 							} else {
-								mHolder.devices_state.setText("关闭");
+								switch (deviceid) {
+								case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:
+								case DataHelper.MAINS_POWER_OUTLET_DEVICETYPE:
+								case DataHelper.ON_OFF_LIGHT_DEVICETYPE:
+								case DataHelper.DIMEN_LIGHTS_DEVICETYPE:
+								case DataHelper.SHADE_DEVICETYPE:
+									mHolder.devices_state.setText("关闭");
+									break;
+								case DataHelper.COMBINED_INTERFACE_DEVICETYPE:
+								case DataHelper.IAS_ZONE_DEVICETYPE:
+									mHolder.devices_state.setText("撤防");
+									break;
+								default:
+									mHolder.devices_state.setText("关闭");
+									break;
+								}
 								mDevices.setDevicesStatus(0);
-//								notifyDataSetChanged();
+								// notifyDataSetChanged();
 							}
 						}
 					});

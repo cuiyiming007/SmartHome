@@ -43,6 +43,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="IP 地址  "
+                    android:textColor="@color/text_gray"
                     android:textSize="16dp" />
 
                 <EditText
@@ -80,6 +81,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="rtsp端口  "
+                    android:textColor="@color/text_gray"
                     android:textSize="16dp" />
 
                 <EditText
@@ -98,7 +100,7 @@
                 android:layout_height="1dp"
                 android:layout_marginBottom="2dp"
                 android:layout_marginTop="3dp"
-                android:background="#595959" />
+                android:background="#b6b6b6" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -113,6 +115,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="http端口  "
+                    android:textColor="@color/text_gray"
                     android:textSize="16dp" />
 
                 <EditText
@@ -131,7 +134,7 @@
                 android:layout_height="1dp"
                 android:layout_marginBottom="2dp"
                 android:layout_marginTop="3dp"
-                android:background="#595959" />
+                android:background="#b6b6b6" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -147,6 +150,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="摄像机用户名"
+                    android:textColor="@color/text_gray"
                     android:textSize="16dp" />
 
                 <EditText
@@ -165,7 +169,7 @@
                 android:layout_height="1dp"
                 android:layout_marginBottom="2dp"
                 android:layout_marginTop="3dp"
-                android:background="#595959" />
+                android:background="#b6b6b6" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -180,6 +184,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="摄像机密码"
+                    android:textColor="@color/text_gray"
                     android:textSize="16dp" />
 
                 <EditText
@@ -199,7 +204,7 @@
                 android:layout_height="1dp"
                 android:layout_marginBottom="2dp"
                 android:layout_marginTop="3dp"
-                android:background="#595959" />
+                android:background="#b6b6b6" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -214,6 +219,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="摄像机序列号"
+                    android:textColor="@color/text_gray"
                     android:textSize="16dp" />
 
                 <EditText
@@ -232,7 +238,7 @@
                 android:layout_height="1dp"
                 android:layout_marginBottom="2dp"
                 android:layout_marginTop="3dp"
-                android:background="#595959" />
+                android:background="#b6b6b6" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -247,6 +253,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="摄像机别名"
+                    android:textColor="@color/text_gray"
                     android:textSize="16dp" />
 
                 <EditText
@@ -265,7 +272,7 @@
                 android:layout_height="1dp"
                 android:layout_marginBottom="2dp"
                 android:layout_marginTop="3dp"
-                android:background="#595959" />
+                android:background="#b6b6b6" />
         </LinearLayout>
 
         <RelativeLayout

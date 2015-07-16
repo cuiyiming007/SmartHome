@@ -100,6 +100,16 @@ public class TimingAddFragment extends Fragment implements DeviceSelected {
 			minute = Integer.parseInt(mTimingAction.getPara1()
 					.substring(10, 12));
 		}
+		for (int i = 0; i < mAddDevicesList.size(); i++) {
+			DevicesModel mModel = mAddDevicesList.get(i);
+			if (mModel.getmModelId().indexOf(DataHelper.Siren) == 0
+					|| mModel.getmModelId().indexOf(
+							DataHelper.Indoor_temperature_sensor) == 0
+					|| mModel.getmModelId().indexOf(DataHelper.Smoke_Detectors) == 0) {
+				mAddDevicesList.remove(i);
+				i--;
+			}
+		}
 	}
 
 	@Override
@@ -144,8 +154,8 @@ public class TimingAddFragment extends Fragment implements DeviceSelected {
 					.getmPicName()));
 			mDeviceName.setText(mDevicesSelected.getmDefaultDeviceName());
 			mStatusDescribe.setText("设备状态：");
-			mDeviceStatus.setText(mTimingAction.getDevicesStatus() == 1 ? "开启"
-					: "关闭");
+			mDeviceStatus.setText(setDeviceStatusText(mTimingAction
+					.getDevicesStatus() == 1 ? true : false));
 			mSwitchBtn.setChecked(mTimingAction.getDevicesStatus() == 1 ? true
 					: false);
 		}
@@ -155,7 +165,7 @@ public class TimingAddFragment extends Fragment implements DeviceSelected {
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
 				// TODO Auto-generated method stub
-				mDeviceStatus.setText(isChecked ? "开启" : "关闭");
+				mDeviceStatus.setText(setDeviceStatusText(isChecked));
 				mTimingAction.setDevicesStatus(isChecked ? 1 : 0);
 			}
 		});
@@ -225,6 +235,46 @@ public class TimingAddFragment extends Fragment implements DeviceSelected {
 		refreshDateView();
 	}
 
+	public String setDeviceStatusText(boolean check) {
+		String deviceStatus = "";
+		if (check) {
+			switch (mDevicesSelected.getmDeviceId()) {
+			case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:
+			case DataHelper.MAINS_POWER_OUTLET_DEVICETYPE:
+			case DataHelper.ON_OFF_LIGHT_DEVICETYPE:
+			case DataHelper.DIMEN_LIGHTS_DEVICETYPE:
+			case DataHelper.SHADE_DEVICETYPE:
+				deviceStatus = "打开";
+				break;
+			case DataHelper.COMBINED_INTERFACE_DEVICETYPE:
+			case DataHelper.IAS_ZONE_DEVICETYPE:
+				deviceStatus = "布防";
+				break;
+			default:
+				deviceStatus = "打开";
+				break;
+			}
+		} else {
+			switch (mDevicesSelected.getmDeviceId()) {
+			case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:
+			case DataHelper.MAINS_POWER_OUTLET_DEVICETYPE:
+			case DataHelper.ON_OFF_LIGHT_DEVICETYPE:
+			case DataHelper.DIMEN_LIGHTS_DEVICETYPE:
+			case DataHelper.SHADE_DEVICETYPE:
+				deviceStatus = "关闭";
+				break;
+			case DataHelper.COMBINED_INTERFACE_DEVICETYPE:
+			case DataHelper.IAS_ZONE_DEVICETYPE:
+				deviceStatus = "撤防";
+				break;
+			default:
+				deviceStatus = "关闭";
+				break;
+			}
+		}
+		return deviceStatus;
+	}
+
 	public void setTimingAction(TimingAction action) {
 		mTimingAction = action;
 	}
@@ -250,8 +300,8 @@ public class TimingAddFragment extends Fragment implements DeviceSelected {
 				.getmPicName()));
 		mDeviceName.setText(mDevicesSelected.getmDefaultDeviceName());
 		mStatusDescribe.setText("设备状态：");
-		mDeviceStatus.setText(mTimingAction.getDevicesStatus() == 1 ? "开启"
-				: "关闭");
+		mDeviceStatus.setText(setDeviceStatusText(mTimingAction
+				.getDevicesStatus() == 1 ? true : false));
 		mSwitchBtn.setChecked(mTimingAction.getDevicesStatus() == 1 ? true
 				: false);
 	}

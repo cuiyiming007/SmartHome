@@ -127,6 +127,7 @@ public class JoinNetFragment extends Fragment implements UIListener,
 		btn_scape = (Button) mView.findViewById(R.id.scape);
 		btn_close = (Button) mView.findViewById(R.id.close);
 		btn_look = (Button) mView.findViewById(R.id.look);
+		btn_close.setEnabled(false);
 		btn_look.setEnabled(false);
 		// btn_look.setBackgroundColor(Color.DKGRAY);
 
@@ -136,6 +137,7 @@ public class JoinNetFragment extends Fragment implements UIListener,
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				btn_scape.setEnabled(false);
+				btn_close.setEnabled(true);
 				scapedDeviveList.clear();
 				CGIManager.getInstance().setAllPermitJoinOn(JoinNetTimer);
 				text_result.setText("正在扫描...");
@@ -202,6 +204,7 @@ public class JoinNetFragment extends Fragment implements UIListener,
 				break;
 			case STOP:
 				btn_scape.setEnabled(true);
+				btn_close.setEnabled(false);
 				if (mHandler.hasMessages(SCAPE)) {
 					mHandler.removeMessages(SCAPE);
 				}

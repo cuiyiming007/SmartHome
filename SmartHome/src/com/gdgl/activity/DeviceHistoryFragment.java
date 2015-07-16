@@ -10,7 +10,6 @@ import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.historydata.HistoryData;
-import com.gdgl.model.historydata.HistoryDataPoint;
 import com.gdgl.model.historydata.HistoryPoint;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.Event;
@@ -55,6 +54,7 @@ public class DeviceHistoryFragment extends Fragment implements UIListener {
 	List<HistoryPoint> historyDataList;
 	
 	View mView;
+	TextView nohistoryTextView;
 	Spinner spinner;
 	Button get_historyButton;
 	LinearLayout dataTitleLayout;
@@ -86,6 +86,7 @@ public class DeviceHistoryFragment extends Fragment implements UIListener {
 
 	private void initView() {
 		// TODO Auto-generated method stub
+		nohistoryTextView = (TextView)mView.findViewById(R.id.nohistory);
 		spinner = (Spinner) mView.findViewById(R.id.spinner);
 		get_historyButton = (Button) mView.findViewById(R.id.begin_identify);
 		dataTitleLayout = (LinearLayout) mView.findViewById(R.id.data_title);
@@ -143,7 +144,9 @@ public class DeviceHistoryFragment extends Fragment implements UIListener {
 		case DataHelper.IAS_ACE_DEVICETYPE:
 		case DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE:
 			spinnerList.add("NULL");
-			get_historyButton.setClickable(false);
+			spinner.setVisibility(View.GONE);
+			get_historyButton.setVisibility(View.GONE);
+			nohistoryTextView.setVisibility(View.VISIBLE);
 			break;
 		case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:
 		case DataHelper.MAINS_POWER_OUTLET_DEVICETYPE:
@@ -177,28 +180,40 @@ public class DeviceHistoryFragment extends Fragment implements UIListener {
 			}
 			if (modelId.indexOf(DataHelper.Emergency_Button) == 0) { // ZigBee紧急按钮
 				spinnerList.add("NULL");
-				get_historyButton.setClickable(false);
+				spinner.setVisibility(View.GONE);
+				get_historyButton.setVisibility(View.GONE);
+				nohistoryTextView.setVisibility(View.VISIBLE);
 			}
 			if (modelId.indexOf(DataHelper.Emergency_Button_On_Wall) == 0) { // ZigBee墙面紧急按钮
 				spinnerList.add("NULL");
-				get_historyButton.setClickable(false);
+				spinner.setVisibility(View.GONE);
+				get_historyButton.setVisibility(View.GONE);
+				nohistoryTextView.setVisibility(View.VISIBLE);
 			}
 			if (modelId.indexOf(DataHelper.Smoke_Detectors) == 0) { // 烟雾感应器
 				spinnerList.add("NULL");
-				get_historyButton.setClickable(false);
+				spinner.setVisibility(View.GONE);
+				get_historyButton.setVisibility(View.GONE);
+				nohistoryTextView.setVisibility(View.VISIBLE);
 			}
 			if (modelId.indexOf(DataHelper.Combustible_Gas_Detector_Gas) == 0) { // 可燃气体探测器（煤气)器
 				spinnerList.add("NULL");
-				get_historyButton.setClickable(false);
+				spinner.setVisibility(View.GONE);
+				get_historyButton.setVisibility(View.GONE);
+				nohistoryTextView.setVisibility(View.VISIBLE);
 			}
 			if (modelId.indexOf(DataHelper.Combustible_Gas_Detector_CO) == 0) { // 可燃气体探测器（一氧化碳)
 				spinnerList.add("NULL");
-				get_historyButton.setClickable(false);
+				spinner.setVisibility(View.GONE);
+				get_historyButton.setVisibility(View.GONE);
+				nohistoryTextView.setVisibility(View.VISIBLE);
 			}
 			if (modelId
 					.indexOf(DataHelper.Combustible_Gas_Detector_Natural_gas) == 0) { // 可燃气体探测器（天然气)
 				spinnerList.add("NULL");
-				get_historyButton.setClickable(false);
+				spinner.setVisibility(View.GONE);
+				get_historyButton.setVisibility(View.GONE);
+				nohistoryTextView.setVisibility(View.VISIBLE);
 			}
 			break;
 		default:

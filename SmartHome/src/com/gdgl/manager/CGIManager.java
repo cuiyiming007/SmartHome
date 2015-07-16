@@ -1714,6 +1714,45 @@ public class CGIManager extends Manger {
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
 	
+	public void feedbackToServer(String user, String content) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("UserID", user);
+		paraMap.put("Context", content);
+		String param = hashMap2ParamString(paraMap);
+
+		String url = "http://121.199.21.14:8888/SmartHome/feedback?"
+				+ param;
+		StringRequest req = new StringRequest(url,
+				new Response.Listener<String>() {
+					@Override
+					public void onResponse(String response) {
+						Log.i("feedbackToServer", response);
+						response = UiUtils.formatResponseString(response);
+						JsonParser parser = new JsonParser();
+						JsonObject jsonObject = parser.parse(response).getAsJsonObject();
+						int code = jsonObject.get("returnCode").getAsInt();
+						if(code == 1) {
+							Event event = new Event(EventType.FEEDBACKTOSERVER, true);
+							notifyObservers(event);
+						} else {
+							Event event = new Event(EventType.FEEDBACKTOSERVER, false);
+							notifyObservers(event);
+						}
+					}
+				}, new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+						if (error != null && error.getMessage() != null) {
+							VolleyLog.e("CGIManager setHeartTime Error: ",
+									error.getMessage());
+							Event event = new Event(EventType.FEEDBACKTOSERVER, false);
+							notifyObservers(event);
+						}
+					}
+				});
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
+	
 	class GetBindingTask extends AsyncTask<String, Object, Object> {
 		@Override
 		protected Object doInBackground(String... params) {

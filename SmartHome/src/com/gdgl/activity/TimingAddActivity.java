@@ -5,6 +5,8 @@ import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.timing.TimingAction;
 import com.gdgl.smarthome.R;
+import com.gdgl.util.MyOkCancleDlg;
+import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-public class TimingAddActivity extends ActionBarActivity {
+public class TimingAddActivity extends ActionBarActivity implements Dialogcallback {
 
 	public static final String TYPE = "type";
 	public static final int CREATE = 1;
@@ -116,7 +118,28 @@ public class TimingAddActivity extends ActionBarActivity {
 	@Override
 	public boolean onSupportNavigateUp() {
 		// TODO Auto-generated method stub
-		finish();
+		MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(this);
+		mMyOkCancleDlg
+				.setDialogCallback((Dialogcallback) this);
+		mMyOkCancleDlg.setContent("确定要放弃本次编辑?");
+		mMyOkCancleDlg.show();
 		return super.onSupportNavigateUp();
+	}
+
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(this);
+		mMyOkCancleDlg
+				.setDialogCallback((Dialogcallback) this);
+		mMyOkCancleDlg.setContent("确定要放弃本次编辑?");
+		mMyOkCancleDlg.show();
+		return;
+	}
+	
+	@Override
+	public void dialogdo() {
+		// TODO Auto-generated method stub
+		finish();
 	}
 }

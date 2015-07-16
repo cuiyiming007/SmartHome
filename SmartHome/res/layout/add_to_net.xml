@@ -53,7 +53,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/ui_button_selector_blue"
                 android:gravity="center"
-                android:text="扫描"
+                android:text="开始搜索"
                 android:textColor="@color/ui_button_selector_blue_text"
                 android:textSize="20dp" />
 
@@ -66,7 +66,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/ui_button_selector_blue"
                 android:gravity="center"
-                android:text="关闭"
+                android:text="停止搜索"
                 android:textColor="@color/ui_button_selector_blue_text"
                 android:textSize="20dp" />
         </LinearLayout>

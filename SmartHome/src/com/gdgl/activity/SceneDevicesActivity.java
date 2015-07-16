@@ -16,6 +16,8 @@ import com.gdgl.mydata.scene.SceneDevice;
 import com.gdgl.mydata.scene.SceneInfo;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyApplicationFragment;
+import com.gdgl.util.MyOkCancleDlg;
+import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -34,7 +36,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class SceneDevicesActivity extends ActionBarActivity implements
-		ChangeFragment, AddChecked {
+		ChangeFragment, AddChecked, Dialogcallback {
 	public static final String TYPE = "type";
 	public static final int CREATE = 1;
 	public static final int EDIT = 2;
@@ -238,12 +240,30 @@ public class SceneDevicesActivity extends ActionBarActivity implements
 					i--;
 				}
 			}
+		} else {
+			for (int i = 0; i < mAddList.size(); i++) {
+				DevicesModel mModel = mAddList.get(i);
+				if (mModel.getmModelId().indexOf(DataHelper.Siren) == 0
+						|| mModel.getmModelId().indexOf(
+								DataHelper.Indoor_temperature_sensor) == 0
+						|| mModel.getmModelId().indexOf(
+								DataHelper.Smoke_Detectors) == 0) {
+					mAddList.remove(i);
+					i--;
+				}
+			}
 		}
 	}
 
 	private boolean isInSceneDevicesList(DevicesModel mModel) {
 
 		for (SceneDevice mSceneDevice : mSceneDevicesList) {
+			if (mModel.getmModelId().indexOf(DataHelper.Siren) == 0
+					|| mModel.getmModelId().indexOf(
+							DataHelper.Indoor_temperature_sensor) == 0
+					|| mModel.getmModelId().indexOf(DataHelper.Smoke_Detectors) == 0) {
+				return true;
+			}
 			if (mSceneDevice.getIeee().equals(mModel.getmIeee())
 					&& mSceneDevice.getEp().equals(mModel.getmEP())) {
 				return true;
@@ -304,7 +324,11 @@ public class SceneDevicesActivity extends ActionBarActivity implements
 			fragment_flag = EDIT_FRAGMENT;
 			mAddToSceneList.clear();
 		} else {
-			finish();
+			MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(this);
+			mMyOkCancleDlg
+					.setDialogCallback((Dialogcallback) this);
+			mMyOkCancleDlg.setContent("确定要放弃本次编辑?");
+			mMyOkCancleDlg.show();
 		}
 	}
 
@@ -317,7 +341,17 @@ public class SceneDevicesActivity extends ActionBarActivity implements
 			mAddToSceneList.clear();
 			return super.onSupportNavigateUp();
 		}
-		finish();
+		MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(this);
+		mMyOkCancleDlg
+				.setDialogCallback((Dialogcallback) this);
+		mMyOkCancleDlg.setContent("确定要放弃本次编辑?");
+		mMyOkCancleDlg.show();
 		return super.onSupportNavigateUp();
+	}
+
+	@Override
+	public void dialogdo() {
+		// TODO Auto-generated method stub
+		finish();
 	}
 }
