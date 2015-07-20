@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -1521,7 +1522,7 @@ public class CGIManager extends Manger {
 				new Response.Listener<String>() {
 					@Override
 					public void onResponse(String response) {
-						response = UiUtils.formatResponseString(response);
+						// response = UiUtils.formatResponseString(response);
 						// Log.i("CGIManager ChangeDeviceName Response:%n %s",
 						// response);
 					}
@@ -1644,16 +1645,20 @@ public class CGIManager extends Manger {
 						response = UiUtils.formatResponseString(response);
 						Gson gson = new Gson();
 						JsonParser parser = new JsonParser();
-						JsonObject jsonObject = parser.parse(response).getAsJsonObject();
+						JsonObject jsonObject = parser.parse(response)
+								.getAsJsonObject();
 						int code = jsonObject.get("returnCode").getAsInt();
-						if(code == 104) {
+						if (code == 104) {
 							JsonElement data = jsonObject.get("data");
-							HistoryData historyData = gson.fromJson(data, HistoryData.class);
-							Event event = new Event(EventType.GETHISTORYDATA, true);
+							HistoryData historyData = gson.fromJson(data,
+									HistoryData.class);
+							Event event = new Event(EventType.GETHISTORYDATA,
+									true);
 							event.setData(historyData);
 							notifyObservers(event);
 						} else {
-							Event event = new Event(EventType.GETHISTORYDATA, false);
+							Event event = new Event(EventType.GETHISTORYDATA,
+									false);
 							notifyObservers(event);
 						}
 					}
@@ -1676,7 +1681,7 @@ public class CGIManager extends Manger {
 		paraMap.put("deviceID", deviceIeee);
 		paraMap.put("deviceEp", ep);
 		paraMap.put("attrName", attribute);
-		paraMap.put("dataPointNum", number+"");
+		paraMap.put("dataPointNum", number + "");
 		String param = hashMap2ParamString(paraMap);
 
 		String url = "http://121.199.21.14:8888/SmartHome/getdata_byNum?"
@@ -1689,16 +1694,20 @@ public class CGIManager extends Manger {
 						response = UiUtils.formatResponseString(response);
 						Gson gson = new Gson();
 						JsonParser parser = new JsonParser();
-						JsonObject jsonObject = parser.parse(response).getAsJsonObject();
+						JsonObject jsonObject = parser.parse(response)
+								.getAsJsonObject();
 						int code = jsonObject.get("returnCode").getAsInt();
-						if(code == 104) {
+						if (code == 104) {
 							JsonElement data = jsonObject.get("data");
-							HistoryData historyData = gson.fromJson(data, HistoryData.class);
-							Event event = new Event(EventType.GETHISTORYDATA, true);
+							HistoryData historyData = gson.fromJson(data,
+									HistoryData.class);
+							Event event = new Event(EventType.GETHISTORYDATA,
+									true);
 							event.setData(historyData);
 							notifyObservers(event);
 						} else {
-							Event event = new Event(EventType.GETHISTORYDATA, false);
+							Event event = new Event(EventType.GETHISTORYDATA,
+									false);
 							notifyObservers(event);
 						}
 					}
@@ -1713,15 +1722,24 @@ public class CGIManager extends Manger {
 				});
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
-	
+
 	public void feedbackToServer(String user, String content) {
+		// String encodeContent = content;
+		// try {
+		// encodeContent = new String(content.replace(" ",
+		// "%20").getBytes(),"UTF-8");
+		// } catch (UnsupportedEncodingException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("UserID", user);
-		paraMap.put("Context", content);
+		paraMap.put("Context", Uri.encode(content.replace(" ", "%20")));
+		// paraMap.put("Context", encodeContent);
 		String param = hashMap2ParamString(paraMap);
 
-		String url = "http://121.199.21.14:8888/SmartHome/feedback?"
-				+ param;
+		String url = "http://121.199.21.14:8888/SmartHome/feedback?" + param;
+		Log.i("feedbackToServer", url);
 		StringRequest req = new StringRequest(url,
 				new Response.Listener<String>() {
 					@Override
@@ -1729,13 +1747,16 @@ public class CGIManager extends Manger {
 						Log.i("feedbackToServer", response);
 						response = UiUtils.formatResponseString(response);
 						JsonParser parser = new JsonParser();
-						JsonObject jsonObject = parser.parse(response).getAsJsonObject();
+						JsonObject jsonObject = parser.parse(response)
+								.getAsJsonObject();
 						int code = jsonObject.get("returnCode").getAsInt();
-						if(code == 1) {
-							Event event = new Event(EventType.FEEDBACKTOSERVER, true);
+						if (code == 1) {
+							Event event = new Event(EventType.FEEDBACKTOSERVER,
+									true);
 							notifyObservers(event);
 						} else {
-							Event event = new Event(EventType.FEEDBACKTOSERVER, false);
+							Event event = new Event(EventType.FEEDBACKTOSERVER,
+									false);
 							notifyObservers(event);
 						}
 					}
@@ -1743,16 +1764,17 @@ public class CGIManager extends Manger {
 					@Override
 					public void onErrorResponse(VolleyError error) {
 						if (error != null && error.getMessage() != null) {
-							VolleyLog.e("CGIManager setHeartTime Error: ",
+							VolleyLog.e("feedbackToServer Error: ",
 									error.getMessage());
-							Event event = new Event(EventType.FEEDBACKTOSERVER, false);
+							Event event = new Event(EventType.FEEDBACKTOSERVER,
+									false);
 							notifyObservers(event);
 						}
 					}
 				});
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
-	
+
 	class GetBindingTask extends AsyncTask<String, Object, Object> {
 		@Override
 		protected Object doInBackground(String... params) {

@@ -371,6 +371,7 @@ public class LibjingleResponseHandlerManager extends Manger {
 			case LibjingleSendStructure.BEGINAPPLYIR:
 			case LibjingleSendStructure.DELETEIR:
 			case LibjingleSendStructure.IDENTIFYDEVICE:
+			case LibjingleSendStructure.DONOTCARE:
 				break;
 			case LibjingleSendStructure.GETSCENELIST:
 				new GetSceneListTask().execute(response);

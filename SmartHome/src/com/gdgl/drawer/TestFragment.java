@@ -17,7 +17,9 @@ import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.Callback.CallbackResponseType2;
+import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
+import com.gdgl.util.MyOKOnlyDlg;
 
 import android.content.Context;
 import android.content.Intent;
@@ -99,32 +101,39 @@ public class TestFragment extends Fragment implements UIListener {
 		mCustomeAdapter = new CustomeAdapter();
 		mCustomeAdapter.setList(mDeviceList);
 		content_view.setAdapter(mCustomeAdapter);
-//		content_view.setOnItemClickListener(new OnItemClickListener() {
-//
-//			@Override
-//			public void onItemClick(AdapterView<?> parent, View view,
-//					int position, long id) {
-//				// TODO Auto-generated method stub
-//				DevicesModel mDevicesModel = (DevicesModel) mDeviceList
-//						.get(position);
-//				Intent intent = new Intent();
-//
-//				Bundle extras = new Bundle();
-//				extras.putSerializable(Constants.PASS_OBJECT, mDevicesModel);
-//				intent.putExtras(extras);
-//				intent.setClass(getActivity(), DeviceControlActivity.class);
-//				startActivity(intent);
-//			}
-//		});
+		// content_view.setOnItemClickListener(new OnItemClickListener() {
+		//
+		// @Override
+		// public void onItemClick(AdapterView<?> parent, View view,
+		// int position, long id) {
+		// // TODO Auto-generated method stub
+		// DevicesModel mDevicesModel = (DevicesModel) mDeviceList
+		// .get(position);
+		// Intent intent = new Intent();
+		//
+		// Bundle extras = new Bundle();
+		// extras.putSerializable(Constants.PASS_OBJECT, mDevicesModel);
+		// intent.putExtras(extras);
+		// intent.setClass(getActivity(), DeviceControlActivity.class);
+		// startActivity(intent);
+		// }
+		// });
 
 		mButtonFloat.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent i = new Intent();
-				i.setClass(getActivity(), JoinNetActivity.class);
-				startActivity(i);
+				if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+					Intent i = new Intent();
+					i.setClass(getActivity(), JoinNetActivity.class);
+					startActivity(i);
+				} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+					MyOKOnlyDlg myOKOnlyDlg = new MyOKOnlyDlg(getActivity());
+					myOKOnlyDlg.setContent(getResources().getString(
+							R.string.Unable_In_InternetState));
+					myOKOnlyDlg.show();
+				}
 			}
 		});
 	}
@@ -183,7 +192,8 @@ public class TestFragment extends Fragment implements UIListener {
 
 					switch (event.getAction()) {
 					case MotionEvent.ACTION_DOWN:
-						mViewHolder.funcImg.setColorFilter(Color.parseColor("#55888888"));
+						mViewHolder.funcImg.setColorFilter(Color
+								.parseColor("#55888888"));
 						return true;
 					case MotionEvent.ACTION_CANCEL:
 					case MotionEvent.ACTION_MOVE:
@@ -193,9 +203,11 @@ public class TestFragment extends Fragment implements UIListener {
 						mViewHolder.funcImg.clearColorFilter();
 						Intent intent = new Intent();
 						Bundle extras = new Bundle();
-						extras.putSerializable(Constants.PASS_OBJECT, mAdapeterDevicesModel);
+						extras.putSerializable(Constants.PASS_OBJECT,
+								mAdapeterDevicesModel);
 						intent.putExtras(extras);
-						intent.setClass(getActivity(), DeviceControlActivity.class);
+						intent.setClass(getActivity(),
+								DeviceControlActivity.class);
 						startActivity(intent);
 						return true;
 					}
@@ -227,6 +239,7 @@ public class TestFragment extends Fragment implements UIListener {
 		DeviceManager.getInstance().deleteObserver(this);
 		CallbackManager.getInstance().deleteObserver(this);
 	}
+
 	@Override
 	public void update(Manger observer, Object object) {
 		// TODO Auto-generated method stub
@@ -399,7 +412,8 @@ public class TestFragment extends Fragment implements UIListener {
 				String name = changeName[2];
 				for (int i = 0; i < mDeviceList.size(); i++) {
 					DevicesModel tempDevModel = mDeviceList.get(i);
-					if(tempDevModel.getmIeee().equals(ieee) && tempDevModel.getmEP().equals(ep)) {
+					if (tempDevModel.getmIeee().equals(ieee)
+							&& tempDevModel.getmEP().equals(ep)) {
 						mDeviceList.get(i).setmDefaultDeviceName(name);
 						mView.post(new Runnable() {
 

@@ -13,8 +13,8 @@ import com.gdgl.mydata.Callback.CallbackResponseCommon;
 import com.gdgl.mydata.Callback.CallbackResponseType2;
 import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
+import com.gdgl.util.MyOKOnlyDlg;
 import com.gdgl.util.TimeDlg;
-import com.gdgl.util.VersionDlg;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -119,10 +119,10 @@ public class DeviceDetailFragment_new extends Fragment implements UIListener {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
-					VersionDlg vd = new VersionDlg(getActivity());
-					vd.setContent(getResources().getString(
+					MyOKOnlyDlg myOKOnlyDlg = new MyOKOnlyDlg(getActivity());
+					myOKOnlyDlg.setContent(getResources().getString(
 							R.string.Unable_In_InternetState));
-					vd.show();
+					myOKOnlyDlg.show();
 					return;
 				}
 				TimeDlg timeDlg = new TimeDlg((Context) getActivity(),

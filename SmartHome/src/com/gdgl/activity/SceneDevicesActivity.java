@@ -8,12 +8,14 @@ import com.gdgl.activity.SceneDevicesAddFragment.SceneDevicesAddListAdapter;
 import com.gdgl.activity.SceneDevicesFragment;
 import com.gdgl.activity.SceneDevicesFragment.ChangeFragment;
 import com.gdgl.activity.SceneDevicesFragment.SceneDevicesListAdapter;
+import com.gdgl.libjingle.LibjingleSendManager;
 import com.gdgl.manager.SceneLinkageManager;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.scene.SceneDevice;
 import com.gdgl.mydata.scene.SceneInfo;
+import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyApplicationFragment;
 import com.gdgl.util.MyOkCancleDlg;
@@ -135,8 +137,13 @@ public class SceneDevicesActivity extends ActionBarActivity implements
 								break;
 							}
 							String sceneParams = createSceneParams();
-							SceneLinkageManager.getInstance().AddScene(
-									sceneName, sceneParams, sceneIndex);
+							if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+								SceneLinkageManager.getInstance().AddScene(
+										sceneName, sceneParams, sceneIndex);
+							} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+								LibjingleSendManager.getInstance().AddScene(
+										sceneName, sceneParams, sceneIndex);
+							}
 							finish();
 						}
 						if (scene_type == EDIT) {
@@ -154,18 +161,34 @@ public class SceneDevicesActivity extends ActionBarActivity implements
 										break;
 									}
 									String sceneParams = createSceneParams();
-									SceneLinkageManager.getInstance()
-											.EditScene(sceneName, sceneParams,
-													sceneIndex, sceneId);
+									if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+										SceneLinkageManager.getInstance()
+												.EditScene(sceneName,
+														sceneParams,
+														sceneIndex, sceneId);
+									} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+										LibjingleSendManager.getInstance()
+												.EditScene(sceneName,
+														sceneParams,
+														sceneIndex, sceneId);
+									}
+
 									finish();
 								}
 							} else {
 								sceneName = Uri.encode(titleEditText.getText()
 										.toString());
 								String sceneParams = createSceneParams();
-								SceneLinkageManager.getInstance().EditScene(
-										sceneName, sceneParams, sceneIndex,
-										sceneId);
+								if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+									SceneLinkageManager.getInstance()
+											.EditScene(sceneName, sceneParams,
+													sceneIndex, sceneId);
+								} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+									LibjingleSendManager.getInstance()
+											.EditScene(sceneName, sceneParams,
+													sceneIndex, sceneId);
+								}
+
 								finish();
 							}
 						}
@@ -325,8 +348,7 @@ public class SceneDevicesActivity extends ActionBarActivity implements
 			mAddToSceneList.clear();
 		} else {
 			MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(this);
-			mMyOkCancleDlg
-					.setDialogCallback((Dialogcallback) this);
+			mMyOkCancleDlg.setDialogCallback((Dialogcallback) this);
 			mMyOkCancleDlg.setContent("确定要放弃本次编辑?");
 			mMyOkCancleDlg.show();
 		}
@@ -342,8 +364,7 @@ public class SceneDevicesActivity extends ActionBarActivity implements
 			return super.onSupportNavigateUp();
 		}
 		MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(this);
-		mMyOkCancleDlg
-				.setDialogCallback((Dialogcallback) this);
+		mMyOkCancleDlg.setDialogCallback((Dialogcallback) this);
 		mMyOkCancleDlg.setContent("确定要放弃本次编辑?");
 		mMyOkCancleDlg.show();
 		return super.onSupportNavigateUp();

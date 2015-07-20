@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.gc.materialdesign.views.ButtonFloat;
 import com.gdgl.adapter.LinkageAdapter;
+import com.gdgl.libjingle.LibjingleSendManager;
 import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.SceneLinkageManager;
@@ -17,6 +18,7 @@ import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.Linkage;
 import com.gdgl.mydata.video.VideoNode;
+import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyOkCancleDlg;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
@@ -39,20 +41,20 @@ import android.widget.ListView;
 
 import com.gdgl.activity.LinkageDetailActivity;
 
-public class LinkageFragment extends Fragment implements UIListener, Dialogcallback{
+public class LinkageFragment extends Fragment implements UIListener,
+		Dialogcallback {
 
 	List<Linkage> linkageList;
 	List<VideoNode> videoList;
-	
+
 	View mView;
 	ViewGroup nodevices;
 	ListView linkage_list;
-	ButtonFloat buttonFloat; 
+	ButtonFloat buttonFloat;
 	Linkage currentLinkage;
-	
+
 	LinkageAdapter linkageAdapter;
-	
-	
+
 	DataHelper mDateHelper;
 
 	@Override
@@ -83,33 +85,36 @@ public class LinkageFragment extends Fragment implements UIListener, Dialogcallb
 		setListeners();
 		registerForContextMenu(linkage_list);
 	}
-	
-	public void update(){
+
+	public void update() {
 		SQLiteDatabase db = mDateHelper.getSQLiteDatabase();
-		videoList = DataHelper.getVideoList((Context) getActivity(), mDateHelper);
-		linkageList = DataHelper.queryForLinkageList(db, DataHelper.LINKAGE_TABLE, null, null);
-		if(linkageList.size() > 0){
+		videoList = DataHelper.getVideoList((Context) getActivity(),
+				mDateHelper);
+		linkageList = DataHelper.queryForLinkageList(db,
+				DataHelper.LINKAGE_TABLE, null, null);
+		if (linkageList.size() > 0) {
 			nodevices.setVisibility(View.GONE);
-		}else{
+		} else {
 			nodevices.setVisibility(View.VISIBLE);
 		}
-		linkageAdapter.setList(linkageList);	
+		linkageAdapter.setList(linkageList);
 		linkageAdapter.setVideoList(videoList);
 		linkageAdapter.notifyDataSetChanged();
 		db.close();
 	}
-	
+
 	private void setListeners() {
 		buttonFloat.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent();
 				intent.putExtra(LinkageDetailActivity.TYPE, 1);
-				if(linkageList.size() > 0){
-					intent.putExtra(LinkageDetailActivity.INDEX, linkageList.get(linkageList.size()-1).getLid());
-				}else{
+				if (linkageList.size() > 0) {
+					intent.putExtra(LinkageDetailActivity.INDEX, linkageList
+							.get(linkageList.size() - 1).getLid());
+				} else {
 					intent.putExtra(LinkageDetailActivity.INDEX, 1);
 				}
 				intent.setClass(getActivity(), LinkageDetailActivity.class);
@@ -119,12 +124,13 @@ public class LinkageFragment extends Fragment implements UIListener, Dialogcallb
 		linkage_list.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> parent,
-					View view, int position, long id) {
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent();
 				Bundle bundle = new Bundle();
-				bundle.putSerializable(Constants.PASS_OBJECT, linkageList.get(position));
+				bundle.putSerializable(Constants.PASS_OBJECT,
+						linkageList.get(position));
 				intent.putExtras(bundle);
 				intent.putExtra(LinkageDetailActivity.TYPE, 2);
 				intent.setClass(getActivity(), LinkageDetailActivity.class);
@@ -132,14 +138,13 @@ public class LinkageFragment extends Fragment implements UIListener, Dialogcallb
 			}
 		});
 	}
-	
+
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
 		// TODO Auto-generated method stub
 		menu.setHeaderTitle("编辑&删除");
-		menu.add(0, 1, 0, "编辑");
-		menu.add(0, 2, 0, "删除");
+		menu.add(0, 1, 0, "删除");
 		super.onCreateContextMenu(menu, v, menuInfo);
 	}
 
@@ -152,20 +157,11 @@ public class LinkageFragment extends Fragment implements UIListener, Dialogcallb
 		currentLinkage = linkageList.get(position);
 		int menuIndex = item.getItemId();
 		if (1 == menuIndex) {
-			Intent intent = new Intent();
-			Bundle bundle = new Bundle();
-			bundle.putSerializable(Constants.PASS_OBJECT, linkageList.get(position));
-			intent.putExtras(bundle);
-			intent.putExtra(LinkageDetailActivity.TYPE, 2);
-			intent.setClass(getActivity(), LinkageDetailActivity.class);
-			startActivity(intent);
-		}
-		if (2 == menuIndex) {
 			MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
 					(Context) getActivity());
 			mMyOkCancleDlg.setDialogCallback(this);
-			mMyOkCancleDlg
-					.setContent("确定要删除  " + linkageList.get(position).getLnkname() + " 吗?");
+			mMyOkCancleDlg.setContent("确定要删除  "
+					+ linkageList.get(position).getLnkname() + " 吗?");
 			mMyOkCancleDlg.show();
 		}
 		return super.onContextItemSelected(item);
@@ -243,7 +239,13 @@ public class LinkageFragment extends Fragment implements UIListener, Dialogcallb
 	@Override
 	public void dialogdo() {
 		// TODO Auto-generated method stub
-		SceneLinkageManager.getInstance().DeleteLinkage(currentLinkage.getLid());
+		if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+			SceneLinkageManager.getInstance().DeleteLinkage(
+					currentLinkage.getLid());
+		} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+			LibjingleSendManager.getInstance().DeleteLinkage(
+					currentLinkage.getLid());
+		}
 	}
 
 }

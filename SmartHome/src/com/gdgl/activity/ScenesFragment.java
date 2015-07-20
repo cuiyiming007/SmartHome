@@ -3,6 +3,7 @@ package com.gdgl.activity;
 import java.util.List;
 
 import com.gc.materialdesign.views.ButtonFloat;
+import com.gdgl.libjingle.LibjingleSendManager;
 import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.SceneLinkageManager;
@@ -12,6 +13,7 @@ import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.scene.SceneInfo;
+import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyOkCancleDlg;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
@@ -19,26 +21,25 @@ import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 
-public class ScenesFragment extends Fragment implements UIListener, Dialogcallback {
+public class ScenesFragment extends Fragment implements UIListener,
+		Dialogcallback {
 
 	GridView content_view;
 	View mView;
@@ -91,7 +92,14 @@ public class ScenesFragment extends Fragment implements UIListener, Dialogcallba
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				// TODO Auto-generated method stub
-				SceneLinkageManager.getInstance().DoScene(mScenes.get(position).getSid());
+
+				if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+					SceneLinkageManager.getInstance().DoScene(
+							mScenes.get(position).getSid());
+				} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+					LibjingleSendManager.getInstance().DoScene(
+							mScenes.get(position).getSid());
+				}
 			}
 		});
 		mButtonFloat.setOnClickListener(new OnClickListener() {
@@ -142,8 +150,8 @@ public class ScenesFragment extends Fragment implements UIListener, Dialogcallba
 			MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
 					(Context) getActivity());
 			mMyOkCancleDlg.setDialogCallback(this);
-			mMyOkCancleDlg
-					.setContent("确定要删除  " + mScenes.get(position).getScnname() + " 吗?");
+			mMyOkCancleDlg.setContent("确定要删除  "
+					+ mScenes.get(position).getScnname() + " 吗?");
 			mMyOkCancleDlg.show();
 		}
 		return super.onContextItemSelected(item);
@@ -287,13 +295,39 @@ public class ScenesFragment extends Fragment implements UIListener, Dialogcallba
 					}
 				});
 			}
+		} else if (event.getType() == EventType.DOSCENE) {
+			if (event.isSuccess()) {
+				final int sid = (Integer) event.getData();
+
+				content_view.post(new Runnable() {
+
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						for (int i = 0; i < mScenes.size(); i++) {
+							if (mScenes.get(i).getSid() == sid) {
+								Toast.makeText(getActivity(),
+										mScenes.get(i).getScnname() + " 以应用",
+										Toast.LENGTH_SHORT).show();
+								break;
+							}
+						}
+					}
+				});
+			}
 		}
 	}
 
 	@Override
 	public void dialogdo() {
 		// TODO Auto-generated method stub
-		SceneLinkageManager.getInstance().DelScene(currentSceneInfo.getSid());
+		if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+			SceneLinkageManager.getInstance().DelScene(
+					currentSceneInfo.getSid());
+		} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+			LibjingleSendManager.getInstance().DelScene(
+					currentSceneInfo.getSid());
+		}
 	}
 
 }

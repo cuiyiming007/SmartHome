@@ -71,6 +71,7 @@ public class EventType {
 	public static final EventType ADDSCENE;
 	public static final EventType EDITSCENE;
 	public static final EventType DELSCENE;
+	public static final EventType DOSCENE;
 	
 	public static final EventType CHANGEDEVICENAME;
 	public static final EventType HEARTTIME;
@@ -151,6 +152,7 @@ public class EventType {
 		ADDSCENE = new EventType("AddScene", nextId());
 		EDITSCENE = new EventType("EditScene", nextId());
 		DELSCENE = new EventType("DelScene", nextId());
+		DOSCENE = new EventType("DoScene", nextId());
 		
 		CHANGEDEVICENAME = new EventType("changedevicename", nextId());
 		HEARTTIME = new EventType("hearttime", nextId());

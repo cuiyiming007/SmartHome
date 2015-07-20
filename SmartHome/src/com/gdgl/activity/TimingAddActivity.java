@@ -1,9 +1,11 @@
 package com.gdgl.activity;
 
+import com.gdgl.libjingle.LibjingleSendManager;
 import com.gdgl.manager.SceneLinkageManager;
 import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.timing.TimingAction;
+import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyOkCancleDlg;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
@@ -74,21 +76,37 @@ public class TimingAddActivity extends ActionBarActivity implements Dialogcallba
 									Toast.LENGTH_SHORT).show();
 							break;
 						}
-						SceneLinkageManager.getInstance().AddTimeAction("",
-								mTimingAction.combine2Actpara(), 1,
-								mTimingAction.getPara1(),
-								mTimingAction.getPara2(),
-								mTimingAction.boolean2String(), 1);
+						if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+							SceneLinkageManager.getInstance().AddTimeAction("",
+									mTimingAction.combine2Actpara(), 1,
+									mTimingAction.getPara1(),
+									mTimingAction.getPara2(),
+									mTimingAction.boolean2String(), 1);
+						} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+							LibjingleSendManager.getInstance().AddTimeAction("",
+									mTimingAction.combine2Actpara(), 1,
+									mTimingAction.getPara1(),
+									mTimingAction.getPara2(),
+									mTimingAction.boolean2String(), 1);
+						}
 						finish();
 					}
 					if (timing_type == EDIT) {
-
-						SceneLinkageManager.getInstance().EditTimeAction("",
-								mTimingAction.combine2Actpara(), 1,
-								mTimingAction.getPara1(),
-								mTimingAction.getPara2(),
-								mTimingAction.boolean2String(), 1,
-								mTimingAction.getTid());
+						if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+							SceneLinkageManager.getInstance().EditTimeAction("",
+									mTimingAction.combine2Actpara(), 1,
+									mTimingAction.getPara1(),
+									mTimingAction.getPara2(),
+									mTimingAction.boolean2String(), 1,
+									mTimingAction.getTid());
+						} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+							LibjingleSendManager.getInstance().EditTimeAction("",
+									mTimingAction.combine2Actpara(), 1,
+									mTimingAction.getPara1(),
+									mTimingAction.getPara2(),
+									mTimingAction.boolean2String(), 1,
+									mTimingAction.getTid());
+						}
 						finish();
 					}
 					break;

@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -19,7 +18,6 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -37,8 +35,8 @@ import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.video.VideoNode;
 import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
+import com.gdgl.util.MyOKOnlyDlg;
 import com.gdgl.util.MyOkCancleDlg;
-import com.gdgl.util.VersionDlg;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 
 public class VideoFragment extends Fragment implements UIListener,
@@ -122,11 +120,18 @@ public class VideoFragment extends Fragment implements UIListener,
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				VideoInfoDialog addDlg;
-				addDlg = new VideoInfoDialog(getActivity(),
-						VideoInfoDialog.Add, mList.size());
-				addDlg.setContent("添加");
-				addDlg.show();
+				if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+					VideoInfoDialog addDlg;
+					addDlg = new VideoInfoDialog(getActivity(),
+							VideoInfoDialog.Add, mList.size());
+					addDlg.setContent("添加");
+					addDlg.show();
+				} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+					MyOKOnlyDlg myOKOnlyDlg = new MyOKOnlyDlg(getActivity());
+					myOKOnlyDlg.setContent(getResources().getString(
+							R.string.Unable_In_InternetState));
+					myOKOnlyDlg.show();
+				}
 			}
 		});
 		if (null == mList || mList.size() == 0) {
@@ -134,30 +139,13 @@ public class VideoFragment extends Fragment implements UIListener,
 		} else {
 			nodevices.setVisibility(View.GONE);
 		}
-		if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
-			registerForContextMenu(content_view);
-		} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
-			content_view
-					.setOnItemLongClickListener(new OnItemLongClickListener() {
-
-						@Override
-						public boolean onItemLongClick(AdapterView<?> parent,
-								View view, int position, long id) {
-							// TODO Auto-generated method stub
-							VersionDlg vd = new VersionDlg(getActivity());
-							vd.setContent(getResources().getString(
-									R.string.Unable_In_InternetState));
-							vd.show();
-							return true;
-						}
-
-					});
-		}
+		registerForContextMenu(content_view);
 	}
-
+	
 	@Override
 	public void onDestroy() {
 		CallbackManager.getInstance().deleteObserver(this);
+		unregisterForContextMenu(content_view);
 		super.onDestroy();
 	}
 
@@ -248,18 +236,32 @@ public class VideoFragment extends Fragment implements UIListener,
 		currentVideoNode = mList.get(position);
 		int menuIndex = item.getItemId();
 		if (1 == menuIndex) {
-			VideoInfoDialog videoInfoDialog = new VideoInfoDialog(
-					getActivity(), VideoInfoDialog.Edit, currentVideoNode);
-			videoInfoDialog.setContent("编辑" + currentVideoNode.getAliases());
-			videoInfoDialog.show();
+			if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+				VideoInfoDialog videoInfoDialog = new VideoInfoDialog(
+						getActivity(), VideoInfoDialog.Edit, currentVideoNode);
+				videoInfoDialog.setContent("编辑" + currentVideoNode.getAliases());
+				videoInfoDialog.show();
+			} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+				MyOKOnlyDlg myOKOnlyDlg = new MyOKOnlyDlg(getActivity());
+				myOKOnlyDlg.setContent(getResources().getString(
+						R.string.Unable_In_InternetState));
+				myOKOnlyDlg.show();
+			}
 		}
 		if (2 == menuIndex) {
-			MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
-					(Context) getActivity());
-			mMyOkCancleDlg.setDialogCallback((Dialogcallback) this);
-			mMyOkCancleDlg.setContent("确定要删除" + currentVideoNode.getAliases()
-					+ "吗?");
-			mMyOkCancleDlg.show();
+			if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+				MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
+						(Context) getActivity());
+				mMyOkCancleDlg.setDialogCallback((Dialogcallback) this);
+				mMyOkCancleDlg.setContent("确定要删除" + currentVideoNode.getAliases()
+						+ "吗?");
+				mMyOkCancleDlg.show();
+			} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+				MyOKOnlyDlg myOKOnlyDlg = new MyOKOnlyDlg(getActivity());
+				myOKOnlyDlg.setContent(getResources().getString(
+						R.string.Unable_In_InternetState));
+				myOKOnlyDlg.show();
+			}
 		}
 		return super.onContextItemSelected(item);
 	}

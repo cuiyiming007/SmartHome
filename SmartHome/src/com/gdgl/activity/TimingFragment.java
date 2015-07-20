@@ -3,6 +3,7 @@ package com.gdgl.activity;
 import java.util.List;
 
 import com.gc.materialdesign.views.ButtonFloat;
+import com.gdgl.libjingle.LibjingleSendManager;
 import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.SceneLinkageManager;
@@ -13,6 +14,7 @@ import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.timing.TimingAction;
+import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyOkCancleDlg;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
@@ -39,10 +41,12 @@ import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
 
-public class TimingFragment extends Fragment implements UIListener, Dialogcallback {
+public class TimingFragment extends Fragment implements UIListener,
+		Dialogcallback {
 
-	public static final String[] WEEKS = {"周日","周一","周二","周三","周四","周五","周六"};
-	
+	public static final String[] WEEKS = { "周日", "周一", "周二", "周三", "周四", "周五",
+			"周六" };
+
 	private View mView;
 	ListView devices_list_view;
 	ButtonFloat mButtonFloat;
@@ -50,7 +54,7 @@ public class TimingFragment extends Fragment implements UIListener, Dialogcallba
 	List<TimingAction> mTimingaActionsList;
 	TimingActionListAdapter mTimingActionListAdapter;
 	DataHelper mDataHelper;
-	
+
 	int currentposition;
 
 	@Override
@@ -60,8 +64,9 @@ public class TimingFragment extends Fragment implements UIListener, Dialogcallba
 		CallbackManager.getInstance().addObserver(this);
 		mDataHelper = new DataHelper(getActivity());
 		SQLiteDatabase mSQLiteDatabase = mDataHelper.getSQLiteDatabase();
-		mTimingaActionsList = mDataHelper.queryForTimingActionList(mSQLiteDatabase, null,
-				null, null, null, null, TimingAction.TIMING_ID, null);
+		mTimingaActionsList = mDataHelper.queryForTimingActionList(
+				mSQLiteDatabase, null, null, null, null, null,
+				TimingAction.TIMING_ID, null);
 	}
 
 	@Override
@@ -76,8 +81,7 @@ public class TimingFragment extends Fragment implements UIListener, Dialogcallba
 	private void initView() {
 		// TODO Auto-generated method stub
 
-		devices_list_view = (ListView) mView
-				.findViewById(R.id.devices_list);
+		devices_list_view = (ListView) mView.findViewById(R.id.devices_list);
 		mButtonFloat = (ButtonFloat) mView.findViewById(R.id.buttonFloat);
 		mButtonFloat.setVisibility(View.VISIBLE);
 		mTimingActionListAdapter = new TimingActionListAdapter();
@@ -90,7 +94,8 @@ public class TimingFragment extends Fragment implements UIListener, Dialogcallba
 				// TODO Auto-generated method stub
 				Intent i = new Intent(getActivity(), TimingAddActivity.class);
 				i.putExtra(TimingAddActivity.TYPE, TimingAddActivity.EDIT);
-				i.putExtra(Constants.PASS_OBJECT, mTimingaActionsList.get(position));
+				i.putExtra(Constants.PASS_OBJECT,
+						mTimingaActionsList.get(position));
 				startActivity(i);
 			}
 		});
@@ -101,8 +106,7 @@ public class TimingFragment extends Fragment implements UIListener, Dialogcallba
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent i = new Intent(getActivity(), TimingAddActivity.class);
-				i.putExtra(TimingAddActivity.TYPE,
-						TimingAddActivity.CREATE);
+				i.putExtra(TimingAddActivity.TYPE, TimingAddActivity.CREATE);
 				startActivity(i);
 			}
 		});
@@ -117,7 +121,7 @@ public class TimingFragment extends Fragment implements UIListener, Dialogcallba
 		menu.add(0, 1, 0, "删除");
 		super.onCreateContextMenu(menu, v, menuInfo);
 	}
-	
+
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
@@ -126,8 +130,7 @@ public class TimingFragment extends Fragment implements UIListener, Dialogcallba
 		currentposition = info.position;
 		int menuIndex = item.getItemId();
 		if (1 == menuIndex) {
-			MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
-					getActivity());
+			MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(getActivity());
 			mMyOkCancleDlg
 					.setDialogCallback((Dialogcallback) TimingFragment.this);
 			mMyOkCancleDlg.setContent("确定要删除该定时吗?");
@@ -135,14 +138,14 @@ public class TimingFragment extends Fragment implements UIListener, Dialogcallba
 		}
 		return super.onContextItemSelected(item);
 	}
-	
+
 	@Override
 	public void onDestroy() {
 		// TODO Auto-generated method stub
 		CallbackManager.getInstance().deleteObserver(this);
 		super.onDestroy();
 	}
-	
+
 	public class TimingActionListAdapter extends BaseAdapter {
 
 		@Override
@@ -181,12 +184,13 @@ public class TimingFragment extends Fragment implements UIListener, Dialogcallba
 			}
 			View mView = convertView;
 			final ViewHolder mHolder;
-			final TimingAction mTimingAction = mTimingaActionsList.get(position);
-			
+			final TimingAction mTimingAction = mTimingaActionsList
+					.get(position);
+
 			String year = mTimingAction.getPara1().substring(0, 4);
 			String month = mTimingAction.getPara1().substring(4, 6);
 			String day = mTimingAction.getPara1().substring(6, 8);
-			String hour = mTimingAction.getPara1().substring(8,10);
+			String hour = mTimingAction.getPara1().substring(8, 10);
 			String minite = mTimingAction.getPara1().substring(10, 12);
 
 			if (null == mView) {
@@ -229,32 +233,36 @@ public class TimingFragment extends Fragment implements UIListener, Dialogcallba
 			}
 			cursor.close();
 			db.close();
-			
+
 			mHolder.devices_name.setText(deviceName);
 			mHolder.devices_img.setImageResource(Integer.parseInt(picSource));
-			if(mTimingAction.getPara2() == 0) {  //是否重复
-				if(mTimingAction.getDevicesStatus() == 0) {
-					mHolder.timing_date.setText(year+"."+month+"."+day+" "+hour+":"+minite+" "+"关闭");
+			if (mTimingAction.getPara2() == 0) { // 是否重复
+				if (mTimingAction.getDevicesStatus() == 0) {
+					mHolder.timing_date.setText(year + "." + month + "." + day
+							+ " " + hour + ":" + minite + " " + "关闭");
 				}
-				if(mTimingAction.getDevicesStatus() == 1) {
-					mHolder.timing_date.setText(year+"."+month+"."+day+" "+hour+":"+minite+" "+"开启");
+				if (mTimingAction.getDevicesStatus() == 1) {
+					mHolder.timing_date.setText(year + "." + month + "." + day
+							+ " " + hour + ":" + minite + " " + "开启");
 				}
 				mHolder.repeat_status.setText("仅一次");
 			}
-			if(mTimingAction.getPara2() == 1) {
-				if(mTimingAction.getDevicesStatus() == 0) {
-					mHolder.timing_date.setText(hour+":"+minite+" "+"关闭");
+			if (mTimingAction.getPara2() == 1) {
+				if (mTimingAction.getDevicesStatus() == 0) {
+					mHolder.timing_date.setText(hour + ":" + minite + " "
+							+ "关闭");
 				}
-				if(mTimingAction.getDevicesStatus() == 1) {
-					mHolder.timing_date.setText(hour+":"+minite+" "+"开启");
+				if (mTimingAction.getDevicesStatus() == 1) {
+					mHolder.timing_date.setText(hour + ":" + minite + " "
+							+ "开启");
 				}
 				StringBuilder builder = new StringBuilder();
 				for (int i = 0; i < 7; i++) {
-					if(mTimingAction.getPara3Status()[i]) {
-						builder.append(WEEKS[i]+",");
+					if (mTimingAction.getPara3Status()[i]) {
+						builder.append(WEEKS[i] + ",");
 					}
 				}
-				builder.deleteCharAt(builder.length()-1);
+				builder.deleteCharAt(builder.length() - 1);
 				mHolder.repeat_status.setText(builder.toString());
 			}
 			if (mTimingAction.getTimingEnable() == 0) {
@@ -274,10 +282,26 @@ public class TimingFragment extends Fragment implements UIListener, Dialogcallba
 							// TODO Auto-generated method stub
 							if (isChecked) {
 								mHolder.timing_state.setText("启用");
-								SceneLinkageManager.getInstance().EnableTimeAction(1, mTimingAction.getTid());
+								if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+									SceneLinkageManager.getInstance()
+											.EnableTimeAction(1,
+													mTimingAction.getTid());
+								} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+									LibjingleSendManager.getInstance()
+											.EnableTimeAction(1,
+													mTimingAction.getTid());
+								}
 							} else {
 								mHolder.timing_state.setText("未启用");
-								SceneLinkageManager.getInstance().EnableTimeAction(0, mTimingAction.getTid());
+								if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+									SceneLinkageManager.getInstance()
+											.EnableTimeAction(0,
+													mTimingAction.getTid());
+								} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+									LibjingleSendManager.getInstance()
+											.EnableTimeAction(0,
+													mTimingAction.getTid());
+								}
 							}
 						}
 					});
@@ -320,7 +344,8 @@ public class TimingFragment extends Fragment implements UIListener, Dialogcallba
 			if (event.isSuccess()) {
 				TimingAction timingAction = (TimingAction) event.getData();
 				for (int i = 0; i < mTimingaActionsList.size(); i++) {
-					if (mTimingaActionsList.get(i).getTid() == timingAction.getTid()) {
+					if (mTimingaActionsList.get(i).getTid() == timingAction
+							.getTid()) {
 						mTimingaActionsList.remove(i);
 						mTimingaActionsList.add(i, timingAction);
 						break;
@@ -379,6 +404,12 @@ public class TimingFragment extends Fragment implements UIListener, Dialogcallba
 	@Override
 	public void dialogdo() {
 		// TODO Auto-generated method stub
-		SceneLinkageManager.getInstance().DelTimeAction(mTimingaActionsList.get(currentposition).getTid());
+		if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+			SceneLinkageManager.getInstance().DelTimeAction(
+					mTimingaActionsList.get(currentposition).getTid());
+		} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+			LibjingleSendManager.getInstance().DelTimeAction(
+					mTimingaActionsList.get(currentposition).getTid());
+		}
 	}
 }

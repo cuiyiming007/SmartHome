@@ -31,6 +31,7 @@ public class FeedbackFragment extends Fragment implements UIListener {
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		CGIManager.getInstance().addObserver(this);
 	}
 
 	@Override
@@ -76,7 +77,8 @@ public class FeedbackFragment extends Fragment implements UIListener {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				if (feedbackEditText.getText().length() > 0) {
-					CGIManager.getInstance().feedbackToServer("dd",
+					CGIManager.getInstance().feedbackToServer(
+							LoginActivity.loginAccountInfo.getAccount(),
 							feedbackEditText.getText().toString());
 				} else {
 					Toast.makeText(getActivity(), "请输入反馈信息", Toast.LENGTH_SHORT)
@@ -84,6 +86,13 @@ public class FeedbackFragment extends Fragment implements UIListener {
 				}
 			}
 		});
+	}
+
+	@Override
+	public void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		CGIManager.getInstance().deleteObserver(this);
 	}
 
 	@Override

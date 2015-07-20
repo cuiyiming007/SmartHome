@@ -1,9 +1,9 @@
 package com.gdgl.adapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.gdgl.app.ApplicationController;
+import com.gdgl.libjingle.LibjingleSendManager;
 import com.gdgl.manager.SceneLinkageManager;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.DataHelper;
@@ -12,12 +12,11 @@ import com.gdgl.mydata.Linkage;
 import com.gdgl.mydata.LinkageAct;
 import com.gdgl.mydata.LinkageCnd;
 import com.gdgl.mydata.video.VideoNode;
+import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
-import com.gdgl.util.UiUtils;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -136,9 +135,17 @@ public class LinkageAdapter extends BaseAdapter {
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				// TODO Auto-generated method stub
 				if(isChecked){
-					SceneLinkageManager.getInstance().EnableLinkage(1, linkage.getLid());
+					if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+						SceneLinkageManager.getInstance().EnableLinkage(1, linkage.getLid());
+					} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+						LibjingleSendManager.getInstance().EnableLinkage(1, linkage.getLid());
+					}
 				}else{
-					SceneLinkageManager.getInstance().EnableLinkage(0, linkage.getLid());
+					if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+						SceneLinkageManager.getInstance().EnableLinkage(0, linkage.getLid());
+					} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+						LibjingleSendManager.getInstance().EnableLinkage(0, linkage.getLid());
+					}
 				}
 				
 			}

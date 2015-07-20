@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/okdialog_view"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/dialogbackground"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/txt_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:padding="24dp"
+        android:textColor="@color/text_gray"
+        android:textSize="16sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp" >
+
+        <Button
+            android:id="@+id/btn_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/dlg_btn_style"
+            android:minWidth="64dp"
+            android:padding="8dp"
+            android:text="确定"
+            android:textColor="@color/blue_default"
+            android:textSize="15sp" />
+    </RelativeLayout>
+
+</LinearLayout>

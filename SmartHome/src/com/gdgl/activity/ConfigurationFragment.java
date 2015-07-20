@@ -5,7 +5,9 @@ import com.gc.materialdesign.views.CheckBox.OnCheckListener;
 import com.gdgl.activity.JoinNetFragment.ChangeFragment;
 import com.gdgl.drawer.DeviceTabFragment;
 import com.gdgl.mydata.getFromSharedPreferences;
+import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
+import com.gdgl.util.MyOKOnlyDlg;
 import com.gdgl.util.VersionDlg;
 
 import android.graphics.Color;
@@ -52,7 +54,14 @@ public class ConfigurationFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				changeFragment.setFragment(new ChangeNameFragment());
+				if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+					changeFragment.setFragment(new ChangeNameFragment());
+				} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+					MyOKOnlyDlg myOKOnlyDlg = new MyOKOnlyDlg(getActivity());
+					myOKOnlyDlg.setContent(getResources().getString(
+							R.string.Unable_In_InternetState));
+					myOKOnlyDlg.show();
+				}
 			}
 		});
 		changeAlias.setOnTouchListener(new View.OnTouchListener() {
@@ -78,7 +87,14 @@ public class ConfigurationFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				changeFragment.setFragment(new ChangePWDFragment());
+				if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+					changeFragment.setFragment(new ChangePWDFragment());
+				} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+					MyOKOnlyDlg myOKOnlyDlg = new MyOKOnlyDlg(getActivity());
+					myOKOnlyDlg.setContent(getResources().getString(
+							R.string.Unable_In_InternetState));
+					myOKOnlyDlg.show();
+				}
 			}
 		});
 		changePassword.setOnTouchListener(new View.OnTouchListener() {

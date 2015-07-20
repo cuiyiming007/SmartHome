@@ -680,6 +680,17 @@ public class CallbackManager extends Manger {
 				mSqLiteDatabase3.delete(DataHelper.SCENE_DEVICES_TABLE, where3,
 						arg3);
 				break;
+			case 4:
+				int status4 = (Integer) jsonRsponse.get("status");
+				int sid4 = (Integer) jsonRsponse.get("sid");
+				Event event4;
+				if(status4 == 0) {
+					event4 = new Event(EventType.DOSCENE, true);
+				} else {
+					event4 = new Event(EventType.DOSCENE, false);
+				}
+				event4.setData(sid4);
+				notifyObservers(event4);
 			default:
 				break;
 			}

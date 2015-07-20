@@ -3,20 +3,18 @@ package com.gdgl.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gdgl.activity.LinkageDevicesAddFragment.AddChecked;
 import com.gdgl.activity.LinkageDevicesAddFragment.LinkageDevicesAddListAdapter;
 import com.gdgl.activity.SceneDevicesFragment;
 import com.gdgl.activity.SceneDevicesFragment.ChangeFragment;
 import com.gdgl.activity.SceneDevicesFragment.SceneDevicesListAdapter;
+import com.gdgl.libjingle.LibjingleSendManager;
 import com.gdgl.manager.SceneLinkageManager;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.DataHelper;
-import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.Linkage;
-import com.gdgl.mydata.LinkageAct;
 import com.gdgl.mydata.scene.SceneDevice;
-import com.gdgl.mydata.scene.SceneInfo;
+import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyApplicationFragment;
 
@@ -24,23 +22,17 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.Toolbar.OnMenuItemClickListener;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -155,23 +147,44 @@ public class LinkageDetailActivity extends ActionBarActivity implements
 				case R.id.menu_ok:
 					if(mLinkageDetailFragment.updateLinkage()){
 						if (linkage_type == CREATE) {
-							SceneLinkageManager.getInstance().AddLinkage(
-									Uri.encode(titleEditText.getText().toString()), 
-									mLinkage.getTrgieee(), 
-									mLinkage.getTrgep(), 
-									mLinkage.getTrgcnd(), 
-									mLinkage.getLnkact(), 
-									mLinkage.getEnable());
+							if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+								SceneLinkageManager.getInstance().AddLinkage(
+										Uri.encode(titleEditText.getText().toString()), 
+										mLinkage.getTrgieee(), 
+										mLinkage.getTrgep(), 
+										mLinkage.getTrgcnd(), 
+										mLinkage.getLnkact(), 
+										mLinkage.getEnable());
+							} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+								LibjingleSendManager.getInstance().AddLinkage(
+										Uri.encode(titleEditText.getText().toString()), 
+										mLinkage.getTrgieee(), 
+										mLinkage.getTrgep(), 
+										mLinkage.getTrgcnd(), 
+										mLinkage.getLnkact(), 
+										mLinkage.getEnable());
+							}
 							finish();
 						}else if(linkage_type == EDIT){
-							SceneLinkageManager.getInstance().EditLinkage(
-									Uri.encode(titleEditText.getText().toString()), 
-									mLinkage.getTrgieee(), 
-									mLinkage.getTrgep(), 
-									mLinkage.getTrgcnd(), 
-									mLinkage.getLnkact(), 
-									mLinkage.getEnable(), 
-									mLinkage.getLid());	
+							if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+								SceneLinkageManager.getInstance().EditLinkage(
+										Uri.encode(titleEditText.getText().toString()), 
+										mLinkage.getTrgieee(), 
+										mLinkage.getTrgep(), 
+										mLinkage.getTrgcnd(), 
+										mLinkage.getLnkact(), 
+										mLinkage.getEnable(), 
+										mLinkage.getLid());	
+							} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+								LibjingleSendManager.getInstance().EditLinkage(
+										Uri.encode(titleEditText.getText().toString()), 
+										mLinkage.getTrgieee(), 
+										mLinkage.getTrgep(), 
+										mLinkage.getTrgcnd(), 
+										mLinkage.getLnkact(), 
+										mLinkage.getEnable(), 
+										mLinkage.getLid());	
+							}
 							finish();
 						}
 					}

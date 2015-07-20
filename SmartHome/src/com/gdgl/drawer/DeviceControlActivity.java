@@ -8,9 +8,11 @@ import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
+import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.EditDevicesDlg;
 import com.gdgl.util.EditDevicesDlg.EditDialogcallback;
+import com.gdgl.util.MyOKOnlyDlg;
 import com.gdgl.util.MyOkCancleDlg;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 
@@ -59,24 +61,38 @@ public class DeviceControlActivity extends ActionBarActivity implements
 				// TODO Auto-generated method stub
 				switch (item.getItemId()) {
 				case R.id.menu_changename:
-					EditDevicesDlg mEditDevicesDlg = new EditDevicesDlg(
-							DeviceControlActivity.this, mDevicesModel);
-					mEditDevicesDlg
-							.setDialogCallback(DeviceControlActivity.this);
+					if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+						EditDevicesDlg mEditDevicesDlg = new EditDevicesDlg(
+								DeviceControlActivity.this, mDevicesModel);
+						mEditDevicesDlg
+								.setDialogCallback(DeviceControlActivity.this);
 
-					mEditDevicesDlg.setContent("编辑"
-							+ mDevicesModel.getmDefaultDeviceName().trim());
-					mEditDevicesDlg.show();
+						mEditDevicesDlg.setContent("编辑"
+								+ mDevicesModel.getmDefaultDeviceName().trim());
+						mEditDevicesDlg.show();
+					} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+						MyOKOnlyDlg myOKOnlyDlg = new MyOKOnlyDlg(DeviceControlActivity.this);
+						myOKOnlyDlg.setContent(getResources().getString(
+								R.string.Unable_In_InternetState));
+						myOKOnlyDlg.show();
+					}
 					break;
 				case R.id.menu_deletedevice:
-					MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
-							DeviceControlActivity.this);
-					mMyOkCancleDlg
-							.setDialogCallback((Dialogcallback) DeviceControlActivity.this);
-					mMyOkCancleDlg.setContent("确定要删除" + " "
-							+ mDevicesModel.getmDefaultDeviceName().trim()
-							+ " " + "吗?");
-					mMyOkCancleDlg.show();
+					if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+						MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
+								DeviceControlActivity.this);
+						mMyOkCancleDlg
+								.setDialogCallback((Dialogcallback) DeviceControlActivity.this);
+						mMyOkCancleDlg.setContent("确定要删除" + " "
+								+ mDevicesModel.getmDefaultDeviceName().trim()
+								+ " " + "吗?");
+						mMyOkCancleDlg.show();
+					} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+						MyOKOnlyDlg myOKOnlyDlg = new MyOKOnlyDlg(DeviceControlActivity.this);
+						myOKOnlyDlg.setContent(getResources().getString(
+								R.string.Unable_In_InternetState));
+						myOKOnlyDlg.show();
+					}
 					break;
 				default:
 					break;

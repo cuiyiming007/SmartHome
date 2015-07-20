@@ -54,7 +54,7 @@ public class LibjingleSendManager extends Manger {
 
 		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
 		Log.i(TAG, packag);
-//		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+		// LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
 		Libjingle.getInstance().sendToGateway(packag);
 
 		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
@@ -350,8 +350,7 @@ public class LibjingleSendManager extends Manger {
 	 * 
 	 * UnLockDoor 8
 	 */
-	public void doorLockOperationCommon(DevicesModel model,
-			int operationType) {
+	public void doorLockOperationCommon(DevicesModel model, int operationType) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", model.getmIeee());
 		paraMap.put("ep", model.getmEP());
@@ -617,14 +616,15 @@ public class LibjingleSendManager extends Manger {
 		mStructure.setAPI_type(LibjingleSendStructure.LOCALIASCIEOPERATION);
 		sendList.add(mStructure);
 	}
-	//operatortype=5 全局布防状态
+
+	// operatortype=5 全局布防状态
 	public void GetLocalIASCIEOperation() {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("operatortype", "5");
 		paraMap.put("param1", "1");
 		paraMap.put("param2", "2");
 		paraMap.put("param3", "3");
-		
+
 		paraMap.put("callback", "1234");
 		paraMap.put("encodemethod", "NONE");
 		paraMap.put("sign", "AAA");
@@ -1270,6 +1270,7 @@ public class LibjingleSendManager extends Manger {
 		mStructure.setAPI_type(LibjingleSendStructure.IDENTIFYDEVICE);
 		sendList.add(mStructure);
 	}
+
 	public void getHeartTime(DevicesModel mDevices) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", mDevices.getmIeee());
@@ -1278,12 +1279,12 @@ public class LibjingleSendManager extends Manger {
 		paraMap.put("param1", "");
 		paraMap.put("param2", "");
 		paraMap.put("param3", "");
-		
+
 		paraMap.put("callback", "1234");
 		paraMap.put("encodemethod", "NONE");
 		paraMap.put("sign", "AAA");
 		String param = hashMap2ParamString(paraMap);
-		
+
 		String url = LibjingleNetUtil.getInstance().getLocalhostURL(
 				"iasZoneOperation.cgi", param);
 		String jid = LibjinglePackHandler.getJid();
@@ -1299,15 +1300,16 @@ public class LibjingleSendManager extends Manger {
 		mStructure.setAPI_type(LibjingleSendStructure.READHEARTTIME);
 		sendList.add(mStructure);
 	}
-	
+
 	/**
-	 * *********************************************************************************************************************
-	 * 视频请求
+	 * *************************************************************************
+	 * ******************************************** 视频请求
 	 */
-	
-	//获取摄像头列表
+
+	// 获取摄像头列表
 	public void getIPClist() {
-		String url = LibjingleNetUtil.getInstance().getVideoURL("getIPClist.cgi");
+		String url = LibjingleNetUtil.getInstance().getVideoURL(
+				"getIPClist.cgi");
 
 		String jid = LibjinglePackHandler.getJid();
 		int reqid = getReqID();
@@ -1322,7 +1324,8 @@ public class LibjingleSendManager extends Manger {
 		mStructure.setAPI_type(LibjingleSendStructure.GETVIDEOLIST);
 		sendList.add(mStructure);
 	}
-	//申请视频数据
+
+	// 申请视频数据
 	public void sendVideoReq(int channelNum) {
 		String jid = LibjinglePackHandler.getJid();
 		int reqid = getReqID();
@@ -1339,7 +1342,7 @@ public class LibjingleSendManager extends Manger {
 			Log.i(TAG, packag);
 			Libjingle.getInstance().sendToGateway(packag);
 		} catch (JSONException ex) {
-			
+
 		}
 		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
 		mStructure.setRequest_id(reqid);
@@ -1347,10 +1350,15 @@ public class LibjingleSendManager extends Manger {
 		mStructure.setAPI_type(LibjingleSendStructure.REQUESTVIDEO);
 		sendList.add(mStructure);
 	}
-	
-	//获取场景列表
+
+	/**
+	 * *************************************************************************
+	 * ******************************************** 场景
+	 */
+	// 获取场景列表
 	public void GetSceneList() {
-		String url = LibjingleNetUtil.getInstance().getVideoURL("GetSceneList.cgi");
+		String url = LibjingleNetUtil.getInstance().getVideoURL(
+				"GetSceneList.cgi");
 
 		String jid = LibjinglePackHandler.getJid();
 		int reqid = getReqID();
@@ -1365,9 +1373,109 @@ public class LibjingleSendManager extends Manger {
 		mStructure.setAPI_type(LibjingleSendStructure.GETSCENELIST);
 		sendList.add(mStructure);
 	}
-	//获取联动列表
+
+	public void AddScene(String scnname, String scnaction, int scnindex) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("scnname", scnname);
+		paraMap.put("scnaction", scnaction);
+		paraMap.put("scnindex", Integer.toString(scnindex));
+		String param = hashMap2ParamString(paraMap);
+
+		String url = LibjingleNetUtil.getInstance().getLocalhostURL(
+				"AddScene.cgi", param);
+
+		String jid = LibjinglePackHandler.getJid();
+		int reqid = getReqID();
+
+		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
+		// Log.i(TAG, packag);
+		Libjingle.getInstance().sendToGateway(packag);
+
+		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
+		mStructure.setRequest_id(reqid);
+		mStructure.setGl_msgtype(LibjinglePackHandler.MT_URL);
+		mStructure.setAPI_type(LibjingleSendStructure.DONOTCARE);
+		sendList.add(mStructure);
+	}
+
+	public void EditScene(String scnname, String scnaction, int scnindex,
+			int sid) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("scnname", scnname);
+		paraMap.put("scnaction", scnaction);
+		paraMap.put("scnindex", Integer.toString(scnindex));
+		paraMap.put("sid", Integer.toString(sid));
+		String param = hashMap2ParamString(paraMap);
+
+		String url = LibjingleNetUtil.getInstance().getLocalhostURL(
+				"EditScene.cgi", param);
+
+		String jid = LibjinglePackHandler.getJid();
+		int reqid = getReqID();
+
+		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
+		// Log.i(TAG, packag);
+		Libjingle.getInstance().sendToGateway(packag);
+
+		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
+		mStructure.setRequest_id(reqid);
+		mStructure.setGl_msgtype(LibjinglePackHandler.MT_URL);
+		mStructure.setAPI_type(LibjingleSendStructure.DONOTCARE);
+		sendList.add(mStructure);
+	}
+
+	public void DelScene(int sid) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("sid", Integer.toString(sid));
+		String param = hashMap2ParamString(paraMap);
+
+		String url = LibjingleNetUtil.getInstance().getLocalhostURL(
+				"DelScene.cgi", param);
+
+		String jid = LibjinglePackHandler.getJid();
+		int reqid = getReqID();
+
+		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
+		// Log.i(TAG, packag);
+		Libjingle.getInstance().sendToGateway(packag);
+
+		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
+		mStructure.setRequest_id(reqid);
+		mStructure.setGl_msgtype(LibjinglePackHandler.MT_URL);
+		mStructure.setAPI_type(LibjingleSendStructure.DONOTCARE);
+		sendList.add(mStructure);
+	}
+
+	public void DoScene(int sid) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("sid", Integer.toString(sid));
+		String param = hashMap2ParamString(paraMap);
+
+		String url = LibjingleNetUtil.getInstance().getLocalhostURL(
+				"DoScene.cgi", param);
+
+		String jid = LibjinglePackHandler.getJid();
+		int reqid = getReqID();
+
+		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
+		// Log.i(TAG, packag);
+		Libjingle.getInstance().sendToGateway(packag);
+
+		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
+		mStructure.setRequest_id(reqid);
+		mStructure.setGl_msgtype(LibjinglePackHandler.MT_URL);
+		mStructure.setAPI_type(LibjingleSendStructure.DONOTCARE);
+		sendList.add(mStructure);
+	}
+
+	/**
+	 * *************************************************************************
+	 * ******************************************** 联动
+	 */
+	// 获取联动列表
 	public void GetLinkageList() {
-		String url = LibjingleNetUtil.getInstance().getVideoURL("GetLinkageList.cgi");
+		String url = LibjingleNetUtil.getInstance().getVideoURL(
+				"GetLinkageList.cgi");
 
 		String jid = LibjinglePackHandler.getJid();
 		int reqid = getReqID();
@@ -1382,9 +1490,118 @@ public class LibjingleSendManager extends Manger {
 		mStructure.setAPI_type(LibjingleSendStructure.GETLINKAGELIST);
 		sendList.add(mStructure);
 	}
-	//获取定时列表
+
+	public void AddLinkage(String lnkname, String trgieee, String trgep,
+			String trgcnd, String lnkact, int enable) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("lnkname", lnkname);
+		paraMap.put("trgieee", trgieee);
+		paraMap.put("trgep", trgep);
+		paraMap.put("trgcnd", trgcnd);
+		paraMap.put("lnkact", lnkact);
+		paraMap.put("enable", Integer.toString(enable));
+		String param = hashMap2ParamString(paraMap);
+		Log.i("AddLinkage", param);
+
+		String url = LibjingleNetUtil.getInstance().getLocalhostURL(
+				"AddLinkage.cgi", param);
+
+		String jid = LibjinglePackHandler.getJid();
+		int reqid = getReqID();
+
+		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
+		// Log.i(TAG, packag);
+		Libjingle.getInstance().sendToGateway(packag);
+
+		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
+		mStructure.setRequest_id(reqid);
+		mStructure.setGl_msgtype(LibjinglePackHandler.MT_URL);
+		mStructure.setAPI_type(LibjingleSendStructure.DONOTCARE);
+		sendList.add(mStructure);
+	}
+
+	public void EditLinkage(String lnkname, String trgieee, String trgep,
+			String trgcnd, String lnkact, int enable, int lid) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("lnkname", lnkname);
+		paraMap.put("trgieee", trgieee);
+		paraMap.put("trgep", trgep);
+		paraMap.put("trgcnd", trgcnd);
+		paraMap.put("lnkact", lnkact);
+		paraMap.put("enable", Integer.toString(enable));
+		paraMap.put("lid", Integer.toString(lid));
+		String param = hashMap2ParamString(paraMap);
+		Log.i("EditLinkage", param);
+		String url = LibjingleNetUtil.getInstance().getLocalhostURL(
+				"EditLinkage.cgi", param);
+
+		String jid = LibjinglePackHandler.getJid();
+		int reqid = getReqID();
+
+		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
+		// Log.i(TAG, packag);
+		Libjingle.getInstance().sendToGateway(packag);
+
+		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
+		mStructure.setRequest_id(reqid);
+		mStructure.setGl_msgtype(LibjinglePackHandler.MT_URL);
+		mStructure.setAPI_type(LibjingleSendStructure.DONOTCARE);
+		sendList.add(mStructure);
+	}
+
+	public void DeleteLinkage(int lid) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("lid", Integer.toString(lid));
+		String param = hashMap2ParamString(paraMap);
+
+		String url = LibjingleNetUtil.getInstance().getLocalhostURL(
+				"DelLinkage.cgi", param);
+
+		String jid = LibjinglePackHandler.getJid();
+		int reqid = getReqID();
+
+		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
+		// Log.i(TAG, packag);
+		Libjingle.getInstance().sendToGateway(packag);
+
+		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
+		mStructure.setRequest_id(reqid);
+		mStructure.setGl_msgtype(LibjinglePackHandler.MT_URL);
+		mStructure.setAPI_type(LibjingleSendStructure.DONOTCARE);
+		sendList.add(mStructure);
+	}
+
+	public void EnableLinkage(int enable, int lid) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("enable", Integer.toString(enable));
+		paraMap.put("lid", Integer.toString(lid));
+		String param = hashMap2ParamString(paraMap);
+
+		String url = LibjingleNetUtil.getInstance().getLocalhostURL(
+				"EnableLinkage.cgi", param);
+
+		String jid = LibjinglePackHandler.getJid();
+		int reqid = getReqID();
+
+		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
+		// Log.i(TAG, packag);
+		Libjingle.getInstance().sendToGateway(packag);
+
+		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
+		mStructure.setRequest_id(reqid);
+		mStructure.setGl_msgtype(LibjinglePackHandler.MT_URL);
+		mStructure.setAPI_type(LibjingleSendStructure.DONOTCARE);
+		sendList.add(mStructure);
+	}
+
+	/**
+	 * *************************************************************************
+	 * ******************************************** 联动
+	 */
+	// 获取定时列表
 	public void GetTimeActionList() {
-		String url = LibjingleNetUtil.getInstance().getVideoURL("GetTimeActionList.cgi");
+		String url = LibjingleNetUtil.getInstance().getVideoURL(
+				"GetTimeActionList.cgi");
 
 		String jid = LibjinglePackHandler.getJid();
 		int reqid = getReqID();
@@ -1397,6 +1614,110 @@ public class LibjingleSendManager extends Manger {
 		mStructure.setRequest_id(reqid);
 		mStructure.setGl_msgtype(LibjinglePackHandler.MT_URL);
 		mStructure.setAPI_type(LibjingleSendStructure.GETTIMEACTIONLIST);
+		sendList.add(mStructure);
+	}
+
+	public void AddTimeAction(String actname, String actpara, int actmode,
+			String para1, int para2, String para3, int enable) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("actname", actname);
+		paraMap.put("actpara", actpara);
+		paraMap.put("actmode", Integer.toString(actmode));
+		paraMap.put("para1", para1);
+		paraMap.put("para2", Integer.toString(para2));
+		paraMap.put("para3", para3);
+		paraMap.put("enable", Integer.toString(enable));
+		String param = hashMap2ParamString(paraMap);
+
+		String url = LibjingleNetUtil.getInstance().getLocalhostURL(
+				"AddTimeAction.cgi", param);
+
+		String jid = LibjinglePackHandler.getJid();
+		int reqid = getReqID();
+
+		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
+		// Log.i(TAG, packag);
+		Libjingle.getInstance().sendToGateway(packag);
+
+		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
+		mStructure.setRequest_id(reqid);
+		mStructure.setGl_msgtype(LibjinglePackHandler.MT_URL);
+		mStructure.setAPI_type(LibjingleSendStructure.DONOTCARE);
+		sendList.add(mStructure);
+	}
+
+	public void EditTimeAction(String actname, String actpara, int actmode,
+			String para1, int para2, String para3, int enable, int tid) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("actname", actname);
+		paraMap.put("actpara", actpara);
+		paraMap.put("actmode", Integer.toString(actmode));
+		paraMap.put("para1", para1);
+		paraMap.put("para2", Integer.toString(para2));
+		paraMap.put("para3", para3);
+		paraMap.put("tid", Integer.toString(tid));
+		paraMap.put("enable", Integer.toString(enable));
+		String param = hashMap2ParamString(paraMap);
+
+		String url = LibjingleNetUtil.getInstance().getLocalhostURL(
+				"EditTimeAction.cgi", param);
+
+		String jid = LibjinglePackHandler.getJid();
+		int reqid = getReqID();
+
+		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
+		// Log.i(TAG, packag);
+		Libjingle.getInstance().sendToGateway(packag);
+
+		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
+		mStructure.setRequest_id(reqid);
+		mStructure.setGl_msgtype(LibjinglePackHandler.MT_URL);
+		mStructure.setAPI_type(LibjingleSendStructure.DONOTCARE);
+		sendList.add(mStructure);
+	}
+
+	public void DelTimeAction(int tid) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("tid", Integer.toString(tid));
+		String param = hashMap2ParamString(paraMap);
+
+		String url = LibjingleNetUtil.getInstance().getLocalhostURL(
+				"DelTimeAction.cgi", param);
+
+		String jid = LibjinglePackHandler.getJid();
+		int reqid = getReqID();
+
+		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
+		// Log.i(TAG, packag);
+		Libjingle.getInstance().sendToGateway(packag);
+
+		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
+		mStructure.setRequest_id(reqid);
+		mStructure.setGl_msgtype(LibjinglePackHandler.MT_URL);
+		mStructure.setAPI_type(LibjingleSendStructure.DONOTCARE);
+		sendList.add(mStructure);
+	}
+
+	public void EnableTimeAction(int enable, int tid) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("enable", Integer.toString(enable));
+		paraMap.put("tid", Integer.toString(tid));
+		String param = hashMap2ParamString(paraMap);
+
+		String url = LibjingleNetUtil.getInstance().getLocalhostURL(
+				"EnableTimeAction.cgi", param);
+
+		String jid = LibjinglePackHandler.getJid();
+		int reqid = getReqID();
+
+		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
+		// Log.i(TAG, packag);
+		Libjingle.getInstance().sendToGateway(packag);
+
+		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
+		mStructure.setRequest_id(reqid);
+		mStructure.setGl_msgtype(LibjinglePackHandler.MT_URL);
+		mStructure.setAPI_type(LibjingleSendStructure.DONOTCARE);
 		sendList.add(mStructure);
 	}
 }
