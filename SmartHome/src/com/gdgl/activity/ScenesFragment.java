@@ -29,10 +29,12 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
@@ -47,6 +49,12 @@ public class ScenesFragment extends Fragment implements UIListener,
 	SceneInfo currentSceneInfo;
 	ButtonFloat mButtonFloat;
 	ViewGroup nodevices;
+	LinearLayout defaultScene1;
+	ImageView defaultScene1Img;
+	TextView defaultScene1Text;
+	LinearLayout defaultScene2;
+	ImageView defaultScene2Img;
+	TextView defaultScene2Text;
 	CustomeAdapter mCustomeAdapter;
 	DataHelper mDateHelper;
 
@@ -72,7 +80,7 @@ public class ScenesFragment extends Fragment implements UIListener,
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		mView = inflater.inflate(R.layout.devices_main_fragment, null);
+		mView = inflater.inflate(R.layout.scene_fragment, null);
 		initview();
 		return mView;
 	}
@@ -80,8 +88,65 @@ public class ScenesFragment extends Fragment implements UIListener,
 	private void initview() {
 		// TODO Auto-generated method stub
 		nodevices = (ViewGroup) mView.findViewById(R.id.nodevices);
+		defaultScene1 = (LinearLayout) mView.findViewById(R.id.default1);
+		defaultScene2 = (LinearLayout) mView.findViewById(R.id.default2);
 		content_view = (GridView) mView.findViewById(R.id.content_view);
 		mButtonFloat = (ButtonFloat) mView.findViewById(R.id.buttonFloat);
+
+		defaultScene1Img = (ImageView) defaultScene1.getChildAt(0);
+		defaultScene1Text = (TextView) defaultScene1.getChildAt(1);
+		defaultScene2Img = (ImageView) defaultScene2.getChildAt(0);
+		defaultScene2Text = (TextView) defaultScene2.getChildAt(1);
+		defaultScene1Img.setImageResource(R.drawable.ui2_scene_style);
+		defaultScene1Text.setText("全部布防");
+		defaultScene2Img.setImageResource(R.drawable.ui2_scene_style);
+		defaultScene2Text.setText("全部撤防");
+
+		defaultScene1.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+					SceneLinkageManager.getInstance().DoScene(-1);
+				} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+					LibjingleSendManager.getInstance().DoScene(-1);
+				}
+			}
+		});
+		defaultScene1.setOnLongClickListener(new OnLongClickListener() {
+
+			@Override
+			public boolean onLongClick(View v) {
+				// TODO Auto-generated method stub
+				Toast.makeText(getActivity(), "默认情景，不可编辑", Toast.LENGTH_SHORT)
+						.show();
+				return false;
+			}
+		});
+		defaultScene2.setOnLongClickListener(new OnLongClickListener() {
+
+			@Override
+			public boolean onLongClick(View v) {
+				// TODO Auto-generated method stub
+				Toast.makeText(getActivity(), "默认情景，不可编辑", Toast.LENGTH_SHORT)
+						.show();
+				return false;
+			}
+		});
+		defaultScene2.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+					SceneLinkageManager.getInstance().DoScene(-2);
+				} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+					LibjingleSendManager.getInstance().DoScene(-2);
+				}
+			}
+		});
+
 		mCustomeAdapter = new CustomeAdapter();
 		mCustomeAdapter.setList(mScenes);
 		content_view.setAdapter(mCustomeAdapter);
@@ -212,13 +277,6 @@ public class ScenesFragment extends Fragment implements UIListener,
 	}
 
 	@Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		content_view.setVisibility(View.GONE);
-	}
-
-	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
 		content_view.setVisibility(View.VISIBLE);
@@ -304,12 +362,23 @@ public class ScenesFragment extends Fragment implements UIListener,
 					@Override
 					public void run() {
 						// TODO Auto-generated method stub
-						for (int i = 0; i < mScenes.size(); i++) {
-							if (mScenes.get(i).getSid() == sid) {
-								Toast.makeText(getActivity(),
-										mScenes.get(i).getScnname() + " 以应用",
+						if (sid < 0) {
+							if (sid == -1)
+								Toast.makeText(getActivity(), "全部布防 以应用",
 										Toast.LENGTH_SHORT).show();
-								break;
+							if (sid == -2)
+								Toast.makeText(getActivity(), "全部撤防 以应用",
+										Toast.LENGTH_SHORT).show();
+						} else {
+							for (int i = 0; i < mScenes.size(); i++) {
+								if (mScenes.get(i).getSid() == sid) {
+									Toast.makeText(
+											getActivity(),
+											mScenes.get(i).getScnname()
+													+ " 以应用",
+											Toast.LENGTH_SHORT).show();
+									break;
+								}
 							}
 						}
 					}

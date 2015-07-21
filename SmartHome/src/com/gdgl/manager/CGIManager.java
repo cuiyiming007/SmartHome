@@ -1737,7 +1737,8 @@ public class CGIManager extends Manger {
 		paraMap.put("Context", Uri.encode(content.replace(" ", "%20")));
 		// paraMap.put("Context", encodeContent);
 		String param = hashMap2ParamString(paraMap);
-
+		
+//		String url = "http://192.168.1.149:8888/SmartHome/feedback?" + param;
 		String url = "http://121.199.21.14:8888/SmartHome/feedback?" + param;
 		Log.i("feedbackToServer", url);
 		StringRequest req = new StringRequest(url,

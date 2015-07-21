@@ -4,6 +4,7 @@ import com.gdgl.activity.LinkageFragment;
 import com.gdgl.activity.ScenesFragment;
 import com.gdgl.activity.TimingFragment;
 import com.gdgl.libjingle.Libjingle;
+import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
 import com.gdgl.mydata.Event;
@@ -12,6 +13,9 @@ import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.reciever.NetWorkChangeReciever;
 import com.gdgl.smarthome.R;
+import com.gdgl.util.MyApplication;
+import com.gdgl.util.MyOKOnlyDlg;
+import com.gdgl.util.MyOKOnlyDlg.Dialogcallback;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -29,7 +33,7 @@ import android.view.View;
 import android.widget.TextView;
 
 public class MainActivity extends ActionBarActivity implements
-		NavigationDrawerCallbacks, UIListener {
+		NavigationDrawerCallbacks, UIListener, Dialogcallback {
 
 	public static boolean LOGIN_STATUS = true;
 
@@ -48,7 +52,7 @@ public class MainActivity extends ActionBarActivity implements
 		setContentView(R.layout.drawer_activity_main);
 
 		MainActivity.LOGIN_STATUS = false;
-		
+
 		tipsWithoutNet = (TextView) findViewById(R.id.checknet);
 		setTipText();
 		mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
@@ -90,13 +94,14 @@ public class MainActivity extends ActionBarActivity implements
 		intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
 		netWorkChangeReciever = new NetWorkChangeReciever();
 		registerReceiver(netWorkChangeReciever, intentFilter);
-		
+
 		netWorkChangeReciever.addObserver(this);
 		Libjingle.getInstance().addObserver(this);
+		CallbackManager.getInstance().addObserver(this);
 	}
 
 	private void setTipText() {
-		if(NetworkConnectivity.networkStatus == 0) {
+		if (NetworkConnectivity.networkStatus == 0) {
 			tipsWithoutNet.setVisibility(View.VISIBLE);
 		} else {
 			tipsWithoutNet.setVisibility(View.GONE);
@@ -158,6 +163,7 @@ public class MainActivity extends ActionBarActivity implements
 		super.onDestroy();
 		netWorkChangeReciever.deleteObserver(this);
 		Libjingle.getInstance().deleteObserver(this);
+		CallbackManager.getInstance().deleteObserver(this);
 		unregisterReceiver(netWorkChangeReciever);
 	}
 
@@ -176,7 +182,7 @@ public class MainActivity extends ActionBarActivity implements
 		if (EventType.NETWORKCHANGE == event.getType()) {
 			if (event.isSuccess() == true) {
 				mToolbar.post(new Runnable() {
-					
+
 					@Override
 					public void run() {
 						// TODO Auto-generated method stub
@@ -184,6 +190,52 @@ public class MainActivity extends ActionBarActivity implements
 					}
 				});
 			}
+		} else if (EventType.MODIFYALIAS == event.getType()) {
+
+			if (event.isSuccess() == true) {
+				int status = (Integer) event.getData();
+				if(status == 0) {
+					mToolbar.post(new Runnable() {
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							MyOKOnlyDlg myOKOnlyDlg = new MyOKOnlyDlg(MainActivity.this);
+							myOKOnlyDlg.setContent("别名已修改，请重新登录！");
+							myOKOnlyDlg.setCannotCanceled();
+							myOKOnlyDlg.setDialogCallback(MainActivity.this);
+							myOKOnlyDlg.show();
+						}
+					});
+				}
+			}
+		} else if (EventType.MODIFYPASSWORD == event.getType()) {
+
+			if (event.isSuccess() == true) {
+				int status = (Integer) event.getData();
+				if(status == 0) {
+					mToolbar.post(new Runnable() {
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							getFromSharedPreferences.setsharedPreferences(MainActivity.this);
+							getFromSharedPreferences.setPwd("");
+							MyOKOnlyDlg myOKOnlyDlg = new MyOKOnlyDlg(MainActivity.this);
+							myOKOnlyDlg.setContent("密码已修改，请重新登录！");
+							myOKOnlyDlg.setCannotCanceled();
+							myOKOnlyDlg.setDialogCallback(MainActivity.this);
+							myOKOnlyDlg.show();
+						}
+					});
+				}
+			}
 		}
+	}
+
+	@Override
+	public void dialogdo() {
+		// TODO Auto-generated method stub
+		MyApplication.getInstance().finishSystem();
 	}
 }

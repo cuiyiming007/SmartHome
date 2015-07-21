@@ -143,11 +143,9 @@ public class ChangePWDFragment extends Fragment implements UIListener {
 				@Override
 				public void run() {
 					// TODO Auto-generated method stub
-					Toast.makeText(getActivity(), "修改成功", Toast.LENGTH_SHORT).show();
+					getActivity().finish();
 				}
 			});
-			getFromSharedPreferences.setsharedPreferences((Context) getActivity());
-			getFromSharedPreferences.setPwd(newpwd.trim());
 			break;
 		case -29:
 			mView.post(new Runnable() {
@@ -171,5 +169,4 @@ public class ChangePWDFragment extends Fragment implements UIListener {
 			break;
 		}
 	}
-
 }

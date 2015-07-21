@@ -168,7 +168,7 @@ public class ChangeNameFragment extends Fragment implements UIListener {
 				@Override
 				public void run() {
 					// TODO Auto-generated method stub
-					Toast.makeText(getActivity(), "修改成功", Toast.LENGTH_SHORT).show();
+					getActivity().finish();
 				}
 			});
 			getFromSharedPreferences
