@@ -6,16 +6,22 @@ import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.Constants;
+import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.EditDevicesDlg;
 import com.gdgl.util.EditDevicesDlg.EditDialogcallback;
+import com.gdgl.util.MyApplication;
 import com.gdgl.util.MyOKOnlyDlg;
 import com.gdgl.util.MyOkCancleDlg;
+import com.gdgl.util.MyUpdateGatewayDlg;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 
+import android.graphics.Color;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -24,19 +30,31 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.Toolbar.OnMenuItemClickListener;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
+import android.widget.ImageView;
 
 public class DeviceControlActivity extends ActionBarActivity implements
 		EditDialogcallback, Dialogcallback, UIListener {
+
+	public static boolean GATEWAYUPDATE = false;
+	public static boolean GATEWAYUPDATE_FIRSTTIME = false;
+
 	private Toolbar mToolbar;
 	private ActionBar mActionBar;
 	private DevicesModel mDevicesModel;
+	private ImageView downLoadView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.drawer_activity_secondary);
+		MyApplication.getInstance().addActivity(this);
 		CallbackManager.getInstance().addObserver(this);
 		Bundle mBundle = getIntent().getExtras();
 		String name = "";
@@ -47,6 +65,56 @@ public class DeviceControlActivity extends ActionBarActivity implements
 		}
 
 		mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
+
+		if (mDevicesModel.getmModelId().indexOf(DataHelper.One_key_operator) == 0
+				&& GATEWAYUPDATE == true) {
+			downLoadView = new ImageView(this);
+			Toolbar.LayoutParams toolbarParams = new Toolbar.LayoutParams(
+					(int) getResources().getDisplayMetrics().density * 56,
+					(int) getResources().getDisplayMetrics().density * 56,
+					Gravity.RIGHT);
+			downLoadView.setLayoutParams(toolbarParams);
+			downLoadView.setAdjustViewBounds(true);
+			downLoadView.setImageResource(R.drawable.ui2_menu_gateway_update);
+			downLoadView.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					MyUpdateGatewayDlg updateGatewayDlg = new MyUpdateGatewayDlg(
+							DeviceControlActivity.this,
+							getSupportFragmentManager());
+					updateGatewayDlg.setContent("发现网关有新的可用固件,是否升级？");
+					updateGatewayDlg.show();
+				}
+			});
+			downLoadView.setOnTouchListener(new OnTouchListener() {
+
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					// TODO Auto-generated method stub
+					Drawable mDrawable = getResources().getDrawable(
+							R.drawable.ui2_menu_gateway_update);
+					switch (event.getAction()) {
+					case MotionEvent.ACTION_DOWN:
+						mDrawable.setColorFilter(Color.parseColor("#33dddddd"),
+								Mode.DST_ATOP);
+						downLoadView.setBackground(mDrawable);
+						return false;
+					case MotionEvent.ACTION_CANCEL:
+					case MotionEvent.ACTION_MOVE:
+					case MotionEvent.ACTION_UP:
+						mDrawable.clearColorFilter();
+						downLoadView.setBackground(mDrawable);
+						return false;
+					}
+					return true;
+				}
+			});
+			mToolbar.addView(downLoadView);
+			// mToolbar.removeView(downLoadView);
+		}
+
 		setSupportActionBar(mToolbar);
 		mActionBar = getSupportActionBar();
 		// mActionBar.setHomeButtonEnabled(true);
@@ -71,7 +139,8 @@ public class DeviceControlActivity extends ActionBarActivity implements
 								+ mDevicesModel.getmDefaultDeviceName().trim());
 						mEditDevicesDlg.show();
 					} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
-						MyOKOnlyDlg myOKOnlyDlg = new MyOKOnlyDlg(DeviceControlActivity.this);
+						MyOKOnlyDlg myOKOnlyDlg = new MyOKOnlyDlg(
+								DeviceControlActivity.this);
 						myOKOnlyDlg.setContent(getResources().getString(
 								R.string.Unable_In_InternetState));
 						myOKOnlyDlg.show();
@@ -88,7 +157,8 @@ public class DeviceControlActivity extends ActionBarActivity implements
 								+ " " + "吗?");
 						mMyOkCancleDlg.show();
 					} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
-						MyOKOnlyDlg myOKOnlyDlg = new MyOKOnlyDlg(DeviceControlActivity.this);
+						MyOKOnlyDlg myOKOnlyDlg = new MyOKOnlyDlg(
+								DeviceControlActivity.this);
 						myOKOnlyDlg.setContent(getResources().getString(
 								R.string.Unable_In_InternetState));
 						myOKOnlyDlg.show();
@@ -105,9 +175,18 @@ public class DeviceControlActivity extends ActionBarActivity implements
 		mfragent.setArguments(mBundle);
 		FragmentTransaction fragmentTransaction = getSupportFragmentManager()
 				.beginTransaction();
-
 		fragmentTransaction.replace(R.id.container, mfragent);
 		fragmentTransaction.commit();
+
+		if (mDevicesModel.getmModelId().indexOf(DataHelper.One_key_operator) == 0) {
+			if (DeviceControlActivity.GATEWAYUPDATE == true
+					&& DeviceControlActivity.GATEWAYUPDATE_FIRSTTIME == true) {
+				MyUpdateGatewayDlg updateGatewayDlg = new MyUpdateGatewayDlg(
+						this, getSupportFragmentManager());
+				updateGatewayDlg.setContent("发现网关有新的可用固件,是否升级？");
+				updateGatewayDlg.show();
+			}
+		}
 	}
 
 	@Override
@@ -129,7 +208,7 @@ public class DeviceControlActivity extends ActionBarActivity implements
 		super.onDestroy();
 		CallbackManager.getInstance().deleteObserver(this);
 	}
-	
+
 	@Override
 	public void saveedit(DevicesModel mDevicesModel, String name) {
 		// TODO Auto-generated method stub

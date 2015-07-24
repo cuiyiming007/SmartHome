@@ -100,6 +100,7 @@ public class SmartService extends Service {
 					e.printStackTrace();
 				}
 				CGIManager.getInstance().GetLocalIASCIEOperation();
+				CGIManager.getInstance().getGatewaySwVersion();
 				DeviceManager.getInstance().getLocalCIEList();
 			}
 		}).start();

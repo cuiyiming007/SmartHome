@@ -31,6 +31,9 @@ public class UiUtils {
 	public static final String SharedPreferences_SETTING_INFOS = "SmartHome";
 
 	public static final String ENABLE_IPC = "enable_ipc";
+	public static final String GATEWAY_LATEST_VERSION = "gateway_latest_version";
+	public static final String GATEWAY_CURRENT_VERSION = "gateway_current_version";
+	public static final String GATEWAY_UPDATE_FIRSTTIME = "gateway_update_firsttime";
 	
 	public static final String PWD = "Password";
 	public static final String LOGIN_NAME = "Login_Name";

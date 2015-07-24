@@ -23,6 +23,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.gdgl.app.ApplicationController;
+import com.gdgl.drawer.DeviceControlActivity;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.model.historydata.HistoryData;
@@ -34,6 +35,7 @@ import com.gdgl.mydata.RespondDataEntity;
 import com.gdgl.mydata.ResponseDataEntityForStatus;
 import com.gdgl.mydata.ResponseParamsEndPoint;
 import com.gdgl.mydata.SimpleResponseData;
+import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.mydata.Callback.CallbackBindListDevices;
 import com.gdgl.mydata.Callback.CallbackBindListMessage;
 import com.gdgl.mydata.Region.GetRoomInfo_response;
@@ -1723,22 +1725,80 @@ public class CGIManager extends Manger {
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
 
+	public void getGatewaySwVersion() {
+		String url = NetUtil.getInstance().getVideoURL(
+				NetUtil.getInstance().IP, "GetSwVersion.cgi");
+		StringRequestChina req = new StringRequestChina(url,
+				new Listener<String>() {
+
+					@Override
+					public void onResponse(String response) {
+						// TODO Auto-generated method stub
+						Log.i("", response);
+						getFromSharedPreferences.setsharedPreferences(ApplicationController.getInstance());
+						try {
+							JSONObject jsonRsponse = new JSONObject(response);
+							String cur_version = (String) jsonRsponse
+									.get("cur_sw_version");
+							getFromSharedPreferences.setGatewaycurrentVersion(cur_version);
+							String latest_version = (String) jsonRsponse
+									.get("latest_sw_version");
+							if (!cur_version.equals(latest_version)) {
+								DeviceControlActivity.GATEWAYUPDATE = true;
+								String latest_version_now = getFromSharedPreferences.getGatewaylatestVersion();
+								if(!latest_version_now.equals(latest_version)) {
+									DeviceControlActivity.GATEWAYUPDATE_FIRSTTIME = true;
+									getFromSharedPreferences.setGatewaylatestVersion(latest_version);
+								} else {
+									DeviceControlActivity.GATEWAYUPDATE_FIRSTTIME = false;
+								}
+							}
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}, new ErrorListener() {
+
+					@Override
+					public void onErrorResponse(VolleyError arg0) {
+						// TODO Auto-generated method stub
+
+					}
+				});
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
+
+	public void gatewayDoUpdate() {
+		String url = NetUtil.getInstance().getVideoURL(
+				NetUtil.getInstance().IP, "DoUpdate.cgi");
+		StringRequestChina req = new StringRequestChina(url,
+				new Listener<String>() {
+
+					@Override
+					public void onResponse(String response) {
+						// TODO Auto-generated method stub
+						
+					}
+				}, new ErrorListener() {
+
+					@Override
+					public void onErrorResponse(VolleyError arg0) {
+						// TODO Auto-generated method stub
+
+					}
+				});
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
+	
 	public void feedbackToServer(String user, String content) {
-		// String encodeContent = content;
-		// try {
-		// encodeContent = new String(content.replace(" ",
-		// "%20").getBytes(),"UTF-8");
-		// } catch (UnsupportedEncodingException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("UserID", user);
 		paraMap.put("Context", Uri.encode(content.replace(" ", "%20")));
 		// paraMap.put("Context", encodeContent);
 		String param = hashMap2ParamString(paraMap);
-		
-//		String url = "http://192.168.1.149:8888/SmartHome/feedback?" + param;
+
+		// String url = "http://192.168.1.149:8888/SmartHome/feedback?" + param;
 		String url = "http://121.199.21.14:8888/SmartHome/feedback?" + param;
 		Log.i("feedbackToServer", url);
 		StringRequest req = new StringRequest(url,

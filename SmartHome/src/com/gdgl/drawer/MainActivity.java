@@ -50,7 +50,7 @@ public class MainActivity extends ActionBarActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.drawer_activity_main);
-
+		MyApplication.getInstance().addActivity(this);
 		MainActivity.LOGIN_STATUS = false;
 
 		tipsWithoutNet = (TextView) findViewById(R.id.checknet);

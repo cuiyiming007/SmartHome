@@ -182,10 +182,16 @@ public class TestFragment extends Fragment implements UIListener {
 				mViewHolder = (ViewHolder) convertView.getTag();
 			}
 
-			mViewHolder.funcImg.setImageResource(DataUtil
-					.getDefaultDevicesIcon(
-							mAdapeterDevicesModel.getmDeviceId(),
-							mAdapeterDevicesModel.getmModelId().trim()));
+			if (mAdapeterDevicesModel.getmModelId().indexOf(
+					DataHelper.One_key_operator) == 0
+					&& DeviceControlActivity.GATEWAYUPDATE == true) {
+				mViewHolder.funcImg.setImageResource(R.drawable.ui2_device_gateway_update);
+			} else {
+				mViewHolder.funcImg.setImageResource(DataUtil
+						.getDefaultDevicesIcon(
+								mAdapeterDevicesModel.getmDeviceId(),
+								mAdapeterDevicesModel.getmModelId().trim()));
+			}
 			mViewHolder.funcImg.setOnTouchListener(new OnTouchListener() {
 				@Override
 				public boolean onTouch(View v, MotionEvent event) {

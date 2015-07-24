@@ -87,6 +87,8 @@ public class EventType {
 	public static final EventType ENABLELINKAGE;
 	
 	public static final EventType NETWORKCHANGE;
+	public static final EventType GATEWAYUPDATEBEGINE;
+	public static final EventType GATEWAYUPDATECOMPLETE;
 	
 	static {
 		LOGIN = new EventType("login", id);
@@ -168,6 +170,8 @@ public class EventType {
 		FEEDBACKTOSERVER = new EventType("feedbacktoserver", nextId());
 		
 		NETWORKCHANGE = new EventType("networkchange", nextId());
+		GATEWAYUPDATEBEGINE = new EventType("gatewayUpdateBegine", nextId());
+		GATEWAYUPDATECOMPLETE = new EventType("gatewayUpdateComplete", nextId());
 	}
 
 	private static int nextId() {

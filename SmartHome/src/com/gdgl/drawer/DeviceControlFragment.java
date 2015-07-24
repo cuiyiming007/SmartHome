@@ -400,8 +400,10 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 				if (modelId.indexOf(DataHelper.Emergency_Button) == 0
 						|| modelId.indexOf(DataHelper.Emergency_Button_On_Wall) == 0
 						|| modelId.indexOf(DataHelper.Smoke_Detectors) == 0
-						|| modelId.indexOf(DataHelper.Combustible_Gas_Detector_Gas) == 0
-						|| modelId.indexOf(DataHelper.Combustible_Gas_Detector_CO) == 0
+						|| modelId
+								.indexOf(DataHelper.Combustible_Gas_Detector_Gas) == 0
+						|| modelId
+								.indexOf(DataHelper.Combustible_Gas_Detector_CO) == 0
 						|| modelId
 								.indexOf(DataHelper.Combustible_Gas_Detector_Natural_gas) == 0) {
 					// ZigBee紧急按钮,ZigBee墙面紧急按钮,烟雾感应器,可燃气体探测器（煤气)器,可燃气体探测器（一氧化碳),可燃气体探测器（天然气)

@@ -272,8 +272,8 @@ public class CallbackManager extends Manger {
 				mDateHelper.update(mSQLiteDatabase31, DataHelper.DEVICES_TABLE,
 						c31, where31, args31);
 				mDateHelper.close(mSQLiteDatabase31);
-				
-				String[] changeName = {ieee31, ep31, newname31};
+
+				String[] changeName = { ieee31, ep31, newname31 };
 				Event event31 = new Event(EventType.CHANGEDEVICENAME, true);
 				event31.setData(changeName);
 				notifyObservers(event31);
@@ -429,7 +429,7 @@ public class CallbackManager extends Manger {
 					e1.printStackTrace();
 				}
 				VideoNode videoNode2 = gson.fromJson(response, VideoNode.class);
-				
+
 				Event event2 = new Event(EventType.EDITIPC, true);
 				event2.setData(videoNode2);
 
@@ -466,11 +466,11 @@ public class CallbackManager extends Manger {
 			case 4: // ipc online status
 				String ipc_status = (String) jsonRsponse.get("ipc_status_list");
 				char[] ipcStatusList = ipc_status.toCharArray();
-				
+
 				Event event4 = new Event(EventType.IPCONLINESTATUS, true);
 				event4.setData(ipcStatusList);
 				notifyObservers(event4);
-				
+
 				SQLiteDatabase mSqLiteDatabase4 = mDateHelper
 						.getSQLiteDatabase();
 				ContentValues c4 = new ContentValues();
@@ -684,7 +684,7 @@ public class CallbackManager extends Manger {
 				int status4 = (Integer) jsonRsponse.get("status");
 				int sid4 = (Integer) jsonRsponse.get("sid");
 				Event event4;
-				if(status4 == 0) {
+				if (status4 == 0) {
 					event4 = new Event(EventType.DOSCENE, true);
 				} else {
 					event4 = new Event(EventType.DOSCENE, false);
@@ -733,15 +733,17 @@ public class CallbackManager extends Manger {
 						.getSQLiteDatabase();
 				String where2 = Linkage.LID + " = ? ";
 				String[] arg2 = { linkage2.getLid() + "" };
-				mSqLiteDatabase2.update(DataHelper.LINKAGE_TABLE, linkage2.convertContentValues(), where2,arg2);
+				mSqLiteDatabase2.update(DataHelper.LINKAGE_TABLE,
+						linkage2.convertContentValues(), where2, arg2);
 				mSqLiteDatabase2.close();
 
 				notifyObservers(event2);
 				break;
-			case 3: //delete linkage
+			case 3: // delete linkage
 				int status3 = (Integer) jsonRsponse.get("status");
 				if (status3 < 0) {
-					Event event3_error = new Event(EventType.DELETELINKAGE, false);
+					Event event3_error = new Event(EventType.DELETELINKAGE,
+							false);
 					event3_error.setData(status3);
 					notifyObservers(event3_error);
 					break;
@@ -761,7 +763,8 @@ public class CallbackManager extends Manger {
 			case 4: // enable linkage
 				int status4 = (Integer) jsonRsponse.get("status");
 				if (status4 < 0) {
-					Event event4_error = new Event(EventType.ENABLELINKAGE, false);
+					Event event4_error = new Event(EventType.ENABLELINKAGE,
+							false);
 					event4_error.setData(status4);
 					notifyObservers(event4_error);
 					break;
@@ -773,16 +776,40 @@ public class CallbackManager extends Manger {
 
 				SQLiteDatabase mSqLiteDatabase4 = mDateHelper
 						.getSQLiteDatabase();
-				ContentValues cv = new ContentValues();         
-				cv.put(Linkage.ENABLE, enable4); 
+				ContentValues cv = new ContentValues();
+				cv.put(Linkage.ENABLE, enable4);
 				String where4 = Linkage.LID + " = ? ";
 				String[] arg4 = { lid4 + "" };
-				mSqLiteDatabase4.update(DataHelper.LINKAGE_TABLE, cv, where4,arg4);
+				mSqLiteDatabase4.update(DataHelper.LINKAGE_TABLE, cv, where4,
+						arg4);
 				mSqLiteDatabase4.close();
 
 				notifyObservers(event4);
 				break;
 			default:
+				break;
+			}
+		}
+		if (mainid == 6) { // gateway update
+			switch (subid) {
+			case 1:
+				Event event1 = new Event(EventType.GATEWAYUPDATEBEGINE, true);
+				notifyObservers(event1);
+				break;
+			case 2:
+				int status2 = (Integer) jsonRsponse.get("status");
+				if (status2 < 0) {
+					Event event2_error = new Event(
+							EventType.GATEWAYUPDATECOMPLETE, false);
+					notifyObservers(event2_error);
+					break;
+				}
+				int reboot = (Integer) jsonRsponse.get("need_reboot");
+				String version_now = (String) jsonRsponse.get("cur_sw_version");
+				String[] data = { reboot + "", version_now };
+				Event event2 = new Event(EventType.GATEWAYUPDATECOMPLETE, true);
+				event2.setData(data);
+				notifyObservers(event2);
 				break;
 			}
 		}
@@ -793,7 +820,7 @@ public class CallbackManager extends Manger {
 		int callbackType = Integer.parseInt(response.getCallbackType());
 		switch (callbackType) {
 		case 3:
-			 Log.i(TAG, "HEART_TIME " +response.getValue());
+			Log.i(TAG, "HEART_TIME " + response.getValue());
 			ContentValues c = new ContentValues();
 			c.put(DevicesModel.HEART_TIME, response.getValue());
 			ParemetersResponse p = new ParemetersResponse();
