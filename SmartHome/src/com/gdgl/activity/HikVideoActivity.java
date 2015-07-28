@@ -8,32 +8,40 @@
  */
 package com.gdgl.activity;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 import org.MediaPlayer.PlayM4.Player;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.SurfaceHolder;
+import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.SurfaceHolder.Callback;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
-import android.view.ViewGroup.LayoutParams;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.Gallery;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -41,7 +49,6 @@ import com.gdgl.mydata.video.VideoNode;
 import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.ComUtil;
-import com.gdgl.util.MyApplicationFragment;
 import com.hikvision.netsdk.ExceptionCallBack;
 import com.hikvision.netsdk.HCNetSDK;
 import com.hikvision.netsdk.NET_DVR_CLIENTINFO;
@@ -50,13 +57,13 @@ import com.hikvision.netsdk.NET_DVR_DEVICEINFO_V30;
 import com.hikvision.netsdk.NET_DVR_IPPARACFG_V40;
 import com.hikvision.netsdk.NET_DVR_PLAYBACK_INFO;
 import com.hikvision.netsdk.NET_DVR_RESOLVE_DEVICEINFO;
+import com.hikvision.netsdk.NET_DVR_TIME;
 import com.hikvision.netsdk.PTZCommand;
 import com.hikvision.netsdk.PTZPresetCmd;
-import com.hikvision.netsdk.PlaybackControlCommand;
-//import com.hikvision.netsdk.NET_DVR_PREVIEWINFO;
-import com.hikvision.netsdk.NET_DVR_TIME;
 import com.hikvision.netsdk.PlaybackCallBack;
+import com.hikvision.netsdk.PlaybackControlCommand;
 import com.hikvision.netsdk.RealPlayCallBack;
+//import com.hikvision.netsdk.NET_DVR_PREVIEWINFO;
 
 /**
  * <pre>
@@ -82,6 +89,13 @@ public class HikVideoActivity extends ActionBarActivity implements Callback {
 
 	private Toolbar mToolbar;
 	private ActionBar mActionBar;
+	private Button btn_last, btn_next;
+	private Gallery gallery_pic;
+	private View lay_pic, lay_big_pic;
+	private ImageView img_big_pic;
+	
+	private ArrayList<String> mListPic;
+	private ImageAdapter mImageAdapter;
 
 	private NET_DVR_DEVICEINFO_V30 m_oNetDvrDeviceInfoV30 = null;
 	private NET_DVR_RESOLVE_DEVICEINFO m_oNetDvrResolveDeviceInfo = null;
@@ -92,7 +106,7 @@ public class HikVideoActivity extends ActionBarActivity implements Callback {
 	private int m_iPlaybackID = -1; // return by NET_DVR_PlayBackByTime
 	private int m_iPort = -1; // play port
 
-	private final String TAG = "DemoActivity";
+	private final String TAG = "HikVideoActivity";
 
 	private boolean m_bRecord = false;
 	private boolean m_bSoundOn = false;
@@ -117,6 +131,8 @@ public class HikVideoActivity extends ActionBarActivity implements Callback {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.hik_activity);
+		
+		
 		if (!initVideoData()) {
 			this.finish();
 			return;
@@ -133,13 +149,110 @@ public class HikVideoActivity extends ActionBarActivity implements Callback {
 		}
 
 		loginVideo();
+		
 
 		// 萤石
 		// m_oPsd.setText("CMXZIZ");
 		// mDVRSerialNumber = "451627563";
 		// playVideo();
 	}
-
+	
+	private void makeFile(){
+		File file = new File(ComUtil.picturePath + "/" + m_DVRSerialNumber);
+		if(!file.exists()){
+			file.mkdirs();
+		}
+	}
+	
+	private void updateList(){ 
+		File file = new File(ComUtil.picturePath + "/" + m_DVRSerialNumber + "/");
+		mListPic = new ArrayList<String>();
+        File[] files = file.listFiles();  
+        if(files.length > 0){
+        	for(int i=files.length-1; i>=0; i--){
+        		mListPic.add(files[i].getAbsolutePath());	
+	        }  
+        }
+	}
+	
+	private void updateGallery(){
+		updateList();
+		lay_pic.setVisibility(View.VISIBLE);
+		mImageAdapter.setList(mListPic);
+		mImageAdapter.notifyDataSetChanged();
+		gallery_pic.setSelection(0);
+	}
+	
+	private class ImageAdapter extends BaseAdapter{
+		private Context context;
+		private ArrayList<String> mList;		
+	    public ImageAdapter(Context c, ArrayList<String> mList){
+	    	this.context = c;
+	        this.mList = mList;
+	    }
+	    
+	    public void setList(ArrayList<String> mList){
+	    	this.mList = mList;
+	    }
+	    
+	    @Override
+	    public int getCount() {
+	        return mList.size();
+	    }
+	    @Override
+	    public Object getItem(int position) {
+	        // TODO Auto-generated method stub
+	        return position;
+	    }
+	    @Override
+	    public long getItemId(int position) {
+	        // TODO Auto-generated method stub
+	        return position;
+	    }
+	    @Override
+	    public View getView(final int position, View convertView, ViewGroup parent) {
+	        ImageView imageView = new ImageView(context);
+	        //imageView.setImageResource(R.drawable.btn_increment_pressed);
+	        imageView.setImageBitmap(getBmpFromFile(mList.get(position), true));
+	        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+	        //imageView.setLayoutParams(new Gallery.LayoutParams(100, 100*9/11));
+	        imageView.setLayoutParams(new Gallery.LayoutParams(200, 200));
+	        imageView.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					lay_big_pic.setVisibility(View.VISIBLE);
+					img_big_pic.setImageBitmap(getBmpFromFile(mList.get(position), false));
+				}
+			});
+	        return imageView;
+	    }
+	}
+	
+	private Bitmap getBmpFromFile(String path, boolean isSmall){
+		Bitmap bitmap = null;
+		if(isSmall){
+			BitmapFactory.Options options = new BitmapFactory.Options();  
+		    options.inJustDecodeBounds = true; // 设置了此属性一定要记得将值设置为false  	
+		    bitmap =BitmapFactory.decodeFile(path,options);  
+		    options.inJustDecodeBounds = false;  
+		    int height = options.outHeight * 100 / options.outWidth; 
+		    options.outWidth = 100;
+		    options.outHeight = height;  
+		    options.inJustDecodeBounds = false; 
+		    options.inSampleSize = options.outWidth / 100; 
+		    options.inJustDecodeBounds = false;
+		    options.inPreferredConfig = Bitmap.Config.ARGB_4444;    // 默认是Bitmap.Config.ARGB_8888 
+		    options.inPurgeable = true; 
+		    options.inInputShareable = true; 
+		    bitmap = BitmapFactory.decodeFile(path,options);  
+		}else{
+			bitmap =BitmapFactory.decodeFile(path, null);  
+		}
+		return bitmap;
+	}
+	
 	private void loginVideo() {
 		try {
 			if (m_iLogID < 0) {
@@ -347,19 +460,8 @@ public class HikVideoActivity extends ActionBarActivity implements Callback {
 		m_oPsd = mVideoNode.getPassword();
 		m_DVRName = "";
 		m_DVRSerialNumber = mVideoNode.getSerialNum();
-		// if(m_DVRSerialNumber == null || m_DVRSerialNumber.equals("")){
-		// if(m_oIPAddr.equals("192.168.1.174")){
-		// m_DVRSerialNumber = "505323938";
-		// }else if(m_oIPAddr.equals("192.168.1.185")){
-		// m_DVRSerialNumber = "451627563";
-		// }else if(m_oIPAddr.equals("192.168.1.109 ")){
-		// m_DVRSerialNumber = "451573018";
-		// }else if(m_oIPAddr.equals("192.168.1.172")){
-		// m_DVRSerialNumber = "466722322";
-		// }else if(m_oIPAddr.equals("192.168.1.173")){
-		// m_DVRSerialNumber = "466722311";
-		// }
-		// }
+		makeFile();
+		updateList();
 		return true;
 	}
 
@@ -379,11 +481,15 @@ public class HikVideoActivity extends ActionBarActivity implements Callback {
 		int height = wm.getDefaultDisplay().getHeight();
 		if (width < height) {
 			m_oCaptureBtn.setVisibility(View.VISIBLE);
+			if(mListPic.size() > 0){
+				lay_pic.setVisibility(View.VISIBLE);	
+			}
 			mToolbar.setVisibility(View.VISIBLE);
 			m_osurfaceView.setLayoutParams(new RelativeLayout.LayoutParams(
 					width, width / 11 * 9));
 		} else {
 			m_oCaptureBtn.setVisibility(View.GONE);
+			lay_pic.setVisibility(View.GONE);
 			mToolbar.setVisibility(View.GONE);
 			m_osurfaceView.setLayoutParams(new RelativeLayout.LayoutParams(
 					width, width / 11 * 9));
@@ -392,17 +498,7 @@ public class HikVideoActivity extends ActionBarActivity implements Callback {
 
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		// if(newConfig.orientation==Configuration.ORIENTATION_LANDSCAPE){
-		// Log.i("onConfigurationChanged","当前屏幕为横屏");
-		// m_oCaptureBtn.setVisibility(View.GONE);
-		// mToolbar.setVisibility(View.GONE);
-		// }else{
-		// Log.i("onConfigurationChanged","当前屏幕为竖屏");
-		// m_oCaptureBtn.setVisibility(View.VISIBLE);
-		// mToolbar.setVisibility(View.VISIBLE);
-		// }
 		initSurface();
-
 	}
 
 	// get controller instance
@@ -410,6 +506,15 @@ public class HikVideoActivity extends ActionBarActivity implements Callback {
 		m_oCaptureBtn = (Button) findViewById(R.id.btn_Capture);
 		m_osurfaceView = (SurfaceView) findViewById(R.id.Sur_Player);
 		mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
+		btn_last = (Button)findViewById(R.id.btn_last);
+		btn_next = (Button)findViewById(R.id.btn_next);
+		gallery_pic = (Gallery)findViewById(R.id.gallery_pic);
+		mImageAdapter = new ImageAdapter(this, mListPic);
+		gallery_pic.setAdapter(mImageAdapter);
+		lay_pic = (View)findViewById(R.id.lay_pic);
+		lay_big_pic = (View)findViewById(R.id.lay_big_pic);
+		img_big_pic = (ImageView)findViewById(R.id.img_big_pic);
+		
 		setSupportActionBar(mToolbar);
 		mActionBar = getSupportActionBar();
 		mActionBar.setDisplayHomeAsUpEnabled(true);
@@ -420,8 +525,37 @@ public class HikVideoActivity extends ActionBarActivity implements Callback {
 
 	// listen
 	private void setListeners() {
+		lay_big_pic.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				lay_big_pic.setVisibility(View.GONE);
+			}
+		});
+		btn_last.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				if(gallery_pic.getSelectedItemPosition() > 0){
+					gallery_pic.setSelection(gallery_pic.getSelectedItemPosition()-1);
+				}
+			}
+		});
+		btn_next.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				if(gallery_pic.getSelectedItemPosition() < mListPic.size()-1){
+					gallery_pic.setSelection(gallery_pic.getSelectedItemPosition()+1);
+				}
+			}
+		});
 		m_oCaptureBtn.setOnClickListener(Capture_Listener);
 	}
+	
 
 	// ptz listener
 	private Button.OnTouchListener PTZ_Listener = new OnTouchListener() {
@@ -616,12 +750,13 @@ public class HikVideoActivity extends ActionBarActivity implements Callback {
 				String picName = ComUtil.setViedoFileNameBySysTime(Integer
 						.parseInt(mVideoNode.getId()));
 				FileOutputStream file = new FileOutputStream(
-						ComUtil.picturePath + "/" + picName);
+						ComUtil.picturePath + "/" + m_DVRSerialNumber + "/" +picName);
 				Toast.makeText(HikVideoActivity.this,
-						"截图保存到" + ComUtil.picturePath + "/" + picName,
+						"截图保存到" + ComUtil.picturePath + "/" + m_DVRSerialNumber + "/" +picName,
 						Toast.LENGTH_SHORT).show();
 				file.write(picBuf, 0, stSize.value);
 				file.close();
+				updateGallery();
 			} catch (Exception err) {
 				Log.e(TAG, "error: " + err.toString());
 			}

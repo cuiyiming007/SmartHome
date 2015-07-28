@@ -344,7 +344,7 @@ public class LinkageDetailFragment extends Fragment implements
 			DevicesModel mDevices = new DevicesModel();
 			mDevices.setID(Integer.parseInt(mVideo.getId()));
 			mDevices.setmDevicePriority(VideoNode.PRIORITY);
-			mDevices.setmDefaultDeviceName(mVideo.getName());
+			mDevices.setmDefaultDeviceName(mVideo.getAliases());
 			mActAddList.add(mDevices);
 		}
 		
