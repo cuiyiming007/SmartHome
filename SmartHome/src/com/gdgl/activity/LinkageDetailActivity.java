@@ -25,7 +25,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.Toolbar.OnMenuItemClickListener;
 import android.view.Gravity;
@@ -38,7 +37,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class LinkageDetailActivity extends ActionBarActivity implements
+public class LinkageDetailActivity extends MyActionBarActivity implements
 		ChangeFragment {
 	private static final String SPINNER_ONOFF_STRING[] = {"开", "关"};
 	private static final String SPINNER_ONOFF_DATA[] = {"1", "0"};
@@ -97,7 +96,6 @@ public class LinkageDetailActivity extends ActionBarActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.linkage_detail_activity);
 		MyApplicationFragment.getInstance().setActivity(this);
 
 		mDataHelper = new DataHelper(this);

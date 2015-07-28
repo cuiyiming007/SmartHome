@@ -1,5 +1,6 @@
 package com.gdgl.drawer;
 
+import com.gdgl.activity.GatewayUpdateDetailDlgFragment;
 import com.gdgl.activity.LinkageFragment;
 import com.gdgl.activity.ScenesFragment;
 import com.gdgl.activity.TimingFragment;
@@ -15,7 +16,7 @@ import com.gdgl.reciever.NetWorkChangeReciever;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyApplication;
 import com.gdgl.util.MyOKOnlyDlg;
-import com.gdgl.util.MyOKOnlyDlg.Dialogcallback;
+import com.gdgl.util.MyOKOnlyDlg.DialogOutcallback;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -33,7 +34,7 @@ import android.view.View;
 import android.widget.TextView;
 
 public class MainActivity extends ActionBarActivity implements
-		NavigationDrawerCallbacks, UIListener, Dialogcallback {
+		NavigationDrawerCallbacks, UIListener, DialogOutcallback {
 
 	public static boolean LOGIN_STATUS = true;
 
@@ -92,7 +93,7 @@ public class MainActivity extends ActionBarActivity implements
 
 		IntentFilter intentFilter = new IntentFilter();
 		intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
-		netWorkChangeReciever = new NetWorkChangeReciever();
+		netWorkChangeReciever = NetWorkChangeReciever.getInstance();
 		registerReceiver(netWorkChangeReciever, intentFilter);
 
 		netWorkChangeReciever.addObserver(this);
@@ -230,11 +231,17 @@ public class MainActivity extends ActionBarActivity implements
 					});
 				}
 			}
+		} else if (EventType.GATEWAYUPDATEBEGINE == event.getType()) {
+			if (!GatewayUpdateDetailDlgFragment.UpdateSelf) {
+				GatewayUpdateDetailDlgFragment gatewayUpdateFragment = new GatewayUpdateDetailDlgFragment(
+						false);
+				gatewayUpdateFragment.show(getSupportFragmentManager(), "");
+			}
 		}
 	}
 
 	@Override
-	public void dialogdo() {
+	public void dialogokdo() {
 		// TODO Auto-generated method stub
 		MyApplication.getInstance().finishSystem();
 	}

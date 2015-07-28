@@ -33,6 +33,7 @@
         android:layout_toRightOf="@id/logo"
         android:layout_centerVertical="true"
         android:layout_marginLeft="5dp"
+        android:textColor="@color/text_gray"
         android:singleLine="true"
         android:textAppearance="?android:attr/textAppearanceSmallInverse" />
 

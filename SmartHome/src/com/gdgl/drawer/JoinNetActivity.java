@@ -2,6 +2,7 @@ package com.gdgl.drawer;
 
 import com.gdgl.activity.JoinNetFragment;
 import com.gdgl.activity.JoinNetFragment.ChangeFragment;
+import com.gdgl.activity.MyActionBarActivity;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyApplicationFragment;
 
@@ -9,18 +10,16 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 
-public class JoinNetActivity extends ActionBarActivity implements ChangeFragment{
+public class JoinNetActivity extends MyActionBarActivity implements ChangeFragment{
     private Toolbar mToolbar;
     private ActionBar mActionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.drawer_activity_secondary);
         MyApplicationFragment.getInstance().setActivity(this);
         
         mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);

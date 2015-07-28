@@ -446,6 +446,17 @@ public class TestFragment extends Fragment implements UIListener {
 					mCustomeAdapter.notifyDataSetChanged();
 				}
 			});
+		} else if (EventType.GATEWAYUPDATECOMPLETE == event.getType()) {
+			if (event.isSuccess()) {
+				mView.postDelayed(new Runnable() {
+					
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						mCustomeAdapter.notifyDataSetChanged();
+					}
+				}, 500);
+			}
 		}
 
 	}

@@ -28,7 +28,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.Toolbar.OnMenuItemClickListener;
 import android.view.Gravity;
@@ -37,7 +36,7 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class SceneDevicesActivity extends ActionBarActivity implements
+public class SceneDevicesActivity extends MyActionBarActivity implements
 		ChangeFragment, AddChecked, Dialogcallback {
 	public static final String TYPE = "type";
 	public static final int CREATE = 1;
@@ -81,7 +80,6 @@ public class SceneDevicesActivity extends ActionBarActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.drawer_activity_secondary);
 		MyApplicationFragment.getInstance().setActivity(this);
 
 		mDataHelper = new DataHelper(SceneDevicesActivity.this);

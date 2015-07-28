@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.gdgl.smarthome"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" xmlns:app="http://schemas.android.com/apk/res/com.gdgl.smarthome">
+    android:orientation="vertical" >
 
     <android.support.v7.widget.CardView
         android:id="@+id/toolbar_card"
@@ -21,6 +22,20 @@
             android:layout_height="wrap_content"
             layout="@layout/toolbar_default" />
     </android.support.v7.widget.CardView>
+
+    <TextView
+        android:id="@+id/checknet"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="#fff176"
+        android:drawableLeft="@drawable/ui2_tips_without_net"
+        android:gravity="center_vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:text="连接超时，请检查你的网络设置"
+        android:textColor="#f57f17"
+        android:textSize="14sp"
+        android:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/container"

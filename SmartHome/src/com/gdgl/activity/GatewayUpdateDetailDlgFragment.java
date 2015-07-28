@@ -26,6 +26,8 @@ import android.widget.TextView;
 
 public class GatewayUpdateDetailDlgFragment extends DialogFragment implements
 		UIListener {
+	public static boolean UpdateSelf = false;
+
 	private View mView;
 
 	private LinearLayout layout1;
@@ -37,6 +39,10 @@ public class GatewayUpdateDetailDlgFragment extends DialogFragment implements
 	private Button okButton;
 
 	private boolean reboot = false;
+
+	public GatewayUpdateDetailDlgFragment(boolean updateself) {
+		UpdateSelf = updateself;
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -54,6 +60,11 @@ public class GatewayUpdateDetailDlgFragment extends DialogFragment implements
 		mView = inflater.inflate(R.layout.gateway_update_detail_fragment, null);
 		getFromSharedPreferences.setsharedPreferences(getActivity());
 		initView();
+		if (!UpdateSelf) {
+			updateButton.setVisibility(View.GONE);
+			progressBar.setVisibility(View.VISIBLE);
+			updatingText.setVisibility(View.VISIBLE);
+		}
 		builder.setView(mView);
 		return builder.create();
 	}

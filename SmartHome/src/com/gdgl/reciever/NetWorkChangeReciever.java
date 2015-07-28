@@ -25,6 +25,15 @@ public class NetWorkChangeReciever extends BroadcastReceiver {
 	public static final String ACTION = "android.net.conn.CONNECTIVITY_CHANGE";
 	
 	private boolean startWork = false; // 注册Reciever时不执行动作(第一次不执行)
+	
+	private static NetWorkChangeReciever instance;
+	
+	public static NetWorkChangeReciever getInstance() {
+		if (instance == null) {
+			instance = new NetWorkChangeReciever();
+		}
+		return instance;
+	}
 
 	public synchronized void addObserver(UIListener o) {
 		if (o == null) {

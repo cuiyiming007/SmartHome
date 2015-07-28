@@ -138,14 +138,14 @@ public class ChangePWDFragment extends Fragment implements UIListener {
 //		int i=Integer.parseInt(response.getResponse_params().getStatus());
 		switch (status) {
 		case 0:
-			mView.post(new Runnable() {
-				
-				@Override
-				public void run() {
-					// TODO Auto-generated method stub
-					getActivity().finish();
-				}
-			});
+//			mView.post(new Runnable() {
+//				
+//				@Override
+//				public void run() {
+//					// TODO Auto-generated method stub
+//					getActivity().finish();
+//				}
+//			});
 			break;
 		case -29:
 			mView.post(new Runnable() {

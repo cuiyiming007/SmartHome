@@ -35,7 +35,7 @@ public class MyUpdateGatewayDlg {
 			@Override
 			public void onClick(View v) {
 				dismiss();
-				GatewayUpdateDetailDlgFragment gatewayUpdateFragment = new GatewayUpdateDetailDlgFragment();
+				GatewayUpdateDetailDlgFragment gatewayUpdateFragment = new GatewayUpdateDetailDlgFragment(true);
 				gatewayUpdateFragment.show(fManager, "");
 				
 			}

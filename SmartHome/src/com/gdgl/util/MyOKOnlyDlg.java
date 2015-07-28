@@ -13,7 +13,7 @@ public class MyOKOnlyDlg {
 	Dialog dialog;
 	Button sure;
 	TextView textView;
-	Dialogcallback dialogcallback;
+	DialogOutcallback dialogcallback;
 	boolean cannotCancele = false;
 	
 	public MyOKOnlyDlg(Context con) {
@@ -27,18 +27,18 @@ public class MyOKOnlyDlg {
 			@Override
 			public void onClick(View v) {
 				if(cannotCancele) {
-					dialogcallback.dialogdo();
+					dialogcallback.dialogokdo();
 				}
 				dismiss();
 			}
 		});
 	}
 	
-	public interface Dialogcallback {
-		public void dialogdo();
+	public interface DialogOutcallback {
+		public void dialogokdo();
 	}
 
-	public void setDialogCallback(Dialogcallback dialogcallback) {
+	public void setDialogCallback(DialogOutcallback dialogcallback) {
 		this.dialogcallback = dialogcallback;
 	}
 	

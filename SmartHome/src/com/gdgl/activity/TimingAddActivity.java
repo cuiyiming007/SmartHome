@@ -14,14 +14,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.Toolbar.OnMenuItemClickListener;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-public class TimingAddActivity extends ActionBarActivity implements Dialogcallback {
+public class TimingAddActivity extends MyActionBarActivity implements Dialogcallback {
 
 	public static final String TYPE = "type";
 	public static final int CREATE = 1;
@@ -39,7 +38,6 @@ public class TimingAddActivity extends ActionBarActivity implements Dialogcallba
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.drawer_activity_secondary);
 
 		mDataHelper = new DataHelper(TimingAddActivity.this);
 
