@@ -124,22 +124,28 @@
         </activity>
         
          <activity 
-             android:name="com.gdgl.drawer.MainActivity">
+             android:name="com.gdgl.drawer.MainActivity"
+             android:screenOrientation="portrait" >
          </activity>
          <activity
-             android:name="com.gdgl.drawer.DeviceControlActivity">
+             android:name="com.gdgl.drawer.DeviceControlActivity"
+             android:screenOrientation="portrait" >
          </activity>
          <activity
-             android:name="com.gdgl.drawer.JoinNetActivity">
+             android:name="com.gdgl.drawer.JoinNetActivity"
+             android:screenOrientation="portrait" >
          </activity>
          <activity
-             android:name="com.gdgl.activity.TimingAddActivity">
+             android:name="com.gdgl.activity.TimingAddActivity"
+             android:screenOrientation="portrait" >
          </activity>
          <activity
-             android:name="com.gdgl.drawer.AlarmMessageActivity">
+             android:name="com.gdgl.drawer.AlarmMessageActivity"
+             android:screenOrientation="portrait" >
          </activity>
          <activity
-             android:name="com.gdgl.activity.ConfigurationActivity_New">
+             android:name="com.gdgl.activity.ConfigurationActivity_New"
+             android:screenOrientation="portrait" >
          </activity>
 
         <service android:name="com.gdgl.service.SmartService" >

@@ -44,6 +44,7 @@ public class MainActivity extends ActionBarActivity implements
 	private NavigationDrawerFragment mNavigationDrawerFragment;
 	int currentTab = 0;
 	private Fragment mfragment;
+	private boolean onTopScreen = true;
 
 	NetWorkChangeReciever netWorkChangeReciever;
 
@@ -159,6 +160,20 @@ public class MainActivity extends ActionBarActivity implements
 	}
 
 	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		onTopScreen = true;
+		super.onResume();
+	}
+
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		onTopScreen = false;
+		super.onPause();
+	}
+
+	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
@@ -195,13 +210,14 @@ public class MainActivity extends ActionBarActivity implements
 
 			if (event.isSuccess() == true) {
 				int status = (Integer) event.getData();
-				if(status == 0) {
+				if (status == 0) {
 					mToolbar.post(new Runnable() {
 
 						@Override
 						public void run() {
 							// TODO Auto-generated method stub
-							MyOKOnlyDlg myOKOnlyDlg = new MyOKOnlyDlg(MainActivity.this);
+							MyOKOnlyDlg myOKOnlyDlg = new MyOKOnlyDlg(
+									MainActivity.this);
 							myOKOnlyDlg.setContent("别名已修改，请重新登录！");
 							myOKOnlyDlg.setCannotCanceled();
 							myOKOnlyDlg.setDialogCallback(MainActivity.this);
@@ -214,15 +230,17 @@ public class MainActivity extends ActionBarActivity implements
 
 			if (event.isSuccess() == true) {
 				int status = (Integer) event.getData();
-				if(status == 0) {
+				if (status == 0) {
 					mToolbar.post(new Runnable() {
 
 						@Override
 						public void run() {
 							// TODO Auto-generated method stub
-							getFromSharedPreferences.setsharedPreferences(MainActivity.this);
+							getFromSharedPreferences
+									.setsharedPreferences(MainActivity.this);
 							getFromSharedPreferences.setPwd("");
-							MyOKOnlyDlg myOKOnlyDlg = new MyOKOnlyDlg(MainActivity.this);
+							MyOKOnlyDlg myOKOnlyDlg = new MyOKOnlyDlg(
+									MainActivity.this);
 							myOKOnlyDlg.setContent("密码已修改，请重新登录！");
 							myOKOnlyDlg.setCannotCanceled();
 							myOKOnlyDlg.setDialogCallback(MainActivity.this);
@@ -232,7 +250,7 @@ public class MainActivity extends ActionBarActivity implements
 				}
 			}
 		} else if (EventType.GATEWAYUPDATEBEGINE == event.getType()) {
-			if (!GatewayUpdateDetailDlgFragment.UpdateSelf) {
+			if (!GatewayUpdateDetailDlgFragment.UpdateSelf && onTopScreen) {
 				GatewayUpdateDetailDlgFragment gatewayUpdateFragment = new GatewayUpdateDetailDlgFragment(
 						false);
 				gatewayUpdateFragment.show(getSupportFragmentManager(), "");
