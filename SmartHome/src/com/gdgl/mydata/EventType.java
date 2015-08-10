@@ -1,5 +1,7 @@
 package com.gdgl.mydata;
 
+import com.gdgl.model.EnergyModel;
+
 public class EventType {
 
 	private static int id = 0;
@@ -60,9 +62,27 @@ public class EventType {
 	public static final EventType ROOMDATAMAIN;
 	public static final EventType MODIFYDEVICEROOMID;
 	public static final EventType CHANGEDEVICENAME;
-	public static final EventType HEARTTIME;
+	
+	public static final EventType SET_DEVICES_BACK;
+	public static final EventType GET_DEVICES_BACK;
+	public static final EventType GET_ONOFF_BACK;
+	public static final EventType SET_ONOFF_BACK;
+	public static final EventType RECEIVE_ONOFF_BACK;
+	public static final EventType RECEIVE_SENSOR_BACK;
+	public static final EventType SET_ALL_DEFENSE_BACK;
+	public static final EventType GET_ALL_DEFENSE_BACK;
+	public static final EventType SET_DEFENSE_BACK;
+	public static final EventType GET_DEFENSE_BACK;
+	public static final EventType RECEIVE_ALL_DEFENSE_BACK;
+	public static final EventType RECEIVE_DEFENSE_BACK;
+	public static final EventType SET_METER_LIST_BACK;
+	public static final EventType GET_METER_LIST_BACK;
+	public static final EventType GET_METER_DATA_BACK;
+	public static final EventType RECEIVE_METER_DATA;
+	
 	public static final EventType READHEARTTIME;
 	public static final EventType REQUESTVIDEO;
+	public static final EventType HEARTTIME;
 
 	static {
 		LOGIN = new EventType("login", id);
@@ -117,9 +137,27 @@ public class EventType {
 		ROOMDATAMAIN = new EventType("roomDataMain", nextId());
 		MODIFYDEVICEROOMID = new EventType("modifyDeviceRoomId", nextId());
 		CHANGEDEVICENAME = new EventType("changedevicename", nextId());
+		
+		SET_DEVICES_BACK = new EventType("SET_DEVICES_BACK", nextId());
+		GET_DEVICES_BACK = new EventType("GET_DEVICES_BACK", nextId());
+		GET_ONOFF_BACK = new EventType("GET_ONOFF_BACK", nextId());
+		SET_ONOFF_BACK = new EventType("SET_ONOFF_BACK", nextId());
+		RECEIVE_ONOFF_BACK = new EventType("RECEIVE_ONOFF_BACK", nextId());
+		RECEIVE_SENSOR_BACK = new EventType("RECEIVE_SENSOR_BACK", nextId());
+		SET_ALL_DEFENSE_BACK = new EventType("SET_ALL_DEFENSE_BACK", nextId());
+		GET_ALL_DEFENSE_BACK = new EventType("GET_ALL_DEFENSE_BACK", nextId());
+		SET_DEFENSE_BACK = new EventType("SET_DEFENSE_BACK", nextId());
+		GET_DEFENSE_BACK = new EventType("GET_DEFENSE_BACK", nextId());
+		RECEIVE_ALL_DEFENSE_BACK = new EventType("RECEIVE_ALL_DEFENSE_BACK", nextId());
+		RECEIVE_DEFENSE_BACK = new EventType("RECEIVE_DEFENSE_BACK", nextId());
+		SET_METER_LIST_BACK = new EventType("SET_METER_LIST_BACK", nextId());
+		GET_METER_LIST_BACK = new EventType("GET_METER_LIST_BACK", nextId());
+		GET_METER_DATA_BACK = new EventType("GET_METER_DATA_BACK", nextId());
+		RECEIVE_METER_DATA = new EventType("RECEIVE_METER_DATA", nextId());	
 		HEARTTIME = new EventType("hearttime", nextId());
 		READHEARTTIME = new EventType("readhearttime", nextId());
 		REQUESTVIDEO = new EventType("requestvideo", nextId());
+		
 	}
 
 	private static int nextId() {

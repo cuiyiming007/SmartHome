@@ -17,6 +17,7 @@ import com.gdgl.adapter.DevicesBaseAdapter.DevicesObserver;
 import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.DeviceManager;
 import com.gdgl.manager.CGIManager;
+import com.gdgl.manager.EnergyManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
 import com.gdgl.manager.WarnManager;
@@ -100,6 +101,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 	CGIManager mcgiManager;
 	DeviceManager mDeviceManager;
 	DataHelper mDataHelper;
+	EnergyManager mEnergyManager;
 
 	public boolean isTop = true;
 
@@ -336,6 +338,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 		super.onDestroy();
 		mcgiManager.deleteObserver(this);
 		mDeviceManager.deleteObserver(this);
+		mEnergyManager.deleteObserver(this);
 		CallbackManager.getInstance().deleteObserver(this);
 	}
 
@@ -381,6 +384,9 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 
 		mDeviceManager = DeviceManager.getInstance();
 		mDeviceManager.addObserver(this);
+		
+		mEnergyManager = EnergyManager.getInstance();
+		mEnergyManager.addObserver(this);
 		CallbackManager.getInstance().addObserver(this);
 
 		fragmentManager = this.getFragmentManager();
@@ -1150,93 +1156,47 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 					setdata(mCurrentList);
 				}
 			});
-		} else if(EventType.SCAPEDDEVICE == event.getType()){
-			Log.i("ShowDevices SCAPEDDEVICE", "SCAPEDDEVICE");
-			ArrayList<DevicesModel> scapedList = (ArrayList<DevicesModel>) event.getData();
-			for(DevicesModel mDevicesModel : scapedList){
-				Log.i("mDevicesModel ", "IEEE = "+mDevicesModel.getmIeee());
-			}
-		} else if (EventType.SCAPEDDEVICE == event.getType()) {
-			ArrayList<DevicesModel> scapedList = (ArrayList<DevicesModel>) event
-					.getData();
-			for (DevicesModel mDevicesModel : scapedList) {
-				int sort = mDevicesModel.getmDeviceSort();
-				switch (sort) {
-				case UiUtils.ENVIRONMENTAL_CONTROL:
-					mDevicesListCache.put(UiUtils.ENVIRONMENTAL_CONTROL, DataUtil.getSortManagementDevices(
-						ShowDevicesGroupFragmentActivity.this, mDataHelper,
-						UiUtils.ENVIRONMENTAL_CONTROL));
-					mDevicesListCache.get(UiUtils.ENVIRONMENTAL_CONTROL).add(
-							mDevicesModel);
-					break;
-				case UiUtils.SECURITY_CONTROL:
-					List<DevicesModel> safeList = mDevicesListCache
-							.get(UiUtils.SECURITY_CONTROL);
-					safeList = DataUtil.getSortManagementDevices(
-							ShowDevicesGroupFragmentActivity.this, mDataHelper,
-							UiUtils.SECURITY_CONTROL);
-
-					DevicesModel dm = null;
-					DevicesModel tempDevicesModel;
-					int index = -1;
-					if (null != safeList && safeList.size() > 0) {
-						tempDevicesModel = safeList.get(0);
-						for (int i = 0; i < safeList.size(); i++) {
-							if (safeList.get(i).getmModelId()
-									.indexOf(DataHelper.One_key_operator) == 0) {
-								dm = safeList.get(i);
-								index = i;
-							}
-						}
-						if (index != -1 && index != 0) {
-							safeList.add(0, dm);
-							safeList.add(index, tempDevicesModel);
-						}
-					}
-					mDevicesListCache.put(UiUtils.SECURITY_CONTROL, safeList);
-					mDevicesListCache.get(UiUtils.SECURITY_CONTROL).add(
-							mDevicesModel);
-					break;
-				case UiUtils.LIGHTS_MANAGER:
-					mDevicesListCache.put(UiUtils.LIGHTS_MANAGER, DataUtil.getSortManagementDevices(
-							ShowDevicesGroupFragmentActivity.this, mDataHelper,
-							UiUtils.LIGHTS_MANAGER));
-					mDevicesListCache.get(UiUtils.LIGHTS_MANAGER).add(
-							mDevicesModel);
-					break;
-				case UiUtils.ELECTRICAL_MANAGER:
-					mDevicesListCache.put(UiUtils.ELECTRICAL_MANAGER, DataUtil.getSortManagementDevices(
-							ShowDevicesGroupFragmentActivity.this, mDataHelper,
-							UiUtils.ELECTRICAL_MANAGER));
-					mDevicesListCache.get(UiUtils.ELECTRICAL_MANAGER).add(
-							mDevicesModel);
-					break;
-				case UiUtils.ENERGY_CONSERVATION:
-					mDevicesListCache.put(UiUtils.ENERGY_CONSERVATION, DataUtil.getSortManagementDevices(
-							ShowDevicesGroupFragmentActivity.this, mDataHelper,
-							UiUtils.ENERGY_CONSERVATION));
-					mDevicesListCache.get(UiUtils.ENERGY_CONSERVATION).add(
-							mDevicesModel);
-					break;
-				case UiUtils.OTHER:
-					mDevicesListCache.put(UiUtils.OTHER, DataUtil.getSortManagementDevices(
-							ShowDevicesGroupFragmentActivity.this, mDataHelper,
-							UiUtils.OTHER));
-					break;
-
-				default:
-					break;
-				}
-			}
+		}else if(EventType.SET_DEVICES_BACK == event.getType()){
+			Log.i("SET_DEVICES_BACK", "SET_DEVICES_BACK");
 			title.post(new Runnable() {
-
+				
 				@Override
 				public void run() {
-					mDevicesBaseAdapter.notifyDataSetChanged();
+					mDevicesListCache.put(UiUtils.SECURITY_CONTROL, DataUtil.getSortManagementDevices(
+							ShowDevicesGroupFragmentActivity.this, mDataHelper, UiUtils.SECURITY_CONTROL));
+					mDevicesListCache.put(UiUtils.ELECTRICAL_MANAGER, DataUtil.getSortManagementDevices(
+							ShowDevicesGroupFragmentActivity.this, mDataHelper, UiUtils.ELECTRICAL_MANAGER));
+					mDevicesListCache.put(UiUtils.ENERGY_CONSERVATION, DataUtil.getSortManagementDevices(
+							ShowDevicesGroupFragmentActivity.this, mDataHelper, UiUtils.ENERGY_CONSERVATION));
+					//mDevicesBaseAdapter.notifyDataSetChanged();
+					refreshAdapter(mListIndex);
+					// TODO Auto-generated method stub
 				}
 			});
+		}else if(EventType.SET_METER_LIST_BACK == event.getType()){
+			Log.i("SET_METER_LIST_BACK", "SET_METER_LIST_BACK");
+			title.post(new Runnable() {
+				
+				@Override
+				public void run() {
+					mDevicesListCache.put(UiUtils.ENERGY_CONSERVATION, DataUtil.getSortManagementDevices(
+							ShowDevicesGroupFragmentActivity.this, mDataHelper, UiUtils.ENERGY_CONSERVATION));
+					//mDevicesBaseAdapter.notifyDataSetChanged();
+					refreshAdapter(mListIndex);
+					// TODO Auto-generated method stub
+				}
+			});
+		}else if(EventType.RECEIVE_ALL_DEFENSE_BACK == event.getType()){
+			Log.i("RECEIVE_ALL_DEFENSE_BACK", "RECEIVE_ALL_DEFENSE_BACK");
+			if (UiUtils.SECURITY_CONTROL == mListIndex) {
+				title.post(new Runnable() {
+					@Override
+					public void run() {
+						mDevicesBaseAdapter.notifyDataSetChanged();
+					}
+				});
+			}
 		}
-
 	}
 
 

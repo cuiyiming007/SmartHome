@@ -20,6 +20,8 @@
  *******************************************************************************/
 package com.gdgl.libjingle;
 
+import java.util.Map;
+import java.util.HashMap;
 import java.util.UUID;
 
 import org.json.*;
@@ -29,6 +31,7 @@ import android.util.Log;
 import com.gdgl.activity.LoginActivity;
 import com.gdgl.app.ApplicationController;
 import com.gdgl.mydata.getFromSharedPreferences;
+import com.google.gson.JsonObject;
 
 public class LibjinglePackHandler {
 
@@ -38,12 +41,15 @@ public class LibjinglePackHandler {
 	public int status;
 	public String jid;
 	public String result;
+	public String energy_data;
 
 	final public static int MT_URL = 3;
 	final public static int MT_CallBack = 5;
 	final public static int MT_IpcVideo = 6;
 	final public static int MT_CaHeartBeat = 8;
 	final public static int MT_IpcStat = 9;
+	final public static int MT_Energy_Response = 12;
+	final public static int MT_Energy_send = 11;
 	final public static int MT_NetStat = 14;
 
 	public enum IpcVideoOpt {
@@ -67,24 +73,27 @@ public class LibjinglePackHandler {
 
 		if (this.gl_status > 0) {
 			sub = root.getJSONObject("response");
-			this.status = sub.getInt("status");
+//			this.status = sub.getInt("status");
 
 			switch (this.gl_msgtype) {
 			case MT_URL:
+				this.status = sub.getInt("status");
 				if (this.status > 0) {
 					this.result = getJsonSubStr(sub.getString("result"));
 				}
 				break;
-			case MT_IpcVideo:
-				this.result = sub.toString();
-				break;
 			case MT_CaHeartBeat:
+				this.status = sub.getInt("status");
 				this.result = String.valueOf(sub.getInt("heartbeat"));
 				break;
 			case MT_IpcStat:
+				this.status = sub.getInt("status");
 				if (this.status > 0) {
 					this.result = sub.getString("onlist");
 				}
+				break;
+			case MT_Energy_send:
+				this.energy_data = sub.toString();
 				break;
 			default:
 				break;
@@ -100,6 +109,9 @@ public class LibjinglePackHandler {
 				break;
 			case MT_NetStat:
 				this.result = String.valueOf(sub.getInt("netstat"));
+				break;
+			case MT_Energy_Response:
+				this.energy_data = sub.toString();
 				break;
 			default:
 				break;
@@ -166,6 +178,28 @@ public class LibjinglePackHandler {
 			root.put("gl_msgtype", MT_URL);
 			root.put("jid", jid);
 			root.put("send", send);
+			return root.toString();
+		} catch (JSONException ex) {
+			return "";
+		}
+	}
+	
+	public static String packEnergy(int reqId, String jid, String json, int msgtype) {
+		try {
+			if (reqId < 0 || reqId > 65535) {
+				return "";
+			}
+
+			JSONObject root = new JSONObject();
+			JSONObject send = new JSONObject(json);
+			root.put("request_id", reqId);
+			root.put("gl_msgtype", msgtype);
+			root.put("jid", jid);
+			if(msgtype == MT_Energy_send){
+				root.put("send", send);
+			}else if(msgtype == MT_Energy_Response){
+				root.put("response", json);
+			}
 			return root.toString();
 		} catch (JSONException ex) {
 			return "";

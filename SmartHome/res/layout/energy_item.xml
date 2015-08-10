@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:layout_gravity="center_vertical"
+     >
+    
+	<Button 
+	    android:id="@+id/btn_control"
+	    android:layout_width="wrap_content"
+	    android:layout_height="25dp"
+	    android:background="@drawable/ui_button_selector_red"
+		android:textColor="@color/ui_button_selector_red_text"
+	    android:text="清空"
+	    android:layout_alignParentRight="true"/>
+
+	
+	<TextView 
+	    android:id="@+id/text_num"
+	    android:layout_width="wrap_content"
+	    android:layout_height="25dp"
+	    android:textSize="20sp"
+	    android:textColor="#ffffff"
+	    android:gravity="center"
+	    android:layout_alignParentLeft="true"/>
+	
+	<EditText
+	    android:id="@+id/edit_info"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/text_num"
+        android:layout_toLeftOf="@id/btn_control"
+        android:textColor="#33a3dc"
+        android:textSize="16sp"
+        android:gravity="center_vertical"
+        android:background="@drawable/energy_item_edittext_bg"/>
+    
+</RelativeLayout>

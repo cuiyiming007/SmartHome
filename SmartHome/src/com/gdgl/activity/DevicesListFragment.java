@@ -222,6 +222,9 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 											mDevicesModel);
 									startActivity(intent);
 								} else {
+									if(mDevicesModel.getmEnergy() != null && mDevicesModel.getmEnergy().equals("1")){
+										return;
+									}
 									Log.i("mDevicesModel outside",
 											mDevicesModel.getmOnOffStatus()
 													+ " :　"

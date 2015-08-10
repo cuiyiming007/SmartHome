@@ -2,20 +2,27 @@ package com.gdgl.adapter;
 
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.gdgl.app.ApplicationController;
 import com.gdgl.libjingle.LibjingleSendManager;
 import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.WarnManager;
 import com.gdgl.model.DevicesModel;
+import com.gdgl.model.EnergyModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
+import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,6 +57,7 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 	public static final int ON_OFF = 1;
 	public static final int WITH_VALUE = 2;
 	public static final int NO_OPERATOR = 3;
+	public static final int METER = 4;
 
 	public static final String DEVICES_ID = "devices_id";
 	public static final String BOLLEAN_ARRARY = "devices_state";
@@ -100,6 +108,9 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 	public int getItemViewType(int position) {
 		// TODO Auto-generated method stub
 		int devicesid = mDevicesList.get(position).getmDeviceId();
+		if(devicesid == DataHelper.METER){
+			return METER;
+		}
 
 		int[] mNOOPER = { DataHelper.LIGHT_SENSOR_DEVICETYPE,
 				DataHelper.TEMPTURE_SENSOR_DEVICETYPE,
@@ -166,6 +177,9 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 		devices_seek_bar = (SeekBar) mView.findViewById(R.id.devices_seek_bar);
 		btn_layout = (LinearLayout) mView.findViewById(R.id.button_layout);
 		devices_button = (Button) mView.findViewById(R.id.button_device);
+		
+		meterlayout = (LinearLayout) mView.findViewById(R.id.meter_layout);
+		btn_meter = (Button) mView.findViewById(R.id.button_meter);
 
 		switch (type) {
 		case ON_OFF:
@@ -180,6 +194,11 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 			switchlayout.setVisibility(View.GONE);
 			seekbar_statelayout.setVisibility(View.GONE);
 			break;
+		case METER:
+			switchlayout.setVisibility(View.GONE);
+			seekbar_statelayout.setVisibility(View.GONE);
+			meterlayout.setVisibility(View.VISIBLE);
+			break;
 		default:
 			break;
 		}
@@ -193,7 +212,7 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 		}
 
 		devices_name.setText(mDevices.getmDefaultDeviceName());
-		devices_region.setText(mDevices.getmDeviceRegion());
+		//devices_region.setText(mDevices.getmDeviceRegion());
 		if (mDevices.getmModelId().indexOf(DataHelper.RS232_adapter) == 0) {
 			devices_region.setText("");
 		}
@@ -212,8 +231,12 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 			}
 		}
 
-		devices_img.setImageResource(DataUtil.getDefaultDevicesSmallIcon(
-				mDevices.getmDeviceId(), mDevices.getmModelId().trim()));
+		if(mDevices.getmEnergy() == null){
+			devices_img.setImageResource(DataUtil.getDefaultDevicesSmallIcon(
+					mDevices.getmDeviceId(), mDevices.getmModelId().trim()));
+		}else{
+			devices_img.setImageResource(DataUtil.getDefaultDevicesSmallIcon(mDevices.getmDeviceId()));
+		}
 
 		if (mDevices.getmDeviceId() == DataHelper.ON_OFF_SWITCH_DEVICETYPE) { // 开关（如“三键开关”、“双键开关”）
 			String state = "";
@@ -232,12 +255,22 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 			Log.i("tag", "tag->" + state);
 			devices_state.setText(state);
 		} else if (mDevices.getmDeviceId() == DataHelper.IAS_ZONE_DEVICETYPE) { // 烟雾感应器、可燃气体探测器（煤气）、（天然气）、（一氧化碳）、窗磁、门窗感应开关、紧急按钮、动作感应器
-			if (mDevices.getmOnOffStatus().trim().equals("0")) {
-				devices_state.setText("已布防");
-				devices_switch.setChecked(true);
-			} else {
-				devices_state.setText("已撤防");
-				devices_switch.setChecked(false);
+			if(mDevices.getmEnergy() == null){
+				if (mDevices.getmOnOffStatus().trim().equals("0")) {
+					devices_state.setText("已布防");
+					devices_switch.setChecked(true);
+				} else {
+					devices_state.setText("已撤防");
+					devices_switch.setChecked(false);
+				}
+			}else{
+				if (mDevices.getmEnergy().equals("1") && mDevices.getmOnOffStatus().trim().equals("2")) {
+					devices_state.setText("已撤防");
+					devices_switch.setChecked(false);
+				} else {
+					devices_state.setText("已布防");
+					devices_switch.setChecked(true);
+				}
 			}
 		} else if (mDevices.getmDeviceId() == DataHelper.LIGHT_SENSOR_DEVICETYPE) { // 光线感应器
 			// devices_state.setText("亮度: "+mDevices.getmValue());
@@ -264,10 +297,10 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 					+ humidity + "%");
 		} else if (mDevices.getmModelId().indexOf(DataHelper.One_key_operator) == 0) {
 			if (mDevices.getmOnOffStatus().trim().equals("1")) {
-				devices_state.setText("开启");
+				devices_state.setText("已布防");
 				devices_switch.setChecked(true);
 			} else {
-				devices_state.setText("关闭");
+				devices_state.setText("已撤防");
 				devices_switch.setChecked(false);
 			}
 		} else if (mDevices.getmModelId().indexOf(
@@ -350,6 +383,12 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 				devices_state.setText("开");
 				devices_switch.setChecked(true);
 			}
+		} else if (mDevices.getmDeviceId() == DataHelper.METER) {
+			if(mDevices.getmMeterData().equals("") || mDevices.getmMeterData().equals("0.0")){
+				devices_state.setText("未读数");
+			}else{
+				devices_state.setText("表读数 : " + mDevices.getmMeterData());
+			}	
 		} else {
 			if (mDevices.getmOnOffStatus().trim().equals("1")) {
 				devices_state.setText("开");
@@ -359,6 +398,31 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 				devices_switch.setChecked(false);
 			}
 		}
+		
+		btn_meter.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				JSONObject json = new JSONObject();
+				try{
+					json.put("MsgType", EnergyModel.GET_METER_DATA_SEND);
+					json.put("Sn", 10);
+					json.put("IEEE", mDevices.getmIeee());
+					json.put("Nwkaddr", mDevices.getmNWKAddr());
+					json.put("TermCode", mDevices.getmMeterNum());
+				}catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				Intent intent = new Intent("com.gdgl.service.EnergyService");
+				Bundle bundle = new Bundle();
+				bundle.putString(EnergyModel.JSONSTRING, json.toString());
+				intent.putExtras(bundle);
+				mContext.startService(intent);
+			}
+		});
+		
 		devices_switch
 				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
@@ -368,6 +432,13 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 						// TODO Auto-generated method stub
 						if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
 							if (isChecked) {
+								if(mDevices.getmEnergy() != null && mDevices.getmEnergy().equals("1")){
+									energyControl(mDevices, isChecked); //energy专项单布防  开
+									return;
+								}
+//								if(mDevices.getmModelId().indexOf(DataHelper.One_key_operator) == 0){
+//									energyAllDefense(isChecked);	
+//								}
 								if (mDevices.getmDeviceId() == DataHelper.ON_OFF_OUTPUT_DEVICETYPE) {
 									// 无线智能阀门开关、开关模块（双路）
 									mcgiManager.OnOffOutputOperation(mDevices,
@@ -395,6 +466,13 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 											.LocalIASCIEUnByPassZone(mDevices);
 								}
 							} else {
+								if(mDevices.getmEnergy() != null && mDevices.getmEnergy().equals("1")){
+									energyControl(mDevices, isChecked); //energy专项单撤防  关
+									return;
+								}
+//								if(mDevices.getmModelId().indexOf(DataHelper.One_key_operator) == 0){
+//									energyAllDefense(isChecked);	
+//								}
 								if (mDevices.getmDeviceId() == DataHelper.ON_OFF_OUTPUT_DEVICETYPE) {
 									mcgiManager.OnOffOutputOperation(mDevices,
 											1);
@@ -418,6 +496,11 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 							}
 						} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
 							if (isChecked) {
+								if(mDevices.getmEnergy() != null && mDevices.getmEnergy().equals("1")){
+									energyControl(mDevices, isChecked); //energy专项单布防  开
+									return;
+								}
+
 								if (mDevices.getmDeviceId() == DataHelper.ON_OFF_OUTPUT_DEVICETYPE) {
 									// 无线智能阀门开关、开关模块（双路）
 									libjingleSendManager.OnOffOutputOperation(
@@ -448,6 +531,10 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 											.LocalIASCIEUnByPassZone(mDevices);
 								}
 							} else {
+								if(mDevices.getmEnergy() != null && mDevices.getmEnergy().equals("1")){
+									energyControl(mDevices, isChecked); //energy专项单撤防  关
+									return;
+								}
 								if (mDevices.getmDeviceId() == DataHelper.ON_OFF_OUTPUT_DEVICETYPE) {
 									libjingleSendManager.OnOffOutputOperation(
 											mDevices, 1);
@@ -496,6 +583,8 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 	Switch devices_switch;
 	LinearLayout btn_layout;
 	Button devices_button;
+	LinearLayout meterlayout;
+	Button btn_meter;
 
 	public interface DevicesObserver {
 
@@ -516,6 +605,65 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 			db.close();
 			return null;
 		}
+	}
+	
+	private void energyControl(DevicesModel mDevicesModel, boolean isChecked){
+		JSONObject json = new JSONObject();
+		try{
+			if(mDevicesModel.getmDeviceId() == DataHelper.ON_OFF_SWITCH_DEVICETYPE){
+				json.put("MsgType", EnergyModel.SET_ONOFF_SEND);
+				json.put("SwitchNum", Integer.parseInt(mDevicesModel.getmCurrent()));
+				if(isChecked){
+					json.put("SwitchStatus", 1);
+				}else{
+					json.put("SwitchStatus", 2);
+				}
+			}
+			if(mDevicesModel.getmDeviceId() == DataHelper.IAS_ZONE_DEVICETYPE){
+				json.put("MsgType", EnergyModel.SET_DEFENSE_SEND);
+				json.put("SensorNum", Integer.parseInt(mDevicesModel.getmCurrent()));
+				if(isChecked){
+					json.put("OperatorType", 1);
+				}else{
+					json.put("OperatorType", 2);
+				}
+			}
+			json.put("Sn", 10);
+			json.put("SecurityNodeID", mDevicesModel.getmIeee());
+			json.put("Nwkaddr", mDevicesModel.getmNWKAddr());
+			
+			
+		}catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Intent intent = new Intent("com.gdgl.service.EnergyService");
+		Bundle bundle = new Bundle();
+		bundle.putString(EnergyModel.JSONSTRING, json.toString());
+		intent.putExtras(bundle);
+		mContext.startService(intent);
+	}
+	
+	private void energyAllDefense(boolean isChecked){
+		JSONObject json = new JSONObject();
+		try{
+			json.put("MsgType", EnergyModel.SET_ALL_DEFENSE_SEND);
+			json.put("Sn", 10);
+			if(isChecked){
+				json.put("OperatorType", 1);
+			}else{
+				json.put("OperatorType", 2);
+			}		
+		}catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		Intent intent = new Intent("com.gdgl.service.EnergyService");
+		Bundle bundle = new Bundle();
+		bundle.putString(EnergyModel.JSONSTRING, json.toString());
+		intent.putExtras(bundle);
+		mContext.startService(intent);
 	}
 
 	@Override

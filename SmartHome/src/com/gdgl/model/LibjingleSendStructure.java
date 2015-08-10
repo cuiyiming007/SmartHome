@@ -74,6 +74,9 @@ interface LibjingleSendColumns extends BaseColumns {
 	public static final int FACTORYRESET = 133;
 	public static final int REBUILDNETWORKBYPARAM = 134;
 	
+	public static final int ENERGYSEED = 140;
+	public static final int ENERGYRESPONSE = 141;
+	
 	public static final int GETVIDEOLIST = 200;
 	public static final int REQUESTVIDEO = 201;
 

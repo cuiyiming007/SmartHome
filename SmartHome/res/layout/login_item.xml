@@ -34,6 +34,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="5dp"
         android:singleLine="true"
+        android:textColor="#0086b1"
         android:textAppearance="?android:attr/textAppearanceSmallInverse" />
 
 </RelativeLayout>

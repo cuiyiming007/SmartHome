@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import org.json.JSONArray;
@@ -12,6 +13,7 @@ import org.json.JSONObject;
 
 import com.gdgl.model.RemoteControl;
 import com.gdgl.util.UiUtils;
+import com.handmark.pulltorefresh.library.internal.Utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -366,6 +368,12 @@ public class getFromSharedPreferences {
 		mEditor.commit();
 	}
 	
+	public static void commitStrInt(String key, int value){
+		mEditor = mSharedPreferences.edit();
+		mEditor.putInt(key, value);
+		mEditor.commit();
+	}
+	
 	public static ArrayList<HashMap<String, String>> getCloudList(){
 		ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
 		String cloudListString = mSharedPreferences.getString(UiUtils.CLOUDLIST,UiUtils.EMPTY_STR);
@@ -448,6 +456,13 @@ public class getFromSharedPreferences {
 		string += "]"; 
         return string;  
     }  
-
+	
+	public static int getEnergyDefense(){
+		return mSharedPreferences.getInt(UiUtils.ENERGY_DEFENSE,0);
+	}
+	
+	public static void setEnergyDefense(int status){
+		commitStrInt(UiUtils.ENERGY_DEFENSE, status);
+	}
 
 }

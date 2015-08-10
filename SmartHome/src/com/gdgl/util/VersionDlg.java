@@ -28,8 +28,9 @@ public class VersionDlg {
 		appnameText=(TextView)dialog.findViewById(R.id.txt_app_name);
 		versionText=(TextView)dialog.findViewById(R.id.txt_version);
 		try {
-			PackageInfo pi=context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-			versionText.setText(pi.versionName); 
+			//PackageInfo pi=context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+//			versionText.setText(pi.versionName); 
+//			versionText.setText(con.getString(R.string.app_name));
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -47,6 +48,7 @@ public class VersionDlg {
 	public void setContent(String content) {
 		companynameText.setVisibility(View.GONE);
 		appnameText.setVisibility(View.GONE);
+		versionText.setVisibility(View.VISIBLE);
 		versionText.setText(content);
 	}
 	public void show() {

@@ -78,23 +78,23 @@ public class LoginManager extends Manger {
 		paraMap.put("old_password", accountInfo.getPassword());
 		paraMap.put("new_password", newPWD);
 		String param = hashMap2ParamString(paraMap);
-
+		Log.i("param", param);
 		String url = NetUtil.getInstance().getCumstomURL(
 				NetUtil.getInstance().IP, "modifyPassword.cgi", param);
 		JsonObjectRequest req = new JsonObjectRequest(url, null,
 				new Response.Listener<JSONObject>() {
 					@Override
 					public void onResponse(JSONObject response) {
-//						try {
-//							Log.i("LoginManager ModifyPassword Response:%n %s", response.toString(4));
-//							Gson gson = new Gson();  
-//							LoginResponse person = gson.fromJson(response.toString(), LoginResponse.class); 
-//							Event event = new Event(EventType.MODIFYPASSWORD, true);
-//							event.setData(person);
-//							notifyObservers(event);
-//						} catch (JSONException e) {
-//							e.printStackTrace();
-//						}
+						try {
+							Log.i("LoginManager ModifyPassword Response:%n %s", response.toString(4));
+							Gson gson = new Gson();  
+							LoginResponse person = gson.fromJson(response.toString(), LoginResponse.class); 
+							Event event = new Event(EventType.MODIFYPASSWORD, true);
+							event.setData(person);
+							notifyObservers(event);
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
 					}
 				}, new Response.ErrorListener() {
 					@Override
@@ -125,16 +125,16 @@ public class LoginManager extends Manger {
 				new Response.Listener<JSONObject>() {
 					@Override
 					public void onResponse(JSONObject response) {
-//						try {
-//							Log.i("LoginManager modifyAlias Response:%n %s", response.toString(4));
-//							Gson gson = new Gson();  
-//							LoginResponse person = gson.fromJson(response.toString(), LoginResponse.class); 
-//							Event event = new Event(EventType.MODIFYALIAS, true);
-//							event.setData(person);
-//							notifyObservers(event);
-//						} catch (JSONException e) {
-//							e.printStackTrace();
-//						}
+						try {
+							Log.i("LoginManager modifyAlias Response:%n %s", response.toString(4));
+							Gson gson = new Gson();  
+							LoginResponse person = gson.fromJson(response.toString(), LoginResponse.class); 
+							Event event = new Event(EventType.MODIFYALIAS, true);
+							event.setData(person);
+							notifyObservers(event);
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
 					}
 				}, new Response.ErrorListener() {
 					@Override

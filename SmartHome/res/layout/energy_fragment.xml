@@ -1,0 +1,250 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#ffffff"
+    tools:context="com.example.energytest.MainActivity" >
+
+    <LinearLayout 
+		    android:layout_width="match_parent"
+		    android:layout_height="50dp"
+		    android:orientation="horizontal" >
+		
+		    <Button 
+		        android:id="@+id/btn_save"
+		        android:layout_weight="1"
+		        android:layout_width="0dp"
+		        android:layout_height="match_parent"
+		        android:layout_margin="5dp"
+		        android:background="@drawable/ui_button_selector_blue"
+		        android:text="保存"
+		        android:textColor="@color/ui_button_selector_blue_text"
+		        android:textSize="16dp"/>
+		    
+		    <Spinner
+		        android:id="@+id/module_spinner"
+		        android:layout_weight="2"
+		        android:layout_width="0dp"
+		        android:layout_height="match_parent"
+		        android:layout_margin="5dp"
+		        android:textColor="#33a3dc"
+		        android:background="#33a3dc"
+		        android:textSize="16dp"/>
+		      
+<!-- 		    <LinearLayout  -->
+<!-- 		        android:layout_weight="1" -->
+<!-- 		        android:layout_width="0dp" -->
+<!-- 		        android:layout_height="wrap_content" -->
+<!-- 		        android:layout_margin="5dp" -->
+<!-- 		        /> -->
+		    
+		    <Button 
+		        android:id="@+id/btn_clear"
+		        android:layout_weight="1"
+		        android:layout_width="0dp"
+		        android:layout_height="match_parent"
+		        android:layout_margin="5dp"
+		        android:background="@drawable/ui_button_selector_red"
+		        android:text="清空"
+		        android:textColor="@color/ui_button_selector_red_text"
+		        android:textSize="16dp"/>
+		 
+		    
+		    <Button 
+		        android:id="@+id/btn_cancel"
+		        android:layout_weight="1"
+		        android:layout_width="0dp"
+		        android:layout_height="wrap_content"
+		        android:layout_margin="5dp"
+		        android:background="@drawable/ui_button_selector_red"
+		        android:text="取消"
+		        android:textColor="@color/ui_button_selector_red_text"
+		        android:textSize="16dp"/>
+		
+		</LinearLayout>
+   <!--   <RelativeLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="50dp"
+	    android:background="#ffffff">
+	    
+	    <Button 
+	        android:id="@+id/btn_save"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentLeft="true"
+	        android:layout_margin="10dp"
+	        android:background="@drawable/ui_button_selector_blue"
+	        android:textColor="@color/ui_button_selector_blue_text"
+	        android:textSize="16dp"
+	        android:text="保存"/>
+	    
+	   <Button 
+	        android:id="@+id/btn_cancel"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentRight="true"
+	        android:layout_margin="10dp"
+	        android:background="@drawable/ui_button_selector_red"
+	   		android:textColor="@color/ui_button_selector_red_text"
+	        android:textSize="16dp"
+	        android:text="取消"/>
+	    
+	</RelativeLayout>
+	-->
+	<LinearLayout 
+	    android:id="@+id/security_layout"
+	    android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="0dp"
+	        android:layout_weight="1"
+	        android:orientation="vertical"
+	        android:background="@drawable/energy_list_bg" >
+		    <TextView
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center_horizontal"
+		        android:text="安防节点"
+		        android:layout_marginTop="5dp"
+		        android:layout_marginBottom="5dp"
+		        android:textSize="20dp"
+		        android:textColor="#ffffff"
+		        android:visibility="gone"/>
+		    <ListView
+	            android:id="@+id/security_list"
+	            android:layout_width="match_parent"
+	            android:layout_height="match_parent"
+	            android:cacheColorHint="#00000000"
+	            android:divider="#33a3dc"
+	            android:dividerHeight="1dp"
+	            android:fadingEdge="none"
+	            android:fastScrollEnabled="false"
+	            android:footerDividersEnabled="false"
+	            android:headerDividersEnabled="false"
+	            android:scrollbars="none"
+	            android:smoothScrollbar="true"
+	            android:layout_marginBottom="10dp"
+	            />
+		</LinearLayout>
+	    
+	    <View
+	        android:layout_width="match_parent"
+	        android:layout_height="10dp"
+	        android:background="#ffffff"/>
+		
+		<LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:layout_weight="1"
+	        android:orientation="vertical"
+	        android:background="@drawable/energy_list_bg">
+		    <TextView
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center_horizontal"
+		        android:text="家用电器"
+		        android:textSize="20dp"
+		        android:layout_marginTop="5dp"
+		        android:layout_marginBottom="5dp"
+		        android:textColor="#ffffff"
+		        android:visibility="gone"/>
+		   <ListView
+	            android:id="@+id/onoff_list"
+	            android:layout_width="match_parent"
+	            android:layout_height="match_parent"
+	            android:cacheColorHint="#00000000"
+	            android:divider="#33a3dc"
+	            android:dividerHeight="1dp"
+	            android:fadingEdge="none"
+	            android:fastScrollEnabled="false"
+	            android:footerDividersEnabled="false"
+	            android:headerDividersEnabled="false"
+	            android:scrollbars="none"
+	            android:smoothScrollbar="true" 
+	            android:layout_marginBottom="10dp"
+	            />
+		</LinearLayout>
+	</LinearLayout>
+	<LinearLayout 
+	    android:id="@+id/meter_layout"
+	    android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:orientation="vertical"
+	        android:background="@drawable/energy_list_bg" >
+		    <TextView
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center_horizontal"
+		        android:text="电表节点"
+		        android:layout_marginTop="5dp"
+		        android:layout_marginBottom="5dp"
+		        android:textSize="20dp"
+		        android:textColor="#ffffff"/>
+		    
+		    <LinearLayout
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_marginTop="10dp"
+		        android:layout_marginBottom="10dp"
+		        android:gravity="center"
+		        android:orientation="horizontal">
+		        
+		        <TextView
+		            android:layout_width="wrap_content"
+		            android:layout_height="35dp"
+		            android:text="上报周期 : "
+		            android:layout_gravity="center"
+		            android:textColor="#ffffff"
+		            android:textSize="18dp"/>
+		        
+		        <Button
+		            android:id="@+id/btn_period"
+		            android:layout_width="wrap_content"
+		            android:layout_height="35dp"
+		            android:paddingLeft="10dp"
+		            android:paddingRight="10dp"
+	   				android:background="@drawable/ui_button_selector_blue"
+        			android:textColor="@color/ui_button_selector_blue_text"
+		            android:text="00:01"/>
+		        
+		    </LinearLayout>
+		    
+		    
+		    <ListView
+	            android:id="@+id/meter_list"
+	            android:layout_width="match_parent"
+	            android:layout_height="match_parent"
+	            android:cacheColorHint="#00000000"
+	            android:divider="#33a3dc"
+	            android:dividerHeight="1dp"
+	            android:fadingEdge="none"
+	            android:fastScrollEnabled="false"
+	            android:footerDividersEnabled="false"
+	            android:headerDividersEnabled="false"
+	            android:scrollbars="none"
+	            android:smoothScrollbar="true"
+	            android:layout_marginBottom="10dp"
+	            android:visibility="gone"
+	            />
+		    
+		    <ScrollView
+		        android:id="@+id/meter_scrollview" 
+		        android:layout_width="match_parent"
+		        android:layout_height="match_parent"
+		        >
+		        <include    
+       				layout="@layout/meter_layout"/>  
+
+		    </ScrollView>
+		   
+		</LinearLayout>
+	</LinearLayout>
+</LinearLayout>

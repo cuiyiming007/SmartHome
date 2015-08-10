@@ -7,12 +7,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.gdgl.app.ApplicationController;
 import com.gdgl.libjingle.LibjingleResponseHandlerManager;
 import com.gdgl.libjingle.LibjingleSendManager;
 import com.gdgl.manager.LoginManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
+import com.gdgl.model.EnergyModel;
 import com.gdgl.mydata.AccountInfo;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.Event;
@@ -20,6 +24,7 @@ import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.LoginResponse;
 import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.network.NetworkConnectivity;
+import com.gdgl.service.EnergyService;
 import com.gdgl.service.LibjingleService;
 import com.gdgl.service.SmartService;
 import com.gdgl.smarthome.R;
@@ -341,11 +346,29 @@ public class LoginActivity extends Activity implements OnClickListener,
 						public void run() {
 							LibjingleSendManager.getInstance()
 									.getDeviceEndPoint();
-							LibjingleSendManager.getInstance().GetAllRoomInfo();
-							LibjingleSendManager.getInstance().GetAllBindList();
 							LibjingleSendManager.getInstance().getIPClist();
+							//LibjingleSendManager.getInstance().GetAllRoomInfo();
+							//LibjingleSendManager.getInstance().GetAllBindList();
 							try {
-								Thread.sleep(2000);
+								Thread.sleep(500);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							DataHelper mDateHelper = new DataHelper(
+									ApplicationController.getInstance());
+							SQLiteDatabase mSQLiteDatabase = mDateHelper.getWritableDatabase();
+							mDateHelper.delete(mSQLiteDatabase, DataHelper.ENERGY_TABLE, null, null);
+							sendMessage(EnergyModel.GET_DEVICES_SEND);
+							try {
+								Thread.sleep(500);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							sendMessage(EnergyModel.GET_METER_LIST_SEND); 	
+							try {
+								Thread.sleep(1000);
 							} catch (InterruptedException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
@@ -356,15 +379,16 @@ public class LoginActivity extends Activity implements OnClickListener,
 									.getLocalCIEList();
 						}
 					}).start();
-					Intent intent = new Intent(LoginActivity.this,
-							SmartHome.class);
-					intent.putExtra("id", "");
-					intent.putExtra("name", mName.getText().toString());
-					intent.putExtra("pwd", mPwd.getText().toString());
-					intent.putExtra("remenber", mRem.isChecked());
-					intent.putExtra("cloud", mCloud.getText().toString());
-					startActivity(intent);
-					this.finish();
+//					Intent energyIntent1 = new Intent(this, EnergyService.class);
+//					startService(energyIntent1);
+//					Intent intent = new Intent(LoginActivity.this,SmartHome.class);
+//					intent.putExtra("id", "");
+//					intent.putExtra("name", mName.getText().toString());
+//					intent.putExtra("pwd", mPwd.getText().toString());
+//					intent.putExtra("remenber", mRem.isChecked());
+//					intent.putExtra("cloud", mCloud.getText().toString());
+//					startActivity(intent);
+//					this.finish();
 					break;
 				case -1:
 				case -3:
@@ -393,6 +417,19 @@ public class LoginActivity extends Activity implements OnClickListener,
 				default:
 					break;
 				}
+			}
+		}else if (EventType.GETVIDEOLIST == event.getType()) {
+			if (event.isSuccess() == true) {
+				Intent energyIntent1 = new Intent(this, EnergyService.class);
+				startService(energyIntent1);
+				Intent intent = new Intent(LoginActivity.this,SmartHome.class);
+				intent.putExtra("id", "");
+				intent.putExtra("name", mName.getText().toString());
+				intent.putExtra("pwd", mPwd.getText().toString());
+				intent.putExtra("remenber", mRem.isChecked());
+				intent.putExtra("cloud", mCloud.getText().toString());
+				startActivity(intent);
+				this.finish();
 			}
 		}
 	}
@@ -501,6 +538,19 @@ public class LoginActivity extends Activity implements OnClickListener,
 		System.exit(0);
 	};
 	
+	public void sendMessage(int MsgType){
+		
+		JSONObject json = new JSONObject();
+		try {
+			json.put("MsgType", MsgType);
+			json.put("Sn", 10);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		LibjingleSendManager.getInstance().energySendMessage(json.toString());
+	}
+
 	class MyAdapter extends BaseAdapter implements Dialogcallback {
 		String useCur;
 		String pwdCur;

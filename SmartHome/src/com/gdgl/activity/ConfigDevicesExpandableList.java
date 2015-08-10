@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import com.gdgl.activity.ConfigDevicesListWithGroup.IntoDeviceDetailFragment;
 import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.DeviceManager;
 import com.gdgl.manager.CGIManager;
@@ -158,6 +159,21 @@ public class ConfigDevicesExpandableList extends BaseFragment implements
 						// TODO Auto-generated method stub
 						DevicesModel mDevicesModel = (DevicesModel) mDeviceSort_ChildList
 								.get(groupPosition).get(childPosition);
+
+						if(mDevicesModel.getmModelId().indexOf(DataHelper.Power_detect_wall) < 0 && mDevicesModel.getmEnergy() != null){
+							return true;
+						}
+						Log.i("Other_list", ""+mDevicesModel.getmModelId());
+						if(mDevicesModel.getmModelId().indexOf(DataHelper.RS232_adapter) != -1){
+							Fragment mFragment = new EnergyEditFragment();
+							Bundle extras = new Bundle();
+							extras.putSerializable(Constants.PASS_OBJECT, mDevicesModel);
+							mFragment.setArguments(extras);
+							inToDeviceDetailFragment = (IntoDeviceDetailFragment) getActivity();
+							inToDeviceDetailFragment.intoDeviceDetailFragment(mFragment);
+							return false;
+						}
+						
 						Fragment mFragment = new DeviceDtailFragment();
 						Bundle extras = new Bundle();
 						extras.putSerializable(Constants.PASS_OBJECT,
@@ -194,13 +210,32 @@ public class ConfigDevicesExpandableList extends BaseFragment implements
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
 		// TODO Auto-generated method stub
-
 		super.onCreateContextMenu(menu, v, menuInfo);
 		
 		ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) menuInfo;
+		
+		int groupPos = 0, childPos = 0;
 
 		int type = ExpandableListView
 				.getPackedPositionType(info.packedPosition);
+		if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
+			groupPos = ExpandableListView
+					.getPackedPositionGroup(info.packedPosition);
+			childPos = ExpandableListView
+					.getPackedPositionChild(info.packedPosition);
+		}
+		mCurrentList = mDeviceSort_ChildList.get(groupPos);
+		Log.i("groupPos = ", ""+groupPos);
+		currentpostion = childPos;
+		Log.i("childPos = ", ""+childPos);
+		DevicesModel mDevicesModel = (DevicesModel) mDeviceSort_ChildList.get(
+				groupPos).get(childPos);
+		
+		if(mDevicesModel.getmModelId().indexOf(DataHelper.Power_detect_wall) < 0 && mDevicesModel.getmEnergy() != null){
+			return;
+		}
+//		int type = ExpandableListView
+//				.getPackedPositionType(info.packedPosition);
 
 		// Only create a context menu for child items
 		if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
@@ -212,6 +247,7 @@ public class ConfigDevicesExpandableList extends BaseFragment implements
 		}
 	}
 
+	
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
@@ -236,11 +272,12 @@ public class ConfigDevicesExpandableList extends BaseFragment implements
 				groupPos).get(childPos);
 		int menuIndex = item.getItemId();
 
+		
+		
 		if (1 == menuIndex) {
 			EditDevicesDlg mEditDevicesDlg = new EditDevicesDlg(
 					(Context) getActivity(), mDevicesModel);
 			mEditDevicesDlg.setDialogCallback(this);
-
 			mEditDevicesDlg.setContent("编辑"
 					+ mDevicesModel.getmDefaultDeviceName().trim());
 			mEditDevicesDlg.show();
@@ -303,21 +340,24 @@ public class ConfigDevicesExpandableList extends BaseFragment implements
 				mViewHolder = (ViewHolder) convertView.getTag();
 			}
 			mViewHolder.devName.setText(ds.getmDefaultDeviceName());
-			if (null != ds.getmDeviceRegion()
-					&& !ds.getmDeviceRegion().trim().equals("")) {
-				mViewHolder.devRegion.setText(ds.getmDeviceRegion());
-			} else {
-				mViewHolder.devRegion.setVisibility(View.GONE);
-			}
+//			if (null != ds.getmDeviceRegion()
+//					&& !ds.getmDeviceRegion().trim().equals("")) {
+//				mViewHolder.devRegion.setText(ds.getmDeviceRegion());
+//			} else {
+//				mViewHolder.devRegion.setVisibility(View.GONE);
+//			}
+//
+//			if (ds.getmModelId().indexOf(DataHelper.RS232_adapter) == 0) {
+//				mViewHolder.devRegion.setText("");
+//				mViewHolder.devRegion.setVisibility(View.GONE);
+//			}
 
-			if (ds.getmModelId().indexOf(DataHelper.RS232_adapter) == 0) {
-				mViewHolder.devRegion.setText("");
-				mViewHolder.devRegion.setVisibility(View.GONE);
+			if(ds.getmEnergy() == null){
+				mViewHolder.devImg.setImageResource(DataUtil.getDefaultDevicesSmallIcon(
+						ds.getmDeviceId(), ds.getmModelId().trim()));
+			}else{
+				mViewHolder.devImg.setImageResource(DataUtil.getDefaultDevicesSmallIcon(ds.getmDeviceId()));
 			}
-
-			mViewHolder.devImg.setImageResource(DataUtil
-					.getDefaultDevicesSmallIcon(ds.getmDeviceId(), ds
-							.getmModelId().trim()));
 
 			return convertView;
 		}
@@ -409,17 +449,35 @@ public class ConfigDevicesExpandableList extends BaseFragment implements
 		final Event event = (Event) object;
 		if (EventType.CHANGEDEVICENAME == event.getType()) {
 			if (event.isSuccess()) {
-				final String name = (String) event.getData();
-				deviceExpandableListView.post(new Runnable() {
+				String data = (String) event.getData();
+				final String ieee = data.split(":")[0];
+				final String name = data.split(":")[1];
+				for(int i=0;i<mDeviceSort_ChildList.size();i++) {
+					for(int j=0;j<mDeviceSort_ChildList.get(i).size();j++) {
+						DevicesModel tempDevModel=mDeviceSort_ChildList.get(i).get(j);
+						if(tempDevModel.getmIeee().equals(ieee)) {
+							mDeviceSort_ChildList.get(i).get(j).setmDefaultDeviceName(name);
+							deviceExpandableListView.post(new Runnable() {
 
-					@Override
-					public void run() {
-						// TODO Auto-generated method stub
-						mCurrentList.get(currentpostion).setmDefaultDeviceName(
-								name);
-						expandableAdapter.notifyDataSetChanged();
+								@Override
+								public void run() {
+									// TODO Auto-generated method stub
+									expandableAdapter.notifyDataSetChanged();
+								}
+							});
+						}
 					}
-				});
+				}
+//				deviceExpandableListView.post(new Runnable() {
+//
+//					@Override
+//					public void run() {
+//						// TODO Auto-generated method stub
+//						mCurrentList.get(currentpostion).setmDefaultDeviceName(
+//								name);
+//						expandableAdapter.notifyDataSetChanged();
+//					}
+//				});
 			}
 		} else if(EventType.SCAPEDDEVICE == event.getType()){
 			Log.i("ConfigDevices SCAPEDDEVICE", "SCAPEDDEVICE");

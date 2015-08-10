@@ -65,6 +65,8 @@ interface DevicesBaseColumns extends BaseColumns {
 	public static final String DEVICE_REGION = "device_region";
 	public static final String DEFAULT_DEVICE_NAME = "default_device_name";
 	public static final String DEVICE_PRIORITY = "device_priority";
+	public static final String METER_DATA = "meter_data";
+	public static final String METER_TIME = "meter_time";
 
 	public static final String LAST_UPDATE_TIME = "last_update_time";
 	public static final String ON_OFF_LINE = "on_off_line";
@@ -139,6 +141,10 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 
 	private int mValue1 = 0;
 	private int mValue2 = 0;
+
+	private String mMeterData = "0.0";
+	private String mMeterTime = "";
+	private String mMeterNum = "";
 	private int mHeartTime = 0;
 	private String mOnlineStatus = "";
 
@@ -526,6 +532,30 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 		this.mValue2 = mValue2;
 	}
 	
+	public String getmMeterData() {
+		return mMeterData;
+	}
+
+	public void setmMeterData(String mMeterData) {
+		this.mMeterData = mMeterData;
+	}
+	
+	public String getmMeterTime() {
+		return mMeterTime;
+	}
+
+	public void setmMeterTime(String mMeterTime) {
+		this.mMeterTime = mMeterTime;
+	}
+	
+	public String getmMeterNum() {
+		return mMeterNum;
+	}
+
+	public void setmMeterNum(String mMeterNum) {
+		this.mMeterNum = mMeterNum;
+	}
+	
 	public int getmHeartTime(){
 		return mHeartTime;
 	}
@@ -884,4 +914,5 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 				+ mValue1 + ", mValue2=" + mValue2 + "]";
 	}
 
+	
 }

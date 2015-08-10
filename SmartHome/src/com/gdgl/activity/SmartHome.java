@@ -110,9 +110,9 @@ public class SmartHome extends FragmentActivity implements
 		mList = new ArrayList<TabInfo>();
 		// mList.add(new TabInfo(new CommonUseFragment()));
 		mList.add(new TabInfo(new DevicesFragment()));
-		mList.add(new TabInfo(videoFragment));
-		mList.add(new TabInfo(new RegionsFragment()));
-		mList.add(new TabInfo(new ScenesFragment()));
+		mList.add(new TabInfo(new VideoFragment()));
+//		mList.add(new TabInfo(new RegionsFragment()));
+//		mList.add(new TabInfo(new ScenesFragment()));
 
 		ViewPagerAdapter mViewPagerAdapter = new ViewPagerAdapter(
 				getSupportFragmentManager(), SmartHome.this, mList);
@@ -138,13 +138,13 @@ public class SmartHome extends FragmentActivity implements
 
 		devicesButton = (ImageButton) findViewById(R.id.devices_btn);
 		videoButton = (ImageButton) findViewById(R.id.video_urveillance_btn);
-		regionButton = (ImageButton) findViewById(R.id.region_btn);
-		scenceButton = (ImageButton) findViewById(R.id.scence_btn);
+//		regionButton = (ImageButton) findViewById(R.id.region_btn);
+//		scenceButton = (ImageButton) findViewById(R.id.scence_btn);
 
 		mImageButtonsList.add(devicesButton);
 		mImageButtonsList.add(videoButton);
-		mImageButtonsList.add(regionButton);
-		mImageButtonsList.add(scenceButton);
+//		mImageButtonsList.add(regionButton);
+//		mImageButtonsList.add(scenceButton);
 		setTab_TitleButtonColour(mCurrentTab);
 
 		TitleClickLister mTitleClickLister = new TitleClickLister();
@@ -188,17 +188,22 @@ public class SmartHome extends FragmentActivity implements
 						// AddCommonUsedActivity.class);
 						// startActivity(i);
 					} else if (1 == mCurrentTab) {
-						if (mAddDlg == null) {
-							mAddDlg = new VideoInfoAddDialog(SmartHome.this,
-									VideoInfoDialog.Add, videoFragment);
-						} else {
-							mAddDlg.getInitVideoNode();
-						}
-						mAddDlg.setContent("添加");
-						// mAddDlg.setType("区域名称");
-						// mAddDlg.setDialogCallback(SmartHome.this);
-						mAddDlg.show();
-					}
+					VideoInfoDialog addDlg;
+					addDlg = new VideoInfoDialog(SmartHome.this,
+							VideoInfoDialog.Add, mList.size());
+					addDlg.setContent("添加");
+					addDlg.show();
+//					if(mAddDlg == null){
+//						mAddDlg = new VideoInfoAddDialog(
+//								SmartHome.this, VideoInfoDialog.Add, videoFragment);
+//					}else{
+//						mAddDlg.getInitVideoNode();
+//					}
+//					mAddDlg.setContent("添加");
+//					// mAddDlg.setType("区域名称");
+//					// mAddDlg.setDialogCallback(SmartHome.this);
+//					mAddDlg.show();
+				}
 				}
 			});
 		} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
@@ -223,7 +228,6 @@ public class SmartHome extends FragmentActivity implements
 			}
 		});
 	}
-
 	class TitleClickLister implements OnClickListener {
 
 		int index;
@@ -251,15 +255,22 @@ public class SmartHome extends FragmentActivity implements
 		}
 	}
 
-	private static String[] TAB_TITLE_NAME = { "设备", "监控", "区域", "场景" };
+//	private static String[] TAB_TITLE_NAME = { "设备", "监控", "区域", "场景" };
+//	private static int[] TAB_TITLE_SELECTED = {
+//			R.drawable.ui_tabtitle_devices_pressed,
+//			R.drawable.ui_tabtitle_video_pressed,
+//			R.drawable.ui_tabtitle_region_pressed,
+//			R.drawable.ui_tabtitle_scence_pressed };
+//	private static int[] TAB_TITLE_UNSELECTED = {
+//			R.drawable.ui_tabtitle_devices, R.drawable.ui_tabtitle_video,
+//			R.drawable.ui_tabtitle_region, R.drawable.ui_tabtitle_scence };
+	
+	private static String[] TAB_TITLE_NAME = { "设备", "监控"};
 	private static int[] TAB_TITLE_SELECTED = {
 			R.drawable.ui_tabtitle_devices_pressed,
-			R.drawable.ui_tabtitle_video_pressed,
-			R.drawable.ui_tabtitle_region_pressed,
-			R.drawable.ui_tabtitle_scence_pressed };
+			R.drawable.ui_tabtitle_video_pressed};
 	private static int[] TAB_TITLE_UNSELECTED = {
-			R.drawable.ui_tabtitle_devices, R.drawable.ui_tabtitle_video,
-			R.drawable.ui_tabtitle_region, R.drawable.ui_tabtitle_scence };
+			R.drawable.ui_tabtitle_devices, R.drawable.ui_tabtitle_video};
 
 	public void setTab_TitleButtonColour(int m) {
 		getTheNumberOfTabTitlePressed(null);

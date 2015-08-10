@@ -57,6 +57,11 @@ public class NetUtil {
 	public void setGatewayIP(String ip) {
 		IP = ip;
 	}
+	
+	// 获取网关IP
+	public String getGatewayIP() {
+		return IP;
+	}
 
 	/***
 	 * http://192.168.1.239/cgi-bin/rest/network/addIPC.cgi?

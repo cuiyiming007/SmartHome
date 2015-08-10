@@ -25,6 +25,8 @@ import com.gdgl.smarthome.R;
 public class UiUtils {
 
 	public static final String SharedPreferences_SETTING_INFOS = "SmartHome";
+	
+	public static final String ENERGY_DEFENSE = "energy_defense";
 
 	public static final String PWD = "Password";
 	public static final String NAME = "Name";
@@ -161,6 +163,30 @@ public class UiUtils {
 			break;
 		}
 		return imgs;
+	}
+
+	public static boolean isHaveBattery(String modelid) {
+
+		if (null == modelid || modelid.trim().equals("")) {
+			return false;
+		}
+
+		String[] mHasBattery = { DataHelper.Motion_Sensor,
+				DataHelper.Magnetic_Window, DataHelper.Emergency_Button,
+				DataHelper.Doors_and_windows_sensor_switch, DataHelper.Siren,
+				DataHelper.Wall_switch_touch, DataHelper.Wall_switch_double,
+				DataHelper.Wall_switch_triple, DataHelper.Dimmer_Switch,
+				DataHelper.Indoor_temperature_sensor, DataHelper.Light_Sensor,
+				DataHelper.Multi_key_remote_control, DataHelper.Doorbell_button };
+
+		for (int i = 0; i < mHasBattery.length; i++) {
+			if (modelid.trim().indexOf(mHasBattery[i]) == 0) {
+				return true;
+			}
+		}
+
+		return false;
+
 	}
 
 	public static int[] getType(int type) {

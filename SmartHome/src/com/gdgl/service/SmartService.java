@@ -17,6 +17,9 @@ import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.DeviceManager;
 import com.gdgl.manager.VideoManager;
 import com.gdgl.mydata.Constants;
+import com.gdgl.network.ChannalManager;
+import com.gdgl.network.NetworkConnectivity;
+import com.gdgl.reciever.HeartReceiver;
 import com.gdgl.util.NetUtil;
 
 public class SmartService extends Service {
@@ -79,26 +82,28 @@ public class SmartService extends Service {
 
 	public void startLANService() {
 		// =============================server======================
-		DeviceManager.getInstance().getDeviceEndPoint();
-		CGIManager.getInstance().GetAllRoomInfo();
-		CGIManager.getInstance().GetAllBindList();
-		VideoManager.getInstance().getIPClist();
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					Thread.sleep(2000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				CGIManager.getInstance().GetLocalIASCIEOperation();
-				DeviceManager.getInstance().getLocalCIEList();
-			}
-		}).start();
-		// ===============================loacl=====================
-		CallbackManager.getInstance().startConnectServerByTCPTask();
-		startHB();
+				DeviceManager.getInstance().getDeviceEndPoint();
+				CGIManager.getInstance().GetAllRoomInfo();
+				CGIManager.getInstance().GetAllBindList();
+				VideoManager.getInstance().getIPClist();
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						try {
+							Thread.sleep(2000);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						CGIManager.getInstance().GetLocalIASCIEOperation();
+						DeviceManager.getInstance().getLocalCIEList();
+					}
+				}).start();
+				// ===============================loacl=====================
+				CallbackManager.getInstance().startConnectServerByTCPTask();
+				startHB();
+				Intent energyIntent = new Intent(this, EnergyService.class);
+				startService(energyIntent);
 	}
 
 	public void startHB() {

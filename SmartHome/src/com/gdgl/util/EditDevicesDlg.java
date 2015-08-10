@@ -38,8 +38,19 @@ public class EditDevicesDlg {
 
 		mName = (EditText) dialog.findViewById(R.id.edit_name);
 		// mRegion = (EditText) dialog.findViewById(R.id.edit_region);
+		String mDefaultDeviceName = "";
+		String mDefaultDeviceNameLast = "";
+		if(mDevicesModel.getmDefaultDeviceName().length() >= 6){
+			mDefaultDeviceName = mDevicesModel.getmDefaultDeviceName().substring(0, mDevicesModel.getmDefaultDeviceName().length()-6);
+			mDefaultDeviceNameLast = mDevicesModel.getmDefaultDeviceName().substring(mDevicesModel.getmDefaultDeviceName().length()-6);
+		}else{
+			mDefaultDeviceName = mDevicesModel.getmDefaultDeviceName().trim();
+		}
+		
+		
+		final String name = mDefaultDeviceName;
+		final String name_last = mDefaultDeviceNameLast;
 
-		final String name;
 //		if (mDevicesModel.getmModelId().contains(
 //				DataHelper.Wall_switch_double)
 //				|| mDevicesModel.getmModelId().contains(
@@ -47,9 +58,7 @@ public class EditDevicesDlg {
 //			name = mDevicesModel.getmDefaultDeviceName();
 //			devices_region.setVisibility(View.GONE);
 //		} else {
-			name = mDevicesModel.getmDefaultDeviceName();
 //		}
-		final String region = mDevicesModel.getmDeviceRegion();
 
 		mName.setText(name);
 		// mRegion.setText(region);
@@ -68,7 +77,7 @@ public class EditDevicesDlg {
 				if ((!name.equals(mN))) {
 //					dialogcallback.saveedit(mSimpleDevicesModel.getmIeee(),
 //							mSimpleDevicesModel.getmEP(), mN, mR);
-					dialogcallback.saveedit(mDevicesModel, mN);
+					dialogcallback.saveedit(mDevicesModel, mN + name_last);
 				}
 				dismiss();
 

@@ -7,6 +7,7 @@ import com.gdgl.app.ApplicationController;
 import com.gdgl.model.ContentValuesListener;
 import com.gdgl.model.DevicesGroup;
 import com.gdgl.model.DevicesModel;
+import com.gdgl.model.EnergyModel;
 import com.gdgl.mydata.Callback.CallbackWarnMessage;
 import com.gdgl.mydata.Region.GetRoomInfo_response;
 import com.gdgl.mydata.Region.Room;
@@ -19,6 +20,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class DataHelper extends SQLiteOpenHelper {
 
@@ -37,6 +39,7 @@ public class DataHelper extends SQLiteOpenHelper {
 	public static final int IAS_ACE_DEVICETYPE = 1025; // 门铃按键、多键遥控器(不可控制)
 	public static final int IAS_ZONE_DEVICETYPE = 1026; // 烟雾感应器、可燃气体探测器（煤气）、（天然气）、（一氧化碳）、窗磁、门窗感应开关、紧急按钮、ZigBee墙面紧急按钮、作感应器
 	public static final int IAS_WARNNING_DEVICE_DEVICETYPE = 1027; // 警报器
+	public static final int METER = 1028; // 电表
 
 	public static final String Motion_Sensor = "ZB11A"; // ZigBee动作感应器
 	public static final String Magnetic_Window = "Z311A"; // ZigBee窗磁
@@ -79,6 +82,7 @@ public class DataHelper extends SQLiteOpenHelper {
 	public static final String ROOMINFO_TABLE = "roominfo_table";
 	public static final String BIND_TABLE = "bind_table";
 	public static final String GATEWAY_TABLE = "gateway_table";
+	public static final String ENERGY_TABLE = "energy_table";
 	public static final int DATEBASE_VERSTION = 4;
 
 	public StringBuilder deviceStringBuilder;
@@ -88,6 +92,7 @@ public class DataHelper extends SQLiteOpenHelper {
 	public StringBuilder roominfoStringBuilder;
 	public StringBuilder bindStringBuilder;
 	public StringBuilder gatewayStringBuilder;
+	public StringBuilder energyStringBuilder;
 
 	// public SQLiteDatabase db;
 
@@ -100,6 +105,7 @@ public class DataHelper extends SQLiteOpenHelper {
 		roominfoStringBuilder = new StringBuilder();
 		bindStringBuilder = new StringBuilder();
 		gatewayStringBuilder = new StringBuilder();
+		energyStringBuilder = new StringBuilder();
 		// db = getWritableDatabase();
 		// TODO Auto-generated constructor stub
 	}
@@ -188,7 +194,12 @@ public class DataHelper extends SQLiteOpenHelper {
 		videoStringBuilder.append(VideoNode.IPC_IPADDR + " INTEGER,");
 		videoStringBuilder.append(VideoNode.NAME + " VARCHAR(16),");
 		videoStringBuilder.append(VideoNode.PASSWORD + " INTEGER,");
-		videoStringBuilder.append(VideoNode.RTSPORT + " INTEGER)");
+		videoStringBuilder.append(VideoNode.RTSPORT + " INTEGER,");
+		videoStringBuilder.append(VideoNode.IPC_INDEX + " INTEGER,");
+		videoStringBuilder.append(VideoNode.ROOMID + " INTEGER,");
+		videoStringBuilder.append(VideoNode.IPC_STATUS + " VARCHAR,");
+		videoStringBuilder.append(VideoNode.DOMAIN_NAME + " VARCHAR,");
+		videoStringBuilder.append(VideoNode.SERIAL_NUM + " VARCHAR)");
 
 		// message table create string
 		messageStringBuilder.append("CREATE TABLE " + MESSAGE_TABLE + " (");
@@ -254,6 +265,22 @@ public class DataHelper extends SQLiteOpenHelper {
 		gatewayStringBuilder.append("mac" + " VARCHAR(14),");
 		gatewayStringBuilder.append("alias" + " VARCHAR(16),");
 		gatewayStringBuilder.append("ip" + " VARCHAR)");
+		
+		energyStringBuilder.append("CREATE TABLE " + ENERGY_TABLE + " (");
+		energyStringBuilder.append("_id"+ " INTEGER PRIMARY KEY AUTOINCREMENT,");
+		energyStringBuilder.append(EnergyModel.IEEE + " VARCHAR(16),");
+		energyStringBuilder.append(EnergyModel.ADDR + " VARCHAR(10),");
+		energyStringBuilder.append(EnergyModel.D_NUM + " INTEGER,");
+		energyStringBuilder.append(EnergyModel.D_TYPE + " INTEGER,");
+		energyStringBuilder.append(EnergyModel.D_SUBTYPE + " INTEGER,");
+		energyStringBuilder.append(EnergyModel.D_INFO + " VARCHAR(20),");
+		energyStringBuilder.append(EnergyModel.D_STATUS + " INTEGER,");
+		energyStringBuilder.append(EnergyModel.D_DATA + " VARCHAR(20),");
+		energyStringBuilder.append(EnergyModel.D_SORT + " INTEGER,");
+		energyStringBuilder.append(EnergyModel.D_METER_NUM + " VARCHAR(20),");
+		energyStringBuilder.append(EnergyModel.D_ROOM + " INTEGER)");
+		
+		
 	}
 
 	@Override
@@ -268,6 +295,7 @@ public class DataHelper extends SQLiteOpenHelper {
 		db.execSQL(roominfoStringBuilder.toString());
 		db.execSQL(bindStringBuilder.toString());
 		db.execSQL(gatewayStringBuilder.toString());
+		db.execSQL(energyStringBuilder.toString());
 		// Log.i("roominfoStringBuilder", "zgs-> " +
 		// roominfoStringBuilder.toString());
 	}
@@ -282,6 +310,7 @@ public class DataHelper extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE IF EXISTS " + ROOMINFO_TABLE);
 		db.execSQL("DROP TABLE IF EXISTS " + BIND_TABLE);
 		db.execSQL("DROP TABLE IF EXISTS " + GATEWAY_TABLE);
+		db.execSQL("DROP TABLE IF EXISTS " + ENERGY_TABLE);
 		onCreate(db);
 	}
 
@@ -459,6 +488,29 @@ public class DataHelper extends SQLiteOpenHelper {
 		return m;
 	}
 
+	public long insertEnergy(SQLiteDatabase db, String table,
+			String nullColumnHack, ArrayList<EnergyModel> energyList) {
+		//db.delete(table, nullColumnHack.split("=")[0]+"=?", new String[] {nullColumnHack.split("=")[1]});
+		long result = -100;
+		db.beginTransaction();
+		try {
+			for (EnergyModel mEnergyModel : energyList) {
+				ContentValues c = mEnergyModel.convertContentValues();
+				long m = db.insert(table, nullColumnHack, c);
+				if (-1 == m) {
+					result = m;
+				}
+			}
+			db.setTransactionSuccessful();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			db.endTransaction();
+			db.close();
+		}
+		return result;
+	}
+	
 	public long insertAddRoomInfo(SQLiteDatabase db, String table,
 			String nullColumnHack, ArrayList<Room> r) {
 
@@ -617,6 +669,16 @@ public class DataHelper extends SQLiteOpenHelper {
 					.getColumnIndex(VideoNode.PASSWORD)));
 			mVideoNode.setRtspport(cursor.getString(cursor
 					.getColumnIndex(VideoNode.RTSPORT)));
+			mVideoNode.setIndex(cursor.getInt(cursor
+					.getColumnIndex(VideoNode.IPC_INDEX)));
+			mVideoNode.setRoomId(cursor.getInt(cursor
+					.getColumnIndex(VideoNode.ROOMID)));
+			mVideoNode.setIpc_status(cursor.getString(cursor
+					.getColumnIndex(VideoNode.IPC_STATUS)));
+			mVideoNode.setDomainName(cursor.getString(cursor
+					.getColumnIndex(VideoNode.DOMAIN_NAME)));
+			mVideoNode.setSerialNum(cursor.getString(cursor
+					.getColumnIndex(VideoNode.SERIAL_NUM)));
 			mList.add(mVideoNode);
 		}
 		cursor.close();
@@ -643,6 +705,43 @@ public class DataHelper extends SQLiteOpenHelper {
 		}
 		c.close();
 		// db.close();
+		return mList;
+	}
+	
+	public ArrayList<EnergyModel> queryForEnergyList(SQLiteDatabase db,
+			String table, String selection, String[] selectionArgs) {
+
+		ArrayList<EnergyModel> mList = new ArrayList<EnergyModel>();
+		EnergyModel mEnergyModel = null;
+		Cursor c = db.query(table, null, selection, selectionArgs, null, null,
+				null, null);
+		while (c.moveToNext()) {
+			mEnergyModel = new EnergyModel();
+			mEnergyModel.setIeee(c.getString(c
+					.getColumnIndex(EnergyModel.IEEE)));
+			mEnergyModel.setAddr(c.getString(c
+					.getColumnIndex(EnergyModel.ADDR)));
+			mEnergyModel.setNum(c.getInt(c
+					.getColumnIndex(EnergyModel.D_NUM)));
+			mEnergyModel.setType(c.getInt(c
+					.getColumnIndex(EnergyModel.D_TYPE)));
+			mEnergyModel.setSubType(c.getInt(c
+					.getColumnIndex(EnergyModel.D_SUBTYPE)));
+			mEnergyModel.setInfo(c.getString(c
+					.getColumnIndex(EnergyModel.D_INFO)));
+			mEnergyModel.setStatus(c.getInt(c
+					.getColumnIndex(EnergyModel.D_STATUS)));
+			mEnergyModel.setData(c.getString(c
+					.getColumnIndex(EnergyModel.D_DATA)));
+			mEnergyModel.setRoom(c.getInt(c
+					.getColumnIndex(EnergyModel.D_ROOM)));
+			mEnergyModel.setMeterNum(c.getString(c
+					.getColumnIndex(EnergyModel.D_METER_NUM)));
+
+			mList.add(mEnergyModel);
+		}
+		c.close();
+		db.close();
 		return mList;
 	}
 
@@ -753,6 +852,44 @@ public class DataHelper extends SQLiteOpenHelper {
 			mList.add(mDevicesModel);
 		}
 		c.close();
+		
+		if(selection.indexOf("device_sort")!=-1){
+			if(selection.indexOf("rid") != -1){
+				return mList;
+				//selection = selection.replace("rid", EnergyModel.D_ROOM);
+			}
+			Cursor c1 = db.query(DataHelper.ENERGY_TABLE, columns, selection, selectionArgs, groupBy,
+					having, null, limit);
+			while (c1.moveToNext()) {
+				mDevicesModel = new DevicesModel();
+				mDevicesModel.setmIeee(c1.getString(c1.getColumnIndex(EnergyModel.IEEE)));
+				mDevicesModel.setmNWKAddr(c1.getString(c1.getColumnIndex(EnergyModel.ADDR)));
+				//mDevicesModel.setmDeviceSort(c.getInt(c1.getColumnIndex(EnergyModel.D_SORT)));
+				mDevicesModel.setmRid(""+c1.getInt(c1.getColumnIndex(EnergyModel.D_ROOM)));
+				mDevicesModel.setmDefaultDeviceName(c1.getString(c1.getColumnIndex(EnergyModel.D_INFO))+"("+mDevicesModel.getmIeee().substring(mDevicesModel.getmIeee().length()-4) +")");
+				mDevicesModel.setmEnergy("1");
+				mDevicesModel.setmDeviceSort(c1.getInt(c1.getColumnIndex(EnergyModel.D_SORT)));
+				mDevicesModel.setmCurrent(""+c1.getString(c1.getColumnIndex(EnergyModel.D_NUM)));
+				mDevicesModel.setmOnOffStatus(""+c1.getString(c1.getColumnIndex(EnergyModel.D_STATUS)));
+				mDevicesModel.setmMeterData(""+c1.getString(c1.getColumnIndex(EnergyModel.D_DATA)));
+				mDevicesModel.setmMeterNum(""+c1.getString(c1.getColumnIndex(EnergyModel.D_METER_NUM)));
+				if((c1.getInt(c1.getColumnIndex(EnergyModel.D_TYPE)) == 1)){
+					mDevicesModel.setmDeviceId(DataHelper.IAS_ZONE_DEVICETYPE);
+				}else if((c1.getInt(c1.getColumnIndex(EnergyModel.D_TYPE)) == 2)){
+					mDevicesModel.setmDeviceId(DataHelper.ON_OFF_SWITCH_DEVICETYPE);
+				}else if((c1.getInt(c1.getColumnIndex(EnergyModel.D_TYPE)) == 3)){
+					mDevicesModel.setmDeviceId(DataHelper.METER);
+				}
+				
+				
+
+				mList.add(mDevicesModel);
+			}
+			c1.close();
+		}
+
+		
+		
 		// db.close();
 		return mList;
 	}

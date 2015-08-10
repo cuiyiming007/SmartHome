@@ -85,36 +85,41 @@ public class VideoManager extends Manger {
 		paraMap.put("name", encodeString(videoNode.getName()));
 		paraMap.put("password", videoNode.getPassword());
 		paraMap.put("alias", encodeString(videoNode.getAliases()));
+		paraMap.put("indexid", String.valueOf(videoNode.getIndex()));
+		paraMap.put("DomainName", String.valueOf(videoNode.getDomainName()));
+		paraMap.put("SerialNumber", String.valueOf(videoNode.getSerialNum()));
+		paraMap.put("roomid", "-1");
 		String param = hashMap2ParamString(paraMap);
+		Log.i(TAG, param);
 		Listener<String> responseListener = new Listener<String>() {
 			@Override
 			public void onResponse(String response) {
-				Gson gson = new Gson();
-				String jsonString = UiUtils.customString(response);
-				VideoResponse videoResponse = gson.fromJson(jsonString,
-						VideoResponse.class);
-
-				Event event = new Event(EventType.ADDIPC, true);
-				event.setData(videoResponse);
-				if (!videoResponse.getResponse_params().getStatus().equals("0")) {
-					event.setSuccess(false);
-				}
-				notifyObservers(event);
+//				Gson gson = new Gson();
+//				String jsonString = UiUtils.customString(response);
+//				VideoResponse videoResponse = gson.fromJson(jsonString,
+//						VideoResponse.class);
+//
+//				Event event = new Event(EventType.ADDIPC, true);
+//				event.setData(videoResponse);
+//				if (!videoResponse.getResponse_params().getStatus().equals("0")) {
+//					event.setSuccess(false);
+//				}
+//				notifyObservers(event);
 			}
 		};
 		ErrorListener errorListener = new ErrorListener() {
 
 			@Override
 			public void onErrorResponse(VolleyError error) {
-				String errorString = null;
-				if (error != null && error.getMessage() != null) {
-					Log.e("ResponseError: ", error.getMessage());
-					errorString = VolleyErrorHelper.getMessage(error,
-							ApplicationController.getInstance());
-				}
-				Event event = new Event(EventType.ADDIPC, false);
-				event.setData(errorString);
-				notifyObservers(event);
+//				String errorString = null;
+//				if (error != null && error.getMessage() != null) {
+//					Log.e("ResponseError: ", error.getMessage());
+//					errorString = VolleyErrorHelper.getMessage(error,
+//							ApplicationController.getInstance());
+//				}
+//				Event event = new Event(EventType.ADDIPC, false);
+//				event.setData(errorString);
+//				notifyObservers(event);
 			}
 		};
 		String url = NetUtil.getInstance().getCumstomURL(
@@ -126,7 +131,6 @@ public class VideoManager extends Manger {
 	}
 
 	public void editIPC(VideoNode videoNode) {
-		Log.i("editIPC", "editIPC run");
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ipaddr", videoNode.getIpc_ipaddr());
 		paraMap.put("ipc_id", videoNode.getId());
@@ -135,37 +139,42 @@ public class VideoManager extends Manger {
 		paraMap.put("name", encodeString(videoNode.getName()));
 		paraMap.put("password", videoNode.getPassword());
 		paraMap.put("alias", encodeString(videoNode.getAliases()));
+		paraMap.put("indexid", String.valueOf(videoNode.getIndex()));
+		paraMap.put("DomainName", String.valueOf(videoNode.getDomainName()));
+		paraMap.put("SerialNumber", String.valueOf(videoNode.getSerialNum()));
+		paraMap.put("roomid", "-1");
 		String param = hashMap2ParamString(paraMap);
+		Log.i(TAG, param);
 		Listener<String> responseListener = new Listener<String>() {
 			@Override
 			public void onResponse(String response) {
-				Gson gson = new Gson();
-				String jsonString = UiUtils.customString(response);
-				VideoResponse videoResponse = gson.fromJson(jsonString,
-						VideoResponse.class);
-
-				Event event = new Event(EventType.EDITIPC, true);
-				event.setData(videoResponse);
-				Log.i("videoResponse", "videoResponse run");
-				if (!videoResponse.getResponse_params().getStatus().equals("0")) {
-					event.setSuccess(false);
-				}
-				notifyObservers(event);
+//				Gson gson = new Gson();
+//				String jsonString = UiUtils.customString(response);
+//				VideoResponse videoResponse = gson.fromJson(jsonString,
+//						VideoResponse.class);
+//
+//				Event event = new Event(EventType.EDITIPC, true);
+//				event.setData(videoResponse);
+//				Log.i("videoResponse", "videoResponse run");
+//				if (!videoResponse.getResponse_params().getStatus().equals("0")) {
+//					event.setSuccess(false);
+//				}
+//				notifyObservers(event);
 			}
 		};
 		ErrorListener errorListener = new ErrorListener() {
 
 			@Override
 			public void onErrorResponse(VolleyError error) {
-				String errorString = null;
-				if (error != null && error.getMessage() != null) {
-					Log.e("ResponseError: ", error.getMessage());
-					errorString = VolleyErrorHelper.getMessage(error,
-							ApplicationController.getInstance());
-				}
-				Event event = new Event(EventType.EDITIPC, false);
-				event.setData(errorString);
-				notifyObservers(event);
+//				String errorString = null;
+//				if (error != null && error.getMessage() != null) {
+//					Log.e("ResponseError: ", error.getMessage());
+//					errorString = VolleyErrorHelper.getMessage(error,
+//							ApplicationController.getInstance());
+//				}
+//				Event event = new Event(EventType.EDITIPC, false);
+//				event.setData(errorString);
+//				notifyObservers(event);
 			}
 		};
 		String url = NetUtil.getInstance().getCumstomURL(
@@ -198,35 +207,36 @@ public class VideoManager extends Manger {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ipc_id", videoNode.getId());
 		String param = hashMap2ParamString(paraMap);
+		Log.i(TAG, param);
 		Listener<String> responseListener = new Listener<String>() {
 			@Override
 			public void onResponse(String response) {
-				Gson gson = new Gson();
-				String jsonString = UiUtils.customString(response);
-				VideoResponse videoResponse = gson.fromJson(jsonString,
-						VideoResponse.class);
-
-				Event event = new Event(EventType.DELETEIPC, true);
-				event.setData(videoResponse);
-				if (!videoResponse.getResponse_params().getStatus().equals("0")) {
-					event.setSuccess(false);
-				}
-				notifyObservers(event);
+//				Gson gson = new Gson();
+//				String jsonString = UiUtils.customString(response);
+//				VideoResponse videoResponse = gson.fromJson(jsonString,
+//						VideoResponse.class);
+//
+//				Event event = new Event(EventType.DELETEIPC, true);
+//				event.setData(videoResponse);
+//				if (!videoResponse.getResponse_params().getStatus().equals("0")) {
+//					event.setSuccess(false);
+//				}
+//				notifyObservers(event);
 			}
 		};
 		ErrorListener errorListener = new ErrorListener() {
 
 			@Override
 			public void onErrorResponse(VolleyError error) {
-				String errorString = null;
-				if (error != null && error.getMessage() != null) {
-					Log.e("ResponseError: ", error.getMessage());
-					errorString = VolleyErrorHelper.getMessage(error,
-							ApplicationController.getInstance());
-				}
-				Event event = new Event(EventType.DELETEIPC, false);
-				event.setData(errorString);
-				notifyObservers(event);
+//				String errorString = null;
+//				if (error != null && error.getMessage() != null) {
+//					Log.e("ResponseError: ", error.getMessage());
+//					errorString = VolleyErrorHelper.getMessage(error,
+//							ApplicationController.getInstance());
+//				}
+//				Event event = new Event(EventType.DELETEIPC, false);
+//				event.setData(errorString);
+//				notifyObservers(event);
 			}
 		};
 		String url = NetUtil.getInstance().getCumstomURL(

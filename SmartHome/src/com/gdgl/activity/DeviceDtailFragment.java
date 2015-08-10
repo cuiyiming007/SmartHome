@@ -194,7 +194,7 @@ public class DeviceDtailFragment extends BaseFragment {
 				.getDefaultDevicesSmallIcon(mDevices.getmDeviceId(), mDevices
 						.getmModelId().trim()));
 		device_nameTextView.setText(mDevices.getmDefaultDeviceName().trim());
-		device_regionTextView.setText(mDevices.getmDeviceRegion().trim());
+		//device_regionTextView.setText(mDevices.getmDeviceRegion().trim());
 		
 		//心跳周期
 		device_heartButton.setOnClickListener(new OnClickListener() {

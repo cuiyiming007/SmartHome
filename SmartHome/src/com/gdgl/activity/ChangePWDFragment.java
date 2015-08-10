@@ -137,9 +137,10 @@ public class ChangePWDFragment extends Fragment implements UIListener {
 
 			if (event.isSuccess() == true) {
 				// data maybe null
-//				LoginResponse response=(LoginResponse) event.getData();
+				LoginResponse response=(LoginResponse) event.getData();
+				int status = Integer.parseInt(response.getResponse_params().getStatus());
 //				changePWDSwitch(response);
-				int status = (Integer) event.getData();
+//				int status = (Integer) event.getData();
 				changePWDSwitch(status);
 			} else {
 				// if failed,prompt a Toast

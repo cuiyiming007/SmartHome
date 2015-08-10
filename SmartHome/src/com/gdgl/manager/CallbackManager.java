@@ -1,5 +1,7 @@
 package com.gdgl.manager;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 
 import org.json.JSONException;
@@ -16,7 +18,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.gdgl.activity.ConfigActivity;
 import com.gdgl.activity.ShowDevicesGroupFragmentActivity;
+import com.gdgl.activity.SmartHome;
 import com.gdgl.app.ApplicationController;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.DataHelper;
@@ -32,6 +36,7 @@ import com.gdgl.mydata.Callback.CallbackResponseCommon;
 import com.gdgl.mydata.Callback.CallbackResponseType2;
 import com.gdgl.mydata.Callback.CallbackWarnMessage;
 import com.gdgl.mydata.binding.BindingDataEntity;
+import com.gdgl.mydata.video.VideoNode;
 import com.gdgl.network.VolleyOperation;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.NetUtil;
@@ -265,7 +270,7 @@ public class CallbackManager extends Manger {
 				mDateHelper.close(mSQLiteDatabase31);
 
 				Event event31 = new Event(EventType.CHANGEDEVICENAME, true);
-				event31.setData(newname31);
+				event31.setData(ieee31 + ":" +newname31);
 				notifyObservers(event31);
 				break;
 			case 32:
@@ -348,6 +353,8 @@ public class CallbackManager extends Manger {
 	}
 	
 	private void handleGlexerCallback(String response) throws JSONException {
+		Gson gson = new Gson();
+		Log.i("jsonRsponse", response);
 		JSONObject jsonRsponse = new JSONObject(response);
 		int mainid = (Integer) jsonRsponse.get("mainid");
 		int subid = (Integer) jsonRsponse.get("subid");
@@ -371,10 +378,112 @@ public class CallbackManager extends Manger {
 			default:
 				break;
 			}
-			
 		}
-		
-	}
+		if (mainid == 2) { // video operations
+			switch (subid) {
+			case 1: // addIPC
+				int status1 = (Integer) jsonRsponse.get("status");
+				if (status1 < 0) {
+					Event event1_error = new Event(EventType.ADDIPC, false);
+					event1_error.setData(status1);
+					notifyObservers(event1_error);
+					break;
+				}
+				try {
+					response = new URLDecoder().decode(response, "UTF-8");
+				} catch (UnsupportedEncodingException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				VideoNode videoNode1 = gson.fromJson(response, VideoNode.class);
+				Event event1 = new Event(EventType.ADDIPC, true);
+				event1.setData(videoNode1);
+
+				SQLiteDatabase mSqLiteDatabase1 = mDateHelper
+						.getSQLiteDatabase();
+				mSqLiteDatabase1.insert(DataHelper.VIDEO_TABLE, null,
+						videoNode1.convertContentValues());
+				mSqLiteDatabase1.close();
+
+				notifyObservers(event1);
+				break;
+			case 2: // editIPC
+				int status2 = (Integer) jsonRsponse.get("status");
+				if (status2 < 0) {
+					Event event2_error = new Event(EventType.EDITIPC, false);
+					event2_error.setData(status2);
+					notifyObservers(event2_error);
+					break;
+				}
+				try {
+					response = new URLDecoder().decode(response, "UTF-8");
+				} catch (UnsupportedEncodingException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				VideoNode videoNode2 = gson.fromJson(response, VideoNode.class);
+				
+				Event event2 = new Event(EventType.EDITIPC, true);
+				event2.setData(videoNode2);
+
+				SQLiteDatabase mSqLiteDatabase2 = mDateHelper
+						.getSQLiteDatabase();
+				String where2 = VideoNode.ID + " = ? ";
+				String[] arg2 = { videoNode2.getId() };
+				mSqLiteDatabase2.delete(DataHelper.VIDEO_TABLE, where2, arg2);
+				mSqLiteDatabase2.insert(DataHelper.VIDEO_TABLE, null,
+						videoNode2.convertContentValues());
+				mSqLiteDatabase2.close();
+
+				notifyObservers(event2);
+				break;
+			case 3: // deleteIPC
+				int status3 = (Integer) jsonRsponse.get("status");
+				if (status3 < 0) {
+					Event event3_error = new Event(EventType.DELETEIPC, false);
+					event3_error.setData(status3);
+					notifyObservers(event3_error);
+					break;
+				}
+				int videoID3 = (Integer) jsonRsponse.get("id");
+				Event event3 = new Event(EventType.DELETEIPC, true);
+				event3.setData(videoID3);
+				notifyObservers(event3);
+
+				SQLiteDatabase mSqLiteDatabase3 = mDateHelper
+						.getSQLiteDatabase();
+				String where3 = VideoNode.ID + " = ? ";
+				String[] arg3 = { videoID3 + "" };
+				mSqLiteDatabase3.delete(DataHelper.VIDEO_TABLE, where3, arg3);
+				break;
+			case 4: // ipc online status
+//				String ipc_status = (String) jsonRsponse.get("ipc_status_list");
+//				char[] ipcStatusList = ipc_status.toCharArray();
+//				
+//				Event event4 = new Event(EventType.IPCONLINESTATUS, true);
+//				event4.setData(ipcStatusList);
+//				notifyObservers(event4);
+//				
+//				SQLiteDatabase mSqLiteDatabase4 = mDateHelper
+//						.getSQLiteDatabase();
+//				ContentValues c4 = new ContentValues();
+//				String where4 = VideoNode.ID + " = ? ";
+//				for (int i = 0; i < ipcStatusList.length; i++) {
+//					if (ipcStatusList[i] != 'c') {
+//						String[] arg4 = { i + "" };
+//						c4.put(VideoNode.IPC_STATUS,
+//								String.valueOf(ipcStatusList[i]));
+//						mDateHelper.update(mSqLiteDatabase4,
+//								DataHelper.VIDEO_TABLE, c4, where4, arg4);
+//					}
+//				}
+//				mSqLiteDatabase4.close();
+				break;
+			default:
+				break;
+			}
+		}
+	}	
 	
 	private void handlerCallbackResponseCommon(CallbackResponseCommon response) {
 		int callbackType = Integer.parseInt(response.getCallbackType());
@@ -397,13 +506,16 @@ public class CallbackManager extends Manger {
 		}
 	}
 
-	private void handlerWarnMessage(CallbackWarnMessage warnmessage) {
+	public void handlerWarnMessage(CallbackWarnMessage warnmessage) {
 		if (!getSecurityControlState() && getIsRightModelID(warnmessage)) {
 			warnmessage = WarnManager.getInstance()
 					.setWarnDetailMessageNoSecurity(warnmessage);
+			warnmessage.setMsgtype("prompt");
 		} else {
-			warnmessage = WarnManager.getInstance().setWarnDetailMessage(
-					warnmessage);
+			if(!warnmessage.getMsgtype().equals("energy")){
+				warnmessage = WarnManager.getInstance().setWarnDetailMessage(
+						warnmessage);
+			}
 		}
 		// warnmessage = WarnManager.getInstance().setWarnDetailMessage(
 		// warnmessage);
@@ -752,10 +864,13 @@ public class CallbackManager extends Manger {
 		// ShowDevicesGroupFragmentActivity.class);
 		i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
 				| Intent.FLAG_ACTIVITY_NEW_TASK);
-
+		
+		Intent intent = new Intent(ApplicationController.getInstance(), ConfigActivity.class);  
+		intent.putExtra("fragid", 1);
+		WarnManager.getInstance().intilMessageNum();
 		// PendingIntent
 		PendingIntent contentIntent = PendingIntent.getActivity(
-				ApplicationController.getInstance(), R.string.app_name, i,
+				ApplicationController.getInstance(), R.string.app_name, intent,
 				PendingIntent.FLAG_UPDATE_CURRENT);
 
 		noti.setLatestEventInfo(ApplicationController.getInstance(), title,

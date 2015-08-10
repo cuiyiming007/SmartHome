@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.gdgl.smarthome"
     android:versionCode="1"
-    android:versionName="V1.0.4.150212_beta" >
+    android:versionName="MPSmartHomeV1.0.2.150810_alpha" >
 
     <supports-screens
         android:anyDensity="true"
@@ -52,6 +52,14 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.gdgl.activity.HikVideoActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="sensor"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:configChanges="orientation|keyboardHidden|screenSize" >
+             
         </activity>
         <activity
             android:name="com.gdgl.activity.SmartHome"
@@ -112,6 +120,11 @@
 
         <service android:name="com.gdgl.service.SmartService" >
         </service>
+        <service android:enabled="true" android:name="com.gdgl.service.EnergyService" >
+            <intent-filter>                
+                <action android:name="com.gdgl.service.EnergyService" />            
+            </intent-filter>
+        </service>
         <service android:name="com.gdgl.service.LibjingleService" >
         </service>
 
@@ -120,6 +133,7 @@
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
+        <receiver android:name="com.gdgl.reciever.HeartReceiver" />
     </application>
 
 </manifest>

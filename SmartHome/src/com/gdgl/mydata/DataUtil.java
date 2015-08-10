@@ -97,8 +97,10 @@ public class DataUtil {
 			}
 		} else if (deviceId == DataHelper.REMOTE_CONTROL_DEVICETYPE) {
 			result = UiUtils.SWITCH_DEVICE;
-		} else if (deviceId == DataHelper.COMBINED_INTERFACE_DEVICETYPE) {
+		} else if (deviceId == DataHelper.COMBINED_INTERFACE_DEVICETYPE && modelId.indexOf(DataHelper.One_key_operator) != -1) {
 			result = UiUtils.SECURITY_CONTROL;
+		} else if (deviceId == DataHelper.COMBINED_INTERFACE_DEVICETYPE && modelId.indexOf(DataHelper.RS232_adapter) != -1){
+			result = 6;
 		} else if (deviceId == DataHelper.RANGE_EXTENDER_DEVICETYPE) {
 			result = UiUtils.ELECTRICAL_MANAGER;
 		} else if (deviceId == DataHelper.MAINS_POWER_OUTLET_DEVICETYPE) {
@@ -130,6 +132,27 @@ public class DataUtil {
 	}
 
 	// 设置默认设备图片
+	public static int getDefaultDevicesSmallIcon(int deviceId) {
+		int result = 0;
+		switch (deviceId) {
+		case DataHelper.IAS_ZONE_DEVICETYPE:
+			result = R.drawable.ui_energy_security;
+			break;
+		case DataHelper.ON_OFF_SWITCH_DEVICETYPE:
+			result = R.drawable.ui_energy_onoff;
+			break;
+		case DataHelper.METER:
+			result = R.drawable.ui_energy_meter;
+			break;
+		case DataHelper.MAINS_POWER_OUTLET_DEVICETYPE:
+			result = R.drawable.ui_electricalcontrol_electricalsocket;
+			break;
+		default:
+			break;	
+		}
+		return result;
+	}
+	
 	public static int getDefaultDevicesSmallIcon(int deviceId, String modelId) {
 		int result = 0;
 		switch (deviceId) {
@@ -237,7 +260,7 @@ public class DataUtil {
 	// 设置默认设备名称
 	public static String getDefaultDevicesName(Context c, String modelID,
 			String ep) {
-		String result = c.getResources().getString(R.string.Unknown_Device);
+		String result = "";
 
 		if (modelID.indexOf(DataHelper.Motion_Sensor) == 0) { // ZigBee动作感应器
 			result = c.getResources().getString(R.string.Motion_Sensor);

@@ -57,7 +57,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="厨房"
+                    android:text=""
                     android:textColor="#ffffff"
                     android:textSize="20sp" />
             </LinearLayout>

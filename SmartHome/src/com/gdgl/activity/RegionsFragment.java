@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gdgl.activity.SmartHome.refreshAdapter;
+import com.gdgl.libjingle.LibjingleSendManager;
 import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
@@ -90,7 +91,7 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 		if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
 			CGIManager.getInstance().GetAllRoomInfo();
 		} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
-			
+			LibjingleSendManager.getInstance().GetAllRoomInfo();
 		}
 		mDateHelper = new DataHelper((Context) getActivity());
 		SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();

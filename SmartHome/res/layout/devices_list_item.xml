@@ -78,7 +78,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="0dp"
                     android:gravity="right"
-                    android:text="厨房"
+                    android:text=""
                     android:textColor="#ffffff"
                     android:textSize="14dp" />
             </LinearLayout>
@@ -146,6 +146,26 @@
                 android:clickable="false"
                 android:focusable="false"
                 android:text="停止报警"
+                android:textColor="#ffffff"
+                android:textSize="13sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/meter_layout"
+            android:layout_width="110dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="gone" >
+
+            <Button
+                android:id="@+id/button_meter"
+                android:layout_width="65dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:background="@drawable/ui_button_green_small_style"
+                android:clickable="false"
+                android:focusable="false"
+                android:text="抄表"
                 android:textColor="#ffffff"
                 android:textSize="13sp" />
         </LinearLayout>

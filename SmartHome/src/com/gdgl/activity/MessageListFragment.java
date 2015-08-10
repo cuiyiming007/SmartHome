@@ -504,6 +504,9 @@ public class MessageListFragment extends BaseFragment implements UIListener,andr
 	}
 	
 	public int getMessageImageResource(CallbackWarnMessage message){
+		if(message.getMsgtype().equals("energy")){
+			return R.drawable.ui_energy_security;
+		}
 		int MessageImageResource = 0;
 		DataHelper	dh = new DataHelper(ApplicationController.getInstance());
 		SQLiteDatabase db = dh.getSQLiteDatabase();

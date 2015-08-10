@@ -13,6 +13,7 @@ import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.network.NetworkConnectivity;
+import com.gdgl.service.EnergyService;
 import com.gdgl.service.LibjingleService;
 import com.gdgl.service.SmartService;
 import com.gdgl.smarthome.R;
@@ -421,6 +422,8 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 		// TODO Auto-generated method stub
 		if (!isChecked) {
 			Log.i("is checked ", " no........ ");
+			Intent energyServiceIntent = new Intent(this, EnergyService.class);
+			stopService(energyServiceIntent);
 			Intent libserviceIntent = new Intent(this, LibjingleService.class);
 			stopService(libserviceIntent);
 			Intent smartServiceIntent = new Intent(this, SmartService.class);

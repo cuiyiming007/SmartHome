@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.gdgl.app.ApplicationController;
 import com.gdgl.manager.CallbackManager;
+import com.gdgl.manager.EnergyManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.VideoManager;
 import com.gdgl.model.DevicesModel;
@@ -226,6 +227,13 @@ public class LibjingleResponseHandlerManager extends Manger {
 			event14.setData(status14);
 			notifyObservers(event14);
 			break;
+		case LibjinglePackHandler.MT_Energy_Response:
+			Log.i(TAG, "packHandler.energy_data : " + packHandler.energy_data);
+			EnergyManager.getInstance().handleMessage(packHandler.energy_data);
+			break;
+		case LibjinglePackHandler.MT_Energy_send:
+			EnergyManager.getInstance().handleMessage(packHandler.energy_data);
+			break;
 		default:
 			break;
 		}
@@ -349,6 +357,7 @@ public class LibjingleResponseHandlerManager extends Manger {
 				new UpdateDeviceHeartTime().execute(response);
 				break;
 			case LibjingleSendStructure.GETVIDEOLIST:
+				Log.i(TAG, "LibjingleSendStructure.GETVIDEOLIST");
 				new GetVideoListTast().execute(response);
 				break;
 
@@ -684,6 +693,9 @@ public class LibjingleResponseHandlerManager extends Manger {
 		@Override
 		protected void onPostExecute(VideoResponse result) {
 			Event event = new Event(EventType.GETVIDEOLIST, true);
+			for (int i = 0; i < result.getList().size(); i++) {
+				Log.i(TAG, result.getList().get(i).getAliases());
+			}
 			if (result == null || result.getList().size() == 0) {
 				event.setSuccess(false);
 				notifyObservers(event);

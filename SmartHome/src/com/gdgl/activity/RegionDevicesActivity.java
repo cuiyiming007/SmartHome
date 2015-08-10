@@ -22,8 +22,10 @@ import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.Callback.CallbackResponseType2;
 import com.gdgl.mydata.getlocalcielist.CIEresponse_params;
+import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyOkCancleDlg;
+import com.gdgl.util.VersionDlg;
 import com.gdgl.util.EditDevicesDlg.EditDialogcallback;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 
@@ -186,6 +188,13 @@ public class RegionDevicesActivity extends Activity implements DevicesObserver,
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				if (currentState == INLIST) {
+					if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+						VersionDlg vd = new VersionDlg(RegionDevicesActivity.this);
+						vd.setContent(getResources().getString(R.string.Unable_In_InternetState));
+						vd.show();
+						return;
+					}
+					
 					isAdd = true;
 					mAdd.setText("添加");
 					mAdd.setTextColor(Color.RED);

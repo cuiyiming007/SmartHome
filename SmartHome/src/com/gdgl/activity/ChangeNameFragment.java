@@ -142,9 +142,10 @@ public class ChangeNameFragment extends Fragment implements UIListener {
 
 			if (event.isSuccess() == true) {
 				// data maybe null
-//				LoginResponse response = (LoginResponse) event.getData();
+				LoginResponse response = (LoginResponse) event.getData();
+				int status = Integer.parseInt(response.getResponse_params().getStatus());
 //				changeNameSwitch(response);
-				int status = (Integer)event.getData();
+//				int status = (Integer)event.getData();
 				changeNameSwitch(status);
 			} else {
 				// if failed,prompt a Toast

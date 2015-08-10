@@ -40,6 +40,7 @@ public class VideoInfoDialog implements UIListener {
 	EditText httpportEditText;
 	EditText passworeEditText;
 	EditText aliasEditText;
+	EditText serialEditText;
 	LinearLayout devices_region;
 	TextView text_name;
 	IFragmentCallbak listener;
@@ -52,9 +53,9 @@ public class VideoInfoDialog implements UIListener {
 
 	int mType;
 
-	public VideoInfoDialog(Context c, int type,
-			IFragmentCallbak fragmentCallbak, Object data) {
-		this(c, type, fragmentCallbak);
+	public VideoInfoDialog(Context c, int type, Object data) {
+		this(c, type);
+
 		videoNode = (VideoNode) data;
 		userNameEdit.setText(videoNode.getName());
 		ipEditText.setText(videoNode.getIpc_ipaddr());
@@ -62,15 +63,34 @@ public class VideoInfoDialog implements UIListener {
 		httpportEditText.setText(videoNode.getHttpport());
 		passworeEditText.setText(videoNode.getPassword());
 		aliasEditText.setText(videoNode.getAliases());
+		serialEditText.setText(videoNode.getSerialNum());
 	}
 
-	public VideoInfoDialog(Context c, int type, IFragmentCallbak fragmentCallbak) {
+	public VideoInfoDialog(Context c, int type, int index) {
+		this(c, type);
+
+		videoNode = new VideoNode();
+		videoNode.setIndex(index);
+		
+		String port = "554";
+		String httpport = "8000";
+		String nameString = "admin";
+
+		ipEditText.setText("");
+		portEditText.setText(port);
+		httpportEditText.setText(httpport);
+		userNameEdit.setText(nameString);
+		passworeEditText.setText("");
+		aliasEditText.setText("");
+		serialEditText.setText("");
+	}
+
+	public VideoInfoDialog(Context c, int type) {
 		mContext = c;
 		mType = type;
 		dialog = new Dialog(mContext, R.style.MyDialog);
 		dialog.setContentView(R.layout.video_info_dlg);
 		textView = (TextView) dialog.findViewById(R.id.txt_title);
-		listener = fragmentCallbak;
 
 		userNameEdit = (EditText) dialog.findViewById(R.id.edit_user_name);
 		ipEditText = (EditText) dialog.findViewById(R.id.edit_video_ip);
@@ -79,6 +99,7 @@ public class VideoInfoDialog implements UIListener {
 		passworeEditText = (EditText) dialog.findViewById(R.id.edit_password);
 		aliasEditText = (EditText) dialog.findViewById(R.id.edit_alias);
 		text_name = (TextView) dialog.findViewById(R.id.text_user_name);
+		serialEditText = (EditText) dialog.findViewById(R.id.edit_serial);
 
 		save = (Button) dialog.findViewById(R.id.btn_save);
 		save.setOnClickListener(new View.OnClickListener() {
@@ -87,10 +108,13 @@ public class VideoInfoDialog implements UIListener {
 			public void onClick(View v) {
 				videoNode = getVideoNode();
 				if (mType == Add) {
+					Log.i("mType", "Add");
 					VideoManager.getInstance().addIPC(videoNode);
 				} else if (mType == Edit) {
+					Log.i("mType", "Edit");
 					VideoManager.getInstance().editIPC(videoNode);
 				}
+				dismiss();
 			}
 		});
 
@@ -122,20 +146,16 @@ public class VideoInfoDialog implements UIListener {
 		String nameString = userNameEdit.getText().toString();
 		String passwordString = passworeEditText.getText().toString();
 		String aliase = aliasEditText.getText().toString();
+		String serial = serialEditText.getText().toString();
 
-		VideoNode videoNode = new VideoNode();
 		videoNode.setAliases(aliase);
 		videoNode.setHttpport(httpport);
 		videoNode.setRtspport(port);
 		videoNode.setIpc_ipaddr(ipString);
 		videoNode.setName(nameString);
 		videoNode.setPassword(passwordString);
-		if (mType == Edit) {
-			videoNode.setId(this.videoNode.getId());
-		} else {
-			videoNode.setId("");
-
-		}
+		videoNode.setSerialNum(serial);
+		videoNode.setDomainName("");
 		return videoNode;
 	}
 	

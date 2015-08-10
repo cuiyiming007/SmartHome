@@ -6,6 +6,7 @@ import java.util.List;
 import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.DeviceManager;
 import com.gdgl.manager.CGIManager;
+import com.gdgl.manager.EnergyManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
 import com.gdgl.manager.WarnManager;
@@ -46,6 +47,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /***
  * 设置菜单，设备列表
@@ -100,6 +102,7 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 
 	CGIManager temptureManager;
 	DeviceManager mDeviceManager;
+	EnergyManager mEnergyManager;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -117,6 +120,9 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 
 		mDeviceManager = DeviceManager.getInstance();
 		mDeviceManager.addObserver(this);
+		
+		mEnergyManager = EnergyManager.getInstance();
+		mEnergyManager.addObserver(this);
 
 		CallbackManager.getInstance().addObserver(this);
 		
@@ -139,6 +145,7 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 		super.onDestroy();
 		temptureManager.deleteObserver(this);
 		mDeviceManager.deleteObserver(this);
+		mEnergyManager.deleteObserver(this);
 		CallbackManager.getInstance().deleteObserver(this);
 	}
 
@@ -281,6 +288,9 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 				// TODO Auto-generated method stub
 				DevicesModel mDevicesModel = (DevicesModel) list
 						.getItemAtPosition(position);
+				if(mDevicesModel.getmEnergy() != null){
+					return;
+				}
 				Fragment mFragment = new DeviceDtailFragment();
 				Bundle extras = new Bundle();
 				extras.putSerializable(Constants.PASS_OBJECT, mDevicesModel);
@@ -298,6 +308,9 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 				// TODO Auto-generated method stub
 				DevicesModel mDevicesModel = (DevicesModel) list
 						.getItemAtPosition(position);
+				if(mDevicesModel.getmEnergy() != null){
+					return;
+				}
 				Fragment mFragment = new DeviceDtailFragment();
 				Bundle extras = new Bundle();
 				extras.putSerializable(Constants.PASS_OBJECT, mDevicesModel);
@@ -316,6 +329,9 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 						// TODO Auto-generated method stub
 						DevicesModel mDevicesModel = (DevicesModel) list
 								.getItemAtPosition(position);
+						if(mDevicesModel.getmEnergy() != null){
+							return;
+						}
 						Fragment mFragment = new DeviceDtailFragment();
 						Bundle extras = new Bundle();
 						extras.putSerializable(Constants.PASS_OBJECT,
@@ -335,6 +351,9 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 				// TODO Auto-generated method stub
 				DevicesModel mDevicesModel = (DevicesModel) list
 						.getItemAtPosition(position);
+				if(mDevicesModel.getmEnergy() != null){
+					return;
+				}
 				Fragment mFragment = new DeviceDtailFragment();
 				Bundle extras = new Bundle();
 				extras.putSerializable(Constants.PASS_OBJECT, mDevicesModel);
@@ -352,6 +371,21 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 				// TODO Auto-generated method stub
 				DevicesModel mDevicesModel = (DevicesModel) list
 						.getItemAtPosition(position);
+				if(mDevicesModel.getmEnergy() != null){
+					return;
+				}
+				Log.i("Other_list", ""+mDevicesModel.getmModelId());
+				if(mDevicesModel.getmModelId().indexOf(DataHelper.RS232_adapter) != -1){
+					Fragment mFragment = new EnergyEditFragment();
+					Bundle extras = new Bundle();
+					extras.putSerializable(Constants.PASS_OBJECT, mDevicesModel);
+					mFragment.setArguments(extras);
+					inToDeviceDetailFragment = (IntoDeviceDetailFragment) getActivity();
+					inToDeviceDetailFragment.intoDeviceDetailFragment(mFragment);
+					return;
+				}
+				
+				
 				Fragment mFragment = new DeviceDtailFragment();
 				Bundle extras = new Bundle();
 				extras.putSerializable(Constants.PASS_OBJECT, mDevicesModel);
@@ -532,6 +566,11 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 		int position = info.position;
 		currentpostion = position;
 		DevicesModel mDevicesModel = mCurrentList.get(position);
+		if(mDevicesModel.getmEnergy() != null){
+			Toast.makeText(getActivity(), "此类设备无法在此处修改.", Toast.LENGTH_SHORT).show();
+			return false;
+		}
+		
 		int menuIndex = item.getItemId();
 
 		if (1 == menuIndex) {
@@ -634,10 +673,17 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 				mViewHolder.devRegion.setText("");
 				mViewHolder.devRegion.setVisibility(View.GONE);
 			}
+			
+			if(ds.getmEnergy() == null){
+				mViewHolder.devImg.setImageResource(DataUtil.getDefaultDevicesSmallIcon(
+						ds.getmDeviceId(), ds.getmModelId().trim()));
+			}else{
+				mViewHolder.devImg.setImageResource(DataUtil.getDefaultDevicesSmallIcon(ds.getmDeviceId()));
+			}
 
-			mViewHolder.devImg.setImageResource(DataUtil
-					.getDefaultDevicesSmallIcon(ds.getmDeviceId(), ds
-							.getmModelId().trim()));
+//			mViewHolder.devImg.setImageResource(DataUtil
+//					.getDefaultDevicesSmallIcon(ds.getmDeviceId(), ds
+//							.getmModelId().trim()));
 
 			mViewHolder.devAlarm.setVisibility(View.GONE);
 			SimpleDevicesModel simpleDevicesModel = new SimpleDevicesModel();
@@ -671,6 +717,32 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 
 	@Override
 	public void dialogdo() {
+		// TODO Auto-generated method stub
+		DevicesModel ds = mCurrentList.get(currentpostion);
+		CGIManager.getInstance().deleteNode(ds.getmIeee().trim());
+		int result = mDh.deleteDeviceWithGroup((Context) getActivity(),
+				mDh.getSQLiteDatabase(), DataHelper.DEVICES_TABLE, " ieee=? ",
+				new String[] { ds.getmIeee().trim() });
+
+		if (result >= 0) {
+			if(SecurityControl_expn) {
+				mSecurityControl.remove(currentpostion);
+				expnSecurityControl();
+			} else if (ElecManager_expn) {
+				mElecManager.remove(currentpostion);
+				expnElecManager();
+			} else if (Energy_expn) {
+				mEnergy.remove(currentpostion);
+				expnEnergy();
+			} else if (EneronmentControll_expn) {
+				mEneronmentControl.remove(currentpostion);
+				expnEneronmentControll();
+			} else if (Other_expn) {
+				mOther.remove(currentpostion);
+				expnOther();
+			}
+		}
+
 	}
 
 	private int getDevicesPostion(String ieee, String ep,
@@ -730,42 +802,43 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 					}
 				});
 			}
-		} else if(EventType.SCAPEDDEVICE == event.getType()){
-			Log.i("ConfigDevices", "SCAPEDDEVICE");
-			ArrayList<DevicesModel> scapedList = (ArrayList<DevicesModel>) event.getData();
-			for(DevicesModel mDevicesModel : scapedList){
-				int sort = mDevicesModel.getmDeviceSort();
-				switch (sort) {
-				case UiUtils.ENVIRONMENTAL_CONTROL:
-					mEneronmentControl.add(mDevicesModel);
-					EneronmentControllAdap.setList(mEneronmentControl);
-					EneronmentControllAdap.notifyDataSetChanged();
-					break;
-				case UiUtils.SECURITY_CONTROL:
-					mSecurityControl.add(mDevicesModel);
+		}
+		if(EventType.SET_DEVICES_BACK == event.getType()){
+			Log.i("SET_DEVICES_BACK", "SET_DEVICES_BACK");
+			ElecManagerlay.post(new Runnable() {
+				
+				@Override
+				public void run() {
+					mSecurityControl = DataUtil.getSortManagementDevices(
+							(Context) getActivity(), mDh, UiUtils.SECURITY_CONTROL);
 					SecurityControlAdap.setList(mSecurityControl);
 					SecurityControlAdap.notifyDataSetChanged();
-					break;
-				case UiUtils.ELECTRICAL_MANAGER:
-					mElecManager.add(mDevicesModel);
+					
+					mElecManager = DataUtil.getSortManagementDevices(
+							(Context) getActivity(), mDh, UiUtils.ELECTRICAL_MANAGER);
 					ElecManagerAdap.setList(mElecManager);
 					ElecManagerAdap.notifyDataSetChanged();
-					break;
-				case UiUtils.ENERGY_CONSERVATION:
-					mEnergy.add(mDevicesModel);
+					
+					mEnergy = DataUtil.getSortManagementDevices((Context) getActivity(),
+							mDh, UiUtils.ENERGY_CONSERVATION);
 					EnergyAdap.setList(mEnergy);
 					EnergyAdap.notifyDataSetChanged();
-					break;
-				case UiUtils.OTHER:
-					mOther.add(mDevicesModel);
-					OtherAdap.setList(mOther);
-					OtherAdap.notifyDataSetChanged();
-					break;
-
-				default:
-					break;
+					// TODO Auto-generated method stub
 				}
-			}
+			});
+		}else if(EventType.SET_METER_LIST_BACK == event.getType()){
+			Log.i("SET_METER_LIST_BACK", "SET_METER_LIST_BACK");
+			ElecManagerlay.post(new Runnable() {
+				
+				@Override
+				public void run() {
+					mEnergy = DataUtil.getSortManagementDevices((Context) getActivity(),
+							mDh, UiUtils.ENERGY_CONSERVATION);
+					EnergyAdap.setList(mEnergy);
+					EnergyAdap.notifyDataSetChanged();
+					// TODO Auto-generated method stub
+				}
+			});
 		}
 	}
 

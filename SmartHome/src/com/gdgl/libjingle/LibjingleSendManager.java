@@ -1346,4 +1346,66 @@ public class LibjingleSendManager extends Manger {
 		mStructure.setAPI_type(LibjingleSendStructure.REQUESTVIDEO);
 		sendList.add(mStructure);
 	}
+	
+		
+	/***
+	 * 安防专项
+	 * 客户端发送请求
+	 * sendEnergyMessage
+	 * {
+			"request_id": 1234,
+			"gl_msgtype": 11,
+			"jid": "ffeeddccbbaa@121.199.21.14/C08002786f712",
+			"send": {
+			    "MsgType": 116,
+			    "Sn": 10,
+			    "SecurityNodeID": "00137A000001B40B",
+			    "Nwkaddr": "693E",
+			    "SwitchNum": 0,
+			    "SwitchStatus": 1
+			}
+		}
+	 */
+	public void energySendMessage(String jsonString) {
+		String jid = LibjinglePackHandler.getJid();
+		int reqid = getReqID();
+
+		String packag = LibjinglePackHandler.packEnergy(reqid, jid, jsonString, LibjinglePackHandler.MT_Energy_send);
+		Log.i(TAG, packag);
+		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+
+		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
+		mStructure.setRequest_id(reqid);
+		mStructure.setGl_msgtype(LibjinglePackHandler.MT_Energy_send);
+		mStructure.setAPI_type(LibjingleSendStructure.ENERGYSEED);
+		sendList.add(mStructure);
+	}
+	
+	/***
+	 * 安防专项
+	 * 客户端回复请求
+	 * responseEnergyMessage
+	 * {
+			"request_id": 1234,
+		    "gl_msgtype": 12,
+		    "jid": "ffeeddccbbaa@121.199.21.14/GFFEEDDCCBBAA",
+		    "response": {
+		        xxxxx
+		    }
+		}
+	 */
+	public void energyResponseMessage(String jsonString) {
+		String jid = LibjinglePackHandler.getJid();
+		int reqid = getReqID();
+
+		String packag = LibjinglePackHandler.packEnergy(reqid, jid, jsonString, LibjinglePackHandler.MT_Energy_Response);
+		Log.i(TAG, packag);
+		LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+
+		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
+		mStructure.setRequest_id(reqid);
+		mStructure.setGl_msgtype(LibjinglePackHandler.MT_Energy_Response);
+		mStructure.setAPI_type(LibjingleSendStructure.ENERGYRESPONSE);
+		sendList.add(mStructure);
+	}
 }
