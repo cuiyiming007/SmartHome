@@ -1,12 +1,7 @@
 package com.gdgl.manager;
 
-import android.database.sqlite.SQLiteDatabase;
-
-import com.gdgl.app.ApplicationController;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
-import com.gdgl.mydata.DataHelper;
-import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.Callback.CallbackWarnMessage;
 
 public class WarnManager {
@@ -40,14 +35,14 @@ public class WarnManager {
 	}
 	public boolean isDeviceWarning(SimpleDevicesModel model)
 	{
-		if (isWarnning&&currentWarmmessage.getCie_ieee().equals(model.getmIeee())) {
+		if (isWarnning&&currentWarmmessage.getZone_ieee().equals(model.getmIeee())) {
 			return true;
 		}else
 			return false;
 	}
 	public boolean isDeviceWarning(DevicesModel model)
 	{
-		if (isWarnning&&currentWarmmessage.getCie_ieee().equals(model.getmIeee())) {
+		if (isWarnning&&currentWarmmessage.getZone_ieee().equals(model.getmIeee())) {
 			return true;
 		}else
 			return false;
@@ -55,11 +50,6 @@ public class WarnManager {
 	
 	public CallbackWarnMessage  setWarnDetailMessage(CallbackWarnMessage message) {
 		String detailmessage;
-		DataHelper	dh = new DataHelper(ApplicationController.getInstance());
-		SQLiteDatabase db = dh.getSQLiteDatabase();
-		DevicesModel device= DataUtil.getDeviceModelByIeee(message.getZone_ieee(), dh, db);
-//		String chineseName=DataUtil.getDefaultDevicesName(ApplicationController.getInstance(), device.getmModelId(), device.getmEP());
-//		String chineseName=device.getmDefaultDeviceName();
 		detailmessage = "报警信息:type"+message.getW_mode() +" " +message.getW_description();
 		message.setDetailmessage(detailmessage);
 		return message;
@@ -67,11 +57,6 @@ public class WarnManager {
 	
 	public CallbackWarnMessage  setWarnDetailMessageNoSecurity(CallbackWarnMessage message) {
 		String detailmessage;
-		DataHelper	dh = new DataHelper(ApplicationController.getInstance());
-		SQLiteDatabase db = dh.getSQLiteDatabase();
-//		DevicesModel device= DataUtil.getDeviceModelByIeee(message.getZone_ieee(), dh, db);
-//		String chineseName=DataUtil.getDefaultDevicesName(ApplicationController.getInstance(), device.getmModelId(), device.getmEP());
-//		String chineseName=device.getmDefaultDeviceName();
 		detailmessage = "提示信息:type"+message.getW_mode() +" " +message.getW_description();
 		message.setDetailmessage(detailmessage);
 		return message;

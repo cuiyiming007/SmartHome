@@ -3,7 +3,6 @@ package com.gdgl.mydata;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gdgl.app.ApplicationController;
 import com.gdgl.model.ContentValuesListener;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.Callback.CallbackWarnMessage;
@@ -87,7 +86,7 @@ public class DataHelper extends SQLiteOpenHelper {
 	public static final String GATEWAY_TABLE = "gateway_table";
 	public static final String LINKAGE_TABLE = "linkage_table";
 	public static final String TIMINGACTION_TABLE = "timingaction_table";
-	public static final int DATEBASE_VERSTION = 4;
+	public static final int DATEBASE_VERSTION = 5;
 
 	public StringBuilder deviceStringBuilder;
 	public StringBuilder sceneStringBuilder;
@@ -147,6 +146,7 @@ public class DataHelper extends SQLiteOpenHelper {
 		deviceStringBuilder.append(DevicesModel.DATE_CODE + " VARCHAR,");
 		deviceStringBuilder.append(DevicesModel.MODEL_ID + " VARCHAR,");
 		deviceStringBuilder.append(DevicesModel.NODE_TYPE + " VARCHAR,");
+		deviceStringBuilder.append(DevicesModel.NODE_STATUS + " INTEGER,");
 
 		deviceStringBuilder.append(DevicesModel.EP + " VARCHAR(2),");
 		deviceStringBuilder.append(DevicesModel.NAME + " VARCHAR,");
@@ -177,7 +177,6 @@ public class DataHelper extends SQLiteOpenHelper {
 
 		deviceStringBuilder.append(DevicesModel.LAST_UPDATE_TIME + " INTEGER,");
 		deviceStringBuilder.append(DevicesModel.HEART_TIME + " INTEGER,");
-		deviceStringBuilder.append(DevicesModel.ONLINE_STATUS + " VARCHAR,");
 		deviceStringBuilder.append(DevicesModel.ON_OFF_LINE + " INTEGER )");
 
 		// scene table create string
@@ -224,36 +223,34 @@ public class DataHelper extends SQLiteOpenHelper {
 		messageStringBuilder.append("CREATE TABLE " + MESSAGE_TABLE + " (");
 		messageStringBuilder.append(CallbackWarnMessage._ID
 				+ " INTEGER PRIMARY KEY AUTOINCREMENT,");
-		messageStringBuilder.append(CallbackWarnMessage.CIE_EP
+		messageStringBuilder.append(CallbackWarnMessage.MSGTYPE + " INTEGER,");
+		messageStringBuilder.append(CallbackWarnMessage.W_MODE
 				+ " VARCHAR(16),");
-		messageStringBuilder.append(CallbackWarnMessage.CIE_IEEE
-				+ " VARCHAR(16),");
-		messageStringBuilder.append(CallbackWarnMessage.CIE_NAME
-				+ " VARCHAR(48),");
+		messageStringBuilder.append(CallbackWarnMessage.W_DESCRIPTION
+				+ " VARCHAR(64),");
 		messageStringBuilder.append(CallbackWarnMessage.HOME_ID
 				+ " VARCHAR(16),");
 		messageStringBuilder.append(CallbackWarnMessage.HOME_NAME
 				+ " VARCHAR(16),");
 		messageStringBuilder.append(CallbackWarnMessage.HOUSEIEEE
 				+ " VARCHAR(16),");
-		messageStringBuilder.append(CallbackWarnMessage.MSGTYPE + " INTEGER,");
 		messageStringBuilder.append(CallbackWarnMessage.ROOMID
 				+ " VARCHAR(16),");
 		messageStringBuilder.append(CallbackWarnMessage.TIME + " VARCHAR(16),");
-		messageStringBuilder.append(CallbackWarnMessage.W_DESCRIPTION
-				+ " VARCHAR(64),");
-		messageStringBuilder.append(CallbackWarnMessage.DETAILMESSAGE
-				+ " VARCHAR(64),");
-		messageStringBuilder.append(CallbackWarnMessage.W_MODE
-				+ " VARCHAR(16),");
 		messageStringBuilder.append(CallbackWarnMessage.ZONE_EP
 				+ " VARCHAR(16),");
 		messageStringBuilder.append(CallbackWarnMessage.ZONE_IEEE
 				+ " VARCHAR(16),");
 		messageStringBuilder.append(CallbackWarnMessage.ZONE_NAME
 				+ " VARCHAR(16),");
-		messageStringBuilder.append(CallbackWarnMessage.USENAME
-				+ " VARCHAR(16))");
+		messageStringBuilder.append(CallbackWarnMessage.CIE_EP
+				+ " VARCHAR(16),");
+		messageStringBuilder.append(CallbackWarnMessage.CIE_IEEE
+				+ " VARCHAR(16),");
+		messageStringBuilder.append(CallbackWarnMessage.CIE_NAME
+				+ " VARCHAR(48),");
+		messageStringBuilder.append(CallbackWarnMessage.DETAILMESSAGE
+				+ " VARCHAR(64))");
 
 		// roominfo table create string
 		roominfoStringBuilder.append("CREATE TABLE " + ROOMINFO_TABLE + " (");
@@ -475,18 +472,12 @@ public class DataHelper extends SQLiteOpenHelper {
 
 	public long insertMessageList(SQLiteDatabase db, String table,
 			String nullColumnHack, ArrayList<CallbackWarnMessage> arrayList) {
-		getFromSharedPreferences.setsharedPreferences(ApplicationController
-				.getInstance());
-		String usename = getFromSharedPreferences.getLoginName();
 		long result = -100;
-		// List<DevicesModel> mList = convertToDevicesModel(r);
 		db.beginTransaction();
 		try {
 			for (ContentValuesListener contentvalue : arrayList) {
 				ContentValues c = contentvalue.convertContentValues();
-				c.put(CallbackWarnMessage.USENAME, usename);
 				long m = db.insert(table, nullColumnHack, c);
-				// if (-1 == m) {
 				if (-1 != m) {
 					result = m;
 				}
@@ -763,6 +754,8 @@ public class DataHelper extends SQLiteOpenHelper {
 					.getColumnIndex(DevicesModel.MODEL_ID)));
 			mDevicesModel.setmNodeType(c.getString(c
 					.getColumnIndex(DevicesModel.NODE_TYPE)));
+			mDevicesModel.setmStatus(c.getInt(c
+					.getColumnIndex(DevicesModel.NODE_STATUS)));
 			mDevicesModel
 					.setmEP(c.getString(c.getColumnIndex(DevicesModel.EP)));
 			mDevicesModel.setmName(c.getString(c
@@ -811,8 +804,6 @@ public class DataHelper extends SQLiteOpenHelper {
 			mDevicesModel.setID(c.getInt(c.getColumnIndex(DevicesModel._ID)));
 			mDevicesModel.setmDefaultDeviceName(c.getString(c
 					.getColumnIndex(DevicesModel.DEFAULT_DEVICE_NAME)));
-			mDevicesModel.setmOnlineStatus(c.getString(c
-					.getColumnIndex(DevicesModel.ONLINE_STATUS)));
 			mDevicesModel.setmHeartTime(c.getInt(c
 					.getColumnIndex(DevicesModel.HEART_TIME)));
 

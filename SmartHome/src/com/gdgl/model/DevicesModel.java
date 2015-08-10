@@ -38,6 +38,7 @@ interface DevicesBaseColumns extends BaseColumns {
 	public static final String DATE_CODE = "date_code";
 	public static final String MODEL_ID = "model_id";
 	public static final String NODE_TYPE = "node_type";
+	public static final String NODE_STATUS = "node_status";
 
 	public static final String EP = "ep";
 	public static final String NAME = "name";
@@ -66,11 +67,9 @@ interface DevicesBaseColumns extends BaseColumns {
 	public static final String DEFAULT_DEVICE_NAME = "default_device_name";
 	public static final String DEVICE_PRIORITY = "device_priority";
 
+	public static final String HEART_TIME = "heart_time";
 	public static final String LAST_UPDATE_TIME = "last_update_time";
 	public static final String ON_OFF_LINE = "on_off_line";
-
-	public static final String HEART_TIME = "heart_time";
-	public static final String ONLINE_STATUS = "online_status";
 
 }
 
@@ -106,6 +105,7 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 	private String mDateCode = "";
 	private String mModelId = "";
 	private String mNodeType = "";
+	private int mStatus;
 
 	private String mEP = "";
 	private String mName = "";
@@ -140,7 +140,6 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 	private int mValue1 = 0;
 	private int mValue2 = 0;
 	private int mHeartTime = 0;
-	private String mOnlineStatus = "";
 
 	public int getID() {
 		return ID;
@@ -310,6 +309,14 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 		this.mNodeType = mNodeType;
 	}
 
+	public int getmStatus() {
+		return mStatus;
+	}
+	
+	public void setmStatus(int mStatus) {
+		this.mStatus = mStatus;
+	}
+	
 	public String getmEP() {
 		return mEP;
 	}
@@ -534,14 +541,6 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 		this.mHeartTime = time;
 	}
 
-	public String getmOnlineStatus() {
-		return mOnlineStatus;
-	}
-
-	public void setmOnlineStatus(String status) {
-		this.mOnlineStatus = status;
-	}
-
 	// 避免在内部调用Getters/Setters方法:因为字段搜寻要比方法调用效率高得多，直接访问某个字段可能要比通过getters方法来去访问这个字段快3到7倍.
 	public ContentValues convertContentValues() {
 		ContentValues mContentValues = new ContentValues();
@@ -569,6 +568,7 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 		mContentValues.put(DevicesBaseColumns.DATE_CODE, mDateCode);
 		mContentValues.put(DevicesBaseColumns.MODEL_ID, mModelId);
 		mContentValues.put(DevicesBaseColumns.NODE_TYPE, mNodeType);
+		mContentValues.put(DevicesBaseColumns.NODE_STATUS, mStatus);
 
 		mContentValues.put(DevicesBaseColumns.EP, mEP);
 		mContentValues.put(DevicesBaseColumns.NAME, mName);
@@ -636,6 +636,7 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 		mDateCode = (n.getDate_code());
 		mModelId = (n.getModel_id() == null ? "" : n.getModel_id());
 		mNodeType = (n.getNode_type() == null ? "" : n.getNode_type());
+		mStatus = (n.getStatus());
 
 		mEP = (d.getEp() == null ? "" : d.getEp());
 		mName = (d.getName() == null ? "" : d.getName());

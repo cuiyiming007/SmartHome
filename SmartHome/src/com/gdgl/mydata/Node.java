@@ -1,7 +1,5 @@
 package com.gdgl.mydata;
 
-import android.R.integer;
-
 public class Node {
 
 	//"request_id":	12453, "response_params":	[
@@ -24,6 +22,7 @@ public class Node {
     private  String date_code;
     private  String model_id;
     private  String node_type;
+    private  int status;
     
     public String getIeee() {
 		return ieee;
@@ -91,6 +90,11 @@ public class Node {
 	public void setNode_type(String node_type) {
 		this.node_type = node_type;
 	}
-	
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
+	}
 
 }

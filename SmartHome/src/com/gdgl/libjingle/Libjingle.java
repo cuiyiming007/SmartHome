@@ -1,9 +1,11 @@
 package com.gdgl.libjingle;
 
+import com.gdgl.app.ApplicationController;
 import com.gdgl.drawer.MainActivity;
 import com.gdgl.manager.Manger;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
+import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.network.NetworkConnectivity;
 
 import android.util.Log;
@@ -167,7 +169,7 @@ public class Libjingle extends Manger {
 		}
 	}
 
-	public void onGatewayStateChange(int stat) {
+	public void onGatewayStateChange(int stat, String mac) {
 		switch (stat) {
 		case GatewayState.OFFLINE:
 			Log.i(TAG, "=====> Gateway Offline");
@@ -175,8 +177,13 @@ public class Libjingle extends Manger {
 			break;
 		case GatewayState.ONLINE:
 			Log.i(TAG, "=====> Gateway Online");
+			Log.i(TAG, "=====> MAC: " + mac);
 			// TODO
 			if (MainActivity.LOGIN_STATUS) {
+				getFromSharedPreferences
+						.setsharedPreferences(ApplicationController
+								.getInstance());
+				getFromSharedPreferences.setGatewayMAC(mac);
 				Event event = new Event(EventType.LIBJINGLE_STATUS, true);
 				event.setData(stat);
 				notifyObservers(event);

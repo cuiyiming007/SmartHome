@@ -836,12 +836,12 @@ public class DataUtil {
 			DataHelper dh) {
 		getFromSharedPreferences.setsharedPreferences(ApplicationController
 				.getInstance());
-		String usename = getFromSharedPreferences.getLoginName();
+		String MAC = getFromSharedPreferences.getGatewayMAC();
 		List<CallbackWarnMessage> mList = new ArrayList<CallbackWarnMessage>();
 		Cursor cursor = null;
 		SQLiteDatabase db = dh.getSQLiteDatabase();
 		cursor = db.query(DataHelper.MESSAGE_TABLE, null,
-				CallbackWarnMessage.USENAME + "='" + usename + "'", null, null,
+				CallbackWarnMessage.HOUSEIEEE + "='" + MAC + "'", null, null,
 				null, null, null);
 		CallbackWarnMessage message;
 		while (cursor.moveToNext()) {

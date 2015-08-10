@@ -27,6 +27,7 @@ import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.Linkage;
+import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.mydata.Callback.CallbackBeginLearnIRMessage;
 import com.gdgl.mydata.Callback.CallbackBindListDevices;
 import com.gdgl.mydata.Callback.CallbackBindListMessage;
@@ -132,6 +133,9 @@ public class CallbackManager extends Manger {
 				Log.i(TAG, "Callback msgType=" + msgType + "warm message");
 				CallbackWarnMessage warmmessage = gson.fromJson(response,
 						CallbackWarnMessage.class);
+				getFromSharedPreferences.setsharedPreferences(ApplicationController
+						.getInstance());
+				warmmessage.setHouseIEEE(getFromSharedPreferences.getGatewayMAC());
 				Log.i(TAG, warmmessage.toString());
 				handlerWarnMessage(warmmessage);
 				break;
@@ -846,8 +850,6 @@ public class CallbackManager extends Manger {
 			warnmessage = WarnManager.getInstance().setWarnDetailMessage(
 					warnmessage);
 		}
-		// warnmessage = WarnManager.getInstance().setWarnDetailMessage(
-		// warnmessage);
 		WarnManager.getInstance().setCurrentWarnInfo(warnmessage);
 
 		// new UpdateDBTask().execute(warnmessage);
