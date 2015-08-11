@@ -17,6 +17,8 @@ import com.gdgl.mydata.scene.SceneDevice;
 import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyApplicationFragment;
+import com.gdgl.util.MyOkCancleDlg;
+import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -38,7 +40,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class LinkageDetailActivity extends MyActionBarActivity implements
-		ChangeFragment {
+		ChangeFragment, Dialogcallback {
 	private static final String SPINNER_ONOFF_STRING[] = {"开", "关"};
 	private static final String SPINNER_ONOFF_DATA[] = {"1", "0"};
 	private static final String SPINNER_SIGN_STRING[] = {"大于", "等于", "小于"};
@@ -68,8 +70,6 @@ public class LinkageDetailActivity extends MyActionBarActivity implements
 	// 点击图片后出现的设备表
 	List<DevicesModel> mTrgAddList, mActAddList;
 	DevicesModel actDevices, trgDevices;
-
-	List<SceneDevice> mAddToSceneList = new ArrayList<SceneDevice>();
 
 	DataHelper mDataHelper;
 	
@@ -327,9 +327,12 @@ public class LinkageDetailActivity extends MyActionBarActivity implements
 		if (MyApplicationFragment.getInstance().getFragmentListSize() > 1) {
 			MyApplicationFragment.getInstance().removeLastFragment();
 			fragment_flag = EDIT_FRAGMENT;
-			mAddToSceneList.clear();
 		} else {
-			finish();
+			MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(this);
+			mMyOkCancleDlg
+					.setDialogCallback((Dialogcallback) this);
+			mMyOkCancleDlg.setContent("确定要放弃本次编辑?");
+			mMyOkCancleDlg.show();
 		}
 	}
 
@@ -339,11 +342,20 @@ public class LinkageDetailActivity extends MyActionBarActivity implements
 		if (MyApplicationFragment.getInstance().getFragmentListSize() > 1) {
 			MyApplicationFragment.getInstance().removeLastFragment();
 			fragment_flag = EDIT_FRAGMENT;
-			mAddToSceneList.clear();
 			return super.onSupportNavigateUp();
 		}
-		finish();
+		MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(this);
+		mMyOkCancleDlg
+				.setDialogCallback((Dialogcallback) this);
+		mMyOkCancleDlg.setContent("确定要放弃本次编辑?");
+		mMyOkCancleDlg.show();
 		return super.onSupportNavigateUp();
+	}
+
+	@Override
+	public void dialogdo() {
+		// TODO Auto-generated method stub
+		finish();
 	}
 	
 }

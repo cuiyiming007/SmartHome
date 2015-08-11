@@ -233,6 +233,26 @@ public class LinkageFragment extends Fragment implements UIListener,
 					}
 				});
 			}
+		} else if (event.getType() == EventType.ENABLELINKAGE) {
+			if (event.isSuccess()) {
+				int[] ints = (int[]) event.getData();
+				int lid = ints[0];
+				int enable = ints[1];
+				for (int i = 0; i < linkageList.size(); i++) {
+					if (linkageList.get(i).getLid() == lid) {
+						linkageList.get(i).setEnable(enable);
+						break;
+					}
+				}
+				linkage_list.post(new Runnable() {
+
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						linkageAdapter.notifyDataSetChanged();
+					}
+				});
+			}
 		}
 	}
 

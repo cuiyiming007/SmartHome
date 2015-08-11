@@ -17,7 +17,6 @@ import com.gdgl.smarthome.R;
 import com.gdgl.util.MyApplicationFragment;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -25,12 +24,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -140,7 +136,8 @@ public class LinkageDetailFragment extends Fragment implements
 			if(mVideo.getId().equals(videoId)){
 				mDevices.setID(Integer.parseInt(mVideo.getId()));
 				mDevices.setmDevicePriority(VideoNode.PRIORITY);
-				mDevices.setmDefaultDeviceName(mVideo.getName());
+				mDevices.setmDefaultDeviceName(mVideo.getAliases());
+				break;
 			}
 		}
 		return mDevices;
@@ -297,6 +294,7 @@ public class LinkageDetailFragment extends Fragment implements
 			mLinkage.setTrgep(trgDevices.getmEP());
 			mLinkage.setTrgcnd(getTrgcnd());
 			mLinkage.setLnkact(getLnkact());
+			mLinkage.setEnable(1);
 		}
 		return true;
 	}
@@ -378,9 +376,10 @@ public class LinkageDetailFragment extends Fragment implements
 		for(DevicesModel mDevices : mAddList){
 			if(mDevices.getmModelId().indexOf((DataHelper.Power_detect_wall)) == 0){ //电能检测墙面插座Z816H
 				mActAddList.add(mDevices);
-			}else if(mDevices.getmModelId().indexOf((DataHelper.Siren)) == 0){ //警报器Z602A
-				mActAddList.add(mDevices);
 			}
+//			else if(mDevices.getmModelId().indexOf((DataHelper.Siren)) == 0){ //警报器Z602A
+//				mActAddList.add(mDevices);
+//			}
 		}
 		for(VideoNode mVideo : mVideoAddList){
 			DevicesModel mDevices = new DevicesModel();

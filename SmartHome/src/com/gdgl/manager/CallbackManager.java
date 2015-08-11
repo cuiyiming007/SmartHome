@@ -21,6 +21,7 @@ import android.util.Log;
 
 import com.gdgl.activity.ShowDevicesGroupFragmentActivity;
 import com.gdgl.app.ApplicationController;
+import com.gdgl.drawer.AlarmMessageActivity;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
@@ -857,13 +858,7 @@ public class CallbackManager extends Manger {
 		long _id = updateWarnMessage(warnmessage);
 		warnmessage.setId(_id + "");
 		Intent i = new Intent(ApplicationController.getInstance(),
-				ShowDevicesGroupFragmentActivity.class);
-		i.putExtra(ShowDevicesGroupFragmentActivity.ACTIVITY_SHOW_DEVICES_TYPE,
-				UiUtils.SECURITY_CONTROL);
-		i.putExtra("ieee", warnmessage.getZone_ieee());
-		i.putExtra("ep", warnmessage.getZone_ep());
-		// makeNotify(i, warnmessage.getDetailmessage(),
-		// warnmessage.getDetailmessage() + "收到报警信息，请注意！");
+				AlarmMessageActivity.class);
 		makeNotify(i, warnmessage.getZone_name(),
 				warnmessage.getDetailmessage());
 		Event event = new Event(EventType.WARN, true);
