@@ -47,11 +47,17 @@ public class LinkageDetailFragment extends Fragment implements
 	private static final String SPINNER_SIGN_DATA[] = {"bt", "eq", "lt"};
 	private static final String SPINNER_TRG_STRING[] = {"触发"};
 	private static final String SPINNER_VIDEO_STRING[] = {"拍照"};
+	
+	public static int tem_hum = 0;//=====判断温度还是湿度====王
+	public static int show_cho =0;//=====判断是显示联动中的温湿度，还是从设备列表中选择温湿度设备======王==0811
+	
 	ImageView devices_img, act_img;
-	TextView devices_txt, act_txt;
+	TextView devices_txt, act_txt,tem_hum_label;//tem_hum_label====温湿度符号===
 	View devices_choice_lay, act_choice_lay, devices_notype_lay, act_notype_lay, devices_temp_lay,
-			devices_trg_lay, act_onoff_lay, act_photo_lay;
-	Button devices_bt_btn, devices_eq_btn, devices_lt_btn, devices_trg_btn, act_on_btn, act_off_btn, act_photo_btn;
+			devices_trg_lay, act_onoff_lay, act_photo_lay,tem_hum_btn_lay;
+	//tem_hum_btn_lay====温湿度选择按钮布局=====王晓飞
+	Button devices_bt_btn, devices_eq_btn, devices_lt_btn, devices_trg_btn, act_on_btn, 
+	act_off_btn, act_photo_btn,tem_btn,hum_btn;//tem_btn,hum_btn温湿度按钮
 	EditText devices_data_edit;
 	
 	int onoff = 0;
@@ -87,8 +93,10 @@ public class LinkageDetailFragment extends Fragment implements
 		// TODO Auto-generated method stub
 		devices_img = (ImageView)mView.findViewById(R.id.devices_img);
 		act_img = (ImageView)mView.findViewById(R.id.act_img);
+		tem_hum_label=(TextView)mView.findViewById(R.id.tem_hum_label);//温湿度符号=====王
 		devices_txt = (TextView)mView.findViewById(R.id.devices_txt); 
 		act_txt = (TextView)mView.findViewById(R.id.act_txt);
+		tem_hum_btn_lay =  (View)mView.findViewById(R.id.tem_hum_btn_lay);//===温湿度布局===王
 		devices_choice_lay = (View)mView.findViewById(R.id.devices_choice_lay); 
 		act_choice_lay = (View)mView.findViewById(R.id.act_choice_lay);
 		devices_notype_lay = (View)mView.findViewById(R.id.devices_notype_lay); 
@@ -97,6 +105,8 @@ public class LinkageDetailFragment extends Fragment implements
 		devices_trg_lay = (View)mView.findViewById(R.id.devices_trg_lay);
 		act_onoff_lay = (View)mView.findViewById(R.id.act_onoff_lay);
 		act_photo_lay = (View)mView.findViewById(R.id.act_photo_lay);
+		tem_btn = (Button)mView.findViewById(R.id.tem_btn);//===温度按钮====王
+		hum_btn = (Button)mView.findViewById(R.id.hum_btn);//===温度按钮====王
 		devices_bt_btn = (Button)mView.findViewById(R.id.devices_bt_btn);
 		devices_eq_btn = (Button)mView.findViewById(R.id.devices_eq_btn); 
 		devices_lt_btn = (Button)mView.findViewById(R.id.devices_lt_btn);
@@ -118,6 +128,7 @@ public class LinkageDetailFragment extends Fragment implements
 			}else{
 				actDevices = DataUtil.getDeviceModelByIeee(linkageAct.getIeee(), mDataHelper, mDataHelper.getSQLiteDatabase());
 			}
+			show_cho = 0;//=======选择编辑联动列表，显示温湿度=====0811======王
 			initLinkageDetailData();
 		}
 		setListeners();
@@ -178,6 +189,34 @@ public class LinkageDetailFragment extends Fragment implements
 				MyApplicationFragment.getInstance().addFragment(mLinkageAddFragment);
 			}
 		});
+		
+		tem_btn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				tem_hum = 0;//====0表示温度====王
+				devices_temp_lay.setVisibility(View.VISIBLE);
+				devices_notype_lay.setVisibility(View.GONE);
+				devices_trg_lay.setVisibility(View.GONE);
+				tem_hum_btn_lay.setVisibility(View.GONE);
+				tem_hum_label.setText("°C");
+			}
+		});
+		hum_btn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				tem_hum = 1;//====1表示湿度====王
+				devices_temp_lay.setVisibility(View.VISIBLE);
+				devices_notype_lay.setVisibility(View.GONE);
+				devices_trg_lay.setVisibility(View.GONE);
+				tem_hum_btn_lay.setVisibility(View.GONE);
+				tem_hum_label.setText("%");
+			}
+		});
+		
 		devices_bt_btn.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -274,7 +313,10 @@ public class LinkageDetailFragment extends Fragment implements
 //			trgcnd += "Fire@eq@0";
 			trgcnd += "alarm@eq@0";
 		}else if(trgDevices.getmModelId().indexOf((DataHelper.Indoor_temperature_sensor)) == 0){ //温湿度感应器Z711
-			trgcnd += "temp@" + SPINNER_SIGN_DATA[temp] + "@" + devices_data_edit.getText().toString();	
+			if(tem_hum == 0)
+				trgcnd += "temp@" + SPINNER_SIGN_DATA[temp] + "@" + devices_data_edit.getText().toString();	
+			else
+				trgcnd += "hum@" + SPINNER_SIGN_DATA[temp] + "@" + devices_data_edit.getText().toString();
 		}
 		return trgcnd;
 	}
@@ -406,11 +448,13 @@ public class LinkageDetailFragment extends Fragment implements
 				trgDevices.getmDeviceId(), trgDevices.getmModelId()));
 		devices_txt.setText(trgDevices.getmDefaultDeviceName());
 		if(trgDevices.getmModelId().indexOf((DataHelper.Indoor_temperature_sensor)) == 0){
-			devices_temp_lay.setVisibility(View.VISIBLE);
-			devices_notype_lay.setVisibility(View.GONE);
-			devices_trg_lay.setVisibility(View.GONE);
-			if(linkage_type == 2){
+			if(linkage_type == 2&&show_cho == 0){
+				//===如果是编辑联动，则显示原来设定的温度湿度值====0811==添加show_cho
 				LinkageCnd linkageCnd = new LinkageCnd(mLinkage.getTrgcnd());
+				tem_hum_btn_lay.setVisibility(View.GONE);
+				devices_temp_lay.setVisibility(View.VISIBLE);
+				devices_notype_lay.setVisibility(View.GONE);
+				devices_trg_lay.setVisibility(View.GONE);
 				if(linkageCnd.getMark().equals("bt")){
 					temp = 0;
 					devices_bt_btn.setBackgroundResource(R.drawable.ui2_linkage_button_press);
@@ -428,13 +472,19 @@ public class LinkageDetailFragment extends Fragment implements
 					devices_lt_btn.setBackgroundResource(R.drawable.ui2_linkage_button_press);
 				}
 				devices_data_edit.setText(linkageCnd.getData());
-			}else{
-				temp = 0;
+				if(tem_hum == 0) tem_hum_label.setText("°C");
+				else tem_hum_label.setText("%");
+			}else{//====如果是添加联动，则显示温度湿度按钮
+				tem_hum_btn_lay.setVisibility(View.VISIBLE);
+				devices_temp_lay.setVisibility(View.GONE);
+				devices_notype_lay.setVisibility(View.GONE);
+				devices_trg_lay.setVisibility(View.GONE);
 			}
 		}else{
 			devices_trg_lay.setVisibility(View.VISIBLE);
 			devices_temp_lay.setVisibility(View.GONE);
 			devices_notype_lay.setVisibility(View.GONE);
+			tem_hum_btn_lay.setVisibility(View.GONE);
 		}
 	}
 

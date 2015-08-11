@@ -66,6 +66,7 @@ public class LinkageDevicesAddFragment extends Fragment {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				// TODO Auto-generated method stub
+				LinkageDetailFragment.show_cho = 1;//==========等于1表示是从设备列表中进行选择====王==0811
 				if(AddType == 1){
 					mAddChecked.AddTrgCheckedDevices(mLinkageDevicesAddList.get(arg2));
 				}

@@ -273,7 +273,11 @@ public class LinkageDetailActivity extends MyActionBarActivity implements
 		}else if(actDevices.getmModelId().equals(DataHelper.Smoke_Detectors)){ //烟雾感应器ZA01A
 			trgcnd += "Fire@eq@0";
 		}else if(actDevices.getmModelId().equals(DataHelper.Indoor_temperature_sensor)){ //温湿度感应器Z711
-			trgcnd += "temp" + SPINNER_SIGN_DATA[spinner_trg_type.getSelectedItemPosition()] + edit_trg_data.getText().toString();	
+			//trgcnd += "temp" + SPINNER_SIGN_DATA[spinner_trg_type.getSelectedItemPosition()] + edit_trg_data.getText().toString();	
+			if(LinkageDetailFragment.tem_hum == 0)
+				trgcnd += "temp@" + SPINNER_SIGN_DATA[spinner_trg_type.getSelectedItemPosition()] + edit_trg_data.getText().toString();	
+			else
+				trgcnd += "hum@" + SPINNER_SIGN_DATA[spinner_trg_type.getSelectedItemPosition()] + edit_trg_data.getText().toString();
 		}
 		return trgcnd;
 	}
