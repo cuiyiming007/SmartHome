@@ -775,8 +775,9 @@ public class CallbackManager extends Manger {
 				}
 				int lid4 = (Integer) jsonRsponse.get("lid");
 				int enable4 = (Integer) jsonRsponse.get("enable");
+				int[] temp = {lid4, enable4};
 				Event event4 = new Event(EventType.ENABLELINKAGE, true);
-				event4.setData(enable4);
+				event4.setData(temp);
 
 				SQLiteDatabase mSqLiteDatabase4 = mDateHelper
 						.getSQLiteDatabase();
