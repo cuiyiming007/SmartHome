@@ -129,11 +129,38 @@
 		            android:gravity="bottom|end"
 		            android:text="0"/>
 		        <TextView
+		            android:id="@+id/tem_hum_label"
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:textSize="14sp"
 		            android:text="°C"/>
 		    </LinearLayout> 
+		    
+		<!-- 温湿度按钮===王晓飞 -->
+			<LinearLayout
+		        android:id="@+id/tem_hum_btn_lay"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:visibility="gone"
+		        android:layout_marginTop="10dp"
+		        android:layout_marginRight="10dp"
+		        android:orientation="horizontal">
+		        <Button 
+		            android:id="@+id/tem_btn"
+		            android:layout_width="55dp"
+		            android:layout_height="35dp"
+		            android:text="温度"
+		            android:layout_marginLeft="5dp"
+		            android:background="@drawable/ui2_linkage_button_press"/>
+		        <Button 
+		            android:id="@+id/hum_btn"
+		            android:layout_width="55dp"
+		            android:layout_height="35dp"
+		            android:text="湿度"
+		            android:layout_marginLeft="5dp"
+		            android:background="@drawable/ui2_linkage_button_press"/>
+		    </LinearLayout> 
+		
 		    <LinearLayout
 		        android:id="@+id/devices_trg_lay"
 		        android:layout_width="match_parent"
