@@ -306,6 +306,10 @@ public class VideoManager extends Manger {
 					} catch (UnsupportedEncodingException e) {
 						e.printStackTrace();
 					}
+					if (videoNode.getIpc_status() == null
+							|| videoNode.getIpc_status().length() <= 0) {
+						videoNode.setIpc_status("a");
+					}
 				}
 			}
 			return videoNodesFromSever;
