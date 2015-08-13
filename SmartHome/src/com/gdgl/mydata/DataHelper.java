@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.gdgl.model.ContentValuesListener;
 import com.gdgl.model.DevicesModel;
+import com.gdgl.mydata.Callback.CallbackIpcLinkage;
 import com.gdgl.mydata.Callback.CallbackWarnMessage;
 import com.gdgl.mydata.Region.GetRoomInfo_response;
 import com.gdgl.mydata.Region.Room;
@@ -86,7 +87,10 @@ public class DataHelper extends SQLiteOpenHelper {
 	public static final String GATEWAY_TABLE = "gateway_table";
 	public static final String LINKAGE_TABLE = "linkage_table";
 	public static final String TIMINGACTION_TABLE = "timingaction_table";
-	public static final int DATEBASE_VERSTION = 5;
+	public static final String IPC_LINKAGE_TABLE = "ipc_linkage_table";
+
+	public static final String RF_DEVICES_TABLE = "rf_devices_table";
+	public static final int DATEBASE_VERSTION = 6;
 
 	public StringBuilder deviceStringBuilder;
 	public StringBuilder sceneStringBuilder;
@@ -98,6 +102,8 @@ public class DataHelper extends SQLiteOpenHelper {
 	public StringBuilder gatewayStringBuilder;
 	public StringBuilder linkageStringBuilder;
 	public StringBuilder timingactionStringBuilder;
+	public StringBuilder ipc_linkageStringBuilder;
+	public StringBuilder rfdeviceStringBuilder;
 
 	// public SQLiteDatabase db;
 
@@ -113,6 +119,8 @@ public class DataHelper extends SQLiteOpenHelper {
 		gatewayStringBuilder = new StringBuilder();
 		linkageStringBuilder = new StringBuilder();
 		timingactionStringBuilder = new StringBuilder();
+		ipc_linkageStringBuilder = new StringBuilder();
+		rfdeviceStringBuilder = new StringBuilder();
 		// db = getWritableDatabase();
 		// TODO Auto-generated constructor stub
 	}
@@ -314,6 +322,93 @@ public class DataHelper extends SQLiteOpenHelper {
 				+ " VARCHAR,");
 		timingactionStringBuilder.append(TimingAction.TIMING_ENABLE
 				+ " INTEGER)");
+
+		// ipc_linkage table create string
+		ipc_linkageStringBuilder.append("CREATE TABLE " + IPC_LINKAGE_TABLE
+				+ " (");
+		ipc_linkageStringBuilder.append("_id"
+				+ " INTEGER PRIMARY KEY AUTOINCREMENT,");
+		ipc_linkageStringBuilder.append(CallbackIpcLinkage.GATEWAYMAC
+				+ " VARCHAR,");
+		ipc_linkageStringBuilder.append(CallbackIpcLinkage.TYPE + " INTEGER,");
+		ipc_linkageStringBuilder.append(CallbackIpcLinkage.DEVICE_IEEE
+				+ " VARCHAR,");
+		ipc_linkageStringBuilder.append(CallbackIpcLinkage.DEVICE_NAME
+				+ " VARCHAR,");
+		ipc_linkageStringBuilder.append(CallbackIpcLinkage.DEVICE_PIC
+				+ " VARCHAR,");
+		ipc_linkageStringBuilder
+				.append(CallbackIpcLinkage.IPC_ID + " INTEGER,");
+		ipc_linkageStringBuilder.append(CallbackIpcLinkage.IPC_NAME
+				+ " VARCHAR,");
+		ipc_linkageStringBuilder.append(CallbackIpcLinkage.TIME + " VARCHAR,");
+		ipc_linkageStringBuilder.append(CallbackIpcLinkage.PICCOUNT
+				+ " INTEGER,");
+		ipc_linkageStringBuilder.append(CallbackIpcLinkage.PICNAME
+				+ " VARCHAR)");
+
+		// rf_devices table create string
+		rfdeviceStringBuilder.append("CREATE TABLE " + RF_DEVICES_TABLE + " (");
+		rfdeviceStringBuilder.append(DevicesModel._ID
+				+ " INTEGER PRIMARY KEY AUTOINCREMENT,");
+		rfdeviceStringBuilder.append(DevicesModel.ALL_COUNT + " VARCHAR,");
+		rfdeviceStringBuilder.append(DevicesModel.CURCOUNT + " VARCHAR,");
+		rfdeviceStringBuilder.append(DevicesModel.DEVICE_ID + " INTEGER,");
+		rfdeviceStringBuilder.append(DevicesModel.R_ID + " VARCHAR,");
+		rfdeviceStringBuilder.append(DevicesModel.PIC_NAME + " VARCHAR,");
+		rfdeviceStringBuilder.append(DevicesModel.PROFILE_ID + " VARCHAR,");
+		rfdeviceStringBuilder.append(DevicesModel.POWER_RESOURCE + " VARCHAR,");
+		rfdeviceStringBuilder.append(DevicesModel.CUR_POWER_RESOURCE
+				+ " VARCHAR,");
+		rfdeviceStringBuilder.append(DevicesModel.CURPOWERSOURCELEVEL
+				+ " VARCHAR,");
+
+		rfdeviceStringBuilder.append(DevicesModel.IEEE + " VARCHAR(16),");
+		rfdeviceStringBuilder.append(DevicesModel.NWK_ADDR + " VARCHAR,");
+		rfdeviceStringBuilder.append(DevicesModel.NODE_EN_NAME + " VARCHAR,");
+		rfdeviceStringBuilder.append(DevicesModel.MANUFACTORY + " VARCHAR,");
+		rfdeviceStringBuilder.append(DevicesModel.ZCL_VERSTION + " VARCHAR,");
+		rfdeviceStringBuilder.append(DevicesModel.STACK_VERSTION + " VARCHAR,");
+		rfdeviceStringBuilder.append(DevicesModel.APP_VERSTION + " VARCHAR,");
+		rfdeviceStringBuilder.append(DevicesModel.HW_VERSTION + " VARCHAR,");
+		rfdeviceStringBuilder.append(DevicesModel.DATE_CODE + " VARCHAR,");
+		rfdeviceStringBuilder.append(DevicesModel.MODEL_ID + " VARCHAR,");
+		rfdeviceStringBuilder.append(DevicesModel.NODE_TYPE + " VARCHAR,");
+		rfdeviceStringBuilder.append(DevicesModel.NODE_STATUS + " INTEGER,");
+
+		rfdeviceStringBuilder.append(DevicesModel.EP + " VARCHAR(2),");
+		rfdeviceStringBuilder.append(DevicesModel.NAME + " VARCHAR,");
+		rfdeviceStringBuilder.append(DevicesModel.CURRENT + " VARCHAR,");
+		rfdeviceStringBuilder.append(DevicesModel.ENERGY + " VARCHAR,");
+		rfdeviceStringBuilder.append(DevicesModel.POWER + " VARCHAR,");
+		rfdeviceStringBuilder.append(DevicesModel.VOLTAGE + " VARCHAR,");
+		rfdeviceStringBuilder.append(DevicesModel.LEVEL + " VARCHAR,");
+		rfdeviceStringBuilder.append(DevicesModel.ON_OFF_STATUS
+				+ " VARCHAR(1),");
+		rfdeviceStringBuilder.append(DevicesModel.TEMPERATURE + " FLOAT,");
+		rfdeviceStringBuilder.append(DevicesModel.HUMIDITY + " FLOAT,");
+		rfdeviceStringBuilder.append(DevicesModel.BRIGHTNESS + " INTEGER,");
+		rfdeviceStringBuilder.append(DevicesModel.EP_MODEL_ID + " VARCHAR(6),");
+
+		rfdeviceStringBuilder.append(DevicesModel.CURRENT_MAX + " VARCHAR,");
+		rfdeviceStringBuilder.append(DevicesModel.CURRENT_MIN + " VARCHAR,");
+		rfdeviceStringBuilder.append(DevicesModel.VOLTAGE_MAX + " VARCHAR,");
+		rfdeviceStringBuilder.append(DevicesModel.VOLTAGE_MIN + " VARCHAR,");
+		rfdeviceStringBuilder.append(DevicesModel.ENERGY_MAX + " VARCHAR,");
+		rfdeviceStringBuilder.append(DevicesModel.ENERGY_MIN + " VARCHAR,");
+
+		rfdeviceStringBuilder.append(DevicesModel.CLUSTER_ID + " VARCHAR,");
+		rfdeviceStringBuilder.append(DevicesModel.DEVICE_SORT + " INTEGER,");
+		rfdeviceStringBuilder.append(DevicesModel.DEVICE_REGION + " VARCHAR,");
+		rfdeviceStringBuilder.append(DevicesModel.DEFAULT_DEVICE_NAME
+				+ " VARCHAR,");
+		rfdeviceStringBuilder
+				.append(DevicesModel.DEVICE_PRIORITY + " INTEGER,");
+
+		rfdeviceStringBuilder.append(DevicesModel.LAST_UPDATE_TIME
+				+ " INTEGER,");
+		rfdeviceStringBuilder.append(DevicesModel.HEART_TIME + " INTEGER,");
+		rfdeviceStringBuilder.append(DevicesModel.ON_OFF_LINE + " INTEGER )");
 	}
 
 	@Override
@@ -331,8 +426,8 @@ public class DataHelper extends SQLiteOpenHelper {
 		db.execSQL(gatewayStringBuilder.toString());
 		db.execSQL(linkageStringBuilder.toString());
 		db.execSQL(timingactionStringBuilder.toString());
-		// Log.i("roominfoStringBuilder", "zgs-> " +
-		// roominfoStringBuilder.toString());
+		db.execSQL(ipc_linkageStringBuilder.toString());
+		db.execSQL(rfdeviceStringBuilder.toString());
 	}
 
 	@Override
@@ -348,6 +443,8 @@ public class DataHelper extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE IF EXISTS " + GATEWAY_TABLE);
 		db.execSQL("DROP TABLE IF EXISTS " + LINKAGE_TABLE);
 		db.execSQL("DROP TABLE IF EXISTS " + TIMINGACTION_TABLE);
+		db.execSQL("DROP TABLE IF EXISTS " + IPC_LINKAGE_TABLE);
+		db.execSQL("DROP TABLE IF EXISTS " + RF_DEVICES_TABLE);
 		onCreate(db);
 	}
 

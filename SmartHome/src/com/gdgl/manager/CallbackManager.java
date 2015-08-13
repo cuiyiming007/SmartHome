@@ -491,6 +491,10 @@ public class CallbackManager extends Manger {
 				}
 				mSqLiteDatabase4.close();
 				break;
+			case 6: //ipc screenshot
+				String ipc_screenshot = (String) jsonRsponse.get("pic_name");
+				
+				break;
 			default:
 				break;
 			}

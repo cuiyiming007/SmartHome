@@ -1,8 +1,11 @@
 package com.gdgl.manager;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.os.AsyncTask;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -10,7 +13,13 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.StringRequest;
 import com.gdgl.app.ApplicationController;
+import com.gdgl.mydata.DataHelper;
+import com.gdgl.mydata.Event;
+import com.gdgl.mydata.EventType;
+import com.gdgl.mydata.RespondDataEntity;
+import com.gdgl.mydata.ResponseParamsEndPoint;
 import com.gdgl.network.StringRequestChina;
+import com.gdgl.network.VolleyOperation;
 import com.gdgl.util.NetUtil;
 
 public class RfCGIManager extends Manger{
@@ -34,7 +43,7 @@ public class RfCGIManager extends Manger{
 					@Override
 					public void onResponse(String response) {
 						// TODO Auto-generated method stub
-						
+						new GetRFDevListTask().execute(response);
 					}
 				}, new ErrorListener() {
 
@@ -71,4 +80,25 @@ public class RfCGIManager extends Manger{
 	}
 	
 	
+	
+	
+	
+	class GetRFDevListTask extends AsyncTask<String, Object, Object> {
+		@Override
+		protected Object doInBackground(String... params) {
+			RespondDataEntity<ResponseParamsEndPoint> data = VolleyOperation
+					.handleEndPointString(params[0]);
+			ArrayList<ResponseParamsEndPoint> devDataList = data
+					.getResponseparamList();
+
+			DataHelper mDateHelper = new DataHelper(
+					ApplicationController.getInstance());
+			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
+
+			mDateHelper.emptyTable(mSQLiteDatabase,DataHelper.RF_DEVICES_TABLE);
+			mDateHelper.insertEndPointList(mSQLiteDatabase,DataHelper.RF_DEVICES_TABLE, null, devDataList);
+			mSQLiteDatabase.close();
+			return devDataList;
+		}
+	}
 }

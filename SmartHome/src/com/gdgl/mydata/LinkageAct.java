@@ -20,11 +20,16 @@ public class LinkageAct{
 		if(actdata != null){
 			String[] act = actdata.split(":");
 			type = act[0];
-			if(act[1].indexOf("-") > 0){
+			if(act[1].contains("-")){
 				String[] act_data = act[1].split("-");
-				ieee = act_data[0];
-				ep = act_data[1];
-				arm = act_data[2];
+				if(act_data.length > 2){
+					ieee = act_data[0];
+					ep = act_data[1];
+					arm = act_data[2];
+				}else{
+					ieee = act_data[0];
+					ep = act_data[1];
+				}
 			}else{
 				ieee = act[1];
 			}
