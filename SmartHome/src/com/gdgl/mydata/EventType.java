@@ -55,6 +55,7 @@ public class EventType {
 	public static final EventType BEGINAPPLYIR;
 	public static final EventType DELETEIR;
 	public static final EventType WARN;
+	public static final EventType IPC_LINKAGE_MSG;
 	public static final EventType GETDEVICELEARNED;
 	public static final EventType SCAPEDDEVICE;
 
@@ -138,6 +139,7 @@ public class EventType {
 		BEGINAPPLYIR = new EventType("beginApplyIR", nextId());
 		DELETEIR = new EventType("deleteIR", nextId());
 		WARN = new EventType("warm", nextId());
+		IPC_LINKAGE_MSG = new EventType("ipc_linkage_msg", nextId());
 		GETDEVICELEARNED = new EventType("GetDeviceLearned", nextId());
 		SCAPEDDEVICE = new EventType("ScapedDevice", nextId());
 

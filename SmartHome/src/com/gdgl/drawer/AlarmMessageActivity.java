@@ -1,6 +1,7 @@
 package com.gdgl.drawer;
 
 import com.gdgl.activity.MessageListFragment;
+import com.gdgl.activity.MessageTabFragment;
 import com.gdgl.activity.MyActionBarActivity;
 import com.gdgl.smarthome.R;
 
@@ -27,7 +28,7 @@ public class AlarmMessageActivity extends MyActionBarActivity {
 		mActionBar.setDisplayShowTitleEnabled(true);
 		mActionBar.setTitle("消息管理");
 		
-		final MessageListFragment mfragent = new MessageListFragment();
+		final MessageTabFragment mfragent = new MessageTabFragment();
 		mToolbar.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 
 			@Override
@@ -35,7 +36,7 @@ public class AlarmMessageActivity extends MyActionBarActivity {
 				// TODO Auto-generated method stub
 				switch (item.getItemId()) {
 				case R.id.menu_delete:
-					mfragent.deleteClick();
+					mfragent.clickDelete();
 					break;
 
 				default:

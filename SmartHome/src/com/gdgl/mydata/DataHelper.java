@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.gdgl.model.ContentValuesListener;
 import com.gdgl.model.DevicesModel;
-import com.gdgl.mydata.Callback.CallbackIpcLinkage;
+import com.gdgl.mydata.Callback.CallbackIpcLinkageMessage;
 import com.gdgl.mydata.Callback.CallbackWarnMessage;
 import com.gdgl.mydata.Region.GetRoomInfo_response;
 import com.gdgl.mydata.Region.Room;
@@ -328,23 +328,25 @@ public class DataHelper extends SQLiteOpenHelper {
 				+ " (");
 		ipc_linkageStringBuilder.append("_id"
 				+ " INTEGER PRIMARY KEY AUTOINCREMENT,");
-		ipc_linkageStringBuilder.append(CallbackIpcLinkage.GATEWAYMAC
+		ipc_linkageStringBuilder.append(CallbackIpcLinkageMessage.GATEWAYMAC
 				+ " VARCHAR,");
-		ipc_linkageStringBuilder.append(CallbackIpcLinkage.TYPE + " INTEGER,");
-		ipc_linkageStringBuilder.append(CallbackIpcLinkage.DEVICE_IEEE
+		ipc_linkageStringBuilder.append(CallbackIpcLinkageMessage.TYPE + " INTEGER,");
+		ipc_linkageStringBuilder.append(CallbackIpcLinkageMessage.DEVICE_IEEE
 				+ " VARCHAR,");
-		ipc_linkageStringBuilder.append(CallbackIpcLinkage.DEVICE_NAME
+		ipc_linkageStringBuilder.append(CallbackIpcLinkageMessage.DEVICE_NAME
 				+ " VARCHAR,");
-		ipc_linkageStringBuilder.append(CallbackIpcLinkage.DEVICE_PIC
+		ipc_linkageStringBuilder.append(CallbackIpcLinkageMessage.DEVICE_PIC
 				+ " VARCHAR,");
 		ipc_linkageStringBuilder
-				.append(CallbackIpcLinkage.IPC_ID + " INTEGER,");
-		ipc_linkageStringBuilder.append(CallbackIpcLinkage.IPC_NAME
+				.append(CallbackIpcLinkageMessage.IPC_ID + " INTEGER,");
+		ipc_linkageStringBuilder.append(CallbackIpcLinkageMessage.IPC_NAME
 				+ " VARCHAR,");
-		ipc_linkageStringBuilder.append(CallbackIpcLinkage.TIME + " VARCHAR,");
-		ipc_linkageStringBuilder.append(CallbackIpcLinkage.PICCOUNT
+		ipc_linkageStringBuilder.append(CallbackIpcLinkageMessage.TIME + " VARCHAR,");
+		ipc_linkageStringBuilder.append(CallbackIpcLinkageMessage.PICCOUNT
 				+ " INTEGER,");
-		ipc_linkageStringBuilder.append(CallbackIpcLinkage.PICNAME
+		ipc_linkageStringBuilder.append(CallbackIpcLinkageMessage.PICNAME
+				+ " VARCHAR,");
+		ipc_linkageStringBuilder.append(CallbackIpcLinkageMessage.DESCRIPTION
 				+ " VARCHAR)");
 
 		// rf_devices table create string

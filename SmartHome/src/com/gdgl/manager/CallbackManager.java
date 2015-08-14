@@ -2,7 +2,9 @@ package com.gdgl.manager;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.json.JSONException;
@@ -14,6 +16,7 @@ import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -33,6 +36,7 @@ import com.gdgl.mydata.Callback.CallbackBeginLearnIRMessage;
 import com.gdgl.mydata.Callback.CallbackBindListDevices;
 import com.gdgl.mydata.Callback.CallbackBindListMessage;
 import com.gdgl.mydata.Callback.CallbackEnrollMessage;
+import com.gdgl.mydata.Callback.CallbackIpcLinkageMessage;
 import com.gdgl.mydata.Callback.CallbackJoinNetMessage;
 import com.gdgl.mydata.Callback.CallbackResponseCommon;
 import com.gdgl.mydata.Callback.CallbackResponseType2;
@@ -492,8 +496,14 @@ public class CallbackManager extends Manger {
 				mSqLiteDatabase4.close();
 				break;
 			case 6: //ipc screenshot
+				//{"msgtype":0,"mainid":2,"subid":6,"status":0,"pic_count":1,"pic_name":"1439456470_00137A000001222D_0_1.jpg"}
 				String ipc_screenshot = (String) jsonRsponse.get("pic_name");
-				
+				int ipc_count = (Integer) jsonRsponse.get("pic_count");
+				CallbackIpcLinkageMessage message6 = new CallbackIpcLinkageMessage();
+				message6.setPicCount(ipc_count);
+				message6.setPicName(ipc_screenshot);
+				message6.setType(1);
+				new HanderIpcLinkageMessageTask().execute(message6);
 				break;
 			default:
 				break;
@@ -869,7 +879,7 @@ public class CallbackManager extends Manger {
 		event.setData(warnmessage);
 		notifyObservers(event);
 	}
-
+	
 	/***
 	 * 根据attributeId 和clusterId来确定操作是什么，发送event，刷新UI
 	 * 
@@ -1245,6 +1255,76 @@ public class CallbackManager extends Manger {
 		}
 	}
 
+	class HanderIpcLinkageMessageTask extends AsyncTask<CallbackIpcLinkageMessage, Void, CallbackIpcLinkageMessage> {
+
+		@Override
+		protected CallbackIpcLinkageMessage doInBackground(CallbackIpcLinkageMessage... params) {
+			// TODO Auto-generated method stub
+			//pic_name":"1439456470_00137A000001222D_0_1.jpg"
+			SQLiteDatabase db = mDateHelper.getSQLiteDatabase();
+			
+			CallbackIpcLinkageMessage message = params[0];
+			String picNameString = message.getPicName();
+			String[] temp = picNameString.split("_");
+			//1439456470 时间戳
+			Date date = new Date(Integer.parseInt(temp[0]));
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			message.setTime(format.format(date));
+			//00137A000001222D device ieee
+			message.setDeviceIeee(temp[1]);
+			
+			String[] columns = { DevicesModel.PIC_NAME,
+					DevicesModel.DEFAULT_DEVICE_NAME };
+			String where = " ieee=? ";
+			String[] args = { temp[1] };
+			Cursor cursor = mDateHelper.query(db, DataHelper.DEVICES_TABLE,
+					columns, where, args, null, null, null, null);
+			String picSource = "";
+			String deviceName = "";
+			while (cursor.moveToNext()) {
+				deviceName = cursor.getString(cursor
+						.getColumnIndex(DevicesModel.DEFAULT_DEVICE_NAME));
+				picSource = cursor.getString(cursor
+						.getColumnIndex(DevicesModel.PIC_NAME));
+			}
+			cursor.close();
+			message.setDeviceName(deviceName);
+			message.setDevicePic(picSource);
+			//0 video id
+			message.setIpcId(Integer.parseInt(temp[2]));
+			String[] columns1 = { VideoNode.ALIAS };
+			String where1 = " id=? ";
+			String[] args1 = { temp[2] };
+			Cursor cursor1 = mDateHelper.query(db, DataHelper.VIDEO_TABLE,
+					columns1, where1, args1, null, null, null, null);
+			String ipc_name = "";
+			while (cursor1.moveToNext()) {
+				ipc_name = cursor1.getString(cursor
+						.getColumnIndex(VideoNode.ALIAS));
+			}
+			cursor.close();
+			message.setIpcName(ipc_name);
+			message.setPicName(picNameString.substring(0, picNameString.length()-1));
+			message.setDescription("联动 "+ ipc_name+ " 截图.");
+			
+			long id = db.insert(DataHelper.IPC_LINKAGE_TABLE, null, message.convertContentValues());
+			
+			db.close();
+			
+			message.setId(id+"");
+			
+			Intent i = new Intent(ApplicationController.getInstance(),
+					AlarmMessageActivity.class);
+			makeNotify(i, message.getDeviceName(),
+					message.getDescription());
+			
+			Event event = new Event(EventType.IPC_LINKAGE_MSG, true);
+			event.setData(message);
+			notifyObservers(event);
+			return null;
+		}
+		
+	}
 	private long updateWarnMessage(CallbackWarnMessage warnmessage) {
 		long _id = -1;
 		DataHelper mDateHelper = new DataHelper(

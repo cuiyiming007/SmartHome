@@ -18,9 +18,11 @@ interface CallbackIpcLinkageColumns extends BaseColumns {
 	public static final String TIME = "time";
 	public static final String PICCOUNT = "pic_count";
 	public static final String PICNAME = "pic_name";
+	public static final String DESCRIPTION = "description";
 }
 
-public class CallbackIpcLinkage implements CallbackIpcLinkageColumns {
+public class CallbackIpcLinkageMessage implements CallbackIpcLinkageColumns {
+	private String id;
 	private int type;
 	private String ieee;
 	private String device_name;
@@ -30,7 +32,15 @@ public class CallbackIpcLinkage implements CallbackIpcLinkageColumns {
 	private String time;
 	private int pic_count;
 	private String pic_name;
+	private String description;
 	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	public int getType() {
 		return type;
 	}
@@ -94,6 +104,13 @@ public class CallbackIpcLinkage implements CallbackIpcLinkageColumns {
 		this.pic_name = pic_name;
 	}
 	
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
 	public ContentValues convertContentValues() {
 		ContentValues mContentValues = new ContentValues();
 		getFromSharedPreferences.setsharedPreferences(ApplicationController.getInstance());
@@ -108,6 +125,7 @@ public class CallbackIpcLinkage implements CallbackIpcLinkageColumns {
 		mContentValues.put(TIME, time);
 		mContentValues.put(PICCOUNT, pic_count);
 		mContentValues.put(PICNAME, pic_name);
+		mContentValues.put(DESCRIPTION, description);
 		return mContentValues;
 	}
 }

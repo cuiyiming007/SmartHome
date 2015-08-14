@@ -12,6 +12,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.gdgl.app.ApplicationController;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
+import com.gdgl.mydata.Callback.CallbackIpcLinkageMessage;
 import com.gdgl.mydata.Callback.CallbackWarnMessage;
 import com.gdgl.mydata.Region.Room;
 import com.gdgl.smarthome.R;
@@ -817,16 +818,6 @@ public class DataUtil {
 		listDevicesModel = dh.queryForDevicesList(db, DataHelper.DEVICES_TABLE,
 				null, where, args, null, null, DevicesModel.DEVICE_PRIORITY, null);
 		dh.close(db);
-//		if (null != listDevicesModel && listDevicesModel.size() > 0) {
-//			for (DevicesModel devicesModel : listDevicesModel) {
-//				if (null == devicesModel.getmDefaultDeviceName()
-//						|| devicesModel.getmDefaultDeviceName().trim()
-//								.equals("")) {
-//					devicesModel.setmDefaultDeviceName(getDefaultDevicesName(c,
-//							devicesModel.getmModelId(), devicesModel.getmEP()));
-//				}
-//			}
-//		}
 
 		return listDevicesModel;
 
@@ -840,9 +831,10 @@ public class DataUtil {
 		List<CallbackWarnMessage> mList = new ArrayList<CallbackWarnMessage>();
 		Cursor cursor = null;
 		SQLiteDatabase db = dh.getSQLiteDatabase();
+		// 排序方式  desc降序 asc升序
 		cursor = db.query(DataHelper.MESSAGE_TABLE, null,
 				CallbackWarnMessage.HOUSEIEEE + "='" + MAC + "'", null, null,
-				null, null, null);
+				null, CallbackWarnMessage.TIME + " DESC", null);
 		CallbackWarnMessage message;
 		while (cursor.moveToNext()) {
 			message = new CallbackWarnMessage();
@@ -881,7 +873,50 @@ public class DataUtil {
 			mList.add(message);
 		}
 		cursor.close();
-		// db.close();
+		db.close();
+		return mList;
+
+	}
+	
+	public static List<CallbackIpcLinkageMessage> getIpcLinkageMessage(Context c,
+			DataHelper dh) {
+		getFromSharedPreferences.setsharedPreferences(ApplicationController
+				.getInstance());
+		String MAC = getFromSharedPreferences.getGatewayMAC();
+		List<CallbackIpcLinkageMessage> mList = new ArrayList<CallbackIpcLinkageMessage>();
+		Cursor cursor = null;
+		SQLiteDatabase db = dh.getSQLiteDatabase();
+		// 排序方式  desc降序 asc升序
+		cursor = db.query(DataHelper.IPC_LINKAGE_TABLE, null,
+				CallbackIpcLinkageMessage.GATEWAYMAC + "='" + MAC + "'", null, null,
+				null, CallbackIpcLinkageMessage.TIME + " DESC", null);
+		CallbackIpcLinkageMessage message;
+		while (cursor.moveToNext()) {
+			message = new CallbackIpcLinkageMessage();
+			message.setId(cursor.getString(cursor
+					.getColumnIndex(CallbackIpcLinkageMessage._ID)));
+			message.setType(cursor.getInt(cursor
+					.getColumnIndex(CallbackIpcLinkageMessage.TYPE)));
+			message.setDeviceIeee(cursor.getString(cursor
+					.getColumnIndex(CallbackIpcLinkageMessage.DEVICE_IEEE)));
+			message.setDeviceName(cursor.getString(cursor
+					.getColumnIndex(CallbackIpcLinkageMessage.DEVICE_NAME)));
+			message.setDevicePic(cursor.getString(cursor
+					.getColumnIndex(CallbackIpcLinkageMessage.DEVICE_PIC)));
+			message.setIpcId(cursor.getInt(cursor
+					.getColumnIndex(CallbackIpcLinkageMessage.IPC_ID)));
+			message.setIpcName(cursor.getString(cursor
+					.getColumnIndex(CallbackIpcLinkageMessage.IPC_NAME)));
+			message.setTime(cursor.getString(cursor
+					.getColumnIndex(CallbackIpcLinkageMessage.TIME)));
+			message.setPicCount(cursor.getInt(cursor
+					.getColumnIndex(CallbackIpcLinkageMessage.PICCOUNT)));
+			message.setPicName(cursor.getString(cursor
+					.getColumnIndex(CallbackIpcLinkageMessage.PICNAME)));
+			mList.add(message);
+		}
+		cursor.close();
+		db.close();
 		return mList;
 
 	}
