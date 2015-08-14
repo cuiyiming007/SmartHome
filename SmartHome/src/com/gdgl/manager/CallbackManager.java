@@ -1267,29 +1267,29 @@ public class CallbackManager extends Manger {
 			String picNameString = message.getPicName();
 			String[] temp = picNameString.split("_");
 			//1439456470 时间戳
-			Date date = new Date(Integer.parseInt(temp[0]));
+			Date date = new Date((long)(Integer.parseInt(temp[0])) * 1000);
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			message.setTime(format.format(date));
 			//00137A000001222D device ieee
 			message.setDeviceIeee(temp[1]);
 			
-			String[] columns = { DevicesModel.PIC_NAME,
-					DevicesModel.DEFAULT_DEVICE_NAME };
-			String where = " ieee=? ";
-			String[] args = { temp[1] };
-			Cursor cursor = mDateHelper.query(db, DataHelper.DEVICES_TABLE,
-					columns, where, args, null, null, null, null);
-			String picSource = "";
-			String deviceName = "";
-			while (cursor.moveToNext()) {
-				deviceName = cursor.getString(cursor
-						.getColumnIndex(DevicesModel.DEFAULT_DEVICE_NAME));
-				picSource = cursor.getString(cursor
-						.getColumnIndex(DevicesModel.PIC_NAME));
-			}
-			cursor.close();
-			message.setDeviceName(deviceName);
-			message.setDevicePic(picSource);
+//			String[] columns = { DevicesModel.PIC_NAME,
+//					DevicesModel.DEFAULT_DEVICE_NAME };
+//			String where = " ieee=? ";
+//			String[] args = { temp[1] };
+//			Cursor cursor = mDateHelper.query(db, DataHelper.DEVICES_TABLE,
+//					columns, where, args, null, null, null, null);
+//			String picSource = "";
+//			String deviceName = "";
+//			while (cursor.moveToNext()) {
+//				deviceName = cursor.getString(cursor
+//						.getColumnIndex(DevicesModel.DEFAULT_DEVICE_NAME));
+//				picSource = cursor.getString(cursor
+//						.getColumnIndex(DevicesModel.PIC_NAME));
+//			}
+//			cursor.close();
+//			message.setDeviceName(deviceName);
+//			message.setDevicePic(picSource);
 			//0 video id
 			message.setIpcId(Integer.parseInt(temp[2]));
 			String[] columns1 = { VideoNode.ALIAS };
@@ -1299,10 +1299,10 @@ public class CallbackManager extends Manger {
 					columns1, where1, args1, null, null, null, null);
 			String ipc_name = "";
 			while (cursor1.moveToNext()) {
-				ipc_name = cursor1.getString(cursor
+				ipc_name = cursor1.getString(cursor1
 						.getColumnIndex(VideoNode.ALIAS));
 			}
-			cursor.close();
+			cursor1.close();
 			message.setIpcName(ipc_name);
 			message.setPicName(picNameString.substring(0, picNameString.length()-1));
 			message.setDescription("联动 "+ ipc_name+ " 截图.");
