@@ -14,10 +14,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.View.OnTouchListener;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -136,29 +135,28 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 		setDeviceControlText(getDeviceControlOnOff());
 
 		// 设备控制
-		device_controlButton
-				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-					@Override
-					public void onCheckedChanged(CompoundButton buttonView,
-							boolean isChecked) {
-						// TODO Auto-generated method stub
-						// setDeviceControlText(isChecked);
-						if (isChecked) {
-							if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
-								DeviceContorlOnOffClickDo(ON);
-							} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
-								DeviceContorlOnOffClickDo_Internet(ON);
-							}
-						} else {
-							if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
-								DeviceContorlOnOffClickDo(OFF);
-							} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
-								DeviceContorlOnOffClickDo_Internet(OFF);
-							}
-						}
+		device_controlButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Log.i("ToggleButton", "====================>change ");
+				if (device_controlButton.isChecked()) {
+					if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+						DeviceContorlOnOffClickDo(ON);
+					} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+						DeviceContorlOnOffClickDo_Internet(ON);
 					}
-				});
+				} else {
+					if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+						DeviceContorlOnOffClickDo(OFF);
+					} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+						DeviceContorlOnOffClickDo_Internet(OFF);
+					}
+				}
+			}
+		});
+
 		if (device_controlButton.isClickable()) {
 			device_controlButton.setOnTouchListener(new OnTouchListener() {
 				@Override
