@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.gdgl.smarthome"
     android:versionCode="1"
-    android:versionName="V1.1.1.150811" >
+    android:versionName="V1.1.1.150814" >
 
     <supports-screens
         android:anyDensity="true"
