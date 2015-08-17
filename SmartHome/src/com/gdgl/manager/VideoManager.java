@@ -293,7 +293,7 @@ public class VideoManager extends Manger {
 
 			mDateHelper.emptyTable(mSQLiteDatabase, DataHelper.VIDEO_TABLE);
 			ArrayList<VideoNode> videoNodesFromSever = decodeAlias2Chinese(response);
-			if (videoNodesFromSever != null) {
+			if(videoNodesFromSever!=null) {
 				mDateHelper.insertVideoList(mSQLiteDatabase,
 						DataHelper.VIDEO_TABLE, null, videoNodesFromSever);
 			}
@@ -303,9 +303,9 @@ public class VideoManager extends Manger {
 
 		private ArrayList<VideoNode> decodeAlias2Chinese(VideoResponse response) {
 			ArrayList<VideoNode> videoNodesFromSever = response.getList();
-			if (videoNodesFromSever != null) {
-				for (Iterator<VideoNode> iterator = videoNodesFromSever
-						.iterator(); iterator.hasNext();) {
+			if(videoNodesFromSever!=null) {
+				for (Iterator<VideoNode> iterator = videoNodesFromSever.iterator(); iterator
+						.hasNext();) {
 					VideoNode videoNode = (VideoNode) iterator.next();
 					try {
 						videoNode.setAliases(URLDecoder.decode(
