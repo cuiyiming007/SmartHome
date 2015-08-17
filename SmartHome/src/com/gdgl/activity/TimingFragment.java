@@ -33,8 +33,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -273,38 +271,36 @@ public class TimingFragment extends Fragment implements UIListener,
 				mHolder.devices_switch.setChecked(true);
 				mHolder.timing_state.setText("启用");
 			}
-			mHolder.devices_switch
-					.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-						@Override
-						public void onCheckedChanged(CompoundButton buttonView,
-								boolean isChecked) {
-							// TODO Auto-generated method stub
-							if (isChecked) {
-								mHolder.timing_state.setText("启用");
-								if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
-									SceneLinkageManager.getInstance()
-											.EnableTimeAction(1,
-													mTimingAction.getTid());
-								} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
-									LibjingleSendManager.getInstance()
-											.EnableTimeAction(1,
-													mTimingAction.getTid());
-								}
-							} else {
-								mHolder.timing_state.setText("未启用");
-								if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
-									SceneLinkageManager.getInstance()
-											.EnableTimeAction(0,
-													mTimingAction.getTid());
-								} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
-									LibjingleSendManager.getInstance()
-											.EnableTimeAction(0,
-													mTimingAction.getTid());
-								}
-							}
+			mHolder.devices_switch.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					if (mHolder.devices_switch.isChecked()) {
+						mHolder.timing_state.setText("启用");
+						if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+							SceneLinkageManager.getInstance()
+									.EnableTimeAction(1,
+											mTimingAction.getTid());
+						} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+							LibjingleSendManager.getInstance()
+									.EnableTimeAction(1,
+											mTimingAction.getTid());
 						}
-					});
+					} else {
+						mHolder.timing_state.setText("未启用");
+						if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+							SceneLinkageManager.getInstance()
+									.EnableTimeAction(0,
+											mTimingAction.getTid());
+						} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+							LibjingleSendManager.getInstance()
+									.EnableTimeAction(0,
+											mTimingAction.getTid());
+						}
+					}
+				}
+			});
 
 			return mView;
 		}

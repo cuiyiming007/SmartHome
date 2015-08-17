@@ -19,10 +19,9 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -129,12 +128,13 @@ public class LinkageAdapter extends BaseAdapter {
 		}else{
 			mViewHolder.switch_btn.setChecked(false);
 		}
-		mViewHolder.switch_btn.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		mViewHolder.switch_btn.setOnClickListener(new OnClickListener() {
 			
 			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if(isChecked){
+				Switch mSwitch = (Switch) v;
+				if(mSwitch.isChecked()){
 					if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
 						SceneLinkageManager.getInstance().EnableLinkage(1, linkage.getLid());
 					} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
@@ -147,7 +147,6 @@ public class LinkageAdapter extends BaseAdapter {
 						LibjingleSendManager.getInstance().EnableLinkage(0, linkage.getLid());
 					}
 				}
-				
 			}
 		});
 		
