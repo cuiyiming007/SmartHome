@@ -364,10 +364,10 @@ public class ScenesFragment extends Fragment implements UIListener,
 						// TODO Auto-generated method stub
 						if (sid < 0) {
 							if (sid == -1)
-								Toast.makeText(getActivity(), "全部布防 以应用",
+								Toast.makeText(getActivity(), "全部布防 已应用",
 										Toast.LENGTH_SHORT).show();
 							if (sid == -2)
-								Toast.makeText(getActivity(), "全部撤防 以应用",
+								Toast.makeText(getActivity(), "全部撤防 已应用",
 										Toast.LENGTH_SHORT).show();
 						} else {
 							for (int i = 0; i < mScenes.size(); i++) {
@@ -375,7 +375,7 @@ public class ScenesFragment extends Fragment implements UIListener,
 									Toast.makeText(
 											getActivity(),
 											mScenes.get(i).getScnname()
-													+ " 以应用",
+													+ " 已应用",
 											Toast.LENGTH_SHORT).show();
 									break;
 								}
