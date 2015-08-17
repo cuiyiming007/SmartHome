@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
 import com.gdgl.mydata.DataHelper;
@@ -58,6 +59,7 @@ public class MessageIpcLinkageFragment extends Fragment implements UIListener,
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		CallbackManager.getInstance().addObserver(this);
 		initData();
 	}
 
@@ -272,7 +274,7 @@ public class MessageIpcLinkageFragment extends Fragment implements UIListener,
 	@Override
 	public void update(Manger observer, Object object) {
 		final Event event = (Event) object;
-		if (EventType.WARN == event.getType()) {
+		if (EventType.IPC_LINKAGE_MSG == event.getType()) {
 			CallbackIpcLinkageMessage data = (CallbackIpcLinkageMessage) event
 					.getData();
 			// 让最新的message出现在最上面
@@ -282,7 +284,6 @@ public class MessageIpcLinkageFragment extends Fragment implements UIListener,
 				mList.add(0, data);
 			}
 			mCheckHashMap.put(data.getId(), false);
-			/* 闵伟add end */
 			messageListView.post(new Runnable() {
 				@Override
 				public void run() {
@@ -296,6 +297,7 @@ public class MessageIpcLinkageFragment extends Fragment implements UIListener,
 
 	@Override
 	public void onDestroy() {
+		CallbackManager.getInstance().deleteObserver(this);
 		super.onDestroy();
 	}
 

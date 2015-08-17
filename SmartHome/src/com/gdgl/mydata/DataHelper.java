@@ -722,7 +722,7 @@ public class DataHelper extends SQLiteOpenHelper {
 		Cursor cursor = null;
 		SQLiteDatabase db = dh.getSQLiteDatabase();
 		cursor = db.query(DataHelper.VIDEO_TABLE, null, null, null, null, null,
-				null, null);
+				VideoNode.ID, null);
 		VideoNode mVideoNode;
 		while (cursor.moveToNext()) {
 			mVideoNode = new VideoNode();
