@@ -131,32 +131,32 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 		tabs.setViewPager(pager);
 
 		// 设备控制布局
-		setDeviceControlLayout();
 		setDeviceControlText(getDeviceControlOnOff());
 
 		// 设备控制
-		device_controlButton.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Log.i("ToggleButton", "====================>change ");
-				if (device_controlButton.isChecked()) {
-					if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
-						DeviceContorlOnOffClickDo(ON);
-					} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
-						DeviceContorlOnOffClickDo_Internet(ON);
-					}
-				} else {
-					if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
-						DeviceContorlOnOffClickDo(OFF);
-					} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
-						DeviceContorlOnOffClickDo_Internet(OFF);
+		if (setDeviceControlLayout()) {
+			device_controlButton.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					Log.i("ToggleButton", "====================>change ");
+					if (device_controlButton.isChecked()) {
+						if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+							DeviceContorlOnOffClickDo(ON);
+						} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+							DeviceContorlOnOffClickDo_Internet(ON);
+						}
+					} else {
+						if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+							DeviceContorlOnOffClickDo(OFF);
+						} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+							DeviceContorlOnOffClickDo_Internet(OFF);
+						}
 					}
 				}
-			}
-		});
-
+			});
+		}
 		if (device_controlButton.isClickable()) {
 			device_controlButton.setOnTouchListener(new OnTouchListener() {
 				@Override
@@ -259,14 +259,14 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 		}
 	}
 
-	public void setDeviceControlLayout() {
+	public boolean setDeviceControlLayout() {
 		int deviceId = mDevices.getmDeviceId();
 		String modelId = mDevices.getmModelId();
 		switch (deviceId) {
 		case DataHelper.ON_OFF_SWITCH_DEVICETYPE:
 			device_contor_statusTextView.setVisibility(View.GONE);
 			device_controlButton.setClickable(false);
-			break;
+			return false;
 		case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:
 			break;
 		case DataHelper.COMBINED_INTERFACE_DEVICETYPE:
@@ -281,11 +281,11 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 		case DataHelper.DIMEN_SWITCH_DEVICETYPE:
 			device_contor_statusTextView.setVisibility(View.GONE);
 			device_controlButton.setClickable(false);
-			break;
+			return false;
 		case DataHelper.LIGHT_SENSOR_DEVICETYPE:
 			device_contor_statusTextView.setVisibility(View.GONE);
 			device_controlButton.setClickable(false);
-			break;
+			return false;
 		case DataHelper.SHADE_DEVICETYPE:
 			device_seekBar.setVisibility(View.VISIBLE);
 			break;
@@ -293,11 +293,11 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 			device_contor_statusTextView.setVisibility(View.GONE);
 			device_controlButton.setClickable(false);
 			device_temperaturesensorLayout.setVisibility(View.VISIBLE);
-			break;
+			return false;
 		case DataHelper.IAS_ACE_DEVICETYPE:
 			device_contor_statusTextView.setVisibility(View.GONE);
 			device_controlButton.setClickable(false);
-			break;
+			return false;
 		case DataHelper.IAS_ZONE_DEVICETYPE:
 			// if (modelId.indexOf(DataHelper.Motion_Sensor) == 0) { //
 			// ZigBee动作感应器
@@ -333,7 +333,7 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 				// device_contor_statusTextView.setVisibility(View.GONE);
 				device_controlButton.setClickable(false);
 			}
-			break;
+			return false;
 		case DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE:
 			// device_contor_statusTextView.setVisibility(View.GONE);
 			// device_controlButton.setClickable(false);
@@ -341,6 +341,7 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 		default:
 			break;
 		}
+		return true;
 	}
 
 	public boolean getDeviceControlOnOff() {
