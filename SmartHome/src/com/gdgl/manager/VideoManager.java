@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -95,32 +94,34 @@ public class VideoManager extends Manger {
 		Listener<String> responseListener = new Listener<String>() {
 			@Override
 			public void onResponse(String response) {
-//				Gson gson = new Gson();
-//				String jsonString = UiUtils.customString(response);
-//				VideoResponse videoResponse = gson.fromJson(jsonString,
-//						VideoResponse.class);
-//
-//				Event event = new Event(EventType.ADDIPC, true);
-//				event.setData(videoResponse);
-//				if (!videoResponse.getResponse_params().getStatus().equals("0")) {
-//					event.setSuccess(false);
-//				}
-//				notifyObservers(event);
+				// Gson gson = new Gson();
+				// String jsonString = UiUtils.customString(response);
+				// VideoResponse videoResponse = gson.fromJson(jsonString,
+				// VideoResponse.class);
+				//
+				// Event event = new Event(EventType.ADDIPC, true);
+				// event.setData(videoResponse);
+				// if
+				// (!videoResponse.getResponse_params().getStatus().equals("0"))
+				// {
+				// event.setSuccess(false);
+				// }
+				// notifyObservers(event);
 			}
 		};
 		ErrorListener errorListener = new ErrorListener() {
 
 			@Override
 			public void onErrorResponse(VolleyError error) {
-//				String errorString = null;
-//				if (error != null && error.getMessage() != null) {
-//					Log.e("ResponseError: ", error.getMessage());
-//					errorString = VolleyErrorHelper.getMessage(error,
-//							ApplicationController.getInstance());
-//				}
-//				Event event = new Event(EventType.ADDIPC, false);
-//				event.setData(errorString);
-//				notifyObservers(event);
+				// String errorString = null;
+				// if (error != null && error.getMessage() != null) {
+				// Log.e("ResponseError: ", error.getMessage());
+				// errorString = VolleyErrorHelper.getMessage(error,
+				// ApplicationController.getInstance());
+				// }
+				// Event event = new Event(EventType.ADDIPC, false);
+				// event.setData(errorString);
+				// notifyObservers(event);
 			}
 		};
 		String url = NetUtil.getInstance().getCumstomURL(
@@ -149,33 +150,35 @@ public class VideoManager extends Manger {
 		Listener<String> responseListener = new Listener<String>() {
 			@Override
 			public void onResponse(String response) {
-//				Gson gson = new Gson();
-//				String jsonString = UiUtils.customString(response);
-//				VideoResponse videoResponse = gson.fromJson(jsonString,
-//						VideoResponse.class);
-//
-//				Event event = new Event(EventType.EDITIPC, true);
-//				event.setData(videoResponse);
-//				Log.i("videoResponse", "videoResponse run");
-//				if (!videoResponse.getResponse_params().getStatus().equals("0")) {
-//					event.setSuccess(false);
-//				}
-//				notifyObservers(event);
+				// Gson gson = new Gson();
+				// String jsonString = UiUtils.customString(response);
+				// VideoResponse videoResponse = gson.fromJson(jsonString,
+				// VideoResponse.class);
+				//
+				// Event event = new Event(EventType.EDITIPC, true);
+				// event.setData(videoResponse);
+				// Log.i("videoResponse", "videoResponse run");
+				// if
+				// (!videoResponse.getResponse_params().getStatus().equals("0"))
+				// {
+				// event.setSuccess(false);
+				// }
+				// notifyObservers(event);
 			}
 		};
 		ErrorListener errorListener = new ErrorListener() {
 
 			@Override
 			public void onErrorResponse(VolleyError error) {
-//				String errorString = null;
-//				if (error != null && error.getMessage() != null) {
-//					Log.e("ResponseError: ", error.getMessage());
-//					errorString = VolleyErrorHelper.getMessage(error,
-//							ApplicationController.getInstance());
-//				}
-//				Event event = new Event(EventType.EDITIPC, false);
-//				event.setData(errorString);
-//				notifyObservers(event);
+				// String errorString = null;
+				// if (error != null && error.getMessage() != null) {
+				// Log.e("ResponseError: ", error.getMessage());
+				// errorString = VolleyErrorHelper.getMessage(error,
+				// ApplicationController.getInstance());
+				// }
+				// Event event = new Event(EventType.EDITIPC, false);
+				// event.setData(errorString);
+				// notifyObservers(event);
 			}
 		};
 		String url = NetUtil.getInstance().getCumstomURL(
@@ -183,7 +186,9 @@ public class VideoManager extends Manger {
 
 		StringRequest req = new StringRequest(url, responseListener,
 				errorListener);
-		Log.i("RequestQueue", "number = " + ApplicationController.getInstance().getRequestQueue().getSequenceNumber());
+		Log.i("RequestQueue", "number = "
+				+ ApplicationController.getInstance().getRequestQueue()
+						.getSequenceNumber());
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
 
@@ -211,32 +216,34 @@ public class VideoManager extends Manger {
 		Listener<String> responseListener = new Listener<String>() {
 			@Override
 			public void onResponse(String response) {
-//				Gson gson = new Gson();
-//				String jsonString = UiUtils.customString(response);
-//				VideoResponse videoResponse = gson.fromJson(jsonString,
-//						VideoResponse.class);
-//
-//				Event event = new Event(EventType.DELETEIPC, true);
-//				event.setData(videoResponse);
-//				if (!videoResponse.getResponse_params().getStatus().equals("0")) {
-//					event.setSuccess(false);
-//				}
-//				notifyObservers(event);
+				// Gson gson = new Gson();
+				// String jsonString = UiUtils.customString(response);
+				// VideoResponse videoResponse = gson.fromJson(jsonString,
+				// VideoResponse.class);
+				//
+				// Event event = new Event(EventType.DELETEIPC, true);
+				// event.setData(videoResponse);
+				// if
+				// (!videoResponse.getResponse_params().getStatus().equals("0"))
+				// {
+				// event.setSuccess(false);
+				// }
+				// notifyObservers(event);
 			}
 		};
 		ErrorListener errorListener = new ErrorListener() {
 
 			@Override
 			public void onErrorResponse(VolleyError error) {
-//				String errorString = null;
-//				if (error != null && error.getMessage() != null) {
-//					Log.e("ResponseError: ", error.getMessage());
-//					errorString = VolleyErrorHelper.getMessage(error,
-//							ApplicationController.getInstance());
-//				}
-//				Event event = new Event(EventType.DELETEIPC, false);
-//				event.setData(errorString);
-//				notifyObservers(event);
+				// String errorString = null;
+				// if (error != null && error.getMessage() != null) {
+				// Log.e("ResponseError: ", error.getMessage());
+				// errorString = VolleyErrorHelper.getMessage(error,
+				// ApplicationController.getInstance());
+				// }
+				// Event event = new Event(EventType.DELETEIPC, false);
+				// event.setData(errorString);
+				// notifyObservers(event);
 			}
 		};
 		String url = NetUtil.getInstance().getCumstomURL(

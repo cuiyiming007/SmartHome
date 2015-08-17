@@ -12,6 +12,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.gdgl.app.ApplicationController;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.SimpleDevicesModel;
+import com.gdgl.mydata.Callback.CallbackIpcLinkageMessage;
 import com.gdgl.mydata.Callback.CallbackWarnMessage;
 import com.gdgl.mydata.Region.Room;
 import com.gdgl.smarthome.R;
@@ -129,114 +130,114 @@ public class DataUtil {
 	}
 
 	// 设置默认设备图片
-		public static int getDefaultDevicesIcon(int deviceId, String modelId) {
-			int result = 0;
-			switch (deviceId) {
-			case DataHelper.ON_OFF_SWITCH_DEVICETYPE:
-				if (modelId.indexOf(DataHelper.Wall_switch_touch) == 0) { // ZigBee墙面开关（单键）
-					result = R.drawable.ui_others_singlestroke;
-				}
-				if (modelId.indexOf(DataHelper.Wall_switch_double) == 0) { // ZigBee墙面开关（双键）
-					result = R.drawable.ui_others_doublekeystroke;
-				}
-				if (modelId.indexOf(DataHelper.Wall_switch_triple) == 0) { // ZigBee墙面开关（三键）
-					result = R.drawable.ui_others_triplekeystroke;
-				}
-				if (modelId.indexOf(DataHelper.Doors_and_windows_sensor_switch) == 0) { // 门窗感应开关
-					result = R.drawable.ui_securitycontrol_doormagnetic;
-				}
-				break;
-			case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:
-				if (modelId.indexOf(DataHelper.Wireless_Intelligent_valve_switch) == 0) { // //
-																							// 无线智能阀门开关
-					result = R.drawable.ui_securitycontrol_valveswitch;
-				}
-				if (modelId.indexOf(DataHelper.Switch_Module_Double) == 0) { // ZigBee开关模块（双路）
-					result = R.drawable.ui_lightmanage_switchmodule;
-				}
-				break;
-			case DataHelper.REMOTE_CONTROL_DEVICETYPE:
-				result = R.drawable.tv_control;
-				break;
-			case DataHelper.COMBINED_INTERFACE_DEVICETYPE:
-				result = R.drawable.ui2_device_gateway;
-				break;
-			case DataHelper.RANGE_EXTENDER_DEVICETYPE:
-				result = R.drawable.ui_electricalcontrol_infraredcontroller;
-				break;
-			case DataHelper.MAINS_POWER_OUTLET_DEVICETYPE:
-				if (modelId.startsWith(DataHelper.Switch_Module_Single)) { // ZigBee开关模块（单路）
-					result = R.drawable.ui_lightmanage_switchmodule;
-				} else if (modelId.startsWith(DataHelper.Power_detect_socket)) { // ZigBee开关模块（单路）
-					result = R.drawable.ui2_device_switchmodule;
-				} else if(modelId.startsWith(DataHelper.Power_detect_wall)) { // ZigBee开关模块（单路）
-					result = R.drawable.ui2_device_electricalsocket;
-				} else {
-					result = R.drawable.ui_electricalcontrol_electricalsocket;
-				}
-				break;
-			case DataHelper.ON_OFF_LIGHT_DEVICETYPE:
-				result = R.drawable.ui_lightmanage_switchmodule;
-				break;
-			case DataHelper.DIMEN_LIGHTS_DEVICETYPE:
-				result = R.drawable.ui_lightmanage_lightdimming;
-				break;
-			case DataHelper.DIMEN_SWITCH_DEVICETYPE:
-				result = R.drawable.ui_others_slidingblock;
-				break;
-			case DataHelper.LIGHT_SENSOR_DEVICETYPE:
-				result = R.drawable.ui_environmentalcontrol_lightsensor;
-				break;
-			case DataHelper.SHADE_DEVICETYPE:
-				result = R.drawable.ui_electricalcontrol_curtaincontrol;
-				break;
-			case DataHelper.TEMPTURE_SENSOR_DEVICETYPE:
-				result = R.drawable.ui2_device_temperaturesensor;
-				break;
-			case DataHelper.IAS_ACE_DEVICETYPE:
-				result = R.drawable.ui_others_doorbell;
-				break;
-			case DataHelper.IAS_ZONE_DEVICETYPE:
-				if (modelId.indexOf(DataHelper.Motion_Sensor) == 0) { // ZigBee动作感应器
-					result = R.drawable.ui2_device_motionsensor;
-				}
-				if (modelId.indexOf(DataHelper.Magnetic_Window) == 0) { // ZigBee窗磁
-					result = R.drawable.ui2_device_windowmagnetic;
-				}
-				if (modelId.indexOf(DataHelper.Doors_and_windows_sensor_switch) == 0) { // 门窗感应开关
-					result = R.drawable.ui_securitycontrol_doormagnetic;
-				}
-				if (modelId.startsWith(DataHelper.Emergency_Button) // ZigBee紧急按钮
-						|| modelId.startsWith(DataHelper.Emergency_Button_On_Wall)) { // ZigBee墙面紧急按钮
-					result = R.drawable.ui_securitycontrol_emergencybutton;
-				}
-				if (modelId.indexOf(DataHelper.Smoke_Detectors) == 0) { // 烟雾感应器
-					result = R.drawable.ui2_device_detectorsmoke;
-				}
-				if (modelId.indexOf(DataHelper.Combustible_Gas_Detector_Gas) == 0) { // 可燃气体探测器（煤气)器
-					result = R.drawable.ui_securitycontrol_detectorgas;
-				}
-				if (modelId.indexOf(DataHelper.Combustible_Gas_Detector_CO) == 0) { // 可燃气体探测器（一氧化碳)
-					result = R.drawable.ui_securitycontrol_detectorco;
-				}
-				if (modelId
-						.indexOf(DataHelper.Combustible_Gas_Detector_Natural_gas) == 0) { // 可燃气体探测器（天然气)
-					result = R.drawable.ui_securitycontrol_detectornaturalgas;
-				}
-				break;
-			case DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE:
-				result = R.drawable.ui2_device_alarm;
-				break;
-			default:
-				result = R.drawable.ui_lightmanage_switchmodule;
-				break;
+	public static int getDefaultDevicesIcon(int deviceId, String modelId) {
+		int result = 0;
+		switch (deviceId) {
+		case DataHelper.ON_OFF_SWITCH_DEVICETYPE:
+			if (modelId.indexOf(DataHelper.Wall_switch_touch) == 0) { // ZigBee墙面开关（单键）
+				result = R.drawable.ui_others_singlestroke;
 			}
-			if (result == 0) {
-				result = R.drawable.ui_securitycontrol_alarm;
+			if (modelId.indexOf(DataHelper.Wall_switch_double) == 0) { // ZigBee墙面开关（双键）
+				result = R.drawable.ui_others_doublekeystroke;
 			}
-			return result;
+			if (modelId.indexOf(DataHelper.Wall_switch_triple) == 0) { // ZigBee墙面开关（三键）
+				result = R.drawable.ui_others_triplekeystroke;
+			}
+			if (modelId.indexOf(DataHelper.Doors_and_windows_sensor_switch) == 0) { // 门窗感应开关
+				result = R.drawable.ui_securitycontrol_doormagnetic;
+			}
+			break;
+		case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:
+			if (modelId.indexOf(DataHelper.Wireless_Intelligent_valve_switch) == 0) { // //
+																						// 无线智能阀门开关
+				result = R.drawable.ui_securitycontrol_valveswitch;
+			}
+			if (modelId.indexOf(DataHelper.Switch_Module_Double) == 0) { // ZigBee开关模块（双路）
+				result = R.drawable.ui_lightmanage_switchmodule;
+			}
+			break;
+		case DataHelper.REMOTE_CONTROL_DEVICETYPE:
+			result = R.drawable.tv_control;
+			break;
+		case DataHelper.COMBINED_INTERFACE_DEVICETYPE:
+			result = R.drawable.ui2_device_gateway;
+			break;
+		case DataHelper.RANGE_EXTENDER_DEVICETYPE:
+			result = R.drawable.ui_electricalcontrol_infraredcontroller;
+			break;
+		case DataHelper.MAINS_POWER_OUTLET_DEVICETYPE:
+			if (modelId.startsWith(DataHelper.Switch_Module_Single)) { // ZigBee开关模块（单路）
+				result = R.drawable.ui_lightmanage_switchmodule;
+			} else if (modelId.startsWith(DataHelper.Power_detect_socket)) { // ZigBee开关模块（单路）
+				result = R.drawable.ui2_device_switchmodule;
+			} else if (modelId.startsWith(DataHelper.Power_detect_wall)) { // ZigBee开关模块（单路）
+				result = R.drawable.ui2_device_electricalsocket;
+			} else {
+				result = R.drawable.ui_electricalcontrol_electricalsocket;
+			}
+			break;
+		case DataHelper.ON_OFF_LIGHT_DEVICETYPE:
+			result = R.drawable.ui_lightmanage_switchmodule;
+			break;
+		case DataHelper.DIMEN_LIGHTS_DEVICETYPE:
+			result = R.drawable.ui_lightmanage_lightdimming;
+			break;
+		case DataHelper.DIMEN_SWITCH_DEVICETYPE:
+			result = R.drawable.ui_others_slidingblock;
+			break;
+		case DataHelper.LIGHT_SENSOR_DEVICETYPE:
+			result = R.drawable.ui_environmentalcontrol_lightsensor;
+			break;
+		case DataHelper.SHADE_DEVICETYPE:
+			result = R.drawable.ui_electricalcontrol_curtaincontrol;
+			break;
+		case DataHelper.TEMPTURE_SENSOR_DEVICETYPE:
+			result = R.drawable.ui2_device_temperaturesensor;
+			break;
+		case DataHelper.IAS_ACE_DEVICETYPE:
+			result = R.drawable.ui_others_doorbell;
+			break;
+		case DataHelper.IAS_ZONE_DEVICETYPE:
+			if (modelId.indexOf(DataHelper.Motion_Sensor) == 0) { // ZigBee动作感应器
+				result = R.drawable.ui2_device_motionsensor;
+			}
+			if (modelId.indexOf(DataHelper.Magnetic_Window) == 0) { // ZigBee窗磁
+				result = R.drawable.ui2_device_windowmagnetic;
+			}
+			if (modelId.indexOf(DataHelper.Doors_and_windows_sensor_switch) == 0) { // 门窗感应开关
+				result = R.drawable.ui_securitycontrol_doormagnetic;
+			}
+			if (modelId.startsWith(DataHelper.Emergency_Button) // ZigBee紧急按钮
+					|| modelId.startsWith(DataHelper.Emergency_Button_On_Wall)) { // ZigBee墙面紧急按钮
+				result = R.drawable.ui_securitycontrol_emergencybutton;
+			}
+			if (modelId.indexOf(DataHelper.Smoke_Detectors) == 0) { // 烟雾感应器
+				result = R.drawable.ui2_device_detectorsmoke;
+			}
+			if (modelId.indexOf(DataHelper.Combustible_Gas_Detector_Gas) == 0) { // 可燃气体探测器（煤气)器
+				result = R.drawable.ui_securitycontrol_detectorgas;
+			}
+			if (modelId.indexOf(DataHelper.Combustible_Gas_Detector_CO) == 0) { // 可燃气体探测器（一氧化碳)
+				result = R.drawable.ui_securitycontrol_detectorco;
+			}
+			if (modelId
+					.indexOf(DataHelper.Combustible_Gas_Detector_Natural_gas) == 0) { // 可燃气体探测器（天然气)
+				result = R.drawable.ui_securitycontrol_detectornaturalgas;
+			}
+			break;
+		case DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE:
+			result = R.drawable.ui2_device_alarm;
+			break;
+		default:
+			result = R.drawable.ui_lightmanage_switchmodule;
+			break;
 		}
-		
+		if (result == 0) {
+			result = R.drawable.ui_securitycontrol_alarm;
+		}
+		return result;
+	}
+
 	// 设置默认设备小图片
 	public static int getDefaultDevicesSmallIcon(int deviceId, String modelId) {
 		int result = 0;
@@ -278,7 +279,7 @@ public class DataUtil {
 				result = R.drawable.ui_lightmanage_switchmodule;
 			} else if (modelId.startsWith(DataHelper.Power_detect_socket)) { // ZigBee开关模块（单路）
 				result = R.drawable.ui2_device_switchmodule_small;
-			} else if(modelId.startsWith(DataHelper.Power_detect_wall)) { // ZigBee开关模块（单路）
+			} else if (modelId.startsWith(DataHelper.Power_detect_wall)) { // ZigBee开关模块（单路）
 				result = R.drawable.ui2_device_electricalsocket_small;
 			} else {
 				result = R.drawable.ui_electricalcontrol_electricalsocket;
@@ -345,115 +346,115 @@ public class DataUtil {
 		}
 		return result;
 	}
-	
+
 	// 设置默认设备控制图片
-		public static int getDefaultDevicesControlIcon(int deviceId, String modelId) {
-			int result = 0;
-			switch (deviceId) {
-			case DataHelper.ON_OFF_SWITCH_DEVICETYPE:
-				if (modelId.indexOf(DataHelper.Wall_switch_touch) == 0) { // ZigBee墙面开关（单键）
-					result = R.drawable.ui_others_singlestroke;
-				}
-				if (modelId.indexOf(DataHelper.Wall_switch_double) == 0) { // ZigBee墙面开关（双键）
-					result = R.drawable.ui_others_doublekeystroke;
-				}
-				if (modelId.indexOf(DataHelper.Wall_switch_triple) == 0) { // ZigBee墙面开关（三键）
-					result = R.drawable.ui_others_triplekeystroke;
-				}
-				if (modelId.indexOf(DataHelper.Doors_and_windows_sensor_switch) == 0) { // 门窗感应开关
-					result = R.drawable.ui_securitycontrol_doormagnetic;
-				}
-				break;
-			case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:
-				if (modelId.indexOf(DataHelper.Wireless_Intelligent_valve_switch) == 0) { // //
-																							// 无线智能阀门开关
-					result = R.drawable.ui_securitycontrol_valveswitch;
-				}
-				if (modelId.indexOf(DataHelper.Switch_Module_Double) == 0) { // ZigBee开关模块（双路）
-					result = R.drawable.ui_lightmanage_switchmodule;
-				}
-				break;
-			case DataHelper.REMOTE_CONTROL_DEVICETYPE:
-				result = R.drawable.tv_control;
-				break;
-			case DataHelper.COMBINED_INTERFACE_DEVICETYPE:
-				result = R.drawable.ui2_device_gateway_control_style;
-				break;
-			case DataHelper.RANGE_EXTENDER_DEVICETYPE:
-				result = R.drawable.ui_electricalcontrol_infraredcontroller;
-				break;
-			case DataHelper.MAINS_POWER_OUTLET_DEVICETYPE:
-				if (modelId.startsWith(DataHelper.Switch_Module_Single)) { // ZigBee开关模块（单路）
-					result = R.drawable.ui_lightmanage_switchmodule;
-				} else if (modelId.startsWith(DataHelper.Power_detect_socket)) { // ZigBee开关模块（单路）
-					result = R.drawable.ui2_device_switchmodule_control_style;
-				} else if(modelId.startsWith(DataHelper.Power_detect_wall)) { // ZigBee开关模块（单路）
-					result = R.drawable.ui2_device_electricalsocket_control_style;
-				} else {
-					result = R.drawable.ui_electricalcontrol_electricalsocket;
-				}
-				break;
-			case DataHelper.ON_OFF_LIGHT_DEVICETYPE:
-				result = R.drawable.ui_lightmanage_switchmodule;
-				break;
-			case DataHelper.DIMEN_LIGHTS_DEVICETYPE:
-				result = R.drawable.ui_lightmanage_lightdimming;
-				break;
-			case DataHelper.DIMEN_SWITCH_DEVICETYPE:
-				result = R.drawable.ui_others_slidingblock;
-				break;
-			case DataHelper.LIGHT_SENSOR_DEVICETYPE:
-				result = R.drawable.ui_environmentalcontrol_lightsensor;
-				break;
-			case DataHelper.SHADE_DEVICETYPE:
-				result = R.drawable.ui_electricalcontrol_curtaincontrol;
-				break;
-			case DataHelper.TEMPTURE_SENSOR_DEVICETYPE:
-				result = R.drawable.ui2_device_temperaturesensor_control_style;
-				break;
-			case DataHelper.IAS_ACE_DEVICETYPE:
-				result = R.drawable.ui_others_doorbell;
-				break;
-			case DataHelper.IAS_ZONE_DEVICETYPE:
-				if (modelId.indexOf(DataHelper.Motion_Sensor) == 0) { // ZigBee动作感应器
-					result = R.drawable.ui2_device_motionsensor_control_style;
-				}
-				if (modelId.indexOf(DataHelper.Magnetic_Window) == 0) { // ZigBee窗磁
-					result = R.drawable.ui2_device_windowmagnetic_control_style;
-				}
-				if (modelId.indexOf(DataHelper.Doors_and_windows_sensor_switch) == 0) { // 门窗感应开关
-					result = R.drawable.ui_securitycontrol_doormagnetic;
-				}
-				if (modelId.startsWith(DataHelper.Emergency_Button) // ZigBee紧急按钮
-						|| modelId.startsWith(DataHelper.Emergency_Button_On_Wall)) { // ZigBee墙面紧急按钮
-					result = R.drawable.ui_securitycontrol_emergencybutton;
-				}
-				if (modelId.indexOf(DataHelper.Smoke_Detectors) == 0) { // 烟雾感应器
-					result = R.drawable.ui2_device_detectorsmoke_control_style;
-				}
-				if (modelId.indexOf(DataHelper.Combustible_Gas_Detector_Gas) == 0) { // 可燃气体探测器（煤气)器
-					result = R.drawable.ui_securitycontrol_detectorgas;
-				}
-				if (modelId.indexOf(DataHelper.Combustible_Gas_Detector_CO) == 0) { // 可燃气体探测器（一氧化碳)
-					result = R.drawable.ui_securitycontrol_detectorco;
-				}
-				if (modelId
-						.indexOf(DataHelper.Combustible_Gas_Detector_Natural_gas) == 0) { // 可燃气体探测器（天然气)
-					result = R.drawable.ui_securitycontrol_detectornaturalgas;
-				}
-				break;
-			case DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE:
-				result = R.drawable.ui2_device_alarm_control_on;
-				break;
-			default:
-				result = R.drawable.ui_lightmanage_switchmodule;
-				break;
+	public static int getDefaultDevicesControlIcon(int deviceId, String modelId) {
+		int result = 0;
+		switch (deviceId) {
+		case DataHelper.ON_OFF_SWITCH_DEVICETYPE:
+			if (modelId.indexOf(DataHelper.Wall_switch_touch) == 0) { // ZigBee墙面开关（单键）
+				result = R.drawable.ui_others_singlestroke;
 			}
-			if (result == 0) {
-				result = R.drawable.ui_securitycontrol_alarm;
+			if (modelId.indexOf(DataHelper.Wall_switch_double) == 0) { // ZigBee墙面开关（双键）
+				result = R.drawable.ui_others_doublekeystroke;
 			}
-			return result;
+			if (modelId.indexOf(DataHelper.Wall_switch_triple) == 0) { // ZigBee墙面开关（三键）
+				result = R.drawable.ui_others_triplekeystroke;
+			}
+			if (modelId.indexOf(DataHelper.Doors_and_windows_sensor_switch) == 0) { // 门窗感应开关
+				result = R.drawable.ui_securitycontrol_doormagnetic;
+			}
+			break;
+		case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:
+			if (modelId.indexOf(DataHelper.Wireless_Intelligent_valve_switch) == 0) { // //
+																						// 无线智能阀门开关
+				result = R.drawable.ui_securitycontrol_valveswitch;
+			}
+			if (modelId.indexOf(DataHelper.Switch_Module_Double) == 0) { // ZigBee开关模块（双路）
+				result = R.drawable.ui_lightmanage_switchmodule;
+			}
+			break;
+		case DataHelper.REMOTE_CONTROL_DEVICETYPE:
+			result = R.drawable.tv_control;
+			break;
+		case DataHelper.COMBINED_INTERFACE_DEVICETYPE:
+			result = R.drawable.ui2_device_gateway_control_style;
+			break;
+		case DataHelper.RANGE_EXTENDER_DEVICETYPE:
+			result = R.drawable.ui_electricalcontrol_infraredcontroller;
+			break;
+		case DataHelper.MAINS_POWER_OUTLET_DEVICETYPE:
+			if (modelId.startsWith(DataHelper.Switch_Module_Single)) { // ZigBee开关模块（单路）
+				result = R.drawable.ui_lightmanage_switchmodule;
+			} else if (modelId.startsWith(DataHelper.Power_detect_socket)) { // ZigBee开关模块（单路）
+				result = R.drawable.ui2_device_switchmodule_control_style;
+			} else if (modelId.startsWith(DataHelper.Power_detect_wall)) { // ZigBee开关模块（单路）
+				result = R.drawable.ui2_device_electricalsocket_control_style;
+			} else {
+				result = R.drawable.ui_electricalcontrol_electricalsocket;
+			}
+			break;
+		case DataHelper.ON_OFF_LIGHT_DEVICETYPE:
+			result = R.drawable.ui_lightmanage_switchmodule;
+			break;
+		case DataHelper.DIMEN_LIGHTS_DEVICETYPE:
+			result = R.drawable.ui_lightmanage_lightdimming;
+			break;
+		case DataHelper.DIMEN_SWITCH_DEVICETYPE:
+			result = R.drawable.ui_others_slidingblock;
+			break;
+		case DataHelper.LIGHT_SENSOR_DEVICETYPE:
+			result = R.drawable.ui_environmentalcontrol_lightsensor;
+			break;
+		case DataHelper.SHADE_DEVICETYPE:
+			result = R.drawable.ui_electricalcontrol_curtaincontrol;
+			break;
+		case DataHelper.TEMPTURE_SENSOR_DEVICETYPE:
+			result = R.drawable.ui2_device_temperaturesensor_control_style;
+			break;
+		case DataHelper.IAS_ACE_DEVICETYPE:
+			result = R.drawable.ui_others_doorbell;
+			break;
+		case DataHelper.IAS_ZONE_DEVICETYPE:
+			if (modelId.indexOf(DataHelper.Motion_Sensor) == 0) { // ZigBee动作感应器
+				result = R.drawable.ui2_device_motionsensor_control_style;
+			}
+			if (modelId.indexOf(DataHelper.Magnetic_Window) == 0) { // ZigBee窗磁
+				result = R.drawable.ui2_device_windowmagnetic_control_style;
+			}
+			if (modelId.indexOf(DataHelper.Doors_and_windows_sensor_switch) == 0) { // 门窗感应开关
+				result = R.drawable.ui_securitycontrol_doormagnetic;
+			}
+			if (modelId.startsWith(DataHelper.Emergency_Button) // ZigBee紧急按钮
+					|| modelId.startsWith(DataHelper.Emergency_Button_On_Wall)) { // ZigBee墙面紧急按钮
+				result = R.drawable.ui_securitycontrol_emergencybutton;
+			}
+			if (modelId.indexOf(DataHelper.Smoke_Detectors) == 0) { // 烟雾感应器
+				result = R.drawable.ui2_device_detectorsmoke_control_style;
+			}
+			if (modelId.indexOf(DataHelper.Combustible_Gas_Detector_Gas) == 0) { // 可燃气体探测器（煤气)器
+				result = R.drawable.ui_securitycontrol_detectorgas;
+			}
+			if (modelId.indexOf(DataHelper.Combustible_Gas_Detector_CO) == 0) { // 可燃气体探测器（一氧化碳)
+				result = R.drawable.ui_securitycontrol_detectorco;
+			}
+			if (modelId
+					.indexOf(DataHelper.Combustible_Gas_Detector_Natural_gas) == 0) { // 可燃气体探测器（天然气)
+				result = R.drawable.ui_securitycontrol_detectornaturalgas;
+			}
+			break;
+		case DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE:
+			result = R.drawable.ui2_device_alarm_control_on;
+			break;
+		default:
+			result = R.drawable.ui_lightmanage_switchmodule;
+			break;
 		}
+		if (result == 0) {
+			result = R.drawable.ui_securitycontrol_alarm;
+		}
+		return result;
+	}
 
 	// 设置默认设备名称
 	public static String getDefaultDevicesName(Context c, String modelID,
@@ -703,14 +704,14 @@ public class DataUtil {
 
 		return result;
 	}
-	
-	//Timing and Scene ActionParam type
+
+	// Timing and Scene ActionParam type
 	public static int getTimingSceneActionParamType(int deviceId) {
 		int type = 3;
-		if(deviceId == DataHelper.COMBINED_INTERFACE_DEVICETYPE) {
+		if (deviceId == DataHelper.COMBINED_INTERFACE_DEVICETYPE) {
 			type = 2;
 		}
-		if(deviceId == DataHelper.IAS_ZONE_DEVICETYPE) {
+		if (deviceId == DataHelper.IAS_ZONE_DEVICETYPE) {
 			type = 1;
 		}
 		return type;
@@ -815,18 +816,9 @@ public class DataUtil {
 		List<DevicesModel> listDevicesModel = new ArrayList<DevicesModel>();
 		SQLiteDatabase db = dh.getSQLiteDatabase();
 		listDevicesModel = dh.queryForDevicesList(db, DataHelper.DEVICES_TABLE,
-				null, where, args, null, null, DevicesModel.DEVICE_PRIORITY, null);
+				null, where, args, null, null, DevicesModel.DEVICE_PRIORITY,
+				null);
 		dh.close(db);
-//		if (null != listDevicesModel && listDevicesModel.size() > 0) {
-//			for (DevicesModel devicesModel : listDevicesModel) {
-//				if (null == devicesModel.getmDefaultDeviceName()
-//						|| devicesModel.getmDefaultDeviceName().trim()
-//								.equals("")) {
-//					devicesModel.setmDefaultDeviceName(getDefaultDevicesName(c,
-//							devicesModel.getmModelId(), devicesModel.getmEP()));
-//				}
-//			}
-//		}
 
 		return listDevicesModel;
 
@@ -840,9 +832,10 @@ public class DataUtil {
 		List<CallbackWarnMessage> mList = new ArrayList<CallbackWarnMessage>();
 		Cursor cursor = null;
 		SQLiteDatabase db = dh.getSQLiteDatabase();
+		// 排序方式 desc降序 asc升序
 		cursor = db.query(DataHelper.MESSAGE_TABLE, null,
 				CallbackWarnMessage.HOUSEIEEE + "='" + MAC + "'", null, null,
-				null, null, null);
+				null, CallbackWarnMessage.TIME + " DESC", null);
 		CallbackWarnMessage message;
 		while (cursor.moveToNext()) {
 			message = new CallbackWarnMessage();
@@ -881,18 +874,62 @@ public class DataUtil {
 			mList.add(message);
 		}
 		cursor.close();
-		// db.close();
+		db.close();
 		return mList;
 
 	}
-	
-	public static Room getRoomByID(String id, DataHelper dh,
-			SQLiteDatabase db) {
+
+	public static List<CallbackIpcLinkageMessage> getIpcLinkageMessage(
+			Context c, DataHelper dh) {
+		getFromSharedPreferences.setsharedPreferences(ApplicationController
+				.getInstance());
+		String MAC = getFromSharedPreferences.getGatewayMAC();
+		List<CallbackIpcLinkageMessage> mList = new ArrayList<CallbackIpcLinkageMessage>();
+		Cursor cursor = null;
+		SQLiteDatabase db = dh.getSQLiteDatabase();
+		// 排序方式 desc降序 asc升序
+		cursor = db.query(DataHelper.IPC_LINKAGE_TABLE, null,
+				CallbackIpcLinkageMessage.GATEWAYMAC + "='" + MAC + "'", null,
+				null, null, CallbackIpcLinkageMessage.TIME + " DESC", null);
+		CallbackIpcLinkageMessage message;
+		while (cursor.moveToNext()) {
+			message = new CallbackIpcLinkageMessage();
+			message.setId(cursor.getString(cursor
+					.getColumnIndex(CallbackIpcLinkageMessage._ID)));
+			message.setType(cursor.getInt(cursor
+					.getColumnIndex(CallbackIpcLinkageMessage.TYPE)));
+			message.setDeviceIeee(cursor.getString(cursor
+					.getColumnIndex(CallbackIpcLinkageMessage.DEVICE_IEEE)));
+			message.setDeviceName(cursor.getString(cursor
+					.getColumnIndex(CallbackIpcLinkageMessage.DEVICE_NAME)));
+			message.setDevicePic(cursor.getString(cursor
+					.getColumnIndex(CallbackIpcLinkageMessage.DEVICE_PIC)));
+			message.setIpcId(cursor.getInt(cursor
+					.getColumnIndex(CallbackIpcLinkageMessage.IPC_ID)));
+			message.setIpcName(cursor.getString(cursor
+					.getColumnIndex(CallbackIpcLinkageMessage.IPC_NAME)));
+			message.setTime(cursor.getString(cursor
+					.getColumnIndex(CallbackIpcLinkageMessage.TIME)));
+			message.setPicCount(cursor.getInt(cursor
+					.getColumnIndex(CallbackIpcLinkageMessage.PICCOUNT)));
+			message.setPicName(cursor.getString(cursor
+					.getColumnIndex(CallbackIpcLinkageMessage.PICNAME)));
+			message.setDescription(cursor.getString(cursor
+					.getColumnIndex(CallbackIpcLinkageMessage.DESCRIPTION)));
+
+			mList.add(message);
+		}
+		cursor.close();
+		db.close();
+		return mList;
+
+	}
+
+	public static Room getRoomByID(String id, DataHelper dh, SQLiteDatabase db) {
 		String where = " _id=? ";
 		String[] args = { id + "" };
-		List<Room> mList = dh.queryForRoomList(db,
-				DataHelper.ROOMINFO_TABLE, null, where, args, null, null, null,
-				null);
+		List<Room> mList = dh.queryForRoomList(db, DataHelper.ROOMINFO_TABLE,
+				null, where, args, null, null, null, null);
 		if (null != mList && mList.size() > 0) {
 			return mList.get(0);
 		}

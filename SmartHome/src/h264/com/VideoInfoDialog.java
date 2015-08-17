@@ -74,6 +74,7 @@ public class VideoInfoDialog {
 		mType = type;
 		dialog = new Dialog(mContext, R.style.MyDialog);
 		dialog.setContentView(R.layout.video_info_dlg);
+		dialog.setCanceledOnTouchOutside(false);
 		textView = (TextView) dialog.findViewById(R.id.txt_title);
 
 		userNameEdit = (EditText) dialog.findViewById(R.id.edit_user_name);

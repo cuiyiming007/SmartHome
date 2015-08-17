@@ -112,7 +112,7 @@ public class LinkageDetailFragment extends Fragment implements
 		act_photo_btn = (Button)mView.findViewById(R.id.act_photo_btn);
 		devices_data_edit = (EditText)mView.findViewById(R.id.devices_data_edit);	
 			
-		mVideoAddList = mDataHelper.getVideoList((Context) getActivity(),
+		mVideoAddList = DataHelper.getVideoList((Context) getActivity(),
 				mDataHelper);
 		Bundle bundle = getArguments();
 		linkage_type = bundle.getInt(LinkageDetailActivity.TYPE, 1);
@@ -322,7 +322,7 @@ public class LinkageDetailFragment extends Fragment implements
 	private String getLnkact(){
 		String lnkact = "";
 		if(actDevices.getmDevicePriority() == 1000){
-			lnkact = "4:" + actDevices.getID();
+			lnkact = "4:" + actDevices.getID() + "-1";
 		}else{
 			if(actDevices.getmModelId().indexOf((DataHelper.Magnetic_Window)) == 0){ //窗磁Z311A
 				lnkact += 1;

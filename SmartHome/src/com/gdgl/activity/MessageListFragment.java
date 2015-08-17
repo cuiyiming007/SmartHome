@@ -1,16 +1,10 @@
 package com.gdgl.activity;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import android.app.AlertDialog;
-import android.app.Notification;
-import android.app.AlertDialog.Builder;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -27,7 +21,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -62,12 +55,7 @@ public class MessageListFragment extends BaseFragment implements UIListener,andr
 	MessageAdapter messageAdapter;
 	CallbackWarnMessage currentMessage;
 
-	/* 闵伟add start  
-	 * 排序方式 
-	 * desc=false
-	 * asc=true
-	 */
-	private static final boolean isAsc = false;
+	/* 闵伟add start */
 	// 是否删除模式
 	private boolean isDeleteMode = false;
 	private boolean isCheckAll = false;
@@ -171,9 +159,7 @@ public class MessageListFragment extends BaseFragment implements UIListener,andr
 		delete.setOnClickListener(this);
 		
 		messageListView = (ListView) mView.findViewById(R.id.message_list);
-		/* 闵伟add start 调用list排序方法 */
-		sequenceList(mList);  
-		/* 闵伟add end  */
+
 		messageAdapter = new MessageAdapter();
 		messageListView.setAdapter(messageAdapter);
 		if (null == mList || mList.size() == 0) {
@@ -388,15 +374,8 @@ public class MessageListFragment extends BaseFragment implements UIListener,andr
 
 	@Override
 	public void stopRefresh() {
-
-	}
-	/* 闵伟add start  排序function*/
-	public void sequenceList(List<CallbackWarnMessage> list){
-		if(isAsc){
-			return;
-		}else{
-			Collections.reverse(list);  
-		}
+		// TODO Auto-generated method stub
+		
 	}
 	
 	// show delete tools
@@ -517,6 +496,5 @@ public class MessageListFragment extends BaseFragment implements UIListener,andr
 		}
 		return MessageImageResource;	
 	}
-	
 	/* 闵伟add end  */
 }
