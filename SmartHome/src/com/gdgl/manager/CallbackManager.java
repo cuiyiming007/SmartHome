@@ -158,7 +158,7 @@ public class CallbackManager extends Manger {
 				i5.putExtra(
 						ShowDevicesGroupFragmentActivity.ACTIVITY_SHOW_DEVICES_TYPE,
 						UiUtils.SECURITY_CONTROL);
-				makeNotify(i5, iasZone.getValue(), iasZone.toString());
+				makeNotify(i5, iasZone.getValue(), iasZone.toString(), true);
 				break;
 			case 6:
 				Log.i(TAG, "Callback msgType=" + msgType + "DimmerSwitch");
@@ -199,7 +199,7 @@ public class CallbackManager extends Manger {
 				i11.putExtra(
 						ShowDevicesGroupFragmentActivity.ACTIVITY_SHOW_DEVICES_TYPE,
 						UiUtils.SECURITY_CONTROL);
-				makeNotify(i11, iasZone11.getValue(), iasZone11.toString());
+				makeNotify(i11, iasZone11.getValue(), iasZone11.toString(), true);
 
 				break;
 			case 12:
@@ -874,7 +874,7 @@ public class CallbackManager extends Manger {
 		Intent i = new Intent(ApplicationController.getInstance(),
 				AlarmMessageActivity.class);
 		makeNotify(i, warnmessage.getZone_name(),
-				warnmessage.getDetailmessage());
+				warnmessage.getDetailmessage(), true);
 		Event event = new Event(EventType.WARN, true);
 		event.setData(warnmessage);
 		notifyObservers(event);
@@ -1181,7 +1181,7 @@ public class CallbackManager extends Manger {
 
 	}
 
-	void makeNotify(Intent i, String title, String message) {
+	void makeNotify(Intent i, String title, String message, boolean warning) {
 
 		NotificationManager nm = (NotificationManager) ApplicationController
 				.getInstance().getSystemService(Context.NOTIFICATION_SERVICE);
@@ -1215,7 +1215,11 @@ public class CallbackManager extends Manger {
 
 		noti.setLatestEventInfo(ApplicationController.getInstance(), title,
 				message, contentIntent);
-		nm.notify(R.string.app_name, noti);
+		if(warning) {
+			nm.notify(R.string.app_name, noti);
+		} else {
+			nm.notify(R.string.app_name + 1, noti);
+		}
 	}
 
 	void makeWarmNotify(Intent i, CallbackWarnMessage warmmessage) {
@@ -1273,23 +1277,23 @@ public class CallbackManager extends Manger {
 			//00137A000001222D device ieee
 			message.setDeviceIeee(temp[1]);
 			
-//			String[] columns = { DevicesModel.PIC_NAME,
-//					DevicesModel.DEFAULT_DEVICE_NAME };
-//			String where = " ieee=? ";
-//			String[] args = { temp[1] };
-//			Cursor cursor = mDateHelper.query(db, DataHelper.DEVICES_TABLE,
-//					columns, where, args, null, null, null, null);
-//			String picSource = "";
-//			String deviceName = "";
-//			while (cursor.moveToNext()) {
-//				deviceName = cursor.getString(cursor
-//						.getColumnIndex(DevicesModel.DEFAULT_DEVICE_NAME));
-//				picSource = cursor.getString(cursor
-//						.getColumnIndex(DevicesModel.PIC_NAME));
-//			}
-//			cursor.close();
-//			message.setDeviceName(deviceName);
-//			message.setDevicePic(picSource);
+			String[] columns = { DevicesModel.PIC_NAME,
+					DevicesModel.DEFAULT_DEVICE_NAME };
+			String where = " ieee=? ";
+			String[] args = { temp[1] };
+			Cursor cursor = mDateHelper.query(db, DataHelper.DEVICES_TABLE,
+					columns, where, args, null, null, null, null);
+			String picSource = "";
+			String deviceName = "";
+			while (cursor.moveToNext()) {
+				deviceName = cursor.getString(cursor
+						.getColumnIndex(DevicesModel.DEFAULT_DEVICE_NAME));
+				picSource = cursor.getString(cursor
+						.getColumnIndex(DevicesModel.PIC_NAME));
+			}
+			cursor.close();
+			message.setDeviceName(deviceName);
+			message.setDevicePic(picSource);
 			//0 video id
 			message.setIpcId(Integer.parseInt(temp[2]));
 			String[] columns1 = { VideoNode.ALIAS };
@@ -1305,7 +1309,7 @@ public class CallbackManager extends Manger {
 			cursor1.close();
 			message.setIpcName(ipc_name);
 			message.setPicName(picNameString.substring(0, picNameString.length()-1));
-			message.setDescription("联动 "+ ipc_name+ " 截图.");
+			message.setDescription("联动摄像头 "+ ipc_name+ " 截图.");
 			
 			long id = db.insert(DataHelper.IPC_LINKAGE_TABLE, null, message.convertContentValues());
 			
@@ -1316,7 +1320,7 @@ public class CallbackManager extends Manger {
 			Intent i = new Intent(ApplicationController.getInstance(),
 					AlarmMessageActivity.class);
 			makeNotify(i, message.getDeviceName(),
-					message.getDescription());
+					message.getDescription(), false);
 			
 			Event event = new Event(EventType.IPC_LINKAGE_MSG, true);
 			event.setData(message);
