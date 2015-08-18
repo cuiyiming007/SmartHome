@@ -17,13 +17,14 @@
 	        android:textSize="18sp"
 	        android:textStyle="bold"
 	        android:layout_marginBottom="5dp"
-	        android:layout_marginLeft="5dp"
+	        android:layout_marginLeft="15dp"
 	        android:text="如果"/>
         
         <RelativeLayout 
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        android:background="#caffff"
+	        android:layout_marginLeft="15dp"
 	        android:layout_marginBottom="5dp">
         	<RelativeLayout 
         	    android:id="@+id/devices_lay"
@@ -76,6 +77,7 @@
 		<LinearLayout
 		    android:layout_width="match_parent"
 		    android:layout_height="wrap_content"
+		    android:layout_marginLeft="15dp"
 		    android:orientation="vertical">
 		    <LinearLayout
 		        android:id="@+id/devices_notype_lay"
@@ -97,6 +99,7 @@
 		        android:visibility="gone"
 		        android:layout_marginTop="10dp"
 		        android:layout_marginRight="10dp"
+		        android:layout_marginLeft="15dp"
 		        android:gravity="center_vertical"
 		        android:orientation="horizontal">
 		        <Button 
@@ -144,6 +147,7 @@
 		        android:visibility="gone"
 		        android:layout_marginTop="10dp"
 		        android:layout_marginRight="10dp"
+		        android:layout_marginLeft="15dp"
 		        android:orientation="horizontal">
 		        <Button 
 		            android:id="@+id/tem_btn"
@@ -168,6 +172,7 @@
 		        android:visibility="gone"
 		        android:layout_marginTop="10dp"
 		        android:layout_marginRight="10dp"
+		        android:layout_marginLeft="15dp"
 		        android:orientation="horizontal">
 		        <Button 
 		            android:id="@+id/devices_trg_btn"
@@ -197,13 +202,14 @@
 	        android:textSize="18sp"
 	        android:textStyle="bold"
 	        android:layout_marginBottom="5dp"
-	        android:layout_marginLeft="5dp"
+	        android:layout_marginLeft="15dp"
 	        android:text="就"/>
 	    
 	    <RelativeLayout 
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        android:background="#caffff"
+	        android:layout_marginLeft="15dp"
 	        android:layout_marginBottom="5dp">
 		    <RelativeLayout 
         	    android:id="@+id/act_lay"
@@ -255,6 +261,7 @@
 	    <LinearLayout
 		    android:layout_width="match_parent"
 		    android:layout_height="wrap_content"
+		    android:layout_marginLeft="15dp"
 		    android:orientation="vertical">
 		    <LinearLayout
 		        android:id="@+id/act_notype_lay"

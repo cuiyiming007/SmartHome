@@ -25,12 +25,13 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:focusable="false"
-                android:textOn="        "
-                android:textOff="        "
                 android:scaleX="0.6"
                 android:scaleY="0.51"
+                android:textOff="        "
+                android:textOn="        "
                 android:thumb="@drawable/ui_switch_insidepoint"
                 android:track="@drawable/ui_switch_style" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -38,6 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_toLeftOf="@id/switch_layout"
+            android:layout_marginLeft="10dp"
             android:orientation="horizontal" >
 
             <LinearLayout
@@ -108,7 +110,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_gravity=""
+                android:layout_gravity="center_vertical"
                 android:orientation="vertical" >
                 
                 <LinearLayout 
