@@ -79,6 +79,102 @@ public class RfCGIManager extends Manger{
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
 	
+	//===20150818王晓飞===RF设备布撤防
+	public void ChangeRFDevArmState(int rfid, int state) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("rfid", rfid+"");
+		paraMap.put("state", state+"");
+		String param = hashMap2ParamString(paraMap);
+
+		String url = NetUtil.getInstance().getCumstomURL(
+				NetUtil.getInstance().IP, "ChangeRFDevArmState.cgi", param);
+		StringRequest req = new StringRequest(url,
+				new Response.Listener<String>() {
+					@Override
+					public void onResponse(String arg0) {
+						// TODO Auto-generated method stub
+					}
+					
+				}, new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+						
+					}
+				});
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
+	//====开始停止RF警号报警
+	public void RFWarningDevOperation(int rfid, int operatortype,int param1) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("rfid", rfid+"");
+		paraMap.put("operatortype", operatortype+"");
+		paraMap.put("param1", param1+"");
+		String param = hashMap2ParamString(paraMap);
+
+		String url = NetUtil.getInstance().getCumstomURL(
+				NetUtil.getInstance().IP, "RFWarningDevOperation.cgi", param);
+		StringRequest req = new StringRequest(url,
+				new Response.Listener<String>() {
+					@Override
+					public void onResponse(String arg0) {
+						// TODO Auto-generated method stub
+					}
+					
+				}, new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+						
+					}
+				});
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
+	//====RF设备启用禁止配置
+	public void ChangeRFDevActivationState(int rfid, int state) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("rfid", rfid+"");
+		paraMap.put("state", state+"");
+		String param = hashMap2ParamString(paraMap);
+
+		String url = NetUtil.getInstance().getCumstomURL(
+				NetUtil.getInstance().IP, "ChangeRFDevActivationState.cgi", param);
+		StringRequest req = new StringRequest(url,
+				new Response.Listener<String>() {
+					@Override
+					public void onResponse(String arg0) {
+						// TODO Auto-generated method stub
+					}
+					
+				}, new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+						
+					}
+				});
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
+	//===RF设备全部布防撤防
+	public void ChangeAllRFDevArmState(int state) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("state", state+"");
+		String param = hashMap2ParamString(paraMap);
+
+		String url = NetUtil.getInstance().getCumstomURL(
+				NetUtil.getInstance().IP, "ChangeAllRFDevArmState.cgi", param);
+		StringRequest req = new StringRequest(url,
+				new Response.Listener<String>() {
+					@Override
+					public void onResponse(String arg0) {
+						// TODO Auto-generated method stub
+					}
+					
+				}, new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+						
+					}
+				});
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
 	
 	
 	
