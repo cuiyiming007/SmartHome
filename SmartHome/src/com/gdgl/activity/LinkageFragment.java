@@ -143,7 +143,7 @@ public class LinkageFragment extends Fragment implements UIListener,
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
 		// TODO Auto-generated method stub
-		menu.setHeaderTitle("编辑&删除");
+		menu.setHeaderTitle("删除联动");  //===去掉 编辑&
 		menu.add(0, 1, 0, "删除");
 		super.onCreateContextMenu(menu, v, menuInfo);
 	}

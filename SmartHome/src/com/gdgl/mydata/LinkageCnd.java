@@ -42,7 +42,7 @@ public class LinkageCnd{
 		this.data = data;
 	}
 	
-	//cnd api数据转换成文字信息
+	//cnd api数据转换成文字信息   -----王晓飞---20150818==湿度
 	public String getCndString(){
 		String cndString = "未定义";
 		if(!mark.equals("")){
@@ -55,7 +55,17 @@ public class LinkageCnd{
 					cndString = "温度小于";			
 				}
 				cndString += data + "°C";
-			}else if(name.equals("alarm")){
+			}else if(name.equals("hum")){  //=========添加
+				if(mark.equals("eq")){
+					cndString = "湿度等于";
+				}else if(mark.equals("bt")){
+					cndString = "湿度大于";
+				}else if(mark.equals("lt")){
+					cndString = "湿度小于";			
+				}
+				cndString += data + "%";
+			}
+			else if(name.equals("alarm")){
 				cndString = "报警";
 			}
 			

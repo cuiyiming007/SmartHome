@@ -336,6 +336,8 @@ public class LinkageDetailFragment extends Fragment implements
 				lnkact += 1;
 			}else if(actDevices.getmModelId().indexOf((DataHelper.Power_detect_wall)) == 0){ //电能检测墙面插座Z816H
 				lnkact += 3;
+			}else if(actDevices.getmModelId().indexOf((DataHelper.Power_detect_socket)) == 0){ //电能检测插座Z809A=====王晓飞
+				lnkact += 3;
 			}else if(actDevices.getmModelId().indexOf((DataHelper.One_key_operator)) == 0){ //物联网网关
 				lnkact += 2;
 			}else { //
@@ -373,8 +375,9 @@ public class LinkageDetailFragment extends Fragment implements
 				mDataHelper.getSQLiteDatabase(), DataHelper.DEVICES_TABLE,
 				null, null, null, null, null, DevicesModel.DEVICE_PRIORITY,
 				null);
-		for(DevicesModel mDevices : mAddList){
-			if(mDevices.getmModelId().indexOf((DataHelper.Power_detect_wall)) == 0){ //电能检测墙面插座Z816H
+		for(DevicesModel mDevices : mAddList){//----王晓飞---添加||power_detect_socket
+			if(mDevices.getmModelId().indexOf((DataHelper.Power_detect_wall)) == 0||
+					mDevices.getmModelId().indexOf((DataHelper.Power_detect_socket)) == 0){ //电能检测墙面插座Z816H
 				mActAddList.add(mDevices);
 			}
 //			else if(mDevices.getmModelId().indexOf((DataHelper.Siren)) == 0){ //警报器Z602A
