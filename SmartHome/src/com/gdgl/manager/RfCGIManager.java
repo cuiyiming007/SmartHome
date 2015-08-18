@@ -14,8 +14,6 @@ import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.StringRequest;
 import com.gdgl.app.ApplicationController;
 import com.gdgl.mydata.DataHelper;
-import com.gdgl.mydata.Event;
-import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.RespondDataEntity;
 import com.gdgl.mydata.ResponseParamsEndPoint;
 import com.gdgl.network.StringRequestChina;

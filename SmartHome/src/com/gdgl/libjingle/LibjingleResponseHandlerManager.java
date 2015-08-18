@@ -382,6 +382,9 @@ public class LibjingleResponseHandlerManager extends Manger {
 			case LibjingleSendStructure.GETTIMEACTIONLIST:
 				new GetTimingActionListTask().execute(response);
 				break;
+			case LibjingleSendStructure.GETRFDEVICELIST:
+				new GetRFDevListTask().execute(response);
+				break;
 			default:
 				break;
 			}
@@ -786,6 +789,25 @@ public class LibjingleResponseHandlerManager extends Manger {
 			}
 			mSqLiteDatabase.close();
 			return null;
+		}
+	}
+	
+	class GetRFDevListTask extends AsyncTask<String, Object, Object> {
+		@Override
+		protected Object doInBackground(String... params) {
+			RespondDataEntity<ResponseParamsEndPoint> data = VolleyOperation
+					.handleEndPointString(params[0]);
+			ArrayList<ResponseParamsEndPoint> devDataList = data
+					.getResponseparamList();
+
+			DataHelper mDateHelper = new DataHelper(
+					ApplicationController.getInstance());
+			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
+
+			mDateHelper.emptyTable(mSQLiteDatabase,DataHelper.RF_DEVICES_TABLE);
+			mDateHelper.insertEndPointList(mSQLiteDatabase,DataHelper.RF_DEVICES_TABLE, null, devDataList);
+			mSQLiteDatabase.close();
+			return devDataList;
 		}
 	}
 }

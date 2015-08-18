@@ -81,6 +81,9 @@ interface LibjingleSendColumns extends BaseColumns {
 	public static final int GETSCENELIST = 211;
 	public static final int GETLINKAGELIST = 212;
 	public static final int GETTIMEACTIONLIST = 213;
+	
+	
+	public static final int GETRFDEVICELIST = 220;
 
 }
 /***
