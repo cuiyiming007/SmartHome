@@ -138,9 +138,11 @@ public class CallbackManager extends Manger {
 				Log.i(TAG, "Callback msgType=" + msgType + "warm message");
 				CallbackWarnMessage warmmessage = gson.fromJson(response,
 						CallbackWarnMessage.class);
-				getFromSharedPreferences.setsharedPreferences(ApplicationController
-						.getInstance());
-				warmmessage.setHouseIEEE(getFromSharedPreferences.getGatewayMAC());
+				getFromSharedPreferences
+						.setsharedPreferences(ApplicationController
+								.getInstance());
+				warmmessage.setHouseIEEE(getFromSharedPreferences
+						.getGatewayMAC());
 				Log.i(TAG, warmmessage.toString());
 				handlerWarnMessage(warmmessage);
 				break;
@@ -199,7 +201,8 @@ public class CallbackManager extends Manger {
 				i11.putExtra(
 						ShowDevicesGroupFragmentActivity.ACTIVITY_SHOW_DEVICES_TYPE,
 						UiUtils.SECURITY_CONTROL);
-				makeNotify(i11, iasZone11.getValue(), iasZone11.toString(), true);
+				makeNotify(i11, iasZone11.getValue(), iasZone11.toString(),
+						true);
 
 				break;
 			case 12:
@@ -495,8 +498,8 @@ public class CallbackManager extends Manger {
 				}
 				mSqLiteDatabase4.close();
 				break;
-			case 6: //ipc screenshot
-				//{"msgtype":0,"mainid":2,"subid":6,"status":0,"pic_count":1,"pic_name":"1439456470_00137A000001222D_0_1.jpg"}
+			case 6: // ipc screenshot
+				// {"msgtype":0,"mainid":2,"subid":6,"status":0,"pic_count":1,"pic_name":"1439456470_00137A000001222D_0_1.jpg"}
 				String ipc_screenshot = (String) jsonRsponse.get("pic_name");
 				int ipc_count = (Integer) jsonRsponse.get("pic_count");
 				CallbackIpcLinkageMessage message6 = new CallbackIpcLinkageMessage();
@@ -790,7 +793,7 @@ public class CallbackManager extends Manger {
 				}
 				int lid4 = (Integer) jsonRsponse.get("lid");
 				int enable4 = (Integer) jsonRsponse.get("enable");
-				int[] temp = {lid4, enable4};
+				int[] temp = { lid4, enable4 };
 				Event event4 = new Event(EventType.ENABLELINKAGE, true);
 				event4.setData(temp);
 
@@ -873,13 +876,14 @@ public class CallbackManager extends Manger {
 		warnmessage.setId(_id + "");
 		Intent i = new Intent(ApplicationController.getInstance(),
 				AlarmMessageActivity.class);
+		i.putExtra("INITTAB", 0);
 		makeNotify(i, warnmessage.getZone_name(),
 				warnmessage.getDetailmessage(), true);
 		Event event = new Event(EventType.WARN, true);
 		event.setData(warnmessage);
 		notifyObservers(event);
 	}
-	
+
 	/***
 	 * 根据attributeId 和clusterId来确定操作是什么，发送event，刷新UI
 	 * 
@@ -1195,27 +1199,25 @@ public class CallbackManager extends Manger {
 		Notification noti;
 		noti = new Notification(R.drawable.ui_notification_icon, title,
 				System.currentTimeMillis());
-		// if(message.indexOf("提示") != -1){
-		// noti = new Notification(R.drawable.warnning, title,
-		// System.currentTimeMillis());
-		// }else{
-		// noti = new Notification(R.drawable.ui_securitycontrol_alarm, title,
-		// System.currentTimeMillis());
-		// }
 		noti.flags = Notification.FLAG_AUTO_CANCEL;
-		// Intent i = new Intent(ApplicationController.getInstance(),
-		// ShowDevicesGroupFragmentActivity.class);
 		i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
 				| Intent.FLAG_ACTIVITY_NEW_TASK);
 
 		// PendingIntent
-		PendingIntent contentIntent = PendingIntent.getActivity(
-				ApplicationController.getInstance(), R.string.app_name, i,
-				PendingIntent.FLAG_UPDATE_CURRENT);
+		PendingIntent contentIntent;
+		if (warning) {
+			contentIntent = PendingIntent.getActivity(
+					ApplicationController.getInstance(), R.string.app_name, i,
+					PendingIntent.FLAG_UPDATE_CURRENT);
+		} else {
+			contentIntent = PendingIntent.getActivity(
+					ApplicationController.getInstance(), R.string.app_name + 1,
+					i, PendingIntent.FLAG_UPDATE_CURRENT);
+		}
 
 		noti.setLatestEventInfo(ApplicationController.getInstance(), title,
 				message, contentIntent);
-		if(warning) {
+		if (warning) {
 			nm.notify(R.string.app_name, noti);
 		} else {
 			nm.notify(R.string.app_name + 1, noti);
@@ -1259,24 +1261,28 @@ public class CallbackManager extends Manger {
 		}
 	}
 
-	class HanderIpcLinkageMessageTask extends AsyncTask<CallbackIpcLinkageMessage, Void, CallbackIpcLinkageMessage> {
+	class HanderIpcLinkageMessageTask
+			extends
+			AsyncTask<CallbackIpcLinkageMessage, Void, CallbackIpcLinkageMessage> {
 
 		@Override
-		protected CallbackIpcLinkageMessage doInBackground(CallbackIpcLinkageMessage... params) {
+		protected CallbackIpcLinkageMessage doInBackground(
+				CallbackIpcLinkageMessage... params) {
 			// TODO Auto-generated method stub
-			//pic_name":"1439456470_00137A000001222D_0_1.jpg"
+			// pic_name":"1439456470_00137A000001222D_0_1.jpg"
 			SQLiteDatabase db = mDateHelper.getSQLiteDatabase();
-			
+
 			CallbackIpcLinkageMessage message = params[0];
 			String picNameString = message.getPicName();
 			String[] temp = picNameString.split("_");
-			//1439456470 时间戳
-			Date date = new Date((long)(Integer.parseInt(temp[0])) * 1000);
-			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			// 1439456470 时间戳
+			Date date = new Date((long) (Integer.parseInt(temp[0])) * 1000);
+			SimpleDateFormat format = new SimpleDateFormat(
+					"yyyy-MM-dd HH:mm:ss");
 			message.setTime(format.format(date));
-			//00137A000001222D device ieee
+			// 00137A000001222D device ieee
 			message.setDeviceIeee(temp[1]);
-			
+
 			String[] columns = { DevicesModel.PIC_NAME,
 					DevicesModel.DEFAULT_DEVICE_NAME };
 			String where = " ieee=? ";
@@ -1294,7 +1300,7 @@ public class CallbackManager extends Manger {
 			cursor.close();
 			message.setDeviceName(deviceName);
 			message.setDevicePic(picSource);
-			//0 video id
+			// 0 video id
 			message.setIpcId(Integer.parseInt(temp[2]));
 			String[] columns1 = { VideoNode.ALIAS };
 			String where1 = " id=? ";
@@ -1308,27 +1314,31 @@ public class CallbackManager extends Manger {
 			}
 			cursor1.close();
 			message.setIpcName(ipc_name);
-			message.setPicName(picNameString.substring(0, picNameString.length()-1));
-			message.setDescription("联动摄像头 "+ ipc_name+ " 截图.");
-			
-			long id = db.insert(DataHelper.IPC_LINKAGE_TABLE, null, message.convertContentValues());
-			
+			message.setPicName(picNameString.substring(0,
+					picNameString.length() - 1));
+			message.setDescription("联动摄像头 " + ipc_name + " 截图.");
+
+			long id = db.insert(DataHelper.IPC_LINKAGE_TABLE, null,
+					message.convertContentValues());
+
 			db.close();
-			
-			message.setId(id+"");
-			
+
+			message.setId(id + "");
+
 			Intent i = new Intent(ApplicationController.getInstance(),
 					AlarmMessageActivity.class);
-			makeNotify(i, message.getDeviceName(),
-					message.getDescription(), false);
-			
+			i.putExtra("INITTAB", 1);
+			makeNotify(i, message.getDeviceName(), message.getDescription(),
+					false);
+
 			Event event = new Event(EventType.IPC_LINKAGE_MSG, true);
 			event.setData(message);
 			notifyObservers(event);
 			return null;
 		}
-		
+
 	}
+
 	private long updateWarnMessage(CallbackWarnMessage warnmessage) {
 		long _id = -1;
 		DataHelper mDateHelper = new DataHelper(

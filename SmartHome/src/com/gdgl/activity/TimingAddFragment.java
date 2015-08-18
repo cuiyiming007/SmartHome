@@ -155,7 +155,7 @@ public class TimingAddFragment extends Fragment implements DeviceSelected {
 			mDeviceName.setText(mDevicesSelected.getmDefaultDeviceName());
 			mStatusDescribe.setText("设备状态：");
 			mDeviceStatus.setText(setDeviceStatusText(mTimingAction
-					.getDevicesStatus() == 1 ? true : false));
+					.getDevicesStatus() == 1 ? true : false, mDevicesSelected.getmDeviceId()));
 			mSwitchBtn.setChecked(mTimingAction.getDevicesStatus() == 1 ? true
 					: false);
 		}
@@ -165,7 +165,7 @@ public class TimingAddFragment extends Fragment implements DeviceSelected {
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
 				// TODO Auto-generated method stub
-				mDeviceStatus.setText(setDeviceStatusText(isChecked));
+				mDeviceStatus.setText(setDeviceStatusText(isChecked, mDevicesSelected.getmDeviceId()));
 				mTimingAction.setDevicesStatus(isChecked ? 1 : 0);
 			}
 		});
@@ -235,10 +235,10 @@ public class TimingAddFragment extends Fragment implements DeviceSelected {
 		refreshDateView();
 	}
 
-	public String setDeviceStatusText(boolean check) {
+	public static String setDeviceStatusText(boolean check, int deviceId) {
 		String deviceStatus = "";
 		if (check) {
-			switch (mDevicesSelected.getmDeviceId()) {
+			switch (deviceId) {
 			case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:
 			case DataHelper.MAINS_POWER_OUTLET_DEVICETYPE:
 			case DataHelper.ON_OFF_LIGHT_DEVICETYPE:
@@ -255,7 +255,7 @@ public class TimingAddFragment extends Fragment implements DeviceSelected {
 				break;
 			}
 		} else {
-			switch (mDevicesSelected.getmDeviceId()) {
+			switch (deviceId) {
 			case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:
 			case DataHelper.MAINS_POWER_OUTLET_DEVICETYPE:
 			case DataHelper.ON_OFF_LIGHT_DEVICETYPE:
@@ -301,7 +301,7 @@ public class TimingAddFragment extends Fragment implements DeviceSelected {
 		mDeviceName.setText(mDevicesSelected.getmDefaultDeviceName());
 		mStatusDescribe.setText("设备状态：");
 		mDeviceStatus.setText(setDeviceStatusText(mTimingAction
-				.getDevicesStatus() == 1 ? true : false));
+				.getDevicesStatus() == 1 ? true : false, mDevicesSelected.getmDeviceId()));
 		mSwitchBtn.setChecked(mTimingAction.getDevicesStatus() == 1 ? true
 				: false);
 	}

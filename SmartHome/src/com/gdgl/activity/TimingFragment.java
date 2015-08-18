@@ -213,17 +213,20 @@ public class TimingFragment extends Fragment implements UIListener,
 			}
 
 			SQLiteDatabase db = mDataHelper.getSQLiteDatabase();
-			String[] columns = { DevicesModel.PIC_NAME,
+			String[] columns = { DevicesModel.DEVICE_ID, DevicesModel.PIC_NAME,
 					DevicesModel.DEFAULT_DEVICE_NAME };
 			String where = " ieee=? and ep=? ";
 			String[] args = { mTimingAction.getIeee(), mTimingAction.getEp() };
 
 			Cursor cursor = mDataHelper.query(db, DataHelper.DEVICES_TABLE,
 					columns, where, args, null, null, null, null);
+			int deviceId = 0;
 			String picSource = Integer
 					.toString(R.drawable.ui_securitycontrol_alarm);
 			String deviceName = "";
 			while (cursor.moveToNext()) {
+				deviceId = cursor.getInt(cursor
+						.getColumnIndex(DevicesModel.DEVICE_ID));
 				deviceName = cursor.getString(cursor
 						.getColumnIndex(DevicesModel.DEFAULT_DEVICE_NAME));
 				picSource = cursor.getString(cursor
@@ -235,25 +238,29 @@ public class TimingFragment extends Fragment implements UIListener,
 			mHolder.devices_name.setText(deviceName);
 			mHolder.devices_img.setImageResource(Integer.parseInt(picSource));
 			if (mTimingAction.getPara2() == 0) { // 是否重复
-				if (mTimingAction.getDevicesStatus() == 0) {
-					mHolder.timing_date.setText(year + "." + month + "." + day
-							+ " " + hour + ":" + minite + " " + "关闭");
-				}
-				if (mTimingAction.getDevicesStatus() == 1) {
-					mHolder.timing_date.setText(year + "." + month + "." + day
-							+ " " + hour + ":" + minite + " " + "开启");
-				}
+				mHolder.timing_date.setText(year
+						+ "."
+						+ month
+						+ "."
+						+ day
+						+ " "
+						+ hour
+						+ ":"
+						+ minite
+						+ " "
+						+ TimingAddFragment.setDeviceStatusText(mTimingAction
+								.getDevicesStatus() == 1 ? true : false,
+								deviceId));
 				mHolder.repeat_status.setText("仅一次");
 			}
 			if (mTimingAction.getPara2() == 1) {
-				if (mTimingAction.getDevicesStatus() == 0) {
-					mHolder.timing_date.setText(hour + ":" + minite + " "
-							+ "关闭");
-				}
-				if (mTimingAction.getDevicesStatus() == 1) {
-					mHolder.timing_date.setText(hour + ":" + minite + " "
-							+ "开启");
-				}
+				mHolder.timing_date.setText(hour
+						+ ":"
+						+ minite
+						+ " "
+						+ TimingAddFragment.setDeviceStatusText(mTimingAction
+								.getDevicesStatus() == 1 ? true : false,
+								deviceId));
 				StringBuilder builder = new StringBuilder();
 				for (int i = 0; i < 7; i++) {
 					if (mTimingAction.getPara3Status()[i]) {
@@ -272,31 +279,29 @@ public class TimingFragment extends Fragment implements UIListener,
 				mHolder.timing_state.setText("启用");
 			}
 			mHolder.devices_switch.setOnClickListener(new OnClickListener() {
-				
+
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
 					if (mHolder.devices_switch.isChecked()) {
 						mHolder.timing_state.setText("启用");
 						if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
-							SceneLinkageManager.getInstance()
-									.EnableTimeAction(1,
-											mTimingAction.getTid());
+							SceneLinkageManager.getInstance().EnableTimeAction(
+									1, mTimingAction.getTid());
 						} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
-							LibjingleSendManager.getInstance()
-									.EnableTimeAction(1,
-											mTimingAction.getTid());
+							LibjingleSendManager
+									.getInstance()
+									.EnableTimeAction(1, mTimingAction.getTid());
 						}
 					} else {
 						mHolder.timing_state.setText("未启用");
 						if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
-							SceneLinkageManager.getInstance()
-									.EnableTimeAction(0,
-											mTimingAction.getTid());
+							SceneLinkageManager.getInstance().EnableTimeAction(
+									0, mTimingAction.getTid());
 						} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
-							LibjingleSendManager.getInstance()
-									.EnableTimeAction(0,
-											mTimingAction.getTid());
+							LibjingleSendManager
+									.getInstance()
+									.EnableTimeAction(0, mTimingAction.getTid());
 						}
 					}
 				}

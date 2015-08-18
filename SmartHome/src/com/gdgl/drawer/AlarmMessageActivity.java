@@ -1,6 +1,5 @@
 package com.gdgl.drawer;
 
-import com.gdgl.activity.MessageListFragment;
 import com.gdgl.activity.MessageTabFragment;
 import com.gdgl.activity.MyActionBarActivity;
 import com.gdgl.smarthome.R;
@@ -20,7 +19,8 @@ public class AlarmMessageActivity extends MyActionBarActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		Bundle mBundle = getIntent().getExtras();
+		
 		mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
 		setSupportActionBar(mToolbar);
 		mActionBar = getSupportActionBar();
@@ -46,6 +46,7 @@ public class AlarmMessageActivity extends MyActionBarActivity {
 			}
 		});
 		
+		mfragent.setArguments(mBundle);
 		FragmentTransaction fragmentTransaction = getSupportFragmentManager()
 				.beginTransaction();
 
