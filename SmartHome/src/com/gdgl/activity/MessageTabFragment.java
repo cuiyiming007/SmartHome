@@ -23,10 +23,16 @@ public class MessageTabFragment extends Fragment {
 	private ArrayList<Fragment> mfragments;
 	MessageListFragment fragment0;
 	MessageIpcLinkageFragment fragment1;
+	
+	int initTab = 0;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
+		Bundle extras = getArguments();
+		if (null != extras) {
+			initTab = extras.getInt("INITTAB");
+		}
 		super.onCreate(savedInstanceState);
 	}
 
@@ -58,6 +64,7 @@ public class MessageTabFragment extends Fragment {
 
 		pager.setAdapter(adapter);
 		tabs.setViewPager(pager);
+		pager.setCurrentItem(initTab);
 	}
 
 	public void clickDelete() {
