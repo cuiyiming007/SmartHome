@@ -1271,6 +1271,27 @@ public class LibjingleSendManager extends Manger {
 		sendList.add(mStructure);
 	}
 
+	/**
+	 * 停止所有声光报警，包括大洋警报器报警和网关声音报警. 新网关可用（米尔）
+	 */
+	public void stopAlarm() {
+		String url = LibjingleNetUtil.getInstance().getVideoURL(
+				"StopAlarm.cgi");
+		
+		String jid = LibjinglePackHandler.getJid();
+		int reqid = getReqID();
+
+		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
+		// Log.i(TAG, packag);
+		Libjingle.getInstance().sendToGateway(packag);
+
+		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
+		mStructure.setRequest_id(reqid);
+		mStructure.setGl_msgtype(LibjinglePackHandler.MT_URL);
+		mStructure.setAPI_type(LibjingleSendStructure.DONOTCARE);
+		sendList.add(mStructure);
+	}
+	
 	public void getHeartTime(DevicesModel mDevices) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", mDevices.getmIeee());
@@ -1596,7 +1617,7 @@ public class LibjingleSendManager extends Manger {
 
 	/**
 	 * *************************************************************************
-	 * ******************************************** 联动
+	 * ******************************************** 定时
 	 */
 	// 获取定时列表
 	public void GetTimeActionList() {
