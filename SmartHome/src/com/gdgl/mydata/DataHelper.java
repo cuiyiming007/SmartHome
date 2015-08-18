@@ -39,13 +39,12 @@ public class DataHelper extends SQLiteOpenHelper {
 	public static final int IAS_ZONE_DEVICETYPE = 1026; // 烟雾感应器、可燃气体探测器（煤气）、（天然气）、（一氧化碳）、窗磁、门窗感应开关、紧急按钮、ZigBee墙面紧急按钮、作感应器
 	public static final int IAS_WARNNING_DEVICE_DEVICETYPE = 1027; // 警报器
 
+	//zigbee devices
 	public static final String Motion_Sensor = "ZB11A"; // ZigBee动作感应器
 	public static final String Magnetic_Window = "Z311A"; // ZigBee窗磁
 	public static final String Emergency_Button = "Z308"; // ZigBee紧急按钮 （！改）
-	public static final String Emergency_Button_On_Wall = "ZB02I"; // ZigBee墙面紧急按钮
-																	// （！新加）
-	public static final String Doors_and_windows_sensor_switch = "Z311J"; // 门窗感应开关
-																			// （！改）
+	public static final String Emergency_Button_On_Wall = "ZB02I"; // ZigBee墙面紧急按钮（！新加）
+	public static final String Doors_and_windows_sensor_switch = "Z311J"; // 门窗感应开关（！改）
 	public static final String Smoke_Detectors = "ZA01A"; // 烟雾感应器
 	public static final String Combustible_Gas_Detector_Gas = "ZA01B"; // 可燃气体探测器（煤气）
 	public static final String Combustible_Gas_Detector_CO = "ZA01C"; // 可燃气体探测器（一氧化碳）
@@ -66,16 +65,26 @@ public class DataHelper extends SQLiteOpenHelper {
 	public static final String Multi_key_remote_control = "Z503"; // ZigBee多键遥控器
 	public static final String Doorbell_button = "Z312"; // ZigBee门铃按键
 	public static final String Switch_Module_Single = "Z805B"; // ZigBee开关模块（单路）
-	public static final String Switch_Module_Double = "Z806"; // ZigBee开关模块（双路）
-																// （！新加）
-	public static final String Switch_Module_Quadruple = "Z811"; // ZigBee开关模块（四路）
-																	// （！新加）
+	public static final String Switch_Module_Double = "Z806"; // ZigBee开关模块（双路）（！新加）
+	public static final String Switch_Module_Quadruple = "Z811"; // ZigBee开关模块（四路）（！新加）
 	public static final String Energy_detection_dimming_module = "Z817B"; // 吸顶电能检测调光模块
 	public static final String Pro_RF = "Z100BI"; // ZigBee Pro RF ģ��
 	public static final String RS232_adapter = "ZL01A"; // ��ҵ��ZigBee RS232适配器
 	public static final String Power_detect_socket = "Z809A"; // ZigBee电能检测插座
 	public static final String One_key_operator = "Z103A"; // 安防中心
 
+	//RF devices
+	public static final String RF_Magnetic_Door = "RX87K"; // RF门磁
+	public static final String RF_Magnetic_Door_Roll = "RX87LD"; // RF卷闸门磁
+	public static final String RF_Emergency_Button = "RX89"; // RF紧急按钮
+	public static final String RF_Infrared_Motion_Sensor = "ZB11A"; // RF红外探测器
+	public static final String RF_Smoke_Detectors = "RX83L"; // RF烟雾感应器
+	public static final String RF_Combustible_Gas_Detector = "RX85"; // 燃气探测器
+	public static final String RF_Siren = "RX103W"; // RF警报器
+	public static final String RF_Siren_Relay = "RX103WL"; // RF中继警报器
+	public static final String RF_Siren_Outside = "RX103HA"; // RF室外警报器
+	public static final String RF_remote_control = "RX88"; // RF遥控器
+	
 	public static final String DATABASE_NAME = "smarthome";
 	public static final String DEVICES_TABLE = "devices";
 	public static final String SCENE_TABLE = "scene_table";

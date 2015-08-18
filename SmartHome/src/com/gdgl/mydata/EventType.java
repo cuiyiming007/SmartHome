@@ -91,6 +91,15 @@ public class EventType {
 	public static final EventType GATEWAYUPDATEBEGINE;
 	public static final EventType GATEWAYUPDATECOMPLETE;
 	
+	
+	//RF EVENT
+	public static final EventType RF_DEVICE_STATUS;
+	public static final EventType RF_DEVICE_BYPASS;
+	public static final EventType RF_CHANGEDEVICENAME;
+	public static final EventType RF_DEVICE_ENABLE;
+	public static final EventType RF_DEVICE_LIST_UPDATE;
+	public static final EventType RF_DEVICE_ONLINE_STATUS;
+	
 	static {
 		LOGIN = new EventType("login", id);
 		LIBJINGLE_STATUS = new EventType("libjingle_status", nextId());
@@ -174,6 +183,15 @@ public class EventType {
 		NETWORKCHANGE = new EventType("networkchange", nextId());
 		GATEWAYUPDATEBEGINE = new EventType("gatewayUpdateBegine", nextId());
 		GATEWAYUPDATECOMPLETE = new EventType("gatewayUpdateComplete", nextId());
+		
+		
+		RF_DEVICE_STATUS = new EventType("rfDeviceStatus", nextId());
+		RF_DEVICE_BYPASS = new EventType("rfDeviceBypass", nextId());
+		RF_CHANGEDEVICENAME = new EventType("rfChangeDeviceName", nextId());
+		RF_DEVICE_ENABLE = new EventType("rfDeviceEnable", nextId());
+		RF_DEVICE_LIST_UPDATE = new EventType("rfDeviceListUpdate", nextId());
+		RF_DEVICE_ONLINE_STATUS = new EventType("rfDeviceOnlineStatus", nextId());
+		
 	}
 
 	private static int nextId() {
