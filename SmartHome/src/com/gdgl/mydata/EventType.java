@@ -14,6 +14,7 @@ public class EventType {
 	public static final EventType LIBJINGLE_STATUS;
 	public static final EventType MODIFYPASSWORD;
 	public static final EventType MODIFYALIAS;
+	public static final EventType INITGATEWAY;
 	public static final EventType ONOFFOUTPUTOPERATION;
 
 	public static final EventType DOORLOCKOPERATION;
@@ -105,6 +106,7 @@ public class EventType {
 		LIBJINGLE_STATUS = new EventType("libjingle_status", nextId());
 		MODIFYPASSWORD = new EventType("ModifyPassword", nextId());
 		MODIFYALIAS = new EventType("modifyAlias", nextId());
+		INITGATEWAY = new EventType("InitGateway", nextId());
 		ONOFFOUTPUTOPERATION = new EventType("onOffOutputOperation", nextId());
 		INTITIALDVIVCEDATA = new EventType("initialDiviceData", nextId());
 		GETICELIST = new EventType("getICEList", nextId());

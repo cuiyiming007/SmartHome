@@ -314,6 +314,38 @@ public class DeviceControlActivity extends MyActionBarActivity implements
 					});
 				}
 			}
+		} else if (EventType.INITGATEWAY == event.getType()) {
+
+			if (event.isSuccess() == true) {
+				int status = (Integer) event.getData();
+				if(status == 1) {
+					mToolbar.post(new Runnable() {
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							MyOKOnlyDlg myOKOnlyDlg = new MyOKOnlyDlg(DeviceControlActivity.this);
+							myOKOnlyDlg.setContent("别名、密码已初始化，请重新登录！");
+							myOKOnlyDlg.setCannotCanceled();
+							myOKOnlyDlg.setDialogCallback(DeviceControlActivity.this);
+							myOKOnlyDlg.show();
+						}
+					});
+				} else if(status == 2) {
+					mToolbar.post(new Runnable() {
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							MyOKOnlyDlg myOKOnlyDlg = new MyOKOnlyDlg(DeviceControlActivity.this);
+							myOKOnlyDlg.setContent("网关已恢复出厂设置，请重新登录！");
+							myOKOnlyDlg.setCannotCanceled();
+							myOKOnlyDlg.setDialogCallback(DeviceControlActivity.this);
+							myOKOnlyDlg.show();
+						}
+					});
+				}
+			}
 		} else if (EventType.GATEWAYUPDATEBEGINE == event.getType()) {
 			if (!GatewayUpdateDetailDlgFragment.UpdateSelf) {
 				GatewayUpdateDetailDlgFragment gatewayUpdateFragment = new GatewayUpdateDetailDlgFragment(

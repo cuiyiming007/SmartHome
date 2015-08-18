@@ -392,6 +392,12 @@ public class CallbackManager extends Manger {
 				event2.setData(status2);
 				notifyObservers(event2);
 				break;
+			case 3:
+				int status3 = (Integer) jsonRsponse.get("status");
+				
+				Event event3 = new Event(EventType.INITGATEWAY, true);
+				event3.setData(status3);
+				notifyObservers(event3);
 			default:
 				break;
 			}

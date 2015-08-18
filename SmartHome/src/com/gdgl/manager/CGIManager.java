@@ -1542,6 +1542,27 @@ public class CGIManager extends Manger {
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
 
+	/**
+	 * 停止所有声光报警，包括大洋警报器报警和网关声音报警. 新网关可用（米尔）
+	 */
+	public void stopAlarm() {
+		String url = NetUtil.getInstance().getVideoURL(
+				NetUtil.getInstance().IP, "StopAlarm.cgi");
+		StringRequest req = new StringRequest(url,
+				new Response.Listener<String>() {
+					@Override
+					public void onResponse(String response) {
+						
+					}
+				}, new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+						
+					}
+				});
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
+	
 	/***
 	 * 获取安防设备心跳周期
 	 * 
