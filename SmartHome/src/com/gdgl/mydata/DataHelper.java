@@ -38,6 +38,7 @@ public class DataHelper extends SQLiteOpenHelper {
 	public static final int IAS_ACE_DEVICETYPE = 1025; // 门铃按键、多键遥控器(不可控制)
 	public static final int IAS_ZONE_DEVICETYPE = 1026; // 烟雾感应器、可燃气体探测器（煤气）、（天然气）、（一氧化碳）、窗磁、门窗感应开关、紧急按钮、ZigBee墙面紧急按钮、作感应器
 	public static final int IAS_WARNNING_DEVICE_DEVICETYPE = 1027; // 警报器
+	public static final int RF_DEVICE = -1; //RF设备
 
 	//zigbee devices
 	public static final String Motion_Sensor = "ZB11A"; // ZigBee动作感应器

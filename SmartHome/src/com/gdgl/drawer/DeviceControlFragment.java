@@ -28,6 +28,7 @@ import com.gdgl.libjingle.LibjingleSendManager;
 import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.Manger;
+import com.gdgl.manager.RfCGIManager;
 import com.gdgl.manager.UIListener;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.Constants;
@@ -61,6 +62,7 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 	private ArrayList<Fragment> mfragments;
 
 	CGIManager cgiManager;
+	RfCGIManager rfCGIManager;//====王晓飞====
 	LibjingleSendManager libjingleSendManager;
 
 	@Override
@@ -75,6 +77,8 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 
 		cgiManager = CGIManager.getInstance();
 		cgiManager.addObserver(DeviceControlFragment.this);
+		rfCGIManager = RfCGIManager.getInstance();//======王晓飞
+		rfCGIManager.addObserver(DeviceControlFragment.this);//====王晓飞
 		CallbackManager.getInstance().addObserver(DeviceControlFragment.this);
 		libjingleSendManager = LibjingleSendManager.getInstance();
 	}
@@ -442,7 +446,7 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 
 	public void DeviceContorlOnOffClickDo(int status) {
 		int deviceId = mDevices.getmDeviceId();
-
+		String modelId = mDevices.getmModelId();//=======王晓飞=====
 		switch (deviceId) {
 		case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:
 			switch (status) {
@@ -550,6 +554,36 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 		case DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE:
 			cgiManager.IASWarningDeviceOperationCommon(mDevices, 0);
 			break;
+			//=====20150819====王晓飞=====
+		case DataHelper.RF_DEVICE:
+			switch (status) {
+			case ON:
+				if (modelId.indexOf(DataHelper.RF_Siren) == 0||
+						modelId.indexOf(DataHelper.RF_Siren_Outside) == 0||
+						modelId.indexOf(DataHelper.RF_Siren_Relay) == 0){
+					cgiManager.stopAlarm();
+				} else if (modelId.indexOf(DataHelper.RF_remote_control) == 0){
+					
+				} else {
+					rfCGIManager.ChangeRFDevArmState(Integer.parseInt(mDevices.getmIeee()), 1);
+				}
+				break;
+			case OFF:
+				if (modelId.indexOf(DataHelper.RF_Siren) == 0||
+						modelId.indexOf(DataHelper.RF_Siren_Outside) == 0||
+						modelId.indexOf(DataHelper.RF_Siren_Relay) == 0) {
+					cgiManager.stopAlarm();
+				} else if (modelId.indexOf(DataHelper.RF_remote_control) == 0){
+				
+				} else {
+					rfCGIManager.ChangeRFDevArmState(Integer.parseInt(mDevices.getmIeee()), 0);
+				}
+				break;
+			default:
+				break;
+			}
+			break;
+			
 		default:
 			break;
 		}
@@ -557,7 +591,7 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 
 	public void DeviceContorlOnOffClickDo_Internet(int status) {
 		int deviceId = mDevices.getmDeviceId();
-
+		String modelId = mDevices.getmModelId();//====王晓飞=====
 		switch (deviceId) {
 		case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:
 			switch (status) {
@@ -650,6 +684,38 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 		case DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE:
 			libjingleSendManager.IASWarningDeviceOperationCommon(mDevices, 0);
 			break;
+			
+		case DataHelper.RF_DEVICE://====王晓飞====
+			switch (status) {
+			case ON:
+				if (modelId.indexOf(DataHelper.RF_Siren) == 0||
+						modelId.indexOf(DataHelper.RF_Siren_Outside) == 0||
+						modelId.indexOf(DataHelper.RF_Siren_Relay) == 0){
+			//		libjingleSendManager.RFWarningDevOperation(Integer.parseInt(mDevices.getmIeee()), 1,0);
+					libjingleSendManager.stopAlarm();
+				}else if (modelId.indexOf(DataHelper.RF_remote_control) == 0){
+					
+				}else {
+					libjingleSendManager.ChangeRFDevArmState(Integer.parseInt(mDevices.getmIeee()), 1);
+				}
+				break;
+			case OFF:
+				if (modelId.indexOf(DataHelper.RF_Siren) == 0||
+						modelId.indexOf(DataHelper.RF_Siren_Outside) == 0||
+						modelId.indexOf(DataHelper.RF_Siren_Relay) == 0) {
+//					libjingleSendManager.RFWarningDevOperation(Integer.parseInt(mDevices.getmIeee()), 0,0);
+					libjingleSendManager.stopAlarm();
+				} else if (modelId.indexOf(DataHelper.RF_remote_control) == 0) {
+					
+				} else {
+					libjingleSendManager.ChangeRFDevArmState(Integer.parseInt(mDevices.getmIeee()), 0);
+				}
+				break;
+			default:
+				break;
+			}
+			break;
+			
 		default:
 			break;
 		}
