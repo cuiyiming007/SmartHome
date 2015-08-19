@@ -701,6 +701,36 @@ public class DataUtil {
 		if (modelID.indexOf(DataHelper.Doorbell_button) == 0) { // ZigBee门铃按键
 			result = 304;
 		}
+		if (modelID.indexOf(DataHelper.RF_Magnetic_Door) == 0) { //  RF门磁
+			result = 3;
+		}
+		if (modelID.indexOf(DataHelper.RF_Magnetic_Door_Roll) == 0) { //  RF卷闸门磁
+			result = 3;
+		}
+		if (modelID.indexOf(DataHelper.RF_Emergency_Button) == 0) { //  RF紧急按钮
+			result = 10;
+		}
+		if (modelID.indexOf(DataHelper.RF_Infrared_Motion_Sensor) == 0) { // RF红外探测器
+			result = 4;
+		}
+		if (modelID.indexOf(DataHelper.RF_Smoke_Detectors) == 0) { // RF烟雾感应器
+			result = 6;
+		}
+		if (modelID.indexOf(DataHelper.RF_Combustible_Gas_Detector) == 0) { // 燃气探测器
+			result = 7;
+		}
+		if (modelID.indexOf(DataHelper.RF_Siren) == 0) { // RF警报器
+			result = 1;
+		}
+		if (modelID.indexOf(DataHelper.RF_Siren_Relay) == 0) { // RF中继警报器
+			result = 1;
+		}
+		if (modelID.indexOf(DataHelper.RF_Siren_Outside) == 0) { // RF室外警报器
+			result = 1;
+		}
+		if (modelID.indexOf(DataHelper.RF_remote_control) == 0) { // RF遥控器
+			result = 12;
+		}
 
 		return result;
 	}
