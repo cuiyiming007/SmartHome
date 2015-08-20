@@ -312,11 +312,11 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 	public int getmStatus() {
 		return mStatus;
 	}
-	
+
 	public void setmStatus(int mStatus) {
 		this.mStatus = mStatus;
 	}
-	
+
 	public String getmEP() {
 		return mEP;
 	}
@@ -676,25 +676,27 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 		mDeviceSort = (DataUtil.getDefaultDevicesSort(
 				Integer.parseInt(r.getDevice_id()), n.getModel_id()));
 		mDeviceRegion = ("");
-		// Log.i("", DataUtil.getDefaultDevicesName(
-		// ApplicationController.getInstance(), getmModelId(), getmEP()));
-		String[] nameString = DataUtil.getDefaultDevicesName(
-				ApplicationController.getInstance(), mModelId, mEP).split(
-				"\\*\\*");
-		Log.i("", nameString[0] + "*" + nameString[1]);
-		if (d.getName().equals(nameString[0])) {
-			String newname = Uri.encode(nameString[1]
-					+ "("
-					+ getmIeee().substring(getmIeee().length() - 4,
-							getmIeee().length()) + ")");
-			CGIManager.getInstance().ChangeDeviceName(getmIeee(), d.getEp(),
-					d.getName(), newname);
-			mDefaultDeviceName = (nameString[1]
-					+ "("
-					+ getmIeee().substring(getmIeee().length() - 4,
-							getmIeee().length()) + ")");
-		} else {
+		if (mDeviceId < 0) {
 			mDefaultDeviceName = (d.getName());
+		} else {
+			String[] nameString = DataUtil.getDefaultDevicesName(
+					ApplicationController.getInstance(), mModelId, mEP).split(
+					"\\*\\*");
+			Log.i("", nameString[0] + "*" + nameString[1]);
+			if (d.getName().equals(nameString[0])) {
+				String newname = Uri.encode(nameString[1]
+						+ "("
+						+ getmIeee().substring(getmIeee().length() - 4,
+								getmIeee().length()) + ")");
+				CGIManager.getInstance().ChangeDeviceName(getmIeee(),
+						d.getEp(), d.getName(), newname);
+				mDefaultDeviceName = (nameString[1]
+						+ "("
+						+ getmIeee().substring(getmIeee().length() - 4,
+								getmIeee().length()) + ")");
+			} else {
+				mDefaultDeviceName = (d.getName());
+			}
 		}
 		mDevicePriority = (DataUtil.getDefaultDevicesPriority(n.getModel_id()));
 

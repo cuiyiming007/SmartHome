@@ -685,7 +685,7 @@ public class DataUtil {
 		if (modelID.indexOf(DataHelper.Light_Sensor) == 0) { // ZigBee光线感应器
 			result = 201;
 		}
-
+		//RF devices
 		if (modelID.indexOf(DataHelper.Wall_switch_touch) == 0) { // ZigBee墙面开关（单键）
 			result = 300;
 		}

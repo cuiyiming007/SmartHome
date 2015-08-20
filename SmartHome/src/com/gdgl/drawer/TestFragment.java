@@ -490,6 +490,9 @@ public class TestFragment extends Fragment implements UIListener {
 			mDeviceList = mDh.queryForDevicesList(mDh.getSQLiteDatabase(),
 					DataHelper.DEVICES_TABLE, null, null, null, null, null,
 					DevicesModel.DEVICE_PRIORITY, null);
+			mDeviceList.addAll(mDh.queryForDevicesList(mDh.getSQLiteDatabase(),
+					DataHelper.RF_DEVICES_TABLE, null, null, null, null, null,
+					DevicesModel.DEVICE_PRIORITY, null));
 			mDh.getSQLiteDatabase().close();
 			return 1;
 		}
