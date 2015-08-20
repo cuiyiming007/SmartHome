@@ -228,6 +228,39 @@ public class DataUtil {
 		case DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE:
 			result = R.drawable.ui2_device_alarm;
 			break;
+			//===rf设备===王晓飞==
+		case DataHelper.RF_DEVICE:
+			if (modelId.indexOf(DataHelper.RF_Magnetic_Door) == 0) { // RF门磁
+				result = R.drawable.ui2_device_rf_doormagnetic;
+			}
+			if (modelId.indexOf(DataHelper.RF_Magnetic_Door_Roll) == 0) { // RF卷闸门磁
+				result = R.drawable.ui2_device_rf_doormagnetic_roll;
+			}
+			if (modelId.indexOf(DataHelper.RF_Emergency_Button) == 0) { // RF紧急按钮
+				result = R.drawable.ui2_device_rf_emergencybutton;
+			}
+			if (modelId.indexOf(DataHelper.RF_Infrared_Motion_Sensor) == 0) { // RF红外探测器
+				result = R.drawable.ui2_device_rf_motionsensor;
+			}
+			if (modelId.indexOf(DataHelper.RF_Smoke_Detectors) == 0) { // RF烟雾感应器
+				result = R.drawable.ui2_device_rf_detectorsmoke;
+			}
+			if (modelId.indexOf(DataHelper.RF_Combustible_Gas_Detector) == 0) { // 燃气探测器
+				result = R.drawable.ui2_device_rf_detectorgas;
+			}
+			if (modelId.indexOf(DataHelper.RF_Siren) == 0) { // RF警报器
+				result = R.drawable.ui2_device_rf_alarm;
+			}
+			if (modelId.indexOf(DataHelper.RF_Siren_Relay) == 0) { // RF中继警报器
+				result = R.drawable.ui2_device_rf_alarm_relay;
+			}
+			if (modelId.indexOf(DataHelper.RF_Siren_Outside) == 0) { // RF室外警报器
+				result = R.drawable.ui2_device_rf_alarm_outside;
+			}
+			if (modelId.indexOf(DataHelper.RF_remote_control) == 0) { // RF遥控器
+				result = R.drawable.ui2_device_rf_remote_control;
+			}
+			break;	
 		default:
 			result = R.drawable.ui_lightmanage_switchmodule;
 			break;
@@ -337,6 +370,40 @@ public class DataUtil {
 		case DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE:
 			result = R.drawable.ui2_device_alarm_samll;
 			break;
+			//===rf设备====
+		case DataHelper.RF_DEVICE:
+			if (modelId.indexOf(DataHelper.RF_Magnetic_Door) == 0) { // RF门磁
+				result = R.drawable.ui2_device_rf_doormagnetic_small;
+			}
+			if (modelId.indexOf(DataHelper.RF_Magnetic_Door_Roll) == 0) { // RF卷闸门磁
+				result = R.drawable.ui2_device_rf_doormagnetic_roll_small;
+			}
+			if (modelId.indexOf(DataHelper.RF_Emergency_Button) == 0) { // RF紧急按钮
+				result = R.drawable.ui2_device_rf_emergencybutton_small;
+			}
+			if (modelId.indexOf(DataHelper.RF_Infrared_Motion_Sensor) == 0) { // RF红外探测器
+				result = R.drawable.ui2_device_rf_motionsensor_small;
+			}
+			if (modelId.indexOf(DataHelper.RF_Smoke_Detectors) == 0) { // RF烟雾感应器
+				result = R.drawable.ui2_device_rf_detectorsmoke_small;
+			}
+			if (modelId.indexOf(DataHelper.RF_Combustible_Gas_Detector) == 0) { // 燃气探测器
+				result = R.drawable.ui2_device_rf_detectorgas_small;
+			}
+			if (modelId.indexOf(DataHelper.RF_Siren) == 0) { // RF警报器
+				result = R.drawable.ui2_device_rf_alarm_small;
+			}
+			if (modelId.indexOf(DataHelper.RF_Siren_Relay) == 0) { // RF中继警报器
+				result = R.drawable.ui2_device_rf_alarm_relay_small;
+			}
+			if (modelId.indexOf(DataHelper.RF_Siren_Outside) == 0) { // RF室外警报器
+				result = R.drawable.ui2_device_rf_alarm_outside_small;
+			}
+			if (modelId.indexOf(DataHelper.RF_remote_control) == 0) { // RF遥控器
+				result = R.drawable.ui2_device_rf_remote_control_small;
+			}
+			break;	
+			
 		default:
 			result = R.drawable.ui_lightmanage_switchmodule;
 			break;
@@ -446,6 +513,39 @@ public class DataUtil {
 		case DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE:
 			result = R.drawable.ui2_device_alarm_control_on;
 			break;
+			//=====rf设备==========
+		case DataHelper.RF_DEVICE:
+			if (modelId.indexOf(DataHelper.RF_Magnetic_Door) == 0) { // RF门磁
+				result = R.drawable.ui2_device_rf_doormagnetic_control_style;
+			}
+			if (modelId.indexOf(DataHelper.RF_Magnetic_Door_Roll) == 0) { // RF卷闸门磁
+				result = R.drawable.ui2_device_rf_doormagnetic_roll_control_style;
+			}
+			if (modelId.indexOf(DataHelper.RF_Emergency_Button) == 0) { // RF紧急按钮
+				result = R.drawable.ui2_device_rf_emergencybutton_control_style;
+			}
+			if (modelId.indexOf(DataHelper.RF_Infrared_Motion_Sensor) == 0) { // RF红外探测器
+				result = R.drawable.ui2_device_rf_motionsensor_control_style;
+			}
+			if (modelId.indexOf(DataHelper.RF_Smoke_Detectors) == 0) { // RF烟雾感应器
+				result = R.drawable.ui2_device_rf_detectorsmoke_control_style;
+			}
+			if (modelId.indexOf(DataHelper.RF_Combustible_Gas_Detector) == 0) { // 燃气探测器
+				result = R.drawable.ui2_device_rf_detectorgas_control_style;
+			}
+			if (modelId.indexOf(DataHelper.RF_Siren) == 0) { // RF警报器
+				result = R.drawable.ui2_device_rf_alarm_control_style;
+			}
+			if (modelId.indexOf(DataHelper.RF_Siren_Relay) == 0) { // RF中继警报器
+				result = R.drawable.ui2_device_rf_alarm_relay_control_style;
+			}
+			if (modelId.indexOf(DataHelper.RF_Siren_Outside) == 0) { // RF室外警报器
+				result = R.drawable.ui2_device_rf_alarm_outside_control_style;
+			}
+			if (modelId.indexOf(DataHelper.RF_remote_control) == 0) { // RF遥控器
+				result = R.drawable.ui2_device_rf_remote_control_control_style;
+			}
+			break;	
 		default:
 			result = R.drawable.ui_lightmanage_switchmodule;
 			break;
