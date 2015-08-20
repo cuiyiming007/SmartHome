@@ -324,25 +324,26 @@ public class LinkageDetailFragment extends Fragment implements
 		if(actDevices.getmDevicePriority() == 1000){
 			lnkact = "4:" + actDevices.getID() + "-1";
 		}else{
-			if(actDevices.getmModelId().indexOf((DataHelper.Magnetic_Window)) == 0){ //窗磁Z311A
-				lnkact += 1;
-			}else if(actDevices.getmModelId().indexOf((DataHelper.Motion_Sensor)) == 0){ //动作感应器ZB11A
-				lnkact += 1;
-			}else if(actDevices.getmModelId().indexOf((DataHelper.Smoke_Detectors)) == 0){ //烟雾感应器ZA01A
-				lnkact += 1;
-			}else if(actDevices.getmModelId().indexOf((DataHelper.Siren)) == 0){ //警报器Z602A
-				lnkact += 1;
-			}else if(actDevices.getmModelId().indexOf((DataHelper.Indoor_temperature_sensor)) == 0){ //温湿度感应器Z711
-				lnkact += 1;
-			}else if(actDevices.getmModelId().indexOf((DataHelper.Power_detect_wall)) == 0){ //电能检测墙面插座Z816H
-				lnkact += 3;
-			}else if(actDevices.getmModelId().indexOf((DataHelper.Power_detect_socket)) == 0){ //电能检测插座Z809A=====王晓飞
-				lnkact += 3;
-			}else if(actDevices.getmModelId().indexOf((DataHelper.One_key_operator)) == 0){ //物联网网关
-				lnkact += 2;
-			}else { //
-				lnkact += 3;
-			}
+//			if(actDevices.getmModelId().indexOf((DataHelper.Magnetic_Window)) == 0){ //窗磁Z311A
+//				lnkact += 1;
+//			}else if(actDevices.getmModelId().indexOf((DataHelper.Motion_Sensor)) == 0){ //动作感应器ZB11A
+//				lnkact += 1;
+//			}else if(actDevices.getmModelId().indexOf((DataHelper.Smoke_Detectors)) == 0){ //烟雾感应器ZA01A
+//				lnkact += 1;
+//			}else if(actDevices.getmModelId().indexOf((DataHelper.Siren)) == 0){ //警报器Z602A
+//				lnkact += 1;
+//			}else if(actDevices.getmModelId().indexOf((DataHelper.Indoor_temperature_sensor)) == 0){ //温湿度感应器Z711
+//				lnkact += 1;
+//			}else if(actDevices.getmModelId().indexOf((DataHelper.Power_detect_wall)) == 0){ //电能检测墙面插座Z816H
+//				lnkact += 3;
+//			}else if(actDevices.getmModelId().indexOf((DataHelper.Power_detect_socket)) == 0){ //电能检测插座Z809A=====王晓飞
+//				lnkact += 3;
+//			}else if(actDevices.getmModelId().indexOf((DataHelper.One_key_operator)) == 0){ //物联网网关
+//				lnkact += 2;
+//			}else { //
+//				lnkact += 3;
+//			}
+			lnkact += DataUtil.getTimingSceneActionParamType(actDevices.getmDeviceId());
 			lnkact += ":" + actDevices.getmIeee() + "-" + actDevices.getmEP() + "-" + onoff;
 		}
 		return lnkact;
