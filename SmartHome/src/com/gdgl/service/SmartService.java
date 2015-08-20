@@ -16,6 +16,7 @@ import com.gdgl.drawer.MainActivity;
 import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.DeviceManager;
+import com.gdgl.manager.RfCGIManager;
 import com.gdgl.manager.SceneLinkageManager;
 import com.gdgl.manager.VideoManager;
 import com.gdgl.mydata.Constants;
@@ -86,6 +87,7 @@ public class SmartService extends Service {
 	public void startLANService() {
 		// =============================server======================
 		DeviceManager.getInstance().getDeviceEndPoint();
+		RfCGIManager.getInstance().GetRFDevList();
 		VideoManager.getInstance().getIPClist();
 		SceneLinkageManager.getInstance().GetSceneList();
 		SceneLinkageManager.getInstance().GetTimeActionList();

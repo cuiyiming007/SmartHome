@@ -40,18 +40,17 @@ public class DeviceDetailFragment_new extends Fragment implements UIListener {
 			device_app_versionTextView, device_hw_versionTextView,
 			device_date_codeTextView;
 	EditText identify_timeEditText;
-	LinearLayout energy_attributeLayout, device_aboutLayout, device_about_contentLayout,
-			device_heart_layout;
+	LinearLayout energy_attributeLayout, device_aboutLayout,
+			device_about_contentLayout, device_heart_layout;
 	Button begin_identifyButton, device_heartButton;
 
 	CGIManager cgiManager;
 	LibjingleSendManager libjingleSendManager;
 
-
 	DeviceDetailFragment_new(DevicesModel mDevicesModel) {
 		mDevices = mDevicesModel;
 	}
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -67,7 +66,8 @@ public class DeviceDetailFragment_new extends Fragment implements UIListener {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+		getActivity().getWindow().setSoftInputMode(
+				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		mView = inflater.inflate(R.layout.device_detail_fragment, null);
 		initView();
 		return mView;
@@ -210,20 +210,22 @@ public class DeviceDetailFragment_new extends Fragment implements UIListener {
 	}
 
 	public String DevicePowersourceSwitch(String string) {
-		int i = Integer.parseInt(string);
-		String result;
-		switch (i) {
-		case 1:
-		case 2:
-		case 3:
-			result = "外部电源";
-			break;
-		case 4:
-			result = "电池";
-			break;
-		default:
-			result = "";
-			break;
+		String result = "";
+		if (string != null) {
+			int i = Integer.parseInt(string);
+			switch (i) {
+			case 1:
+			case 2:
+			case 3:
+				result = "外部电源";
+				break;
+			case 4:
+				result = "电池";
+				break;
+			default:
+				result = "";
+				break;
+			}
 		}
 		return result;
 	}

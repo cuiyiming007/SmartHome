@@ -356,6 +356,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 						public void run() {
 							LibjingleSendManager.getInstance()
 									.getDeviceEndPoint();
+							LibjingleSendManager.getInstance().GetRFDevList();
 							LibjingleSendManager.getInstance().getIPClist();
 							LibjingleSendManager.getInstance().GetLinkageList();
 							LibjingleSendManager.getInstance().GetSceneList();

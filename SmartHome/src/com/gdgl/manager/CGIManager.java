@@ -1746,6 +1746,50 @@ public class CGIManager extends Manger {
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
 
+	public void getGateWayAuthState() {
+		String url = NetUtil.getInstance().getVideoURL(
+				NetUtil.getInstance().IP, "GetAuthState.cgi");
+		StringRequestChina req = new StringRequestChina(url,
+				new Listener<String>() {
+
+					@Override
+					public void onResponse(String response) {
+						// TODO Auto-generated method stub
+						Log.i("", response);
+						getFromSharedPreferences.setsharedPreferences(ApplicationController.getInstance());
+						try {
+							JSONObject jsonRsponse = new JSONObject(response);
+							String cur_version = (String) jsonRsponse
+									.get("cur_sw_version");
+							getFromSharedPreferences.setGatewaycurrentVersion(cur_version);
+							String latest_version = (String) jsonRsponse
+									.get("latest_sw_version");
+							if (!cur_version.equals(latest_version)) {
+								DeviceControlActivity.GATEWAYUPDATE = true;
+								String latest_version_now = getFromSharedPreferences.getGatewaylatestVersion();
+								if(!latest_version_now.equals(latest_version)) {
+									DeviceControlActivity.GATEWAYUPDATE_FIRSTTIME = true;
+									getFromSharedPreferences.setGatewaylatestVersion(latest_version);
+								} else {
+									DeviceControlActivity.GATEWAYUPDATE_FIRSTTIME = false;
+								}
+							}
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}, new ErrorListener() {
+
+					@Override
+					public void onErrorResponse(VolleyError arg0) {
+						// TODO Auto-generated method stub
+
+					}
+				});
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
+	
 	public void getGatewaySwVersion() {
 		String url = NetUtil.getInstance().getVideoURL(
 				NetUtil.getInstance().IP, "GetSwVersion.cgi");
