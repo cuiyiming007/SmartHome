@@ -185,7 +185,8 @@ public class TestFragment extends Fragment implements UIListener {
 			if (mAdapeterDevicesModel.getmModelId().indexOf(
 					DataHelper.One_key_operator) == 0
 					&& DeviceControlActivity.GATEWAYUPDATE == true) {
-				mViewHolder.funcImg.setImageResource(R.drawable.ui2_device_gateway_update);
+				mViewHolder.funcImg
+						.setImageResource(R.drawable.ui2_device_gateway_update);
 			} else {
 				mViewHolder.funcImg.setImageResource(DataUtil
 						.getDefaultDevicesIcon(
@@ -288,6 +289,16 @@ public class TestFragment extends Fragment implements UIListener {
 				Bundle bundle = (Bundle) event.getData();
 				int m = getDevicesPostion(bundle.getString("IEEE"),
 						bundle.getString("EP"), mDeviceList);
+				if (m != -1) {
+					mDeviceList.get(m).setmOnOffStatus(
+							bundle.getString("PARAM"));
+				}
+			}
+		} else if (EventType.RF_DEVICE_BYPASS == event.getType()) {
+			if (event.isSuccess()) {
+				Bundle bundle = (Bundle) event.getData();
+				int m = getDevicesPostion(bundle.getString("IEEE"),
+						"01", mDeviceList);
 				if (m != -1) {
 					mDeviceList.get(m).setmOnOffStatus(
 							bundle.getString("PARAM"));
@@ -449,7 +460,7 @@ public class TestFragment extends Fragment implements UIListener {
 		} else if (EventType.GATEWAYUPDATECOMPLETE == event.getType()) {
 			if (event.isSuccess()) {
 				mView.postDelayed(new Runnable() {
-					
+
 					@Override
 					public void run() {
 						// TODO Auto-generated method stub

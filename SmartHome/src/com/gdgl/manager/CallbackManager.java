@@ -60,6 +60,8 @@ public class CallbackManager extends Manger {
 	public static CallbackManager getInstance() {
 		if (instance == null) {
 			instance = new CallbackManager();
+			getFromSharedPreferences.setsharedPreferences(ApplicationController
+					.getInstance());
 		}
 		return instance;
 	}
@@ -138,13 +140,10 @@ public class CallbackManager extends Manger {
 				Log.i(TAG, "Callback msgType=" + msgType + "warm message");
 				CallbackWarnMessage warmmessage = gson.fromJson(response,
 						CallbackWarnMessage.class);
-				getFromSharedPreferences
-						.setsharedPreferences(ApplicationController
-								.getInstance());
 				warmmessage.setHouseIEEE(getFromSharedPreferences
 						.getGatewayMAC());
 				Log.i(TAG, warmmessage.toString());
-				handlerWarnMessage(warmmessage);
+				handlerWarnMessage(warmmessage, false);
 				break;
 			case 4:
 				Log.i(TAG, "Callback msgType=" + msgType + "doorlock");
@@ -394,7 +393,7 @@ public class CallbackManager extends Manger {
 				break;
 			case 3:
 				int status3 = (Integer) jsonRsponse.get("status");
-				
+
 				Event event3 = new Event(EventType.INITGATEWAY, true);
 				event3.setData(status3);
 				notifyObservers(event3);
@@ -842,7 +841,100 @@ public class CallbackManager extends Manger {
 				break;
 			}
 		}
+		if (mainid == 7) { // RF device
+			switch (subid) {
+			case 1: // RF device warning
+				CallbackWarnMessage warnmessage1 = gson.fromJson(response,
+						CallbackWarnMessage.class);
+				warnmessage1.setHouseIEEE(getFromSharedPreferences
+						.getGatewayMAC());
+				if (warnmessage1.getW_mode().equals("10")
+						|| warnmessage1.getW_mode().equals("12")
+						|| warnmessage1.getW_mode().equals("13")
+						|| warnmessage1.getW_mode().equals("14")) {
 
+				} else {
+					handlerWarnMessage(warnmessage1, false);
+				}
+				break;
+			case 2: // RF device message
+				CallbackWarnMessage warnmessage2 = gson.fromJson(response,
+						CallbackWarnMessage.class);
+				warnmessage2.setHouseIEEE(getFromSharedPreferences
+						.getGatewayMAC());
+				if (warnmessage2.getW_mode().equals("10")
+						|| warnmessage2.getW_mode().equals("12")
+						|| warnmessage2.getW_mode().equals("13")
+						|| warnmessage2.getW_mode().equals("14")) {
+
+				} else {
+					handlerWarnMessage(warnmessage2, true);
+				}
+				break;
+			case 3: // RF device bypass
+				int status3 = (Integer) jsonRsponse.get("status");
+				if (status3 < 0) {
+					Event event3_error = new Event(EventType.RF_DEVICE_BYPASS,
+							false);
+					event3_error.setData(status3);
+					notifyObservers(event3_error);
+					break;
+				}
+				String ieee3 = (String) jsonRsponse.get("ieee");
+				int arm3 = (Integer) jsonRsponse.get("arm");
+				Bundle bundle3 = new Bundle();
+				bundle3.putString("IEEE", ieee3);
+				bundle3.putString("PARAM", arm3 + "");
+				Event event3 = new Event(EventType.RF_DEVICE_BYPASS, true);
+				event3.setData(bundle3);
+				notifyObservers(event3);
+				
+				SQLiteDatabase mSqLiteDatabase3 = mDateHelper
+						.getSQLiteDatabase();
+				ContentValues cv = new ContentValues();
+				cv.put(DevicesModel.ON_OFF_STATUS, arm3);
+				String where3 = " ieee = ? ";
+				String[] arg3 = { ieee3 };
+				mSqLiteDatabase3.update(DataHelper.RF_DEVICES_TABLE, cv, where3, arg3);
+				mSqLiteDatabase3.close();
+				break;
+			case 4: // RF device all bypass
+				break;
+			case 5: // RF change device name
+				String ieee5 = (String) jsonRsponse.get("IEEE");
+				String name5 = (String) jsonRsponse.get("newname");
+				String newname5 = "";
+				try {
+					newname5 = new String(name5.getBytes(), "utf-8");
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				String ep5 = "01";
+				String[] changeName = { ieee5, ep5, newname5 };
+				Event event5 = new Event(EventType.CHANGEDEVICENAME, true);
+				event5.setData(changeName);
+				notifyObservers(event5);
+				
+				String where5 = " ieee = ? and ep = ?";
+				String[] args5 = { ieee5 };
+				ContentValues c5 = new ContentValues();
+				c5.put(DevicesModel.DEFAULT_DEVICE_NAME, newname5);
+				SQLiteDatabase mSQLiteDatabase5 = mDateHelper
+						.getSQLiteDatabase();
+				mSQLiteDatabase5.update(DataHelper.DEVICES_TABLE, c5, where5, args5);
+				mSQLiteDatabase5.close();
+				break;
+			case 6: // RF enable
+				break;
+			case 7: // RF online state
+				break;
+			case 8: // RF device list change
+				break;
+			default:
+				break;
+			}
+		}
 	}
 
 	private void handlerCallbackResponseCommon(CallbackResponseCommon response) {
@@ -867,8 +959,10 @@ public class CallbackManager extends Manger {
 		}
 	}
 
-	private void handlerWarnMessage(CallbackWarnMessage warnmessage) {
-		if (!getSecurityControlState() && getIsRightModelID(warnmessage)) {
+	private void handlerWarnMessage(CallbackWarnMessage warnmessage,
+			boolean notWarnMessage) {
+		if (!getSecurityControlState() && getIsRightModelID(warnmessage)
+				|| notWarnMessage) {
 			warnmessage = WarnManager.getInstance()
 					.setWarnDetailMessageNoSecurity(warnmessage);
 		} else {
@@ -1382,6 +1476,9 @@ public class CallbackManager extends Manger {
 		DevicesModel device = DataUtil.getDeviceModelByIeee(
 				message.getZone_ieee(), dh, db);
 		db.close();
+		if (device == null) {
+			return isRight;
+		}
 		String modelID = device.getmModelId();
 		for (int i = 0; i < modelIDList.length; i++) {
 			if (modelID.indexOf(modelIDList[i]) != -1) {

@@ -1765,9 +1765,9 @@ public class LibjingleSendManager extends Manger {
 		sendList.add(mStructure);
 	}
 	
-	public void ChangeRFDevName(int rfid, String name) {
+	public void ChangeRFDevName(String rfid, String name) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
-		paraMap.put("rfid", rfid+"");
+		paraMap.put("rfid", rfid);
 		paraMap.put("name", Uri.encode(name.replace(" ", "%20")));
 		String param = hashMap2ParamString(paraMap);
 
@@ -1788,9 +1788,9 @@ public class LibjingleSendManager extends Manger {
 		sendList.add(mStructure);
 	}
 	
-	public void ChangeRFDevArmState(int rfid, int state) {
+	public void ChangeRFDevArmState(String rfid, int state) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
-		paraMap.put("rfid", rfid+"");
+		paraMap.put("rfid", rfid);
 		paraMap.put("state", state+"");
 		String param = hashMap2ParamString(paraMap);
 
@@ -1811,9 +1811,9 @@ public class LibjingleSendManager extends Manger {
 		sendList.add(mStructure);
 	}
 	
-	public void RFWarningDevOperation(int rfid, int operatortype,int param1) {
+	public void RFWarningDevOperation(String rfid, int operatortype,int param1) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
-		paraMap.put("rfid", rfid+"");
+		paraMap.put("rfid", rfid);
 		paraMap.put("operatortype", operatortype+"");
 		paraMap.put("param1", param1+"");
 		String param = hashMap2ParamString(paraMap);
@@ -1835,9 +1835,9 @@ public class LibjingleSendManager extends Manger {
 		sendList.add(mStructure);
 	}
 	
-	public void ChangeRFDevActivationState(int rfid, int state) {
+	public void ChangeRFDevActivationState(String rfid, int state) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
-		paraMap.put("rfid", rfid+"");
+		paraMap.put("rfid", rfid);
 		paraMap.put("state", state+"");
 		String param = hashMap2ParamString(paraMap);
 

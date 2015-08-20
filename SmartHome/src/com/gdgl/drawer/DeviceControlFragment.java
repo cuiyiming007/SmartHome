@@ -382,6 +382,8 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 		case DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE:
 			on_off = true;
 			break;
+		case DataHelper.RF_DEVICE:
+			on_off = mDevices.getmOnOffStatus().equals("1") ? true : false;
 		default:
 			break;
 		}
@@ -421,6 +423,9 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 			case DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE:
 				device_contor_statusTextView.setText("停止报警");
 				break;
+			case DataHelper.RF_DEVICE:
+				device_contor_statusTextView.setText("布防");
+				break;
 			default:
 				break;
 			}
@@ -442,6 +447,9 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 				break;
 			case DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE:
 				device_contor_statusTextView.setText("停止报警");
+				break;
+			case DataHelper.RF_DEVICE:
+				device_contor_statusTextView.setText("撤防");
 				break;
 			default:
 				break;
@@ -570,7 +578,7 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 				} else if (modelId.indexOf(DataHelper.RF_remote_control) == 0){
 					
 				} else {
-					rfCGIManager.ChangeRFDevArmState(Integer.parseInt(mDevices.getmIeee()), 1);
+					rfCGIManager.ChangeRFDevArmState(mDevices.getmIeee(), 1);
 				}
 				break;
 			case OFF:
@@ -581,7 +589,7 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 				} else if (modelId.indexOf(DataHelper.RF_remote_control) == 0){
 				
 				} else {
-					rfCGIManager.ChangeRFDevArmState(Integer.parseInt(mDevices.getmIeee()), 0);
+					rfCGIManager.ChangeRFDevArmState(mDevices.getmIeee(), 0);
 				}
 				break;
 			default:
@@ -696,24 +704,24 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 				if (modelId.indexOf(DataHelper.RF_Siren) == 0||
 						modelId.indexOf(DataHelper.RF_Siren_Outside) == 0||
 						modelId.indexOf(DataHelper.RF_Siren_Relay) == 0){
-			//		libjingleSendManager.RFWarningDevOperation(Integer.parseInt(mDevices.getmIeee()), 1,0);
+			//		libjingleSendManager.RFWarningDevOperation(mDevices.getmIeee(), 1,0);
 					libjingleSendManager.stopAlarm();
 				}else if (modelId.indexOf(DataHelper.RF_remote_control) == 0){
 					
 				}else {
-					libjingleSendManager.ChangeRFDevArmState(Integer.parseInt(mDevices.getmIeee()), 1);
+					libjingleSendManager.ChangeRFDevArmState(mDevices.getmIeee(), 1);
 				}
 				break;
 			case OFF:
 				if (modelId.indexOf(DataHelper.RF_Siren) == 0||
 						modelId.indexOf(DataHelper.RF_Siren_Outside) == 0||
 						modelId.indexOf(DataHelper.RF_Siren_Relay) == 0) {
-//					libjingleSendManager.RFWarningDevOperation(Integer.parseInt(mDevices.getmIeee()), 0,0);
+//					libjingleSendManager.RFWarningDevOperation(mDevices.getmIeee(), 0,0);
 					libjingleSendManager.stopAlarm();
 				} else if (modelId.indexOf(DataHelper.RF_remote_control) == 0) {
 					
 				} else {
-					libjingleSendManager.ChangeRFDevArmState(Integer.parseInt(mDevices.getmIeee()), 0);
+					libjingleSendManager.ChangeRFDevArmState(mDevices.getmIeee(), 0);
 				}
 				break;
 			default:
@@ -917,6 +925,24 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 						public void run() {
 							// setdata(mCurrentList);
 							device_humidityTextView.setText(humidity + "%");
+						}
+					});
+				}
+			}
+		} else if (EventType.RF_DEVICE_BYPASS == event.getType()) {
+			if (event.isSuccess()) {
+				Bundle bundle = (Bundle) event.getData();
+				if (bundle.getString("IEEE").equals(mDevices.getmIeee())) {
+					mDevices.setmOnOffStatus(bundle.getString("PARAM"));
+
+					mView.post(new Runnable() {
+						@Override
+						public void run() {
+							setDeviceControlText(mDevices.getmOnOffStatus()
+									.equals("1") ? true : false);
+							device_controlButton.setChecked(mDevices
+									.getmOnOffStatus().equals("1") ? true
+									: false);
 						}
 					});
 				}
