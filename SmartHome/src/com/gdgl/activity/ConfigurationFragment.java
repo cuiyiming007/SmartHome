@@ -24,7 +24,7 @@ public class ConfigurationFragment extends Fragment {
 	ChangeFragment changeFragment;
 
 	View mView;
-	TextView changeAlias, changePassword, feedBack, aboutApp;
+	TextView changeAlias, changePassword, setemail,feedBack, aboutApp;
 
 	// CheckBox enableIPC;
 
@@ -44,6 +44,7 @@ public class ConfigurationFragment extends Fragment {
 		mView = inflater.inflate(R.layout.configurationfragment, null);
 		changeAlias = (TextView) mView.findViewById(R.id.changealias);
 		changePassword = (TextView) mView.findViewById(R.id.changepassword);
+		setemail = (TextView) mView.findViewById(R.id.setemail);//===王晓飞===设置邮箱--20150820
 		feedBack = (TextView) mView.findViewById(R.id.feedback);
 		aboutApp = (TextView) mView.findViewById(R.id.aboutapp);
 		final CheckBox enableIPC = (CheckBox) mView
@@ -115,6 +116,41 @@ public class ConfigurationFragment extends Fragment {
 				return true;
 			}
 		});
+		//=====王晓飞===设置邮箱==
+		setemail.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+					changeFragment.setFragment(new SetEmailFragment());
+				} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+					MyOKOnlyDlg myOKOnlyDlg = new MyOKOnlyDlg(getActivity());
+					myOKOnlyDlg.setContent(getResources().getString(
+							R.string.Unable_In_InternetState));
+					myOKOnlyDlg.show();
+				}
+			}
+		});
+		setemail.setOnTouchListener(new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+
+				switch (event.getAction()) {
+				case MotionEvent.ACTION_DOWN:
+					setemail.setBackgroundColor(getResources().getColor(
+							R.color.myDrawerBackground));
+					return false;
+				case MotionEvent.ACTION_CANCEL:
+				case MotionEvent.ACTION_MOVE:
+				case MotionEvent.ACTION_UP:
+					setemail.setBackgroundColor(Color.TRANSPARENT);
+					return false;
+				}
+				return true;
+			}
+		});
+		
 		feedBack.setOnClickListener(new OnClickListener() {
 			
 			@Override

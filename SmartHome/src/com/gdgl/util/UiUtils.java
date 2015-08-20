@@ -39,6 +39,7 @@ public class UiUtils {
 	public static final String LOGIN_NAME = "Login_Name";
 	public static final String GATEWAY_MAC = "GatewayMAC";
 	public static final String ALIAS = "alias";
+	public static final String EMAIL_NAME = "Email_Name";//=====王晓飞====设置邮箱
 	public static final String IS_REMERBER_PWD = "RemerberPwd";
 	public static final String IS_AUTO_LOGIN = "AutoLogin";
 

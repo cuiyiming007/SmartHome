@@ -74,6 +74,9 @@ public class getFromSharedPreferences {
 	public static String getAliasName() {
 		return mSharedPreferences.getString(UiUtils.ALIAS, UiUtils.EMPTY_STR);
 	}
+	public static String getEmailName() {//======王晓飞===获取邮箱名
+		return mSharedPreferences.getString(UiUtils.EMAIL_NAME, UiUtils.EMPTY_STR);
+	}
 
 	public static boolean getIsRemerber() {
 		return mSharedPreferences.getBoolean(UiUtils.IS_REMERBER_PWD, false);
@@ -137,6 +140,13 @@ public class getFromSharedPreferences {
 		mEditor = mSharedPreferences.edit();
 
 		mEditor.putString(UiUtils.ALIAS, alias);
+
+		return mEditor.commit();
+	}
+	public static boolean setEmailName(String emailName) {//==王晓飞====设置邮箱名
+		mEditor = mSharedPreferences.edit();
+
+		mEditor.putString(UiUtils.EMAIL_NAME, emailName);
 
 		return mEditor.commit();
 	}
