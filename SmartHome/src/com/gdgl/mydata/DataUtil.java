@@ -744,6 +744,9 @@ public class DataUtil {
 		if (deviceId == DataHelper.IAS_ZONE_DEVICETYPE) {
 			type = 1;
 		}
+		if (deviceId == DataHelper.RF_DEVICE) {
+			type = 5;
+		}
 		return type;
 	}
 
