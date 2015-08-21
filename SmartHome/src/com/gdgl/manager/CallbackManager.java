@@ -901,8 +901,8 @@ public class CallbackManager extends Manger {
 			case 4: // RF device all bypass
 				break;
 			case 5: // RF change device name
-				String ieee5 = (String) jsonRsponse.get("IEEE");
-				String name5 = (String) jsonRsponse.get("newname");
+				String ieee5 = (String) jsonRsponse.get("ieee");
+				String name5 = (String) jsonRsponse.get("name");
 				String newname5 = "";
 				try {
 					newname5 = new String(name5.getBytes(), "utf-8");

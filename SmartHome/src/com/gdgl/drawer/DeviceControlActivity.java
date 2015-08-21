@@ -5,6 +5,7 @@ import com.gdgl.activity.MyActionBarActivity;
 import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.Manger;
+import com.gdgl.manager.RfCGIManager;
 import com.gdgl.manager.UIListener;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.Constants;
@@ -88,7 +89,8 @@ public class DeviceControlActivity extends MyActionBarActivity implements
 						updateGatewayDlg.setContent("发现网关有新的可用固件,是否升级？");
 						updateGatewayDlg.show();
 					} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
-						MyOKOnlyDlg myOKOnlyDlg = new MyOKOnlyDlg(DeviceControlActivity.this);
+						MyOKOnlyDlg myOKOnlyDlg = new MyOKOnlyDlg(
+								DeviceControlActivity.this);
 						myOKOnlyDlg.setContent(getResources().getString(
 								R.string.Unable_In_InternetState));
 						myOKOnlyDlg.show();
@@ -219,8 +221,14 @@ public class DeviceControlActivity extends MyActionBarActivity implements
 	@Override
 	public void saveedit(DevicesModel mDevicesModel, String name) {
 		// TODO Auto-generated method stub
-		CGIManager.getInstance().ChangeDeviceName(mDevicesModel,
-				Uri.encode(name));
+		if (mDevicesModel.getmDeviceId() < 0) {
+			RfCGIManager.getInstance().ChangeRFDevName(
+					mDevicesModel.getmIeee(), Uri.encode(name));
+		} else {
+			CGIManager.getInstance().ChangeDeviceName(mDevicesModel,
+					Uri.encode(name));
+		}
+
 	}
 
 	@Override
@@ -278,16 +286,18 @@ public class DeviceControlActivity extends MyActionBarActivity implements
 
 			if (event.isSuccess() == true) {
 				int status = (Integer) event.getData();
-				if(status == 0) {
+				if (status == 0) {
 					mToolbar.post(new Runnable() {
 
 						@Override
 						public void run() {
 							// TODO Auto-generated method stub
-							MyOKOnlyDlg myOKOnlyDlg = new MyOKOnlyDlg(DeviceControlActivity.this);
+							MyOKOnlyDlg myOKOnlyDlg = new MyOKOnlyDlg(
+									DeviceControlActivity.this);
 							myOKOnlyDlg.setContent("别名已修改，请重新登录！");
 							myOKOnlyDlg.setCannotCanceled();
-							myOKOnlyDlg.setDialogCallback(DeviceControlActivity.this);
+							myOKOnlyDlg
+									.setDialogCallback(DeviceControlActivity.this);
 							myOKOnlyDlg.show();
 						}
 					});
@@ -297,18 +307,21 @@ public class DeviceControlActivity extends MyActionBarActivity implements
 
 			if (event.isSuccess() == true) {
 				int status = (Integer) event.getData();
-				if(status == 0) {
+				if (status == 0) {
 					mToolbar.post(new Runnable() {
 
 						@Override
 						public void run() {
 							// TODO Auto-generated method stub
-							getFromSharedPreferences.setsharedPreferences(DeviceControlActivity.this);
+							getFromSharedPreferences
+									.setsharedPreferences(DeviceControlActivity.this);
 							getFromSharedPreferences.setPwd("");
-							MyOKOnlyDlg myOKOnlyDlg = new MyOKOnlyDlg(DeviceControlActivity.this);
+							MyOKOnlyDlg myOKOnlyDlg = new MyOKOnlyDlg(
+									DeviceControlActivity.this);
 							myOKOnlyDlg.setContent("密码已修改，请重新登录！");
 							myOKOnlyDlg.setCannotCanceled();
-							myOKOnlyDlg.setDialogCallback(DeviceControlActivity.this);
+							myOKOnlyDlg
+									.setDialogCallback(DeviceControlActivity.this);
 							myOKOnlyDlg.show();
 						}
 					});
@@ -318,29 +331,33 @@ public class DeviceControlActivity extends MyActionBarActivity implements
 
 			if (event.isSuccess() == true) {
 				int status = (Integer) event.getData();
-				if(status == 1) {
+				if (status == 1) {
 					mToolbar.post(new Runnable() {
 
 						@Override
 						public void run() {
 							// TODO Auto-generated method stub
-							MyOKOnlyDlg myOKOnlyDlg = new MyOKOnlyDlg(DeviceControlActivity.this);
+							MyOKOnlyDlg myOKOnlyDlg = new MyOKOnlyDlg(
+									DeviceControlActivity.this);
 							myOKOnlyDlg.setContent("别名、密码已初始化，请重新登录！");
 							myOKOnlyDlg.setCannotCanceled();
-							myOKOnlyDlg.setDialogCallback(DeviceControlActivity.this);
+							myOKOnlyDlg
+									.setDialogCallback(DeviceControlActivity.this);
 							myOKOnlyDlg.show();
 						}
 					});
-				} else if(status == 2) {
+				} else if (status == 2) {
 					mToolbar.post(new Runnable() {
 
 						@Override
 						public void run() {
 							// TODO Auto-generated method stub
-							MyOKOnlyDlg myOKOnlyDlg = new MyOKOnlyDlg(DeviceControlActivity.this);
+							MyOKOnlyDlg myOKOnlyDlg = new MyOKOnlyDlg(
+									DeviceControlActivity.this);
 							myOKOnlyDlg.setContent("网关已恢复出厂设置，请重新登录！");
 							myOKOnlyDlg.setCannotCanceled();
-							myOKOnlyDlg.setDialogCallback(DeviceControlActivity.this);
+							myOKOnlyDlg
+									.setDialogCallback(DeviceControlActivity.this);
 							myOKOnlyDlg.show();
 						}
 					});
@@ -355,7 +372,7 @@ public class DeviceControlActivity extends MyActionBarActivity implements
 		} else if (EventType.GATEWAYUPDATECOMPLETE == event.getType()) {
 			if (event.isSuccess()) {
 				mToolbar.postDelayed(new Runnable() {
-					
+
 					@Override
 					public void run() {
 						// TODO Auto-generated method stub

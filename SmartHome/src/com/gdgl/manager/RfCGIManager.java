@@ -57,7 +57,7 @@ public class RfCGIManager extends Manger{
 	public void ChangeRFDevName(String rfid, String name) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("rfid", rfid);
-		paraMap.put("name", Uri.encode(name.replace(" ", "%20")));
+		paraMap.put("name", name);
 		String param = hashMap2ParamString(paraMap);
 
 		String url = NetUtil.getInstance().getCumstomURL(

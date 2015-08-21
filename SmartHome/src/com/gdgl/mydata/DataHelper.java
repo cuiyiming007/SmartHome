@@ -78,7 +78,7 @@ public class DataHelper extends SQLiteOpenHelper {
 	public static final String RF_Magnetic_Door = "RX87K"; // RF门磁
 	public static final String RF_Magnetic_Door_Roll = "RX87LD"; // RF卷闸门磁
 	public static final String RF_Emergency_Button = "RX89"; // RF紧急按钮
-	public static final String RF_Infrared_Motion_Sensor = "ZB11A"; // RF红外探测器
+	public static final String RF_Infrared_Motion_Sensor = "RX80LF"; // RF红外探测器
 	public static final String RF_Smoke_Detectors = "RX83L"; // RF烟雾感应器
 	public static final String RF_Combustible_Gas_Detector = "RX85"; // 燃气探测器
 	public static final String RF_Siren = "RX103W"; // RF警报器
