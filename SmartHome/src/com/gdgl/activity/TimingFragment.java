@@ -218,8 +218,14 @@ public class TimingFragment extends Fragment implements UIListener,
 			String where = " ieee=? and ep=? ";
 			String[] args = { mTimingAction.getIeee(), mTimingAction.getEp() };
 
-			Cursor cursor = mDataHelper.query(db, DataHelper.DEVICES_TABLE,
-					columns, where, args, null, null, null, null);
+			Cursor cursor;
+			if(mTimingAction.getIeee().length()<16) {
+				cursor = mDataHelper.query(db, DataHelper.RF_DEVICES_TABLE,
+						columns, where, args, null, null, null, null);
+			} else {
+				cursor = mDataHelper.query(db, DataHelper.DEVICES_TABLE,
+						columns, where, args, null, null, null, null);
+			}
 			int deviceId = 0;
 			String picSource = Integer
 					.toString(R.drawable.ui_securitycontrol_alarm);

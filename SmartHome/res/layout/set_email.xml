@@ -35,7 +35,7 @@
             android:layout_weight="1"
             android:background="@drawable/corners"
             android:paddingLeft="10dp"
-            android:hint="XXX@XXXX"
+            android:hint="example@glexer.com"
             android:textSize="18dp" >
 
             <requestFocus />

@@ -9,7 +9,6 @@ import com.gdgl.mydata.scene.SceneDevice;
 import com.gdgl.smarthome.R;
 
 import android.support.v4.app.Fragment;
-import android.R.integer;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -167,8 +166,14 @@ public class SceneDevicesFragment extends Fragment {
 			String where = " ieee=? and ep=? ";
 			String[] args = { mDevices.getIeee(), mDevices.getEp() };
 
-			Cursor cursor = mDataHelper.query(db, DataHelper.DEVICES_TABLE,
-					columns, where, args, null, null, null, null);
+			Cursor cursor;
+			if(mDevices.getIeee().length()<16) {
+				cursor = mDataHelper.query(db, DataHelper.RF_DEVICES_TABLE,
+						columns, where, args, null, null, null, null);
+			} else {
+				cursor = mDataHelper.query(db, DataHelper.DEVICES_TABLE,
+						columns, where, args, null, null, null, null);
+			}
 			int deivceID = 0;
 			String picSource = Integer
 					.toString(R.drawable.ui_securitycontrol_alarm);
@@ -200,6 +205,7 @@ public class SceneDevicesFragment extends Fragment {
 					break;
 				case DataHelper.COMBINED_INTERFACE_DEVICETYPE:
 				case DataHelper.IAS_ZONE_DEVICETYPE:
+				case DataHelper.RF_DEVICE:
 					mHolder.devices_state.setText("撤防");
 					break;
 				default:
@@ -219,6 +225,7 @@ public class SceneDevicesFragment extends Fragment {
 					break;
 				case DataHelper.COMBINED_INTERFACE_DEVICETYPE:
 				case DataHelper.IAS_ZONE_DEVICETYPE:
+				case DataHelper.RF_DEVICE:
 					mHolder.devices_state.setText("布防");
 					break;
 				default:
@@ -244,6 +251,7 @@ public class SceneDevicesFragment extends Fragment {
 									break;
 								case DataHelper.COMBINED_INTERFACE_DEVICETYPE:
 								case DataHelper.IAS_ZONE_DEVICETYPE:
+								case DataHelper.RF_DEVICE:
 									mHolder.devices_state.setText("布防");
 									break;
 								default:
@@ -263,6 +271,7 @@ public class SceneDevicesFragment extends Fragment {
 									break;
 								case DataHelper.COMBINED_INTERFACE_DEVICETYPE:
 								case DataHelper.IAS_ZONE_DEVICETYPE:
+								case DataHelper.RF_DEVICE:
 									mHolder.devices_state.setText("撤防");
 									break;
 								default:

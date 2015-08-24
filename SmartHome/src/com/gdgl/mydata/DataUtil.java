@@ -228,7 +228,7 @@ public class DataUtil {
 		case DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE:
 			result = R.drawable.ui2_device_alarm;
 			break;
-			//===rf设备===王晓飞==
+		// ===rf设备===王晓飞==
 		case DataHelper.RF_DEVICE:
 			if (modelId.indexOf(DataHelper.RF_Magnetic_Door) == 0) { // RF门磁
 				result = R.drawable.ui2_device_rf_doormagnetic;
@@ -260,7 +260,7 @@ public class DataUtil {
 			if (modelId.indexOf(DataHelper.RF_remote_control) == 0) { // RF遥控器
 				result = R.drawable.ui2_device_rf_remote_control;
 			}
-			break;	
+			break;
 		default:
 			result = R.drawable.ui_lightmanage_switchmodule;
 			break;
@@ -370,7 +370,7 @@ public class DataUtil {
 		case DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE:
 			result = R.drawable.ui2_device_alarm_samll;
 			break;
-			//===rf设备====
+		// ===rf设备====
 		case DataHelper.RF_DEVICE:
 			if (modelId.indexOf(DataHelper.RF_Magnetic_Door) == 0) { // RF门磁
 				result = R.drawable.ui2_device_rf_doormagnetic_small;
@@ -402,8 +402,8 @@ public class DataUtil {
 			if (modelId.indexOf(DataHelper.RF_remote_control) == 0) { // RF遥控器
 				result = R.drawable.ui2_device_rf_remote_control_small;
 			}
-			break;	
-			
+			break;
+
 		default:
 			result = R.drawable.ui_lightmanage_switchmodule;
 			break;
@@ -513,7 +513,7 @@ public class DataUtil {
 		case DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE:
 			result = R.drawable.ui2_device_alarm_control_on;
 			break;
-			//=====rf设备==========
+		// =====rf设备==========
 		case DataHelper.RF_DEVICE:
 			if (modelId.indexOf(DataHelper.RF_Magnetic_Door) == 0) { // RF门磁
 				result = R.drawable.ui2_device_rf_doormagnetic_control_style;
@@ -522,7 +522,7 @@ public class DataUtil {
 				result = R.drawable.ui2_device_rf_doormagnetic_roll_control_style;
 			}
 			if (modelId.indexOf(DataHelper.RF_Emergency_Button) == 0) { // RF紧急按钮
-				result = R.drawable.ui2_device_rf_emergencybutton_control_style;
+				result = R.drawable.ui2_device_rf_emergencybutton_control_on;
 			}
 			if (modelId.indexOf(DataHelper.RF_Infrared_Motion_Sensor) == 0) { // RF红外探测器
 				result = R.drawable.ui2_device_rf_motionsensor_control_style;
@@ -534,18 +534,18 @@ public class DataUtil {
 				result = R.drawable.ui2_device_rf_detectorgas_control_style;
 			}
 			if (modelId.indexOf(DataHelper.RF_Siren) == 0) { // RF警报器
-				result = R.drawable.ui2_device_rf_alarm_control_style;
+				result = R.drawable.ui2_device_rf_alarm_control_on;
 			}
 			if (modelId.indexOf(DataHelper.RF_Siren_Relay) == 0) { // RF中继警报器
-				result = R.drawable.ui2_device_rf_alarm_relay_control_style;
+				result = R.drawable.ui2_device_rf_alarm_relay_control_on;
 			}
 			if (modelId.indexOf(DataHelper.RF_Siren_Outside) == 0) { // RF室外警报器
-				result = R.drawable.ui2_device_rf_alarm_outside_control_style;
+				result = R.drawable.ui2_device_rf_alarm_outside_control_on;
 			}
 			if (modelId.indexOf(DataHelper.RF_remote_control) == 0) { // RF遥控器
-				result = R.drawable.ui2_device_rf_remote_control_control_style;
+				result = R.drawable.ui2_device_rf_remote_control_control_on;
 			}
-			break;	
+			break;
 		default:
 			result = R.drawable.ui_lightmanage_switchmodule;
 			break;
@@ -785,7 +785,7 @@ public class DataUtil {
 		if (modelID.indexOf(DataHelper.Light_Sensor) == 0) { // ZigBee光线感应器
 			result = 201;
 		}
-		//RF devices
+		// RF devices
 		if (modelID.indexOf(DataHelper.Wall_switch_touch) == 0) { // ZigBee墙面开关（单键）
 			result = 300;
 		}
@@ -801,13 +801,13 @@ public class DataUtil {
 		if (modelID.indexOf(DataHelper.Doorbell_button) == 0) { // ZigBee门铃按键
 			result = 304;
 		}
-		if (modelID.indexOf(DataHelper.RF_Magnetic_Door) == 0) { //  RF门磁
+		if (modelID.indexOf(DataHelper.RF_Magnetic_Door) == 0) { // RF门磁
 			result = 3;
 		}
-		if (modelID.indexOf(DataHelper.RF_Magnetic_Door_Roll) == 0) { //  RF卷闸门磁
+		if (modelID.indexOf(DataHelper.RF_Magnetic_Door_Roll) == 0) { // RF卷闸门磁
 			result = 3;
 		}
-		if (modelID.indexOf(DataHelper.RF_Emergency_Button) == 0) { //  RF紧急按钮
+		if (modelID.indexOf(DataHelper.RF_Emergency_Button) == 0) { // RF紧急按钮
 			result = 10;
 		}
 		if (modelID.indexOf(DataHelper.RF_Infrared_Motion_Sensor) == 0) { // RF红外探测器
@@ -1073,9 +1073,14 @@ public class DataUtil {
 			SQLiteDatabase db) {
 		String where = " ieee=? ";
 		String[] args = { ieee + "" };
-		List<DevicesModel> mList = dh.queryForDevicesList(db,
-				DataHelper.DEVICES_TABLE, null, where, args, null, null, null,
-				null);
+		List<DevicesModel> mList;
+		if (ieee.length() < 16) {
+			mList = dh.queryForDevicesList(db, DataHelper.RF_DEVICES_TABLE,
+					null, where, args, null, null, null, null);
+		} else {
+			mList = dh.queryForDevicesList(db, DataHelper.DEVICES_TABLE, null,
+					where, args, null, null, null, null);
+		}
 		if (null != mList && mList.size() > 0) {
 			return mList.get(0);
 		}
@@ -1089,6 +1094,8 @@ public class DataUtil {
 		List<DevicesModel> mList = dh.queryForDevicesList(db,
 				DataHelper.DEVICES_TABLE, null, where, args, null, null, null,
 				null);
+		mList.addAll(dh.queryForDevicesList(db, DataHelper.RF_DEVICES_TABLE,
+				null, where, args, null, null, null, null));
 		if (null != mList && mList.size() > 0) {
 			return mList.get(0);
 		}

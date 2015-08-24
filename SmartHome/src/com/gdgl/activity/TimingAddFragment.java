@@ -12,6 +12,7 @@ import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.timing.TimingAction;
 import com.gdgl.smarthome.R;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
@@ -77,10 +78,14 @@ public class TimingAddFragment extends Fragment implements DeviceSelected {
 	private void initdata() {
 		// TODO Auto-generated method stub
 		mAddDevicesList = null;
-		mAddDevicesList = mDataHelper.queryForDevicesList(
-				mDataHelper.getSQLiteDatabase(), DataHelper.DEVICES_TABLE,
-				null, null, null, null, null, DevicesModel.DEVICE_PRIORITY,
-				null);
+		SQLiteDatabase db = mDataHelper.getSQLiteDatabase();
+		mAddDevicesList = mDataHelper.queryForDevicesList(db,
+				DataHelper.DEVICES_TABLE, null, null, null, null, null,
+				DevicesModel.DEVICE_PRIORITY, null);
+		mAddDevicesList.addAll(mDataHelper.queryForDevicesList(db,
+				DataHelper.RF_DEVICES_TABLE, null, null, null, null, null,
+				DevicesModel.DEVICE_PRIORITY, null));
+		db.close();
 		if (timing_type == TimingAddActivity.CREATE) {
 			SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
 			mTimingAction.setPara1(format.format(mCalendar.getTime()));
@@ -105,7 +110,15 @@ public class TimingAddFragment extends Fragment implements DeviceSelected {
 			if (mModel.getmModelId().indexOf(DataHelper.Siren) == 0
 					|| mModel.getmModelId().indexOf(
 							DataHelper.Indoor_temperature_sensor) == 0
-					|| mModel.getmModelId().indexOf(DataHelper.Smoke_Detectors) == 0) {
+					|| mModel.getmModelId().indexOf(DataHelper.Smoke_Detectors) == 0
+					|| mModel.getmModelId().indexOf(DataHelper.RF_Siren) == 0
+					|| mModel.getmModelId().indexOf(DataHelper.RF_Siren_Outside) == 0
+					|| mModel.getmModelId().indexOf(DataHelper.RF_Siren_Relay) == 0
+					|| mModel.getmModelId().indexOf(DataHelper.RF_Smoke_Detectors) == 0
+					|| mModel.getmModelId().indexOf(
+							DataHelper.RF_Combustible_Gas_Detector) == 0
+					|| mModel.getmModelId().indexOf(DataHelper.RF_Emergency_Button) == 0
+					|| mModel.getmModelId().indexOf(DataHelper.RF_remote_control) == 0) {
 				mAddDevicesList.remove(i);
 				i--;
 			}
@@ -154,8 +167,9 @@ public class TimingAddFragment extends Fragment implements DeviceSelected {
 					.getmPicName()));
 			mDeviceName.setText(mDevicesSelected.getmDefaultDeviceName());
 			mStatusDescribe.setText("设备状态：");
-			mDeviceStatus.setText(setDeviceStatusText(mTimingAction
-					.getDevicesStatus() == 1 ? true : false, mDevicesSelected.getmDeviceId()));
+			mDeviceStatus.setText(setDeviceStatusText(
+					mTimingAction.getDevicesStatus() == 1 ? true : false,
+					mDevicesSelected.getmDeviceId()));
 			mSwitchBtn.setChecked(mTimingAction.getDevicesStatus() == 1 ? true
 					: false);
 		}
@@ -165,7 +179,8 @@ public class TimingAddFragment extends Fragment implements DeviceSelected {
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
 				// TODO Auto-generated method stub
-				mDeviceStatus.setText(setDeviceStatusText(isChecked, mDevicesSelected.getmDeviceId()));
+				mDeviceStatus.setText(setDeviceStatusText(isChecked,
+						mDevicesSelected.getmDeviceId()));
 				mTimingAction.setDevicesStatus(isChecked ? 1 : 0);
 			}
 		});
@@ -248,6 +263,7 @@ public class TimingAddFragment extends Fragment implements DeviceSelected {
 				break;
 			case DataHelper.COMBINED_INTERFACE_DEVICETYPE:
 			case DataHelper.IAS_ZONE_DEVICETYPE:
+			case DataHelper.RF_DEVICE:
 				deviceStatus = "布防";
 				break;
 			default:
@@ -265,6 +281,7 @@ public class TimingAddFragment extends Fragment implements DeviceSelected {
 				break;
 			case DataHelper.COMBINED_INTERFACE_DEVICETYPE:
 			case DataHelper.IAS_ZONE_DEVICETYPE:
+			case DataHelper.RF_DEVICE:
 				deviceStatus = "撤防";
 				break;
 			default:
@@ -300,8 +317,9 @@ public class TimingAddFragment extends Fragment implements DeviceSelected {
 				.getmPicName()));
 		mDeviceName.setText(mDevicesSelected.getmDefaultDeviceName());
 		mStatusDescribe.setText("设备状态：");
-		mDeviceStatus.setText(setDeviceStatusText(mTimingAction
-				.getDevicesStatus() == 1 ? true : false, mDevicesSelected.getmDeviceId()));
+		mDeviceStatus.setText(setDeviceStatusText(
+				mTimingAction.getDevicesStatus() == 1 ? true : false,
+				mDevicesSelected.getmDeviceId()));
 		mSwitchBtn.setChecked(mTimingAction.getDevicesStatus() == 1 ? true
 				: false);
 	}

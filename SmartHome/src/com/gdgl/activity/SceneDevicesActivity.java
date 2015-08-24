@@ -249,42 +249,50 @@ public class SceneDevicesActivity extends MyActionBarActivity implements
 
 	private void initAddFragmentDevicesList() {
 		mAddList = null;
-		mAddList = mDataHelper.queryForDevicesList(
-				mDataHelper.getSQLiteDatabase(), DataHelper.DEVICES_TABLE,
-				null, null, null, null, null, DevicesModel.DEVICE_PRIORITY,
-				null);
-		if (mSceneDevicesList.size() > 0) {
-			for (int i = 0; i < mAddList.size(); i++) {
-				DevicesModel mModel = mAddList.get(i);
-				if (isInSceneDevicesList(mModel)) {
-					mAddList.remove(i);
-					i--;
-				}
+		SQLiteDatabase db = mDataHelper.getSQLiteDatabase();
+		mAddList = mDataHelper.queryForDevicesList(db,
+				DataHelper.DEVICES_TABLE, null, null, null, null, null,
+				DevicesModel.DEVICE_PRIORITY, null);
+		mAddList.addAll(mDataHelper.queryForDevicesList(db,
+				DataHelper.RF_DEVICES_TABLE, null, null, null, null, null,
+				DevicesModel.DEVICE_PRIORITY, null));
+		db.close();
+		for (int i = 0; i < mAddList.size(); i++) {
+			DevicesModel mModel = mAddList.get(i);
+			if (notSceneDevices(mModel)) {
+				mAddList.remove(i);
+				i--;
+			} else if (mSceneDevicesList.size() > 0
+					&& isInSceneDevicesList(mModel)) {
+				mAddList.remove(i);
+				i--;
 			}
-		} else {
-			for (int i = 0; i < mAddList.size(); i++) {
-				DevicesModel mModel = mAddList.get(i);
-				if (mModel.getmModelId().indexOf(DataHelper.Siren) == 0
-						|| mModel.getmModelId().indexOf(
-								DataHelper.Indoor_temperature_sensor) == 0
-						|| mModel.getmModelId().indexOf(
-								DataHelper.Smoke_Detectors) == 0) {
-					mAddList.remove(i);
-					i--;
-				}
-			}
+
 		}
+
+	}
+
+	private boolean notSceneDevices(DevicesModel mModel) {
+		if (mModel.getmModelId().indexOf(DataHelper.Siren) == 0
+				|| mModel.getmModelId().indexOf(
+						DataHelper.Indoor_temperature_sensor) == 0
+				|| mModel.getmModelId().indexOf(DataHelper.Smoke_Detectors) == 0
+				|| mModel.getmModelId().indexOf(DataHelper.RF_Siren) == 0
+				|| mModel.getmModelId().indexOf(DataHelper.RF_Siren_Outside) == 0
+				|| mModel.getmModelId().indexOf(DataHelper.RF_Siren_Relay) == 0
+				|| mModel.getmModelId().indexOf(DataHelper.RF_Smoke_Detectors) == 0
+				|| mModel.getmModelId().indexOf(
+						DataHelper.RF_Combustible_Gas_Detector) == 0
+				|| mModel.getmModelId().indexOf(DataHelper.RF_Emergency_Button) == 0
+				|| mModel.getmModelId().indexOf(DataHelper.RF_remote_control) == 0) {
+			return true;
+		}
+		return false;
 	}
 
 	private boolean isInSceneDevicesList(DevicesModel mModel) {
 
 		for (SceneDevice mSceneDevice : mSceneDevicesList) {
-			if (mModel.getmModelId().indexOf(DataHelper.Siren) == 0
-					|| mModel.getmModelId().indexOf(
-							DataHelper.Indoor_temperature_sensor) == 0
-					|| mModel.getmModelId().indexOf(DataHelper.Smoke_Detectors) == 0) {
-				return true;
-			}
 			if (mSceneDevice.getIeee().equals(mModel.getmIeee())
 					&& mSceneDevice.getEp().equals(mModel.getmEP())) {
 				return true;

@@ -6,14 +6,12 @@ import java.util.List;
 import com.gdgl.activity.LinkageDevicesAddFragment.LinkageDevicesAddListAdapter;
 import com.gdgl.activity.SceneDevicesFragment;
 import com.gdgl.activity.SceneDevicesFragment.ChangeFragment;
-import com.gdgl.activity.SceneDevicesFragment.SceneDevicesListAdapter;
 import com.gdgl.libjingle.LibjingleSendManager;
 import com.gdgl.manager.SceneLinkageManager;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.Linkage;
-import com.gdgl.mydata.scene.SceneDevice;
 import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyApplicationFragment;
@@ -81,7 +79,6 @@ public class LinkageDetailActivity extends MyActionBarActivity implements
 
 	SceneDevicesFragment mAllDevicesFragment;
 
-	SceneDevicesListAdapter mSceneDevicesListAdapter;
 	LinkageDevicesAddListAdapter mLinkageDevicesAddListAdapter;
 
 	EditText titleEditText;

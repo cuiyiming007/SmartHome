@@ -23,6 +23,7 @@ import com.gdgl.util.MyOKOnlyDlg;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -297,8 +298,8 @@ public class TestFragment extends Fragment implements UIListener {
 		} else if (EventType.RF_DEVICE_BYPASS == event.getType()) {
 			if (event.isSuccess()) {
 				Bundle bundle = (Bundle) event.getData();
-				int m = getDevicesPostion(bundle.getString("IEEE"),
-						"01", mDeviceList);
+				int m = getDevicesPostion(bundle.getString("IEEE"), "01",
+						mDeviceList);
 				if (m != -1) {
 					mDeviceList.get(m).setmOnOffStatus(
 							bundle.getString("PARAM"));
@@ -498,13 +499,14 @@ public class TestFragment extends Fragment implements UIListener {
 		@Override
 		protected Integer doInBackground(Integer... params) {
 			// TODO Auto-generated method stub
-			mDeviceList = mDh.queryForDevicesList(mDh.getSQLiteDatabase(),
+			SQLiteDatabase dataBase = mDh.getSQLiteDatabase();
+			mDeviceList = mDh.queryForDevicesList(dataBase,
 					DataHelper.DEVICES_TABLE, null, null, null, null, null,
 					DevicesModel.DEVICE_PRIORITY, null);
-			mDeviceList.addAll(mDh.queryForDevicesList(mDh.getSQLiteDatabase(),
+			mDeviceList.addAll(mDh.queryForDevicesList(dataBase,
 					DataHelper.RF_DEVICES_TABLE, null, null, null, null, null,
 					DevicesModel.DEVICE_PRIORITY, null));
-			mDh.getSQLiteDatabase().close();
+			dataBase.close();
 			return 1;
 		}
 	}

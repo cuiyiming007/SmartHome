@@ -62,7 +62,7 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 	private ArrayList<Fragment> mfragments;
 
 	CGIManager cgiManager;
-	RfCGIManager rfCGIManager;//====王晓飞====
+	RfCGIManager rfCGIManager;// ====王晓飞====
 	LibjingleSendManager libjingleSendManager;
 
 	@Override
@@ -77,8 +77,8 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 
 		cgiManager = CGIManager.getInstance();
 		cgiManager.addObserver(DeviceControlFragment.this);
-		rfCGIManager = RfCGIManager.getInstance();//======王晓飞
-		rfCGIManager.addObserver(DeviceControlFragment.this);//====王晓飞
+		rfCGIManager = RfCGIManager.getInstance();// ======王晓飞
+		rfCGIManager.addObserver(DeviceControlFragment.this);// ====王晓飞
 		CallbackManager.getInstance().addObserver(DeviceControlFragment.this);
 		libjingleSendManager = LibjingleSendManager.getInstance();
 	}
@@ -347,6 +347,18 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 			// device_contor_statusTextView.setVisibility(View.GONE);
 			// device_controlButton.setClickable(false);
 			break;
+		case DataHelper.RF_DEVICE:
+			if (modelId.indexOf(DataHelper.RF_Smoke_Detectors) == 0
+					|| modelId.indexOf(DataHelper.RF_Combustible_Gas_Detector) == 0) {
+				device_controlButton.setClickable(false);
+				return false;
+			}
+			if (modelId.indexOf(DataHelper.RF_Emergency_Button) == 0
+					|| modelId.indexOf(DataHelper.RF_remote_control) == 0) {
+				device_contor_statusTextView.setVisibility(View.GONE);
+				device_controlButton.setClickable(false);
+				return false;
+			}
 		default:
 			break;
 		}
@@ -383,7 +395,13 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 			on_off = true;
 			break;
 		case DataHelper.RF_DEVICE:
-			on_off = mDevices.getmOnOffStatus().equals("1") ? true : false;
+			if (modelId.indexOf(DataHelper.RF_Magnetic_Door) == 0
+					|| modelId.indexOf(DataHelper.RF_Magnetic_Door_Roll) == 0
+					|| modelId.indexOf(DataHelper.RF_Infrared_Motion_Sensor) == 0) {
+				on_off = mDevices.getmOnOffStatus().equals("1") ? true : false;
+			} else {
+				on_off = true;
+			}
 		default:
 			break;
 		}
@@ -425,6 +443,16 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 				break;
 			case DataHelper.RF_DEVICE:
 				device_contor_statusTextView.setText("布防");
+				if (modelId.indexOf(DataHelper.RF_Siren) == 0
+						|| modelId.indexOf(DataHelper.RF_Siren_Outside) == 0
+						|| modelId.indexOf(DataHelper.RF_Siren_Relay) == 0) {
+					device_contor_statusTextView.setText("停止报警");
+				}
+				if (modelId.indexOf(DataHelper.RF_Smoke_Detectors) == 0
+						|| modelId
+								.indexOf(DataHelper.RF_Combustible_Gas_Detector) == 0) {
+					device_contor_statusTextView.setText("24小时布防");
+				}
 				break;
 			default:
 				break;
@@ -459,7 +487,7 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 
 	public void DeviceContorlOnOffClickDo(int status) {
 		int deviceId = mDevices.getmDeviceId();
-		String modelId = mDevices.getmModelId();//=======王晓飞=====
+		String modelId = mDevices.getmModelId();// =======王晓飞=====
 		switch (deviceId) {
 		case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:
 			switch (status) {
@@ -567,27 +595,27 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 		case DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE:
 			cgiManager.IASWarningDeviceOperationCommon(mDevices, 0);
 			break;
-			//=====20150819====王晓飞=====
+		// =====20150819====王晓飞=====
 		case DataHelper.RF_DEVICE:
 			switch (status) {
 			case ON:
-				if (modelId.indexOf(DataHelper.RF_Siren) == 0||
-						modelId.indexOf(DataHelper.RF_Siren_Outside) == 0||
-						modelId.indexOf(DataHelper.RF_Siren_Relay) == 0){
+				if (modelId.indexOf(DataHelper.RF_Siren) == 0
+						|| modelId.indexOf(DataHelper.RF_Siren_Outside) == 0
+						|| modelId.indexOf(DataHelper.RF_Siren_Relay) == 0) {
 					cgiManager.stopAlarm();
-				} else if (modelId.indexOf(DataHelper.RF_remote_control) == 0){
-					
+				} else if (modelId.indexOf(DataHelper.RF_remote_control) == 0) {
+
 				} else {
 					rfCGIManager.ChangeRFDevArmState(mDevices.getmIeee(), 1);
 				}
 				break;
 			case OFF:
-				if (modelId.indexOf(DataHelper.RF_Siren) == 0||
-						modelId.indexOf(DataHelper.RF_Siren_Outside) == 0||
-						modelId.indexOf(DataHelper.RF_Siren_Relay) == 0) {
+				if (modelId.indexOf(DataHelper.RF_Siren) == 0
+						|| modelId.indexOf(DataHelper.RF_Siren_Outside) == 0
+						|| modelId.indexOf(DataHelper.RF_Siren_Relay) == 0) {
 					cgiManager.stopAlarm();
-				} else if (modelId.indexOf(DataHelper.RF_remote_control) == 0){
-				
+				} else if (modelId.indexOf(DataHelper.RF_remote_control) == 0) {
+
 				} else {
 					rfCGIManager.ChangeRFDevArmState(mDevices.getmIeee(), 0);
 				}
@@ -596,7 +624,7 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 				break;
 			}
 			break;
-			
+
 		default:
 			break;
 		}
@@ -604,7 +632,7 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 
 	public void DeviceContorlOnOffClickDo_Internet(int status) {
 		int deviceId = mDevices.getmDeviceId();
-		String modelId = mDevices.getmModelId();//====王晓飞=====
+		String modelId = mDevices.getmModelId();// ====王晓飞=====
 		switch (deviceId) {
 		case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:
 			switch (status) {
@@ -697,38 +725,42 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 		case DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE:
 			libjingleSendManager.IASWarningDeviceOperationCommon(mDevices, 0);
 			break;
-			
-		case DataHelper.RF_DEVICE://====王晓飞====
+
+		case DataHelper.RF_DEVICE:// ====王晓飞====
 			switch (status) {
 			case ON:
-				if (modelId.indexOf(DataHelper.RF_Siren) == 0||
-						modelId.indexOf(DataHelper.RF_Siren_Outside) == 0||
-						modelId.indexOf(DataHelper.RF_Siren_Relay) == 0){
-			//		libjingleSendManager.RFWarningDevOperation(mDevices.getmIeee(), 1,0);
+				if (modelId.indexOf(DataHelper.RF_Siren) == 0
+						|| modelId.indexOf(DataHelper.RF_Siren_Outside) == 0
+						|| modelId.indexOf(DataHelper.RF_Siren_Relay) == 0) {
+					// libjingleSendManager.RFWarningDevOperation(mDevices.getmIeee(),
+					// 1,0);
 					libjingleSendManager.stopAlarm();
-				}else if (modelId.indexOf(DataHelper.RF_remote_control) == 0){
-					
-				}else {
-					libjingleSendManager.ChangeRFDevArmState(mDevices.getmIeee(), 1);
+				} else if (modelId.indexOf(DataHelper.RF_remote_control) == 0) {
+
+				} else {
+					libjingleSendManager.ChangeRFDevArmState(
+							mDevices.getmIeee(), 1);
 				}
 				break;
 			case OFF:
-				if (modelId.indexOf(DataHelper.RF_Siren) == 0||
-						modelId.indexOf(DataHelper.RF_Siren_Outside) == 0||
-						modelId.indexOf(DataHelper.RF_Siren_Relay) == 0) {
-//					libjingleSendManager.RFWarningDevOperation(mDevices.getmIeee(), 0,0);
+				if (modelId.indexOf(DataHelper.RF_Siren) == 0
+						|| modelId.indexOf(DataHelper.RF_Siren_Outside) == 0
+						|| modelId.indexOf(DataHelper.RF_Siren_Relay) == 0) {
+					// libjingleSendManager.RFWarningDevOperation(mDevices.getmIeee(),
+					// 0,0);
 					libjingleSendManager.stopAlarm();
 				} else if (modelId.indexOf(DataHelper.RF_remote_control) == 0) {
-					
+
 				} else {
-					libjingleSendManager.ChangeRFDevArmState(mDevices.getmIeee(), 0);
+					libjingleSendManager.ChangeRFDevArmState(
+							mDevices.getmIeee(), 0);
 				}
 				break;
 			default:
 				break;
 			}
 			break;
-			
+
 		default:
 			break;
 		}
