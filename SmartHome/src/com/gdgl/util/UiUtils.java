@@ -40,6 +40,8 @@ public class UiUtils {
 	public static final String GATEWAY_MAC = "GatewayMAC";
 	public static final String ALIAS = "alias";
 	public static final String EMAIL_NAME = "Email_Name";//=====王晓飞====设置邮箱
+	public static final String GATE_WAY_AUTH_STATE = "Gate_Way_Auth_State";//网关授权state
+	public static final String GATE_WAY_AUTH_AVAILABLE = "Gate_Way_Auth_Available";//网关授权available
 	public static final String IS_REMERBER_PWD = "RemerberPwd";
 	public static final String IS_AUTO_LOGIN = "AutoLogin";
 

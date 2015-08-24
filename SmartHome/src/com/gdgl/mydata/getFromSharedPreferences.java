@@ -77,6 +77,12 @@ public class getFromSharedPreferences {
 	public static String getEmailName() {//======王晓飞===获取邮箱名
 		return mSharedPreferences.getString(UiUtils.EMAIL_NAME, UiUtils.EMPTY_STR);
 	}
+	public static int getGWayAuthState() {
+		return mSharedPreferences.getInt(UiUtils.GATE_WAY_AUTH_STATE, -1);//==-1是未激活状态
+	}
+	public static int getGWayAuthAvailable() {
+		return mSharedPreferences.getInt(UiUtils.GATE_WAY_AUTH_AVAILABLE, 0);
+	}
 
 	public static boolean getIsRemerber() {
 		return mSharedPreferences.getBoolean(UiUtils.IS_REMERBER_PWD, false);
@@ -147,6 +153,21 @@ public class getFromSharedPreferences {
 		mEditor = mSharedPreferences.edit();
 
 		mEditor.putString(UiUtils.EMAIL_NAME, emailName);
+
+		return mEditor.commit();
+	}
+	
+	public static boolean setGWayAuthState(int state) {//==王晓飞====设置网关授权state
+		mEditor = mSharedPreferences.edit();
+
+		mEditor.putInt(UiUtils.GATE_WAY_AUTH_STATE, state);
+
+		return mEditor.commit();
+	}
+	public static boolean setGWayAuthAvailable(int available) {//==王晓飞====设置网关授权available
+		mEditor = mSharedPreferences.edit();
+
+		mEditor.putInt(UiUtils.GATE_WAY_AUTH_AVAILABLE, available);
 
 		return mEditor.commit();
 	}

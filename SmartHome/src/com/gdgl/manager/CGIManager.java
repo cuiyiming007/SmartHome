@@ -1746,7 +1746,7 @@ public class CGIManager extends Manger {
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
 
-	public void getGateWayAuthState() {
+	public void getGateWayAuthState() {//========获取网关授权状态====
 		String url = NetUtil.getInstance().getVideoURL(
 				NetUtil.getInstance().IP, "GetAuthState.cgi");
 		StringRequestChina req = new StringRequestChina(url,
@@ -1759,21 +1759,10 @@ public class CGIManager extends Manger {
 						getFromSharedPreferences.setsharedPreferences(ApplicationController.getInstance());
 						try {
 							JSONObject jsonRsponse = new JSONObject(response);
-							String cur_version = (String) jsonRsponse
-									.get("cur_sw_version");
-							getFromSharedPreferences.setGatewaycurrentVersion(cur_version);
-							String latest_version = (String) jsonRsponse
-									.get("latest_sw_version");
-							if (!cur_version.equals(latest_version)) {
-								DeviceControlActivity.GATEWAYUPDATE = true;
-								String latest_version_now = getFromSharedPreferences.getGatewaylatestVersion();
-								if(!latest_version_now.equals(latest_version)) {
-									DeviceControlActivity.GATEWAYUPDATE_FIRSTTIME = true;
-									getFromSharedPreferences.setGatewaylatestVersion(latest_version);
-								} else {
-									DeviceControlActivity.GATEWAYUPDATE_FIRSTTIME = false;
-								}
-							}
+							int state = jsonRsponse.getInt("state");//====王晓飞
+							int available = jsonRsponse.getInt("available");
+							getFromSharedPreferences.setGWayAuthState(state);
+							getFromSharedPreferences.setGWayAuthAvailable(available);
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
