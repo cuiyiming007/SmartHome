@@ -91,7 +91,7 @@ public class EventType {
 	public static final EventType NETWORKCHANGE;
 	public static final EventType GATEWAYUPDATEBEGINE;
 	public static final EventType GATEWAYUPDATECOMPLETE;
-	
+	public static final EventType GATEWAYAUTH;
 	
 	//RF EVENT
 	public static final EventType RF_DEVICE_STATUS;
@@ -185,7 +185,7 @@ public class EventType {
 		NETWORKCHANGE = new EventType("networkchange", nextId());
 		GATEWAYUPDATEBEGINE = new EventType("gatewayUpdateBegine", nextId());
 		GATEWAYUPDATECOMPLETE = new EventType("gatewayUpdateComplete", nextId());
-		
+		GATEWAYAUTH = new EventType("gatewayAuth", nextId());
 		
 		RF_DEVICE_STATUS = new EventType("rfDeviceStatus", nextId());
 		RF_DEVICE_BYPASS = new EventType("rfDeviceBypass", nextId());

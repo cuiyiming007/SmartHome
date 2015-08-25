@@ -1761,8 +1761,15 @@ public class CGIManager extends Manger {
 							JSONObject jsonRsponse = new JSONObject(response);
 							int state = jsonRsponse.getInt("state");//====王晓飞
 							int available = jsonRsponse.getInt("available");
+							String expire_time = jsonRsponse.getString("expire_time");
 							getFromSharedPreferences.setGWayAuthState(state);
-							getFromSharedPreferences.setGWayAuthAvailable(available);
+							getFromSharedPreferences.setGWayAuthExpire(expire_time);
+							
+							int[] data = {state, available};
+							
+							Event event = new Event(EventType.GATEWAYAUTH, true);
+							event.setData(data);
+							notifyObservers(event);
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -1773,7 +1780,8 @@ public class CGIManager extends Manger {
 					@Override
 					public void onErrorResponse(VolleyError arg0) {
 						// TODO Auto-generated method stub
-
+						Event event = new Event(EventType.GATEWAYAUTH, false);
+						notifyObservers(event);
 					}
 				});
 		ApplicationController.getInstance().addToRequestQueue(req);

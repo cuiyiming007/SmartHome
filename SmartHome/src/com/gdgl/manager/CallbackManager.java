@@ -25,6 +25,7 @@ import android.util.Log;
 import com.gdgl.activity.ShowDevicesGroupFragmentActivity;
 import com.gdgl.app.ApplicationController;
 import com.gdgl.drawer.AlarmMessageActivity;
+import com.gdgl.libjingle.LibjingleSendManager;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
@@ -46,6 +47,7 @@ import com.gdgl.mydata.scene.SceneDevice;
 import com.gdgl.mydata.scene.SceneInfo;
 import com.gdgl.mydata.timing.TimingAction;
 import com.gdgl.mydata.video.VideoNode;
+import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.network.VolleyOperation;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.NetUtil;
@@ -142,6 +144,23 @@ public class CallbackManager extends Manger {
 						CallbackWarnMessage.class);
 				warmmessage.setHouseIEEE(getFromSharedPreferences
 						.getGatewayMAC());
+
+				SQLiteDatabase db3 = mDateHelper.getSQLiteDatabase();
+				String[] columns3 = { DevicesModel.PIC_NAME };
+				String where3 = " ieee=? ";
+				String[] args3 = { warmmessage.getZone_ieee() };
+				Cursor cursor3 = mDateHelper.query(db3,
+						DataHelper.DEVICES_TABLE, columns3, where3, args3,
+						null, null, null, null);
+				String picSource3 = "";
+				while (cursor3.moveToNext()) {
+					picSource3 = cursor3.getString(cursor3
+							.getColumnIndex(DevicesModel.PIC_NAME));
+				}
+				cursor3.close();
+				db3.close();
+				warmmessage.setHome_id(picSource3);
+
 				Log.i(TAG, warmmessage.toString());
 				handlerWarnMessage(warmmessage, false);
 				break;
@@ -848,6 +867,23 @@ public class CallbackManager extends Manger {
 						CallbackWarnMessage.class);
 				warnmessage1.setHouseIEEE(getFromSharedPreferences
 						.getGatewayMAC());
+
+				SQLiteDatabase db1 = mDateHelper.getSQLiteDatabase();
+				String[] columns1 = { DevicesModel.PIC_NAME };
+				String where1 = " ieee=? ";
+				String[] args1 = { warnmessage1.getZone_ieee() };
+				Cursor cursor1 = mDateHelper.query(db1,
+						DataHelper.RF_DEVICES_TABLE, columns1, where1, args1,
+						null, null, null, null);
+				String picSource1 = "";
+				while (cursor1.moveToNext()) {
+					picSource1 = cursor1.getString(cursor1
+							.getColumnIndex(DevicesModel.PIC_NAME));
+				}
+				cursor1.close();
+				db1.close();
+				warnmessage1.setHome_id(picSource1);
+
 				if (warnmessage1.getW_mode().equals("10")
 						|| warnmessage1.getW_mode().equals("12")
 						|| warnmessage1.getW_mode().equals("13")
@@ -862,6 +898,23 @@ public class CallbackManager extends Manger {
 						CallbackWarnMessage.class);
 				warnmessage2.setHouseIEEE(getFromSharedPreferences
 						.getGatewayMAC());
+
+				SQLiteDatabase db2 = mDateHelper.getSQLiteDatabase();
+				String[] columns2 = { DevicesModel.PIC_NAME };
+				String where2 = " ieee=? ";
+				String[] args2 = { warnmessage2.getZone_ieee() };
+				Cursor cursor2 = mDateHelper.query(db2,
+						DataHelper.RF_DEVICES_TABLE, columns2, where2, args2,
+						null, null, null, null);
+				String picSource2 = "";
+				while (cursor2.moveToNext()) {
+					picSource2 = cursor2.getString(cursor2
+							.getColumnIndex(DevicesModel.PIC_NAME));
+				}
+				cursor2.close();
+				db2.close();
+				warnmessage2.setHome_id(picSource2);
+
 				if (warnmessage2.getW_mode().equals("10")
 						|| warnmessage2.getW_mode().equals("12")
 						|| warnmessage2.getW_mode().equals("13")
@@ -888,14 +941,15 @@ public class CallbackManager extends Manger {
 				Event event3 = new Event(EventType.RF_DEVICE_BYPASS, true);
 				event3.setData(bundle3);
 				notifyObservers(event3);
-				
+
 				SQLiteDatabase mSqLiteDatabase3 = mDateHelper
 						.getSQLiteDatabase();
 				ContentValues cv = new ContentValues();
 				cv.put(DevicesModel.ON_OFF_STATUS, arm3);
 				String where3 = " ieee = ? ";
 				String[] arg3 = { ieee3 };
-				mSqLiteDatabase3.update(DataHelper.RF_DEVICES_TABLE, cv, where3, arg3);
+				mSqLiteDatabase3.update(DataHelper.RF_DEVICES_TABLE, cv,
+						where3, arg3);
 				mSqLiteDatabase3.close();
 				break;
 			case 4: // RF device all bypass
@@ -915,14 +969,15 @@ public class CallbackManager extends Manger {
 				Event event5 = new Event(EventType.CHANGEDEVICENAME, true);
 				event5.setData(changeName);
 				notifyObservers(event5);
-				
+
 				String where5 = " ieee = ? and ep = ?";
 				String[] args5 = { ieee5 };
 				ContentValues c5 = new ContentValues();
 				c5.put(DevicesModel.DEFAULT_DEVICE_NAME, newname5);
 				SQLiteDatabase mSQLiteDatabase5 = mDateHelper
 						.getSQLiteDatabase();
-				mSQLiteDatabase5.update(DataHelper.DEVICES_TABLE, c5, where5, args5);
+				mSQLiteDatabase5.update(DataHelper.DEVICES_TABLE, c5, where5,
+						args5);
 				mSQLiteDatabase5.close();
 				break;
 			case 6: // RF enable
@@ -930,6 +985,11 @@ public class CallbackManager extends Manger {
 			case 7: // RF online state
 				break;
 			case 8: // RF device list change
+				if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+					RfCGIManager.getInstance().GetRFDevList();
+				} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+					LibjingleSendManager.getInstance().GetRFDevList();
+				}
 				break;
 			default:
 				break;

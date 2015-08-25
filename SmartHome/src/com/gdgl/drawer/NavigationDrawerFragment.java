@@ -27,10 +27,13 @@ import java.util.List;
 
 import com.gdgl.activity.ConfigurationActivity_New;
 import com.gdgl.activity.LoginActivity;
+import com.gdgl.app.ApplicationController;
 import com.gdgl.mydata.AccountInfo;
+import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyApplication;
 import com.gdgl.util.MyOkCancleDlg;
+import com.gdgl.util.UiUtils;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 
 /**
@@ -57,7 +60,7 @@ public class NavigationDrawerFragment extends Fragment implements
 	private Toolbar mToolBar;
 
 	// add by Trice
-	private TextView mUserName;
+	private TextView mUserName, mGatewayExpire;
 	private TextView mUserSet;
 	private TextView mExit;
 
@@ -81,13 +84,18 @@ public class NavigationDrawerFragment extends Fragment implements
 		mDrawerList.setAdapter(adapter);
 		selectItem(mCurrentSelectedPosition);
 		
+		getFromSharedPreferences.setsharedPreferences(ApplicationController.getInstance());
+		
 		AccountInfo info = LoginActivity.loginAccountInfo;
 		String name = info.getAccount();
 		if (null == name || name.trim().equals("")) {
 			name = "Adminstartor";
 		}
+		name += "(" + UiUtils.getGatewayAuthState(getFromSharedPreferences.getGWayAuthState()) + ")";
 		mUserName = (TextView) view.findViewById(R.id.txtUsername);
 		mUserName.setText(name);
+		mGatewayExpire = (TextView) view.findViewById(R.id.txtUserEmail);
+		mGatewayExpire.setText("到期日期：" + getFromSharedPreferences.getGWayAuthExpire());
 		
 		mUserSet = (TextView) view.findViewById(R.id.set_app);
 		mUserSet.setText("设置");

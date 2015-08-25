@@ -80,8 +80,8 @@ public class getFromSharedPreferences {
 	public static int getGWayAuthState() {
 		return mSharedPreferences.getInt(UiUtils.GATE_WAY_AUTH_STATE, -1);//==-1是未激活状态
 	}
-	public static int getGWayAuthAvailable() {
-		return mSharedPreferences.getInt(UiUtils.GATE_WAY_AUTH_AVAILABLE, 0);
+	public static String getGWayAuthExpire() {
+		return mSharedPreferences.getString(UiUtils.GATE_WAY_AUTH_EXPIRE, "");
 	}
 
 	public static boolean getIsRemerber() {
@@ -164,10 +164,10 @@ public class getFromSharedPreferences {
 
 		return mEditor.commit();
 	}
-	public static boolean setGWayAuthAvailable(int available) {//==王晓飞====设置网关授权available
+	public static boolean setGWayAuthExpire(String expire) {//设置网关授权expire
 		mEditor = mSharedPreferences.edit();
 
-		mEditor.putInt(UiUtils.GATE_WAY_AUTH_AVAILABLE, available);
+		mEditor.putString(UiUtils.GATE_WAY_AUTH_EXPIRE, expire);
 
 		return mEditor.commit();
 	}

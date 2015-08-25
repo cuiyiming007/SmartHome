@@ -799,7 +799,7 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 		// TODO Auto-generated method stub
 		super.onDestroy();
 		cgiManager.deleteObserver(this);
-		libjingleSendManager.deleteObserver(this);
+		rfCGIManager.deleteObserver(this);
 		CallbackManager.getInstance().deleteObserver(this);
 	}
 

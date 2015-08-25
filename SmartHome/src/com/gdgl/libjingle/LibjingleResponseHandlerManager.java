@@ -32,6 +32,7 @@ import com.gdgl.mydata.Linkage;
 import com.gdgl.mydata.RespondDataEntity;
 import com.gdgl.mydata.ResponseParamsEndPoint;
 import com.gdgl.mydata.SimpleResponseData;
+import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.mydata.Callback.CallbackBindListDevices;
 import com.gdgl.mydata.Callback.CallbackBindListMessage;
 import com.gdgl.mydata.Region.GetRoomInfo_response;
@@ -384,6 +385,25 @@ public class LibjingleResponseHandlerManager extends Manger {
 				break;
 			case LibjingleSendStructure.GETRFDEVICELIST:
 				new GetRFDevListTask().execute(response);
+				break;
+			case LibjingleSendStructure.GATEWAYAUTH:
+				getFromSharedPreferences.setsharedPreferences(ApplicationController.getInstance());
+				try {
+					JSONObject jsonRsponse = new JSONObject(response);
+					int state = jsonRsponse.getInt("state");
+					int available = jsonRsponse.getInt("available");
+					String expire_time = jsonRsponse.getString("expire_time");
+					getFromSharedPreferences.setGWayAuthState(state);
+					getFromSharedPreferences.setGWayAuthExpire(expire_time);
+					
+					int[] data = {state, available};
+					Event event = new Event(EventType.GATEWAYAUTH, true);
+					event.setData(data);
+					notifyObservers(event);
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				break;
 			default:
 				break;
@@ -807,6 +827,9 @@ public class LibjingleResponseHandlerManager extends Manger {
 			mDateHelper.emptyTable(mSQLiteDatabase,DataHelper.RF_DEVICES_TABLE);
 			mDateHelper.insertEndPointList(mSQLiteDatabase,DataHelper.RF_DEVICES_TABLE, null, devDataList);
 			mSQLiteDatabase.close();
+			
+			Event event = new Event(EventType.RF_DEVICE_LIST_UPDATE, true);
+			notifyObservers(event);
 			return devDataList;
 		}
 	}

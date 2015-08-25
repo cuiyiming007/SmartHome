@@ -29,13 +29,14 @@ import com.gdgl.service.LibjingleService;
 import com.gdgl.service.SmartService;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyOKOnlyDlg;
+import com.gdgl.util.MyOKOnlyDlg.DialogOutcallback;
 import com.gdgl.util.MyOkCancleDlg;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
+import com.gdgl.util.MyApplication;
 import com.gdgl.util.NetUtil;
 import com.gdgl.util.UiUtils;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
@@ -61,7 +62,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class LoginActivity extends Activity implements OnClickListener,
-		UIListener, Dialogcallback {
+		UIListener, Dialogcallback, DialogOutcallback {
 	NetWorkChangeReciever netWorkChangeReciever;
 
 	private EditText mName, mPwd, mCloud;
@@ -344,47 +345,38 @@ public class LoginActivity extends Activity implements OnClickListener,
 				Toast.makeText(getApplicationContext(), "连接网关失败",
 						Toast.LENGTH_SHORT).show();
 			}
-		}
-		if (EventType.LIBJINGLE_STATUS == event.getType()) {
+		} else if (EventType.LIBJINGLE_STATUS == event.getType()) {
 			if (event.isSuccess() == true) {
 
 				// int status = Integer.parseInt((String) event.getData());
 				int status = (Integer) event.getData();
 				switch (status) {
 				case 1:
-					new Thread(new Runnable() {
-
-						@Override
-						public void run() {
-							LibjingleSendManager.getInstance()
-									.getDeviceEndPoint();
-							LibjingleSendManager.getInstance().GetRFDevList();
-							LibjingleSendManager.getInstance().getIPClist();
-							LibjingleSendManager.getInstance().GetLinkageList();
-							LibjingleSendManager.getInstance().GetSceneList();
-							LibjingleSendManager.getInstance()
-									.GetTimeActionList();
-							try {
-								Thread.sleep(2000);
-							} catch (InterruptedException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-							LibjingleSendManager.getInstance()
-									.GetLocalIASCIEOperation();
-							LibjingleSendManager.getInstance()
-									.getLocalCIEList();
-						}
-					}).start();
-					// Intent intent = new Intent(LoginActivity.this,
-					// MainActivity.class);
-					// intent.putExtra("id", "");
-					// intent.putExtra("name", mName.getText().toString());
-					// intent.putExtra("pwd", mPwd.getText().toString());
-					// intent.putExtra("remenber", mRem.isChecked());
-					// intent.putExtra("cloud", mCloud.getText().toString());
-					// startActivity(intent);
-					// this.finish();
+					LibjingleSendManager.getInstance().getGateWayAuthState();
+					// new Thread(new Runnable() {
+					//
+					// @Override
+					// public void run() {
+					// LibjingleSendManager.getInstance()
+					// .getDeviceEndPoint();
+					// LibjingleSendManager.getInstance().GetRFDevList();
+					// LibjingleSendManager.getInstance().getIPClist();
+					// LibjingleSendManager.getInstance().GetLinkageList();
+					// LibjingleSendManager.getInstance().GetSceneList();
+					// LibjingleSendManager.getInstance()
+					// .GetTimeActionList();
+					// try {
+					// Thread.sleep(2000);
+					// } catch (InterruptedException e) {
+					// // TODO Auto-generated catch block
+					// e.printStackTrace();
+					// }
+					// LibjingleSendManager.getInstance()
+					// .GetLocalIASCIEOperation();
+					// LibjingleSendManager.getInstance()
+					// .getLocalCIEList();
+					// }
+					// }).start();
 					break;
 				case 0:
 					mLogin.post(new Runnable() {
@@ -416,6 +408,55 @@ public class LoginActivity extends Activity implements OnClickListener,
 					break;
 				}
 			}
+		} else if (EventType.GATEWAYAUTH == event.getType()) {
+			if (event.isSuccess() == true) {
+				int[] data = (int[]) event.getData();
+				if (data[0] < 0 && data[1] < 1) {
+					// dialog
+					MyOKOnlyDlg myOKOnlyDlg = new MyOKOnlyDlg(
+							LoginActivity.this);
+					myOKOnlyDlg.setContent("您的网关处于"
+							+ UiUtils.getGatewayAuthState(data[0])
+							+ "状态，暂不能使用！");
+					myOKOnlyDlg.setCannotCanceled();
+					myOKOnlyDlg.setDialogCallback(LoginActivity.this);
+					myOKOnlyDlg.show();
+				} else {
+					if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+						Intent serviceIntent = new Intent(this,
+								SmartService.class);
+						startService(serviceIntent);
+					} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+						new Thread(new Runnable() {
+
+							@Override
+							public void run() {
+								LibjingleSendManager.getInstance()
+										.getDeviceEndPoint();
+								LibjingleSendManager.getInstance()
+										.GetRFDevList();
+								LibjingleSendManager.getInstance().getIPClist();
+								LibjingleSendManager.getInstance()
+										.GetLinkageList();
+								LibjingleSendManager.getInstance()
+										.GetSceneList();
+								LibjingleSendManager.getInstance()
+										.GetTimeActionList();
+								try {
+									Thread.sleep(2000);
+								} catch (InterruptedException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								LibjingleSendManager.getInstance()
+										.GetLocalIASCIEOperation();
+								LibjingleSendManager.getInstance()
+										.getLocalCIEList();
+							}
+						}).start();
+					}
+				}
+			}
 		} else if (EventType.LOCALIASCIEOPERATION == event.getType()) {
 			if (event.isSuccess() == true) {
 				Intent intent = new Intent(LoginActivity.this,
@@ -434,8 +475,9 @@ public class LoginActivity extends Activity implements OnClickListener,
 		int i = Integer.parseInt(response.getResponse_params().getStatus());
 		switch (i) {
 		case 0:
-			Intent serviceIntent = new Intent(this, SmartService.class);
-			startService(serviceIntent);
+			CGIManager.getInstance().getGateWayAuthState();
+			// Intent serviceIntent = new Intent(this, SmartService.class);
+			// startService(serviceIntent);
 			break;
 		case 24:
 			Toast.makeText(getApplicationContext(), "用户名或密码不正确",
@@ -694,5 +736,12 @@ public class LoginActivity extends Activity implements OnClickListener,
 			stopService(libserviceIntent);
 			System.exit(0);
 		}
+	}
+
+	@Override
+	public void dialogokdo() {
+		// TODO Auto-generated method stub
+		finish();
+		MyApplication.getInstance().finishSystem();
 	}
 }

@@ -1276,9 +1276,9 @@ public class LibjingleSendManager extends Manger {
 	 * 停止所有声光报警，包括大洋警报器报警和网关声音报警. 新网关可用（米尔）
 	 */
 	public void stopAlarm() {
-		String url = LibjingleNetUtil.getInstance().getVideoURL(
-				"StopAlarm.cgi");
-		
+		String url = LibjingleNetUtil.getInstance()
+				.getVideoURL("StopAlarm.cgi");
+
 		String jid = LibjinglePackHandler.getJid();
 		int reqid = getReqID();
 
@@ -1292,7 +1292,7 @@ public class LibjingleSendManager extends Manger {
 		mStructure.setAPI_type(LibjingleSendStructure.DONOTCARE);
 		sendList.add(mStructure);
 	}
-	
+
 	public void getHeartTime(DevicesModel mDevices) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", mDevices.getmIeee());
@@ -1742,15 +1742,16 @@ public class LibjingleSendManager extends Manger {
 		mStructure.setAPI_type(LibjingleSendStructure.DONOTCARE);
 		sendList.add(mStructure);
 	}
-	
+
 	/**
 	 * *************************************************************************
 	 * ******************************************** RF device
 	 */
-	
+
 	public void GetRFDevList() {
-		String url = LibjingleNetUtil.getInstance().getVideoURL("GetRFDevList.cgi");
-		
+		String url = LibjingleNetUtil.getInstance().getVideoURL(
+				"GetRFDevList.cgi");
+
 		String jid = LibjinglePackHandler.getJid();
 		int reqid = getReqID();
 
@@ -1764,7 +1765,7 @@ public class LibjingleSendManager extends Manger {
 		mStructure.setAPI_type(LibjingleSendStructure.GETRFDEVICELIST);
 		sendList.add(mStructure);
 	}
-	
+
 	public void ChangeRFDevName(String rfid, String name) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("rfid", rfid);
@@ -1773,7 +1774,7 @@ public class LibjingleSendManager extends Manger {
 
 		String url = LibjingleNetUtil.getInstance().getLocalhostURL(
 				"ChangeRFDevName.cgi", param);
-		
+
 		String jid = LibjinglePackHandler.getJid();
 		int reqid = getReqID();
 
@@ -1787,16 +1788,16 @@ public class LibjingleSendManager extends Manger {
 		mStructure.setAPI_type(LibjingleSendStructure.DONOTCARE);
 		sendList.add(mStructure);
 	}
-	
+
 	public void ChangeRFDevArmState(String rfid, int state) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("rfid", rfid);
-		paraMap.put("state", state+"");
+		paraMap.put("state", state + "");
 		String param = hashMap2ParamString(paraMap);
 
 		String url = LibjingleNetUtil.getInstance().getLocalhostURL(
 				"ChangeRFDevArmState.cgi", param);
-		
+
 		String jid = LibjinglePackHandler.getJid();
 		int reqid = getReqID();
 
@@ -1810,17 +1811,17 @@ public class LibjingleSendManager extends Manger {
 		mStructure.setAPI_type(LibjingleSendStructure.DONOTCARE);
 		sendList.add(mStructure);
 	}
-	
-	public void RFWarningDevOperation(String rfid, int operatortype,int param1) {
+
+	public void RFWarningDevOperation(String rfid, int operatortype, int param1) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("rfid", rfid);
-		paraMap.put("operatortype", operatortype+"");
-		paraMap.put("param1", param1+"");
+		paraMap.put("operatortype", operatortype + "");
+		paraMap.put("param1", param1 + "");
 		String param = hashMap2ParamString(paraMap);
 
 		String url = LibjingleNetUtil.getInstance().getLocalhostURL(
 				"RFWarningDevOperation.cgi", param);
-		
+
 		String jid = LibjinglePackHandler.getJid();
 		int reqid = getReqID();
 
@@ -1834,16 +1835,16 @@ public class LibjingleSendManager extends Manger {
 		mStructure.setAPI_type(LibjingleSendStructure.DONOTCARE);
 		sendList.add(mStructure);
 	}
-	
+
 	public void ChangeRFDevActivationState(String rfid, int state) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("rfid", rfid);
-		paraMap.put("state", state+"");
+		paraMap.put("state", state + "");
 		String param = hashMap2ParamString(paraMap);
 
 		String url = LibjingleNetUtil.getInstance().getLocalhostURL(
 				"ChangeRFDevActivationState.cgi", param);
-		
+
 		String jid = LibjinglePackHandler.getJid();
 		int reqid = getReqID();
 
@@ -1855,6 +1856,24 @@ public class LibjingleSendManager extends Manger {
 		mStructure.setRequest_id(reqid);
 		mStructure.setGl_msgtype(LibjinglePackHandler.MT_URL);
 		mStructure.setAPI_type(LibjingleSendStructure.DONOTCARE);
+		sendList.add(mStructure);
+	}
+
+	public void getGateWayAuthState() {// ========获取网关授权状态====
+		String url = LibjingleNetUtil.getInstance().getVideoURL(
+				"GetAuthState.cgi");
+
+		String jid = LibjinglePackHandler.getJid();
+		int reqid = getReqID();
+
+		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
+		// Log.i(TAG, packag);
+		Libjingle.getInstance().sendToGateway(packag);
+
+		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
+		mStructure.setRequest_id(reqid);
+		mStructure.setGl_msgtype(LibjinglePackHandler.MT_URL);
+		mStructure.setAPI_type(LibjingleSendStructure.GATEWAYAUTH);
 		sendList.add(mStructure);
 	}
 }

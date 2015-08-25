@@ -41,7 +41,7 @@ public class UiUtils {
 	public static final String ALIAS = "alias";
 	public static final String EMAIL_NAME = "Email_Name";//=====王晓飞====设置邮箱
 	public static final String GATE_WAY_AUTH_STATE = "Gate_Way_Auth_State";//网关授权state
-	public static final String GATE_WAY_AUTH_AVAILABLE = "Gate_Way_Auth_Available";//网关授权available
+	public static final String GATE_WAY_AUTH_EXPIRE = "Gate_Way_Auth_Expire";//网关授权time
 	public static final String IS_REMERBER_PWD = "RemerberPwd";
 	public static final String IS_AUTO_LOGIN = "AutoLogin";
 
@@ -95,6 +95,31 @@ public class UiUtils {
 	public static final String CLOUDLIST = "cloudlist";
 	public static final String USERLIST = "userlist";
 
+	//网关授权状态
+	public static String getGatewayAuthState(int state) {
+		String describe = "未知状态";
+		switch (state) {
+		case 0:
+			describe = "内测";
+			break;
+		case 1:
+			describe = "正常";
+			break;
+		case -1:
+			describe = "未激活";
+			break;
+		case -2:
+			describe = "欠费";
+			break;
+		case -3:
+			describe = "注销";
+			break;
+		default:
+			break;
+		}
+		return describe;
+	}
+	
 	public static String[] getTagsByType(int type) {
 		String[] tags = null;
 		switch (type) {

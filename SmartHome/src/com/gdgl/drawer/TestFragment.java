@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import com.gc.materialdesign.views.ButtonFloat;
+import com.gdgl.libjingle.LibjingleResponseHandlerManager;
 import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.DeviceManager;
@@ -51,7 +52,6 @@ public class TestFragment extends Fragment implements UIListener {
 	DataHelper mDh;
 
 	CGIManager cgiManager;
-	DeviceManager mDeviceManager;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -67,6 +67,7 @@ public class TestFragment extends Fragment implements UIListener {
 		cgiManager.addObserver(this);
 		DeviceManager.getInstance().addObserver(this);
 		CallbackManager.getInstance().addObserver(this);
+		LibjingleResponseHandlerManager.getInstance().addObserver(this);
 
 		mDh = new DataHelper((Context) getActivity());
 		try {
@@ -246,6 +247,7 @@ public class TestFragment extends Fragment implements UIListener {
 		cgiManager.deleteObserver(this);
 		DeviceManager.getInstance().deleteObserver(this);
 		CallbackManager.getInstance().deleteObserver(this);
+		LibjingleResponseHandlerManager.getInstance().deleteObserver(this);
 	}
 
 	@Override
@@ -460,6 +462,26 @@ public class TestFragment extends Fragment implements UIListener {
 			});
 		} else if (EventType.GATEWAYUPDATECOMPLETE == event.getType()) {
 			if (event.isSuccess()) {
+				mView.postDelayed(new Runnable() {
+
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						mCustomeAdapter.notifyDataSetChanged();
+					}
+				}, 500);
+			}
+		} else if (EventType.RF_DEVICE_LIST_UPDATE == event.getType()) {
+			if (event.isSuccess()) {
+				try {
+					new getDataInBackgroundTask().execute(1).get();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ExecutionException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				mView.postDelayed(new Runnable() {
 
 					@Override

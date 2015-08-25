@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.os.AsyncTask;
 
 import com.android.volley.Response;
@@ -14,6 +13,8 @@ import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.StringRequest;
 import com.gdgl.app.ApplicationController;
 import com.gdgl.mydata.DataHelper;
+import com.gdgl.mydata.Event;
+import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.RespondDataEntity;
 import com.gdgl.mydata.ResponseParamsEndPoint;
 import com.gdgl.network.StringRequestChina;
@@ -192,6 +193,9 @@ public class RfCGIManager extends Manger{
 			mDateHelper.emptyTable(mSQLiteDatabase,DataHelper.RF_DEVICES_TABLE);
 			mDateHelper.insertEndPointList(mSQLiteDatabase,DataHelper.RF_DEVICES_TABLE, null, devDataList);
 			mSQLiteDatabase.close();
+			
+			Event event = new Event(EventType.RF_DEVICE_LIST_UPDATE, true);
+			notifyObservers(event);
 			return devDataList;
 		}
 	}

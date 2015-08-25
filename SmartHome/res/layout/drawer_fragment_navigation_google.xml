@@ -24,12 +24,12 @@
             android:layout_alignParentTop="true"
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="1dp"
             android:src="@drawable/ui2_config_administrator" />
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="56dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/imgAvatar"
@@ -51,11 +51,12 @@
             <TextView
                 android:id="@+id/txtUserEmail"
                 android:layout_width="match_parent"
+                android:layout_marginTop="2dp"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:text="johndoe@doe.com"
-                android:textColor="@android:color/white"
-                android:visibility="gone" />
+                android:textSize="13sp"
+                android:text="到期日期："
+                android:textColor="@android:color/white" />
         </LinearLayout>
     </RelativeLayout>
 

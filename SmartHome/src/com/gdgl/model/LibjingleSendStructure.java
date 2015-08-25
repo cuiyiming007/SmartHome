@@ -84,6 +84,7 @@ interface LibjingleSendColumns extends BaseColumns {
 	
 	
 	public static final int GETRFDEVICELIST = 220;
+	public static final int GATEWAYAUTH = 230;
 
 }
 /***
