@@ -55,10 +55,11 @@ public class LinkageDetailFragment extends Fragment implements ChangeFragment,
 			act_photo_lay, tem_hum_btn_lay;
 	// tem_hum_btn_lay====温湿度选择按钮布局=====王晓飞
 	Button devices_bt_btn, devices_eq_btn, devices_lt_btn, devices_trg_btn,
-			act_on_btn, act_off_btn, act_photo_btn, tem_btn, hum_btn;// tem_btn,hum_btn温湿度按钮
+			act_on_btn, act_off_btn, act_photo_btn,act_record_btn, tem_btn, hum_btn;// tem_btn,hum_btn温湿度按钮
 	EditText devices_data_edit;
 
 	int onoff = 0;
+	int photo_record = 0;//=========0：拍照，1：录像
 	int temp = 0;
 	private Linkage mLinkage;
 	private int linkage_type;
@@ -112,6 +113,7 @@ public class LinkageDetailFragment extends Fragment implements ChangeFragment,
 		act_on_btn = (Button) mView.findViewById(R.id.act_on_btn);
 		act_off_btn = (Button) mView.findViewById(R.id.act_off_btn);
 		act_photo_btn = (Button) mView.findViewById(R.id.act_photo_btn);
+		act_record_btn = (Button) mView.findViewById(R.id.act_record_btn);
 		devices_data_edit = (EditText) mView
 				.findViewById(R.id.devices_data_edit);
 
@@ -123,7 +125,7 @@ public class LinkageDetailFragment extends Fragment implements ChangeFragment,
 			trgDevices = DataUtil.getDeviceModelByIeee(mLinkage.getTrgieee(),
 					mDataHelper, mDataHelper.getSQLiteDatabase());
 			LinkageAct linkageAct = new LinkageAct(mLinkage.getLnkact());
-			if (linkageAct.getType().equals("4")) {
+			if (linkageAct.getType().equals("4")||linkageAct.getType().equals("6")) {
 				actDevices = getVideoDevice(linkageAct.getIeee());
 			} else {
 				actDevices = DataUtil.getDeviceModelByIeee(
@@ -266,6 +268,30 @@ public class LinkageDetailFragment extends Fragment implements ChangeFragment,
 						.setBackgroundResource(R.drawable.ui2_linkage_button_press);
 			}
 		});
+		act_photo_btn.setOnClickListener(new OnClickListener() {//====拍照
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				photo_record = 0;
+				act_photo_btn
+						.setBackgroundResource(R.drawable.ui2_linkage_button_press);
+				act_record_btn
+						.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
+			}
+		});
+		act_record_btn.setOnClickListener(new OnClickListener() {//====录像
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				photo_record = 1;
+				act_record_btn
+						.setBackgroundResource(R.drawable.ui2_linkage_button_press);
+				act_photo_btn
+						.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
+			}
+		});
 		act_on_btn.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -351,7 +377,12 @@ public class LinkageDetailFragment extends Fragment implements ChangeFragment,
 	private String getLnkact() {
 		String lnkact = "";
 		if (actDevices.getmDevicePriority() == 1000) {
-			lnkact = "4:" + actDevices.getID() + "-1";
+			//lnkact = "4:" + actDevices.getID() + "-1";
+			if (photo_record ==0){
+				lnkact = "4:" + actDevices.getID() + "-1";//===拍照一次
+			} else {
+				lnkact = "6:" + actDevices.getID() + "-5";//====录像5秒
+			}
 		} else {
 			// if(actDevices.getmModelId().indexOf((DataHelper.Magnetic_Window))
 			// == 0){ //窗磁Z311A
@@ -482,6 +513,22 @@ public class LinkageDetailFragment extends Fragment implements ChangeFragment,
 			act_notype_lay.setVisibility(View.GONE);
 			act_onoff_lay.setVisibility(View.GONE);
 			act_photo_lay.setVisibility(View.VISIBLE);
+			if (linkage_type == 2) {
+				LinkageAct linkageAct = new LinkageAct(mLinkage.getLnkact());
+				if (linkageAct.getType().equals("4")) { // 拍照
+					photo_record = 0;
+					act_record_btn
+							.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
+					act_photo_btn
+							.setBackgroundResource(R.drawable.ui2_linkage_button_press);
+				} else { // 录像
+					photo_record = 1;
+					act_record_btn
+							.setBackgroundResource(R.drawable.ui2_linkage_button_press);
+					act_photo_btn
+							.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
+				}
+			} 
 		} else {
 			act_notype_lay.setVisibility(View.GONE);
 			act_photo_lay.setVisibility(View.GONE);

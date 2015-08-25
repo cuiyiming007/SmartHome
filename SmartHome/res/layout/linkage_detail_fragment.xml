@@ -313,6 +313,13 @@
 		            android:text="拍照"
 		            android:layout_marginLeft="5dp"
 		            android:background="@drawable/ui2_linkage_button_press"/>
+		        <Button 
+		            android:id="@+id/act_record_btn"
+		            android:layout_width="55dp"
+		            android:layout_height="35dp"
+		            android:text="录像"
+		            android:layout_marginLeft="5dp"
+		            android:background="@drawable/ui2_linkage_button_normal"/>
 		    </LinearLayout>  
 		</LinearLayout>      
 	</LinearLayout>
