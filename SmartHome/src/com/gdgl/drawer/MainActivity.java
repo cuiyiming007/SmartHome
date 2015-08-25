@@ -287,6 +287,38 @@ public class MainActivity extends ActionBarActivity implements
 						false);
 				gatewayUpdateFragment.show(getSupportFragmentManager(), "");
 			}
+		} else if (EventType.GATEWAYAUTH == event.getType()) {
+			if (event.isSuccess() == true) {
+				String[] data = (String[]) event.getData();
+				int number = Integer.parseInt(data[0]);
+				if(number == 1) {
+					final String expire = data[1];
+					tipsWithoutNet.post(new Runnable() {
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							MyOKOnlyDlg myOKOnlyDlg1 = new MyOKOnlyDlg(MainActivity.this);
+							myOKOnlyDlg1.setContent("网关授权于 " + expire + " 到期，请及时续费以保证正常使用！");
+							myOKOnlyDlg1.show();
+						}
+					});
+				} else if(number == 2) {
+					tipsWithoutNet.post(new Runnable() {
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							MyOKOnlyDlg myOKOnlyDlg2 = new MyOKOnlyDlg(MainActivity.this);
+							myOKOnlyDlg2.setContent("网关未授权，不能正常使用！");
+							myOKOnlyDlg2.setCannotCanceled();
+							myOKOnlyDlg2.setDialogCallback(MainActivity.this);
+							myOKOnlyDlg2.setSystemAlert();
+							myOKOnlyDlg2.show();
+						}
+					});
+				}
+			}
 		}
 	}
 

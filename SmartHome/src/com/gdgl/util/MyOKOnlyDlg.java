@@ -5,6 +5,7 @@ import com.gdgl.smarthome.R;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -50,6 +51,10 @@ public class MyOKOnlyDlg {
 	
 	public void setContent(String content) {
 		textView.setText(content);
+	}
+	
+	public void setSystemAlert() {
+		dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
 	}
 	
 	public void show() {

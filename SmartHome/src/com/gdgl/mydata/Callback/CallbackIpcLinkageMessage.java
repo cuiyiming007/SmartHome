@@ -23,7 +23,7 @@ interface CallbackIpcLinkageColumns extends BaseColumns {
 
 public class CallbackIpcLinkageMessage implements CallbackIpcLinkageColumns {
 	private String id;
-	private int type;
+	private int type; //1 for picture_shot, 2 for short_video
 	private String ieee;
 	private String device_name;
 	private String device_pic;

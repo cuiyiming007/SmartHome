@@ -18,6 +18,8 @@ import com.gdgl.smarthome.R;
 import com.gdgl.util.EditDevicesDlg;
 import com.gdgl.util.EditDevicesDlg.EditDialogcallback;
 import com.gdgl.util.MyOKOnlyDlg;
+import com.gdgl.util.MyOKOnlyDlg.DialogOutcallback;
+import com.gdgl.util.MyApplication;
 import com.gdgl.util.MyOkCancleDlg;
 import com.gdgl.util.MyUpdateGatewayDlg;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
@@ -43,7 +45,7 @@ import android.view.View.OnTouchListener;
 import android.widget.ImageView;
 
 public class DeviceControlActivity extends MyActionBarActivity implements
-		EditDialogcallback, Dialogcallback, UIListener {
+		EditDialogcallback, Dialogcallback, DialogOutcallback, UIListener {
 
 	public static boolean GATEWAYUPDATE = false;
 	public static boolean GATEWAYUPDATE_FIRSTTIME = false;
@@ -238,6 +240,12 @@ public class DeviceControlActivity extends MyActionBarActivity implements
 	}
 
 	@Override
+	public void dialogokdo() {
+		// TODO Auto-generated method stub
+		MyApplication.getInstance().finishSystem();
+	}
+	
+	@Override
 	public void update(Manger observer, Object object) {
 		// TODO Auto-generated method stub
 		Event event = (Event) object;
@@ -379,6 +387,38 @@ public class DeviceControlActivity extends MyActionBarActivity implements
 						mToolbar.removeView(downLoadView);
 					}
 				}, 500);
+			}
+		}  else if (EventType.GATEWAYAUTH == event.getType()) {
+			if (event.isSuccess() == true) {
+				String[] data = (String[]) event.getData();
+				int number = Integer.parseInt(data[0]);
+				if(number == 1) {
+					final String expire = data[1];
+					tipsWithoutNet.post(new Runnable() {
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							MyOKOnlyDlg myOKOnlyDlg1 = new MyOKOnlyDlg(DeviceControlActivity.this);
+							myOKOnlyDlg1.setContent("网关授权于 " + expire + " 到期，请及时续费以保证正常使用！");
+							myOKOnlyDlg1.show();
+						}
+					});
+				} else if(number == 2) {
+					tipsWithoutNet.post(new Runnable() {
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							MyOKOnlyDlg myOKOnlyDlg2 = new MyOKOnlyDlg(DeviceControlActivity.this);
+							myOKOnlyDlg2.setContent("网关未授权，不能正常使用！");
+							myOKOnlyDlg2.setCannotCanceled();
+							myOKOnlyDlg2.setDialogCallback(DeviceControlActivity.this);
+							myOKOnlyDlg2.setSystemAlert();
+							myOKOnlyDlg2.show();
+						}
+					});
+				}
 			}
 		}
 	}

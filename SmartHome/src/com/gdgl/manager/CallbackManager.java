@@ -20,6 +20,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 
 import com.gdgl.activity.ShowDevicesGroupFragmentActivity;
@@ -81,6 +82,7 @@ public class CallbackManager extends Manger {
 
 		@Override
 		public void run() {
+			Looper.prepare();
 			connectAndRecieveFromCallback();
 		}
 
@@ -531,6 +533,16 @@ public class CallbackManager extends Manger {
 				message6.setPicName(ipc_screenshot);
 				message6.setType(1);
 				new HanderIpcLinkageMessageTask().execute(message6);
+				break;
+			case 7: // ipc video
+				// {"msgtype":0,"mainid":2,"subid":7,"status":0,"video_duration":5,"video_name":"1439456470_001370000012345_1_5.mkv"}
+				String video_name = (String) jsonRsponse.get("video_name");
+				int video_duration = (Integer) jsonRsponse.get("video_duration");
+				CallbackIpcLinkageMessage message7 = new CallbackIpcLinkageMessage();
+				message7.setPicCount(video_duration);
+				message7.setPicName(video_name);
+				message7.setType(2);
+				new HanderIpcLinkageMessageTask().execute(message7);
 				break;
 			default:
 				break;
@@ -985,11 +997,42 @@ public class CallbackManager extends Manger {
 			case 7: // RF online state
 				break;
 			case 8: // RF device list change
+				Log.i(TAG, "RF device list change==========>");
 				if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
 					RfCGIManager.getInstance().GetRFDevList();
 				} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
 					LibjingleSendManager.getInstance().GetRFDevList();
 				}
+				break;
+			default:
+				break;
+			}
+		}
+		if (mainid == 8) { // Gateway Auth
+			switch (subid) {
+			case 1: // Gateway Renew Remind
+				String expire1 = (String) jsonRsponse.get("expire_time");
+				Event event1 = new Event(EventType.GATEWAYAUTH, true);
+				String[] data1 = { "1", expire1 };
+				event1.setData(data1);
+				notifyObservers(event1);
+				break;
+			case 2: // Gateway Auth terminated
+				Event event2 = new Event(EventType.GATEWAYAUTH, true);
+				String[] data2 = { "2" };
+				event2.setData(data2);
+				notifyObservers(event2);
+				break;
+			case 3: // Gateway Auth Update
+				int state3 = (Integer) jsonRsponse.get("state");
+				String expire3 = (String) jsonRsponse.get("expire_time");
+				getFromSharedPreferences.setGWayAuthState(state3);
+				getFromSharedPreferences.setGWayAuthExpire(expire3);
+				
+				String[] data3 = { "3", state3+"", expire3 };
+				Event event3 = new Event(EventType.GATEWAYAUTH, true);
+				event3.setData(data3);
+				notifyObservers(event3);
 				break;
 			default:
 				break;
@@ -1476,7 +1519,11 @@ public class CallbackManager extends Manger {
 			message.setIpcName(ipc_name);
 			message.setPicName(picNameString.substring(0,
 					picNameString.length() - 1));
-			message.setDescription("联动摄像头 " + ipc_name + " 截图.");
+			if(message.getType() == 1) {
+				message.setDescription("联动摄像头 " + ipc_name + " 截图.");
+			} else {
+				message.setDescription("联动摄像头 " + ipc_name + " 录像.");
+			}
 
 			long id = db.insert(DataHelper.IPC_LINKAGE_TABLE, null,
 					message.convertContentValues());

@@ -28,7 +28,12 @@ import java.util.List;
 import com.gdgl.activity.ConfigurationActivity_New;
 import com.gdgl.activity.LoginActivity;
 import com.gdgl.app.ApplicationController;
+import com.gdgl.manager.CallbackManager;
+import com.gdgl.manager.Manger;
+import com.gdgl.manager.UIListener;
 import com.gdgl.mydata.AccountInfo;
+import com.gdgl.mydata.Event;
+import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyApplication;
@@ -40,7 +45,7 @@ import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
  * Created by poliveira on 24/10/2014.
  */
 public class NavigationDrawerFragment extends Fragment implements
-		NavigationDrawerCallbacks, Dialogcallback {
+		NavigationDrawerCallbacks, Dialogcallback, UIListener {
 	private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
 	private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
 	private static final String PREFERENCES_FILE = "my_app_settings"; // TODO:
@@ -63,6 +68,7 @@ public class NavigationDrawerFragment extends Fragment implements
 	private TextView mUserName, mGatewayExpire;
 	private TextView mUserSet;
 	private TextView mExit;
+	private String name;
 
 	@Nullable
 	@Override
@@ -83,20 +89,25 @@ public class NavigationDrawerFragment extends Fragment implements
 		adapter.setNavigationDrawerCallbacks(this);
 		mDrawerList.setAdapter(adapter);
 		selectItem(mCurrentSelectedPosition);
-		
-		getFromSharedPreferences.setsharedPreferences(ApplicationController.getInstance());
-		
+
+		getFromSharedPreferences.setsharedPreferences(ApplicationController
+				.getInstance());
+
 		AccountInfo info = LoginActivity.loginAccountInfo;
-		String name = info.getAccount();
+		name = info.getAccount();
 		if (null == name || name.trim().equals("")) {
 			name = "Adminstartor";
 		}
-		name += "(" + UiUtils.getGatewayAuthState(getFromSharedPreferences.getGWayAuthState()) + ")";
+		String name1 = name
+				+ "("
+				+ UiUtils.getGatewayAuthState(getFromSharedPreferences
+						.getGWayAuthState()) + ")";
 		mUserName = (TextView) view.findViewById(R.id.txtUsername);
-		mUserName.setText(name);
+		mUserName.setText(name1);
 		mGatewayExpire = (TextView) view.findViewById(R.id.txtUserEmail);
-		mGatewayExpire.setText("到期日期：" + getFromSharedPreferences.getGWayAuthExpire());
-		
+		mGatewayExpire.setText("到期日期："
+				+ getFromSharedPreferences.getGWayAuthExpire());
+
 		mUserSet = (TextView) view.findViewById(R.id.set_app);
 		mUserSet.setText("设置");
 		mUserSet.setCompoundDrawablesWithIntrinsicBounds(getResources()
@@ -149,8 +160,7 @@ public class NavigationDrawerFragment extends Fragment implements
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
-						getActivity());
+				MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(getActivity());
 				mMyOkCancleDlg
 						.setDialogCallback((Dialogcallback) NavigationDrawerFragment.this);
 				mMyOkCancleDlg.setContent("退出SmartHome后,将不再接收报警信息.是否确认退出？");
@@ -192,6 +202,8 @@ public class NavigationDrawerFragment extends Fragment implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		CallbackManager.getInstance().addObserver(this);
+
 		mUserLearnedDrawer = Boolean.valueOf(readSharedSetting(getActivity(),
 				PREF_USER_LEARNED_DRAWER, "false"));
 		if (savedInstanceState != null) {
@@ -391,5 +403,31 @@ public class NavigationDrawerFragment extends Fragment implements
 	public void dialogdo() {
 		// TODO Auto-generated method stub
 		MyApplication.getInstance().finishSystem();
+	}
+
+	@Override
+	public void update(Manger observer, Object object) {
+		// TODO Auto-generated method stub
+		Event event = (Event) object;
+		if (EventType.GATEWAYAUTH == event.getType()) {
+			if (event.isSuccess() == true) {
+				String[] data = (String[]) event.getData();
+				int number = Integer.parseInt(data[0]);
+				if (number == 3) {
+					final int state = Integer.parseInt(data[1]);
+					final String expire = data[2];
+					mUserSet.post(new Runnable() {
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							mUserName.setText(name + "("
+									+ UiUtils.getGatewayAuthState(state) + ")");
+							mGatewayExpire.setText("到期日期：" + expire);
+						}
+					});
+				}
+			}
+		}
 	}
 }

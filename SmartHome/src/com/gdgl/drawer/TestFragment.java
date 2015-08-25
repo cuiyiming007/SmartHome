@@ -10,6 +10,7 @@ import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.DeviceManager;
 import com.gdgl.manager.Manger;
+import com.gdgl.manager.RfCGIManager;
 import com.gdgl.manager.UIListener;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.Constants;
@@ -29,6 +30,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -67,6 +69,7 @@ public class TestFragment extends Fragment implements UIListener {
 		cgiManager.addObserver(this);
 		DeviceManager.getInstance().addObserver(this);
 		CallbackManager.getInstance().addObserver(this);
+		RfCGIManager.getInstance().addObserver(this);
 		LibjingleResponseHandlerManager.getInstance().addObserver(this);
 
 		mDh = new DataHelper((Context) getActivity());
@@ -247,6 +250,7 @@ public class TestFragment extends Fragment implements UIListener {
 		cgiManager.deleteObserver(this);
 		DeviceManager.getInstance().deleteObserver(this);
 		CallbackManager.getInstance().deleteObserver(this);
+		RfCGIManager.getInstance().deleteObserver(this);
 		LibjingleResponseHandlerManager.getInstance().deleteObserver(this);
 	}
 
@@ -473,20 +477,15 @@ public class TestFragment extends Fragment implements UIListener {
 			}
 		} else if (EventType.RF_DEVICE_LIST_UPDATE == event.getType()) {
 			if (event.isSuccess()) {
-				try {
-					new getDataInBackgroundTask().execute(1).get();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (ExecutionException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				new getDataInBackgroundTask().execute(1);
 				mView.postDelayed(new Runnable() {
 
 					@Override
 					public void run() {
 						// TODO Auto-generated method stub
+						Log.i("RF_DEVICE_LIST_UPDATE",
+								"=====================>Runnable begin");
+						mCustomeAdapter.setList(mDeviceList);
 						mCustomeAdapter.notifyDataSetChanged();
 					}
 				}, 500);
@@ -529,6 +528,7 @@ public class TestFragment extends Fragment implements UIListener {
 					DataHelper.RF_DEVICES_TABLE, null, null, null, null, null,
 					DevicesModel.DEVICE_PRIORITY, null));
 			dataBase.close();
+			Log.i("RF_DEVICE_LIST_UPDATE", "=====================>Task done");
 			return 1;
 		}
 	}
