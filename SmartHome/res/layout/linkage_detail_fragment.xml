@@ -129,7 +129,8 @@
 		            android:layout_height="35dp"
 		            android:layout_marginLeft="10dp"
 		            android:textSize="14sp"
-		            android:gravity="bottom|end"
+		            android:gravity="center"
+		            android:inputType="number"
 		            android:text="0"/>
 		        <TextView
 		            android:id="@+id/tem_hum_label"
