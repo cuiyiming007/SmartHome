@@ -9,7 +9,6 @@ import com.gdgl.mydata.scene.SceneDevice;
 import com.gdgl.smarthome.R;
 
 import android.support.v4.app.Fragment;
-import android.R.integer;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;

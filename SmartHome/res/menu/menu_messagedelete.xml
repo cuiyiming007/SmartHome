@@ -3,9 +3,15 @@
 
     <item
         android:id="@+id/menu_delete"
-        android:icon="@drawable/ui_toptitle_delete_style"
+        android:icon="@drawable/ui2_menu_delete"
         android:orderInCategory="80"
         app:showAsAction="ifRoom"
         android:title="删除"/>
+    <item
+        android:id="@+id/menu_stop_alarm"
+        android:icon="@drawable/ui2_menu_stopalarm"
+        android:orderInCategory="79"
+        app:showAsAction="ifRoom"
+        android:title="停止报警"/>
 
 </menu>

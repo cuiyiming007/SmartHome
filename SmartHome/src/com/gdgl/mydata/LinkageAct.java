@@ -74,7 +74,16 @@ public class LinkageAct{
 		if(!type.equals("") && !arm.equals("")){
 			actString = ACTPARA[Integer.parseInt(type) - 1][Integer.parseInt(arm)];
 		}else{
-			actString = "拍照";
+			switch (Integer.parseInt(type)) {
+			case 4:
+				actString = "拍照";
+				break;
+			case 6:
+				actString = "录像";
+			default:
+				break;
+			}
+			
 		}
 		return actString;
 	}

@@ -60,6 +60,8 @@ public class CallbackManager extends Manger {
 	public static CallbackManager getInstance() {
 		if (instance == null) {
 			instance = new CallbackManager();
+			getFromSharedPreferences.setsharedPreferences(ApplicationController
+					.getInstance());
 		}
 		return instance;
 	}
@@ -138,13 +140,27 @@ public class CallbackManager extends Manger {
 				Log.i(TAG, "Callback msgType=" + msgType + "warm message");
 				CallbackWarnMessage warmmessage = gson.fromJson(response,
 						CallbackWarnMessage.class);
-				getFromSharedPreferences
-						.setsharedPreferences(ApplicationController
-								.getInstance());
 				warmmessage.setHouseIEEE(getFromSharedPreferences
 						.getGatewayMAC());
+
+				SQLiteDatabase db3 = mDateHelper.getSQLiteDatabase();
+				String[] columns3 = { DevicesModel.PIC_NAME };
+				String where3 = " ieee=? ";
+				String[] args3 = { warmmessage.getZone_ieee() };
+				Cursor cursor3 = mDateHelper.query(db3,
+						DataHelper.DEVICES_TABLE, columns3, where3, args3,
+						null, null, null, null);
+				String picSource3 = "";
+				while (cursor3.moveToNext()) {
+					picSource3 = cursor3.getString(cursor3
+							.getColumnIndex(DevicesModel.PIC_NAME));
+				}
+				cursor3.close();
+				db3.close();
+				warmmessage.setHome_id(picSource3);
+
 				Log.i(TAG, warmmessage.toString());
-				handlerWarnMessage(warmmessage);
+				handlerWarnMessage(warmmessage, false);
 				break;
 			case 4:
 				Log.i(TAG, "Callback msgType=" + msgType + "doorlock");
@@ -514,6 +530,16 @@ public class CallbackManager extends Manger {
 				message6.setType(1);
 				new HanderIpcLinkageMessageTask().execute(message6);
 				break;
+			case 7: // ipc video
+				// {"msgtype":0,"mainid":2,"subid":7,"status":0,"video_duration":5,"video_name":"1439456470_001370000012345_1_5.mkv"}
+				String video_name = (String) jsonRsponse.get("video_name");
+				int video_duration = (Integer) jsonRsponse.get("video_duration");
+				CallbackIpcLinkageMessage message7 = new CallbackIpcLinkageMessage();
+				message7.setPicCount(video_duration);
+				message7.setPicName(video_name);
+				message7.setType(2);
+				new HanderIpcLinkageMessageTask().execute(message7);
+				break;
 			default:
 				break;
 			}
@@ -867,8 +893,10 @@ public class CallbackManager extends Manger {
 		}
 	}
 
-	private void handlerWarnMessage(CallbackWarnMessage warnmessage) {
-		if (!getSecurityControlState() && getIsRightModelID(warnmessage)) {
+	private void handlerWarnMessage(CallbackWarnMessage warnmessage,
+			boolean notWarnMessage) {
+		if (!getSecurityControlState() && getIsRightModelID(warnmessage)
+				|| notWarnMessage) {
 			warnmessage = WarnManager.getInstance()
 					.setWarnDetailMessageNoSecurity(warnmessage);
 		} else {
@@ -1295,8 +1323,8 @@ public class CallbackManager extends Manger {
 			String[] args = { temp[1] };
 			Cursor cursor = mDateHelper.query(db, DataHelper.DEVICES_TABLE,
 					columns, where, args, null, null, null, null);
-			String picSource = "";
-			String deviceName = "";
+			String picSource = R.drawable.ui2_device_alarm + "";
+			String deviceName = "未知设备";
 			while (cursor.moveToNext()) {
 				deviceName = cursor.getString(cursor
 						.getColumnIndex(DevicesModel.DEFAULT_DEVICE_NAME));
@@ -1322,7 +1350,11 @@ public class CallbackManager extends Manger {
 			message.setIpcName(ipc_name);
 			message.setPicName(picNameString.substring(0,
 					picNameString.length() - 1));
-			message.setDescription("联动摄像头 " + ipc_name + " 截图.");
+			if(message.getType() == 1) {
+				message.setDescription("联动摄像头 " + ipc_name + " 截图.");
+			} else {
+				message.setDescription("联动摄像头 " + ipc_name + " 录像.");
+			}
 
 			long id = db.insert(DataHelper.IPC_LINKAGE_TABLE, null,
 					message.convertContentValues());

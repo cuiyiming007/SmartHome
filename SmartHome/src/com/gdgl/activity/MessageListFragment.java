@@ -25,11 +25,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.gdgl.app.ApplicationController;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
 import com.gdgl.manager.WarnManager;
-import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.Event;
@@ -238,15 +236,13 @@ public class MessageListFragment extends BaseFragment implements UIListener,andr
 				mHolder = (ViewHolder) mView.getTag();
 				mHolder.warn_check.setChecked(mCheckHashMap.get(message.getId()));
 			}
-			mHolder.warn_img.setImageResource(getMessageImageResource(message));
+			mHolder.warn_img.setImageResource(Integer.parseInt(message.getHome_id()));
 			
 			if(message.getDetailmessage().indexOf("提示") != -1){
 				mHolder.warm_point.setBackgroundResource(R.drawable.ui_toptitle_alarm_message_new_y);
 			}else{
 				mHolder.warm_point.setBackgroundResource(R.drawable.ui_toptitle_alarm_message_new);
 			}
-//			mHolder.warn_name.setText(message.getDetailmessage());
-//			mHolder.warn_state.setText(message.getDetailmessage()+"收到报警信息，请注意！");
 			mHolder.warn_name.setText(message.getZone_name());
 			mHolder.warn_state.setText(message.getDetailmessage());
 			mHolder.warn_time.setText(message.getTime());
@@ -480,21 +476,6 @@ public class MessageListFragment extends BaseFragment implements UIListener,andr
 
 		mSQLiteDatabase.delete(DataHelper.MESSAGE_TABLE,
 				where, args);
-	}
-	
-	public int getMessageImageResource(CallbackWarnMessage message){
-		int MessageImageResource = 0;
-		DataHelper	dh = new DataHelper(ApplicationController.getInstance());
-		SQLiteDatabase db = dh.getSQLiteDatabase();
-		DevicesModel device= DataUtil.getDeviceModelByIeee(message.getZone_ieee(), dh, db);
-		if(device != null){
-			MessageImageResource = DataUtil.getDefaultDevicesSmallIcon(
-					device.getmDeviceId(), device.getmModelId());
-		}
-		if(MessageImageResource == 0){
-			MessageImageResource = R.drawable.ui_lightmanage_switchmodule;
-		}
-		return MessageImageResource;	
 	}
 	/* 闵伟add end  */
 }

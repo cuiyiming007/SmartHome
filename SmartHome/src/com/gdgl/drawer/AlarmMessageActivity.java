@@ -2,6 +2,9 @@ package com.gdgl.drawer;
 
 import com.gdgl.activity.MessageTabFragment;
 import com.gdgl.activity.MyActionBarActivity;
+import com.gdgl.libjingle.LibjingleSendManager;
+import com.gdgl.manager.CGIManager;
+import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
 
 import android.os.Bundle;
@@ -20,14 +23,14 @@ public class AlarmMessageActivity extends MyActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Bundle mBundle = getIntent().getExtras();
-		
+
 		mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
 		setSupportActionBar(mToolbar);
 		mActionBar = getSupportActionBar();
 		mActionBar.setDisplayHomeAsUpEnabled(true);
 		mActionBar.setDisplayShowTitleEnabled(true);
 		mActionBar.setTitle("消息管理");
-		
+
 		final MessageTabFragment mfragent = new MessageTabFragment();
 		mToolbar.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 
@@ -38,6 +41,13 @@ public class AlarmMessageActivity extends MyActionBarActivity {
 				case R.id.menu_delete:
 					mfragent.clickDelete();
 					break;
+				case R.id.menu_stop_alarm:
+					if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+						CGIManager.getInstance().stopAlarm();
+					} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+						LibjingleSendManager.getInstance().stopAlarm();
+					}
+					break;
 
 				default:
 					break;
@@ -45,7 +55,7 @@ public class AlarmMessageActivity extends MyActionBarActivity {
 				return false;
 			}
 		});
-		
+
 		mfragent.setArguments(mBundle);
 		FragmentTransaction fragmentTransaction = getSupportFragmentManager()
 				.beginTransaction();
