@@ -78,7 +78,6 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 		cgiManager = CGIManager.getInstance();
 		cgiManager.addObserver(DeviceControlFragment.this);
 		rfCGIManager = RfCGIManager.getInstance();// ======王晓飞
-		rfCGIManager.addObserver(DeviceControlFragment.this);// ====王晓飞
 		CallbackManager.getInstance().addObserver(DeviceControlFragment.this);
 		libjingleSendManager = LibjingleSendManager.getInstance();
 	}
@@ -799,7 +798,6 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 		// TODO Auto-generated method stub
 		super.onDestroy();
 		cgiManager.deleteObserver(this);
-		rfCGIManager.deleteObserver(this);
 		CallbackManager.getInstance().deleteObserver(this);
 	}
 

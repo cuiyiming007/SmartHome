@@ -4,6 +4,7 @@ import com.gdgl.libjingle.LibjingleSendManager;
 import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.Manger;
+import com.gdgl.manager.RfCGIManager;
 import com.gdgl.manager.UIListener;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.DataHelper;
@@ -41,8 +42,9 @@ public class DeviceDetailFragment_new extends Fragment implements UIListener {
 			device_date_codeTextView;
 	EditText identify_timeEditText;
 	LinearLayout energy_attributeLayout, device_aboutLayout,
-			device_about_contentLayout, device_heart_layout;
-	Button begin_identifyButton, device_heartButton;
+			device_about_contentLayout, device_heart_layout,
+			device_identifyLayout, device_alarm_learnLayout;
+	Button begin_identifyButton, device_heartButton, alarm_learnButton;
 
 	CGIManager cgiManager;
 	LibjingleSendManager libjingleSendManager;
@@ -84,8 +86,13 @@ public class DeviceDetailFragment_new extends Fragment implements UIListener {
 				.findViewById(R.id.device_about_content);
 		device_heart_layout = (LinearLayout) mView
 				.findViewById(R.id.device_heart_layout);
+		device_identifyLayout =  (LinearLayout) mView
+				.findViewById(R.id.device_identify);
+		device_alarm_learnLayout =  (LinearLayout) mView
+				.findViewById(R.id.alarm_learn);
 
 		device_heartButton = (Button) mView.findViewById(R.id.device_heart_btn);
+		alarm_learnButton = (Button) mView.findViewById(R.id.begin_learn);
 
 		identify_timeEditText = (EditText) mView
 				.findViewById(R.id.identify_time);
@@ -112,6 +119,23 @@ public class DeviceDetailFragment_new extends Fragment implements UIListener {
 		// 设备详情布局
 		setDeviceDetailLayout();
 
+		// 警号学习
+		alarm_learnButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+					RfCGIManager.getInstance().RFWarningDevOperation(mDevices.getmIeee(), 3, 0);
+				} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+					MyOKOnlyDlg myOKOnlyDlg = new MyOKOnlyDlg(getActivity());
+					myOKOnlyDlg.setContent(getResources().getString(
+							R.string.Unable_In_InternetState));
+					myOKOnlyDlg.show();
+				}
+			}
+		});
+		
 		// 心跳周期
 		device_heartButton.setOnClickListener(new OnClickListener() {
 
@@ -185,6 +209,7 @@ public class DeviceDetailFragment_new extends Fragment implements UIListener {
 
 	public void setDeviceDetailLayout() {
 		int deviceId = mDevices.getmDeviceId();
+		String modelId = mDevices.getmModelId();
 		switch (deviceId) {
 		case DataHelper.IAS_ACE_DEVICETYPE:
 		case DataHelper.IAS_ZONE_DEVICETYPE:
@@ -192,6 +217,13 @@ public class DeviceDetailFragment_new extends Fragment implements UIListener {
 			device_heart_layout.setVisibility(View.VISIBLE);
 			getHeartTime();
 			break;
+		case DataHelper.RF_DEVICE:
+			device_identifyLayout.setVisibility(View.GONE);
+			if (modelId.indexOf(DataHelper.RF_Siren) == 0
+					|| modelId.indexOf(DataHelper.RF_Siren_Outside) == 0
+					|| modelId.indexOf(DataHelper.RF_Siren_Relay) == 0) {
+				device_alarm_learnLayout.setVisibility(View.VISIBLE);
+			}
 		default:
 			break;
 		}

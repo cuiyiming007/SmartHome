@@ -51,6 +51,7 @@ import com.gdgl.smarthome.R;
 import com.gdgl.util.ComUtil;
 import com.hikvision.netsdk.ExceptionCallBack;
 import com.hikvision.netsdk.HCNetSDK;
+import com.hikvision.netsdk.NET_DVR_CHANNELSTATE_V30;
 import com.hikvision.netsdk.NET_DVR_CLIENTINFO;
 import com.hikvision.netsdk.NET_DVR_COMPRESSIONCFG_V30;
 import com.hikvision.netsdk.NET_DVR_DEVICEINFO_V30;
@@ -58,6 +59,7 @@ import com.hikvision.netsdk.NET_DVR_IPPARACFG_V40;
 import com.hikvision.netsdk.NET_DVR_PLAYBACK_INFO;
 import com.hikvision.netsdk.NET_DVR_RESOLVE_DEVICEINFO;
 import com.hikvision.netsdk.NET_DVR_TIME;
+import com.hikvision.netsdk.NET_DVR_WORKSTATE_V30;
 import com.hikvision.netsdk.PTZCommand;
 import com.hikvision.netsdk.PTZPresetCmd;
 import com.hikvision.netsdk.PlaybackCallBack;
@@ -1054,7 +1056,17 @@ public class HikVideoActivity extends ActionBarActivity implements Callback {
 		Log.i("m_oNetDvrResolveDeviceInfo", "dwPort = " + dwPort);
 		int iLogID = HCNetSDK.getInstance().NET_DVR_Login_V30(sGetIP, dwPort,
 				strUser, strPsd, m_oNetDvrDeviceInfoV30);
+		
+		NET_DVR_WORKSTATE_V30 m_oNetDvrWorkStateV30 = new NET_DVR_WORKSTATE_V30();
+		if(HCNetSDK.getInstance().NET_DVR_GetDVRWorkState_V30(iLogID, m_oNetDvrWorkStateV30)){
+			NET_DVR_CHANNELSTATE_V30[] m_oNetDvrChannelStateV30 = m_oNetDvrWorkStateV30.struChanStatic;
+			if(m_oNetDvrChannelStateV30[0].dwLinkNum >= 6){
+				Toast.makeText(this, "摄像头最多支持6人同时访问,请稍候再试!", Toast.LENGTH_SHORT).show();
+			}
+		}
+		
 		if (iLogID < 0) {
+			Toast.makeText(this, "摄像头访问失败,请重新访问!", Toast.LENGTH_SHORT).show();
 			Log.e(TAG, "NET_DVR_Login is failed!Err:"
 					+ HCNetSDK.getInstance().NET_DVR_GetLastError());
 			return -1;

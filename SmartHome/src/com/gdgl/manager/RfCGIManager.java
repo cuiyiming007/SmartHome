@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -112,6 +113,7 @@ public class RfCGIManager extends Manger{
 
 		String url = NetUtil.getInstance().getCumstomURL(
 				NetUtil.getInstance().IP, "RFWarningDevOperation.cgi", param);
+		Log.i(TAG, url);
 		StringRequest req = new StringRequest(url,
 				new Response.Listener<String>() {
 					@Override

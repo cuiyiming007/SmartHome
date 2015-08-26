@@ -1552,17 +1552,17 @@ public class CGIManager extends Manger {
 				new Response.Listener<String>() {
 					@Override
 					public void onResponse(String response) {
-						
+
 					}
 				}, new Response.ErrorListener() {
 					@Override
 					public void onErrorResponse(VolleyError error) {
-						
+
 					}
 				});
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
-	
+
 	/***
 	 * 获取安防设备心跳周期
 	 * 
@@ -1746,7 +1746,7 @@ public class CGIManager extends Manger {
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
 
-	public void getGateWayAuthState() {//========获取网关授权状态====
+	public void getGateWayAuthState() {// ========获取网关授权状态====
 		String url = NetUtil.getInstance().getVideoURL(
 				NetUtil.getInstance().IP, "GetAuthState.cgi");
 		StringRequestChina req = new StringRequestChina(url,
@@ -1756,17 +1756,21 @@ public class CGIManager extends Manger {
 					public void onResponse(String response) {
 						// TODO Auto-generated method stub
 						Log.i("", response);
-						getFromSharedPreferences.setsharedPreferences(ApplicationController.getInstance());
+						getFromSharedPreferences
+								.setsharedPreferences(ApplicationController
+										.getInstance());
 						try {
 							JSONObject jsonRsponse = new JSONObject(response);
-							int state = jsonRsponse.getInt("state");//====王晓飞
+							int state = jsonRsponse.getInt("state");// ====王晓飞
 							int available = jsonRsponse.getInt("available");
-							String expire_time = jsonRsponse.getString("expire_time");
+							String expire_time = jsonRsponse
+									.getString("expire_time");
 							getFromSharedPreferences.setGWayAuthState(state);
-							getFromSharedPreferences.setGWayAuthExpire(expire_time);
-							
-							int[] data = {state, available};
-							
+							getFromSharedPreferences
+									.setGWayAuthExpire(expire_time);
+
+							int[] data = { state, available };
+
 							Event event = new Event(EventType.GATEWAYAUTH, true);
 							event.setData(data);
 							notifyObservers(event);
@@ -1786,7 +1790,7 @@ public class CGIManager extends Manger {
 				});
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
-	
+
 	public void getGatewaySwVersion() {
 		String url = NetUtil.getInstance().getVideoURL(
 				NetUtil.getInstance().IP, "GetSwVersion.cgi");
@@ -1797,20 +1801,25 @@ public class CGIManager extends Manger {
 					public void onResponse(String response) {
 						// TODO Auto-generated method stub
 						Log.i("", response);
-						getFromSharedPreferences.setsharedPreferences(ApplicationController.getInstance());
+						getFromSharedPreferences
+								.setsharedPreferences(ApplicationController
+										.getInstance());
 						try {
 							JSONObject jsonRsponse = new JSONObject(response);
 							String cur_version = (String) jsonRsponse
 									.get("cur_sw_version");
-							getFromSharedPreferences.setGatewaycurrentVersion(cur_version);
+							getFromSharedPreferences
+									.setGatewaycurrentVersion(cur_version);
 							String latest_version = (String) jsonRsponse
 									.get("latest_sw_version");
 							if (!cur_version.equals(latest_version)) {
 								DeviceControlActivity.GATEWAYUPDATE = true;
-								String latest_version_now = getFromSharedPreferences.getGatewaylatestVersion();
-								if(!latest_version_now.equals(latest_version)) {
+								String latest_version_now = getFromSharedPreferences
+										.getGatewaylatestVersion();
+								if (!latest_version_now.equals(latest_version)) {
 									DeviceControlActivity.GATEWAYUPDATE_FIRSTTIME = true;
-									getFromSharedPreferences.setGatewaylatestVersion(latest_version);
+									getFromSharedPreferences
+											.setGatewaylatestVersion(latest_version);
 								} else {
 									DeviceControlActivity.GATEWAYUPDATE_FIRSTTIME = false;
 								}
@@ -1840,7 +1849,7 @@ public class CGIManager extends Manger {
 					@Override
 					public void onResponse(String response) {
 						// TODO Auto-generated method stub
-						
+
 					}
 				}, new ErrorListener() {
 
@@ -1852,7 +1861,7 @@ public class CGIManager extends Manger {
 				});
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
-	
+
 	public void feedbackToServer(String user, String content) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("UserID", user);
@@ -1895,6 +1904,35 @@ public class CGIManager extends Manger {
 						}
 					}
 				});
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
+
+	// ==设置邮箱====
+	public void changeEmailAddress(String mac, String email, int enable) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("gateId", mac);
+		paraMap.put("newEmailAddr", email);
+		paraMap.put("sendMailFlag", enable + "");
+		String param = hashMap2ParamString(paraMap);
+
+		String url = "http://121.199.21.14:8888/GLSmartHome/userinfo_changeEmailAddr?"
+				+ param;
+		Log.i("changeEmailAddress", url);
+		StringRequest req = new StringRequest(url,
+				new Response.Listener<String>() {
+					@Override
+					public void onResponse(String response) {
+						// TODO Auto-generated method stub
+
+					}
+				}, new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+						// TODO Auto-generated method stub
+
+					}
+				});
+		// add the request object to the queue to be executed
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
 

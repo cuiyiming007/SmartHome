@@ -47,12 +47,12 @@ public class DeviceHistoryFragment extends Fragment implements UIListener {
 		attributeNameMap.put("光强", "brightness");
 		attributeNameMap.put("NULL", "null");
 	}
-	
+
 	List<String> spinnerList = new ArrayList<String>();
 	DevicesModel mDevices;
 	String attrName;
 	List<HistoryPoint> historyDataList;
-	
+
 	View mView;
 	TextView nohistoryTextView;
 	Spinner spinner;
@@ -62,11 +62,11 @@ public class DeviceHistoryFragment extends Fragment implements UIListener {
 
 	HistoryDataAdapter historyDataAdapter;
 	CGIManager cgiManager;
-	
+
 	public DeviceHistoryFragment(DevicesModel devicesModel) {
 		mDevices = devicesModel;
 	}
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -86,17 +86,20 @@ public class DeviceHistoryFragment extends Fragment implements UIListener {
 
 	private void initView() {
 		// TODO Auto-generated method stub
-		nohistoryTextView = (TextView)mView.findViewById(R.id.nohistory);
+		nohistoryTextView = (TextView) mView.findViewById(R.id.nohistory);
 		spinner = (Spinner) mView.findViewById(R.id.spinner);
 		get_historyButton = (Button) mView.findViewById(R.id.begin_identify);
 		dataTitleLayout = (LinearLayout) mView.findViewById(R.id.data_title);
 		dataListView = (ListView) mView.findViewById(R.id.data_list);
 		historyDataAdapter = new HistoryDataAdapter();
 		dataListView.setAdapter(historyDataAdapter);
-		
+
 		setSpinnerList();
-		ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, spinnerList);
-		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(
+				getActivity(), android.R.layout.simple_spinner_item,
+				spinnerList);
+		spinnerAdapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(spinnerAdapter);
 		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
@@ -104,34 +107,35 @@ public class DeviceHistoryFragment extends Fragment implements UIListener {
 			public void onItemSelected(AdapterView<?> parent, View view,
 					int position, long id) {
 				// TODO Auto-generated method stub
-				attrName = attributeNameMap.get(parent.getItemAtPosition(position).toString());
+				attrName = attributeNameMap.get(parent.getItemAtPosition(
+						position).toString());
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> parent) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
-		
+
 		get_historyButton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				cgiManager.getHistoryDataNum(mDevices.getmIeee(), mDevices.getmEP(), attrName, 10);
+				cgiManager.getHistoryDataNum(mDevices.getmIeee(),
+						mDevices.getmEP(), attrName, 10);
 			}
 		});
 	}
-	
+
 	private void setSpinnerList() {
 		int deviceId = mDevices.getmDeviceId();
 		String modelId = mDevices.getmModelId();
 		if (mDevices.getmCurrent() != null
-				&& modelId.indexOf(
-						DataHelper.Curtain_control_switch) != 0
-				&& modelId.indexOf(
-						DataHelper.Wireless_Intelligent_valve_switch) != 0) {
+				&& modelId.indexOf(DataHelper.Curtain_control_switch) != 0
+				&& modelId
+						.indexOf(DataHelper.Wireless_Intelligent_valve_switch) != 0) {
 			spinnerList.add("电流");
 			spinnerList.add("电压");
 			spinnerList.add("功率");
@@ -168,7 +172,7 @@ public class DeviceHistoryFragment extends Fragment implements UIListener {
 			spinnerList.add("布撤防");
 			break;
 		case DataHelper.IAS_ZONE_DEVICETYPE:
-			
+
 			if (modelId.indexOf(DataHelper.Motion_Sensor) == 0) { // ZigBee动作感应器
 				spinnerList.add("布撤防");
 			}
@@ -216,24 +220,43 @@ public class DeviceHistoryFragment extends Fragment implements UIListener {
 				nohistoryTextView.setVisibility(View.VISIBLE);
 			}
 			break;
+		case DataHelper.RF_DEVICE:
+			if (modelId.indexOf(DataHelper.RF_Siren) == 0
+					|| modelId.indexOf(DataHelper.RF_Siren_Outside) == 0
+					|| modelId.indexOf(DataHelper.RF_Siren_Relay) == 0
+					|| modelId.indexOf(DataHelper.RF_Smoke_Detectors) == 0
+					|| modelId.indexOf(DataHelper.RF_Combustible_Gas_Detector) == 0
+					|| modelId.indexOf(DataHelper.RF_Emergency_Button) == 0
+					|| modelId.indexOf(DataHelper.RF_remote_control) == 0) {
+				spinnerList.add("NULL");
+				spinner.setVisibility(View.GONE);
+				get_historyButton.setVisibility(View.GONE);
+				nohistoryTextView.setVisibility(View.VISIBLE);
+			}
+			if (modelId.indexOf(DataHelper.RF_Magnetic_Door) == 0
+					|| modelId.indexOf(DataHelper.RF_Magnetic_Door_Roll) == 0
+					|| modelId.indexOf(DataHelper.RF_Infrared_Motion_Sensor) == 0) {
+				spinnerList.add("布撤防");
+			}
+			break;
 		default:
 			break;
 		}
 	}
-	
+
 	@Override
 	public void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
 		cgiManager.deleteObserver(this);
 	}
-	
+
 	public class HistoryDataAdapter extends BaseAdapter {
 
 		@Override
 		public int getCount() {
 			// TODO Auto-generated method stub
-			if(historyDataList != null) {
+			if (historyDataList != null) {
 				return historyDataList.size();
 			}
 			return 0;
@@ -242,7 +265,7 @@ public class DeviceHistoryFragment extends Fragment implements UIListener {
 		@Override
 		public Object getItem(int position) {
 			// TODO Auto-generated method stub
-			if(historyDataList != null) {
+			if (historyDataList != null) {
 				return historyDataList.get(position);
 			}
 			return null;
@@ -266,24 +289,28 @@ public class DeviceHistoryFragment extends Fragment implements UIListener {
 
 				mView = LayoutInflater.from(getActivity()).inflate(
 						R.layout.history_fragment_data_item, null);
-				mHolder.data_value = (TextView) mView.findViewById(R.id.data_value);
-				mHolder.data_time = (TextView) mView.findViewById(R.id.data_time);
+				mHolder.data_value = (TextView) mView
+						.findViewById(R.id.data_value);
+				mHolder.data_time = (TextView) mView
+						.findViewById(R.id.data_time);
 				mView.setTag(mHolder);
 
 			} else {
 				mHolder = (ViewHolder) mView.getTag();
 			}
-			
-			if(attrName.equals("switch") ||attrName.equals("bypass")) {
+
+			if (attrName.equals("switch") || attrName.equals("bypass")) {
 				switch (mDevices.getmDeviceId()) {
 				case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:
 				case DataHelper.MAINS_POWER_OUTLET_DEVICETYPE:
 				case DataHelper.ON_OFF_LIGHT_DEVICETYPE:
-					mHolder.data_value.setText(point.getValue().equals("1")?"开":"关");
+					mHolder.data_value
+							.setText(point.getValue().equals("1") ? "开" : "关");
 					break;
 				case DataHelper.COMBINED_INTERFACE_DEVICETYPE:
 				case DataHelper.IAS_ZONE_DEVICETYPE:
-					mHolder.data_value.setText(point.getValue().equals("1")?"撤防":"布防");
+					mHolder.data_value
+							.setText(point.getValue().equals("1") ? "撤防" : "布防");
 					break;
 				default:
 					break;
@@ -294,13 +321,13 @@ public class DeviceHistoryFragment extends Fragment implements UIListener {
 			mHolder.data_time.setText(point.getTime());
 			return mView;
 		}
-		
+
 		public class ViewHolder {
 			public TextView data_value;
 			public TextView data_time;
 		}
 	}
-	
+
 	@Override
 	public void update(Manger observer, Object object) {
 		// TODO Auto-generated method stub
@@ -310,8 +337,10 @@ public class DeviceHistoryFragment extends Fragment implements UIListener {
 				HistoryData historyData = (HistoryData) event.getData();
 				if (historyData.getDeviceIeee().equals(mDevices.getmIeee())
 						&& historyData.getDeviceEp().equals(mDevices.getmEP())) {
-					if(historyData.getDataPoint().get(0).getAttrName().equals(attrName)) {
-						historyDataList = historyData.getDataPoint().get(0).getPoint();
+					if (historyData.getDataPoint().get(0).getAttrName()
+							.equals(attrName)) {
+						historyDataList = historyData.getDataPoint().get(0)
+								.getPoint();
 					}
 					mView.post(new Runnable() {
 						@Override

@@ -150,46 +150,5 @@ public class LoginManager extends Manger {
 		// add the request object to the queue to be executed
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
-	//=====王晓飞==设置邮箱====
-	/*public void setEmailName(AccountInfo info,String new_alias)
-	{
-		HashMap<String, String> paraMap = new HashMap<String, String>();
-		paraMap.put("id", info.getId());
-		paraMap.put("password", info.getPassword());
-		paraMap.put("old_alias", info.getAlias());
-		paraMap.put("new_alias", new_alias);
-		String param = hashMap2ParamString(paraMap);
-
-		String url = NetUtil.getInstance().getCumstomURL(
-				NetUtil.getInstance().IP, "modifyAlias.cgi", param);
-		JsonObjectRequest req = new JsonObjectRequest(url, null,
-				new Response.Listener<JSONObject>() {
-					@Override
-					public void onResponse(JSONObject response) {
-//						try {
-//							Log.i("LoginManager modifyAlias Response:%n %s", response.toString(4));
-//							Gson gson = new Gson();  
-//							LoginResponse person = gson.fromJson(response.toString(), LoginResponse.class); 
-//							Event event = new Event(EventType.MODIFYALIAS, true);
-//							event.setData(person);
-//							notifyObservers(event);
-//						} catch (JSONException e) {
-//							e.printStackTrace();
-//						}
-					}
-				}, new Response.ErrorListener() {
-					@Override
-					public void onErrorResponse(VolleyError error) {
-						if (error!=null&&error.getMessage()!=null) {
-							VolleyLog.e("Error: ", error.getMessage());
-						}
-						Event event = new Event(EventType.MODIFYALIAS, false);
-						event.setData(error);
-						notifyObservers(event);
-					}
-				});
-		// add the request object to the queue to be executed
-		ApplicationController.getInstance().addToRequestQueue(req);
-	}*/
 	
 }

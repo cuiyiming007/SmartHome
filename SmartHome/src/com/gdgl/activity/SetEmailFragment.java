@@ -9,18 +9,16 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.CallbackManager;
-import com.gdgl.manager.LoginManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
-import com.gdgl.mydata.AccountInfo;
-import com.gdgl.mydata.Event;
-import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.getFromSharedPreferences;
+import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
+import com.gdgl.util.MyOKOnlyDlg;
 
 public class SetEmailFragment extends Fragment implements UIListener {
 	private View mView;
@@ -28,18 +26,13 @@ public class SetEmailFragment extends Fragment implements UIListener {
 	EditText email_name;
 	Button btn_commit_email;
 
-	String  E_name;
-	String id;
-	LoginManager mLoginManager;
-
-	RelativeLayout ch_name;
+	String E_name;
+	String gateway_MAC;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		mLoginManager = LoginManager.getInstance();
-		mLoginManager.addObserver(SetEmailFragment.this);
 		CallbackManager.getInstance().addObserver(SetEmailFragment.this);
 	}
 
@@ -59,12 +52,11 @@ public class SetEmailFragment extends Fragment implements UIListener {
 		E_name = getFromSharedPreferences.getEmailName();
 		email_name = (EditText) mView.findViewById(R.id.email_name);
 		email_name.setText(E_name);
-		/*if (E_name != null){
-			email_name.setText(E_name);
-		} else {
-			email_name.setHint("XXX@XXXX");
-		}*/
-		id = getFromSharedPreferences.getGatewayMAC();
+		/*
+		 * if (E_name != null){ email_name.setText(E_name); } else {
+		 * email_name.setHint("XXX@XXXX"); }
+		 */
+		gateway_MAC = getFromSharedPreferences.getGatewayMAC();
 		btn_commit_email = (Button) mView.findViewById(R.id.commit_email);
 		btn_commit_email.setOnClickListener(new OnClickListener() {
 
@@ -79,9 +71,15 @@ public class SetEmailFragment extends Fragment implements UIListener {
 					email_name.requestFocus();
 					return;
 				} else {
-					//TODO 调用loginmanager中设置邮箱
-					getFromSharedPreferences
-					.setsharedPreferences((Context) getActivity());
+					if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+						CGIManager.getInstance().changeEmailAddress(
+								gateway_MAC, E_name, 1);
+					} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+						MyOKOnlyDlg myOKOnlyDlg = new MyOKOnlyDlg(getActivity());
+						myOKOnlyDlg.setContent(getResources().getString(
+								R.string.Unable_In_InternetState));
+						myOKOnlyDlg.show();
+					}
 					getFromSharedPreferences.setEmailName(E_name.trim());
 				}
 			}
@@ -93,7 +91,6 @@ public class SetEmailFragment extends Fragment implements UIListener {
 	public void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
-		mLoginManager.deleteObserver(SetEmailFragment.this);
 		CallbackManager.getInstance().deleteObserver(SetEmailFragment.this);
 	}
 
@@ -101,8 +98,6 @@ public class SetEmailFragment extends Fragment implements UIListener {
 	public void update(Manger observer, Object object) {
 		// TODO Auto-generated method stub
 
-	
 	}
 
-	
 }

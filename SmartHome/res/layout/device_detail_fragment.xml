@@ -10,6 +10,45 @@
         android:orientation="vertical" >
 
         <LinearLayout
+            android:id="@+id/alarm_learn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="22dp"
+                android:text="警号学习"
+                android:textColor="@color/text_dark_gray"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/begin_learn"
+                    android:layout_width="70dp"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="25dp"
+                    android:background="@drawable/ui_button_green_small_style"
+                    android:maxWidth="80dp"
+                    android:minWidth="60dp"
+                    android:text="学习"
+                    android:textColor="#ffffff" />
+            </LinearLayout>
+        </LinearLayout>
+        
+        <LinearLayout
+            android:id="@+id/device_identify"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"

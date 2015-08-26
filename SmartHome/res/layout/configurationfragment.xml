@@ -73,7 +73,7 @@
                 android:id="@+id/setemail"
                 android:layout_width="fill_parent"
                 android:layout_height="45dp"
-                android:drawableLeft="@drawable/ui2_set_password"
+                android:drawableLeft="@drawable/ui2_set_email"
                 android:drawablePadding="8dp"
                 android:drawableRight="@drawable/ui2_set_choice"
                 android:gravity="center_vertical"

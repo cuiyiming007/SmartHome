@@ -887,7 +887,7 @@ public class CallbackManager extends Manger {
 				Cursor cursor1 = mDateHelper.query(db1,
 						DataHelper.RF_DEVICES_TABLE, columns1, where1, args1,
 						null, null, null, null);
-				String picSource1 = "";
+				String picSource1 = R.drawable.ui2_device_alarm + "";
 				while (cursor1.moveToNext()) {
 					picSource1 = cursor1.getString(cursor1
 							.getColumnIndex(DevicesModel.PIC_NAME));
@@ -918,7 +918,7 @@ public class CallbackManager extends Manger {
 				Cursor cursor2 = mDateHelper.query(db2,
 						DataHelper.RF_DEVICES_TABLE, columns2, where2, args2,
 						null, null, null, null);
-				String picSource2 = "";
+				String picSource2 = R.drawable.ui2_device_alarm + "";
 				while (cursor2.moveToNext()) {
 					picSource2 = cursor2.getString(cursor2
 							.getColumnIndex(DevicesModel.PIC_NAME));
@@ -1492,8 +1492,8 @@ public class CallbackManager extends Manger {
 			String[] args = { temp[1] };
 			Cursor cursor = mDateHelper.query(db, DataHelper.DEVICES_TABLE,
 					columns, where, args, null, null, null, null);
-			String picSource = "";
-			String deviceName = "";
+			String picSource = R.drawable.ui2_device_alarm + "";
+			String deviceName = "未知设备";
 			while (cursor.moveToNext()) {
 				deviceName = cursor.getString(cursor
 						.getColumnIndex(DevicesModel.DEFAULT_DEVICE_NAME));

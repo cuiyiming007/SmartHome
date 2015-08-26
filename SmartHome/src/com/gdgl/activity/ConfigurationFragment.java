@@ -24,7 +24,7 @@ public class ConfigurationFragment extends Fragment {
 	ChangeFragment changeFragment;
 
 	View mView;
-	TextView changeAlias, changePassword, setemail,feedBack, aboutApp;
+	TextView changeAlias, changePassword, setemail, feedBack, aboutApp;
 
 	// CheckBox enableIPC;
 
