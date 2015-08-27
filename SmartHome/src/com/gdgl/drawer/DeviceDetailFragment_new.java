@@ -39,11 +39,12 @@ public class DeviceDetailFragment_new extends Fragment implements UIListener {
 			device_powerTextView, device_energyTextView,
 			device_powersourceTextView, device_ieeeTextView, device_epTextView,
 			device_app_versionTextView, device_hw_versionTextView,
-			device_date_codeTextView;
+			device_date_codeTextView, rf_device_ieeeTextView;
 	EditText identify_timeEditText;
 	LinearLayout energy_attributeLayout, device_aboutLayout,
 			device_about_contentLayout, device_heart_layout,
-			device_identifyLayout, device_alarm_learnLayout;
+			device_identifyLayout, device_alarm_learnLayout,
+			rf_device_about_contentLayout;
 	Button begin_identifyButton, device_heartButton, alarm_learnButton;
 
 	CGIManager cgiManager;
@@ -84,6 +85,8 @@ public class DeviceDetailFragment_new extends Fragment implements UIListener {
 				.findViewById(R.id.device_about);
 		device_about_contentLayout = (LinearLayout) mView
 				.findViewById(R.id.device_about_content);
+		rf_device_about_contentLayout = (LinearLayout) mView
+				.findViewById(R.id.rf_device_about_content);
 		device_heart_layout = (LinearLayout) mView
 				.findViewById(R.id.device_heart_layout);
 		device_identifyLayout =  (LinearLayout) mView
@@ -116,6 +119,7 @@ public class DeviceDetailFragment_new extends Fragment implements UIListener {
 				.findViewById(R.id.device_hw_version);
 		device_date_codeTextView = (TextView) mView
 				.findViewById(R.id.device_date_code);
+		rf_device_ieeeTextView = (TextView) mView.findViewById(R.id.rf_device_ieee);
 		// 设备详情布局
 		setDeviceDetailLayout();
 
@@ -204,6 +208,7 @@ public class DeviceDetailFragment_new extends Fragment implements UIListener {
 		device_app_versionTextView.setText(mDevices.getmAppVersion());
 		device_hw_versionTextView.setText(mDevices.getmHwVersion());
 		device_date_codeTextView.setText(mDevices.getmDateCode());
+		rf_device_ieeeTextView.setText(mDevices.getmIeee());
 
 	}
 
@@ -219,6 +224,8 @@ public class DeviceDetailFragment_new extends Fragment implements UIListener {
 			break;
 		case DataHelper.RF_DEVICE:
 			device_identifyLayout.setVisibility(View.GONE);
+			device_about_contentLayout.setVisibility(View.GONE);
+			rf_device_about_contentLayout.setVisibility(View.VISIBLE);
 			if (modelId.indexOf(DataHelper.RF_Siren) == 0
 					|| modelId.indexOf(DataHelper.RF_Siren_Outside) == 0
 					|| modelId.indexOf(DataHelper.RF_Siren_Relay) == 0) {

@@ -100,6 +100,7 @@ public class TestFragment extends Fragment implements UIListener {
 		nodevices.setVisibility(View.GONE);
 		content_view = (GridView) mView.findViewById(R.id.content_view);
 		mButtonFloat = (ButtonFloat) mView.findViewById(R.id.buttonFloat);
+		mButtonFloat.setVisibility(View.GONE); // 广电服务器控制，不允许设备入网。
 		// content_view.setBackgroundResource(R.color.blue_default);
 		// content_view.setLayoutAnimation(UiUtils
 		// .getAnimationController((Context) getActivity()));

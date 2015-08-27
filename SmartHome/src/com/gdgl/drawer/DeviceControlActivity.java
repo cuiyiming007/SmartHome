@@ -202,7 +202,8 @@ public class DeviceControlActivity extends MyActionBarActivity implements
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.menu_devicecontrol, menu);
+//		getMenuInflater().inflate(R.menu.menu_devicecontrol, menu); // 广电服务器控制，不允许删除设备。
+		getMenuInflater().inflate(R.menu.menu_devicecontrol_withoutdelete, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 
