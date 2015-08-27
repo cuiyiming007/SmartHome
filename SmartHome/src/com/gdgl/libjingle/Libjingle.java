@@ -12,6 +12,8 @@ import android.util.Log;
 
 public class Libjingle extends Manger {
 
+	private int xmpp_times = 0; // 判断xpmm登录次数
+	
 	private static Libjingle instance;
 
 	public static Libjingle getInstance() {
@@ -144,6 +146,7 @@ public class Libjingle extends Manger {
 		case XmppState.OPEN: // XMPP会话建立成功
 			Log.i(TAG, "=====> XMPP State: OPEN");
 			// TODO
+			xmpp_times = 0;
 			break;
 		case XmppState.CLOSED: // XMPP会话建立失败或结束会话
 			Log.i(TAG, "=====> XMPP State: CLOSED  Error: " + err);
@@ -152,6 +155,14 @@ public class Libjingle extends Manger {
 			case XmppError.NONE:
 				Log.i(TAG, "=====> XMPP State: NONE");
 				// TODO
+				xmpp_times += 1;
+				if (xmpp_times == 5) {
+					xmpp_times = 0;
+					stop();
+					Event event = new Event(EventType.LIBJINGLE_STATUS, true);
+					event.setData(-1);
+					notifyObservers(event);
+				}
 				break;
 			case XmppError.UNAUTHORIZED:
 				Log.i(TAG, "=====> XMPP State: START");
@@ -174,6 +185,9 @@ public class Libjingle extends Manger {
 		case GatewayState.OFFLINE:
 			Log.i(TAG, "=====> Gateway Offline");
 			// TODO
+			Event event0 = new Event(EventType.LIBJINGLE_STATUS, true);
+			event0.setData(stat);
+			notifyObservers(event0);
 			break;
 		case GatewayState.ONLINE:
 			Log.i(TAG, "=====> Gateway Online");

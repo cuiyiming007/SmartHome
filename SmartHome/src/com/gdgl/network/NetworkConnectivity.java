@@ -49,10 +49,11 @@ public class NetworkConnectivity {
 				return INTERNET;
 			} else if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
 				//Toast.makeText(mContext, "当前为WiFi网络", Toast.LENGTH_SHORT).show();
-				String addrress = getWIFILocalIpAdress(mContext);
-				String subAddrress = addrress.substring(0,
-						addrress.lastIndexOf("."));
-				String serveraddress = subAddrress + ".255";
+//				String addrress = getWIFILocalIpAdress(mContext);
+//				String subAddrress = addrress.substring(0,
+//						addrress.lastIndexOf("."));
+//				String serveraddress = subAddrress + ".255";
+				String serveraddress = "255.255.255.255";
 				Log.i("ServerIpBroadcastAddress", serveraddress);
 				String result="Task failde!";
 				try {
