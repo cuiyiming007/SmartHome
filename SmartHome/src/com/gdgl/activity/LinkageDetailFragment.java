@@ -268,30 +268,30 @@ public class LinkageDetailFragment extends Fragment implements ChangeFragment,
 						.setBackgroundResource(R.drawable.ui2_linkage_button_press);
 			}
 		});
-		act_photo_btn.setOnClickListener(new OnClickListener() {//====拍照
+		act_photo_btn.setOnClickListener(new OnClickListener() {// ====拍照
 
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				photo_record = 0;
-				act_photo_btn
-						.setBackgroundResource(R.drawable.ui2_linkage_button_press);
-				act_record_btn
-						.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
-			}
-		});
-		act_record_btn.setOnClickListener(new OnClickListener() {//====录像
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						photo_record = 0;
+						act_photo_btn
+								.setBackgroundResource(R.drawable.ui2_linkage_button_press);
+						act_record_btn
+								.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
+					}
+				});
+		act_record_btn.setOnClickListener(new OnClickListener() {// ====录像
 
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				photo_record = 1;
-				act_record_btn
-						.setBackgroundResource(R.drawable.ui2_linkage_button_press);
-				act_photo_btn
-						.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
-			}
-		});
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						photo_record = 1;
+						act_record_btn
+								.setBackgroundResource(R.drawable.ui2_linkage_button_press);
+						act_photo_btn
+								.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
+					}
+				});
 		act_on_btn.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -528,7 +528,7 @@ public class LinkageDetailFragment extends Fragment implements ChangeFragment,
 					act_photo_btn
 							.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
 				}
-			} 
+			}
 		} else {
 			act_notype_lay.setVisibility(View.GONE);
 			act_photo_lay.setVisibility(View.GONE);
