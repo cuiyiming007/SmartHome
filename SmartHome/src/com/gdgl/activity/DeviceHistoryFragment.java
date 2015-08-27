@@ -292,6 +292,9 @@ public class DeviceHistoryFragment extends Fragment implements UIListener {
 					mHolder.data_value
 							.setText(point.getValue().equals("1") ? "撤防" : "布防");
 					break;
+				case DataHelper.RF_DEVICE:
+					mHolder.data_value
+					.setText(point.getValue().equals("0") ? "撤防" : "布防");
 				default:
 					break;
 				}
