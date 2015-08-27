@@ -311,6 +311,23 @@ public class TestFragment extends Fragment implements UIListener {
 							bundle.getString("PARAM"));
 				}
 			}
+		} else if (EventType.RF_DEVICE_ALL_BYPASS == event.getType()) {
+			if (event.isSuccess()) {
+				int status = (Integer) event.getData();
+				for (int i = 0; i < mDeviceList.size(); i++) {
+					if (mDeviceList.get(i).getmModelId()
+							.equals(DataHelper.RF_Magnetic_Door)
+							|| mDeviceList.get(i).getmModelId()
+									.equals(DataHelper.RF_Magnetic_Door_Roll)
+							|| mDeviceList
+									.get(i)
+									.getmModelId()
+									.equals(DataHelper.RF_Infrared_Motion_Sensor)) {
+						mDeviceList.get(i).setmOnOffStatus(
+								String.valueOf(status));
+					}
+				}
+			}
 		} else if (EventType.LOCALIASCIEOPERATION == event.getType()) {
 			if (event.isSuccess() == true) {
 

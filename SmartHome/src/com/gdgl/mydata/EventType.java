@@ -96,6 +96,7 @@ public class EventType {
 	//RF EVENT
 	public static final EventType RF_DEVICE_STATUS;
 	public static final EventType RF_DEVICE_BYPASS;
+	public static final EventType RF_DEVICE_ALL_BYPASS;
 	public static final EventType RF_CHANGEDEVICENAME;
 	public static final EventType RF_DEVICE_ENABLE;
 	public static final EventType RF_DEVICE_LIST_UPDATE;
@@ -189,6 +190,7 @@ public class EventType {
 		
 		RF_DEVICE_STATUS = new EventType("rfDeviceStatus", nextId());
 		RF_DEVICE_BYPASS = new EventType("rfDeviceBypass", nextId());
+		RF_DEVICE_ALL_BYPASS = new EventType("rfDeviceAllBypass", nextId());
 		RF_CHANGEDEVICENAME = new EventType("rfChangeDeviceName", nextId());
 		RF_DEVICE_ENABLE = new EventType("rfDeviceEnable", nextId());
 		RF_DEVICE_LIST_UPDATE = new EventType("rfDeviceListUpdate", nextId());

@@ -977,6 +977,26 @@ public class DeviceControlFragment extends Fragment implements UIListener {
 					});
 				}
 			}
+		} else if (EventType.RF_DEVICE_ALL_BYPASS == event.getType()) {
+			if (event.isSuccess()) {
+				int status = (Integer) event.getData();
+				if (mDevices.getmModelId().equals(DataHelper.RF_Magnetic_Door)
+						|| mDevices.getmModelId().equals(DataHelper.RF_Magnetic_Door_Roll)
+						|| mDevices.getmModelId().equals(DataHelper.RF_Infrared_Motion_Sensor)) {
+					mDevices.setmOnOffStatus(String.valueOf(status));
+
+					mView.post(new Runnable() {
+						@Override
+						public void run() {
+							setDeviceControlText(mDevices.getmOnOffStatus()
+									.equals("1") ? true : false);
+							device_controlButton.setChecked(mDevices
+									.getmOnOffStatus().equals("1") ? true
+									: false);
+						}
+					});
+				}
+			}
 		}
 	}
 }

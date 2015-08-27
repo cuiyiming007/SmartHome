@@ -537,7 +537,8 @@ public class CallbackManager extends Manger {
 			case 7: // ipc video
 				// {"msgtype":0,"mainid":2,"subid":7,"status":0,"video_duration":5,"video_name":"1439456470_001370000012345_1_5.mkv"}
 				String video_name = (String) jsonRsponse.get("video_name");
-				int video_duration = (Integer) jsonRsponse.get("video_duration");
+				int video_duration = (Integer) jsonRsponse
+						.get("video_duration");
 				CallbackIpcLinkageMessage message7 = new CallbackIpcLinkageMessage();
 				message7.setPicCount(video_duration);
 				message7.setPicName(video_name);
@@ -956,15 +957,31 @@ public class CallbackManager extends Manger {
 
 				SQLiteDatabase mSqLiteDatabase3 = mDateHelper
 						.getSQLiteDatabase();
-				ContentValues cv = new ContentValues();
-				cv.put(DevicesModel.ON_OFF_STATUS, arm3);
+				ContentValues c3 = new ContentValues();
+				c3.put(DevicesModel.ON_OFF_STATUS, arm3);
 				String where3 = " ieee = ? ";
 				String[] arg3 = { ieee3 };
-				mSqLiteDatabase3.update(DataHelper.RF_DEVICES_TABLE, cv,
+				mSqLiteDatabase3.update(DataHelper.RF_DEVICES_TABLE, c3,
 						where3, arg3);
 				mSqLiteDatabase3.close();
 				break;
 			case 4: // RF device all bypass
+				int arm4 = (Integer) jsonRsponse.get("arm");
+				Event event4 = new Event(EventType.RF_DEVICE_ALL_BYPASS, true);
+				event4.setData(arm4);
+				notifyObservers(event4);
+
+				SQLiteDatabase mSqLiteDatabase4 = mDateHelper
+						.getSQLiteDatabase();
+				ContentValues c4 = new ContentValues();
+				c4.put(DevicesModel.ON_OFF_STATUS, arm4);
+				String where4 = " model_id in (?,?,?) ";
+				String[] arg4 = { DataHelper.RF_Magnetic_Door,
+						DataHelper.RF_Magnetic_Door_Roll,
+						DataHelper.RF_Infrared_Motion_Sensor };
+				mSqLiteDatabase4.update(DataHelper.RF_DEVICES_TABLE, c4,
+						where4, arg4);
+				mSqLiteDatabase4.close();
 				break;
 			case 5: // RF change device name
 				String ieee5 = (String) jsonRsponse.get("ieee");
@@ -1028,8 +1045,8 @@ public class CallbackManager extends Manger {
 				String expire3 = (String) jsonRsponse.get("expire_time");
 				getFromSharedPreferences.setGWayAuthState(state3);
 				getFromSharedPreferences.setGWayAuthExpire(expire3);
-				
-				String[] data3 = { "3", state3+"", expire3 };
+
+				String[] data3 = { "3", state3 + "", expire3 };
 				Event event3 = new Event(EventType.GATEWAYAUTH, true);
 				event3.setData(data3);
 				notifyObservers(event3);
@@ -1490,8 +1507,14 @@ public class CallbackManager extends Manger {
 					DevicesModel.DEFAULT_DEVICE_NAME };
 			String where = " ieee=? ";
 			String[] args = { temp[1] };
-			Cursor cursor = mDateHelper.query(db, DataHelper.DEVICES_TABLE,
-					columns, where, args, null, null, null, null);
+			Cursor cursor;
+			if (temp[1].length() < 16) {
+				cursor = mDateHelper.query(db, DataHelper.RF_DEVICES_TABLE,
+						columns, where, args, null, null, null, null);
+			} else {
+				cursor = mDateHelper.query(db, DataHelper.DEVICES_TABLE,
+						columns, where, args, null, null, null, null);
+			}
 			String picSource = R.drawable.ui2_device_alarm + "";
 			String deviceName = "未知设备";
 			while (cursor.moveToNext()) {
@@ -1519,7 +1542,7 @@ public class CallbackManager extends Manger {
 			message.setIpcName(ipc_name);
 			message.setPicName(picNameString.substring(0,
 					picNameString.length() - 1));
-			if(message.getType() == 1) {
+			if (message.getType() == 1) {
 				message.setDescription("联动摄像头 " + ipc_name + " 截图.");
 			} else {
 				message.setDescription("联动摄像头 " + ipc_name + " 录像.");
