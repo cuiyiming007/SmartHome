@@ -378,6 +378,19 @@ public class LoginActivity extends Activity implements OnClickListener,
 					// }
 					// }).start();
 					break;
+				case -1:
+					mLogin.post(new Runnable() {
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							dialog_view.setVisibility(View.GONE);
+							Toast.makeText(LoginActivity.this,
+									"无法连接服务器,请检查网络状态", Toast.LENGTH_SHORT)
+									.show();
+						}
+					});
+					break;
 				case 0:
 					mLogin.post(new Runnable() {
 
@@ -403,7 +416,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 									"用户名或密码不正确", Toast.LENGTH_SHORT).show();
 						}
 					});
-
+					break;
 				default:
 					break;
 				}
