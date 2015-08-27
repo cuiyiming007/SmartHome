@@ -373,15 +373,19 @@ public class LoginActivity extends Activity implements OnClickListener,
 									.getLocalCIEList();
 						}
 					}).start();
-					// Intent intent = new Intent(LoginActivity.this,
-					// MainActivity.class);
-					// intent.putExtra("id", "");
-					// intent.putExtra("name", mName.getText().toString());
-					// intent.putExtra("pwd", mPwd.getText().toString());
-					// intent.putExtra("remenber", mRem.isChecked());
-					// intent.putExtra("cloud", mCloud.getText().toString());
-					// startActivity(intent);
-					// this.finish();
+					break;
+				case -1:
+					mLogin.post(new Runnable() {
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							dialog_view.setVisibility(View.GONE);
+							Toast.makeText(LoginActivity.this,
+									"无法连接服务器,请检查网络状态", Toast.LENGTH_SHORT)
+									.show();
+						}
+					});
 					break;
 				case 0:
 					mLogin.post(new Runnable() {
@@ -408,7 +412,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 									"用户名或密码不正确", Toast.LENGTH_SHORT).show();
 						}
 					});
-
+					break;
 				default:
 					break;
 				}
