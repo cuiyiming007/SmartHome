@@ -20,6 +20,8 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -127,6 +129,8 @@ public class HikVideoActivity extends ActionBarActivity implements Callback {
 
 	private int LAN = 1;
 	private int INTERNET = 2;
+	
+	private Handler mHandler;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -149,6 +153,15 @@ public class HikVideoActivity extends ActionBarActivity implements Callback {
 			this.finish();
 			return;
 		}
+		mHandler = new Handler(){
+			public void handleMessage(Message msg){
+				switch(msg.what){
+				case 1:
+					Toast.makeText(HikVideoActivity.this, "播放失败,请重新访问!",Toast.LENGTH_SHORT).show();
+					break;
+				}
+			}
+		};
 
 		loginVideo();
 		
@@ -1234,6 +1247,16 @@ public class HikVideoActivity extends ActionBarActivity implements Callback {
 				}
 				if (!m_oPlayerSDK.play(m_iPort, m_osurfaceView.getHolder())) {
 					Log.e(TAG, "play failed");
+					mHandler = new Handler(){
+						public void handleMessage(Message msg){
+							switch(msg.what){
+							case 1:
+								Toast.makeText(HikVideoActivity.this, "播放失败,请重新访问!",Toast.LENGTH_SHORT).show();
+								break;
+							}
+						}
+					};
+
 					return;
 				}
 			}

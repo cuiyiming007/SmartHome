@@ -41,6 +41,7 @@ public class DeviceHistoryFragment extends Fragment implements UIListener {
 		attributeNameMap.put("电能", "energy");
 		attributeNameMap.put("开关", "switch");
 		attributeNameMap.put("布撤防", "bypass");
+		attributeNameMap.put("告警", "warn");
 		attributeNameMap.put("滑动开关", "level");
 		attributeNameMap.put("温度", "temperature");
 		attributeNameMap.put("湿度", "humidity");
@@ -170,54 +171,30 @@ public class DeviceHistoryFragment extends Fragment implements UIListener {
 			break;
 		case DataHelper.COMBINED_INTERFACE_DEVICETYPE:
 			spinnerList.add("布撤防");
+			spinnerList.add("告警");
 			break;
 		case DataHelper.IAS_ZONE_DEVICETYPE:
 
-			if (modelId.indexOf(DataHelper.Motion_Sensor) == 0) { // ZigBee动作感应器
+			if (modelId.indexOf(DataHelper.Motion_Sensor) == 0
+					|| modelId.indexOf(DataHelper.Magnetic_Window) == 0
+					|| modelId
+							.indexOf(DataHelper.Doors_and_windows_sensor_switch) == 0) { // ZigBee动作感应器,ZigBee窗磁,门窗感应开关
 				spinnerList.add("布撤防");
+				spinnerList.add("告警");
 			}
-			if (modelId.indexOf(DataHelper.Magnetic_Window) == 0) { // ZigBee窗磁
-				spinnerList.add("布撤防");
-			}
-			if (modelId.indexOf(DataHelper.Doors_and_windows_sensor_switch) == 0) { // 门窗感应开关
-				spinnerList.add("布撤防");
-			}
-			if (modelId.indexOf(DataHelper.Emergency_Button) == 0) { // ZigBee紧急按钮
+			if (modelId.indexOf(DataHelper.Emergency_Button) == 0
+					|| modelId.indexOf(DataHelper.Emergency_Button_On_Wall) == 0) { // ZigBee紧急按钮，ZigBee墙面紧急按钮
 				spinnerList.add("NULL");
 				spinner.setVisibility(View.GONE);
 				get_historyButton.setVisibility(View.GONE);
 				nohistoryTextView.setVisibility(View.VISIBLE);
 			}
-			if (modelId.indexOf(DataHelper.Emergency_Button_On_Wall) == 0) { // ZigBee墙面紧急按钮
-				spinnerList.add("NULL");
-				spinner.setVisibility(View.GONE);
-				get_historyButton.setVisibility(View.GONE);
-				nohistoryTextView.setVisibility(View.VISIBLE);
-			}
-			if (modelId.indexOf(DataHelper.Smoke_Detectors) == 0) { // 烟雾感应器
-				spinnerList.add("NULL");
-				spinner.setVisibility(View.GONE);
-				get_historyButton.setVisibility(View.GONE);
-				nohistoryTextView.setVisibility(View.VISIBLE);
-			}
-			if (modelId.indexOf(DataHelper.Combustible_Gas_Detector_Gas) == 0) { // 可燃气体探测器（煤气)器
-				spinnerList.add("NULL");
-				spinner.setVisibility(View.GONE);
-				get_historyButton.setVisibility(View.GONE);
-				nohistoryTextView.setVisibility(View.VISIBLE);
-			}
-			if (modelId.indexOf(DataHelper.Combustible_Gas_Detector_CO) == 0) { // 可燃气体探测器（一氧化碳)
-				spinnerList.add("NULL");
-				spinner.setVisibility(View.GONE);
-				get_historyButton.setVisibility(View.GONE);
-				nohistoryTextView.setVisibility(View.VISIBLE);
-			}
-			if (modelId
-					.indexOf(DataHelper.Combustible_Gas_Detector_Natural_gas) == 0) { // 可燃气体探测器（天然气)
-				spinnerList.add("NULL");
-				spinner.setVisibility(View.GONE);
-				get_historyButton.setVisibility(View.GONE);
-				nohistoryTextView.setVisibility(View.VISIBLE);
+			if (modelId.indexOf(DataHelper.Smoke_Detectors) == 0
+					|| modelId.indexOf(DataHelper.Combustible_Gas_Detector_Gas) == 0
+					|| modelId.indexOf(DataHelper.Combustible_Gas_Detector_CO) == 0
+					|| modelId
+							.indexOf(DataHelper.Combustible_Gas_Detector_Natural_gas) == 0) { // 烟雾感应器，可燃气体探测器（煤气)器，可燃气体探测器（一氧化碳)，可燃气体探测器（天然气)
+				spinnerList.add("告警");
 			}
 			break;
 		default:
