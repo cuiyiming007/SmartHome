@@ -1923,7 +1923,20 @@ public class CGIManager extends Manger {
 					@Override
 					public void onResponse(String response) {
 						// TODO Auto-generated method stub
-
+						response = UiUtils.formatResponseString(response);
+						JsonParser parser = new JsonParser();
+						JsonObject jsonObject = parser.parse(response)
+								.getAsJsonObject();
+						int code = jsonObject.get("returnCode").getAsInt();
+						if (code == 1) {
+							Event event = new Event(EventType.CHANGEEMAILADDRESS,
+									true);
+							notifyObservers(event);
+						} else {
+							Event event = new Event(EventType.CHANGEEMAILADDRESS,
+									false);
+							notifyObservers(event);
+						}
 					}
 				}, new Response.ErrorListener() {
 					@Override

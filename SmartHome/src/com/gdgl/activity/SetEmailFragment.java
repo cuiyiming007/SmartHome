@@ -12,13 +12,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.gdgl.manager.CGIManager;
-import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
+import com.gdgl.mydata.Event;
+import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.getFromSharedPreferences;
-import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
-import com.gdgl.util.MyOKOnlyDlg;
+import com.gdgl.util.MyApplicationFragment;
 
 public class SetEmailFragment extends Fragment implements UIListener {
 	private View mView;
@@ -33,7 +33,7 @@ public class SetEmailFragment extends Fragment implements UIListener {
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		CallbackManager.getInstance().addObserver(SetEmailFragment.this);
+		CGIManager.getInstance().addObserver(SetEmailFragment.this);
 	}
 
 	@Override
@@ -71,15 +71,8 @@ public class SetEmailFragment extends Fragment implements UIListener {
 					email_name.requestFocus();
 					return;
 				} else {
-					if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
-						CGIManager.getInstance().changeEmailAddress(
-								gateway_MAC, E_name, 1);
-					} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
-						MyOKOnlyDlg myOKOnlyDlg = new MyOKOnlyDlg(getActivity());
-						myOKOnlyDlg.setContent(getResources().getString(
-								R.string.Unable_In_InternetState));
-						myOKOnlyDlg.show();
-					}
+					CGIManager.getInstance().changeEmailAddress(gateway_MAC,
+							E_name, 1);
 					getFromSharedPreferences.setEmailName(E_name.trim());
 				}
 			}
@@ -91,13 +84,25 @@ public class SetEmailFragment extends Fragment implements UIListener {
 	public void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
-		CallbackManager.getInstance().deleteObserver(SetEmailFragment.this);
+		CGIManager.getInstance().deleteObserver(SetEmailFragment.this);
 	}
 
 	@Override
 	public void update(Manger observer, Object object) {
 		// TODO Auto-generated method stub
+		final Event event = (Event) object;
+		if (EventType.CHANGEEMAILADDRESS == event.getType()) {
 
+			if (event.isSuccess() == true) {
+				Toast.makeText(getActivity(), "设置成功", Toast.LENGTH_SHORT)
+						.show();
+				MyApplicationFragment.getInstance().removeLastFragment();
+			} else {
+				// if failed,prompt a Toast
+				Toast.makeText(getActivity(), "设置失败，请稍后重试", Toast.LENGTH_SHORT)
+						.show();
+			}
+		}
 	}
 
 }

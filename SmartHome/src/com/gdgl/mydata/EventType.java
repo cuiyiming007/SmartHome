@@ -102,6 +102,8 @@ public class EventType {
 	public static final EventType RF_DEVICE_LIST_UPDATE;
 	public static final EventType RF_DEVICE_ONLINE_STATUS;
 	
+	public static final EventType CHANGEEMAILADDRESS;
+	
 	static {
 		LOGIN = new EventType("login", id);
 		LIBJINGLE_STATUS = new EventType("libjingle_status", nextId());
@@ -196,6 +198,7 @@ public class EventType {
 		RF_DEVICE_LIST_UPDATE = new EventType("rfDeviceListUpdate", nextId());
 		RF_DEVICE_ONLINE_STATUS = new EventType("rfDeviceOnlineStatus", nextId());
 		
+		CHANGEEMAILADDRESS = new EventType("changeEmailAddress", nextId());
 	}
 
 	private static int nextId() {
