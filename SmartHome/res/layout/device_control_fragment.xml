@@ -79,7 +79,7 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <com.gdgl.tabstrip.PagerSlidingTabStrip
+    <com.gdgl.widgets.PagerSlidingTabStrip
         xmlns:app="http://schemas.android.com/apk/res/com.gdgl.smarthome"
         android:id="@+id/tabs"
         android:layout_width="match_parent"

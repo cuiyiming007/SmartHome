@@ -39,7 +39,7 @@ import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.Callback.CallbackResponseType2;
 import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
-import com.gdgl.tabstrip.PagerSlidingTabStrip;
+import com.gdgl.widgets.PagerSlidingTabStrip;
 
 public class DeviceControlFragment extends Fragment implements UIListener {
 
