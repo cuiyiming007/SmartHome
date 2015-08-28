@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/menu_alarm"
-        android:icon="@drawable/ui2_menu_warmingmessage"
+        android:icon="@drawable/ui2_menu_warmingmessage_style"
         android:orderInCategory="80"
         app:showAsAction="ifRoom"
         android:title="报警信息"/>

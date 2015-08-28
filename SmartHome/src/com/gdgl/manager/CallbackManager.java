@@ -537,8 +537,7 @@ public class CallbackManager extends Manger {
 			case 7: // ipc video
 				// {"msgtype":0,"mainid":2,"subid":7,"status":0,"video_duration":5,"video_name":"1439456470_001370000012345_1_5.mkv"}
 				String video_name = (String) jsonRsponse.get("video_name");
-				int video_duration = (Integer) jsonRsponse
-						.get("video_duration");
+				int video_duration = (Integer) jsonRsponse.get("video_duration");
 				CallbackIpcLinkageMessage message7 = new CallbackIpcLinkageMessage();
 				message7.setPicCount(video_duration);
 				message7.setPicName(video_name);

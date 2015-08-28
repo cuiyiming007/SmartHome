@@ -59,7 +59,7 @@ public class LinkageDetailFragment extends Fragment implements ChangeFragment,
 	EditText devices_data_edit;
 
 	int onoff = 0;
-	int photo_record = 0;//=========0：拍照，1：录像
+	int photo_record = 0;// =========0：拍照，1：录像
 	int temp = 0;
 	private Linkage mLinkage;
 	private int linkage_type;
@@ -125,7 +125,8 @@ public class LinkageDetailFragment extends Fragment implements ChangeFragment,
 			trgDevices = DataUtil.getDeviceModelByIeee(mLinkage.getTrgieee(),
 					mDataHelper, mDataHelper.getSQLiteDatabase());
 			LinkageAct linkageAct = new LinkageAct(mLinkage.getLnkact());
-			if (linkageAct.getType().equals("4")||linkageAct.getType().equals("6")) {
+			if (linkageAct.getType().equals("4")
+					|| linkageAct.getType().equals("6")) {
 				actDevices = getVideoDevice(linkageAct.getIeee());
 			} else {
 				actDevices = DataUtil.getDeviceModelByIeee(
