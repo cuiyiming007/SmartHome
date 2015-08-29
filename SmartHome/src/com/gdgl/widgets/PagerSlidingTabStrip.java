@@ -27,7 +27,7 @@
  * pstsTextAllCaps If true, all tab titles will be upper case, default true
  */
 
-package com.gdgl.tabstrip;
+package com.gdgl.widgets;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

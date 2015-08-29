@@ -3,7 +3,7 @@ package com.gdgl.activity;
 import java.util.ArrayList;
 
 import com.gdgl.smarthome.R;
-import com.gdgl.tabstrip.PagerSlidingTabStrip;
+import com.gdgl.widgets.PagerSlidingTabStrip;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

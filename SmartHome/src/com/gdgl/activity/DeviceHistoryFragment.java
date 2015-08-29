@@ -171,7 +171,6 @@ public class DeviceHistoryFragment extends Fragment implements UIListener {
 			break;
 		case DataHelper.COMBINED_INTERFACE_DEVICETYPE:
 			spinnerList.add("布撤防");
-			spinnerList.add("告警");
 			break;
 		case DataHelper.IAS_ZONE_DEVICETYPE:
 

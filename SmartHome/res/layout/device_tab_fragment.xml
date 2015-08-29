@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/tabs" />
 
-    <com.gdgl.tabstrip.PagerSlidingTabStrip
+    <com.gdgl.widgets.PagerSlidingTabStrip
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="48dip"
