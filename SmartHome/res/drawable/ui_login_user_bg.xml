@@ -4,10 +4,11 @@
     <!-- 默认状态 -->
 	<item>
 		<shape>
+		    <stroke android:width="2dip" android:color="#00baf2" />
 			<!-- 边框圆角 -->
 			<corners android:radius="5dp" />
 			<!-- 背景颜色 -->
-			<solid android:color="#4dc9f2" />   
+			<solid android:color="#ffffff" />   
 		</shape>      
 	</item>
 	 
