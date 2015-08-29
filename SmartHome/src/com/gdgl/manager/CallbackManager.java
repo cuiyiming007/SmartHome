@@ -1231,7 +1231,7 @@ public class CallbackManager extends Manger {
 		// .setLargeIcon(null)
 		// .build();
 		Notification noti;
-		noti = new Notification(R.drawable.ui_notification_icon, title,
+		noti = new Notification(R.drawable.ui2_notification_icon, title,
 				System.currentTimeMillis());
 		noti.flags = Notification.FLAG_AUTO_CANCEL;
 		i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP

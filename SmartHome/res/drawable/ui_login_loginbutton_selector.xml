@@ -28,7 +28,7 @@
 			<!-- 边框圆角 -->
 			<corners android:radius="5dp" />
 			<!-- 背景颜色 -->
-			<solid android:color="#64dd17" />   
+			<solid android:color="#8bc34a" />   
 		</shape>      
 	</item>
 	 

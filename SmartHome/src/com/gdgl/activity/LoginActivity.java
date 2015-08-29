@@ -199,13 +199,13 @@ public class LoginActivity extends Activity implements OnClickListener,
 			if (gaoji_Layout.getVisibility() == View.GONE) {
 				gaoji_Layout.setVisibility(View.VISIBLE);
 				gaoji_image
-						.setBackgroundResource(R.drawable.ui_login_arrow_blue);
-				gaoji_text.setTextColor(Color.parseColor("#0086b1"));
+						.setBackgroundResource(R.drawable.ui2_login_arrow_down);
+				gaoji_text.setTextColor(Color.parseColor("#00baf2"));
 			} else {
 				gaoji_Layout.setVisibility(View.GONE);
 				gaoji_image
-						.setBackgroundResource(R.drawable.ui_login_arrow_white);
-				gaoji_text.setTextColor(Color.parseColor("#ffffff"));
+						.setBackgroundResource(R.drawable.ui2_login_arrow_left);
+				gaoji_text.setTextColor(Color.parseColor("#00baf2"));
 			}
 			break;
 		case R.id.user_dropdown:
@@ -492,7 +492,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 	private void initUserPopView() {
 		MyAdapter userAdapter = new MyAdapter(
 				sequenceList(getFromSharedPreferences.getUserList()),
-				R.drawable.ui_login_user_blue, UiUtils.USERLIST);
+				R.drawable.ui2_login_user, UiUtils.USERLIST);
 		ListView listView = new ListView(this);
 		listView.setDivider(this.getResources().getDrawable(
 				R.drawable.ui_login_list_line));
@@ -508,7 +508,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 	private void initCloudPopView() {
 		MyAdapter cloudAdapter = new MyAdapter(
 				sequenceList(getFromSharedPreferences.getCloudList()),
-				R.drawable.ui_login_cloud_blue, UiUtils.CLOUDLIST);
+				R.drawable.ui2_login_cloud, UiUtils.CLOUDLIST);
 		ListView listView = new ListView(this);
 		listView.setDivider(this.getResources().getDrawable(
 				R.drawable.ui_login_list_line));

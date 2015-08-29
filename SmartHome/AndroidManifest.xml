@@ -28,7 +28,7 @@
     <application
         android:name="com.gdgl.app.ApplicationController"
         android:allowBackup="true"
-        android:icon="@drawable/ui_app"
+        android:icon="@drawable/ui2_app"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity

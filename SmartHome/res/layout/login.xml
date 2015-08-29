@@ -3,16 +3,15 @@
     android:id="@+id/loginRoot"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/blue_default" >
+    android:background="#ffffff" >
 
     <ImageView
         android:id="@+id/imageView1"
         android:layout_width="150dp"
         android:layout_height="100dp"
-        android:scaleType="centerInside"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        android:src="@drawable/ui_login_logo" />
+        android:src="@drawable/ui2_login_logo" />
 
     <RelativeLayout
         android:id="@+id/login_layout"
@@ -45,13 +44,12 @@
 
                 <ImageView
                     android:id="@+id/imageView2"
-                    android:layout_width="25dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="2dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginTop="2dp"
-                    android:src="@drawable/ui_user" />
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/ui2_login_user" />
 
                 <EditText
                     android:id="@+id/name"
@@ -85,13 +83,12 @@
 
                 <ImageView
                     android:id="@+id/imageView3"
-                    android:layout_width="25dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="2dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginTop="2dp"
-                    android:src="@drawable/ui_lock" />
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/ui2_login_password" />
 
                 <EditText
                     android:id="@+id/pwd"
@@ -121,14 +118,14 @@
                     android:id="@+id/gaoji_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#ffffff"
+                    android:textColor="#00baf2"
                     android:textSize="15dp"
                     android:text="高级"/>
                 <ImageView 
                     android:id="@+id/gaoji_image"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:background="@drawable/ui_login_arrow_white"/>
+                    android:background="@drawable/ui2_login_arrow_left"/>
                     
                 
             </LinearLayout>
@@ -153,7 +150,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="17dp"
-                android:textColor="#0086b1"
+                android:textColor="#00baf2"
                 android:textSize="13dp"
                 android:text="云服务地址 :"/>
             
@@ -170,13 +167,12 @@
 	
 	                <ImageView
 	                    android:id="@+id/imageView4"
-                     	android:layout_width="25dp"
-	                    android:layout_height="wrap_content"
-	                    android:layout_marginBottom="2dp"
-	                    android:layout_marginLeft="15dp"
-	                    android:layout_marginRight="15dp"
-	                    android:layout_marginTop="2dp"
-	                    android:src="@drawable/ui_login_cloud_white" />
+                     	android:layout_width="35dp"
+                    	android:layout_height="35dp"
+                    	android:layout_gravity="center_vertical"
+                    	android:layout_marginLeft="10dp"
+                    	android:layout_marginRight="10dp"
+	                    android:src="@drawable/ui2_login_cloud" />
 	
 	                <EditText
 	                    android:id="@+id/cloud"
@@ -233,14 +229,14 @@
 
         <CheckBox
             android:id="@+id/checkBox1"
-            style="@style/CustomCheckboxTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerHorizontal="true"
             android:layout_marginRight="10dp"
+            android:button="@drawable/ui2_login_check_style"
             android:text=" 记住密码"
-            android:textColor="#0086b1"
+            android:textColor="#8bc34a"
             android:textSize="14dp" />
 
         <View

@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#00b6ee" >
+    android:background="#ffffff" >
 
     <ImageView
         android:id="@+id/load_logo"
@@ -10,7 +10,7 @@
         android:layout_height="100dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:background="@drawable/ui_login_logo" />
+        android:background="@drawable/ui2_login_logo" />
 
     <LinearLayout 
         android:layout_width="320dp"
@@ -23,7 +23,7 @@
         android:layout_gravity="bottom"
         android:layout_width="320dp"
         android:layout_height="320dp"
-        android:background="@drawable/ui_load_circle" />
+        android:background="@drawable/ui2_load_circle" />
     </LinearLayout>
     
 
