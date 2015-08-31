@@ -23,7 +23,7 @@ import com.gdgl.network.VolleyOperation;
 import com.gdgl.util.NetUtil;
 
 public class RfCGIManager extends Manger{
-	private final static String TAG = "CGIManager";
+	private final static String TAG = "RfCGIManager";
 
 	private static RfCGIManager instance;
 
