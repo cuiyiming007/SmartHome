@@ -149,7 +149,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="摄像头用户名"
+                    android:text="摄像机用户名"
                     android:textColor="@color/text_gray"
                     android:textSize="16dp" />
 
@@ -183,7 +183,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="摄像头密码"
+                    android:text="摄像机密码"
                     android:textColor="@color/text_gray"
                     android:textSize="16dp" />
 
@@ -218,7 +218,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="摄像头序列号"
+                    android:text="摄像机序列号"
                     android:textColor="@color/text_gray"
                     android:textSize="16dp" />
 
@@ -252,7 +252,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="摄像头别名"
+                    android:text="摄像机别名"
                     android:textColor="@color/text_gray"
                     android:textSize="16dp" />
 
