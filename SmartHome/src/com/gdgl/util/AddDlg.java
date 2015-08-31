@@ -29,7 +29,7 @@ public class AddDlg {
 	TextView textView;
 
 	EditText mName;
-	LinearLayout devices_region;
+	TextView devices_region;
 	TextView text_name;
 	
 	AddDialogcallback mAddDialogcallback;
@@ -50,7 +50,7 @@ public class AddDlg {
 		dialog.setContentView(R.layout.add_dlg);
 		textView = (TextView) dialog.findViewById(R.id.txt_title);
 
-		devices_region = (LinearLayout) dialog
+		devices_region = (TextView) dialog
 				.findViewById(R.id.devices_region);
 
 		mName = (EditText) dialog.findViewById(R.id.edit_name);
@@ -93,7 +93,7 @@ public class AddDlg {
 		dialog.setContentView(R.layout.add_dlg);
 		textView = (TextView) dialog.findViewById(R.id.txt_title);
 
-		devices_region = (LinearLayout) dialog
+		devices_region = (TextView) dialog
 				.findViewById(R.id.devices_region);
 
 		mName = (EditText) dialog.findViewById(R.id.edit_name);

@@ -79,7 +79,7 @@ public class DeviceTabFragment extends Fragment {
 
 	public class MyPagerAdapter extends FragmentPagerAdapter {
 
-		private final String[] TITLES = { "传感器", "摄像头" };
+		private final String[] TITLES = { "传感器", "摄像机" };
 
 		private ArrayList<Fragment> fragments;
 
