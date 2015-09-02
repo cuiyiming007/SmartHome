@@ -17517,26 +17517,26 @@ com.gdgl.activity.DeviceHistoryFragment -> fn:
     android.widget.ListView dataListView -> k
     com.gdgl.activity.DeviceHistoryFragment$HistoryDataAdapter historyDataAdapter -> l
     com.gdgl.manager.CGIManager cgiManager -> m
-    75:78:void onCreate(android.os.Bundle) -> onCreate
-    84:86:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
-    230:232:void onDestroy() -> onDestroy
-    317:341:void update(com.gdgl.manager.Manger,java.lang.Object) -> update
+    74:77:void onCreate(android.os.Bundle) -> onCreate
+    83:85:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
+    229:231:void onDestroy() -> onDestroy
+    316:338:void update(com.gdgl.manager.Manger,java.lang.Object) -> update
 com.gdgl.activity.DeviceHistoryFragment$1 -> fo:
     com.gdgl.activity.DeviceHistoryFragment this$0 -> a
-    112:114:void onItemSelected(android.widget.AdapterView,android.view.View,int,long) -> onItemSelected
-    120:120:void onNothingSelected(android.widget.AdapterView) -> onNothingSelected
+    111:113:void onItemSelected(android.widget.AdapterView,android.view.View,int,long) -> onItemSelected
+    119:119:void onNothingSelected(android.widget.AdapterView) -> onNothingSelected
 com.gdgl.activity.DeviceHistoryFragment$2 -> fp:
     com.gdgl.activity.DeviceHistoryFragment this$0 -> a
-    128:130:void onClick(android.view.View) -> onClick
+    127:129:void onClick(android.view.View) -> onClick
 com.gdgl.activity.DeviceHistoryFragment$3 -> fq:
     com.gdgl.activity.DeviceHistoryFragment this$0 -> a
-    333:336:void run() -> run
+    330:333:void run() -> run
 com.gdgl.activity.DeviceHistoryFragment$HistoryDataAdapter -> fr:
     com.gdgl.activity.DeviceHistoryFragment this$0 -> a
-    239:242:int getCount() -> getCount
-    248:251:java.lang.Object getItem(int) -> getItem
-    257:257:long getItemId(int) -> getItemId
-    263:305:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
+    238:241:int getCount() -> getCount
+    247:250:java.lang.Object getItem(int) -> getItem
+    256:256:long getItemId(int) -> getItemId
+    262:304:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
 com.gdgl.activity.DeviceHistoryFragment$HistoryDataAdapter$ViewHolder -> fs:
     android.widget.TextView data_value -> a
     android.widget.TextView data_time -> b
