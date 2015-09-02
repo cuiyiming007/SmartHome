@@ -18,3 +18,82 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+
+-injars      bin/classes
+-injars      libs
+-outjars     bin/classes-processed.jar
+-libraryjars D:/AndroidADT/sdk/platforms/android-22/android.jar
+-libraryjars libs/PlayerSDK.jar
+
+-dontpreverify
+-repackageclasses ''
+-allowaccessmodification
+-optimizations !code/simplification/arithmetic
+-keepattributes *Annotation*
+-keepattributes SourceFile,LineNumberTable
+-keepattributes Signature
+
+-keep public class * extends android.app.Activity
+-keep public class * extends android.app.Application
+-keep public class * extends android.app.Service
+-keep public class * extends android.content.BroadcastReceiver
+-keep public class * extends android.content.ContentProvider
+
+-keep public class * extends android.view.View {
+    public <init>(android.content.Context);
+    public <init>(android.content.Context, android.util.AttributeSet);
+    public <init>(android.content.Context, android.util.AttributeSet, int);
+    public void set*(...);
+}
+
+-keepclasseswithmembers class * {
+    public <init>(android.content.Context, android.util.AttributeSet);
+}
+
+-keepclasseswithmembers class * {
+    public <init>(android.content.Context, android.util.AttributeSet, int);
+}
+
+-keepclassmembers class * extends android.content.Context {
+   public void *(android.view.View);
+   public void *(android.view.MenuItem);
+}
+
+-keepclassmembers class * implements android.os.Parcelable {
+    static ** CREATOR;
+}
+
+-keepclassmembers class **.R$* {
+    public static <fields>;
+}
+
+-keepclassmembers class * {
+    @android.webkit.JavascriptInterface <methods>;
+}
+
+-keepclasseswithmembernames class * {
+    native <methods>;
+}
+
+-keepclasseswithmembernames class *  {
+   void set*(***);
+   *** get*();
+}
+
+-keep class java.io.** {*;}
+
+-keep class org.MediaPlayer.PlayM4.** {*;}
+-keep interface org.MediaPlayer.PlayM4.Player.** {*;}
+-keep class com.hikvision.netsdk.** {*;}
+-keep interface com.hikvision.netsdk.** {*;}
+
+-keep class com.gdgl.mydata.** {*;}
+-keep class com.gdgl.model.historydata.** {*;}
+
+-keep interface com.gdgl.manager.UIListener {*;}
+-keep class com.gdgl.manager.Manger {*;}
+-keep class * extends com.gdgl.manager.Manger
+-keep class com.gdgl.libjingle.Libjingle {*;}
+-keep class android.support.**{*;}
+-keep interface android.support.**{*;}

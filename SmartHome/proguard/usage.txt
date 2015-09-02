@@ -1,0 +1,1582 @@
+com.android.volley.AuthFailureError:
+    34:36:public AuthFailureError(android.content.Intent)
+    43:44:public AuthFailureError(java.lang.String)
+    47:48:public AuthFailureError(java.lang.String,java.lang.Exception)
+    51:51:public android.content.Intent getResolutionIntent()
+com.android.volley.Cache:
+    public abstract void invalidate(java.lang.String,boolean)
+    public abstract void remove(java.lang.String)
+    public abstract void clear()
+com.android.volley.DefaultRetryPolicy:
+    public static final int DEFAULT_TIMEOUT_MS
+    public static final int DEFAULT_MAX_RETRIES
+    public static final float DEFAULT_BACKOFF_MULT
+com.android.volley.ExecutorDelivery:
+    49:51:public ExecutorDelivery(java.util.concurrent.Executor)
+com.android.volley.NetworkResponse:
+    44:45:public NetworkResponse(byte[])
+com.android.volley.Request:
+    private static final java.lang.String DEFAULT_PARAMS_ENCODING
+    private static final long SLOW_REQUEST_THRESHOLD_MS
+    122:123:public Request(java.lang.String,com.android.volley.Response$ErrorListener)
+    163:163:public java.lang.Object getTag()
+    270:273:public final int getSequence()
+    464:465:public final com.android.volley.Request setShouldCache(boolean)
+com.android.volley.Request$Method
+com.android.volley.RequestQueue:
+    private static final int DEFAULT_NETWORK_THREAD_POOL_SIZE
+    170:170:public com.android.volley.Cache getCache()
+    186:193:public void cancelAll(com.android.volley.RequestQueue$RequestFilter)
+    200:209:public void cancelAll(java.lang.Object)
+com.android.volley.RequestQueue$1
+com.android.volley.RequestQueue$RequestFilter
+com.android.volley.VolleyError:
+    35:37:public VolleyError(java.lang.String)
+    40:42:public VolleyError(java.lang.String,java.lang.Throwable)
+com.android.volley.VolleyLog:
+    41:46:public static void setTag(java.lang.String)
+    71:72:public static varargs void wtf(java.lang.Throwable,java.lang.String,java.lang.Object[])
+com.android.volley.VolleyLog$MarkerLog:
+    private static final long MIN_DURATION_FOR_LOGGING_MS
+com.android.volley.toolbox.AndroidAuthenticator
+com.android.volley.toolbox.Authenticator
+com.android.volley.toolbox.BasicNetwork:
+    205:207:protected void logError(java.lang.String,java.lang.String,long)
+com.android.volley.toolbox.ClearCacheRequest
+com.android.volley.toolbox.DiskBasedCache:
+    private static final int DEFAULT_DISK_USAGE_BYTES
+    private static final float HYSTERESIS_FACTOR
+    private static final int CACHE_MAGIC
+    90:99:public synchronized void clear()
+    179:188:public synchronized void invalidate(java.lang.String,boolean)
+com.android.volley.toolbox.HttpClientStack:
+    private static final java.lang.String HEADER_CONTENT_TYPE
+    67:71:private static java.util.List getPostParameterPairs(java.util.Map)
+com.android.volley.toolbox.HttpClientStack$HttpPatch:
+    public static final java.lang.String METHOD_NAME
+    176:178:public HttpClientStack$HttpPatch(java.net.URI)
+com.android.volley.toolbox.HttpHeaderParser:
+    31:31:public HttpHeaderParser()
+com.android.volley.toolbox.HurlStack:
+    private static final java.lang.String HEADER_CONTENT_TYPE
+com.android.volley.toolbox.ImageLoader:
+    85:88:public ImageLoader(com.android.volley.RequestQueue,com.android.volley.toolbox.ImageLoader$ImageCache)
+    100:100:public static com.android.volley.toolbox.ImageLoader$ImageListener getImageListener(android.widget.ImageView,int,int)
+    154:157:public boolean isCached(java.lang.String,int,int)
+    171:171:public com.android.volley.toolbox.ImageLoader$ImageContainer get(java.lang.String,com.android.volley.toolbox.ImageLoader$ImageListener)
+    245:246:public void setBatchedResponseDelay(int)
+com.android.volley.toolbox.ImageLoader$1
+com.android.volley.toolbox.ImageRequest:
+    private static final int IMAGE_TIMEOUT_MS
+    private static final int IMAGE_MAX_RETRIES
+    private static final float IMAGE_BACKOFF_MULT
+com.android.volley.toolbox.JsonArrayRequest
+com.android.volley.toolbox.JsonRequest:
+    private static final java.lang.String PROTOCOL_CHARSET
+    53:54:public JsonRequest(java.lang.String,java.lang.String,com.android.volley.Response$Listener,com.android.volley.Response$ErrorListener)
+    protected abstract com.android.volley.Response parseNetworkResponse(com.android.volley.NetworkResponse)
+com.android.volley.toolbox.NoCache
+com.android.volley.toolbox.PoolingByteArrayOutputStream:
+    private static final int DEFAULT_SIZE
+    40:41:public PoolingByteArrayOutputStream(com.android.volley.toolbox.ByteArrayPool)
+com.android.volley.toolbox.RequestFuture
+com.android.volley.toolbox.Volley:
+    private static final java.lang.String DEFAULT_CACHE_DIR
+    30:30:public Volley()
+com.gc.materialdesign.R:
+    9:9:public R()
+com.gc.materialdesign.R$anim:
+    10:10:public R$anim()
+com.gc.materialdesign.R$attr
+com.gc.materialdesign.R$color
+com.gc.materialdesign.R$drawable:
+    41:41:public R$drawable()
+com.gc.materialdesign.R$id:
+    60:60:public R$id()
+com.gc.materialdesign.R$layout:
+    81:81:public R$layout()
+com.gc.materialdesign.R$styleable
+com.gc.materialdesign.utils.Utils:
+    7:7:public Utils()
+com.gc.materialdesign.views.Button:
+    static final java.lang.String ANDROIDXML
+com.gc.materialdesign.views.ButtonFloat:
+    java.lang.Integer height
+    java.lang.Integer width
+    194:200:public void hide()
+    203:203:public boolean isShow()
+com.gc.materialdesign.views.ButtonRectangle:
+    int paddingTop
+    int paddingBottom
+    int paddingLeft
+    int paddingRight
+    java.lang.Integer height
+    java.lang.Integer width
+com.gc.materialdesign.views.Card:
+    android.widget.TextView textButton
+    int paddingTop
+    int paddingBottom
+    int paddingLeft
+    int paddingRight
+com.gc.materialdesign.views.CheckBox:
+    202:202:public boolean isCheck()
+com.gc.materialdesign.views.CustomView:
+    static final java.lang.String MATERIALDESIGNXML
+    static final java.lang.String ANDROIDXML
+com.gc.materialdesign.views.ProgressBarCircularIndeterminate:
+    static final java.lang.String ANDROIDXML
+com.gc.materialdesign.views.Slider:
+    102:102:public boolean isShowNumberIndicator()
+    186:192:protected int makePressColor()
+com.gc.materialdesign.views.Switch:
+    208:208:public boolean isCheck()
+com.gc.materialdesign.widgets.ColorSelector
+com.gc.materialdesign.widgets.ColorSelector$1
+com.gc.materialdesign.widgets.ColorSelector$2
+com.gc.materialdesign.widgets.ColorSelector$3
+com.gc.materialdesign.widgets.ColorSelector$4
+com.gc.materialdesign.widgets.ColorSelector$4$1
+com.gc.materialdesign.widgets.ColorSelector$OnColorSelectedListener
+com.gc.materialdesign.widgets.Dialog
+com.gc.materialdesign.widgets.Dialog$1
+com.gc.materialdesign.widgets.Dialog$2
+com.gc.materialdesign.widgets.Dialog$3
+com.gc.materialdesign.widgets.Dialog$4
+com.gc.materialdesign.widgets.Dialog$4$1
+com.gc.materialdesign.widgets.ProgressDialog
+com.gc.materialdesign.widgets.ProgressDialog$1
+com.gc.materialdesign.widgets.ProgressDialog$2
+com.gc.materialdesign.widgets.ProgressDialog$2$1
+com.gc.materialdesign.widgets.SnackBar
+com.gc.materialdesign.widgets.SnackBar$1
+com.gc.materialdesign.widgets.SnackBar$2
+com.gc.materialdesign.widgets.SnackBar$3
+com.gc.materialdesign.widgets.SnackBar$4
+com.gc.materialdesign.widgets.SnackBar$OnHideListener
+com.gdgl.GalleryFlow.FancyCoverFlow:
+    public static final int ACTION_DISTANCE_AUTO
+    public static final float SCALEDOWN_GRAVITY_TOP
+    public static final float SCALEDOWN_GRAVITY_CENTER
+    public static final float SCALEDOWN_GRAVITY_BOTTOM
+com.gdgl.GalleryFlow.FancyCoverFlow$LayoutParams:
+    380:381:public FancyCoverFlow$LayoutParams(android.view.ViewGroup$LayoutParams)
+com.gdgl.activity.AddCommonUsedActivity:
+    public static final int REGION
+    public static final int SCENE
+    public static final int DEVICES
+com.gdgl.activity.AllDevicesFragment:
+    android.content.Context mContext
+    144:145:public void setSelectedPostion(int)
+com.gdgl.activity.AllDevicesListFragment
+com.gdgl.activity.AllDevicesListFragment$1
+com.gdgl.activity.AllDevicesListFragment$DevicesAdapter
+com.gdgl.activity.AllDevicesListFragment$DevicesAdapter$ViewHolder
+com.gdgl.activity.BaseControlFragment
+com.gdgl.activity.BaseControlFragment$UpdateDatabaseTask
+com.gdgl.activity.BaseControlFragment$UpdateDevice
+com.gdgl.activity.BaseControlFragment$updateDeviceStatus
+com.gdgl.activity.BaseFragment:
+    public abstract void stopRefresh()
+    40:44:public void ProcessUpdate(com.gdgl.mydata.Callback.CallbackResponseType2)
+    47:54:public boolean isInList(com.gdgl.model.DevicesModel,java.util.List)
+com.gdgl.activity.BaseFragment$UpdateDatabaseTask
+com.gdgl.activity.BindControlFragment:
+    public static final java.lang.String DevicesId
+    public static final java.lang.String BindId
+    public static final int FINISH_DLG
+    189:202:public int getPostionInList(java.lang.String,java.lang.String)
+    363:363:public void stopRefresh()
+com.gdgl.activity.BindControlFragment$updateList
+com.gdgl.activity.BindListFragment:
+    android.widget.Button mBack
+com.gdgl.activity.ChangeNameFragment:
+    android.widget.RelativeLayout ch_name
+com.gdgl.activity.ChangePWDFragment:
+    java.lang.String odlPwd
+com.gdgl.activity.ConfigDevicesExpandableList:
+    540:540:public void stopRefresh()
+com.gdgl.activity.ConfigDevicesExpandableList$ChangeFragment
+com.gdgl.activity.ConfigDevicesListWithGroup
+com.gdgl.activity.ConfigDevicesListWithGroup$1
+com.gdgl.activity.ConfigDevicesListWithGroup$10
+com.gdgl.activity.ConfigDevicesListWithGroup$11
+com.gdgl.activity.ConfigDevicesListWithGroup$2
+com.gdgl.activity.ConfigDevicesListWithGroup$3
+com.gdgl.activity.ConfigDevicesListWithGroup$4
+com.gdgl.activity.ConfigDevicesListWithGroup$5
+com.gdgl.activity.ConfigDevicesListWithGroup$6
+com.gdgl.activity.ConfigDevicesListWithGroup$7
+com.gdgl.activity.ConfigDevicesListWithGroup$8
+com.gdgl.activity.ConfigDevicesListWithGroup$9
+com.gdgl.activity.ConfigDevicesListWithGroup$ChangeFragment
+com.gdgl.activity.ConfigDevicesListWithGroup$CustomeAdapter
+com.gdgl.activity.ConfigDevicesListWithGroup$CustomeAdapter$ViewHolder
+com.gdgl.activity.ConfigDevicesListWithGroup$IntoDeviceDetailFragment
+com.gdgl.activity.ConfigDevicesListWithGroup$getDataInBackgroundTask
+com.gdgl.activity.CurtainControlFragment
+com.gdgl.activity.CurtainControlFragment$1
+com.gdgl.activity.CurtainControlFragment$2
+com.gdgl.activity.CurtainControlFragment$3
+com.gdgl.activity.CurtainControlFragment$CloseThread
+com.gdgl.activity.CurtainControlFragment$OpenThread
+com.gdgl.activity.CurtainControlFragment$operatortype
+com.gdgl.activity.DeviceDtailFragment:
+    public static final int WITH_DEVICE_ABOUT
+    public static final int WITHOUT_DEVICE_ABOUT
+    853:853:public void stopRefresh()
+    856:860:public void refreshLevel(java.lang.String)
+    863:878:public void refreshLevel(com.gdgl.mydata.Callback.CallbackResponseType2)
+    881:894:public void refreshDefense(java.util.ArrayList)
+com.gdgl.activity.DevicesListFragment:
+    private static final java.lang.String TAG
+    com.gdgl.model.DevicesModel onekeyopratorModel
+    android.content.Context mContext
+    public static final int WITH_OPERATE
+    public static final int WITHOUT_OPERATE
+    371:372:public void setSelectedPostion(int)
+    471:473:public void onFragmentResult(int,boolean,java.lang.Object)
+com.gdgl.activity.DevicesListFragment$deleteDevicesFromGroup
+com.gdgl.activity.DevicesListFragment$setData:
+    public abstract void setdata(java.util.List)
+com.gdgl.activity.DoorBellFragment
+com.gdgl.activity.DoorBellFragment$1
+com.gdgl.activity.DoorBellFragment$2
+com.gdgl.activity.JoinNetDevicesListFragment:
+    public static final int FINISH_OPERATOR
+    public static final int SUCESS
+com.gdgl.activity.JoinNetFragment:
+    private static final int SCAPE
+    private static final int STOP
+com.gdgl.activity.KongtiaoTvControlActivity:
+    public static final java.lang.String KONGTIAO_ONOFF
+    public static final java.lang.String TEMPTURE_ADD
+    public static final java.lang.String TEMPTURE_DEC
+    public static final java.lang.String TV_ONOFF
+    public static final java.lang.String CHANNEL_ADD
+    public static final java.lang.String CHANNEL_DEC
+    public static final java.lang.String VOL_ADD
+    public static final java.lang.String VOL_DEC
+    com.gdgl.manager.CallbackManager callbackManager
+    public static final int FINISH_DLG
+    public static final int FINISH_GETDATA
+    public static final int INIT_TV
+    public static final int INIT_KONGTIAO
+    public static final int TOUCH_DELAY
+com.gdgl.activity.LightSensorFragment
+com.gdgl.activity.LinkageDetailActivity:
+    public static final java.lang.String TYPE
+    public static final java.lang.String INDEX
+    public static final int CREATE
+    public static final int EDIT
+    public static final int EDIT_FRAGMENT
+    public static final int ADD_FRAGMENT
+    int spinner_type
+    private int linkageId
+    java.util.List mTrgAddList
+    java.util.List mActAddList
+    com.gdgl.model.DevicesModel actDevices
+    com.gdgl.model.DevicesModel trgDevices
+    android.support.v4.app.FragmentManager fragmentManager
+    com.gdgl.activity.DevicesListFragment mDevicesListFragment
+    com.gdgl.activity.SceneDevicesFragment mAllDevicesFragment
+    com.gdgl.activity.LinkageDevicesAddFragment$LinkageDevicesAddListAdapter mLinkageDevicesAddListAdapter
+    android.widget.ImageView img_act_device
+    android.widget.ImageView img_trg_device
+    android.widget.TextView txt_act_device
+    android.widget.TextView txt_trg_device
+    android.widget.Spinner spinner_trg_type
+    android.widget.Spinner spinner_act_type
+    android.widget.Switch switch_act_type
+    android.widget.EditText edit_trg_data
+    213:238:private boolean checkLinkageData()
+com.gdgl.activity.LinkageDevicesAddFragment$ChangeFragment
+com.gdgl.activity.LinkageDevicesAddFragment$LinkageDevicesAddListAdapter:
+    protected com.gdgl.activity.LinkageDevicesAddFragment$AddChecked mDevicesObserver
+    private java.util.Map isSelected
+    93:100:public LinkageDevicesAddFragment$LinkageDevicesAddListAdapter(com.gdgl.activity.LinkageDevicesAddFragment,java.util.List,com.gdgl.activity.LinkageDevicesAddFragment$AddChecked)
+    175:177:public void setList(java.util.List)
+com.gdgl.activity.LockFragment
+com.gdgl.activity.LockFragment$1
+com.gdgl.activity.LockFragment$2
+com.gdgl.activity.LockFragment$operatortype
+com.gdgl.activity.LoginActivity:
+    private android.widget.CheckBox mAut
+    private static final boolean isAsc
+    private static final int SHOWDLG
+    private static final int HIDEDLG
+    private static final int TOAST
+com.gdgl.activity.MessageIpcLinkageFragment:
+    android.widget.Button mBack
+com.gdgl.activity.MessageListFragment:
+    android.widget.Button mBack
+    328:333:private void clearAllMessage()
+    375:375:public void stopRefresh()
+com.gdgl.activity.OutLetControlFragment
+com.gdgl.activity.OutLetControlFragment$1
+com.gdgl.activity.OutLetControlFragment$2
+com.gdgl.activity.OutLetControlFragment$operatortype
+com.gdgl.activity.OutPutFragment
+com.gdgl.activity.OutPutFragment$1
+com.gdgl.activity.OutPutFragment$2
+com.gdgl.activity.OutPutFragment$operatortype
+com.gdgl.activity.RegionDevicesActivity:
+    public static final java.lang.String REGION_NAME
+    public static final java.lang.String REGION_ID
+    public static final int INLIST
+    public static final int INCONTROL
+    public static final int INADD
+    292:293:public void setLayout()
+    299:299:public void deleteDevices(java.lang.String)
+    513:513:public void setdata(java.util.List)
+com.gdgl.activity.RegionsFragment:
+    81:88:private void refreshList()
+com.gdgl.activity.SafeSimpleOperation
+com.gdgl.activity.SafeSimpleOperation$1
+com.gdgl.activity.SafeSimpleOperation$2
+com.gdgl.activity.SafeSimpleOperation$3
+com.gdgl.activity.SafeSimpleOperation$UpdateSafeControlDevices
+com.gdgl.activity.SafeSimpleOperation$getDataTask
+com.gdgl.activity.SceneDevicesActivity:
+    public static final java.lang.String TYPE
+    public static final int CREATE
+    public static final int EDIT
+    public static final int EDIT_FRAGMENT
+    public static final int ADD_FRAGMENT
+    com.gdgl.activity.DevicesListFragment mDevicesListFragment
+    com.gdgl.activity.SceneDevicesFragment mAllDevicesFragment
+com.gdgl.activity.SceneDevicesAddFragment:
+    com.gdgl.activity.SceneDevicesAddFragment$AddChecked mAddChecked
+com.gdgl.activity.SceneDevicesAddFragment$ChangeFragment
+com.gdgl.activity.SceneDevicesAddFragment$SceneDevicesAddListAdapter:
+    165:167:public void setList(java.util.List)
+com.gdgl.activity.SceneDevicesFragment$SceneDevicesListAdapter:
+    291:293:public void setList(java.util.List)
+com.gdgl.activity.SeekLightsControlFragment
+com.gdgl.activity.SeekLightsControlFragment$1
+com.gdgl.activity.SeekLightsControlFragment$operatortype
+com.gdgl.activity.ShowDevicesGroupFragmentActivity:
+    private static final java.lang.String TAG
+    public static final java.lang.String ACTIVITY_SHOW_DEVICES_TYPE
+    605:606:public void setLayout()
+    618:618:public void deleteDevices(java.lang.String)
+com.gdgl.activity.ShowDevicesGroupFragmentActivity$EditDevicesName
+com.gdgl.activity.ShowDevicesGroupFragmentActivity$Paremeters
+com.gdgl.activity.ShowDevicesGroupFragmentActivity$UpdateDeviceStatusToDatabaseTask
+com.gdgl.activity.ShowDevicesGroupFragmentActivity$adapterSeter
+com.gdgl.activity.ShowTemptureFragment
+com.gdgl.activity.SmartHome:
+    private static final java.lang.String TAG
+    277:280:public void showSetWindow()
+com.gdgl.activity.StartAnimationActivity:
+    private static final long SPLASH_DELAY_MILLIS
+com.gdgl.activity.SwitchControlFragment
+com.gdgl.activity.SwitchControlFragment$SwitchClickListener
+com.gdgl.activity.TemperatureSensorFragment
+com.gdgl.activity.TimingAddActivity:
+    public static final java.lang.String TYPE
+    public static final int CREATE
+    public static final int EDIT
+com.gdgl.activity.TimingFragment$TimingActionListAdapter:
+    320:322:public void setList(java.util.List)
+com.gdgl.activity.UIinterface.IFragmentCallbak
+com.gdgl.activity.VideoFragment:
+    public static final java.lang.String PASS_OBJECT
+com.gdgl.activity.WarnningControlFragment
+com.gdgl.activity.WarnningControlFragment$1
+com.gdgl.activity.WarnningControlFragment$2
+com.gdgl.adapter.AllDevicesAdapter:
+    public static final java.lang.String DEVICES_ID
+    public static final java.lang.String BOLLEAN_ARRARY
+    public static final java.lang.String DEVIVES_VALUE
+    com.gdgl.adapter.AllDevicesAdapter$ViewHolder lay
+    158:160:public void setList(java.util.List)
+    183:184:public static void setIsSelected(java.util.HashMap)
+com.gdgl.adapter.AllDevicesAdapter$DevicesObserver
+com.gdgl.adapter.AllDevicesAdapter$SwitchModel
+com.gdgl.adapter.DevicesBaseAdapter:
+    public static final int ON_OFF
+    public static final int WITH_VALUE
+    public static final int NO_OPERATOR
+    public static final java.lang.String DEVICES_ID
+    public static final java.lang.String BOLLEAN_ARRARY
+    public static final java.lang.String DEVIVES_VALUE
+com.gdgl.adapter.DevicesBaseAdapter$DevicesObserver:
+    public abstract void setLayout()
+    public abstract void deleteDevices(java.lang.String)
+com.gdgl.adapter.DevicesBaseAdapter$SwitchModel
+com.gdgl.adapter.ImageAdapter
+com.gdgl.adapter.ImageForGridViewAdapter
+com.gdgl.adapter.SceneDevicesAdapter
+com.gdgl.adapter.SceneDevicesAdapter$1
+com.gdgl.adapter.SceneDevicesAdapter$2
+com.gdgl.adapter.SceneDevicesAdapter$3
+com.gdgl.adapter.SceneDevicesAdapter$AddChecked
+com.gdgl.adapter.SceneDevicesAdapter$DevicesObserver
+com.gdgl.adapter.SceneDevicesAdapter$ViewHolder
+com.gdgl.adapter.ViewGroupAdapter:
+    49:59:private android.graphics.Bitmap getBitmap(long)
+com.gdgl.adapter.ViewPagerAdapter:
+    private static final java.lang.String TAG
+com.gdgl.app.ApplicationController:
+    public static final java.lang.String TAG
+    73:78:public void addToRequestQueue(com.android.volley.Request,java.lang.String)
+    100:103:public void cancelPendingRequests(java.lang.Object)
+    110:115:public static java.lang.Boolean isOnMainThread()
+com.gdgl.app.CrashHandler:
+    private static final java.lang.String TAG
+    private static final boolean DEBUG
+    private static final java.lang.String FILE_NAME
+    private static final java.lang.String FILE_NAME_SUFFIX
+com.gdgl.drawer.DeviceControlFragment:
+    805:809:public void refreshLevel(java.lang.String)
+    812:826:public void refreshLevel(com.gdgl.mydata.Callback.CallbackResponseType2)
+    829:835:public void refreshOnOffStatus(com.gdgl.mydata.Callback.CallbackResponseType2)
+com.gdgl.drawer.NavigationDrawerAdapter:
+    30:30:public com.gdgl.drawer.NavigationDrawerCallbacks getNavigationDrawerCallbacks()
+com.gdgl.drawer.NavigationDrawerFragment:
+    private static final java.lang.String PREF_USER_LEARNED_DRAWER
+    private static final java.lang.String STATE_SELECTED_POSITION
+    private static final java.lang.String PREFERENCES_FILE
+    228:228:public android.support.v7.app.ActionBarDrawerToggle getActionBarDrawerToggle()
+    233:234:public void setActionBarDrawerToggle(android.support.v7.app.ActionBarDrawerToggle)
+    290:292:public void openDrawer()
+    326:330:public void showBackButton()
+    336:341:public void showDrawerButton()
+    379:379:public android.support.v4.widget.DrawerLayout getDrawerLayout()
+    383:384:public void setDrawerLayout(android.support.v4.widget.DrawerLayout)
+com.gdgl.drawer.NavigationItem:
+    24:25:public void setText(java.lang.String)
+    32:33:public void setDrawable_press(android.graphics.drawable.Drawable)
+    40:41:public void setDrawable(android.graphics.drawable.Drawable)
+com.gdgl.drawer.RoundImage
+com.gdgl.libjingle.Libjingle$GatewayState
+com.gdgl.libjingle.Libjingle$XmppError
+com.gdgl.libjingle.Libjingle$XmppState
+com.gdgl.libjingle.LibjingleNetUtil:
+    private static final java.lang.String TAG
+    public java.io.DataInputStream dataInputStream
+    42:56:public void startLibjingleSocket()
+    59:63:public void connectAndRecieveFromLibjingleSocket()
+    83:95:public void connectLibjingleSocket()
+    98:107:public void sendMsgToLibjingleSocket(java.lang.String)
+    111:123:public void recieveFromLibjingleSocket()
+com.gdgl.libjingle.LibjingleNetUtil$1
+com.gdgl.libjingle.LibjinglePackHandler:
+    public static final int MT_URL
+    public static final int MT_CallBack
+    public static final int MT_IpcVideo
+    public static final int MT_CaHeartBeat
+    public static final int MT_IpcStat
+    public static final int MT_NetStat
+    177:191:public static java.lang.String packCaHeartBeat(int,java.lang.String,java.lang.String)
+    198:213:public static java.lang.String packCaHeartBeat(int,java.lang.String,java.lang.String,java.lang.String)
+    220:244:public static java.lang.String packIpcVideo(int,java.lang.String,com.gdgl.libjingle.LibjinglePackHandler$IpcVideoOpt,int)
+    250:263:public static java.lang.String packIpcStat(int,java.lang.String)
+com.gdgl.libjingle.LibjinglePackHandler$IpcVideoOpt
+com.gdgl.libjingle.LibjingleResponseHandlerManager:
+    private static final java.lang.String TAG
+    static final java.lang.String LABEL
+    96:107:public static void handleInputStream(java.io.DataInputStream)
+    111:156:public static void sub_String(java.lang.String)
+    160:167:public static void add_String_Pre(java.lang.String)
+    171:175:public static void sub_Label(java.lang.String)
+    179:195:public static void add_Data(java.lang.String)
+com.gdgl.libjingle.LibjingleSendManager:
+    private static final java.lang.String TAG
+    80:109:public void addBindData(java.lang.String,java.lang.String,java.lang.String,com.gdgl.model.DevicesModel,java.lang.String)
+    113:142:public void delBindData(java.lang.String,java.lang.String,java.lang.String,com.gdgl.model.DevicesModel,java.lang.String)
+    145:165:public void GetAllBindList()
+    173:196:public void deleteNode(java.lang.String)
+    205:229:public void setPermitJoinOn(java.lang.String,int)
+    232:255:public void setAllPermitJoinOn(int)
+    355:384:public void doorLockOperationCommon(com.gdgl.model.DevicesModel,int)
+    521:550:public void lightSensorOperation(com.gdgl.model.DevicesModel,int)
+    760:787:public void iASZoneOperationCommon(com.gdgl.model.DevicesModel,int,int)
+    818:846:public void humiditySensorOperation(com.gdgl.model.DevicesModel)
+    849:878:public void temperatureSensorOperation(com.gdgl.model.DevicesModel)
+    886:914:public void rangeExtenderOperation(com.gdgl.model.DevicesModel,int)
+    928:956:public void iASACE(com.gdgl.model.DevicesModel,int)
+    966:992:public void beginLearnIR(com.gdgl.model.DevicesModel,int,java.lang.String)
+    1002:1027:public void beginApplyIR(com.gdgl.model.DevicesModel,int)
+    1030:1054:public void DeleteIR(com.gdgl.model.DevicesModel,int)
+    1057:1082:public void getDeviceLearnedIRDataInformation(com.gdgl.model.DevicesModel)
+    1088:1110:public void GetAllRoomInfo()
+    1118:1141:public void GetEPByRoomIndex(java.lang.String)
+    1151:1175:public void ZBAddRoomDataMain(java.lang.String,java.lang.String,java.lang.String)
+    1183:1206:public void ZBDeleteRoomDataMainByID(java.lang.String)
+    1215:1240:public void ModifyDeviceRoomId(com.gdgl.model.DevicesModel,java.lang.String)
+    1770:1790:public void ChangeRFDevName(java.lang.String,java.lang.String)
+    1816:1837:public void RFWarningDevOperation(java.lang.String,int,int)
+    1840:1860:public void ChangeRFDevActivationState(java.lang.String,int)
+com.gdgl.libjingle.LibjingleVideoSocket:
+    private static final java.lang.String TAG
+    14:14:public LibjingleVideoSocket()
+    21:22:public static int getReqID()
+    54:63:public static void closeVideoSocket()
+    68:96:public static boolean sendVideoReq(int)
+com.gdgl.manager.CGIManager:
+    private static final java.lang.String TAG
+    172:209:public void GetAllBindList()
+    254:267:public void setPermitJoinOn(java.lang.String,int)
+    361:379:public void doorLockOperationCommon(com.gdgl.model.SimpleDevicesModel,int)
+    772:820:public void iASZoneOperationCommon(com.gdgl.model.DevicesModel,int,int)
+    918:935:public void rangeExtenderOperation(com.gdgl.model.DevicesModel,int)
+    949:966:public void iASACE(com.gdgl.model.SimpleDevicesModel,int)
+    1654:1699:public void getHistoryDataByTime(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String)
+com.gdgl.manager.CGIManager$13
+com.gdgl.manager.CGIManager$14
+com.gdgl.manager.CGIManager$3
+com.gdgl.manager.CGIManager$4
+com.gdgl.manager.CGIManager$48
+com.gdgl.manager.CGIManager$49
+com.gdgl.manager.CGIManager$GetBindingTask
+com.gdgl.manager.CallbackManager:
+    private static final java.lang.String TAG
+    78:79:public void stopConnectServerByTCPTask()
+    1449:1467:void makeWarmNotify(android.content.Intent,com.gdgl.mydata.Callback.CallbackWarnMessage)
+com.gdgl.manager.CallbackManager$UpdateDBTask
+com.gdgl.manager.DeviceManager:
+    java.util.ArrayList allList
+    java.util.List mDevList
+    56:60:public java.util.ArrayList getDeviceListFromLocalString()
+com.gdgl.manager.LoginManager:
+    public static final java.lang.String TAG
+com.gdgl.manager.RfCGIManager:
+    private static final java.lang.String TAG
+    134:155:public void ChangeRFDevActivationState(java.lang.String,int)
+    158:178:public void ChangeAllRFDevArmState(int)
+com.gdgl.manager.RfCGIManager$10
+com.gdgl.manager.RfCGIManager$11
+com.gdgl.manager.RfCGIManager$12
+com.gdgl.manager.RfCGIManager$9
+com.gdgl.manager.SceneLinkageManager:
+    private static final java.lang.String TAG
+com.gdgl.manager.VideoManager:
+    public static final java.lang.String TAG
+com.gdgl.manager.WarnManager:
+    38:41:public boolean isDeviceWarning(com.gdgl.model.SimpleDevicesModel)
+    83:83:public com.gdgl.mydata.Callback.CallbackWarnMessage getCurrentWarmmessage()
+com.gdgl.model.DevicesBaseColumns:
+    public static final java.lang.String ALL_COUNT
+    public static final java.lang.String CURCOUNT
+    public static final java.lang.String DEVICE_ID
+    public static final java.lang.String R_ID
+    public static final java.lang.String PIC_NAME
+    public static final java.lang.String PROFILE_ID
+    public static final java.lang.String POWER_RESOURCE
+    public static final java.lang.String CUR_POWER_RESOURCE
+    public static final java.lang.String CURPOWERSOURCELEVEL
+    public static final java.lang.String IEEE
+    public static final java.lang.String NWK_ADDR
+    public static final java.lang.String NODE_EN_NAME
+    public static final java.lang.String MANUFACTORY
+    public static final java.lang.String ZCL_VERSTION
+    public static final java.lang.String STACK_VERSTION
+    public static final java.lang.String APP_VERSTION
+    public static final java.lang.String HW_VERSTION
+    public static final java.lang.String DATE_CODE
+    public static final java.lang.String MODEL_ID
+    public static final java.lang.String NODE_TYPE
+    public static final java.lang.String NODE_STATUS
+    public static final java.lang.String EP
+    public static final java.lang.String NAME
+    public static final java.lang.String CURRENT
+    public static final java.lang.String ENERGY
+    public static final java.lang.String POWER
+    public static final java.lang.String VOLTAGE
+    public static final java.lang.String LEVEL
+    public static final java.lang.String ON_OFF_STATUS
+    public static final java.lang.String TEMPERATURE
+    public static final java.lang.String HUMIDITY
+    public static final java.lang.String BRIGHTNESS
+    public static final java.lang.String EP_MODEL_ID
+    public static final java.lang.String CURRENT_MIN
+    public static final java.lang.String CURRENT_MAX
+    public static final java.lang.String VOLTAGE_MIN
+    public static final java.lang.String VOLTAGE_MAX
+    public static final java.lang.String ENERGY_MIN
+    public static final java.lang.String ENERGY_MAX
+    public static final java.lang.String CLUSTER_ID
+    public static final java.lang.String DEVICE_SORT
+    public static final java.lang.String DEVICE_REGION
+    public static final java.lang.String DEFAULT_DEVICE_NAME
+    public static final java.lang.String DEVICE_PRIORITY
+    public static final java.lang.String HEART_TIME
+    public static final java.lang.String LAST_UPDATE_TIME
+    public static final java.lang.String ON_OFF_LINE
+com.gdgl.model.DevicesModel:
+    private static final long serialVersionUID
+    public static final int DEVICE_ON_LINE
+    public static final int DEVICE_OFF_LINE
+    153:153:public java.lang.String getmAllCount()
+    161:161:public java.lang.String getmCurCount()
+    193:193:public java.lang.String getmProfileId()
+    201:201:public java.lang.String getmPowerResource()
+    217:217:public java.lang.String getCurpowersourcelevel()
+    233:233:public java.lang.String getmNWKAddr()
+    249:249:public java.lang.String getmManufactory()
+    257:257:public java.lang.String getmZCLVersion()
+    265:265:public java.lang.String getmStackVerstion()
+    305:305:public java.lang.String getmNodeType()
+    313:313:public int getmStatus()
+    409:409:public java.lang.String getmEPModelId()
+    417:417:public java.lang.String getmCurrentMin()
+    425:425:public java.lang.String getmCurrentMax()
+    433:433:public java.lang.String getmVoltageMin()
+    441:441:public java.lang.String getmVoltageMax()
+    449:449:public java.lang.String getmEnergyMin()
+    457:457:public java.lang.String getmEnergyMax()
+    477:478:public void setmDeviceSort(int)
+    521:521:public int getmValue1()
+    525:526:public void setmValue1(int)
+    529:529:public int getmValue2()
+    533:534:public void setmValue2(int)
+com.gdgl.model.LibjingleSendColumns:
+    public static final int GETNEWJOINNETDEVICE
+    public static final int GETZBNODE
+    public static final int GETENDPOINT
+    public static final int ZBGETZBNODECOUNT
+    public static final int ZBGETZBNODEBYIEEE
+    public static final int ZBGETZBNODEBYNWK_ADDR
+    public static final int ZBGETZBNODEBYINDEX
+    public static final int ZBGETENDPOINTCOUNT
+    public static final int ZBGETENDPOINTBYINDEX
+    public static final int SETALLPERMITJOINON
+    public static final int SETPERMITJOINON
+    public static final int DELETENODE
+    public static final int MANAGELEAVENODE
+    public static final int GETALLBINDLIST
+    public static final int GETBINDLIST
+    public static final int BINDDEVICE
+    public static final int UNBINDDEVICE
+    public static final int REMOTECONTROL
+    public static final int ADDBINDDATA
+    public static final int DELBINDDATA
+    public static final int ONOFFOUTPUTOPERATION
+    public static final int MAINSOUTLETOPERATION
+    public static final int DIMMABLELIGHTOPERATION
+    public static final int SHADEOPERATION
+    public static final int BEGINLEARNIR
+    public static final int BEGINAPPLYIR
+    public static final int GETDEVICELEARNEDIRDATAINFORMATION
+    public static final int DELETEIR
+    public static final int IASZONEOPERATION
+    public static final int GETLOCALCIELIST
+    public static final int IASZONEWRITEIASCIEADDRESSDATA
+    public static final int LOCALIASCIEBYPASSZONE
+    public static final int LOCALIASCIEUNBYPASSZONE
+    public static final int IASWARNINGDEVICEOPERATION
+    public static final int LOCALIASCIEOPERATION
+    public static final int GETLOCALIASCIEOPERATION
+    public static final int HUMIDITY
+    public static final int TEMPERATURESENSOROPERATION
+    public static final int LIGHTSENSOROPERATION
+    public static final int GETALLROOMINFO
+    public static final int GETEPBYROOMINDEX
+    public static final int ZBADDROOMDATAMAIN
+    public static final int ZBDELETEROOMDATAMAINBYID
+    public static final int MODIFYDEVICEROOMID
+    public static final int ADDDEVICECHECKMAINDATA
+    public static final int ADDDEVICECHECKSUBDATA
+    public static final int DELDEVICECHECKMAINDATA
+    public static final int DELDEVICECHECKSUBDATA
+    public static final int GETDEVICECHECKMAIN
+    public static final int GETDEVICECHECKSUB
+    public static final int READHEARTTIME
+    public static final int IDENTIFYDEVICE
+    public static final int ZBGETCHANNEL
+    public static final int FACTORYRESET
+    public static final int REBUILDNETWORKBYPARAM
+    public static final int GETVIDEOLIST
+    public static final int REQUESTVIDEO
+    public static final int DONOTCARE
+    public static final int GETSCENELIST
+    public static final int GETLINKAGELIST
+    public static final int GETTIMEACTIONLIST
+    public static final int GETRFDEVICELIST
+    public static final int GATEWAYAUTH
+com.gdgl.model.LibjingleSendStructure:
+    151:151:public int getGl_msgtype()
+com.gdgl.model.SimpleDevicesModel:
+    31:31:public int getID()
+    39:39:public int getmDeviceId()
+    47:47:public java.lang.String getmIeee()
+    55:55:public java.lang.String getmNWKAddr()
+    63:63:public java.lang.String getmNodeENNAme()
+    87:87:public java.lang.String getmName()
+    95:95:public java.lang.String getmOnOffStatus()
+    103:103:public java.lang.String getmRid()
+    111:111:public java.lang.String getmDeviceRegion()
+    119:119:public long getmLastDateTime()
+    127:127:public int getmOnOffLine()
+    135:135:public java.lang.String getmDefaultDeviceName()
+    143:143:public java.lang.String getHumidityValue()
+    147:148:public void setHumidityValue(java.lang.String)
+    209:209:public java.lang.String getmValue()
+    217:217:public java.lang.String getmClusterID()
+com.gdgl.network.CustomRequest:
+    48:49:public CustomRequest(java.lang.String,java.lang.Class,com.android.volley.Response$Listener,com.android.volley.Response$ErrorListener)
+    128:129:public void setParamMap(java.util.HashMap)
+com.gdgl.network.NetworkConnectivity:
+    public static final int LAN
+    public static final int INTERNET
+    public static final int NO_NETWORK
+    81:87:public static java.lang.String getWIFILocalIpAdress(android.content.Context)
+    93:93:private static java.lang.String formatIpAddress(int)
+    116:132:public java.lang.String getLocalIpAddress()
+com.gdgl.network.VolleyErrorHelper:
+    20:20:public VolleyErrorHelper()
+com.gdgl.network.VolleyOperation:
+    48:48:public static com.gdgl.network.VolleyOperation getInstance()
+    66:84:public java.lang.Object getSimpleJsonByVolley(java.lang.String,java.lang.Object,java.lang.String)
+    93:112:private void requestJsonObject()
+    120:142:public static void addVolleyRequestForString()
+    205:212:public static org.json.JSONObject stringToJSON(java.lang.String)
+    223:238:public static com.gdgl.mydata.RespondDataEntity parseJSON(java.lang.String)
+    459:476:public static com.gdgl.mydata.RespondDataEntity parseJSONGeneric(java.lang.String,java.lang.Object)
+com.gdgl.network.VolleyOperation$1
+com.gdgl.network.VolleyOperation$2
+com.gdgl.network.VolleyOperation$3
+com.gdgl.network.VolleyOperation$4
+com.gdgl.network.VolleyOperation$5
+com.gdgl.network.VolleyOperation$6
+com.gdgl.network.VolleyOperation$7
+com.gdgl.network.VolleyOperation$8
+com.gdgl.reciever.NetWorkChangeReciever:
+    public static final java.lang.String ACTION
+com.gdgl.service.SmartService:
+    public static final java.lang.String TAG
+    public static final int HEARTBEAT_INTERVAL
+com.gdgl.service.SmartService$HeartReceiver:
+    private static final java.lang.String TAG
+com.gdgl.service.SmartService$MsgBinder
+com.gdgl.smarthome.BuildConfig
+com.gdgl.smarthome.R:
+    10:10:public R()
+com.gdgl.smarthome.R$anim
+com.gdgl.smarthome.R$array
+com.gdgl.smarthome.R$attr
+com.gdgl.smarthome.R$bool
+com.gdgl.smarthome.R$color
+com.gdgl.smarthome.R$dimen
+com.gdgl.smarthome.R$drawable
+com.gdgl.smarthome.R$id
+com.gdgl.smarthome.R$integer
+com.gdgl.smarthome.R$layout
+com.gdgl.smarthome.R$menu
+com.gdgl.smarthome.R$string
+com.gdgl.smarthome.R$style
+com.gdgl.smarthome.R$styleable:
+    5157:5157:public R$styleable()
+com.gdgl.util.AddDlg:
+    public static final int REGION
+    public static final int SCENE
+    public static final int REMOTE_CONTROL
+    public static final java.lang.String ADD
+    public static final java.lang.String Edit
+    196:197:public void hide()
+com.gdgl.util.BitmapUtil
+com.gdgl.util.ComUtil:
+    private static final java.lang.String TAG
+    public static java.io.FileOutputStream fileOutputStream
+    22:22:public ComUtil()
+    32:37:public byte[] intToByte(int)
+    41:45:public int bytesToInt(byte[])
+    49:55:public java.lang.String getByteToString(byte[])
+    60:64:public byte[] getStringToByte(java.lang.String)
+    68:84:public int findHeader(byte[])
+    89:121:public int findPackHead(java.io.DataInputStream)
+    131:146:public static byte[] ObjectToByte(java.lang.Object)
+    181:193:public static void writeToFileFromByte(byte[],java.lang.String)
+    229:229:public static java.lang.String getFilePath()
+com.gdgl.util.CustomDrawable
+com.gdgl.util.CustomDrawable$CustomSharp
+com.gdgl.util.EditDevicesDlg:
+    95:96:public void hide()
+com.gdgl.util.ExpandCollapseAnimation
+com.gdgl.util.HttpUtil
+com.gdgl.util.HttpUtil$MLog
+com.gdgl.util.JoinNetTimeDlg:
+    83:84:public void hide()
+com.gdgl.util.MyDlg:
+    20:20:public MyDlg()
+    61:84:public static android.app.Dialog createOkDialog(android.content.Context,java.lang.String,android.view.View$OnClickListener,android.view.View$OnClickListener)
+com.gdgl.util.MyLogoutDlg:
+    79:80:public void hide()
+com.gdgl.util.MyOKOnlyDlg:
+    65:66:public void hide()
+com.gdgl.util.MyOkCancleDlg:
+    64:65:public void hide()
+com.gdgl.util.MyUpdateGatewayDlg:
+    com.gdgl.util.MyOkCancleDlg$Dialogcallback dialogcallback
+    65:66:public void hide()
+com.gdgl.util.NetUtil:
+    private static final java.lang.String TAG
+com.gdgl.util.SaxForXmlHandler
+com.gdgl.util.ScrollDetectors:
+    35:35:public ScrollDetectors()
+    62:66:public static boolean canScrollVertical(android.view.View,int)
+    208:209:public static void setScrollDetectorFactory(com.gdgl.util.ScrollDetectorFactory)
+com.gdgl.util.ScrollDetectors$HorizontalScrollViewScrollDetector:
+    197:197:public boolean canScrollVertical(android.view.View,int)
+com.gdgl.util.ScrollDetectors$ScrollDetector:
+    public abstract boolean canScrollVertical(android.view.View,int)
+com.gdgl.util.ScrollDetectors$ViewPagerScrollDetector:
+    117:117:public boolean canScrollVertical(android.view.View,int)
+com.gdgl.util.ScrollDetectors$WebViewScrollDetector:
+    164:164:public boolean canScrollVertical(android.view.View,int)
+com.gdgl.util.SelectAddPopupWindow
+com.gdgl.util.SelectAddPopupWindow$1
+com.gdgl.util.SlideMenu:
+    private static final int MAX_DURATION
+    public static final int FLAG_DIRECTION_LEFT
+    public static final int FLAG_DIRECTION_RIGHT
+    public static final int MODE_SLIDE_WINDOW
+    public static final int MODE_SLIDE_CONTENT
+    public static final int STATE_CLOSE
+    public static final int STATE_OPEN_LEFT
+    public static final int STATE_OPEN_RIGHT
+    public static final int STATE_DRAG
+    public static final int STATE_SCROLL
+    public static final int STATE_OPEN_MASK
+    private static final int POSITION_LEFT
+    private static final int POSITION_MIDDLE
+    private static final int POSITION_RIGHT
+    192:195:protected android.graphics.drawable.Drawable getDefaultContentBackground(android.content.Context)
+    433:433:public boolean isEdgeSlideEnable()
+com.gdgl.util.SlideMenu$LayoutParams:
+    public static final int ROLE_CONTENT
+    public static final int ROLE_PRIMARY_MENU
+    public static final int ROLE_SECONDARY_MENU
+    1191:1192:public SlideMenu$LayoutParams(int,int)
+    1195:1197:public SlideMenu$LayoutParams(int,int,int)
+com.gdgl.util.TimeDlg:
+    android.widget.TextView text_name
+    com.gdgl.util.AddDlg$AddDialogcallback mAddDialogcallback
+    71:72:public void setTitle(java.lang.String)
+    75:76:public void setName(java.lang.String)
+    83:84:public void hide()
+    91:92:public void setDialogCallback(com.gdgl.util.AddDlg$AddDialogcallback)
+com.gdgl.util.UiUtils:
+    public static final java.lang.String SharedPreferences_SETTING_INFOS
+    public static final java.lang.String ENABLE_IPC
+    public static final java.lang.String GATEWAY_LATEST_VERSION
+    public static final java.lang.String GATEWAY_CURRENT_VERSION
+    public static final java.lang.String GATEWAY_UPDATE_FIRSTTIME
+    public static final java.lang.String PWD
+    public static final java.lang.String LOGIN_NAME
+    public static final java.lang.String GATEWAY_MAC
+    public static final java.lang.String ALIAS
+    public static final java.lang.String EMAIL_NAME
+    public static final java.lang.String GATE_WAY_AUTH_STATE
+    public static final java.lang.String GATE_WAY_AUTH_EXPIRE
+    public static final java.lang.String IS_REMERBER_PWD
+    public static final java.lang.String IS_AUTO_LOGIN
+    public static final java.lang.String REMOTE_CONTROL
+    public static final java.lang.String KONGTIAO
+    public static final java.lang.String TV
+    public static final java.lang.String REGION
+    public static final java.lang.String SCENE
+    public static final java.lang.String COMMONUSED
+    public static final java.lang.String REGION_FLAG
+    public static final java.lang.String SCENE_FLAG
+    public static final java.lang.String DEVICES_FLAG
+    public static final java.lang.String JOINNETTIME
+    public static final java.lang.String EMPTY_STR
+    public static final java.lang.String REM_PWD_ACT
+    public static final java.lang.String N_REM_PWD_ACT
+    public static final java.lang.String AUTO_LOGIN_ACT
+    public static final java.lang.String UUID
+    public static final int PARLOR
+    public static final int MASTER_BEDROOM
+    public static final int STUDY
+    public static final int KITCHEN
+    public static final int CORRIDOR
+    public static final int BATHROOM
+    public static final int LIGHTS
+    public static final int DIMEN_LIGHTS
+    public static final int SWITCH
+    public static final int CURTAINS
+    public static final int LIGHTS_MANAGER
+    public static final int ELECTRICAL_MANAGER
+    public static final int SECURITY_CONTROL
+    public static final int ENVIRONMENTAL_CONTROL
+    public static final int ENERGY_CONSERVATION
+    public static final int OTHER
+    public static final int SWITCH_DEVICE
+    public static final java.lang.String CLOUD
+    public static final java.lang.String CLOUDLIST
+    public static final java.lang.String USERLIST
+    29:29:public UiUtils()
+    242:260:public static int getSceneItemType(int)
+    313:345:public static android.app.Fragment getDeviceDetailFragment(int)
+    382:389:public static android.widget.Toast getToast(android.content.Context)
+    393:407:public static android.view.animation.LayoutAnimationController getAnimationController(android.content.Context)
+com.gdgl.util.VersionDlg:
+    54:55:public void hide()
+com.gdgl.util.WrapperListAdapterImpl
+com.gdgl.widgets.PagerSlidingTabStrip:
+    498:498:public boolean isTextAllCaps()
+com.google.gson.DefaultDateTypeAdapter
+com.google.gson.FieldAttributes:
+    53:53:public java.lang.Class getDeclaringClass()
+    60:60:public java.lang.String getName()
+    80:80:public java.lang.reflect.Type getDeclaredType()
+    100:100:public java.lang.Class getDeclaredClass()
+    111:111:public java.lang.annotation.Annotation getAnnotation(java.lang.Class)
+    121:121:public java.util.Collection getAnnotations()
+    135:135:public boolean hasModifier(int)
+    146:146:java.lang.Object get(java.lang.Object)
+    155:155:boolean isSynthetic()
+com.google.gson.Gson:
+    static final boolean DEFAULT_JSON_NON_EXECUTABLE
+    private static final java.lang.String JSON_NON_EXECUTABLE_PREFIX
+    462:465:public com.google.gson.JsonElement toJsonTree(java.lang.Object)
+    485:487:public com.google.gson.JsonElement toJsonTree(java.lang.Object,java.lang.reflect.Type)
+    504:507:public java.lang.String toJson(java.lang.Object)
+    526:528:public java.lang.String toJson(java.lang.Object,java.lang.reflect.Type)
+    546:551:public void toJson(java.lang.Object,java.lang.Appendable)
+    571:576:public void toJson(java.lang.Object,java.lang.reflect.Type,java.lang.Appendable)
+    585:601:public void toJson(java.lang.Object,java.lang.reflect.Type,com.google.gson.stream.JsonWriter)
+    611:613:public java.lang.String toJson(com.google.gson.JsonElement)
+    626:631:public void toJson(com.google.gson.JsonElement,java.lang.Appendable)
+    638:646:private com.google.gson.stream.JsonWriter newJsonWriter(java.io.Writer)
+    654:669:public void toJson(com.google.gson.JsonElement,com.google.gson.stream.JsonWriter)
+    740:743:public java.lang.Object fromJson(java.io.Reader,java.lang.Class)
+com.google.gson.Gson$1:
+    126:126:public java.lang.Object deserialize(com.google.gson.JsonElement,java.lang.reflect.Type)
+com.google.gson.Gson$2:
+    132:132:public com.google.gson.JsonElement serialize(java.lang.Object)
+    135:135:public com.google.gson.JsonElement serialize(java.lang.Object,java.lang.reflect.Type)
+com.google.gson.GsonBuilder
+com.google.gson.JsonArray:
+    45:49:com.google.gson.JsonArray deepCopy()
+    70:71:public void addAll(com.google.gson.JsonArray)
+    163:166:public java.math.BigDecimal getAsBigDecimal()
+    180:183:public java.math.BigInteger getAsBigInteger()
+    196:199:public float getAsFloat()
+    236:239:public byte getAsByte()
+    244:247:public char getAsCharacter()
+    260:263:public short getAsShort()
+    33:33:bridge synthetic com.google.gson.JsonElement deepCopy()
+com.google.gson.JsonDeserializationContext:
+    public abstract java.lang.Object deserialize(com.google.gson.JsonElement,java.lang.reflect.Type)
+com.google.gson.JsonDeserializer
+com.google.gson.JsonElement:
+    abstract com.google.gson.JsonElement deepCopy()
+    136:139:public com.google.gson.JsonNull getAsJsonNull()
+    217:217:public float getAsFloat()
+    257:257:public byte getAsByte()
+    271:271:public char getAsCharacter()
+    285:285:public java.math.BigDecimal getAsBigDecimal()
+    299:299:public java.math.BigInteger getAsBigInteger()
+    312:312:public short getAsShort()
+com.google.gson.JsonIOException:
+    private static final long serialVersionUID
+    33:34:public JsonIOException(java.lang.String,java.lang.Throwable)
+com.google.gson.JsonNull:
+    45:45:com.google.gson.JsonNull deepCopy()
+    26:26:bridge synthetic com.google.gson.JsonElement deepCopy()
+com.google.gson.JsonObject:
+    38:42:com.google.gson.JsonObject deepCopy()
+    68:68:public com.google.gson.JsonElement remove(java.lang.String)
+    79:80:public void addProperty(java.lang.String,java.lang.String)
+    90:91:public void addProperty(java.lang.String,java.lang.Number)
+    101:102:public void addProperty(java.lang.String,java.lang.Boolean)
+    112:113:public void addProperty(java.lang.String,java.lang.Character)
+    122:122:private com.google.gson.JsonElement createJsonElement(java.lang.Object)
+    142:142:public boolean has(java.lang.String)
+    162:162:public com.google.gson.JsonPrimitive getAsJsonPrimitive(java.lang.String)
+    182:182:public com.google.gson.JsonObject getAsJsonObject(java.lang.String)
+    32:32:bridge synthetic com.google.gson.JsonElement deepCopy()
+com.google.gson.JsonParseException:
+    static final long serialVersionUID
+com.google.gson.JsonPrimitive:
+    74:76:public JsonPrimitive(java.lang.Character)
+    84:86:JsonPrimitive(java.lang.Object)
+    90:90:com.google.gson.JsonPrimitive deepCopy()
+    204:204:public java.math.BigDecimal getAsBigDecimal()
+    215:215:public java.math.BigInteger getAsBigInteger()
+    227:227:public float getAsFloat()
+    249:249:public short getAsShort()
+    265:265:public byte getAsByte()
+    270:270:public char getAsCharacter()
+    33:33:bridge synthetic com.google.gson.JsonElement deepCopy()
+com.google.gson.JsonSerializationContext:
+    public abstract com.google.gson.JsonElement serialize(java.lang.Object)
+    public abstract com.google.gson.JsonElement serialize(java.lang.Object,java.lang.reflect.Type)
+com.google.gson.JsonSerializer
+com.google.gson.JsonStreamParser
+com.google.gson.JsonSyntaxException:
+    private static final long serialVersionUID
+com.google.gson.LongSerializationPolicy:
+    public abstract com.google.gson.JsonElement serialize(java.lang.Long)
+com.google.gson.LongSerializationPolicy$1:
+    36:36:public com.google.gson.JsonElement serialize(java.lang.Long)
+com.google.gson.LongSerializationPolicy$2:
+    47:47:public com.google.gson.JsonElement serialize(java.lang.Long)
+com.google.gson.TreeTypeAdapter
+com.google.gson.TreeTypeAdapter$1
+com.google.gson.TreeTypeAdapter$SingleTypeFactory
+com.google.gson.TypeAdapter:
+    141:143:public final void toJson(java.io.Writer,java.lang.Object)
+    186:186:public final com.google.gson.TypeAdapter nullSafe()
+    215:217:public final java.lang.String toJson(java.lang.Object)
+    255:256:public final java.lang.Object fromJson(java.io.Reader)
+    269:269:public final java.lang.Object fromJson(java.lang.String)
+    280:283:public final java.lang.Object fromJsonTree(com.google.gson.JsonElement)
+com.google.gson.TypeAdapter$1
+com.google.gson.internal.$Gson$Preconditions:
+    32:32:public $Gson$Preconditions()
+com.google.gson.internal.$Gson$Types:
+    45:45:private $Gson$Types()
+com.google.gson.internal.$Gson$Types$GenericArrayTypeImpl:
+    private static final long serialVersionUID
+com.google.gson.internal.$Gson$Types$ParameterizedTypeImpl:
+    private static final long serialVersionUID
+com.google.gson.internal.$Gson$Types$WildcardTypeImpl:
+    private static final long serialVersionUID
+com.google.gson.internal.Excluder:
+    private static final double IGNORE_VERSIONS
+    70:72:public com.google.gson.internal.Excluder withVersion(double)
+    76:81:public varargs com.google.gson.internal.Excluder withModifiers(int[])
+    85:87:public com.google.gson.internal.Excluder disableInnerClassSerialization()
+    91:93:public com.google.gson.internal.Excluder excludeFieldsWithoutExposeAnnotation()
+    98:108:public com.google.gson.internal.Excluder withExclusionStrategy(com.google.gson.ExclusionStrategy,boolean,boolean)
+com.google.gson.internal.LazilyParsedNumber:
+    76:76:private java.lang.Object writeReplace()
+com.google.gson.internal.LinkedTreeMap:
+    625:625:private java.lang.Object writeReplace()
+com.google.gson.internal.Primitives:
+    32:32:private Primitives()
+    80:80:public static boolean isWrapperType(java.lang.reflect.Type)
+    113:115:public static java.lang.Class unwrap(java.lang.Class)
+com.google.gson.internal.Streams:
+    35:79:public Streams()
+    72:72:public static java.io.Writer writerForAppendable(java.lang.Appendable)
+com.google.gson.internal.Streams$1
+com.google.gson.internal.Streams$AppendableWriter
+com.google.gson.internal.Streams$AppendableWriter$CurrentWrite
+com.google.gson.internal.bind.JsonTreeWriter:
+    163:167:public com.google.gson.stream.JsonWriter value(double)
+com.google.gson.internal.bind.TypeAdapters:
+    58:58:private TypeAdapters()
+    769:769:public static com.google.gson.TypeAdapterFactory newFactory(com.google.gson.reflect.TypeToken,com.google.gson.TypeAdapter)
+com.google.gson.internal.bind.TypeAdapters$23:
+    private static final java.lang.String YEAR
+    private static final java.lang.String MONTH
+    private static final java.lang.String DAY_OF_MONTH
+    private static final java.lang.String HOUR_OF_DAY
+    private static final java.lang.String MINUTE
+    private static final java.lang.String SECOND
+com.google.gson.internal.bind.TypeAdapters$27
+com.google.gson.reflect.TypeToken:
+    112:112:public boolean isAssignableFrom(java.lang.Class)
+    123:140:public boolean isAssignableFrom(java.lang.reflect.Type)
+    153:153:public boolean isAssignableFrom(com.google.gson.reflect.TypeToken)
+    161:178:private static boolean isAssignableFrom(java.lang.reflect.Type,java.lang.reflect.GenericArrayType)
+    188:231:private static boolean isAssignableFrom(java.lang.reflect.Type,java.lang.reflect.ParameterizedType,java.util.Map)
+    240:250:private static boolean typeEquals(java.lang.reflect.ParameterizedType,java.lang.reflect.ParameterizedType,java.util.Map)
+    257:265:private static varargs java.lang.AssertionError buildUnexpectedTypeError(java.lang.reflect.Type,java.lang.Class[])
+    273:273:private static boolean matches(java.lang.reflect.Type,java.lang.reflect.Type,java.util.Map)
+com.google.gson.stream.JsonReader:
+    private static final long MIN_INCOMPLETE_INTEGER
+    private static final int PEEKED_NONE
+    private static final int PEEKED_BEGIN_OBJECT
+    private static final int PEEKED_END_OBJECT
+    private static final int PEEKED_BEGIN_ARRAY
+    private static final int PEEKED_END_ARRAY
+    private static final int PEEKED_TRUE
+    private static final int PEEKED_FALSE
+    private static final int PEEKED_NULL
+    private static final int PEEKED_SINGLE_QUOTED
+    private static final int PEEKED_DOUBLE_QUOTED
+    private static final int PEEKED_UNQUOTED
+    private static final int PEEKED_BUFFERED
+    private static final int PEEKED_SINGLE_QUOTED_NAME
+    private static final int PEEKED_DOUBLE_QUOTED_NAME
+    private static final int PEEKED_UNQUOTED_NAME
+    private static final int PEEKED_LONG
+    private static final int PEEKED_NUMBER
+    private static final int PEEKED_EOF
+    private static final int NUMBER_CHAR_NONE
+    private static final int NUMBER_CHAR_SIGN
+    private static final int NUMBER_CHAR_DIGIT
+    private static final int NUMBER_CHAR_DECIMAL
+    private static final int NUMBER_CHAR_FRACTION_DIGIT
+    private static final int NUMBER_CHAR_EXP_E
+    private static final int NUMBER_CHAR_EXP_SIGN
+    private static final int NUMBER_CHAR_EXP_DIGIT
+com.google.gson.stream.JsonScope
+com.google.gson.stream.JsonWriter:
+    213:220:public final void setIndent(java.lang.String)
+    253:254:public final void setHtmlSafe(boolean)
+    261:261:public final boolean isHtmlSafe()
+    269:270:public final void setSerializeNulls(boolean)
+    462:468:public com.google.gson.stream.JsonWriter value(double)
+com.google.gson.stream.MalformedJsonException:
+    private static final long serialVersionUID
+    33:37:public MalformedJsonException(java.lang.String,java.lang.Throwable)
+    39:43:public MalformedJsonException(java.lang.Throwable)
+com.handmark.pulltorefresh.library.ILoadingLayout:
+    public abstract void setTextTypeface(android.graphics.Typeface)
+com.handmark.pulltorefresh.library.IPullToRefresh
+com.handmark.pulltorefresh.library.LoadingLayoutProxy:
+    69:72:public void setTextTypeface(android.graphics.Typeface)
+com.handmark.pulltorefresh.library.OverscrollHelper:
+    static final java.lang.String LOG_TAG
+    static final float DEFAULT_OVERSCROLL_SCALE
+    26:26:public OverscrollHelper()
+com.handmark.pulltorefresh.library.PullToRefreshBase:
+    static final boolean DEBUG
+    static final boolean USE_HW_LAYERS
+    static final java.lang.String LOG_TAG
+    static final float FRICTION
+    public static final int SMOOTH_SCROLL_DURATION_MS
+    public static final int SMOOTH_SCROLL_LONG_DURATION_MS
+    static final int DEMO_SCROLL_INTERVAL
+    static final java.lang.String STATE_STATE
+    static final java.lang.String STATE_MODE
+    static final java.lang.String STATE_CURRENT_MODE
+    static final java.lang.String STATE_SCROLLING_REFRESHING_ENABLED
+    static final java.lang.String STATE_SHOW_REFRESHING_VIEW
+    static final java.lang.String STATE_SUPER
+    146:154:public final boolean demo()
+    201:201:public final boolean isDisableScrollingWhileRefreshing()
+    222:222:public final boolean isScrollingWhileRefreshingEnabled()
+    1016:1017:protected final void smoothScrollToLonger(int)
+    1280:1287:private final void smoothScrollToAndBack(int)
+    1654:1654:public boolean isHeaderShown()
+    1658:1658:public boolean isFooterShown()
+    1247:1247:static synthetic void access$5(com.handmark.pulltorefresh.library.PullToRefreshBase,int,long,long,com.handmark.pulltorefresh.library.PullToRefreshBase$OnSmoothScrollFinishedListener)
+com.handmark.pulltorefresh.library.PullToRefreshBase$3
+com.handmark.pulltorefresh.library.PullToRefreshHorizontalScrollView:
+    37:38:public PullToRefreshHorizontalScrollView(android.content.Context,com.handmark.pulltorefresh.library.PullToRefreshBase$Mode)
+    41:42:public PullToRefreshHorizontalScrollView(android.content.Context,com.handmark.pulltorefresh.library.PullToRefreshBase$Mode,com.handmark.pulltorefresh.library.PullToRefreshBase$AnimationStyle)
+com.handmark.pulltorefresh.library.PullToRefreshScrollView:
+    37:38:public PullToRefreshScrollView(android.content.Context,com.handmark.pulltorefresh.library.PullToRefreshBase$Mode)
+    41:42:public PullToRefreshScrollView(android.content.Context,com.handmark.pulltorefresh.library.PullToRefreshBase$Mode,com.handmark.pulltorefresh.library.PullToRefreshBase$AnimationStyle)
+com.handmark.pulltorefresh.library.R:
+    9:9:public R()
+com.handmark.pulltorefresh.library.R$anim:
+    10:10:public R$anim()
+com.handmark.pulltorefresh.library.R$attr
+com.handmark.pulltorefresh.library.R$dimen:
+    37:37:public R$dimen()
+com.handmark.pulltorefresh.library.R$drawable:
+    44:44:public R$drawable()
+com.handmark.pulltorefresh.library.R$id:
+    51:51:public R$id()
+com.handmark.pulltorefresh.library.R$layout:
+    70:70:public R$layout()
+com.handmark.pulltorefresh.library.R$string:
+    74:74:public R$string()
+com.handmark.pulltorefresh.library.R$styleable:
+    82:82:public R$styleable()
+com.handmark.pulltorefresh.library.extras.SoundPullEventListener
+com.handmark.pulltorefresh.library.internal.EmptyViewMethodAccessor:
+    public abstract void setEmptyView(android.view.View)
+com.handmark.pulltorefresh.library.internal.FlipLoadingLayout:
+    static final int FLIP_ANIMATION_DURATION
+com.handmark.pulltorefresh.library.internal.IndicatorLayout:
+    static final int DEFAULT_ROTATION_ANIMATION_DURATION
+com.handmark.pulltorefresh.library.internal.LoadingLayout:
+    static final java.lang.String LOG_TAG
+com.handmark.pulltorefresh.library.internal.RotateLoadingLayout:
+    static final int ROTATION_ANIMATION_DURATION
+com.handmark.pulltorefresh.library.internal.Utils:
+    static final java.lang.String LOG_TAG
+    5:5:public Utils()
+com.handmark.pulltorefresh.library.internal.ViewCompat:
+    25:25:public ViewCompat()
+    44:47:public static void setLayerType(android.view.View,int)
+com.handmark.pulltorefresh.library.internal.ViewCompat$SDK11
+com.handmark.pulltorefresh.library.internal.ViewCompat$SDK16:
+    58:58:ViewCompat$SDK16()
+com.nineoldandroids.animation.Animator:
+    72:72:public void end()
+    public abstract long getStartDelay()
+    public abstract void setStartDelay(long)
+    public abstract com.nineoldandroids.animation.Animator setDuration(long)
+    public abstract long getDuration()
+    public abstract void setInterpolator(android.view.animation.Interpolator)
+    public abstract boolean isRunning()
+    135:135:public boolean isStarted()
+    158:165:public void removeListener(com.nineoldandroids.animation.Animator$AnimatorListener)
+    174:174:public java.util.ArrayList getListeners()
+    183:187:public void removeAllListeners()
+    217:217:public void setupStartValues()
+    229:229:public void setupEndValues()
+    240:240:public void setTarget(java.lang.Object)
+com.nineoldandroids.animation.AnimatorInflater
+com.nineoldandroids.animation.AnimatorListenerAdapter
+com.nineoldandroids.animation.AnimatorSet
+com.nineoldandroids.animation.AnimatorSet$1
+com.nineoldandroids.animation.AnimatorSet$AnimatorSetListener
+com.nineoldandroids.animation.AnimatorSet$Builder
+com.nineoldandroids.animation.AnimatorSet$Dependency
+com.nineoldandroids.animation.AnimatorSet$DependencyListener
+com.nineoldandroids.animation.AnimatorSet$Node
+com.nineoldandroids.animation.ArgbEvaluator
+com.nineoldandroids.animation.IntKeyframeSet
+com.nineoldandroids.animation.Keyframe:
+    76:76:public static com.nineoldandroids.animation.Keyframe ofInt(float,int)
+    92:92:public static com.nineoldandroids.animation.Keyframe ofInt(float)
+    140:140:public static com.nineoldandroids.animation.Keyframe ofObject(float,java.lang.Object)
+    156:156:public static com.nineoldandroids.animation.Keyframe ofObject(float)
+    201:202:public void setFraction(float)
+    232:232:public java.lang.Class getType()
+com.nineoldandroids.animation.Keyframe$IntKeyframe
+com.nineoldandroids.animation.Keyframe$ObjectKeyframe
+com.nineoldandroids.animation.KeyframeSet:
+    54:65:public static varargs com.nineoldandroids.animation.KeyframeSet ofInt(int[])
+    85:111:public static varargs com.nineoldandroids.animation.KeyframeSet ofKeyframe(com.nineoldandroids.animation.Keyframe[])
+    116:127:public static varargs com.nineoldandroids.animation.KeyframeSet ofObject(java.lang.Object[])
+com.nineoldandroids.animation.ObjectAnimator:
+    private static final boolean DBG
+    142:142:public java.lang.String getPropertyName()
+    173:176:private ObjectAnimator(java.lang.Object,com.nineoldandroids.util.Property)
+    193:195:public static varargs com.nineoldandroids.animation.ObjectAnimator ofInt(java.lang.Object,java.lang.String,int[])
+    211:213:public static varargs com.nineoldandroids.animation.ObjectAnimator ofInt(java.lang.Object,com.nineoldandroids.util.Property,int[])
+    250:252:public static varargs com.nineoldandroids.animation.ObjectAnimator ofFloat(java.lang.Object,com.nineoldandroids.util.Property,float[])
+    274:277:public static varargs com.nineoldandroids.animation.ObjectAnimator ofObject(java.lang.Object,java.lang.String,com.nineoldandroids.animation.TypeEvaluator,java.lang.Object[])
+    297:300:public static varargs com.nineoldandroids.animation.ObjectAnimator ofObject(java.lang.Object,com.nineoldandroids.util.Property,com.nineoldandroids.animation.TypeEvaluator,java.lang.Object[])
+    322:325:public static varargs com.nineoldandroids.animation.ObjectAnimator ofPropertyValuesHolder(java.lang.Object,com.nineoldandroids.animation.PropertyValuesHolder[])
+    330:341:public varargs void setIntValues(int[])
+    360:371:public varargs void setObjectValues(java.lang.Object[])
+    438:438:public java.lang.Object getTarget()
+    448:457:public void setTarget(java.lang.Object)
+    461:466:public void setupStartValues()
+    470:475:public void setupEndValues()
+    39:39:public bridge synthetic com.nineoldandroids.animation.Animator setDuration(long)
+com.nineoldandroids.animation.PreHoneycombCompat:
+    167:167:private PreHoneycombCompat()
+com.nineoldandroids.animation.PreHoneycombCompat$11:
+    123:124:public void setValue(android.view.View,int)
+    120:120:public bridge synthetic void setValue(java.lang.Object,int)
+com.nineoldandroids.animation.PreHoneycombCompat$12:
+    134:135:public void setValue(android.view.View,int)
+    131:131:public bridge synthetic void setValue(java.lang.Object,int)
+com.nineoldandroids.animation.PropertyValuesHolder:
+    154:154:public static varargs com.nineoldandroids.animation.PropertyValuesHolder ofInt(java.lang.String,int[])
+    165:165:public static varargs com.nineoldandroids.animation.PropertyValuesHolder ofInt(com.nineoldandroids.util.Property,int[])
+    204:207:public static varargs com.nineoldandroids.animation.PropertyValuesHolder ofObject(java.lang.String,com.nineoldandroids.animation.TypeEvaluator,java.lang.Object[])
+    224:227:public static varargs com.nineoldandroids.animation.PropertyValuesHolder ofObject(com.nineoldandroids.util.Property,com.nineoldandroids.animation.TypeEvaluator,java.lang.Object[])
+    250:260:public static varargs com.nineoldandroids.animation.PropertyValuesHolder ofKeyframe(java.lang.String,com.nineoldandroids.animation.Keyframe[])
+    281:291:public static varargs com.nineoldandroids.animation.PropertyValuesHolder ofKeyframe(com.nineoldandroids.util.Property,com.nineoldandroids.animation.Keyframe[])
+    309:311:public varargs void setIntValues(int[])
+    337:344:public varargs void setKeyframes(com.nineoldandroids.animation.Keyframe[])
+    360:362:public varargs void setObjectValues(java.lang.Object[])
+    551:565:private void setupValue(java.lang.Object,com.nineoldandroids.animation.Keyframe)
+    576:577:void setupStartValue(java.lang.Object)
+    588:589:void setupEndValue(java.lang.Object)
+    659:661:public void setEvaluator(com.nineoldandroids.animation.TypeEvaluator)
+com.nineoldandroids.animation.PropertyValuesHolder$FloatPropertyValuesHolder:
+    901:905:public PropertyValuesHolder$FloatPropertyValuesHolder(java.lang.String,com.nineoldandroids.animation.FloatKeyframeSet)
+    908:915:public PropertyValuesHolder$FloatPropertyValuesHolder(com.nineoldandroids.util.Property,com.nineoldandroids.animation.FloatKeyframeSet)
+com.nineoldandroids.animation.PropertyValuesHolder$IntPropertyValuesHolder
+com.nineoldandroids.animation.TimeAnimator
+com.nineoldandroids.animation.TimeAnimator$TimeListener
+com.nineoldandroids.animation.ValueAnimator:
+    private static final long DEFAULT_FRAME_DELAY
+    static final int ANIMATION_START
+    static final int ANIMATION_FRAME
+    static final int STOPPED
+    static final int RUNNING
+    static final int SEEKED
+    public static final int RESTART
+    public static final int REVERSE
+    public static final int INFINITE
+    298:300:public static varargs com.nineoldandroids.animation.ValueAnimator ofInt(int[])
+    315:317:public static varargs com.nineoldandroids.animation.ValueAnimator ofFloat(float[])
+    329:331:public static varargs com.nineoldandroids.animation.ValueAnimator ofPropertyValuesHolder(com.nineoldandroids.animation.PropertyValuesHolder[])
+    352:355:public static varargs com.nineoldandroids.animation.ValueAnimator ofObject(com.nineoldandroids.animation.TypeEvaluator,java.lang.Object[])
+    373:384:public varargs void setIntValues(int[])
+    433:445:public varargs void setObjectValues(java.lang.Object[])
+    476:476:public com.nineoldandroids.animation.PropertyValuesHolder[] getValues()
+    524:524:public long getDuration()
+    692:692:public long getStartDelay()
+    702:703:public void setStartDelay(long)
+    715:715:public static long getFrameDelay()
+    728:729:public static void setFrameDelay(long)
+    744:748:public java.lang.Object getAnimatedValue()
+    762:767:public java.lang.Object getAnimatedValue(java.lang.String)
+    780:781:public void setRepeatCount(int)
+    789:789:public int getRepeatCount()
+    800:801:public void setRepeatMode(int)
+    809:809:public int getRepeatMode()
+    820:824:public void addUpdateListener(com.nineoldandroids.animation.ValueAnimator$AnimatorUpdateListener)
+    830:835:public void removeAllUpdateListeners()
+    844:851:public void removeUpdateListener(com.nineoldandroids.animation.ValueAnimator$AnimatorUpdateListener)
+    878:878:public android.view.animation.Interpolator getInterpolator()
+    898:901:public void setEvaluator(com.nineoldandroids.animation.TypeEvaluator)
+    974:989:public void end()
+    993:993:public boolean isRunning()
+    998:998:public boolean isStarted()
+    1009:1018:public void reverse()
+    1153:1153:public float getAnimatedFraction()
+    1239:1239:public static int getCurrentAnimationsCount()
+    1249:1252:public static void clearAllAnimations()
+    43:43:public bridge synthetic com.nineoldandroids.animation.Animator setDuration(long)
+com.nineoldandroids.util.IntProperty:
+    public abstract void setValue(java.lang.Object,int)
+com.nineoldandroids.util.NoSuchPropertyException
+com.nineoldandroids.util.Property:
+    55:55:public static com.nineoldandroids.util.Property of(java.lang.Class,java.lang.Class,java.lang.String)
+    76:76:public boolean isReadOnly()
+    104:104:public java.lang.Class getType()
+com.nineoldandroids.util.ReflectiveProperty
+com.nineoldandroids.view.ViewHelper:
+    9:9:private ViewHelper()
+    12:12:public static float getAlpha(android.view.View)
+    16:21:public static void setAlpha(android.view.View,float)
+    24:24:public static float getPivotX(android.view.View)
+    28:33:public static void setPivotX(android.view.View,float)
+    36:36:public static float getPivotY(android.view.View)
+    40:45:public static void setPivotY(android.view.View,float)
+    48:48:public static float getRotation(android.view.View)
+    52:57:public static void setRotation(android.view.View,float)
+    60:60:public static float getRotationX(android.view.View)
+    64:69:public static void setRotationX(android.view.View,float)
+    72:72:public static float getRotationY(android.view.View)
+    76:81:public static void setRotationY(android.view.View,float)
+    84:84:public static float getScaleX(android.view.View)
+    88:93:public static void setScaleX(android.view.View,float)
+    96:96:public static float getScaleY(android.view.View)
+    100:105:public static void setScaleY(android.view.View,float)
+    108:108:public static float getScrollX(android.view.View)
+    112:117:public static void setScrollX(android.view.View,int)
+    120:120:public static float getScrollY(android.view.View)
+    124:129:public static void setScrollY(android.view.View,int)
+    132:132:public static float getTranslationX(android.view.View)
+    136:141:public static void setTranslationX(android.view.View,float)
+    144:144:public static float getTranslationY(android.view.View)
+    148:153:public static void setTranslationY(android.view.View,float)
+com.nineoldandroids.view.ViewHelper$Honeycomb:
+    179:179:private ViewHelper$Honeycomb()
+    181:181:static float getAlpha(android.view.View)
+    185:186:static void setAlpha(android.view.View,float)
+    189:189:static float getPivotX(android.view.View)
+    193:194:static void setPivotX(android.view.View,float)
+    197:197:static float getPivotY(android.view.View)
+    201:202:static void setPivotY(android.view.View,float)
+    205:205:static float getRotation(android.view.View)
+    209:210:static void setRotation(android.view.View,float)
+    213:213:static float getRotationX(android.view.View)
+    217:218:static void setRotationX(android.view.View,float)
+    221:221:static float getRotationY(android.view.View)
+    225:226:static void setRotationY(android.view.View,float)
+    229:229:static float getScaleX(android.view.View)
+    233:234:static void setScaleX(android.view.View,float)
+    237:237:static float getScaleY(android.view.View)
+    241:242:static void setScaleY(android.view.View,float)
+    245:245:static float getScrollX(android.view.View)
+    249:250:static void setScrollX(android.view.View,int)
+    253:253:static float getScrollY(android.view.View)
+    257:258:static void setScrollY(android.view.View,int)
+    261:261:static float getTranslationX(android.view.View)
+    265:266:static void setTranslationX(android.view.View,float)
+    269:269:static float getTranslationY(android.view.View)
+    273:274:static void setTranslationY(android.view.View,float)
+com.nineoldandroids.view.ViewPropertyAnimator
+com.nineoldandroids.view.ViewPropertyAnimatorHC
+com.nineoldandroids.view.ViewPropertyAnimatorHC$1
+com.nineoldandroids.view.ViewPropertyAnimatorHC$AnimatorEventListener
+com.nineoldandroids.view.ViewPropertyAnimatorHC$NameValuesHolder
+com.nineoldandroids.view.ViewPropertyAnimatorHC$PropertyBundle
+com.nineoldandroids.view.ViewPropertyAnimatorICS
+com.nineoldandroids.view.ViewPropertyAnimatorICS$1
+com.nineoldandroids.view.ViewPropertyAnimatorPreHC
+com.nineoldandroids.view.ViewPropertyAnimatorPreHC$1
+com.nineoldandroids.view.ViewPropertyAnimatorPreHC$AnimatorEventListener
+com.nineoldandroids.view.ViewPropertyAnimatorPreHC$NameValuesHolder
+com.nineoldandroids.view.ViewPropertyAnimatorPreHC$PropertyBundle
+com.nineoldandroids.view.animation.AnimatorProxy:
+    163:167:public void setScrollX(int)
+    176:180:public void setScrollY(int)
+com.tencent.weibo.api.BasicAPI
+com.tencent.weibo.api.FriendsAPI
+com.tencent.weibo.api.InfoAPI
+com.tencent.weibo.api.PrivateAPI
+com.tencent.weibo.api.RequestAPI
+com.tencent.weibo.api.SearchAPI
+com.tencent.weibo.api.StatusesAPI
+com.tencent.weibo.api.TAPI
+com.tencent.weibo.api.UserAPI
+com.tencent.weibo.beans.OAuth:
+    private static final long serialVersionUID
+    32:38:public java.util.List getCommonParamsList()
+    46:51:public java.lang.String generateSeqId()
+    56:56:public java.lang.String getSeqId()
+    61:62:public void setSeqId(java.lang.String)
+    66:66:public java.lang.String getClientIP()
+    71:72:public void setClientIP(java.lang.String)
+    76:76:public java.lang.String getAppFrom()
+    82:83:public void setAppFrom(java.lang.String)
+    87:87:public java.lang.String getOpenid()
+    97:97:public java.lang.String getOpenkey()
+    107:107:public java.lang.String getOauthVersion()
+    113:114:public void setOauthVersion(java.lang.String)
+    118:118:public java.lang.String getScope()
+    123:124:public void setScope(java.lang.String)
+    133:133:public int getStatus()
+    148:148:public java.lang.String getMsg()
+com.tencent.weibo.beans.RouteCfg
+com.tencent.weibo.constants.APIConstants
+com.tencent.weibo.constants.ErrorCodeConstants:
+    8:8:public ErrorCodeConstants()
+com.tencent.weibo.constants.MyErrorCodeHashMap:
+    private static final long serialVersionUID
+com.tencent.weibo.constants.OAuthConstants
+com.tencent.weibo.exceptions.OAuthClientException
+com.tencent.weibo.exceptions.QweibosdkException
+com.tencent.weibo.oauthv1.Base64Encoder
+com.tencent.weibo.oauthv1.OAuthV1:
+    private static final long serialVersionUID
+    41:44:public OAuthV1(java.lang.String)
+    54:59:public OAuthV1(java.lang.String,java.lang.String,java.lang.String)
+    67:67:private java.lang.String generateTimeStamp()
+    76:81:private java.lang.String generateNonce()
+    85:94:public java.util.List getParamsList()
+    98:100:public java.util.List getAccessParams()
+    104:113:public java.util.List getTokenParamsList()
+    118:118:public java.lang.String getOauthConsumerKey()
+    123:124:public void setOauthConsumerKey(java.lang.String)
+    128:128:public java.lang.String getOauthSignatureMethod()
+    133:134:public void setOauthSignatureMethod(java.lang.String)
+    138:138:public java.lang.String getOauthConsumerSecret()
+    143:144:public void setOauthConsumerSecret(java.lang.String)
+    153:154:public void setOauthToken(java.lang.String)
+    158:158:public java.lang.String getOauthTimestamp()
+    163:164:public void setOauthTimestamp(java.lang.String)
+    168:168:public java.lang.String getOauthNonce()
+    173:174:public void setOauthNonce(java.lang.String)
+    178:178:public java.lang.String getOauthCallback()
+    183:184:public void setOauthCallback(java.lang.String)
+    188:188:public java.lang.String getOauthTokenSecret()
+    193:194:public void setOauthTokenSecret(java.lang.String)
+    198:198:public java.lang.String getOauthVerifier()
+com.tencent.weibo.oauthv1.OAuthV1Client
+com.tencent.weibo.oauthv1.OAuthV1Client$1
+com.tencent.weibo.oauthv1.OAuthV1Request
+com.tencent.weibo.oauthv2.OAuthV2:
+    private static final long serialVersionUID
+    41:44:public OAuthV2(java.lang.String)
+    52:57:public OAuthV2(java.lang.String,java.lang.String,java.lang.String)
+    70:76:public java.util.List getAccessTokenByCodeParamsList()
+    84:91:public java.util.List getTokenParamsList()
+    96:96:public java.lang.String getRedirectUri()
+    101:102:public void setRedirectUri(java.lang.String)
+    106:106:public java.lang.String getClientId()
+    111:112:public void setClientId(java.lang.String)
+    116:116:public java.lang.String getResponeType()
+    121:121:public java.lang.String getClientSecret()
+    126:127:public void setClientSecret(java.lang.String)
+    136:136:public java.lang.String getType()
+    141:142:public void setType(java.lang.String)
+    146:146:public java.lang.String getAuthorizeCode()
+    151:152:public void setAuthorizeCode(java.lang.String)
+    155:155:public java.lang.String getAccessToken()
+    164:164:public java.lang.String getExpiresIn()
+    174:174:public java.lang.String getGrantType()
+    179:180:public void setGrantType(java.lang.String)
+    184:184:public java.lang.String getRefreshToken()
+    189:190:public void setRefreshToken(java.lang.String)
+com.tencent.weibo.oauthv2.OAuthV2Client:
+    21:22:private OAuthV2Client()
+    32:39:public static java.lang.String generateAuthorizationURL(com.tencent.weibo.oauthv2.OAuthV2)
+    51:59:public static boolean setAuthorization(java.lang.String,java.lang.String,java.lang.String,com.tencent.weibo.oauthv2.OAuthV2)
+    70:106:public static boolean parseAuthorization(java.lang.String,com.tencent.weibo.oauthv2.OAuthV2)
+    117:135:public static boolean accessToken(com.tencent.weibo.oauthv2.OAuthV2)
+    165:193:public static boolean parseAccessToken(java.lang.String,com.tencent.weibo.oauthv2.OAuthV2)
+    252:252:public static com.tencent.weibo.utils.QHttpClient getQHttpClient()
+    256:257:public static void setQHttpClient(com.tencent.weibo.utils.QHttpClient)
+com.tencent.weibo.oauthv2.OAuthV2Request
+com.tencent.weibo.utils.QArrayList
+com.tencent.weibo.utils.QHttpClient:
+    public static final int CONNECTION_TIMEOUT
+    public static final int CON_TIME_OUT_MS
+    public static final int SO_TIME_OUT_MS
+    public static final int MAX_CONNECTIONS_PER_HOST
+    public static final int MAX_TOTAL_CONNECTIONS
+    107:127:public java.lang.String httpGet(java.lang.String,java.lang.String)
+    139:167:public java.lang.String httpPost(java.lang.String,java.lang.String)
+    181:228:public java.lang.String httpPostWithFile(java.lang.String,java.lang.String,java.util.List)
+    236:240:public void shutdownConnection()
+com.tencent.weibo.utils.QStrOperate:
+    19:20:private QStrOperate()
+    58:85:public static java.lang.String ParamDecode(java.lang.String)
+    95:114:public static java.util.List getQueryParamsList(java.lang.String)
+    141:178:public static java.lang.String getTimeState(java.lang.String)
+com.tencent.weibo.webview.OAuthV1AuthorizeWebView:
+    public static final int RESULT_CODE
+    private static final java.lang.String TAG
+com.tencent.weibo.webview.OAuthV2AuthorizeWebView:
+    public static final int RESULT_CODE
+    private static final java.lang.String TAG
+com.testin.agent.TestinAgent:
+    private static final int CRASH_TYPE_JAVA
+    public TestinAgent()
+    public static void init(android.content.Context)
+    public static void init(android.content.Context,java.lang.String)
+    public static void setUserInfo(java.lang.String)
+    public static synchronized void uploadException(android.content.Context,java.lang.String,java.lang.Throwable)
+    public static synchronized void reportCustomizedException(int,java.lang.String,java.lang.String)
+    private static java.lang.String getStackTraceInfo(java.lang.Throwable)
+com.testin.agent.b.b
+com.testin.agent.b.c
+com.testin.agent.b.f:
+    public static void a(android.content.Context,int,java.lang.String,java.lang.String)
+com.testin.agent.f.a:
+    public static void a(java.io.File,java.io.File)
+com.testin.agent.nativecrash.NativeCrash:
+    public boolean initNativeCrash(java.lang.String)
+    public void notifyNativeCrashed(java.lang.String)
+    static synthetic void access$0(com.testin.agent.nativecrash.NativeCrash,boolean)
+com.testin.agent.nativecrash.a
+com.testin.agent.nativecrash.b:
+    public static void b(java.lang.String)
+    public static void c(java.lang.String)
+    private static com.testin.agent.c.a a(int,java.lang.String)
+    private static void d(java.lang.String)
+    public static void a(java.lang.String,com.testin.agent.c.a)
+    private static java.lang.String e(java.lang.String)
+h264.com.Network:
+    private static final java.lang.String TAG
+    public static java.util.Timer timer
+    25:25:public Network()
+    35:47:public static void recieveVideoFromUdp()
+    64:64:public static void sendUdpMsg(java.lang.String)
+    67:69:public static void setIPMessage(java.lang.String,int)
+    100:109:public static void closeVideoSocket()
+h264.com.VView:
+    private static final java.lang.String TAG
+    512:513:public static int px2dip(android.content.Context,float)
+h264.com.VideoActivity:
+    private static final java.lang.String TAG
+    android.view.Display display
+    android.widget.Button addButton
+h264.com.VideoInfoDialog:
+    android.widget.LinearLayout devices_region
+    public static final int Add
+    public static final int Edit
+    139:140:public void setType(java.lang.String)
+    147:148:public void hide()
+org.apache.http.entity.mime.FormBodyPart
+org.apache.http.entity.mime.Header
+org.apache.http.entity.mime.HttpMultipart
+org.apache.http.entity.mime.HttpMultipart$1
+org.apache.http.entity.mime.HttpMultipartMode
+org.apache.http.entity.mime.MIME
+org.apache.http.entity.mime.MinimalField
+org.apache.http.entity.mime.MultipartEntity
+org.apache.http.entity.mime.content.AbstractContentBody
+org.apache.http.entity.mime.content.ByteArrayBody
+org.apache.http.entity.mime.content.ContentBody
+org.apache.http.entity.mime.content.ContentDescriptor
+org.apache.http.entity.mime.content.FileBody
+org.apache.http.entity.mime.content.InputStreamBody
+org.apache.http.entity.mime.content.StringBody
+snippet.Snippet
+video_decoder.H264:
+    public native int avcodec_find_decoder(int)
