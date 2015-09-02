@@ -26,7 +26,7 @@ public class VersionDlg {
 		versionText=(TextView)dialog.findViewById(R.id.txt_version);
 		try {
 			PackageInfo pi=context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-			versionText.setText(pi.versionName); 
+			versionText.setText("V" + pi.versionName); 
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
