@@ -21,6 +21,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -52,15 +53,17 @@ public class LinkageDetailFragment extends Fragment implements ChangeFragment,
 	TextView devices_txt, act_txt, tem_hum_label;// tem_hum_label====温湿度符号===
 	View devices_choice_lay, act_choice_lay, devices_notype_lay,
 			act_notype_lay, devices_temp_lay, devices_trg_lay, act_onoff_lay,
-			act_photo_lay, tem_hum_btn_lay;
+			act_photo_lay, tem_hum_btn_lay,picture_count_lay;
 	// tem_hum_btn_lay====温湿度选择按钮布局=====王晓飞
 	Button devices_bt_btn, devices_eq_btn, devices_lt_btn, devices_trg_btn,
-			act_on_btn, act_off_btn, act_photo_btn,act_record_btn, tem_btn, hum_btn;// tem_btn,hum_btn温湿度按钮
+			act_on_btn, act_off_btn, act_photo_btn,act_record_btn, tem_btn, hum_btn,// tem_btn,hum_btn温湿度按钮
+			picture_one_btn,picture_three_btn,picture_five_btn;
 	EditText devices_data_edit;
 
 	int onoff = 0;
 	int photo_record = 0;// =========0：拍照，1：录像
 	int temp = 0;
+	int picture_count = 1,record_time = 3;
 	private Linkage mLinkage;
 	private int linkage_type;
 
@@ -95,6 +98,7 @@ public class LinkageDetailFragment extends Fragment implements ChangeFragment,
 		tem_hum_label = (TextView) mView.findViewById(R.id.tem_hum_label);// 温湿度符号=====王
 		devices_txt = (TextView) mView.findViewById(R.id.devices_txt);
 		act_txt = (TextView) mView.findViewById(R.id.act_txt);
+		picture_count_lay = (View) mView.findViewById(R.id.picture_count_lay);
 		tem_hum_btn_lay = (View) mView.findViewById(R.id.tem_hum_btn_lay);// ===温湿度布局===王
 		devices_choice_lay = (View) mView.findViewById(R.id.devices_choice_lay);
 		act_choice_lay = (View) mView.findViewById(R.id.act_choice_lay);
@@ -104,6 +108,9 @@ public class LinkageDetailFragment extends Fragment implements ChangeFragment,
 		devices_trg_lay = (View) mView.findViewById(R.id.devices_trg_lay);
 		act_onoff_lay = (View) mView.findViewById(R.id.act_onoff_lay);
 		act_photo_lay = (View) mView.findViewById(R.id.act_photo_lay);
+		picture_one_btn = (Button) mView.findViewById(R.id.picture_one_btn);
+		picture_three_btn = (Button) mView.findViewById(R.id.picture_three_btn);
+		picture_five_btn = (Button) mView.findViewById(R.id.picture_five_btn);
 		tem_btn = (Button) mView.findViewById(R.id.tem_btn);// ===温度按钮====王
 		hum_btn = (Button) mView.findViewById(R.id.hum_btn);// ===温度按钮====王
 		devices_bt_btn = (Button) mView.findViewById(R.id.devices_bt_btn);
@@ -279,6 +286,11 @@ public class LinkageDetailFragment extends Fragment implements ChangeFragment,
 								.setBackgroundResource(R.drawable.ui2_linkage_button_press);
 						act_record_btn
 								.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
+						picture_count_lay.setVisibility(View.VISIBLE);
+						picture_one_btn.setText("1张");//==
+						picture_three_btn.setText("3张");//==
+						picture_five_btn.setText("5张");//==
+						//record_time_lay.setVisibility(View.GONE);
 					}
 				});
 		act_record_btn.setOnClickListener(new OnClickListener() {// ====录像
@@ -291,6 +303,11 @@ public class LinkageDetailFragment extends Fragment implements ChangeFragment,
 								.setBackgroundResource(R.drawable.ui2_linkage_button_press);
 						act_photo_btn
 								.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
+						picture_count_lay.setVisibility(View.VISIBLE);
+						picture_one_btn.setText("3秒");//==
+						picture_three_btn.setText("5秒");//==
+						picture_five_btn.setText("7秒");//==
+						//record_time_lay.setVisibility(View.VISIBLE);
 					}
 				});
 		act_on_btn.setOnClickListener(new OnClickListener() {
@@ -317,6 +334,65 @@ public class LinkageDetailFragment extends Fragment implements ChangeFragment,
 						.setBackgroundResource(R.drawable.ui2_linkage_button_press);
 			}
 		});
+		picture_one_btn.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				
+				//picture_count = 1;
+				picture_three_btn
+						.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
+				picture_five_btn
+						.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
+				picture_one_btn
+						.setBackgroundResource(R.drawable.ui2_linkage_button_press);
+				if (photo_record == 0) {
+					picture_count = 1;
+				} else {
+					record_time = 3;
+				}
+			}
+		});
+		picture_three_btn.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				//picture_count = 3;
+				picture_one_btn
+						.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
+				picture_five_btn
+						.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
+				picture_three_btn
+						.setBackgroundResource(R.drawable.ui2_linkage_button_press);
+				if (photo_record == 0) {
+					picture_count = 3;
+				} else {
+					record_time = 5;
+				}
+			}
+		});
+		picture_five_btn.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				//picture_count = 5;
+				picture_three_btn
+						.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
+				picture_one_btn
+						.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
+				picture_five_btn
+						.setBackgroundResource(R.drawable.ui2_linkage_button_press);
+				if (photo_record == 0) {
+					picture_count = 5;
+				} else {
+					record_time = 7;
+				}
+			}
+		});
+		
 	}
 
 	public void setLinkage(Linkage mLinkage) {
@@ -380,9 +456,9 @@ public class LinkageDetailFragment extends Fragment implements ChangeFragment,
 		if (actDevices.getmDevicePriority() == 1000) {
 			//lnkact = "4:" + actDevices.getID() + "-1";
 			if (photo_record ==0){
-				lnkact = "4:" + actDevices.getID() + "-1";//===拍照一次
+				lnkact = "4:" + actDevices.getID() + "-"+String.valueOf(picture_count);//===拍照
 			} else {
-				lnkact = "6:" + actDevices.getID() + "-5";//====录像5秒
+				lnkact = "6:" + actDevices.getID() + "-"+String.valueOf(record_time);//====录像
 			}
 		} else {
 			// if(actDevices.getmModelId().indexOf((DataHelper.Magnetic_Window))
@@ -514,6 +590,7 @@ public class LinkageDetailFragment extends Fragment implements ChangeFragment,
 			act_notype_lay.setVisibility(View.GONE);
 			act_onoff_lay.setVisibility(View.GONE);
 			act_photo_lay.setVisibility(View.VISIBLE);
+			picture_count_lay.setVisibility(View.VISIBLE);
 			if (linkage_type == 2) {
 				LinkageAct linkageAct = new LinkageAct(mLinkage.getLnkact());
 				if (linkageAct.getType().equals("4")) { // 拍照
@@ -522,17 +599,93 @@ public class LinkageDetailFragment extends Fragment implements ChangeFragment,
 							.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
 					act_photo_btn
 							.setBackgroundResource(R.drawable.ui2_linkage_button_press);
+					picture_one_btn.setText("1张");//==
+					picture_three_btn.setText("3张");//==
+					picture_five_btn.setText("5张");//==
+					if (linkageAct.getEp().equals("1")){
+						picture_count = 1;
+						picture_three_btn
+								.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
+						picture_five_btn
+								.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
+						picture_one_btn
+								.setBackgroundResource(R.drawable.ui2_linkage_button_press);
+					} else if (linkageAct.getEp().equals("3")) {
+						picture_count = 3;
+						picture_three_btn
+								.setBackgroundResource(R.drawable.ui2_linkage_button_press);
+						picture_five_btn
+								.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
+						picture_one_btn
+								.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
+					} else {
+						picture_count = 5;
+						picture_three_btn
+								.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
+						picture_five_btn
+								.setBackgroundResource(R.drawable.ui2_linkage_button_press);
+						picture_one_btn
+								.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
+					}
+					
 				} else { // 录像
 					photo_record = 1;
 					act_record_btn
 							.setBackgroundResource(R.drawable.ui2_linkage_button_press);
 					act_photo_btn
 							.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
+					picture_one_btn.setText("3秒");//==
+					picture_three_btn.setText("5秒");//==
+					picture_five_btn.setText("7秒");//==
+					if (linkageAct.getEp().equals("3")) {
+						record_time = 3;
+						picture_one_btn
+								.setBackgroundResource(R.drawable.ui2_linkage_button_press);
+						picture_three_btn
+								.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
+						picture_five_btn
+								.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
+					} else if (linkageAct.getEp().equals("5")) {
+						record_time = 5;
+						picture_one_btn
+								.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
+						picture_three_btn
+								.setBackgroundResource(R.drawable.ui2_linkage_button_press);
+						picture_five_btn
+								.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
+					} else {
+						record_time = 7;
+						picture_five_btn
+								.setBackgroundResource(R.drawable.ui2_linkage_button_press);
+						picture_three_btn
+								.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
+						picture_one_btn
+								.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
+					}
+					
 				}
+			} else {
+				photo_record = 0;
+				act_record_btn
+						.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
+				act_photo_btn
+						.setBackgroundResource(R.drawable.ui2_linkage_button_press);
+				picture_count_lay.setVisibility(View.VISIBLE);
+				picture_one_btn.setText("1张");//==
+				picture_three_btn.setText("3张");//==
+				picture_five_btn.setText("5张");//==
+				picture_count = 1;
+				picture_three_btn
+						.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
+				picture_five_btn
+						.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
+				picture_one_btn
+						.setBackgroundResource(R.drawable.ui2_linkage_button_press);
 			}
 		} else {
 			act_notype_lay.setVisibility(View.GONE);
 			act_photo_lay.setVisibility(View.GONE);
+			picture_count_lay.setVisibility(View.GONE);
 			act_onoff_lay.setVisibility(View.VISIBLE);
 			if (linkage_type == 2) {
 				LinkageAct linkageAct = new LinkageAct(mLinkage.getLnkact());
