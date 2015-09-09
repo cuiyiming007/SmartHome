@@ -15,17 +15,21 @@ import java.util.ArrayList;
 
 import org.MediaPlayer.PlayM4.Player;
 
+import android.R.color;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.hardware.camera2.params.BlackLevelPattern;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MotionEvent;
@@ -95,7 +99,7 @@ public class HikVideoActivity extends ActionBarActivity implements Callback {
 	private ActionBar mActionBar;
 	private Button btn_last, btn_next;
 	private Gallery gallery_pic;
-	private View lay_pic, lay_big_pic;
+	private View lay_pic, lay_big_pic,toolbar_card,play_main_lay;//
 	private ImageView img_big_pic;
 	
 	private ArrayList<String> mListPic;
@@ -109,13 +113,18 @@ public class HikVideoActivity extends ActionBarActivity implements Callback {
 	private int m_iPlayID = -1; // return by NET_DVR_RealPlay_V30
 	private int m_iPlaybackID = -1; // return by NET_DVR_PlayBackByTime
 	private int m_iPort = -1; // play port
-
+	private int width,height;
+	private float height_to_width,width_to_height;
+	
 	private final String TAG = "HikVideoActivity";
 
+	Player.MPInteger StWidth,StHeight;
+	
 	private boolean m_bRecord = false;
 	private boolean m_bSoundOn = false;
 	private boolean m_bPreset1 = false;
 	private boolean m_bPTZL = false;
+	private boolean playOrnot = false;
 
 	private String m_titleName;
 	private String m_DVRName;
@@ -382,17 +391,19 @@ public class HikVideoActivity extends ActionBarActivity implements Callback {
 	}
 
 	// @Override
-	public void surfaceCreated(SurfaceHolder holder) {
-		Log.i(TAG, "surface is created" + m_iPort);
+	public void surfaceCreated(SurfaceHolder holder) {//=====20150909====不确定有什么作用、何时调用
+		/*Log.i(TAG, "surface is created" + m_iPort);
+		
 		if (-1 == m_iPort) {
 			return;
 		}
+		Log.i("miport", m_iPort + "");
 		Surface surface = holder.getSurface();
 		if (null != m_oPlayerSDK && true == surface.isValid()) {
 			if (false == m_oPlayerSDK.setVideoWindow(m_iPort, 0, holder)) {
 				Log.e(TAG, "Player setVideoWindow failed!");
 			}
-		}
+		}*/
 	}
 
 	// @Override
@@ -448,6 +459,7 @@ public class HikVideoActivity extends ActionBarActivity implements Callback {
 
 		// init player
 		m_oPlayerSDK = Player.getInstance();
+		Log.i("m_oPlayerSDK", "success1111111111");
 		if (m_oPlayerSDK == null) {
 			Log.e(TAG, "PlayCtrl getInstance failed!");
 			return false;
@@ -483,37 +495,69 @@ public class HikVideoActivity extends ActionBarActivity implements Callback {
 	// GUI init
 	private boolean initeActivity() {
 		findViews();
-
+		setListeners();
 		initSurface();
 		m_osurfaceView.getHolder().addCallback(this);
-		setListeners();
+		//setListeners();
 		return true;
 	}
 
 	private void initSurface() {
 		WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-		int width = wm.getDefaultDisplay().getWidth();
-		int height = wm.getDefaultDisplay().getHeight();
-		if (width < height) {
+		 width = wm.getDefaultDisplay().getWidth();
+		 height = wm.getDefaultDisplay().getHeight();
+		if (playOrnot == false) {
+			
+			/*if (m_iPort >= 0) {//------20150908
+				return;
+			}*/
+			m_iPort = m_oPlayerSDK.getPort();
+			Player.MPInteger StWidth = new Player.MPInteger();//--20150907
+			Player.MPInteger StHeight = new Player.MPInteger();//--20150907
+			m_oPlayerSDK.getPictureSize(m_iPort, StWidth, StHeight);
+		    height_to_width = (float) StHeight.value / (float) StWidth.value;
+		    width_to_height = (float) StWidth.value / (float) StHeight.value;
+			if (m_iPort == -1) {
+				height_to_width = 0.8f ;
+				width_to_height = 1.2f ;
+				Toast toast = Toast.makeText(this, "获取通道失败", Toast.LENGTH_SHORT);
+				toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+				toast.show();
+			}
+		}
+		 		
+		if (width < height) {	//=========竖屏
 			m_oCaptureBtn.setVisibility(View.VISIBLE);
 			if(mListPic.size() > 0){
 				lay_pic.setVisibility(View.VISIBLE);	
 			}
-			mToolbar.setVisibility(View.VISIBLE);
+			toolbar_card.setVisibility(View.VISIBLE);
+			//play_main_lay.setBackgroundColor(getResources().getColor(R.color.white));
+			play_main_lay.setBackgroundColor(android.graphics.Color.WHITE);
 			m_osurfaceView.setLayoutParams(new RelativeLayout.LayoutParams(
-					width, width / 11 * 9));
-		} else {
+					width, (int) (width *  height_to_width)));
+			/*m_osurfaceView.setLayoutParams(new RelativeLayout.LayoutParams(
+					width, width / 11 * 9));*/
+		} else {			//==========横屏
+			this.getWindow().setFlags(
+					WindowManager.LayoutParams.FLAG_FULLSCREEN,
+					WindowManager.LayoutParams.FLAG_FULLSCREEN);
+			m_oPlayerSDK.play(m_iPort, m_osurfaceView.getHolder());
+			//this.getWindow().setBackgroundDrawable(drawable);
+			toolbar_card.setVisibility(View.GONE);
+			//play_main_lay.setBackgroundColor(getResources().getColor(R.color.black));
+			play_main_lay.setBackgroundColor(android.graphics.Color.BLACK);
 			m_oCaptureBtn.setVisibility(View.GONE);
 			lay_pic.setVisibility(View.GONE);
-			mToolbar.setVisibility(View.GONE);
 			m_osurfaceView.setLayoutParams(new RelativeLayout.LayoutParams(
-					width, width / 11 * 9));
+					(int) (height * width_to_height), height));
 		}
 	}
 
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		initSurface();
+		//m_oPlayerSDK.play(m_iPort, m_osurfaceView.getHolder());
 	}
 
 	// get controller instance
@@ -529,7 +573,8 @@ public class HikVideoActivity extends ActionBarActivity implements Callback {
 		lay_pic = (View)findViewById(R.id.lay_pic);
 		lay_big_pic = (View)findViewById(R.id.lay_big_pic);
 		img_big_pic = (ImageView)findViewById(R.id.img_big_pic);
-		
+		toolbar_card = (View)findViewById(R.id.toolbar_card);
+		play_main_lay = (View)findViewById(R.id.play_main_lay);
 		setSupportActionBar(mToolbar);
 		mActionBar = getSupportActionBar();
 		mActionBar.setDisplayHomeAsUpEnabled(true);
@@ -1162,6 +1207,8 @@ public class HikVideoActivity extends ActionBarActivity implements Callback {
 			public void fRealDataCallBack(int iRealHandle, int iDataType,
 					byte[] pDataBuffer, int iDataSize) {
 				// player channel 1
+				//Log.i("idatatype", iDataType + "");
+				//Log.i("idatasize", iDataSize + "");
 				HikVideoActivity.this.processRealData(1, iDataType,
 						pDataBuffer, iDataSize, Player.STREAM_REALTIME);
 			}
@@ -1214,17 +1261,21 @@ public class HikVideoActivity extends ActionBarActivity implements Callback {
 			byte[] pDataBuffer, int iDataSize, int iStreamMode) {
 		// Log.i(TAG, "iPlayViewNo:" + iPlayViewNo + ",iDataType:" + iDataType +
 		// ",iDataSize:" + iDataSize);
+		if (playOrnot == false) {
+			playOrnot = true ;
+		} 
+		//Log.i("processrealData", "m_iPort: " + m_iPort + "" + "iDataType: " + iDataType + "") ;
 		if (HCNetSDK.NET_DVR_SYSHEAD == iDataType) {
-			if (m_iPort >= 0) {
+			/*if (m_iPort >= 0) {//------20150908
 				return;
-			}
-			m_iPort = m_oPlayerSDK.getPort();
+			}*/
+			/*m_iPort = m_oPlayerSDK.getPort();
 			if (m_iPort == -1) {
 				Log.e(TAG,
 						"getPort is failed with: "
 								+ m_oPlayerSDK.getLastError(m_iPort));
 				return;
-			}
+			}*/
 			Log.i(TAG, "getPort succ with: " + m_iPort);
 			if (iDataSize > 0) {
 				if (!m_oPlayerSDK.setStreamOpenMode(m_iPort, iStreamMode)) // set
@@ -1247,16 +1298,16 @@ public class HikVideoActivity extends ActionBarActivity implements Callback {
 				}
 				if (!m_oPlayerSDK.play(m_iPort, m_osurfaceView.getHolder())) {
 					Log.e(TAG, "play failed");
-					mHandler = new Handler(){
-						public void handleMessage(Message msg){
-							switch(msg.what){
-							case 1:
-								Toast.makeText(HikVideoActivity.this, "播放失败,请重新访问!",Toast.LENGTH_SHORT).show();
-								break;
-							}
+					
+					new Thread(new Runnable() {
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							Message msg = new Message();
+							msg.what = 1;
+							mHandler.sendMessage(msg);
 						}
-					};
-
+					}).start();
 					return;
 				}
 			}
