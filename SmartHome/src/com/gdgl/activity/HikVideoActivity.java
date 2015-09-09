@@ -15,15 +15,12 @@ import java.util.ArrayList;
 
 import org.MediaPlayer.PlayM4.Player;
 
-import android.R.color;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.hardware.camera2.params.BlackLevelPattern;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -33,7 +30,6 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MotionEvent;
-import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
@@ -42,8 +38,6 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.Gallery;
@@ -527,6 +521,7 @@ public class HikVideoActivity extends ActionBarActivity implements Callback {
 		}
 		 		
 		if (width < height) {	//=========竖屏
+			this.getWindow().setFlags(0, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 			m_oCaptureBtn.setVisibility(View.VISIBLE);
 			if(mListPic.size() > 0){
 				lay_pic.setVisibility(View.VISIBLE);	
