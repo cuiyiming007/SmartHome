@@ -11,6 +11,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.gc.materialdesign.views.CheckBox;
+import com.gc.materialdesign.views.CheckBox.OnCheckListener;
+import com.gdgl.drawer.DeviceTabFragment;
 import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
@@ -56,10 +59,58 @@ public class SetEmailFragment extends Fragment implements UIListener {
 		 * if (E_name != null){ email_name.setText(E_name); } else {
 		 * email_name.setHint("XXX@XXXX"); }
 		 */
+		final CheckBox enableEmail = (CheckBox) mView
+				.findViewById(R.id.enableEmail);
+		enableEmail.setOncheckListener(new OnCheckListener() {
+
+			@Override
+			public void onCheck(boolean check) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		enableEmail.post(new Runnable() {
+			@Override
+			public void run() {
+				
+			}
+		});
+		final CheckBox enableSendVideo = (CheckBox) mView
+				.findViewById(R.id.enableSendVideo);
+		enableSendVideo.setOncheckListener(new OnCheckListener() {
+
+			@Override
+			public void onCheck(boolean check) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		enableSendVideo.post(new Runnable() {
+			@Override
+			public void run() {
+				
+			}
+		});
+		final CheckBox enableSendPic = (CheckBox) mView
+				.findViewById(R.id.enableSendPic);
+		enableSendPic.setOncheckListener(new OnCheckListener() {
+
+			@Override
+			public void onCheck(boolean check) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		enableSendPic.post(new Runnable() {
+			@Override
+			public void run() {
+				
+			}
+		});
 		gateway_MAC = getFromSharedPreferences.getGatewayMAC();
 		btn_commit_email = (Button) mView.findViewById(R.id.commit_email);
 		btn_commit_email.setOnClickListener(new OnClickListener() {
-
+		
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
