@@ -8,6 +8,8 @@
  */
 package com.gdgl.activity;
 
+import h264.com.BigScreenshotDialog;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
@@ -16,6 +18,7 @@ import java.util.ArrayList;
 import org.MediaPlayer.PlayM4.Player;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -95,6 +98,7 @@ public class HikVideoActivity extends ActionBarActivity implements Callback {
 	private Gallery gallery_pic;
 	private View lay_pic, lay_big_pic,toolbar_card,play_main_lay;//
 	private ImageView img_big_pic;
+	public static ArrayList<Bitmap> screenPictures; 		//=====0915
 	
 	private ArrayList<String> mListPic;
 	private ImageAdapter mImageAdapter;
@@ -185,10 +189,12 @@ public class HikVideoActivity extends ActionBarActivity implements Callback {
 	private void updateList(){ 
 		File file = new File(ComUtil.picturePath + "/" + m_DVRSerialNumber + "/");
 		mListPic = new ArrayList<String>();
+		screenPictures = new ArrayList<Bitmap>(); 
         File[] files = file.listFiles();  
         if(files.length > 0){
         	for(int i=files.length-1; i>=0; i--){
-        		mListPic.add(files[i].getAbsolutePath());	
+        		mListPic.add(files[i].getAbsolutePath());
+        		screenPictures.add(getBmpFromFile(files[i].getAbsolutePath(), false));
 	        }  
         }
 	}
@@ -240,8 +246,8 @@ public class HikVideoActivity extends ActionBarActivity implements Callback {
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
-					lay_big_pic.setVisibility(View.VISIBLE);
-					img_big_pic.setImageBitmap(getBmpFromFile(mList.get(position), false));
+					BigScreenshotDialog bigPicDialog = new BigScreenshotDialog(HikVideoActivity.this,position);
+					bigPicDialog.show();
 				}
 			});
 	        return imageView;
