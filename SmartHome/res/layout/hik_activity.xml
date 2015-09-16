@@ -76,22 +76,6 @@
             android:layout_height="wrap_content"
             android:layout_above="@id/btn_Capture"
             android:background="#0000ff00" /> 
-            
-        <RelativeLayout 
-            android:id="@+id/lay_big_pic"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/Sur_Player"
-            android:layout_alignParentBottom="true"
-            android:visibility="gone">
-            
-            <ImageView
-                android:id="@+id/img_big_pic"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                />
-            
-        </RelativeLayout>
         
 	</RelativeLayout>
     <!-- android:layout_marginTop="?android:attr/actionBarSize" -->

@@ -6,14 +6,14 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.media.ExifInterface;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import com.gdgl.activity.HikVideoActivity;
@@ -29,12 +29,19 @@ public class BigScreenshotDialog  {
 	public ArrayList<Bitmap> screenshots = HikVideoActivity.screenPictures;
 	
 	
-	public BigScreenshotDialog(Context c,int k) {
+	public BigScreenshotDialog(Context c,int k,int dialogwidth) {
 		//shotview = new ImageView(c);
 		dialog = new Dialog(c, R.style.MyDialog);
 		dialog.setContentView(R.layout.big_screenshot_dlg);
 		dialog.setCanceledOnTouchOutside(false);
+		
+		Window dialogWindow = dialog.getWindow();
+        WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+        lp.width = dialogwidth;
+        dialogWindow.setAttributes(lp);
+        
 		mViewPager = (ViewPager) dialog.findViewById(R.id.pager);
+		//dialog.setContentView(mViewPager);//=====0916
 		mCustomPagerAdapter = new CustomPagerAdapter(c);
         mViewPager.setAdapter(mCustomPagerAdapter);
         mViewPager.setCurrentItem(k);
@@ -77,7 +84,7 @@ public class BigScreenshotDialog  {
 	        ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView);
 	        imageView.setImageBitmap(screenshots.get(position));
 	        attacher = new PhotoViewAttacher(imageView);
-	        container.addView(itemView);
+	        container.addView(itemView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 	        //shotview = imageView;
 	        return itemView;
 	    }

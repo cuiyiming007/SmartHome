@@ -96,8 +96,8 @@ public class HikVideoActivity extends ActionBarActivity implements Callback {
 	private ActionBar mActionBar;
 	private Button btn_last, btn_next;
 	private Gallery gallery_pic;
-	private View lay_pic, lay_big_pic,toolbar_card,play_main_lay;//
-	private ImageView img_big_pic;
+	private View lay_pic, toolbar_card,play_main_lay;//
+	//private ImageView img_big_pic;
 	public static ArrayList<Bitmap> screenPictures; 		//=====0915
 	
 	private ArrayList<String> mListPic;
@@ -246,7 +246,7 @@ public class HikVideoActivity extends ActionBarActivity implements Callback {
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
-					BigScreenshotDialog bigPicDialog = new BigScreenshotDialog(HikVideoActivity.this,position);
+					BigScreenshotDialog bigPicDialog = new BigScreenshotDialog(HikVideoActivity.this,position,width);
 					bigPicDialog.show();
 				}
 			});
@@ -572,8 +572,6 @@ public class HikVideoActivity extends ActionBarActivity implements Callback {
 		mImageAdapter = new ImageAdapter(this, mListPic);
 		gallery_pic.setAdapter(mImageAdapter);
 		lay_pic = (View)findViewById(R.id.lay_pic);
-		lay_big_pic = (View)findViewById(R.id.lay_big_pic);
-		img_big_pic = (ImageView)findViewById(R.id.img_big_pic);
 		toolbar_card = (View)findViewById(R.id.toolbar_card);
 		play_main_lay = (View)findViewById(R.id.play_main_lay);
 		setSupportActionBar(mToolbar);
@@ -586,14 +584,6 @@ public class HikVideoActivity extends ActionBarActivity implements Callback {
 
 	// listen
 	private void setListeners() {
-		lay_big_pic.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				lay_big_pic.setVisibility(View.GONE);
-			}
-		});
 		btn_last.setOnClickListener(new OnClickListener() {
 			
 			@Override
