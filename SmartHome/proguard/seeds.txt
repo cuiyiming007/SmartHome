@@ -21515,7 +21515,11 @@ com.gdgl.smarthome.R$id: int edit_video_ip
 com.gdgl.smarthome.R$id: int electrical_manager
 com.gdgl.smarthome.R$id: int electrical_manager_content
 com.gdgl.smarthome.R$id: int electrical_manager_list
+com.gdgl.smarthome.R$id: int email_content_config_lay
 com.gdgl.smarthome.R$id: int email_name
+com.gdgl.smarthome.R$id: int enableEmail
+com.gdgl.smarthome.R$id: int enableSendPic
+com.gdgl.smarthome.R$id: int enableSendVideo
 com.gdgl.smarthome.R$id: int enableipc
 com.gdgl.smarthome.R$id: int end
 com.gdgl.smarthome.R$id: int energy
@@ -21656,6 +21660,11 @@ com.gdgl.smarthome.R$id: int other_list
 com.gdgl.smarthome.R$id: int pager
 com.gdgl.smarthome.R$id: int parents_need
 com.gdgl.smarthome.R$id: int password
+com.gdgl.smarthome.R$id: int picture_count_lay
+com.gdgl.smarthome.R$id: int picture_five_btn
+com.gdgl.smarthome.R$id: int picture_one_btn
+com.gdgl.smarthome.R$id: int picture_three_btn
+com.gdgl.smarthome.R$id: int play_main_lay
 com.gdgl.smarthome.R$id: int pop_layout
 com.gdgl.smarthome.R$id: int pop_layout2
 com.gdgl.smarthome.R$id: int primaryMenu

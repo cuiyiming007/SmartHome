@@ -241,6 +241,9 @@ com.gdgl.activity.DevicesListFragment$setData:
 com.gdgl.activity.DoorBellFragment
 com.gdgl.activity.DoorBellFragment$1
 com.gdgl.activity.DoorBellFragment$2
+com.gdgl.activity.HikVideoActivity:
+    org.MediaPlayer.PlayM4.Player$MPInteger StWidth
+    org.MediaPlayer.PlayM4.Player$MPInteger StHeight
 com.gdgl.activity.JoinNetDevicesListFragment:
     public static final int FINISH_OPERATOR
     public static final int SUCESS
@@ -767,7 +770,7 @@ com.gdgl.smarthome.R$menu
 com.gdgl.smarthome.R$string
 com.gdgl.smarthome.R$style
 com.gdgl.smarthome.R$styleable:
-    5157:5157:public R$styleable()
+    5166:5166:public R$styleable()
 com.gdgl.util.AddDlg:
     public static final int REGION
     public static final int SCENE
