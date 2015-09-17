@@ -102,6 +102,16 @@
         <item name="android:windowBackground">@android:color/background_dark</item>
         <item name="android:backgroundDimEnabled">true</item>
     </style>
+    
+    <style name="MyDialog1" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/background_dark</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
 
     <style name="dialogWindowAnim" parent="android:Animation">
         <item name="android:windowEnterAnimation">@anim/slide_left_in</item>

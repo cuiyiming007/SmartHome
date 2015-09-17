@@ -111,7 +111,7 @@ public class HikVideoActivity extends ActionBarActivity implements Callback {
 	private int m_iPlayID = -1; // return by NET_DVR_RealPlay_V30
 	private int m_iPlaybackID = -1; // return by NET_DVR_PlayBackByTime
 	private int m_iPort = -1; // play port
-	private int width,height;
+	private int width,height,Position;
 	private float height_to_width,width_to_height;
 	
 	private final String TAG = "HikVideoActivity";
@@ -246,7 +246,7 @@ public class HikVideoActivity extends ActionBarActivity implements Callback {
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
-					BigScreenshotDialog bigPicDialog = new BigScreenshotDialog(HikVideoActivity.this,position,width);
+					BigScreenshotDialog bigPicDialog = new BigScreenshotDialog(HikVideoActivity.this,position,width,height);
 					bigPicDialog.show();
 				}
 			});
@@ -558,6 +558,12 @@ public class HikVideoActivity extends ActionBarActivity implements Callback {
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		initSurface();
+		if((BigScreenshotDialog.dialog).isShowing()){
+			Position = (BigScreenshotDialog.mViewPager).getCurrentItem();
+			BigScreenshotDialog.dialog.cancel();
+			BigScreenshotDialog bigPicDialog = new BigScreenshotDialog(HikVideoActivity.this,Position,width,height);
+			bigPicDialog.show();
+		}
 		//m_oPlayerSDK.play(m_iPort, m_osurfaceView.getHolder());
 	}
 

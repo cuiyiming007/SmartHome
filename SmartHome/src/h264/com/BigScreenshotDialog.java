@@ -20,39 +20,29 @@ import com.gdgl.activity.HikVideoActivity;
 import com.gdgl.smarthome.R;
 
 public class BigScreenshotDialog  {
-	 private ViewPager mViewPager;
+	 public static ViewPager mViewPager;
 	private CustomPagerAdapter mCustomPagerAdapter;
-	Dialog dialog;
+	public static Dialog dialog;
 	Bitmap bitMap;
 	PhotoViewAttacher attacher;
-	//ImageView shotview ;
 	public ArrayList<Bitmap> screenshots = HikVideoActivity.screenPictures;
 	
-	
-	public BigScreenshotDialog(Context c,int k,int dialogwidth) {
-		//shotview = new ImageView(c);
-		dialog = new Dialog(c, R.style.MyDialog);
+		public BigScreenshotDialog(Context c,int k,int dialogwidth,int dialogheight) {
+		dialog = new Dialog(c, R.style.MyDialog1);
 		dialog.setContentView(R.layout.big_screenshot_dlg);
 		dialog.setCanceledOnTouchOutside(false);
 		
 		Window dialogWindow = dialog.getWindow();
         WindowManager.LayoutParams lp = dialogWindow.getAttributes();
         lp.width = dialogwidth;
+        lp.height = dialogheight;
         dialogWindow.setAttributes(lp);
         
 		mViewPager = (ViewPager) dialog.findViewById(R.id.pager);
-		//dialog.setContentView(mViewPager);//=====0916
 		mCustomPagerAdapter = new CustomPagerAdapter(c);
         mViewPager.setAdapter(mCustomPagerAdapter);
         mViewPager.setCurrentItem(k);
-        /*shotview.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				dialog.dismiss();
-			}
-		});*/
+        
 	}
 	
 	public void show() {
