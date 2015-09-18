@@ -28,7 +28,9 @@ public class BigScreenshotDialog  {
 	public ArrayList<Bitmap> screenshots = HikVideoActivity.screenPictures;
 	
 		public BigScreenshotDialog(Context c,int k,int dialogwidth,int dialogheight) {
-		dialog = new Dialog(c, R.style.MyDialog1);
+		dialog = new Dialog(c, R.style.MyDialog);
+		dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+		WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		dialog.setContentView(R.layout.big_screenshot_dlg);
 		dialog.setCanceledOnTouchOutside(false);
 		

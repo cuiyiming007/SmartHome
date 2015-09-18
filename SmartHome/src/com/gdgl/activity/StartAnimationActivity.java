@@ -15,7 +15,6 @@ import android.widget.ImageView;
 
 import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
-import com.testin.agent.TestinAgent;
 
 public class StartAnimationActivity extends Activity {
 
@@ -25,7 +24,6 @@ public class StartAnimationActivity extends Activity {
 	private final static long SPLASH_DELAY_MILLIS = 3200;
 	protected void onCreate(android.os.Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		TestinAgent.init(this, "5a08bd1e5b7f8b7ad2aa7be32ebac763", "testing");
 		setContentView(R.layout.startanimation);
 		
 		loadlogo = (ImageView) findViewById(R.id.load_logo);
@@ -101,14 +99,12 @@ public class StartAnimationActivity extends Activity {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		TestinAgent.onStart(StartAnimationActivity.this);
 	}
 	
 	@Override
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
-		TestinAgent.onStop(this);
 	}
 	private void goLogin() {
 		Intent intent = new Intent(StartAnimationActivity.this,
