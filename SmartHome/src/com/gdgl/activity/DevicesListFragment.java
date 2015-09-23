@@ -3,17 +3,20 @@ package com.gdgl.activity;
 /***
  * 某一类设备中的设备列表
  */
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
+import com.gc.materialdesign.views.ButtonFloat;
 import com.gdgl.activity.ShowDevicesGroupFragmentActivity.adapterSeter;
-import com.gdgl.activity.UIinterface.IFragmentCallbak;
 import com.gdgl.adapter.DevicesBaseAdapter;
 import com.gdgl.app.ApplicationController;
 import com.gdgl.manager.CGIManager;
+import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.Manger;
+import com.gdgl.manager.RfCGIManager;
+import com.gdgl.manager.UIListener;
 import com.gdgl.model.DevicesModel;
-import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
@@ -28,8 +31,8 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 
-import android.app.Activity;
 import android.support.v4.app.Fragment;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -39,25 +42,27 @@ import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.View.OnClickListener;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
-public class DevicesListFragment extends BaseFragment implements adapterSeter,
-		IFragmentCallbak {
+public class DevicesListFragment extends Fragment implements adapterSeter,
+		UIListener, Dialogcallback {
 
 	private static final String TAG = "DevicesListFragment";
+
+	DataHelper mDataHelper;
 	private View mView;
 	PullToRefreshListView mPullToRefreshListView;
-	private setData setDataActivity;
+	ButtonFloat mButtonFloat;
+
 	DevicesModel mDevicesModel;
 	DevicesModel onekeyopratorModel;
 	int refreshTag = 0;
@@ -66,25 +71,15 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 	 * 跟ShowDevicesGroupFragmentActivity的DevicesBaseAdapter对应，父类引用指向子类对象
 	 */
 	DevicesBaseAdapter mBaseAdapter;
-	private refreshData mRefreshData;
-	LinearLayout list_root;
-
-	// public static final String PASS_OBJECT = "pass_object";
-	//
-	// public static final String PASS_ONOFFIMG = "pass_on_off_img";
-	//
-	// public static final String OPERATOR = "with_or_not_operator";
-
-	Context mContext;
-
-	AdapterContextMenuInfo selectedMenuInfo = null;
+	private ChangeFragment mChangeFragment;
+	RelativeLayout list_root;
 
 	public static final int WITH_OPERATE = 0;
 	public static final int WITHOUT_OPERATE = 2;
 
-	DataHelper mDateHelper;
 
 	private int type = 1;
+	private String mRoomname = "";
 	private String mRoomid = "";
 	/***
 	 * 用于存储当前列表的Item
@@ -101,12 +96,19 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 			type = extras.getInt(Constants.OPERATOR, WITH_OPERATE);
 			switch (type) {
 			case WITH_OPERATE:
-				mRoomid = extras.getString(RegionDevicesActivity.REGION_ID, "");
+				mRoomname = extras.getString(RegionDevicesActivity.REGION_NAME,
+						"");
+				mRoomid = Integer.toString(extras.getInt(
+						RegionDevicesActivity.REGION_ID, -1));
+				break;
+			default:
 				break;
 			}
 		}
-		mDateHelper = new DataHelper((Context) getActivity());
+		mDataHelper = new DataHelper((Context) getActivity());
 		CGIManager.getInstance().addObserver(DevicesListFragment.this);
+		CallbackManager.getInstance().addObserver(DevicesListFragment.this);
+		RfCGIManager.getInstance().addObserver(DevicesListFragment.this);
 	}
 
 	@Override
@@ -121,27 +123,39 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 	private void initView() {
 		// TODO Auto-generated method stub
 
-		list_root = (LinearLayout) mView.findViewById(R.id.list_root);
-		setLayout();
+		list_root = (RelativeLayout) mView.findViewById(R.id.list_root);
 		mPullToRefreshListView = (PullToRefreshListView) mView
 				.findViewById(R.id.devices_list);
 		initList();
 		setListeners();
 		registerForContextMenu(mPullToRefreshListView.getRefreshableView());
-		mPullToRefreshListView.setAdapter(mBaseAdapter);	
+		mPullToRefreshListView.setAdapter(mBaseAdapter);
 		initPosition();
+
+		mButtonFloat = (ButtonFloat) mView.findViewById(R.id.buttonFloat);
+		mButtonFloat.setVisibility(View.VISIBLE);
+		mButtonFloat.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				ChangeFragment changeFragment = (ChangeFragment) getActivity();
+				changeFragment.setFragment(new RegionDevicesAddFragment());
+			}
+		});
 	}
-	
-	private void initPosition(){
+
+	private void initPosition() {
 		Bundle bundle = getArguments();
-		if(bundle != null){
+		if (bundle != null) {
 			int position = 0;
 			position = bundle.getInt("position");
-			if(position > 0){
-				mPullToRefreshListView.getRefreshableView().setSelection(position -1);
-			}	
+			if (position > 0) {
+				mPullToRefreshListView.getRefreshableView().setSelection(
+						position - 1);
+			}
 		}
-		
+
 	}
 
 	private void setListeners() {
@@ -153,31 +167,30 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 					public void onRefresh(
 							PullToRefreshBase<ListView> refreshView) {
 						// TODO Auto-generated method stub
-						if (1 == refreshTag) {
-						} else {
-							refreshTag = 1;
-							String label = DateUtils.formatDateTime(
-									getActivity(), System.currentTimeMillis(),
-									DateUtils.FORMAT_SHOW_TIME
-											| DateUtils.FORMAT_SHOW_DATE
-											| DateUtils.FORMAT_ABBREV_ALL);
+						// if (1 == refreshTag) {
+						// } else {
+						refreshTag = 1;
+						String label = DateUtils.formatDateTime(getActivity(),
+								System.currentTimeMillis(),
+								DateUtils.FORMAT_SHOW_TIME
+										| DateUtils.FORMAT_SHOW_DATE
+										| DateUtils.FORMAT_ABBREV_ALL);
 
-							// Update the LastUpdatedLabel
-							refreshView.getLoadingLayoutProxy()
-									.setLastUpdatedLabel(label);
+						// Update the LastUpdatedLabel
+						refreshView.getLoadingLayoutProxy()
+								.setLastUpdatedLabel(label);
 
-							if (type == WITH_OPERATE) {
-								if (!mRoomid.equals("")) {
-									new GetDataByRoomTask().execute(mRoomid);
-									return;
-								}
+						if (type == WITH_OPERATE) {
+							if (!mRoomid.equals("")) {
+								new GetDataByRoomTask().execute(mRoomid);
+								return;
 							}
-							// Do work to refresh the list here.
-							mRefreshData.refreshListData();
 						}
+						// Do work to refresh the list here.
+						// }
 					}
 				});
-		if (type != WITHOUT_OPERATE) {
+		if (type == WITHOUT_OPERATE) {
 			mPullToRefreshListView
 					.setOnItemClickListener(new OnItemClickListener() {
 						@Override
@@ -185,9 +198,6 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 								View view, int position, long id) {
 							// TODO Auto-generated method stub
 							Log.i(TAG, "tagzgs->position=" + position);
-							mDevicesModel = mRefreshData
-									.getDeviceModle(position - 1);
-							mRefreshData.setDevicesId(mDevicesModel);
 
 							// 判断是除气体感应器及紧急按钮以外的安防设备，且安防控制中心状态是关闭的
 							if (mDevicesModel.getmModelId().indexOf("ZA01") != 0
@@ -236,8 +246,7 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 											Constants.PASS_DEVICE_ABOUT,
 											DeviceDtailFragment.WITHOUT_DEVICE_ABOUT);
 									mFragment.setArguments(extras);
-									mRefreshData.setFragment(mFragment,
-											position - 1);
+									mChangeFragment.setFragment(mFragment);
 								}
 							}
 						}
@@ -250,20 +259,9 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 	public void initList() {
 		// TODO Auto-generated method stub
 
-		new intialDataTask().execute(0);
-
 		if (null != mBaseAdapter) {
-			int m = mBaseAdapter.getCount();
-			mDeviceList = new ArrayList<DevicesModel>();
-			for (int i = 0; i < m; i++) {
-				DevicesModel sd = (DevicesModel) mBaseAdapter.getItem(i);
-				mDeviceList.add(sd);
-			}
+			mDeviceList = mBaseAdapter.getList();
 		}
-		if (null != mPullToRefreshListView) {
-			setListeners();
-		}
-
 	}
 
 	@Override
@@ -278,13 +276,9 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 	}
 
 	public void setLayout() {
-		LayoutParams mLayoutParams = new LayoutParams(
-				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-		list_root.setLayoutParams(mLayoutParams);
-	}
-
-	public interface deleteDevicesFromGroup {
-		public void deleteDevices(SimpleDevicesModel sd);
+		// LayoutParams mLayoutParams = new LayoutParams(
+		// LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+		// list_root.setLayoutParams(mLayoutParams);
 	}
 
 	@Override
@@ -293,26 +287,27 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
 				.getMenuInfo();
 		int position = info.position;
-		mDevicesModel = mRefreshData.getDeviceModle(position - 1);
+		// mDevicesModel = mChangeFragment.getDeviceModle(position - 1);
+		mDevicesModel = mDeviceList.get(position - 1);
 		int menuIndex = item.getItemId();
 		Log.i(TAG, "tagzgs-> menuInfo.position=" + position
 				+ " item.getItemId()" + item.getItemId());
 		if (type == WITH_OPERATE) {
 			if (1 == menuIndex) {
-				mRefreshData.setDevicesId(mDevicesModel);
+				// mChangeFragment.setDevicesId(mDevicesModel);
 				MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
 						(Context) getActivity());
-				mMyOkCancleDlg.setDialogCallback((Dialogcallback) mRefreshData);
+				mMyOkCancleDlg.setDialogCallback(this);
 				mMyOkCancleDlg.setContent("确定要从此区域删除"
 						+ mDevicesModel.getmDefaultDeviceName().trim() + "吗?");
 				mMyOkCancleDlg.show();
 			}
 		} else if (type == WITHOUT_OPERATE) {
 			if (1 == menuIndex) {
-				mRefreshData.setDevicesId(mDevicesModel);
+				// mChangeFragment.setDevicesId(mDevicesModel);
 				MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
 						(Context) getActivity());
-				mMyOkCancleDlg.setDialogCallback((Dialogcallback) mRefreshData);
+				mMyOkCancleDlg.setDialogCallback(this);
 				mMyOkCancleDlg.setContent("确定要从此场景删除"
 						+ mDevicesModel.getmDefaultDeviceName().trim() + "吗?");
 				mMyOkCancleDlg.show();
@@ -322,38 +317,22 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 		return super.onContextItemSelected(item);
 	}
 
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		Log.i(TAG, "zzz->onAttach");
-		if (!(activity instanceof refreshData)) {
-			throw new IllegalStateException("Activity必须实现refreshData接口");
-		}
-		mRefreshData = (refreshData) activity;
-		setDataActivity = (setData) activity;
-	}
-
-	public interface refreshData {
-		public void refreshListData();
-
-		public DevicesModel getDeviceModle(int postion);
-
-		public void setFragment(Fragment mFragment, int postion);
-
-		public void setDevicesId(DevicesModel DevicesModel);
+	public interface ChangeFragment {
+		public void setFragment(Fragment f);
 	}
 
 	@Override
 	public void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
-		mRefreshData = null;
 		CGIManager.getInstance().deleteObserver(DevicesListFragment.this);
+		CallbackManager.getInstance().deleteObserver(DevicesListFragment.this);
+		RfCGIManager.getInstance().deleteObserver(DevicesListFragment.this);
 	}
 
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
-		setLayout();
 		super.onResume();
 	}
 
@@ -361,8 +340,8 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 	public void setAdapter(BaseAdapter mAdapter) {
 		// TODO Auto-generated method stub
 		mBaseAdapter = null;
-		mBaseAdapter = (DevicesBaseAdapter)mAdapter;
-		initList();
+		mBaseAdapter = (DevicesBaseAdapter) mAdapter;
+		mDeviceList = mBaseAdapter.getList();
 	}
 
 	@Override
@@ -433,6 +412,69 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 				String status = (String) event.getData();
 				onekeyControlDevice.setmOnOffStatus(status);
 			}
+		} else if (EventType.GETEPBYROOMINDEX == event.getType()) {
+			if (event.isSuccess() == true) {
+				RfCGIManager.getInstance().GetRFDevByRoomId(mRoomid);
+				mDeviceList = (List<DevicesModel>) event.getData();
+				Collections.sort(mDeviceList, new Comparator<DevicesModel>() {
+
+					@Override
+					public int compare(DevicesModel lhs, DevicesModel rhs) {
+						// TODO Auto-generated method stub
+						return (lhs.getmDevicePriority()-rhs.getmDevicePriority());
+					}
+				});
+				for (DevicesModel mdevice : mDeviceList) {
+					mdevice.setmDeviceRegion(mRoomname);
+				}
+				// mView.post(new Runnable() {
+				// @Override
+				// public void run() {
+				// mBaseAdapter.notifyDataSetChanged();
+				// }
+				// });
+
+			}
+		} else if (EventType.RF_DEVICE_BYPASS == event.getType()) {
+			if (event.isSuccess()) {
+				Bundle bundle = (Bundle) event.getData();
+				int m = isInList(bundle.getString("IEEE"), "01");
+				if (-1 != m) {
+					mDeviceList.get(m).setmOnOffStatus(
+							bundle.getString("PARAM"));
+					mView.post(new Runnable() {
+						@Override
+						public void run() {
+							// setDataActivity.setdata(mDeviceList);
+							mBaseAdapter.notifyDataSetChanged();
+						}
+					});
+				}
+			}
+		} else if (EventType.RF_GETEPBYROOMINDEX == event.getType()) {
+			if (event.isSuccess() == true) {
+				List<DevicesModel> temp = (List<DevicesModel>) event.getData();
+				Collections.sort(temp, new Comparator<DevicesModel>() {
+
+					@Override
+					public int compare(DevicesModel lhs, DevicesModel rhs) {
+						// TODO Auto-generated method stub
+						return (lhs.getmDevicePriority()-rhs.getmDevicePriority());
+					}
+				});
+				for (DevicesModel mdevice : mDeviceList) {
+					mdevice.setmDeviceRegion(mRoomname);
+				}
+				mDeviceList.addAll(temp);
+				mBaseAdapter.setList(mDeviceList);
+				mView.post(new Runnable() {
+					@Override
+					public void run() {
+						mBaseAdapter.notifyDataSetChanged();
+					}
+				});
+
+			}
 		}
 	}
 
@@ -466,12 +508,6 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 		}
 	}
 
-	@Override
-	public void onFragmentResult(int requsetId, boolean result, Object data) {
-		String status = (String) data;
-		onekeyControlDevice.setmOnOffStatus(status);
-	}
-
 	private class GetDataByRoomTask extends AsyncTask<String, Void, String> {
 
 		@Override
@@ -490,6 +526,33 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 		@Override
 		protected void onPostExecute(String result) {
 			stopRefresh();
+		}
+
+	}
+
+	@Override
+	public void dialogdo() {
+		// TODO Auto-generated method stub
+		String where = " ieee = ? ";
+		String[] args = { mDevicesModel.getmIeee() };
+
+		ContentValues c = new ContentValues();
+		c.put(DevicesModel.DEVICE_REGION, "");
+		c.put(DevicesModel.R_ID, "-1");
+		SQLiteDatabase mSQLiteDatabase = mDataHelper.getSQLiteDatabase();
+		int result;
+		if (mDevicesModel.getmDeviceId() > 0) {
+			CGIManager.getInstance().ModifyDeviceRoomId(mDevicesModel, "-1");
+			result = mDataHelper.update(mSQLiteDatabase,
+					DataHelper.DEVICES_TABLE, c, where, args);
+		} else {
+			RfCGIManager.getInstance().ModifyRFDevRoomId(mDevicesModel, "-1");
+			result = mDataHelper.update(mSQLiteDatabase,
+					DataHelper.RF_DEVICES_TABLE, c, where, args);
+		}
+		if (result >= 0) {
+			mDeviceList.remove(mDevicesModel);
+			mBaseAdapter.notifyDataSetChanged();
 		}
 
 	}

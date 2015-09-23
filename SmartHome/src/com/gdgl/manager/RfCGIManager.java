@@ -2,25 +2,33 @@ package com.gdgl.manager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
+import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.StringRequest;
 import com.gdgl.app.ApplicationController;
+import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.RespondDataEntity;
 import com.gdgl.mydata.ResponseParamsEndPoint;
 import com.gdgl.network.StringRequestChina;
+import com.gdgl.network.VolleyErrorHelper;
 import com.gdgl.network.VolleyOperation;
 import com.gdgl.util.NetUtil;
+import com.gdgl.util.UiUtils;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 public class RfCGIManager extends Manger{
 	private final static String TAG = "RfCGIManager";
@@ -177,8 +185,73 @@ public class RfCGIManager extends Manger{
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
 	
+	public void ModifyRFDevRoomId(DevicesModel model, String new_roomid) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("rfid", model.getmIeee());
+		paraMap.put("new_roomid", new_roomid);
+		
+		String param = hashMap2ParamString(paraMap);
+
+		String url = NetUtil.getInstance().getCumstomURL(
+				NetUtil.getInstance().IP, "ModifyRFDevRoomId.cgi", param);
+
+		StringRequest req = new StringRequest(url,
+				new Response.Listener<String>() {
+					@Override
+					public void onResponse(String response) {
+						response = UiUtils.formatResponseString(response);
+						JsonParser parser = new JsonParser();
+						JsonObject jsonObject = parser.parse(response)
+								.getAsJsonObject();
+						int status = jsonObject.get("status").getAsInt();
+						Event event = new Event(EventType.MODIFYDEVICEROOMID,
+								true);
+						event.setData(status);
+						notifyObservers(event);
+					}
+				}, new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+						String errorString = null;
+						if (error != null && error.getMessage() != null) {
+							VolleyLog.e("Error: ", error.getMessage());
+							errorString = VolleyErrorHelper.getMessage(error,
+									ApplicationController.getInstance());
+						}
+						Event event = new Event(EventType.MODIFYDEVICEROOMID,
+								false);
+						event.setData(errorString);
+						notifyObservers(event);
+					}
+				});
+		// add the request object to the queue to be executed
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
 	
-	
+	public void GetRFDevByRoomId(String rid) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("roomid", rid);
+
+		String param = hashMap2ParamString(paraMap);
+
+		String url = NetUtil.getInstance().getCumstomURL(
+				NetUtil.getInstance().IP, "GetRFDevByRoomId.cgi", param);
+
+		StringRequestChina req = new StringRequestChina(url,
+				new Response.Listener<String>() {
+					@Override
+					public void onResponse(String response) {
+						new GetRFDevByRoomIdTask().execute(response);
+					}
+				}, new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+
+					}
+				});
+		// add the request object to the queue to be executed
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
 	
 	class GetRFDevListTask extends AsyncTask<String, Object, Object> {
 		@Override
@@ -200,5 +273,37 @@ public class RfCGIManager extends Manger{
 			notifyObservers(event);
 			return devDataList;
 		}
+	}
+	
+	class GetRFDevByRoomIdTask extends AsyncTask<String, Object, Object> {
+		@Override
+		protected Object doInBackground(String... params) {
+			RespondDataEntity<ResponseParamsEndPoint> data = VolleyOperation
+					.handleEndPointString(params[0]);
+			ArrayList<ResponseParamsEndPoint> devDataList = data
+					.getResponseparamList();
+			List<DevicesModel> mDevicesList = DataHelper
+					.convertToDevicesModel(devDataList);
+			DataHelper mDateHelper = new DataHelper(
+					ApplicationController.getInstance());
+			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
+
+			for (DevicesModel mDevices : mDevicesList) {
+				ContentValues c = new ContentValues();
+				c.put(DevicesModel.R_ID, mDevices.getmRid());
+				mDateHelper.update(mSQLiteDatabase, DataHelper.DEVICES_TABLE,
+						c, " ieee=? ", new String[] { mDevices.getmIeee() });
+			}
+			mSQLiteDatabase.close();
+			return mDevicesList;
+		}
+
+		@Override
+		protected void onPostExecute(Object result) {
+			Event event = new Event(EventType.RF_GETEPBYROOMINDEX, true);
+			event.setData(result);
+			notifyObservers(event);
+		}
+
 	}
 }

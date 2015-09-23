@@ -101,18 +101,6 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 				DataHelper.ROOMINFO_TABLE, null, null, null, null, null, null,
 				null);
 		mDateHelper.close(mSQLiteDatabase);
-		// GetRoomInfo_response mregion=null;
-		// String reg=getFromSharedPreferences.getRegion();
-		// if(null!=reg && !reg.trim().equals("")){
-		// mregion=reg.split("@@");
-		// }
-		// if(null!=mregion){
-		// for (String string : mregion) {
-		// if(!string.equals("")){
-		// mregions.add(string);
-		// }
-		// }
-		// }
 	}
 
 	@Override

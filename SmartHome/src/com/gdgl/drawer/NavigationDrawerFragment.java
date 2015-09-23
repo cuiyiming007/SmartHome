@@ -316,6 +316,9 @@ public class NavigationDrawerFragment extends Fragment implements
 		items.add(new NavigationItem("联动", getResources().getDrawable(
 				R.drawable.ui2_config_linkage), getResources().getDrawable(
 				R.drawable.ui2_config_linkage_press)));
+		items.add(new NavigationItem("区域", getResources().getDrawable(
+				R.drawable.ui2_config_linkage), getResources().getDrawable(
+				R.drawable.ui2_config_linkage_press)));
 		return items;
 	}
 

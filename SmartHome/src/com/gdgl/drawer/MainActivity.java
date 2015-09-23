@@ -2,6 +2,7 @@ package com.gdgl.drawer;
 
 import com.gdgl.activity.GatewayUpdateDetailDlgFragment;
 import com.gdgl.activity.LinkageFragment;
+import com.gdgl.activity.RegionsFragment;
 import com.gdgl.activity.ScenesFragment;
 import com.gdgl.activity.TimingFragment;
 import com.gdgl.libjingle.Libjingle;
@@ -150,6 +151,8 @@ public class MainActivity extends ActionBarActivity implements
 		case 3:
 			mfragment = new LinkageFragment();
 			break;
+		case 4:
+			mfragment = new RegionsFragment();
 		default:
 			break;
 		}

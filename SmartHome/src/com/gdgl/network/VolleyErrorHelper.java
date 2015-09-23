@@ -12,7 +12,6 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
-import com.gdgl.activity.DevicesListFragment.refreshData;
 import com.gdgl.smarthome.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

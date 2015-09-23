@@ -4,15 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.gc.materialdesign.views.CheckBox;
-import com.gc.materialdesign.views.CheckBox.OnCheckListener;
-import com.gdgl.model.DevicesModel;
-import com.gdgl.mydata.DataUtil;
-import com.gdgl.mydata.scene.SceneDevice;
-import com.gdgl.smarthome.R;
-
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,14 +14,17 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class SceneDevicesAddFragment extends Fragment {
+import com.gc.materialdesign.views.CheckBox;
+import com.gc.materialdesign.views.CheckBox.OnCheckListener;
+import com.gdgl.model.DevicesModel;
+import com.gdgl.mydata.DataUtil;
+import com.gdgl.smarthome.R;
 
+public class RegionDevicesAddFragment extends Fragment {
 	private View mView;
 	// PullToRefreshListView devices_list_view;
 	ListView devices_list_view;
-	public List<DevicesModel> mSceneDevicesAddList;
-
-	int refreshTag = 0;
+	public List<DevicesModel> mRegionDevicesAddList;
 
 	BaseAdapter mBaseAdapter;
 
@@ -57,18 +53,18 @@ public class SceneDevicesAddFragment extends Fragment {
 
 	}
 
-	public class SceneDevicesAddListAdapter extends BaseAdapter {
+	public class RegionDevicesAddListAdapter extends BaseAdapter {
 
 		protected AddChecked mDevicesObserver;
 
 		private Map<Integer, Boolean> isSelected;
 
-		public SceneDevicesAddListAdapter(List<DevicesModel> list,
+		public RegionDevicesAddListAdapter(List<DevicesModel> list,
 				AddChecked mObserver) {
-			mSceneDevicesAddList = list;
+			mRegionDevicesAddList = list;
 			mDevicesObserver = mObserver;
 			isSelected = new HashMap<Integer, Boolean>();
-			for (int i = 0; i < mSceneDevicesAddList.size(); i++) {
+			for (int i = 0; i < mRegionDevicesAddList.size(); i++) {
 				isSelected.put(i, false);
 			}
 		}
@@ -76,8 +72,8 @@ public class SceneDevicesAddFragment extends Fragment {
 		@Override
 		public int getCount() {
 			// TODO Auto-generated method stub
-			if (null != mSceneDevicesAddList) {
-				return mSceneDevicesAddList.size();
+			if (null != mRegionDevicesAddList) {
+				return mRegionDevicesAddList.size();
 			}
 			return 0;
 		}
@@ -85,8 +81,8 @@ public class SceneDevicesAddFragment extends Fragment {
 		@Override
 		public Object getItem(int position) {
 			// TODO Auto-generated method stub
-			if (null != mSceneDevicesAddList) {
-				return mSceneDevicesAddList.get(position);
+			if (null != mRegionDevicesAddList) {
+				return mRegionDevicesAddList.get(position);
 			}
 			return null;
 		}
@@ -94,8 +90,8 @@ public class SceneDevicesAddFragment extends Fragment {
 		@Override
 		public long getItemId(int position) {
 			// TODO Auto-generated method stub
-			if (null != mSceneDevicesAddList) {
-				return (long) mSceneDevicesAddList.get(position).getID();
+			if (null != mRegionDevicesAddList) {
+				return (long) mRegionDevicesAddList.get(position).getID();
 			}
 			return position;
 		}
@@ -106,8 +102,7 @@ public class SceneDevicesAddFragment extends Fragment {
 			// TODO Auto-generated method stub
 			View mView = convertView;
 			final ViewHolder mHolder;
-			final DevicesModel mDevices = mSceneDevicesAddList.get(position);
-			final SceneDevice mAddSceneDevice = new SceneDevice();
+			final DevicesModel mDevices = mRegionDevicesAddList.get(position);
 
 			if (null == mView) {
 				mHolder = new ViewHolder();
@@ -137,17 +132,10 @@ public class SceneDevicesAddFragment extends Fragment {
 				public void onCheck(boolean check) {
 					// TODO Auto-generated method stub
 					isSelected.put(position, check);
-					int scenedevicetype = DataUtil
-							.getTimingSceneActionParamType(mDevices
-									.getmDeviceId());
-					mAddSceneDevice.setActionType(scenedevicetype);
-					mAddSceneDevice.setIeee(mDevices.getmIeee());
-					mAddSceneDevice.setEp(mDevices.getmEP());
-					mAddSceneDevice.setDevicesStatus(0);
 					if (check) {
-						mDevicesObserver.AddCheckedDevices(mAddSceneDevice);
+						mDevicesObserver.AddCheckedDevices(mDevices);
 					} else {
-						mDevicesObserver.DeletedCheckedDevices(mAddSceneDevice);
+						mDevicesObserver.DeletedCheckedDevices(mDevices);
 					}
 				}
 			});
@@ -162,8 +150,8 @@ public class SceneDevicesAddFragment extends Fragment {
 		}
 
 		public void setList(List<DevicesModel> list) {
-			mSceneDevicesAddList = null;
-			mSceneDevicesAddList = list;
+			mRegionDevicesAddList = null;
+			mRegionDevicesAddList = list;
 		}
 	}
 
@@ -174,8 +162,8 @@ public class SceneDevicesAddFragment extends Fragment {
 	}
 
 	public interface AddChecked {
-		public void AddCheckedDevices(SceneDevice s);
+		public void AddCheckedDevices(DevicesModel model);
 
-		public void DeletedCheckedDevices(SceneDevice s);
+		public void DeletedCheckedDevices(DevicesModel model);
 	}
 }

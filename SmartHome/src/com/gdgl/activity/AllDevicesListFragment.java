@@ -2,15 +2,12 @@ package com.gdgl.activity;
 
 import java.util.List;
 
-import com.gdgl.activity.DevicesListFragment.refreshData;
 import com.gdgl.manager.Manger;
 import com.gdgl.model.DevicesModel;
-import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
-import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.mydata.Callback.CallbackResponseType2;
 import com.gdgl.smarthome.R;
 
@@ -35,7 +32,6 @@ public class AllDevicesListFragment extends BaseFragment {
 	int refreshTag = 0;
 
 	DevicesAdapter mDevicesAdapter;
-	private refreshData mRefreshData;
 	LinearLayout list_root;
 	List<DevicesModel> mDevicesList;
 	LinearLayout deviceslist;

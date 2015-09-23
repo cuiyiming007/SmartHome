@@ -101,6 +101,7 @@ public class EventType {
 	public static final EventType RF_DEVICE_ENABLE;
 	public static final EventType RF_DEVICE_LIST_UPDATE;
 	public static final EventType RF_DEVICE_ONLINE_STATUS;
+	public static final EventType RF_GETEPBYROOMINDEX;
 	
 	public static final EventType CHANGEEMAILADDRESS;
 	
@@ -197,6 +198,7 @@ public class EventType {
 		RF_DEVICE_ENABLE = new EventType("rfDeviceEnable", nextId());
 		RF_DEVICE_LIST_UPDATE = new EventType("rfDeviceListUpdate", nextId());
 		RF_DEVICE_ONLINE_STATUS = new EventType("rfDeviceOnlineStatus", nextId());
+		RF_GETEPBYROOMINDEX = new EventType("rfGetEpByRoomIndex", nextId());
 		
 		CHANGEEMAILADDRESS = new EventType("changeEmailAddress", nextId());
 	}

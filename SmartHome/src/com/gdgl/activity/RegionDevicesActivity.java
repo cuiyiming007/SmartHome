@@ -3,16 +3,15 @@ package com.gdgl.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gdgl.activity.DevicesListFragment.refreshData;
+import com.gdgl.activity.DevicesListFragment.ChangeFragment;
 import com.gdgl.activity.DevicesListFragment.setData;
-import com.gdgl.adapter.AllDevicesAdapter;
-import com.gdgl.adapter.AllDevicesAdapter.AddChecked;
+import com.gdgl.activity.RegionDevicesAddFragment.AddChecked;
+import com.gdgl.activity.RegionDevicesAddFragment.RegionDevicesAddListAdapter;
 import com.gdgl.adapter.DevicesBaseAdapter;
-import com.gdgl.adapter.DevicesBaseAdapter.DevicesObserver;
 import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.CallbackManager;
-import com.gdgl.manager.DeviceManager;
 import com.gdgl.manager.Manger;
+import com.gdgl.manager.RfCGIManager;
 import com.gdgl.manager.UIListener;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.Constants;
@@ -21,26 +20,26 @@ import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.Callback.CallbackResponseType2;
 import com.gdgl.smarthome.R;
-import com.gdgl.util.MyOkCancleDlg;
+import com.gdgl.util.MyApplicationFragment;
 import com.gdgl.util.EditDevicesDlg.EditDialogcallback;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 
-import android.annotation.SuppressLint;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.Toolbar.OnMenuItemClickListener;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /***
@@ -49,9 +48,9 @@ import android.widget.TextView;
  * @author Trice
  * 
  */
-public class RegionDevicesActivity extends FragmentActivity implements DevicesObserver,
-		AddChecked, refreshData, EditDialogcallback,
-		Dialogcallback, setData, UIListener {
+public class RegionDevicesActivity extends MyActionBarActivity implements
+		ChangeFragment, AddChecked, EditDialogcallback, Dialogcallback,
+		setData, UIListener {
 	public static final String REGION_NAME = "region_name";
 	public static final String REGION_ID = "region_id";
 
@@ -62,7 +61,10 @@ public class RegionDevicesActivity extends FragmentActivity implements DevicesOb
 	private String mRoomname = "";
 	private String mRoomid = "";
 
-	// String where = " device_region=? ";
+	DataHelper mDataHelper;
+
+	private Toolbar mToolbar;
+	private ActionBar mActionBar;
 
 	List<DevicesModel> mList;
 
@@ -70,55 +72,110 @@ public class RegionDevicesActivity extends FragmentActivity implements DevicesOb
 
 	List<DevicesModel> mAddToRegionList;
 
-	DataHelper mDh;
-
-	FragmentManager fragmentManager;
-
 	DevicesListFragment mDevicesListFragment;
 
 	AllDevicesFragment mAllDevicesFragment;
 
 	DevicesBaseAdapter mDevicesBaseAdapter;
 
+	RegionDevicesAddListAdapter mRegionDevicesAddListAdapter;
+
 	TextView mNoDevices, region_name;
 	Button mAdd, delete;
 
-	DataHelper mDataHelper;
 	private DevicesModel getModel;
 	private boolean deleteType = false;
 	private boolean isAdd = false;
-	
+
 	CGIManager mcgiManager;
-	DeviceManager mDeviceManager;
 
 	private int currentState = INLIST;
 
-	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.add_region);
+		MyApplicationFragment.getInstance().setActivity(this);
 
 		Intent i = getIntent();
-		if (null != i) {
-			Bundle extras = i.getExtras();
-			if (null != extras) {
-				mRoomname = extras.getString(REGION_NAME, "");
-				mRoomid = Integer.toString(extras.getInt(REGION_ID));
-			}
+		Bundle extras = i.getExtras();
+		if (null != extras) {
+			mRoomname = extras.getString(REGION_NAME, "");
+			mRoomid = Integer.toString(extras.getInt(REGION_ID));
 		}
+
 		mDataHelper = new DataHelper(RegionDevicesActivity.this);
-		initData();
-		initView();
+
+		mcgiManager = CGIManager.getInstance();
+		mcgiManager.addObserver(this);
+		CallbackManager.getInstance().addObserver(this);
+		initAddToRegionDevicesList();
+		initRegionDevicesList();
+
+		mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
+		setSupportActionBar(mToolbar);
+		mActionBar = getSupportActionBar();
+		mActionBar.setDisplayHomeAsUpEnabled(true);
+		mActionBar.setDisplayShowTitleEnabled(true);
+		mActionBar.setTitle(mRoomname);
+
+		mToolbar.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				// TODO Auto-generated method stub
+				switch (item.getItemId()) {
+				case R.id.menu_ok:
+					if (mAddToRegionList.size() > 0) {
+						for (DevicesModel s : mAddToRegionList) {
+							if(s.getmDeviceId()>0) {
+								CGIManager.getInstance().ModifyDeviceRoomId(s,
+										mRoomid);
+							} else {
+								RfCGIManager.getInstance().ModifyRFDevRoomId(s, mRoomid);
+							}
+							s.setmDeviceRegion(mRoomname);
+							s.setmRid(mRoomid);
+						}
+						mList.addAll(mAddToRegionList);
+						mAddToRegionList.clear();
+						mDevicesBaseAdapter.notifyDataSetChanged();
+					}
+					MyApplicationFragment.getInstance().removeLastFragment();
+					break;
+
+				default:
+					break;
+				}
+				return false;
+			}
+		});
+
+		FragmentTransaction fragmentTransaction = getSupportFragmentManager()
+				.beginTransaction();
+		mDevicesListFragment = new DevicesListFragment();
+		extras.putInt(Constants.OPERATOR, DevicesListFragment.WITH_OPERATE);
+		mDevicesListFragment.setArguments(extras);
+		mDevicesBaseAdapter = new DevicesBaseAdapter(RegionDevicesActivity.this);
+		mDevicesBaseAdapter.setList(mList);
+		mDevicesListFragment.setAdapter(mDevicesBaseAdapter);
+		fragmentTransaction.replace(R.id.container, mDevicesListFragment);
+		fragmentTransaction.commit();
+		MyApplicationFragment.getInstance().addNewTask(mDevicesListFragment);
+		// initView();
 	}
-	
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.menu_ok, menu);
+		return true;
+	}
+
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
 		mcgiManager.deleteObserver(this);
-		mDeviceManager.deleteObserver(this);
 		CallbackManager.getInstance().deleteObserver(this);
 	}
 
@@ -127,142 +184,113 @@ public class RegionDevicesActivity extends FragmentActivity implements DevicesOb
 		String[] args = { mRoomid };
 		String where = " rid=? ";
 		if (!mRoomid.trim().equals("")) {
-			mDh = new DataHelper(RegionDevicesActivity.this);
-			mList = mDh.queryForDevicesList(
-					mDh.getSQLiteDatabase(), DataHelper.DEVICES_TABLE,
-					null, where, args, null, null, null, null);
+			SQLiteDatabase db = mDataHelper.getSQLiteDatabase();
+			mList = mDataHelper.queryForDevicesList(db,
+					DataHelper.DEVICES_TABLE, null, where, args, null, null,
+					DevicesModel.DEVICE_PRIORITY, null);
+			mList.addAll(mDataHelper.queryForDevicesList(db,
+					DataHelper.RF_DEVICES_TABLE, null, where, args, null, null,
+					DevicesModel.DEVICE_PRIORITY, null));
+			db.close();
 		}
 	}
 
 	private void initAddFragmentDevicesList() {
-		String where = "rid=? and device_sort!=?";
-		String[] args = { "-1", "6" };
-		mAddList = mDh.queryForDevicesList(
-				mDh.getSQLiteDatabase(), DataHelper.DEVICES_TABLE,
-				null, where, args, null, null, DevicesModel.DEVICE_PRIORITY, null);
-//		List<DevicesModel> mTempList = DataUtil.getDevices(
-//				RegionDevicesActivity.this, mDh, null, null);
-//		mAddList = new ArrayList<DevicesModel>();
-//		for (DevicesModel devicesModel : mTempList) {
-//			if (devicesModel.getmRid().equals("-1")) {
-//				mAddList.add(devicesModel);
-//			}
-//		}
+		SQLiteDatabase db = mDataHelper.getSQLiteDatabase();
+		// String where = "rid=? and device_sort!=?";
+		String where = "rid=?";
+		String[] args = { "-1" };
+		mAddList = mDataHelper.queryForDevicesList(db,
+				DataHelper.DEVICES_TABLE, null, where, args, null, null,
+				DevicesModel.DEVICE_PRIORITY, null);
+		mAddList.addAll(mDataHelper.queryForDevicesList(db,
+				DataHelper.RF_DEVICES_TABLE, null, where, args, null, null,
+				DevicesModel.DEVICE_PRIORITY, null));
 	}
-
-	// private boolean isInList(SimpleDevicesModel simpleDevicesModel) {
-	//
-	// for (SimpleDevicesModel msimpleDevicesModel : mList) {
-	// if (msimpleDevicesModel.getmIeee().equals(
-	// simpleDevicesModel.getmIeee())) {
-	// return true;
-	// }
-	// }
-	// return false;
-	// }
 
 	private void initAddToRegionDevicesList() {
 		mAddToRegionList = new ArrayList<DevicesModel>();
 	}
 
-	private void initView() {
-		// TODO Auto-generated method stub
-		mNoDevices = (TextView) findViewById(R.id.no_devices);
-		mAdd = (Button) findViewById(R.id.add_devices);
-		delete = (Button) findViewById(R.id.clear_message);
-		region_name = (TextView) findViewById(R.id.title);
-
-		region_name.setText(mRoomname);
-
-		if (null != mList && mList.size() > 0) {
-			mNoDevices.setVisibility(View.GONE);
-			initDevicesListFragment();
-		}
-
-		mAdd.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				if (currentState == INLIST) {
-					isAdd = true;
-					mAdd.setText("添加");
-					mAdd.setTextColor(Color.RED);
-					// initRegionDevicesList();
-					initAddFragmentDevicesList();
-					mAllDevicesFragment = new AllDevicesFragment();
-					AllDevicesAdapter mAllDevicesAdapter = new AllDevicesAdapter(
-							RegionDevicesActivity.this, mAddList,
-							RegionDevicesActivity.this);
-					mAllDevicesFragment.setAdapter(mAllDevicesAdapter);
-					setFragment(mAllDevicesFragment, -1);
-					currentState = INADD;
-				} else if (currentState == INADD) {
-					isAdd = false;
-					ContentValues c = new ContentValues();
-					c.put(DevicesModel.DEVICE_REGION, mRoomname);
-					c.put(DevicesModel.R_ID, mRoomid);
-					for (DevicesModel s : mAddToRegionList) {
-						CGIManager.getInstance().ModifyDeviceRoomId(s, mRoomid);
-						s.setmDeviceRegion(mRoomname);
-						s.setmRid(mRoomid);
-						updateDevices(s, c);
-						mList.add(s);
-					}
-					mAddToRegionList.clear();
-					mDevicesBaseAdapter.setList(mList);
-					mDevicesBaseAdapter.notifyDataSetChanged();
-					fragmentManager.popBackStack();
-					initDevicesListFragment();
-					currentState = INLIST;
-				} else if (currentState == INCONTROL) {
-					fragmentManager.popBackStack();
-					initDevicesListFragment();
-					currentState = INLIST;
-				}
-			}
-		});
-
-		LinearLayout mBack = (LinearLayout) findViewById(R.id.goback);
-		mBack.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				finish();
-			}
-		});
-
-		delete.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
-						RegionDevicesActivity.this);
-				mMyOkCancleDlg.setDialogCallback(RegionDevicesActivity.this);
-				mMyOkCancleDlg.setContent("确定要删除区域  " + mRoomname + " 吗?");
-				mMyOkCancleDlg.show();
-				deleteType = true;
-			}
-		});
-
-	}
-
-	private void initData() {
-		// TODO Auto-generated method stub
-
-		fragmentManager = getSupportFragmentManager();
-		mcgiManager = CGIManager.getInstance();
-		mcgiManager.addObserver(this);
-
-		mDeviceManager = DeviceManager.getInstance();
-		mDeviceManager.addObserver(this);
-		CallbackManager.getInstance().addObserver(this);
-		initRegionDevicesList();
-		initAddToRegionDevicesList();
-		mDevicesBaseAdapter = new DevicesBaseAdapter(
-				RegionDevicesActivity.this, this);
-		mDevicesBaseAdapter.setList(mList);
-	}
+	// private void initView() {
+	// // TODO Auto-generated method stub
+	// mNoDevices = (TextView) findViewById(R.id.no_devices);
+	// mAdd = (Button) findViewById(R.id.add_devices);
+	// delete = (Button) findViewById(R.id.clear_message);
+	// region_name = (TextView) findViewById(R.id.title);
+	//
+	// region_name.setText(mRoomname);
+	//
+	// if (null != mList && mList.size() > 0) {
+	// mNoDevices.setVisibility(View.GONE);
+	// initDevicesListFragment();
+	// }
+	//
+	// mAdd.setOnClickListener(new OnClickListener() {
+	// @Override
+	// public void onClick(View v) {
+	// // TODO Auto-generated method stub
+	// if (currentState == INLIST) {
+	// isAdd = true;
+	// mAdd.setText("添加");
+	// mAdd.setTextColor(Color.RED);
+	// // initRegionDevicesList();
+	// initAddFragmentDevicesList();
+	// mAllDevicesFragment = new AllDevicesFragment();
+	// AllDevicesAdapter mAllDevicesAdapter = new AllDevicesAdapter(
+	// RegionDevicesActivity.this, mAddList,
+	// RegionDevicesActivity.this);
+	// mAllDevicesFragment.setAdapter(mAllDevicesAdapter);
+	// setFragment(mAllDevicesFragment);
+	// currentState = INADD;
+	// } else if (currentState == INADD) {
+	// isAdd = false;
+	// ContentValues c = new ContentValues();
+	// c.put(DevicesModel.DEVICE_REGION, mRoomname);
+	// c.put(DevicesModel.R_ID, mRoomid);
+	// for (DevicesModel s : mAddToRegionList) {
+	// CGIManager.getInstance().ModifyDeviceRoomId(s, mRoomid);
+	// s.setmDeviceRegion(mRoomname);
+	// s.setmRid(mRoomid);
+	// updateDevices(s, c);
+	// mList.add(s);
+	// }
+	// mAddToRegionList.clear();
+	// mDevicesBaseAdapter.setList(mList);
+	// mDevicesBaseAdapter.notifyDataSetChanged();
+	// initDevicesListFragment();
+	// currentState = INLIST;
+	// } else if (currentState == INCONTROL) {
+	// initDevicesListFragment();
+	// currentState = INLIST;
+	// }
+	// }
+	// });
+	//
+	// LinearLayout mBack = (LinearLayout) findViewById(R.id.goback);
+	// mBack.setOnClickListener(new OnClickListener() {
+	// @Override
+	// public void onClick(View v) {
+	// // TODO Auto-generated method stub
+	// finish();
+	// }
+	// });
+	//
+	// delete.setOnClickListener(new OnClickListener() {
+	//
+	// @Override
+	// public void onClick(View v) {
+	// // TODO Auto-generated method stub
+	// MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
+	// RegionDevicesActivity.this);
+	// mMyOkCancleDlg.setDialogCallback(RegionDevicesActivity.this);
+	// mMyOkCancleDlg.setContent("确定要删除区域  " + mRoomname + " 吗?");
+	// mMyOkCancleDlg.show();
+	// deleteType = true;
+	// }
+	// });
+	//
+	// }
 
 	private void initDevicesListFragment() {
 		// TODO Auto-generated method stub
@@ -272,7 +300,7 @@ public class RegionDevicesActivity extends FragmentActivity implements DevicesOb
 			mNoDevices.setVisibility(View.VISIBLE);
 		} else {
 			mNoDevices.setVisibility(View.GONE);
-			FragmentTransaction fragmentTransaction = fragmentManager
+			FragmentTransaction fragmentTransaction = getSupportFragmentManager()
 					.beginTransaction();
 			mDevicesListFragment = new DevicesListFragment();
 			Bundle extras = new Bundle();
@@ -287,70 +315,33 @@ public class RegionDevicesActivity extends FragmentActivity implements DevicesOb
 	}
 
 	@Override
-	public void setLayout() {
+	public void AddCheckedDevices(DevicesModel model) {
 		// TODO Auto-generated method stub
-		mDevicesListFragment.setLayout();
-	}
-
-	@Override
-	public void deleteDevices(String id) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void AddCheckedDevices(int postion) {
-		// TODO Auto-generated method stub
-		DevicesModel s = mAddList.get(postion);
-		if (!mAddToRegionList.contains(s)) {
-			mAddToRegionList.add(s);
+		if (!mAddToRegionList.contains(model)) {
+			mAddToRegionList.add(model);
 		}
 	}
 
 	@Override
-	public void DeletedCheckedDevices(int postion) {
+	public void DeletedCheckedDevices(DevicesModel model) {
 		// TODO Auto-generated method stub
-		DevicesModel s = mAddList.get(postion);
-		if (mAddToRegionList.contains(s)) {
-			mAddToRegionList.remove(s);
+		if (mAddToRegionList.contains(model)) {
+			mAddToRegionList.remove(model);
 		}
 	}
 
 	@Override
-	public void refreshListData() {
-		// TODO Auto-generated method stub
-		new GetDataTask().execute();
-	}
-
-	@Override
-	public DevicesModel getDeviceModle(int postion) {
-		// TODO Auto-generated method stub
-		if (null != mList) {
-			return mList.get(postion);
-		}
-		return null;
-	}
-
-	@Override
-	public void setFragment(Fragment mFragment, int postion) {
-		// TODO Auto-generated method stub
-		FragmentTransaction fragmentTransaction = fragmentManager
+	public void setFragment(Fragment mFragment) {
+		initAddFragmentDevicesList();
+		RegionDevicesAddFragment mSceneAddFragment = (RegionDevicesAddFragment) mFragment;
+		mRegionDevicesAddListAdapter = mSceneAddFragment.new RegionDevicesAddListAdapter(
+				mAddList, RegionDevicesActivity.this);
+		mSceneAddFragment.setAdapter(mRegionDevicesAddListAdapter);
+		FragmentTransaction fragmentTransaction = getSupportFragmentManager()
 				.beginTransaction();
-		fragmentTransaction.replace(R.id.devices_control_fragment, mFragment);
-		fragmentTransaction.addToBackStack(null);
+		fragmentTransaction.add(R.id.container, mFragment);
 		fragmentTransaction.commit();
-
-		if (postion != -1) {
-			mAdd.setText("返回");
-			mAdd.setTextColor(Color.BLACK);
-			currentState = INCONTROL;
-		}
-	}
-
-	@Override
-	public void setDevicesId(DevicesModel simpleDevicesModel) {
-		// TODO Auto-generated method stub
-		getModel = simpleDevicesModel;
+		MyApplicationFragment.getInstance().addFragment(mFragment);
 	}
 
 	private class GetDataTask extends AsyncTask<Void, Void, List<DevicesModel>> {
@@ -493,17 +484,32 @@ public class RegionDevicesActivity extends FragmentActivity implements DevicesOb
 	@Override
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
-		if (isAdd) {
-			isAdd = false;
-			fragmentManager.popBackStack();
-			initDevicesListFragment();
+		if (MyApplicationFragment.getInstance().getFragmentListSize() > 1) {
+			MyApplicationFragment.getInstance().removeLastFragment();
+			mAddToRegionList.clear();
 		} else {
-			if (fragmentManager.getBackStackEntryCount() > 0) {
-				fragmentManager.popBackStack();
-			} else {
-				finish();
-			}
+			// MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(this);
+			// mMyOkCancleDlg.setDialogCallback((Dialogcallback) this);
+			// mMyOkCancleDlg.setContent("确定要放弃本次编辑?");
+			// mMyOkCancleDlg.show();
+			finish();
 		}
+	}
+
+	@Override
+	public boolean onSupportNavigateUp() {
+		// TODO Auto-generated method stub
+		if (MyApplicationFragment.getInstance().getFragmentListSize() > 1) {
+			MyApplicationFragment.getInstance().removeLastFragment();
+			mAddToRegionList.clear();
+			return super.onSupportNavigateUp();
+		}
+		// MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(this);
+		// mMyOkCancleDlg.setDialogCallback((Dialogcallback) this);
+		// mMyOkCancleDlg.setContent("确定要放弃本次编辑?");
+		// mMyOkCancleDlg.show();
+		finish();
+		return super.onSupportNavigateUp();
 	}
 
 	@Override
@@ -511,31 +517,32 @@ public class RegionDevicesActivity extends FragmentActivity implements DevicesOb
 		// TODO Auto-generated method stub
 
 	}
-	
-	private int getDevicesPostion(String ieee, String ep, List<DevicesModel> list){
+
+	private int getDevicesPostion(String ieee, String ep,
+			List<DevicesModel> list) {
 		int position = -1;
-		for(int i=0; i<list.size(); i++){
-			if(list.get(i).getmIeee().equals(ieee) && list.get(i).getmEP().equals(ep)){
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).getmIeee().equals(ieee)
+					&& list.get(i).getmEP().equals(ep)) {
 				return i;
 			}
 		}
 		return position;
 	}
-	
-	private int getSecurityPosition(List<DevicesModel> list){
+
+	private int getSecurityPosition(List<DevicesModel> list) {
 		int position = -1;
-		for(int i=0; i<list.size(); i++){
-			if(list.get(i).getmModelId().indexOf(DataHelper.One_key_operator) == 0){
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).getmModelId().indexOf(DataHelper.One_key_operator) == 0) {
 				return i;
 			}
 		}
 		return position;
 	}
-	
-	
+
 	public void update(Manger observer, Object object) {
 		// TODO Auto-generated method stub
-		if(isAdd){
+		if (isAdd) {
 			return;
 		}
 		final Event event = (Event) object;
@@ -548,7 +555,7 @@ public class RegionDevicesActivity extends FragmentActivity implements DevicesOb
 				if (m != -1) {
 					String light = bundle.getString("PARAM");
 					mList.get(m).setmBrightness(Integer.parseInt(light));
-					region_name.post(new Runnable() {
+					mToolbar.post(new Runnable() {
 						@Override
 						public void run() {
 							// setDataActivity.setdata(mDeviceList);
@@ -556,7 +563,7 @@ public class RegionDevicesActivity extends FragmentActivity implements DevicesOb
 						}
 					});
 				}
-			} 
+			}
 		} else if (EventType.TEMPERATURESENSOROPERATION == event.getType()) {
 			if (event.isSuccess()) {
 				Bundle bundle = (Bundle) event.getData();
@@ -564,9 +571,8 @@ public class RegionDevicesActivity extends FragmentActivity implements DevicesOb
 						bundle.getString("EP"), mList);
 				if (m != -1) {
 					String temperature = bundle.getString("PARAM");
-					mList.get(m).setmTemperature(
-							Float.parseFloat(temperature));
-					region_name.post(new Runnable() {
+					mList.get(m).setmTemperature(Float.parseFloat(temperature));
+					mToolbar.post(new Runnable() {
 						@Override
 						public void run() {
 							// setDataActivity.setdata(mDeviceList);
@@ -583,7 +589,7 @@ public class RegionDevicesActivity extends FragmentActivity implements DevicesOb
 				if (m != -1) {
 					String humidity = bundle.getString("PARAM");
 					mList.get(m).setmHumidity(Float.parseFloat(humidity));
-					region_name.post(new Runnable() {
+					mToolbar.post(new Runnable() {
 						@Override
 						public void run() {
 							// setDataActivity.setdata(mDeviceList);
@@ -593,30 +599,30 @@ public class RegionDevicesActivity extends FragmentActivity implements DevicesOb
 				}
 			}
 		} else if (EventType.LOCALIASCIEBYPASSZONE == event.getType()) {
-				if (event.isSuccess()) {
-					Bundle bundle = (Bundle) event.getData();
-					int m = getDevicesPostion(bundle.getString("IEEE"),
-							bundle.getString("EP"), mList);
-					if (m != -1) {
-						mList.get(m).setmOnOffStatus(bundle.getString("PARAM"));
-						region_name.post(new Runnable() {
-							@Override
-							public void run() {
-								// setDataActivity.setdata(mDeviceList);
-								mDevicesBaseAdapter.notifyDataSetChanged();
-							}
-						});
-					}
+			if (event.isSuccess()) {
+				Bundle bundle = (Bundle) event.getData();
+				int m = getDevicesPostion(bundle.getString("IEEE"),
+						bundle.getString("EP"), mList);
+				if (m != -1) {
+					mList.get(m).setmOnOffStatus(bundle.getString("PARAM"));
+					mToolbar.post(new Runnable() {
+						@Override
+						public void run() {
+							// setDataActivity.setdata(mDeviceList);
+							mDevicesBaseAdapter.notifyDataSetChanged();
+						}
+					});
 				}
+			}
 		} else if (EventType.LOCALIASCIEOPERATION == event.getType()) {
 			if (event.isSuccess() == true) {
 
 				int m = getSecurityPosition(mList);
-				Log.i("LOCALIASCIEOPERATION", "m = "+m);
+				Log.i("LOCALIASCIEOPERATION", "m = " + m);
 				if (m != -1) {
 					String status = (String) event.getData();
 					mList.get(m).setmOnOffStatus(status);
-					region_name.post(new Runnable() {
+					mToolbar.post(new Runnable() {
 						@Override
 						public void run() {
 							// setDataActivity.setdata(mDeviceList);
@@ -632,11 +638,11 @@ public class RegionDevicesActivity extends FragmentActivity implements DevicesOb
 						.getData();
 				int m = getDevicesPostion(data.getDeviceIeee(),
 						data.getDeviceEp(), mList);
-				Log.i("ON_OFF_STATUS", "m = "+m);
+				Log.i("ON_OFF_STATUS", "m = " + m);
 				if (-1 != m) {
 					if (null != data.getValue()) {
 						mList.get(m).setmOnOffStatus(data.getValue());
-						region_name.post(new Runnable() {
+						mToolbar.post(new Runnable() {
 							@Override
 							public void run() {
 								// setDataActivity.setdata(mDeviceList);
@@ -645,7 +651,7 @@ public class RegionDevicesActivity extends FragmentActivity implements DevicesOb
 						});
 					}
 				}
-			} 
+			}
 		} else if (EventType.MOVE_TO_LEVEL == event.getType()) {
 			if (event.isSuccess() == true) {
 				// data maybe null
@@ -659,12 +665,12 @@ public class RegionDevicesActivity extends FragmentActivity implements DevicesOb
 				if (-1 != m) {
 					if (null != data.getValue()) {
 						mList.get(m).setmLevel(valueString);
-						if(Integer.parseInt(valueString) < 7){
+						if (Integer.parseInt(valueString) < 7) {
 							mList.get(m).setmOnOffStatus("0");
-						}else{
+						} else {
 							mList.get(m).setmOnOffStatus("1");
 						}
-						region_name.post(new Runnable() {
+						mToolbar.post(new Runnable() {
 							@Override
 							public void run() {
 								// setDataActivity.setdata(mDeviceList);
@@ -688,14 +694,14 @@ public class RegionDevicesActivity extends FragmentActivity implements DevicesOb
 				if (-1 != m) {
 					if (null != data.getValue()) {
 						mList.get(m).setmCurrent(valueString);
-						region_name.post(new Runnable() {
+						mToolbar.post(new Runnable() {
 							@Override
 							public void run() {
 								// setDataActivity.setdata(mDeviceList);
 								mDevicesBaseAdapter.notifyDataSetChanged();
 							}
 						});
-						//DeviceDtailFragment.getInstance().refreshCurrent(valueString);
+						// DeviceDtailFragment.getInstance().refreshCurrent(valueString);
 					}
 				}
 			} else {
@@ -713,14 +719,14 @@ public class RegionDevicesActivity extends FragmentActivity implements DevicesOb
 				if (-1 != m) {
 					if (null != data.getValue()) {
 						mList.get(m).setmVoltage(data.getValue());
-						region_name.post(new Runnable() {
+						mToolbar.post(new Runnable() {
 							@Override
 							public void run() {
 								// setDataActivity.setdata(mDeviceList);
 								mDevicesBaseAdapter.notifyDataSetChanged();
 							}
 						});
-						//DeviceDtailFragment.getInstance().refreshVoltage(valueString);
+						// DeviceDtailFragment.getInstance().refreshVoltage(valueString);
 					}
 				}
 			} else {
@@ -739,14 +745,14 @@ public class RegionDevicesActivity extends FragmentActivity implements DevicesOb
 				if (-1 != m) {
 					if (null != data.getValue()) {
 						mList.get(m).setmEnergy(data.getValue());
-						region_name.post(new Runnable() {
+						mToolbar.post(new Runnable() {
 							@Override
 							public void run() {
 								// setDataActivity.setdata(mDeviceList);
 								mDevicesBaseAdapter.notifyDataSetChanged();
 							}
 						});
-						//DeviceDtailFragment.getInstance().refreshEnergy(valueString);
+						// DeviceDtailFragment.getInstance().refreshEnergy(valueString);
 					}
 				}
 			} else {
@@ -764,39 +770,20 @@ public class RegionDevicesActivity extends FragmentActivity implements DevicesOb
 				if (-1 != m) {
 					if (null != data.getValue()) {
 						mList.get(m).setmPower(data.getValue());
-						region_name.post(new Runnable() {
+						mToolbar.post(new Runnable() {
 							@Override
 							public void run() {
 								// setDataActivity.setdata(mDeviceList);
 								mDevicesBaseAdapter.notifyDataSetChanged();
 							}
 						});
-						//DeviceDtailFragment.getInstance().refreshPower(valueString);
+						// DeviceDtailFragment.getInstance().refreshPower(valueString);
 					}
 				}
 			} else {
 				// if failed,prompt a Toast
 				// mError.setVisibility(View.VISIBLE);
 			}
-		} else if(EventType.GETEPBYROOMINDEX == event.getType()){
-			if (event.isSuccess() == true) {
-				mList = (List<DevicesModel>) event
-						.getData();
-				mDevicesBaseAdapter.setList(mList);
-				Log.i("device first", mList.get(0).toString());
-				for(DevicesModel mdevice : mList){
-					mdevice.setmDeviceRegion(mRoomname);
-					Log.i("IEEE", mdevice.getmIeee());
-				}
-				region_name.post(new Runnable() {
-					@Override
-					public void run() {
-						mDevicesBaseAdapter.notifyDataSetChanged();
-					}
-				});
-				
-			}
 		}
 	}
-
 }

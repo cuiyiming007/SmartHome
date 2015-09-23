@@ -5,13 +5,13 @@ import java.util.List;
 import com.gdgl.app.ApplicationController;
 import com.gdgl.libjingle.LibjingleSendManager;
 import com.gdgl.manager.CGIManager;
+import com.gdgl.manager.RfCGIManager;
 import com.gdgl.manager.WarnManager;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
 import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
-import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -38,11 +38,10 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
  * @author Administrator
  * 
  */
-public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
+public class DevicesBaseAdapter extends BaseAdapter {
 
 	protected Context mContext;
 	protected List<DevicesModel> mDevicesList;
-	protected DevicesObserver mDevicesObserver;
 	DevicesModel oneKeyOperatorDevice;
 	CGIManager mcgiManager;
 	LibjingleSendManager libjingleSendManager;
@@ -64,10 +63,9 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 
 	}
 
-	public DevicesBaseAdapter(Context c, DevicesObserver mObserver) {
+	public DevicesBaseAdapter(Context c) {
 		mContext = c;
 		// mDevicesList = list;
-		mDevicesObserver = mObserver;
 	}
 
 	@Override
@@ -100,6 +98,7 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 	public int getItemViewType(int position) {
 		// TODO Auto-generated method stub
 		int devicesid = mDevicesList.get(position).getmDeviceId();
+		String modelid = mDevicesList.get(position).getmModelId();
 
 		int[] mNOOPER = { DataHelper.LIGHT_SENSOR_DEVICETYPE,
 				DataHelper.TEMPTURE_SENSOR_DEVICETYPE,
@@ -120,7 +119,6 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 			}
 		}
 		if (devicesid == DataHelper.IAS_ZONE_DEVICETYPE) {
-			String modelid = mDevicesList.get(position).getmModelId();
 			String str = "";
 			if (modelid != null && modelid.length() > 3) {
 				str = modelid.substring(0, 4);
@@ -132,6 +130,15 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 				return NO_OPERATOR;
 			} else {
 				return ON_OFF;
+			}
+		}
+		if (devicesid == DataHelper.RF_DEVICE) {
+			if (modelid.equals(DataHelper.RF_Magnetic_Door)
+					|| modelid.equals(DataHelper.RF_Magnetic_Door_Roll)
+					|| modelid.equals(DataHelper.RF_Infrared_Motion_Sensor)) {
+				return ON_OFF;
+			} else {
+				return NO_OPERATOR;
 			}
 		}
 		return ON_OFF;
@@ -241,25 +248,24 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 			}
 		} else if (mDevices.getmDeviceId() == DataHelper.LIGHT_SENSOR_DEVICETYPE) { // 光线感应器
 			// devices_state.setText("亮度: "+mDevices.getmValue());
-//			if (getFromSharedPreferences.getLight() != "") {//
-//				devices_state.setText("亮度: "
-//						+ getFromSharedPreferences.getLight() + "Lux");
-//			} else {
-				devices_state.setText("亮度: " + mDevices.getmBrightness()
-						+ "Lux");
-//			}
+			// if (getFromSharedPreferences.getLight() != "") {//
+			// devices_state.setText("亮度: "
+			// + getFromSharedPreferences.getLight() + "Lux");
+			// } else {
+			devices_state.setText("亮度: " + mDevices.getmBrightness() + "Lux");
+			// }
 		} else if (mDevices.getmDeviceId() == DataHelper.TEMPTURE_SENSOR_DEVICETYPE) { // 室内型温湿度感应器
 			String temperature, humidity;
-//			if (getFromSharedPreferences.getTemperature() != "") {
-//				temperature = getFromSharedPreferences.getTemperature();
-//			} else {
-				temperature = String.valueOf(mDevices.getmTemperature());
-//			}
-//			if (getFromSharedPreferences.getHumidity() != "") {
-//				humidity = getFromSharedPreferences.getHumidity();
-//			} else {
-				humidity = String.valueOf(mDevices.getmHumidity());
-//			}
+			// if (getFromSharedPreferences.getTemperature() != "") {
+			// temperature = getFromSharedPreferences.getTemperature();
+			// } else {
+			temperature = String.valueOf(mDevices.getmTemperature());
+			// }
+			// if (getFromSharedPreferences.getHumidity() != "") {
+			// humidity = getFromSharedPreferences.getHumidity();
+			// } else {
+			humidity = String.valueOf(mDevices.getmHumidity());
+			// }
 			devices_state.setText("温度: " + temperature + "°C" + "\n湿度: "
 					+ humidity + "%");
 		} else if (mDevices.getmModelId().indexOf(DataHelper.One_key_operator) == 0) {
@@ -350,6 +356,33 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 				devices_state.setText("开");
 				devices_switch.setChecked(true);
 			}
+		} else if (mDevices.getmDeviceId() == DataHelper.RF_DEVICE) { // Rf设备
+			if (mDevices.getmModelId().equals(DataHelper.RF_Siren)
+					|| mDevices.getmModelId().equals(DataHelper.RF_Siren_Relay)
+					|| mDevices.getmModelId().equals(
+							DataHelper.RF_Siren_Outside)) { // 警报器
+				devices_state.setVisibility(View.GONE);
+				btn_layout.setVisibility(View.VISIBLE);
+				devices_button.setOnClickListener(new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+							mcgiManager.stopAlarm();
+						} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+							libjingleSendManager.stopAlarm();
+						}
+					}
+				});
+			}
+			if (mDevices.getmOnOffStatus().trim().equals("0")) {
+				devices_state.setText("撤防");
+				devices_switch.setChecked(false);
+			} else {
+				devices_state.setText("布防");
+				devices_switch.setChecked(true);
+			}
 		} else {
 			if (mDevices.getmOnOffStatus().trim().equals("1")) {
 				devices_state.setText("开");
@@ -379,11 +412,13 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 								}
 								if (mDevices.getmDeviceId() == DataHelper.MAINS_POWER_OUTLET_DEVICETYPE) {
 									// 开关模块（单路）、中规电能检测墙面插座、电能检测插座
-									mcgiManager.MainsOutLetOperation(mDevices, 1);
+									mcgiManager.MainsOutLetOperation(mDevices,
+											1);
 								}
 								if (mDevices.getmDeviceId() == DataHelper.ON_OFF_LIGHT_DEVICETYPE) {
 									// 开关模块（四路）
-									mcgiManager.MainsOutLetOperation(mDevices, 1);
+									mcgiManager.MainsOutLetOperation(mDevices,
+											1);
 								}
 								if (mDevices.getmDeviceId() == DataHelper.SHADE_DEVICETYPE) {
 									// 窗帘
@@ -393,6 +428,10 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 									// 烟雾感应器、可燃气体探测器（煤气）、（天然气）、（一氧化碳）、门窗感应开关、窗磁、紧急按钮、动作感应器
 									mcgiManager
 											.LocalIASCIEUnByPassZone(mDevices);
+								}
+								if (mDevices.getmDeviceId() == DataHelper.RF_DEVICE) {
+									RfCGIManager.getInstance().ChangeRFDevArmState(mDevices.getmIeee(), 1);
+									mDevices.setmOnOffStatus("1");
 								}
 							} else {
 								if (mDevices.getmDeviceId() == DataHelper.ON_OFF_OUTPUT_DEVICETYPE) {
@@ -404,16 +443,22 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 									mDevices.setmOnOffStatus("0");
 								}
 								if (mDevices.getmDeviceId() == DataHelper.MAINS_POWER_OUTLET_DEVICETYPE) {
-									mcgiManager.MainsOutLetOperation(mDevices, 0);
+									mcgiManager.MainsOutLetOperation(mDevices,
+											0);
 								}
 								if (mDevices.getmDeviceId() == DataHelper.ON_OFF_LIGHT_DEVICETYPE) {
-									mcgiManager.MainsOutLetOperation(mDevices, 0);
+									mcgiManager.MainsOutLetOperation(mDevices,
+											0);
 								}
 								if (mDevices.getmDeviceId() == DataHelper.SHADE_DEVICETYPE) {
 									mcgiManager.shadeOperation(mDevices, 1, 1);
 								}
 								if (mDevices.getmDeviceId() == DataHelper.IAS_ZONE_DEVICETYPE) {
 									mcgiManager.LocalIASCIEByPassZone(mDevices);
+								}
+								if (mDevices.getmDeviceId() == DataHelper.RF_DEVICE) {
+									RfCGIManager.getInstance().ChangeRFDevArmState(mDevices.getmIeee(), 0);
+									mDevices.setmOnOffStatus("0");
 								}
 							}
 						} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
@@ -435,7 +480,8 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 								}
 								if (mDevices.getmDeviceId() == DataHelper.ON_OFF_LIGHT_DEVICETYPE) {
 									// 开关模块（四路）
-									libjingleSendManager.MainsOutLetOperation(mDevices, 1);
+									libjingleSendManager.MainsOutLetOperation(
+											mDevices, 1);
 								}
 								if (mDevices.getmDeviceId() == DataHelper.SHADE_DEVICETYPE) {
 									// 窗帘
@@ -446,6 +492,10 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 									// 烟雾感应器、可燃气体探测器（煤气）、（天然气）、（一氧化碳）、门窗感应开关、窗磁、紧急按钮、动作感应器
 									libjingleSendManager
 											.LocalIASCIEUnByPassZone(mDevices);
+								}
+								if (mDevices.getmDeviceId() == DataHelper.RF_DEVICE) {
+									libjingleSendManager.ChangeRFDevArmState(mDevices.getmIeee(), 1);
+									mDevices.setmOnOffStatus("1");
 								}
 							} else {
 								if (mDevices.getmDeviceId() == DataHelper.ON_OFF_OUTPUT_DEVICETYPE) {
@@ -473,6 +523,10 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 									libjingleSendManager
 											.LocalIASCIEByPassZone(mDevices);
 								}
+								if (mDevices.getmDeviceId() == DataHelper.RF_DEVICE) {
+									libjingleSendManager.ChangeRFDevArmState(mDevices.getmIeee(), 0);
+									mDevices.setmOnOffStatus("0");
+								}
 							}
 						}
 					}
@@ -483,6 +537,10 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 	public void setList(List<DevicesModel> list) {
 		mDevicesList = null;
 		mDevicesList = list;
+	}
+
+	public List<DevicesModel> getList() {
+		return mDevicesList;
 	}
 
 	ImageView devices_img;
@@ -497,14 +555,6 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 	LinearLayout btn_layout;
 	Button devices_button;
 
-	public interface DevicesObserver {
-
-		public void setLayout();
-
-		public void deleteDevices(String id);
-
-	}
-
 	class getOneKeyOperatorStatusTask extends AsyncTask<Object, Object, Object> {
 
 		@Override
@@ -517,19 +567,5 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 			return null;
 		}
 	}
-
-	@Override
-	public void dialogdo() {
-		// TODO Auto-generated method stub
-		// lay.expandable_toggle_button.setChecked(true);
-		// Animation anim = new ExpandCollapseAnimation(lay.expand,
-		// ExpandCollapseAnimation.COLLAPSE);
-		// anim.setDuration(300);
-		// //lay.expand.startAnimation(anim);
-		// mDevicesObserver.deleteDevices(index);
-	}
-	// public void setListView(ListView listView) {
-	// this.listView = listView;
-	// }
 
 }

@@ -8,11 +8,10 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.gdgl.GalleryFlow.FancyCoverFlow;
-import com.gdgl.activity.DevicesListFragment.refreshData;
+import com.gdgl.activity.DevicesListFragment.ChangeFragment;
 import com.gdgl.activity.DevicesListFragment.setData;
 import com.gdgl.adapter.DevicesBaseAdapter;
 import com.gdgl.adapter.ViewGroupAdapter;
-import com.gdgl.adapter.DevicesBaseAdapter.DevicesObserver;
 import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.DeviceManager;
 import com.gdgl.manager.CGIManager;
@@ -55,8 +54,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.TextView;
 
 public class ShowDevicesGroupFragmentActivity extends FragmentActivity
-		implements refreshData, DevicesObserver,
-		EditDialogcallback, setData, UIListener {
+		implements EditDialogcallback, setData, UIListener, ChangeFragment {
 
 	private static final String TAG = "ShowDevicesGroupFragmentActivity";
 	LinearLayout mBack;
@@ -389,7 +387,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 	private void initDevicesListFragment() {
 		// TODO Auto-generated method stub
 		mDevicesBaseAdapter = new DevicesBaseAdapter(
-				ShowDevicesGroupFragmentActivity.this, this);
+				ShowDevicesGroupFragmentActivity.this);
 		mDevicesBaseAdapter.setList(mCurrentList);
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
@@ -404,7 +402,7 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 	private void initDevicesListFragmentWithPosition(int position) {
 		// TODO Auto-generated method stub
 		mDevicesBaseAdapter = new DevicesBaseAdapter(
-				ShowDevicesGroupFragmentActivity.this, this);
+				ShowDevicesGroupFragmentActivity.this);
 		mDevicesBaseAdapter.setList(mCurrentList);
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
@@ -541,24 +539,8 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 	}
 
 	@Override
-	public DevicesModel getDeviceModle(int postion) {
+	public void setFragment(Fragment mFragment) {
 		// TODO Auto-generated method stub
-		if (null != mCurrentList) {
-			return mCurrentList.get(postion);
-		}
-		return null;
-	}
-
-	@Override
-	public void setDevicesId(DevicesModel devicesModel) {
-		// TODO Auto-generated method stub
-		getModel = devicesModel;
-	}
-
-	@Override
-	public void setFragment(Fragment mFragment, int postion) {
-		// TODO Auto-generated method stub
-		Log.i(TAG, "zzz->setFragment postion=" + postion);
 		// mCurrentListItemPostion = postion;
 		fancyCoverFlow.setVisibility(View.GONE);
 		FragmentTransaction fragmentTransaction = fragmentManager
@@ -598,24 +580,6 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 	// refreshAdapter(mListIndex);
 	// initTitleByTag(mListIndex);
 	// }
-
-	@Override
-	public void setLayout() {
-		// TODO Auto-generated method stub
-		mDevicesListFragment.setLayout();
-	}
-
-	@Override
-	public void deleteDevices(String id) {
-		// TODO Auto-generated method stub
-		// Log.i(TAG, "tagzgs->delete id=" + id);
-		// LightManager.getInstance().deleteNode(devicesIeee);
-		// mDataHelper.delete(ShowDevicesGroupFragmentActivity.this,
-		// mDataHelper.getSQLiteDatabase(), DataHelper.DEVICES_TABLE,
-		// " ieee=? ", new String[] { id });
-		// mDevicesListCache.clear();
-		// refreshAdapter(mListIndex);
-	}
 
 	// public class UpdateDevicesTask extends
 	// AsyncTask<Paremeters, Integer, Integer> {

@@ -1,6 +1,5 @@
 package com.gdgl.activity;
 
-import com.gdgl.activity.DevicesListFragment.refreshData;
 import com.gdgl.activity.ShowDevicesGroupFragmentActivity.adapterSeter;
 import com.gdgl.adapter.AllDevicesAdapter;
 import com.gdgl.adapter.AllDevicesAdapter.AddChecked;
@@ -33,7 +32,6 @@ public class AllDevicesFragment extends Fragment implements adapterSeter {
 	int refreshTag = 0;
 
 	BaseAdapter mBaseAdapter;
-	private refreshData mRefreshData;
 	
 	AddChecked mAddChecked;
 	LinearLayout list_root;
@@ -82,7 +80,6 @@ public class AllDevicesFragment extends Fragment implements adapterSeter {
 							label);
 
 					// Do work to refresh the list here.
-					mRefreshData.refreshListData();
 				}
 			}
 		});
@@ -111,10 +108,6 @@ public class AllDevicesFragment extends Fragment implements adapterSeter {
 	
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		if (!(activity instanceof refreshData)) {
-			throw new IllegalStateException("Activity必须实现refreshData接口");
-		}
-		mRefreshData = (refreshData) activity;
 		mAddChecked=(AddChecked)activity;
 	}
 	
