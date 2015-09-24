@@ -1,8 +1,6 @@
 package com.gdgl.adapter;
 
 import com.gdgl.GalleryFlow.FancyCoverFlow;
-import com.gdgl.smarthome.R;
-import com.gdgl.smarthome.R.color;
 import com.gdgl.util.BitmapUtil;
 
 import android.content.Context;
@@ -150,7 +148,7 @@ class CustomViewGroup extends LinearLayout {
         
         this.textView.setGravity(Gravity.CENTER);
         this.textView.setTextSize(18);
-        this.textView.setTextColor(color.blue);
+        //this.textView.setTextColor(color.blue);
         this.imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         this.imageView.setAdjustViewBounds(true);
         

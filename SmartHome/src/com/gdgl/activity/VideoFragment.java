@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -38,6 +39,11 @@ import com.gdgl.smarthome.R;
 import com.gdgl.util.MyOKOnlyDlg;
 import com.gdgl.util.MyOkCancleDlg;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
+import com.videogo.constant.IntentConsts;
+import com.videogo.exception.BaseException;
+import com.videogo.openapi.EzvizAPI;
+import com.videogo.openapi.bean.req.GetCameraInfoList;
+import com.videogo.openapi.bean.resp.CameraInfo;
 
 public class VideoFragment extends Fragment implements UIListener,
 		Dialogcallback {
@@ -46,10 +52,11 @@ public class VideoFragment extends Fragment implements UIListener,
 	ViewGroup nodevices;
 	CustomeAdapter adapter;
 	ButtonFloat mButtonFloat;
-
+	private EzvizAPI mEzvizAPI = null;
 	public static final String PASS_OBJECT = "pass_object";
-	List<VideoNode> mList;
-	VideoNode currentVideoNode;
+	//List<VideoNode> mList;
+	List<CameraInfo> mList;
+	CameraInfo currentVideoNode;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -59,8 +66,26 @@ public class VideoFragment extends Fragment implements UIListener,
 
 	private void initData() {
 		// TODO Auto-generated method stub
-		mList = DataHelper.getVideoList((Context) getActivity(),
-				new DataHelper((Context) getActivity()));
+		Log.i("aaa", "1111111111");
+		mEzvizAPI = EzvizAPI.getInstance();
+		new Thread(new Runnable() {
+			public void run() {
+				Log.i("aaa", "222222222");
+				mEzvizAPI.setAccessToken("at.7o7px5k49ncb8fge0mytlosqa9tegu17-706oodewu2-0mf2ean-dfn00dkhq");
+				Log.i("aaa", "33333333333");
+				GetCameraInfoList getCameraInfoList = new GetCameraInfoList();
+				Log.i("aaa", "4444444444");
+				getCameraInfoList.setPageSize(10);
+				try {
+					Log.i("aaa", "55555555555");
+					 mList = mEzvizAPI.getCameraInfoList(getCameraInfoList);
+					 Log.i("aaa", "bbbbbbbbbbbb");
+				} catch (BaseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}).start();
 	}
 
 	@Override
@@ -100,27 +125,22 @@ public class VideoFragment extends Fragment implements UIListener,
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				// TODO Auto-generated method stub
-				if (mList.get(position).getIpc_status().equals("a")) {
-					Bundle extras = new Bundle();
-//					Intent intent = new Intent((Context) getActivity(),
-//							VideoActivity.class);
-					Intent intent = new Intent((Context) getActivity(),
-							HikVideoActivity.class);
-					extras.putParcelable(PASS_OBJECT, mList.get(position));
-					intent.putExtras(extras);
+				Log.i("aaa", "66666666666");
+				CameraInfo cameraInfo = adapter.getItem(position);
+				Log.i("aaa", "777777777");//简单视频播放YingShiVideoActivity,YingShiRealPlayActivity
+					Intent intent = new Intent((Context) getActivity(),YingShiRealPlayActivity.class);
+					Log.i("aaa", "888888888");
+					intent.putExtra(IntentConsts.EXTRA_CAMERA_INFO, cameraInfo);
+					Log.i("aaa", "999999999");
 					startActivity(intent);
-				} else {
-					Toast.makeText(getActivity(), "摄像头不在线", Toast.LENGTH_SHORT).show();
-				}
-				
-			}
+				} 
 		});
 		mButtonFloat.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+				/*if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
 					VideoInfoDialog addDlg;
 					addDlg = new VideoInfoDialog(getActivity(),
 							VideoInfoDialog.Add, mList.size());
@@ -131,7 +151,7 @@ public class VideoFragment extends Fragment implements UIListener,
 					myOKOnlyDlg.setContent(getResources().getString(
 							R.string.Unable_In_InternetState));
 					myOKOnlyDlg.show();
-				}
+				}*/
 			}
 		});
 		if (null == mList || mList.size() == 0) {
@@ -161,7 +181,7 @@ public class VideoFragment extends Fragment implements UIListener,
 		}
 
 		@Override
-		public Object getItem(int position) {
+		public CameraInfo getItem(int position) {
 			// TODO Auto-generated method stub
 			if (null != mList) {
 				return mList.get(position);
@@ -172,10 +192,10 @@ public class VideoFragment extends Fragment implements UIListener,
 		@Override
 		public long getItemId(int position) {
 			// TODO Auto-generated method stub
-			if (null != mList
+			/*if (null != mList
 					&& !TextUtils.isEmpty(mList.get(position).getId())) {
 				return Integer.parseInt(mList.get(position).getId());
-			}
+			}*/
 			return position;
 		}
 
@@ -198,13 +218,13 @@ public class VideoFragment extends Fragment implements UIListener,
 			} else {
 				mViewHolder = (ViewHolder) convertView.getTag();
 			}
-			if (mList.get(position).getIpc_status().equals("a")) {
+			//if (mList.get(position).getIpc_status().equals("a")) {
 				mViewHolder.funcImg.setImageResource(R.drawable.ui2_device_video_style);
 				
-			} else {
-				mViewHolder.funcImg.setImageResource(R.drawable.ui2_device_video_off);
-			}
-			mViewHolder.funcText.setText(mList.get(position).getAliases());
+			//} else {
+			//	mViewHolder.funcImg.setImageResource(R.drawable.ui2_device_video_off);
+			//}
+			mViewHolder.funcText.setText(mList.get(position).getCameraName());
 			return convertView;
 		}
 
@@ -239,7 +259,7 @@ public class VideoFragment extends Fragment implements UIListener,
 			if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
 				VideoInfoDialog videoInfoDialog = new VideoInfoDialog(
 						getActivity(), VideoInfoDialog.Edit, currentVideoNode);
-				videoInfoDialog.setContent("编辑" + currentVideoNode.getAliases());
+				videoInfoDialog.setContent("编辑" + currentVideoNode.getCameraName());
 				videoInfoDialog.show();
 			} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
 				MyOKOnlyDlg myOKOnlyDlg = new MyOKOnlyDlg(getActivity());
@@ -253,7 +273,7 @@ public class VideoFragment extends Fragment implements UIListener,
 				MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
 						(Context) getActivity());
 				mMyOkCancleDlg.setDialogCallback((Dialogcallback) this);
-				mMyOkCancleDlg.setContent("确定要删除" + currentVideoNode.getAliases()
+				mMyOkCancleDlg.setContent("确定要删除" + currentVideoNode.getCameraName()
 						+ "吗?");
 				mMyOkCancleDlg.show();
 			} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
@@ -271,7 +291,7 @@ public class VideoFragment extends Fragment implements UIListener,
 		final Event event = (Event) object;
 		if (event.getType() == EventType.ADDIPC) {
 			if (event.isSuccess()) {
-				VideoNode videoNode = (VideoNode) event.getData();
+				CameraInfo videoNode = (CameraInfo) event.getData();
 				mList.add(videoNode);
 				content_view.post(new Runnable() {
 
@@ -296,9 +316,9 @@ public class VideoFragment extends Fragment implements UIListener,
 		} else if (event.getType() == EventType.EDITIPC) {
 			if (event.getType() == EventType.EDITIPC) {
 				if (event.isSuccess()) {
-					VideoNode videoNode = (VideoNode) event.getData();
+					CameraInfo videoNode = (CameraInfo) event.getData();
 					for (int i = 0; i < mList.size(); i++) {
-						if (mList.get(i).getId().equals(videoNode.getId())) {
+						if (mList.get(i).getCameraId().equals(videoNode.getCameraId())) {
 							mList.remove(i);
 							mList.add(i, videoNode);
 							break;
@@ -328,7 +348,7 @@ public class VideoFragment extends Fragment implements UIListener,
 			if (event.isSuccess()) {
 				int vid = (Integer) event.getData();
 				for (int i = 0; i < mList.size(); i++) {
-					if (mList.get(i).getId().equals(String.valueOf(vid))) {
+					if (mList.get(i).getCameraId().equals(String.valueOf(vid))) {
 						mList.remove(i);
 						break;
 					}
@@ -357,9 +377,8 @@ public class VideoFragment extends Fragment implements UIListener,
 			for (int i = 0; i < videoStatusList.length; i++) {
 				if (videoStatusList[i] != 'c') {
 					for (int j = 0; j < mList.size(); j++) {
-						if (mList.get(j).getId().equals(String.valueOf(i))) {
-							mList.get(j).setIpc_status(
-									String.valueOf(videoStatusList[i]));
+						if (mList.get(j).getCameraId().equals(String.valueOf(i))) {
+							//mList.get(j).setIpc_status(String.valueOf(videoStatusList[i]));
 							break;
 						}
 					}
@@ -378,6 +397,6 @@ public class VideoFragment extends Fragment implements UIListener,
 
 	@Override
 	public void dialogdo() {
-		VideoManager.getInstance().deleteIPC(currentVideoNode);
+		//VideoManager.getInstance().deleteIPC(currentVideoNode);
 	}
 }

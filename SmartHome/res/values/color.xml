@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    
     <color name="white">#FFFFFF</color><!--白色 -->
 
     <color name="ivory">#FFFFF0</color><!--象牙色 -->
@@ -89,6 +90,8 @@
     <color name="honeydew">#F0FFF0</color><!--蜜色 -->
 
     <color name="aliceblue">#F0F8FF</color><!--艾利斯兰 -->
+    
+    <color name="common_bg">#F0F0F3</color>
 
     <color name="khaki">#F0E68C</color><!--黄褐色 -->
 
@@ -288,7 +291,10 @@
     <color name="black">#4F4F4F</color><!--黑色 -->
     
     <color name="blue_default">#00b6ee</color><!--蓝色自定义 -->
- 
+ 	
+ 	<color name="black_bg">#000000</color><!-- 萤石 -->
+ 	<color name="gray_text">#adadad</color>
+ 	<color name="play_translucent_bg">#c0000000</color>
 <!--
 	new for Drawer
 --> 

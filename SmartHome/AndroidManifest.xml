@@ -92,13 +92,7 @@
             android:configChanges="orientation|keyboardHidden|screenSize" >
             <!--  android:theme="@android:style/Theme.NoTitleBar"-->
         </activity>
-        <activity
-            android:name="com.gdgl.activity.HikVideoActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="sensor"
-            android:configChanges="orientation|keyboardHidden|screenSize" >
-            <!--  android:theme="@android:style/Theme.NoTitleBar"-->
-        </activity>
+        
          <!--android:configChanges="orientation"-->
         <activity
             android:name="com.gdgl.activity.ShowDevicesGroupFragmentActivity"
@@ -147,6 +141,16 @@
          </activity>
          <activity
              android:name="com.gdgl.activity.ConfigurationActivity_New"
+             android:screenOrientation="portrait" >
+         </activity>
+         
+         <activity
+             android:name="com.gdgl.activity.YingShiVideoActivity"
+             android:screenOrientation="portrait" >
+         </activity>
+         <activity
+             android:name="com.gdgl.activity.YingShiRealPlayActivity"
+             android:configChanges="orientation|keyboardHidden|screenSize"
              android:screenOrientation="portrait" >
          </activity>
 

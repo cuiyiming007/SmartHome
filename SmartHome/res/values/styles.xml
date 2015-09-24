@@ -125,5 +125,10 @@
     <style name="scene_anfang_checkbox_style" parent="@android:style/Widget.CompoundButton.CheckBox">
         <item name="android:button">@drawable/scene_bufang_checkbox_bg</item>
     </style>
+    
+    <style name="popwindowUpAnim"> 
+    <item name="android:windowEnterAnimation">@anim/fade_up</item>  
+    <item name="android:windowExitAnimation">@anim/fade_down</item> 
+  </style>
 
 </resources>

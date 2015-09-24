@@ -24,7 +24,7 @@
 -injars      libs
 -outjars     bin/classes-processed.jar
 -libraryjars D:/AndroidADT/sdk/platforms/android-22/android.jar
--libraryjars libs/PlayerSDK.jar
+#-libraryjars libs/PlayerSDK.jar
 
 -dontpreverify
 -repackageclasses ''
@@ -83,10 +83,10 @@
 
 -keep class java.io.** {*;}
 
--keep class org.MediaPlayer.PlayM4.** {*;}
--keep interface org.MediaPlayer.PlayM4.Player.** {*;}
--keep class com.hikvision.netsdk.** {*;}
--keep interface com.hikvision.netsdk.** {*;}
+#-keep class org.MediaPlayer.PlayM4.** {*;}
+#-keep interface org.MediaPlayer.PlayM4.Player.** {*;}
+#-keep class com.hikvision.netsdk.** {*;}
+#-keep interface com.hikvision.netsdk.** {*;}
 
 -keep class com.gdgl.mydata.** {*;}
 -keep class com.gdgl.model.historydata.** {*;}

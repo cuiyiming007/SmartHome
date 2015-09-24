@@ -9,12 +9,22 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.Volley;
+import com.videogo.constant.Config;
+import com.videogo.openapi.EzvizAPI;
+import com.videogo.constant.Config;
+import com.videogo.openapi.EzvizAPI;
 /***
  * initial volley RequestQueue while app start
  * @author justek
  *
  */
 public class ApplicationController extends Application {
+	
+public static String APP_KEY = "4333c1fb24a948e5a036c6fb3c055cf8";
+    
+    public static String API_URL = "https://open.ys7.com";
+    public static String WEB_URL = "https://auth.ys7.com";
+	
 	private boolean isDragSlidMenu = true;
 
     /**
@@ -35,10 +45,13 @@ public class ApplicationController extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Config.LOGGING = true;
+        EzvizAPI.init(this, APP_KEY); 
+        EzvizAPI.getInstance().setServerUrl(API_URL, WEB_URL);     
+        Thread.setDefaultUncaughtExceptionHandler(new CustomExceptionHandler(this));
         sInstance = this;
         CrashHandler crashHandler = CrashHandler.getInstance();  
         crashHandler.init(this);
-        // initialize the singleton
     }
 
     /**

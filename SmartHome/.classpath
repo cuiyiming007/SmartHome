@@ -7,7 +7,6 @@
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
-	<classpathentry kind="lib" path="libs/PlayerSDK.jar"/>
-	<classpathentry kind="lib" path="libs/HCNetSDK.jar"/>
+	<classpathentry kind="lib" path="libs/ezviz-openapi-android-sdk.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

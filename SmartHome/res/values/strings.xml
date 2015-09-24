@@ -32,6 +32,50 @@
         <item >节能</item>
         <item >其它</item>
     </string-array>
+   
+    <string name="realplay_play_fail_becauseof_network">视频播放失败，请检查您的网络</string>
+    <string name="realplay_loading">正在加载，请稍候...</string>
+    <string name="realplay_password_error_title">请输入设备密码</string>
+    <string name="realplay_login_password_msg">初始密码为设备验证码，若设备已注册平台，请输入用户ID</string>
+    <string name="realplay_login_password_error">登录设备失败</string>
+	<string name="realplay_password_error_message3">您的设备版本过低，需要输入设备密码，建议您升级设备</string>
+	<string name="realplay_password_error_message1">初始密码为12345，若密码已被修改，请输入修改后的密码</string>
+	<string name="realplay_encrypt_password_error_title">请输入视频图片加密密码</string>
+	<string name="realplay_encrypt_password_error_message">您的视频已加密，请输入密码进行查看，初始密码为机身标签上的验证码，如果没有验证码，请输入ABCDEF（密码区分大小写）</string>
+	<string name="remoteplayback_over_link">设备连接数过大，停止其他连接后再试试吧</string>
+	<string name="realplay_fail_device_not_exist">设备不在线</string>
+	<string name="realplay_fail_connect_device">播放失败，连接设备异常</string>
+	<string name="realplay_set_fail_status">视频播放失败，设备已开启隐私保护</string>
+	<string name="camera_not_online">设备不在线</string>
+	<string name="realplay_play_fail">视频播放失败</string>
+	<string name="confirm">确定</string>
+	<string name="start_voice_talk">正在发起对讲</string>
+	<string name="local_network_exception">没有可用网络，请检查您的网络</string>
+	<string name="realplay_set_fail_network">设置失败，请检查您的网络</string>
+	<string name="remoteplayback_SDCard_disable_use">存储卡不可用</string>
+	<string name="remoteplayback_record_fail_for_memory">录像中断,存储空间已满</string>
+	<string name="remoteplayback_capture_fail_for_memory">抓图失败,存储空间已满</string>
+	<string name="remoteplayback_record_fail">录像失败</string>
+	<string name="remoteplayback_capture_fail">抓图失败</string>
+	<string name="camera_lens_too_busy">镜头转动中，请稍候</string>
+	<string name="ptz_is_preseting">镜头转动中，请稍候</string>
+	<string name="ptz_control_timeout_cruise_track_failed">轨迹巡航中，请稍候</string>
+	<string name="ptz_preset_invalid_position_failed">当前位置已被删除，请返回刷新</string>
+	<string name="ptz_preset_current_position_failed">当前就在这个位置哦</string>
+	<string name="ptz_preset_sound_localization_failed">听声辨位中，请稍候</string>
+	<string name="ptz_operation_too_frequently">操作太频繁啦，先歇歇吧</string>
+	<string name="ptz_preset_exceed_maxnum_failed">已经不能收藏更多了</string>
+	<string name="ptz_privacying_failed">镜头已遮蔽，无法操作云台</string>
+	<string name="ptz_mirroring_failed">语音对讲中，无法操作云台</string>
+	<string name="ptz_operation_failed">操作失败</string>
+	<string name="realplay_play_talkback_fail_ison">同一时间只能与一台设备进行对讲哦，请停止其他对讲后再尝试</string>
+	<string name="realplay_play_talkback_fail_privacy">隐私保护模式下无法对讲</string>
+	<string name="realplay_play_talkback_fail">对讲开启失败</string>
+	<string name="realplay_set_vediomode_fail">视频质量切换失败</string>
+	<string name="device_password_is_null">设备密码不能为空</string>
+	<string name="press_to_talk_release_to_listen">按住说话\n松开收听</string>
+	<string name="talking">对讲中…</string>
+	
     
 	<string name="Unknown_Device">"Unknown Device**未知设备"</string>
     <string name="Motion_Sensor">"IAS Zone**动作感应器"</string>
