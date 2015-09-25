@@ -59,6 +59,8 @@
                     android:layout_marginLeft="5dp"
                     android:layout_weight="1"
                     android:hint="请输入账号"
+                    android:singleLine="true"
+                    android:inputType="text"
                     android:background="@null"
                     android:textColor="#000000"
                     android:textSize="18dp" >
