@@ -1539,8 +1539,6 @@ public class CallbackManager extends Manger {
 			}
 			cursor1.close();
 			message.setIpcName(ipc_name);
-			message.setPicName(picNameString.substring(0,
-					picNameString.length() - 1));
 			if (message.getType() == 1) {
 				message.setDescription("联动摄像头 " + ipc_name + " 截图.");
 			} else {
