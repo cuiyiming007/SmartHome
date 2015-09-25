@@ -29,6 +29,10 @@ public class SetEmailFragment extends Fragment implements UIListener {
 	public static boolean ENABLE_EMAIL_TXT = true;
 	public static boolean ENABLE__EMAIL_VEDIO = true;
 	public static boolean ENABLE_EMAIL_PIC = true;
+	private int sendEmailContentFlag = 0;
+	private String [] emailData ;
+	private int sendEmailFLAG;
+	private String emailAddress = "";
 	EditText email_name;
 	Button btn_commit_email;
 
@@ -40,21 +44,8 @@ public class SetEmailFragment extends Fragment implements UIListener {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		CGIManager.getInstance().addObserver(SetEmailFragment.this);
-		//getFromSharedPreferences.setEmailFlag(1);
-		/*if(ENABLE_EMAIL_TXT && ENABLE__EMAIL_VEDIO && ENABLE_EMAIL_PIC) {
-			getFromSharedPreferences.setEmailFlag(4);			
-		} else if (ENABLE_EMAIL_TXT && ENABLE__EMAIL_VEDIO &&  !ENABLE_EMAIL_PIC) {
-				getFromSharedPreferences.setEmailFlag(3);
-		} else if(ENABLE_EMAIL_TXT && !ENABLE__EMAIL_VEDIO && ENABLE_EMAIL_PIC){
-			getFromSharedPreferences.setEmailFlag(2);
-		} else if(ENABLE_EMAIL_TXT && !ENABLE__EMAIL_VEDIO && !ENABLE_EMAIL_PIC) {
-			getFromSharedPreferences.setEmailFlag(1);
-		} else if(!ENABLE_EMAIL_TXT ) {
-			getFromSharedPreferences.setEmailFlag(0);
-		} else{
-			getFromSharedPreferences.setEmailFlag(-1);
-		}*/
-		
+		gateway_MAC = getFromSharedPreferences.getGatewayMAC();
+		CGIManager.getInstance().getEmailAddrStatus(gateway_MAC);
 	}
 	
 
@@ -64,17 +55,16 @@ public class SetEmailFragment extends Fragment implements UIListener {
 		// TODO Auto-generated method stub
 		mView = inflater.inflate(R.layout.set_email, null);
 		initView();
-		CGIManager.getInstance().getEmailAddrStatus(gateway_MAC);
+		//CGIManager.getInstance().getEmailAddrStatus(gateway_MAC);
 		return mView;
 	}
-
+	
 	private void initView() {
 		// TODO Auto-generated method stub
 
 		getFromSharedPreferences.setsharedPreferences((Context) getActivity());
-		E_name = getFromSharedPreferences.getEmailName();
 		email_name = (EditText) mView.findViewById(R.id.email_name);
-		email_name.setText(E_name);
+		email_name.setText(emailAddress);
 		/*
 		 * if (E_name != null){ email_name.setText(E_name); } else {
 		 * email_name.setHint("XXX@XXXX"); }
@@ -85,20 +75,43 @@ public class SetEmailFragment extends Fragment implements UIListener {
 				.findViewById(R.id.enableSendVideo);
 		final CheckBox enableSendPic = (CheckBox) mView
 				.findViewById(R.id.enableSendPic);
-		enableEmail.setChecked(getFromSharedPreferences.getEmailEnable());
-		enableSendVideo.setChecked(getFromSharedPreferences.getEmailVideoEnable());
-		enableSendPic.setChecked(getFromSharedPreferences.getEmailPicEnable());
-		if(enableEmail.isCheck()&&enableSendVideo.isCheck()&&enableSendPic.isCheck()){
-			getFromSharedPreferences.setEmailFlag(4);
-		}else if(enableEmail.isCheck() && enableSendVideo.isCheck() && !enableSendPic.isCheck()){
-			getFromSharedPreferences.setEmailFlag(3);
-		} else if(enableEmail.isCheck() &&! enableSendVideo.isCheck() && enableSendPic.isCheck()){
-			getFromSharedPreferences.setEmailFlag(2);
-		} else if(enableEmail.isCheck() &&! enableSendVideo.isCheck() && !enableSendPic.isCheck()){
-			getFromSharedPreferences.setEmailFlag(1);
-		} else if(!enableEmail.isCheck()) {
-			getFromSharedPreferences.setEmailFlag(0);
-		}
+		
+			if(sendEmailFLAG == 4) {
+				enableEmail.setChecked(true);
+				enableSendVideo.setChecked(true);
+				enableSendPic.setChecked(true);
+				ENABLE_EMAIL_TXT = true;
+				ENABLE__EMAIL_VEDIO = true; 
+				ENABLE_EMAIL_PIC = true;
+			}else if(sendEmailFLAG == 3){
+				enableEmail.setChecked(true);
+				enableSendVideo.setChecked(true);
+				enableSendPic.setChecked(false);
+				ENABLE_EMAIL_TXT = true;
+				ENABLE__EMAIL_VEDIO = true; 
+				ENABLE_EMAIL_PIC = false;
+			}else if(sendEmailFLAG == 2){
+				enableEmail.setChecked(true);
+				enableSendVideo.setChecked(false);
+				enableSendPic.setChecked(true);
+				ENABLE_EMAIL_TXT = true;
+				ENABLE__EMAIL_VEDIO = false; 
+				ENABLE_EMAIL_PIC = true;
+			}else if(sendEmailFLAG == 1){
+				enableEmail.setChecked(true);
+				enableSendVideo.setChecked(false);
+				enableSendPic.setChecked(false);
+				ENABLE_EMAIL_TXT = true;
+				ENABLE__EMAIL_VEDIO = false; 
+				ENABLE_EMAIL_PIC = false;
+			}else {
+				enableEmail.setChecked(false);
+				enableSendVideo.setChecked(false);
+				enableSendPic.setChecked(false);
+				ENABLE_EMAIL_TXT = false;
+				ENABLE__EMAIL_VEDIO = false; 
+				ENABLE_EMAIL_PIC = false;
+			}
 		
 		enableEmail.setOncheckListener(new OnCheckListener() {
 
@@ -107,24 +120,18 @@ public class SetEmailFragment extends Fragment implements UIListener {
 				// TODO Auto-generated method stub
 				ENABLE_EMAIL_TXT = check;
 				if(!ENABLE_EMAIL_TXT ) {
-					getFromSharedPreferences.setEmailFlag(0);
 					enableSendVideo.setChecked(false);
 					enableSendPic.setChecked(false);
-				}else {
-					getFromSharedPreferences.setEmailFlag(1);
 				}
-				//CGIManager.getInstance().getEmailAddrStatus(gateway_MAC);
-				getFromSharedPreferences.setEmailEnable(ENABLE_EMAIL_TXT);
 			}
 		});
 		enableEmail.post(new Runnable() {
 			@Override
 			public void run() {
-				enableEmail.setChecked(ENABLE_EMAIL_TXT);	
+				//enableEmail.setChecked(ENABLE_EMAIL_TXT);	
 			}
 		});
-		/*final CheckBox enableSendVideo = (CheckBox) mView
-				.findViewById(R.id.enableSendVideo);*/
+		
 		enableSendVideo.setOncheckListener(new OnCheckListener() {
 
 			@Override
@@ -133,33 +140,19 @@ public class SetEmailFragment extends Fragment implements UIListener {
 				//ENABLE__EMAIL_VEDIO = check;				
 				if (ENABLE_EMAIL_TXT){
 					ENABLE__EMAIL_VEDIO = check;
-					if(check){
-						if(getFromSharedPreferences.getEmailFlag() == 1){
-							getFromSharedPreferences.setEmailFlag(3);
-						} else if(getFromSharedPreferences.getEmailFlag() == 2){
-							getFromSharedPreferences.setEmailFlag(4);
-						}
-					}else if(getFromSharedPreferences.getEmailFlag() == 4){
-						getFromSharedPreferences.setEmailFlag(2);
-					} else if(getFromSharedPreferences.getEmailFlag() == 3){
-						getFromSharedPreferences.setEmailFlag(1);
-					}					
 				}else {
 					ENABLE__EMAIL_VEDIO = false;
 				}
 				enableSendVideo.setChecked(ENABLE__EMAIL_VEDIO);
-				getFromSharedPreferences.setEmailVideoEnable(ENABLE__EMAIL_VEDIO);
-				//enableSendVideo.
 			}
 		});
 		enableSendVideo.post(new Runnable() {
 			@Override
 			public void run() {
-				enableSendVideo.setChecked(ENABLE__EMAIL_VEDIO);
+				//enableSendVideo.setChecked(ENABLE__EMAIL_VEDIO);
 			}
 		});
-		/*final CheckBox enableSendPic = (CheckBox) mView
-				.findViewById(R.id.enableSendPic);*/
+		
 		enableSendPic.setOncheckListener(new OnCheckListener() {
 
 			@Override
@@ -168,31 +161,18 @@ public class SetEmailFragment extends Fragment implements UIListener {
 				//ENABLE_EMAIL_PIC = check;
 				if (ENABLE_EMAIL_TXT){
 					ENABLE_EMAIL_PIC = check;
-					if(check){
-						if(getFromSharedPreferences.getEmailFlag() == 1){
-							getFromSharedPreferences.setEmailFlag(2);
-						} else if(getFromSharedPreferences.getEmailFlag() == 3){
-							getFromSharedPreferences.setEmailFlag(4);
-						}
-					}else if(getFromSharedPreferences.getEmailFlag() == 4){
-						getFromSharedPreferences.setEmailFlag(3);
-					} else if(getFromSharedPreferences.getEmailFlag() == 2){
-						getFromSharedPreferences.setEmailFlag(1);
-					}
 				}else {
 					ENABLE_EMAIL_PIC = false;
 				}
 				enableSendPic.setChecked(ENABLE_EMAIL_PIC);
-				getFromSharedPreferences.setEmailPicEnable(ENABLE_EMAIL_PIC);
 			}
 		});
 		enableSendPic.post(new Runnable() {
 			@Override
 			public void run() {
-				enableSendPic.setChecked(ENABLE_EMAIL_PIC);
+				//enableSendPic.setChecked(ENABLE_EMAIL_PIC);
 			}
 		});
-		gateway_MAC = getFromSharedPreferences.getGatewayMAC();
 		btn_commit_email = (Button) mView.findViewById(R.id.commit_email);
 		btn_commit_email.setOnClickListener(new OnClickListener() {
 		
@@ -207,10 +187,25 @@ public class SetEmailFragment extends Fragment implements UIListener {
 					email_name.requestFocus();
 					return;
 				} else {
+					if (ENABLE_EMAIL_TXT  && ENABLE__EMAIL_VEDIO && ENABLE_EMAIL_PIC ){
+						sendEmailContentFlag = 4;
+					}else if(ENABLE_EMAIL_TXT  && ENABLE__EMAIL_VEDIO && !ENABLE_EMAIL_PIC ){
+						sendEmailContentFlag = 3;
+					}else if(ENABLE_EMAIL_TXT  && !ENABLE__EMAIL_VEDIO && ENABLE_EMAIL_PIC ){
+						sendEmailContentFlag = 2;
+					}else if(ENABLE_EMAIL_TXT  && !ENABLE__EMAIL_VEDIO && !ENABLE_EMAIL_PIC ){
+						sendEmailContentFlag = 1;
+					} else {
+						sendEmailContentFlag = 0;
+					}
+					getFromSharedPreferences.setEmailEnable(ENABLE_EMAIL_TXT);
+					getFromSharedPreferences.setEmailVideoEnable(ENABLE__EMAIL_VEDIO);
+					getFromSharedPreferences.setEmailPicEnable(ENABLE_EMAIL_PIC);
+					getFromSharedPreferences.setEmailFlag(sendEmailContentFlag);
+					getFromSharedPreferences.setEmailName(emailAddress);
 					CGIManager.getInstance().changeEmailAddress(gateway_MAC,
-							E_name, getFromSharedPreferences.getEmailFlag());
+							E_name, sendEmailContentFlag);
 					getFromSharedPreferences.setEmailName(E_name.trim());
-					//CGIManager.getInstance().getEmailAddrStatus(gateway_MAC);
 				}
 			}
 		});
@@ -229,7 +224,7 @@ public class SetEmailFragment extends Fragment implements UIListener {
 		// TODO Auto-generated method stub
 		final Event event = (Event) object;
 		if (EventType.CHANGEEMAILADDRESS == event.getType()) {
-
+			
 			if (event.isSuccess() == true) {
 				Toast.makeText(getActivity(), "设置成功", Toast.LENGTH_SHORT)
 						.show();
@@ -241,16 +236,22 @@ public class SetEmailFragment extends Fragment implements UIListener {
 			}
 		}
 		if (EventType.GETEMAILADDRESS == event.getType()) {
-
 			if (event.isSuccess() == true) {
+				emailData = (String[]) event.getData();
+				sendEmailFLAG = Integer.parseInt(emailData [0]);
+				emailAddress = emailData [1];
 				Toast.makeText(getActivity(), "获取邮箱成功", Toast.LENGTH_SHORT)
 						.show();
+				
 				//MyApplicationFragment.getInstance().removeLastFragment();
 			} else {
 				// if failed,prompt a Toast
+				sendEmailFLAG = getFromSharedPreferences.getEmailFlag();
+				emailAddress = getFromSharedPreferences.getEmailName();
 				Toast.makeText(getActivity(), "获取邮箱失败，请稍后重新绑定", Toast.LENGTH_SHORT)
 						.show();
 			}
+			initView();
 		}
 	}
 

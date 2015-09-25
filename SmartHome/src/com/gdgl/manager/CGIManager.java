@@ -1964,16 +1964,20 @@ public class CGIManager extends Manger {
 					@Override
 					public void onResponse(String response) {
 						// TODO Auto-generated method stub
+						Log.i("aaa", response);
 						response = UiUtils.formatResponseString(response);
 						JsonParser parser = new JsonParser();
 						JsonObject jsonObject = parser.parse(response)
 								.getAsJsonObject();
 						int code = jsonObject.get("returnCode").getAsInt();
-						String email = jsonObject.get("email").getAsString();
-						Log.i("EmailAddr", email);
+						
 						if (code == 1) {
+							int sendEmailFLAG = jsonObject.get("send_mail_flag").getAsInt();
+							String emailContent = jsonObject.get("email").getAsString();
+							String[] data = { sendEmailFLAG+"", emailContent };
 							Event event = new Event(EventType.GETEMAILADDRESS,
 									true);
+							event.setData(data);
 							notifyObservers(event);
 						} else {
 							Event event = new Event(EventType.GETEMAILADDRESS,
@@ -1985,7 +1989,9 @@ public class CGIManager extends Manger {
 					@Override
 					public void onErrorResponse(VolleyError error) {
 						// TODO Auto-generated method stub
-
+						Event event = new Event(EventType.GETEMAILADDRESS,
+								false);
+						notifyObservers(event);
 					}
 				});
 		// add the request object to the queue to be executed

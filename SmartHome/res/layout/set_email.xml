@@ -36,6 +36,7 @@
             android:background="@drawable/corners"
             android:paddingLeft="10dp"
             android:hint="example@glexer.com"
+            android:inputType="textWebEmailAddress"
             android:textSize="18dp" >
 
             <requestFocus />
