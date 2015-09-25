@@ -1,5 +1,7 @@
 package com.gdgl.mydata.Callback;
 
+import java.io.Serializable;
+
 import com.gdgl.app.ApplicationController;
 import com.gdgl.mydata.getFromSharedPreferences;
 
@@ -21,7 +23,11 @@ interface CallbackIpcLinkageColumns extends BaseColumns {
 	public static final String DESCRIPTION = "description";
 }
 
-public class CallbackIpcLinkageMessage implements CallbackIpcLinkageColumns {
+public class CallbackIpcLinkageMessage implements CallbackIpcLinkageColumns, Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2111128764681843758L;
 	private String id;
 	private int type; //1 for picture_shot, 2 for short_video
 	private String ieee;

@@ -1,5 +1,7 @@
 package com.gdgl.app;
 
+import java.io.InputStream;
+
 import android.app.Application;
 import android.os.Looper;
 import android.text.TextUtils;
@@ -9,6 +11,9 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.integration.volley.VolleyUrlLoader;
+import com.bumptech.glide.load.model.GlideUrl;
 /***
  * initial volley RequestQueue while app start
  * @author justek
@@ -39,6 +44,7 @@ public class ApplicationController extends Application {
         CrashHandler crashHandler = CrashHandler.getInstance();  
         crashHandler.init(this);
         // initialize the singleton
+        Glide.get(this).register(GlideUrl.class, InputStream.class,new VolleyUrlLoader.Factory(this));
     }
 
     /**

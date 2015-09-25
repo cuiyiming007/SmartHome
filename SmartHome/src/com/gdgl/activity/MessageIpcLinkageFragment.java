@@ -15,6 +15,7 @@ import com.gdgl.mydata.Callback.CallbackIpcLinkageMessage;
 import com.gdgl.smarthome.R;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -39,6 +41,7 @@ import android.widget.AdapterView.OnItemClickListener;
 public class MessageIpcLinkageFragment extends Fragment implements UIListener,
 		android.view.View.OnClickListener {
 	private View mView;
+	int width, height;
 	List<CallbackIpcLinkageMessage> mList;
 	HashMap<String, Boolean> mCheckHashMap = new HashMap<String, Boolean>();
 
@@ -59,6 +62,9 @@ public class MessageIpcLinkageFragment extends Fragment implements UIListener,
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		WindowManager wm = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
+		width = wm.getDefaultDisplay().getWidth();
+		height = wm.getDefaultDisplay().getHeight();
 		CallbackManager.getInstance().addObserver(this);
 		initData();
 	}
@@ -164,6 +170,13 @@ public class MessageIpcLinkageFragment extends Fragment implements UIListener,
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view,
 						int position, long id) {
+//					MessageIpcLinkageMediaDlg ipcLinkageMediaDlg = new MessageIpcLinkageMediaDlg(
+//							getActivity(), mList.get(position), width, height);
+//					ipcLinkageMediaDlg.show();
+					Intent intent = new Intent();
+					intent.putExtra("CallbackIpcLinkageMessage", mList.get(position));
+					intent.setClass(getActivity(), MessageIpcLinkageMediaActivity.class);
+					startActivity(intent);
 				}
 			});
 		}

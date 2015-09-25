@@ -17,15 +17,19 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    
-	<uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-	<uses-permission android:name="android.permission.READ_LOGS"/>
-	<uses-permission android:name="android.permission.GET_TASKS"/>
-	
-	<uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>  
+    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
+
+    <meta-data
+        android:name="com.bumptech.glide.integration.volley.VolleyGlideModule"
+        android:value="GlideModule" />
 
     <application
         android:name="com.gdgl.app.ApplicationController"
@@ -36,130 +40,152 @@
         <activity
             android:name="com.gdgl.activity.StartAnimationActivity"
             android:screenOrientation="portrait" >
-            <!--  android:theme="@android:style/Theme.NoTitleBar"-->
+
+            <!-- android:theme="@android:style/Theme.NoTitleBar" -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
+
         <!-- 设置AppKey -->
-        <meta-data android:name="TESTIN_APPKEY" android:value="5a08bd1e5b7f8b7ad2aa7be32ebac763"/>
+        <meta-data
+            android:name="TESTIN_APPKEY"
+            android:value="5a08bd1e5b7f8b7ad2aa7be32ebac763" />
         <!-- 设置渠道信息 -->
-        <meta-data android:name="TESTIN_CHANNEL" android:value="testing"/>
-        
+        <meta-data
+            android:name="TESTIN_CHANNEL"
+            android:value="testing" />
+
         <activity
             android:name="com.gdgl.activity.LoginActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
-            <!--  android:theme="@android:style/Theme.NoTitleBar"--> 
+
+            <!-- android:theme="@android:style/Theme.NoTitleBar" -->
         </activity>
         <activity
             android:name="com.gdgl.activity.SmartHome"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
-            <!--  android:theme="@android:style/Theme.NoTitleBar"-->
+
+            <!-- android:theme="@android:style/Theme.NoTitleBar" -->
         </activity>
-         <activity
+        <activity
             android:name="com.gdgl.activity.ConfigActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
-            <!--  android:theme="@android:style/Theme.DeviceDefault.NoActionBar"-->
+
+            <!-- android:theme="@android:style/Theme.DeviceDefault.NoActionBar" -->
         </activity>
         <activity
             android:name="com.gdgl.activity.RegionDevicesActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
-            <!--  android:theme="@android:style/Theme.NoTitleBar"-->
+
+            <!-- android:theme="@android:style/Theme.NoTitleBar" -->
         </activity>
         <activity
             android:name="com.gdgl.activity.SceneDevicesActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
-            <!--  android:theme="@android:style/Theme.NoTitleBar"-->
+
+            <!-- android:theme="@android:style/Theme.NoTitleBar" -->
         </activity>
         <activity
             android:name="com.gdgl.activity.LinkageDetailActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
-            <!--  android:theme="@android:style/Theme.NoTitleBar"-->
+
+            <!-- android:theme="@android:style/Theme.NoTitleBar" -->
         </activity>
         <activity
             android:name="h264.com.VideoActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
-            android:screenOrientation="sensor"
-            android:configChanges="orientation|keyboardHidden|screenSize" >
-            <!--  android:theme="@android:style/Theme.NoTitleBar"-->
+            android:screenOrientation="sensor" >
+
+            <!-- android:theme="@android:style/Theme.NoTitleBar" -->
         </activity>
         <activity
             android:name="com.gdgl.activity.HikVideoActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
-            android:screenOrientation="sensor"
-            android:configChanges="orientation|keyboardHidden|screenSize" >
-            <!--  android:theme="@android:style/Theme.NoTitleBar"-->
+            android:screenOrientation="sensor" >
+
+            <!-- android:theme="@android:style/Theme.NoTitleBar" -->
         </activity>
-         <!--android:configChanges="orientation"-->
+        <!-- android:configChanges="orientation" -->
         <activity
             android:name="com.gdgl.activity.ShowDevicesGroupFragmentActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
-            <!--  android:theme="@android:style/Theme.DeviceDefault.NoActionBar"-->
+
+            <!-- android:theme="@android:style/Theme.DeviceDefault.NoActionBar" -->
         </activity>
         <activity
             android:name="com.gdgl.activity.RemoteControlActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
-            <!--  android:theme="@android:style/Theme.NoTitleBar"-->
+
+            <!-- android:theme="@android:style/Theme.NoTitleBar" -->
         </activity>
         <activity
             android:name="com.gdgl.activity.AddCommonUsedActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
-            <!--  android:theme="@android:style/Theme.NoTitleBar"-->
+
+            <!-- android:theme="@android:style/Theme.NoTitleBar" -->
         </activity>
-         <activity
+        <activity
             android:name="com.gdgl.activity.KongtiaoTvControlActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
-            <!--  android:theme="@android:style/Theme.NoTitleBar"-->
+
+            <!-- android:theme="@android:style/Theme.NoTitleBar" -->
         </activity>
-        
-         <activity 
-             android:name="com.gdgl.drawer.MainActivity"
-             android:screenOrientation="portrait" >
-         </activity>
-         <activity
-             android:name="com.gdgl.drawer.DeviceControlActivity"
-             android:screenOrientation="portrait" >
-         </activity>
-         <activity
-             android:name="com.gdgl.drawer.JoinNetActivity"
-             android:screenOrientation="portrait" >
-         </activity>
-         <activity
-             android:name="com.gdgl.activity.TimingAddActivity"
-             android:screenOrientation="portrait" >
-         </activity>
-         <activity
-             android:name="com.gdgl.drawer.AlarmMessageActivity"
-             android:screenOrientation="portrait" >
-         </activity>
-         <activity
-             android:name="com.gdgl.activity.ConfigurationActivity_New"
-             android:screenOrientation="portrait" >
-         </activity>
+        <activity
+            android:name="com.gdgl.drawer.MainActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.gdgl.drawer.DeviceControlActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.gdgl.drawer.JoinNetActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.gdgl.activity.TimingAddActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.gdgl.drawer.AlarmMessageActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.gdgl.activity.ConfigurationActivity_New"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.gdgl.activity.MessageIpcLinkageMediaActivity"
+            android:screenOrientation="portrait" >
+        </activity>
 
         <service android:name="com.gdgl.service.SmartService" >
         </service>
         <service android:name="com.gdgl.service.LibjingleService" >
         </service>
 
-        <!-- <receiver android:name="com.gdgl.reciever.NetWorkChangeReciever" >
+        <!--
+        <receiver android:name="com.gdgl.reciever.NetWorkChangeReciever" >
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
-        </receiver>  -->
+        </receiver>
+        -->
     </application>
 
 </manifest>
