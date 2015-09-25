@@ -40,6 +40,10 @@ public class UiUtils {
 	public static final String GATEWAY_MAC = "GatewayMAC";
 	public static final String ALIAS = "alias";
 	public static final String EMAIL_NAME = "Email_Name";//=====王晓飞====设置邮箱
+	public static final String SEND_EMAIL_FLAG = "sendMailFlag";//====发送邮件内容标志
+	public static final String EMAIL_VIDEO_ENABLE= "emailVideoEnable";
+	public static final String EMAIL_PIC_ENABLE = "emailPicEnable";
+	public static final String EMAIL_ENABLE = "sendEnable";
 	public static final String GATE_WAY_AUTH_STATE = "Gate_Way_Auth_State";//网关授权state
 	public static final String GATE_WAY_AUTH_EXPIRE = "Gate_Way_Auth_Expire";//网关授权time
 	public static final String IS_REMERBER_PWD = "RemerberPwd";

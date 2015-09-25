@@ -1928,12 +1928,55 @@ public class CGIManager extends Manger {
 						JsonObject jsonObject = parser.parse(response)
 								.getAsJsonObject();
 						int code = jsonObject.get("returnCode").getAsInt();
+						Log.i("code", code+"");
 						if (code == 1) {
 							Event event = new Event(EventType.CHANGEEMAILADDRESS,
 									true);
 							notifyObservers(event);
 						} else {
 							Event event = new Event(EventType.CHANGEEMAILADDRESS,
+									false);
+							notifyObservers(event);
+						}
+					}
+				}, new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+						// TODO Auto-generated method stub
+
+					}
+				});
+		// add the request object to the queue to be executed
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
+	
+	//获取邮箱状态
+	public void getEmailAddrStatus(String mac) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("gateId", mac);
+		String param = hashMap2ParamString(paraMap);
+
+		String url = "http://121.199.21.14:8888/GLSmartHome/userinfo_getEmailAddrStatus?"
+				+ param;
+		Log.i("EmailAddrStatus", url);
+		StringRequest req = new StringRequest(url,
+				new Response.Listener<String>() {
+					@Override
+					public void onResponse(String response) {
+						// TODO Auto-generated method stub
+						response = UiUtils.formatResponseString(response);
+						JsonParser parser = new JsonParser();
+						JsonObject jsonObject = parser.parse(response)
+								.getAsJsonObject();
+						int code = jsonObject.get("returnCode").getAsInt();
+						String email = jsonObject.get("email").getAsString();
+						Log.i("EmailAddr", email);
+						if (code == 1) {
+							Event event = new Event(EventType.GETEMAILADDRESS,
+									true);
+							notifyObservers(event);
+						} else {
+							Event event = new Event(EventType.GETEMAILADDRESS,
 									false);
 							notifyObservers(event);
 						}
