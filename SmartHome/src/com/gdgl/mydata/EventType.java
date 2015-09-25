@@ -104,6 +104,7 @@ public class EventType {
 	public static final EventType RF_GETEPBYROOMINDEX;
 	
 	public static final EventType CHANGEEMAILADDRESS;
+	public static final EventType GETEMAILADDRESS;
 	
 	static {
 		LOGIN = new EventType("login", id);
@@ -201,6 +202,7 @@ public class EventType {
 		RF_GETEPBYROOMINDEX = new EventType("rfGetEpByRoomIndex", nextId());
 		
 		CHANGEEMAILADDRESS = new EventType("changeEmailAddress", nextId());
+		GETEMAILADDRESS = new EventType("getEmailAddress", nextId());
 	}
 
 	private static int nextId() {

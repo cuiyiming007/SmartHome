@@ -63,7 +63,7 @@ public class LinkageDetailFragment extends Fragment implements ChangeFragment,
 	int onoff = 0;
 	int photo_record = 0;// =========0：拍照，1：录像
 	int temp = 0;
-	int picture_count = 1,record_time = 3;
+	int picture_count = 1,record_time = 10;
 	private Linkage mLinkage;
 	private int linkage_type;
 
@@ -304,9 +304,9 @@ public class LinkageDetailFragment extends Fragment implements ChangeFragment,
 						act_photo_btn
 								.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
 						picture_count_lay.setVisibility(View.VISIBLE);
-						picture_one_btn.setText("3秒");//==
-						picture_three_btn.setText("5秒");//==
-						picture_five_btn.setText("7秒");//==
+						picture_one_btn.setText("10秒");//==
+						picture_three_btn.setText("30秒");//==
+						picture_five_btn.setText("60秒");//==
 						//record_time_lay.setVisibility(View.VISIBLE);
 					}
 				});
@@ -350,7 +350,7 @@ public class LinkageDetailFragment extends Fragment implements ChangeFragment,
 				if (photo_record == 0) {
 					picture_count = 1;
 				} else {
-					record_time = 3;
+					record_time = 10;
 				}
 			}
 		});
@@ -369,7 +369,7 @@ public class LinkageDetailFragment extends Fragment implements ChangeFragment,
 				if (photo_record == 0) {
 					picture_count = 3;
 				} else {
-					record_time = 5;
+					record_time = 30;
 				}
 			}
 		});
@@ -388,7 +388,7 @@ public class LinkageDetailFragment extends Fragment implements ChangeFragment,
 				if (photo_record == 0) {
 					picture_count = 5;
 				} else {
-					record_time = 7;
+					record_time = 60;
 				}
 			}
 		});
@@ -634,19 +634,19 @@ public class LinkageDetailFragment extends Fragment implements ChangeFragment,
 							.setBackgroundResource(R.drawable.ui2_linkage_button_press);
 					act_photo_btn
 							.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
-					picture_one_btn.setText("3秒");//==
-					picture_three_btn.setText("5秒");//==
-					picture_five_btn.setText("7秒");//==
-					if (linkageAct.getEp().equals("3")) {
-						record_time = 3;
+					picture_one_btn.setText("10秒");//==
+					picture_three_btn.setText("30秒");//==
+					picture_five_btn.setText("60秒");//==
+					if (linkageAct.getEp().equals("10")) {
+						record_time = 10;
 						picture_one_btn
 								.setBackgroundResource(R.drawable.ui2_linkage_button_press);
 						picture_three_btn
 								.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
 						picture_five_btn
 								.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
-					} else if (linkageAct.getEp().equals("5")) {
-						record_time = 5;
+					} else if (linkageAct.getEp().equals("30")) {
+						record_time = 30;
 						picture_one_btn
 								.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
 						picture_three_btn
@@ -654,7 +654,7 @@ public class LinkageDetailFragment extends Fragment implements ChangeFragment,
 						picture_five_btn
 								.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
 					} else {
-						record_time = 7;
+						record_time = 60;
 						picture_five_btn
 								.setBackgroundResource(R.drawable.ui2_linkage_button_press);
 						picture_three_btn

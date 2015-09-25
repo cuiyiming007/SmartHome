@@ -56,6 +56,35 @@ public class getFromSharedPreferences {
 		mEditor.putBoolean(UiUtils.ENABLE_IPC, enableIPC);
 		return mEditor.commit();
 	}
+	//邮件发送视频
+	public static boolean setEmailVideoEnable(boolean emailVideoEnable) {
+		mEditor = mSharedPreferences.edit();
+		mEditor.putBoolean(UiUtils.EMAIL_VIDEO_ENABLE, emailVideoEnable);
+		return mEditor.commit();
+	}
+	public static boolean getEmailVideoEnable() {
+		return mSharedPreferences.getBoolean(UiUtils.EMAIL_VIDEO_ENABLE, true);
+	}
+	
+	//邮件发送图片
+	public static boolean setEmailPicEnable(boolean emailPicEnable) {
+		mEditor = mSharedPreferences.edit();
+		mEditor.putBoolean(UiUtils.EMAIL_PIC_ENABLE, emailPicEnable);
+		return mEditor.commit();
+	}
+	public static boolean getEmailPicEnable() {
+		return mSharedPreferences.getBoolean(UiUtils.EMAIL_PIC_ENABLE, true);
+	}
+	
+	//邮箱启用
+	public static boolean setEmailEnable(boolean emailEnable) {
+		mEditor = mSharedPreferences.edit();
+		mEditor.putBoolean(UiUtils.EMAIL_ENABLE, emailEnable);
+		return mEditor.commit();
+	}
+	public static boolean getEmailEnable() {
+		return mSharedPreferences.getBoolean(UiUtils.EMAIL_ENABLE, true);
+	}
 
 	public static String getPwd() {
 		return mSharedPreferences.getString(UiUtils.PWD, UiUtils.EMPTY_STR);
@@ -76,6 +105,9 @@ public class getFromSharedPreferences {
 	}
 	public static String getEmailName() {//======王晓飞===获取邮箱名
 		return mSharedPreferences.getString(UiUtils.EMAIL_NAME, UiUtils.EMPTY_STR);
+	}
+	public static int getEmailFlag() {//======王晓飞===获取发送邮件内容
+		return mSharedPreferences.getInt(UiUtils.SEND_EMAIL_FLAG, UiUtils.ILLEGAI_UID);
 	}
 	public static int getGWayAuthState() {
 		return mSharedPreferences.getInt(UiUtils.GATE_WAY_AUTH_STATE, -1);//==-1是未激活状态
@@ -153,6 +185,13 @@ public class getFromSharedPreferences {
 		mEditor = mSharedPreferences.edit();
 
 		mEditor.putString(UiUtils.EMAIL_NAME, emailName);
+
+		return mEditor.commit();
+	}
+	public static boolean setEmailFlag(int sendMailFlag) {//==王晓飞====设置发送邮件内容
+		mEditor = mSharedPreferences.edit();
+
+		mEditor.putInt(UiUtils.SEND_EMAIL_FLAG, sendMailFlag);
 
 		return mEditor.commit();
 	}
