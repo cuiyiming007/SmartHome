@@ -67,6 +67,8 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 	ButtonFloat mButtonFloat;
 
 	DataHelper mDateHelper;
+	
+	int menuIndex = 0;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -159,8 +161,7 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				AddDlg mAddDlg = new AddDlg(getActivity(),
-						AddDlg.REGION);
+				AddDlg mAddDlg = new AddDlg(getActivity(), AddDlg.REGION);
 				mAddDlg.setContent("添加区域");
 				mAddDlg.setType("区域名称");
 				mAddDlg.setDialogCallback(RegionsFragment.this);
@@ -267,7 +268,7 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 			if (null == convertView) {
 				mViewHolder = new ViewHolder();
 				convertView = LayoutInflater.from((Context) getActivity())
-						.inflate(R.layout.gridview_item, null);
+						.inflate(R.layout.gridview_card_item, null);
 				mViewHolder.funcImg = (ImageView) convertView
 						.findViewById(R.id.func_img);
 				mViewHolder.funcText = (TextView) convertView
@@ -277,7 +278,7 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 				mViewHolder = (ViewHolder) convertView.getTag();
 			}
 			mViewHolder.funcImg
-					.setImageResource(R.drawable.ui_region_default_style);
+					.setImageResource(R.drawable.ui2_region_style);
 			mViewHolder.funcText.setText(getItemName(position));
 			return convertView;
 		}
@@ -329,7 +330,7 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 				.getMenuInfo();
 		int position = info.position;
 		currentRoom = mregions.get(position);
-		int menuIndex = item.getItemId();
+		menuIndex = item.getItemId();
 		if (1 == menuIndex) {
 			AddDlg mEditDlg = new AddDlg(getActivity(), currentRoom);
 			mEditDlg.setContent("编辑区域");
@@ -344,6 +345,7 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 			mMyOkCancleDlg.setContent("确定要删除区域  "
 					+ mregions.get(position).getroom_name() + " 吗?");
 			mMyOkCancleDlg.show();
+			menuIndex = 0;
 		}
 		return super.onContextItemSelected(item);
 	}
@@ -375,7 +377,7 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 
 					@Override
 					public void run() {
-						refreshFragment();
+//						refreshFragment();
 					}
 				});
 			}
@@ -388,37 +390,41 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 		String id = String.valueOf(currentRoom.getroom_id());
 		String[] ids = new String[] { id };
 		String where = " rid = ? ";
-		List<DevicesModel> mList = mDateHelper.queryForDevicesList(
-				mDateHelper.getSQLiteDatabase(), DataHelper.DEVICES_TABLE,
-				null, where, ids, null, null, null, null);
 		SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
-
-		for (DevicesModel s : mList) {
-			ContentValues c = new ContentValues();
-			c.put(DevicesModel.DEVICE_REGION, "");
-			c.put(DevicesModel.R_ID, "-1");
-			String[] args = { s.getmIeee(), s.getmEP() };
-			String wheres = " ieee = ? and ep = ? ";
-			mDateHelper.update(mSQLiteDatabase, DataHelper.DEVICES_TABLE, c,
-					wheres, args);
-		}
+		ContentValues c = new ContentValues();
+		c.put(DevicesModel.DEVICE_REGION, "");
+		c.put(DevicesModel.R_ID, "-1");
+		mDateHelper.update(mSQLiteDatabase, DataHelper.DEVICES_TABLE, c, where,
+				ids);
+		mDateHelper.update(mSQLiteDatabase, DataHelper.RF_DEVICES_TABLE, c, where,
+				ids);
 		// 删除所选区域
 		CGIManager.getInstance().ZBDeleteRoomDataMainByID(id);
-		String[] strings = new String[] { id };
 		int result = mDateHelper.delete(mSQLiteDatabase,
-				DataHelper.ROOMINFO_TABLE, " room_id = ? ", strings);
+				DataHelper.ROOMINFO_TABLE, " room_id = ? ", ids);
 		mSQLiteDatabase.close();
 		if (result == 1) {
 			// refreshFragment();
 		}
-		// mregions.remove(currentRoom);
-		// refreshFragment();
+		mregions.remove(currentRoom);
+		mCustomeAdapter.notifyDataSetChanged();
 	}
 
 	@Override
-	public void refreshdata() {
+	public void refreshdata(Room room) {
 		// TODO Auto-generated method stub
-		initData();
+		if(menuIndex == 0) {
+			mregions.add(room);
+			mCustomeAdapter.notifyDataSetChanged();
+		} else if (menuIndex == 1) {
+			for (int i = 0; i < mregions.size(); i++) {
+				if(room.getroom_id() == mregions.get(i).getroom_id()) {
+					mregions.get(i).setroom_name(room.getroom_name());
+					break;
+				}
+			}
+			menuIndex = 0;
+		}
 	}
 
 }

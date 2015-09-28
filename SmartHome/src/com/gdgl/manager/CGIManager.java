@@ -1312,7 +1312,7 @@ public class CGIManager extends Manger {
 	 * 
 	 * @param rid
 	 */
-	public void ZBDeleteRoomDataMainByID(String rid) {
+	public void ZBDeleteRoomDataMainByID(final String rid) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("rid", rid);
 
@@ -1340,6 +1340,7 @@ public class CGIManager extends Manger {
 						Event event = new Event(EventType.ROOMDATAMAIN, true);
 						event.setData(status);
 						notifyObservers(event);
+						NotifyRoomIdHasBeenDeleted(rid);
 					}
 				}, new Response.ErrorListener() {
 					@Override
@@ -1409,6 +1410,37 @@ public class CGIManager extends Manger {
 								false);
 						event.setData(errorString);
 						notifyObservers(event);
+					}
+				});
+		// add the request object to the queue to be executed
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
+
+	/**
+	 * 通知网关某个房间已被删除。
+	 * @param roomid
+	 */
+	public void NotifyRoomIdHasBeenDeleted(String roomid) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("roomid", roomid);
+
+		String param = hashMap2ParamString(paraMap);
+
+		String url = NetUtil.getInstance().getCumstomURL(
+				NetUtil.getInstance().IP, "NotifyRoomIdHasBeenDeleted.cgi",
+				param);
+		Log.i(TAG, url);
+
+		StringRequest req = new StringRequest(url,
+				new Response.Listener<String>() {
+					@Override
+					public void onResponse(String response) {
+						Log.i("NotifyRoomIdHasBeenDeleted", response);
+					}
+				}, new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+
 					}
 				});
 		// add the request object to the queue to be executed
@@ -1928,14 +1960,14 @@ public class CGIManager extends Manger {
 						JsonObject jsonObject = parser.parse(response)
 								.getAsJsonObject();
 						int code = jsonObject.get("returnCode").getAsInt();
-						Log.i("code", code+"");
+						Log.i("code", code + "");
 						if (code == 1) {
-							Event event = new Event(EventType.CHANGEEMAILADDRESS,
-									true);
+							Event event = new Event(
+									EventType.CHANGEEMAILADDRESS, true);
 							notifyObservers(event);
 						} else {
-							Event event = new Event(EventType.CHANGEEMAILADDRESS,
-									false);
+							Event event = new Event(
+									EventType.CHANGEEMAILADDRESS, false);
 							notifyObservers(event);
 						}
 					}
@@ -1949,8 +1981,8 @@ public class CGIManager extends Manger {
 		// add the request object to the queue to be executed
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
-	
-	//获取邮箱状态
+
+	// 获取邮箱状态
 	public void getEmailAddrStatus(String mac) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("gateId", mac);
@@ -1970,11 +2002,13 @@ public class CGIManager extends Manger {
 						JsonObject jsonObject = parser.parse(response)
 								.getAsJsonObject();
 						int code = jsonObject.get("returnCode").getAsInt();
-						
+
 						if (code == 1) {
-							int sendEmailFLAG = jsonObject.get("send_mail_flag").getAsInt();
-							String emailContent = jsonObject.get("email").getAsString();
-							String[] data = { sendEmailFLAG+"", emailContent };
+							int sendEmailFLAG = jsonObject
+									.get("send_mail_flag").getAsInt();
+							String emailContent = jsonObject.get("email")
+									.getAsString();
+							String[] data = { sendEmailFLAG + "", emailContent };
 							Event event = new Event(EventType.GETEMAILADDRESS,
 									true);
 							event.setData(data);
@@ -2093,6 +2127,8 @@ public class CGIManager extends Manger {
 				int rid = info.getroom().getroom_id();
 				String[] args = { rid + "" };
 				mDateHelper.update(mSQLiteDatabase, DataHelper.DEVICES_TABLE,
+						c, where, args);
+				mDateHelper.update(mSQLiteDatabase, DataHelper.RF_DEVICES_TABLE,
 						c, where, args);
 				roomList.add(info.getroom());
 			}

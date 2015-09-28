@@ -427,12 +427,6 @@ public class DevicesListFragment extends Fragment implements adapterSeter,
 				for (DevicesModel mdevice : mDeviceList) {
 					mdevice.setmDeviceRegion(mRoomname);
 				}
-				// mView.post(new Runnable() {
-				// @Override
-				// public void run() {
-				// mBaseAdapter.notifyDataSetChanged();
-				// }
-				// });
 
 			}
 		} else if (EventType.RF_DEVICE_BYPASS == event.getType()) {
@@ -477,23 +471,6 @@ public class DevicesListFragment extends Fragment implements adapterSeter,
 			}
 		}
 	}
-
-	// public class updateOneKeyOperatorDevices extends
-	// AsyncTask<Boolean, Integer, Integer> {
-	//
-	// @Override
-	// protected Integer doInBackground(Boolean... params) {
-	// // TODO Auto-generated method stub
-	// boolean on = params[0];
-	// String on_off = on ? "1" : "0";
-	// ContentValues c = new ContentValues();
-	// c.put(DevicesModel.ON_OFF_STATUS, on_off);
-	// mUpdateDevices.updateDevices(onekeyopratorModel, c);
-	//
-	// return 1;
-	// }
-	//
-	// }
 
 	class intialDataTask extends AsyncTask<Object, Object, Object> {
 

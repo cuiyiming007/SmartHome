@@ -28,6 +28,7 @@ import com.gdgl.model.TabInfo;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.getFromSharedPreferences;
+import com.gdgl.mydata.Region.Room;
 import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.AddDlg;
@@ -416,7 +417,7 @@ public class SmartHome extends FragmentActivity implements
 	}
 
 	@Override
-	public void refreshdata() {
+	public void refreshdata(Room room) {
 		// TODO Auto-generated method stub
 		mList.get(mCurrentTab).refreshFragment();
 		// refreshAdapter mrefreshAdapter=(refreshAdapter)fragmentsList.get(2);

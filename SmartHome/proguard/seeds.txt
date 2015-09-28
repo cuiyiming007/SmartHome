@@ -17701,6 +17701,205 @@ com.android.volley.toolbox.NetworkImageView: void setErrorImageResId(int)
 com.android.volley.toolbox.RequestFuture
 com.android.volley.toolbox.RequestFuture: void setRequest(com.android.volley.Request)
 com.android.volley.toolbox.RequestFuture: java.lang.Object get()
+com.bumptech.glide.Glide
+com.bumptech.glide.Glide: void setup(com.bumptech.glide.GlideBuilder)
+com.bumptech.glide.Glide: com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool getBitmapPool()
+com.bumptech.glide.Glide: com.bumptech.glide.load.engine.Engine getEngine()
+com.bumptech.glide.Glide: com.bumptech.glide.load.resource.bitmap.CenterCrop getBitmapCenterCrop()
+com.bumptech.glide.Glide: com.bumptech.glide.load.resource.bitmap.FitCenter getBitmapFitCenter()
+com.bumptech.glide.Glide: com.bumptech.glide.load.resource.gifbitmap.GifBitmapWrapperTransformation getDrawableCenterCrop()
+com.bumptech.glide.Glide: com.bumptech.glide.load.resource.gifbitmap.GifBitmapWrapperTransformation getDrawableFitCenter()
+com.bumptech.glide.Glide: android.os.Handler getMainHandler()
+com.bumptech.glide.Glide: com.bumptech.glide.load.DecodeFormat getDecodeFormat()
+com.bumptech.glide.Glide: com.bumptech.glide.load.model.GenericLoaderFactory getLoaderFactory()
+com.bumptech.glide.Glide: void setMemoryCategory(com.bumptech.glide.MemoryCategory)
+com.bumptech.glide.MemoryCategory: com.bumptech.glide.MemoryCategory[] values()
+com.bumptech.glide.MemoryCategory: com.bumptech.glide.MemoryCategory valueOf(java.lang.String)
+com.bumptech.glide.Priority: com.bumptech.glide.Priority[] values()
+com.bumptech.glide.Priority: com.bumptech.glide.Priority valueOf(java.lang.String)
+com.bumptech.glide.disklrucache.DiskLruCache
+com.bumptech.glide.disklrucache.DiskLruCache: java.io.File getDirectory()
+com.bumptech.glide.disklrucache.DiskLruCache: long getMaxSize()
+com.bumptech.glide.disklrucache.DiskLruCache: void setMaxSize(long)
+com.bumptech.glide.disklrucache.DiskLruCache$Entry
+com.bumptech.glide.disklrucache.DiskLruCache$Entry: java.lang.String getLengths()
+com.bumptech.glide.disklrucache.DiskLruCache$Entry: void setLengths(java.lang.String[])
+com.bumptech.glide.gifdecoder.GifDecoder
+com.bumptech.glide.gifdecoder.GifDecoder: int getWidth()
+com.bumptech.glide.gifdecoder.GifDecoder: int getHeight()
+com.bumptech.glide.gifdecoder.GifDecoder: byte[] getData()
+com.bumptech.glide.gifdecoder.GifDecoder: int getStatus()
+com.bumptech.glide.gifdecoder.GifDecoder: int getNextDelay()
+com.bumptech.glide.gifdecoder.GifDecoder: int getFrameCount()
+com.bumptech.glide.gifdecoder.GifDecoder: int getCurrentFrameIndex()
+com.bumptech.glide.gifdecoder.GifDecoder: int getLoopCount()
+com.bumptech.glide.gifdecoder.GifDecoder: android.graphics.Bitmap getNextFrame()
+com.bumptech.glide.gifdecoder.GifDecoder: com.bumptech.glide.gifdecoder.GifHeaderParser getHeaderParser()
+com.bumptech.glide.gifdecoder.GifDecoder: android.graphics.Bitmap getNextBitmap()
+com.bumptech.glide.gifdecoder.GifDecoder: void setAlpha(android.graphics.Bitmap)
+com.bumptech.glide.gifencoder.AnimatedGifEncoder
+com.bumptech.glide.gifencoder.AnimatedGifEncoder: void setDelay(int)
+com.bumptech.glide.gifencoder.AnimatedGifEncoder: void setDispose(int)
+com.bumptech.glide.gifencoder.AnimatedGifEncoder: void setRepeat(int)
+com.bumptech.glide.gifencoder.AnimatedGifEncoder: void setTransparent(int)
+com.bumptech.glide.gifencoder.AnimatedGifEncoder: void setFrameRate(float)
+com.bumptech.glide.gifencoder.AnimatedGifEncoder: void setQuality(int)
+com.bumptech.glide.gifencoder.AnimatedGifEncoder: void getImagePixels()
+com.bumptech.glide.integration.volley.VolleyGlideModule
+com.bumptech.glide.integration.volley.VolleyRequestFuture
+com.bumptech.glide.integration.volley.VolleyRequestFuture: void setRequest(com.android.volley.Request)
+com.bumptech.glide.integration.volley.VolleyRequestFuture: java.lang.Object get()
+com.bumptech.glide.load.DecodeFormat: com.bumptech.glide.load.DecodeFormat[] values()
+com.bumptech.glide.load.DecodeFormat: com.bumptech.glide.load.DecodeFormat valueOf(java.lang.String)
+com.bumptech.glide.load.engine.DiskCacheStrategy: com.bumptech.glide.load.engine.DiskCacheStrategy[] values()
+com.bumptech.glide.load.engine.DiskCacheStrategy: com.bumptech.glide.load.engine.DiskCacheStrategy valueOf(java.lang.String)
+com.bumptech.glide.load.engine.EngineRunnable$Stage: com.bumptech.glide.load.engine.EngineRunnable$Stage[] values()
+com.bumptech.glide.load.engine.EngineRunnable$Stage: com.bumptech.glide.load.engine.EngineRunnable$Stage valueOf(java.lang.String)
+com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool
+com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool: int getMaxSize()
+com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool: void setSizeMultiplier(float)
+com.bumptech.glide.load.engine.bitmap_recycle.BitmapPoolAdapter
+com.bumptech.glide.load.engine.bitmap_recycle.BitmapPoolAdapter: int getMaxSize()
+com.bumptech.glide.load.engine.bitmap_recycle.BitmapPoolAdapter: void setSizeMultiplier(float)
+com.bumptech.glide.load.engine.bitmap_recycle.LruBitmapPool
+com.bumptech.glide.load.engine.bitmap_recycle.LruBitmapPool: int getMaxSize()
+com.bumptech.glide.load.engine.bitmap_recycle.LruBitmapPool: void setSizeMultiplier(float)
+com.bumptech.glide.load.engine.bitmap_recycle.LruBitmapPool: com.bumptech.glide.load.engine.bitmap_recycle.LruPoolStrategy getDefaultStrategy()
+com.bumptech.glide.load.engine.bitmap_recycle.LruBitmapPool: java.util.Set getDefaultAllowedConfigs()
+com.bumptech.glide.load.engine.cache.MemoryCache
+com.bumptech.glide.load.engine.cache.MemoryCache: int getCurrentSize()
+com.bumptech.glide.load.engine.cache.MemoryCache: int getMaxSize()
+com.bumptech.glide.load.engine.cache.MemoryCache: void setSizeMultiplier(float)
+com.bumptech.glide.load.engine.cache.MemoryCache: void setResourceRemovedListener(com.bumptech.glide.load.engine.cache.MemoryCache$ResourceRemovedListener)
+com.bumptech.glide.load.engine.cache.MemoryCacheAdapter
+com.bumptech.glide.load.engine.cache.MemoryCacheAdapter: int getCurrentSize()
+com.bumptech.glide.load.engine.cache.MemoryCacheAdapter: int getMaxSize()
+com.bumptech.glide.load.engine.cache.MemoryCacheAdapter: void setSizeMultiplier(float)
+com.bumptech.glide.load.engine.cache.MemoryCacheAdapter: void setResourceRemovedListener(com.bumptech.glide.load.engine.cache.MemoryCache$ResourceRemovedListener)
+com.bumptech.glide.load.engine.executor.FifoPriorityThreadPoolExecutor$UncaughtThrowableStrategy: com.bumptech.glide.load.engine.executor.FifoPriorityThreadPoolExecutor$UncaughtThrowableStrategy[] values()
+com.bumptech.glide.load.engine.executor.FifoPriorityThreadPoolExecutor$UncaughtThrowableStrategy: com.bumptech.glide.load.engine.executor.FifoPriorityThreadPoolExecutor$UncaughtThrowableStrategy valueOf(java.lang.String)
+com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable
+com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable: int getIntrinsicWidth()
+com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable: int getIntrinsicHeight()
+com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable: void setLoopCount(int)
+com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable: android.graphics.drawable.Drawable$ConstantState getConstantState()
+com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable: void setAlpha(int)
+com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable: void setColorFilter(android.graphics.ColorFilter)
+com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable: int getOpacity()
+com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable: android.graphics.Bitmap getBitmap()
+com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable$BitmapState
+com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable$BitmapState: void setColorFilter(android.graphics.ColorFilter)
+com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable$BitmapState: void setAlpha(int)
+com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable$BitmapState: int getChangingConfigurations()
+com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$ImageType
+com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$ImageType: com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$ImageType GIF
+com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$ImageType: com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$ImageType JPEG
+com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$ImageType: com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$ImageType PNG_A
+com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$ImageType: com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$ImageType PNG
+com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$ImageType: com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$ImageType UNKNOWN
+com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$ImageType: com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$ImageType[] $VALUES
+com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$ImageType: com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$ImageType[] values()
+com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$ImageType: com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$ImageType valueOf(java.lang.String)
+com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$ImageType: boolean hasAlpha()
+com.bumptech.glide.load.resource.drawable.GlideDrawable: void setLoopCount(int)
+com.bumptech.glide.load.resource.gif.GifDrawable
+com.bumptech.glide.load.resource.gif.GifDrawable: android.graphics.Bitmap getFirstFrame()
+com.bumptech.glide.load.resource.gif.GifDrawable: com.bumptech.glide.gifdecoder.GifDecoder getDecoder()
+com.bumptech.glide.load.resource.gif.GifDrawable: com.bumptech.glide.load.Transformation getFrameTransformation()
+com.bumptech.glide.load.resource.gif.GifDrawable: byte[] getData()
+com.bumptech.glide.load.resource.gif.GifDrawable: int getFrameCount()
+com.bumptech.glide.load.resource.gif.GifDrawable: int getIntrinsicWidth()
+com.bumptech.glide.load.resource.gif.GifDrawable: int getIntrinsicHeight()
+com.bumptech.glide.load.resource.gif.GifDrawable: void setIsRunning(boolean)
+com.bumptech.glide.load.resource.gif.GifDrawable: void setAlpha(int)
+com.bumptech.glide.load.resource.gif.GifDrawable: void setColorFilter(android.graphics.ColorFilter)
+com.bumptech.glide.load.resource.gif.GifDrawable: int getOpacity()
+com.bumptech.glide.load.resource.gif.GifDrawable: android.graphics.drawable.Drawable$ConstantState getConstantState()
+com.bumptech.glide.load.resource.gif.GifDrawable: void setLoopCount(int)
+com.bumptech.glide.load.resource.gif.GifFrameLoader
+com.bumptech.glide.load.resource.gif.GifFrameLoader: void setFrameTransformation(com.bumptech.glide.load.Transformation)
+com.bumptech.glide.load.resource.gif.GifFrameLoader: android.graphics.Bitmap getCurrentFrame()
+com.bumptech.glide.manager.RequestManagerFragment
+com.bumptech.glide.manager.RequestManagerFragment: void setRequestManager(com.bumptech.glide.RequestManager)
+com.bumptech.glide.manager.RequestManagerFragment: com.bumptech.glide.manager.ActivityFragmentLifecycle getLifecycle()
+com.bumptech.glide.manager.RequestManagerFragment: com.bumptech.glide.RequestManager getRequestManager()
+com.bumptech.glide.manager.RequestManagerFragment: com.bumptech.glide.manager.RequestManagerTreeNode getRequestManagerTreeNode()
+com.bumptech.glide.manager.RequestManagerFragment: java.util.Set getDescendantRequestManagerFragments()
+com.bumptech.glide.manager.SupportRequestManagerFragment
+com.bumptech.glide.manager.SupportRequestManagerFragment: void setRequestManager(com.bumptech.glide.RequestManager)
+com.bumptech.glide.manager.SupportRequestManagerFragment: com.bumptech.glide.manager.ActivityFragmentLifecycle getLifecycle()
+com.bumptech.glide.manager.SupportRequestManagerFragment: com.bumptech.glide.RequestManager getRequestManager()
+com.bumptech.glide.manager.SupportRequestManagerFragment: com.bumptech.glide.manager.RequestManagerTreeNode getRequestManagerTreeNode()
+com.bumptech.glide.manager.SupportRequestManagerFragment: java.util.Set getDescendantRequestManagerFragments()
+com.bumptech.glide.provider.ChildLoadProvider
+com.bumptech.glide.provider.ChildLoadProvider: com.bumptech.glide.load.model.ModelLoader getModelLoader()
+com.bumptech.glide.provider.ChildLoadProvider: void setCacheDecoder(com.bumptech.glide.load.ResourceDecoder)
+com.bumptech.glide.provider.ChildLoadProvider: void setSourceDecoder(com.bumptech.glide.load.ResourceDecoder)
+com.bumptech.glide.provider.ChildLoadProvider: void setEncoder(com.bumptech.glide.load.ResourceEncoder)
+com.bumptech.glide.provider.ChildLoadProvider: void setTranscoder(com.bumptech.glide.load.resource.transcode.ResourceTranscoder)
+com.bumptech.glide.provider.ChildLoadProvider: void setSourceEncoder(com.bumptech.glide.load.Encoder)
+com.bumptech.glide.provider.ChildLoadProvider: com.bumptech.glide.load.ResourceDecoder getCacheDecoder()
+com.bumptech.glide.provider.ChildLoadProvider: com.bumptech.glide.load.ResourceDecoder getSourceDecoder()
+com.bumptech.glide.provider.ChildLoadProvider: com.bumptech.glide.load.Encoder getSourceEncoder()
+com.bumptech.glide.provider.ChildLoadProvider: com.bumptech.glide.load.ResourceEncoder getEncoder()
+com.bumptech.glide.provider.ChildLoadProvider: com.bumptech.glide.load.resource.transcode.ResourceTranscoder getTranscoder()
+com.bumptech.glide.request.GenericRequest
+com.bumptech.glide.request.GenericRequest: android.graphics.drawable.Drawable getFallbackDrawable()
+com.bumptech.glide.request.GenericRequest: void setErrorPlaceholder(java.lang.Exception)
+com.bumptech.glide.request.GenericRequest: android.graphics.drawable.Drawable getErrorDrawable()
+com.bumptech.glide.request.GenericRequest: android.graphics.drawable.Drawable getPlaceholderDrawable()
+com.bumptech.glide.request.GenericRequest$Status: com.bumptech.glide.request.GenericRequest$Status[] values()
+com.bumptech.glide.request.GenericRequest$Status: com.bumptech.glide.request.GenericRequest$Status valueOf(java.lang.String)
+com.bumptech.glide.request.RequestFutureTarget
+com.bumptech.glide.request.RequestFutureTarget: java.lang.Object get()
+com.bumptech.glide.request.RequestFutureTarget: void setRequest(com.bumptech.glide.request.Request)
+com.bumptech.glide.request.RequestFutureTarget: com.bumptech.glide.request.Request getRequest()
+com.bumptech.glide.request.animation.GlideAnimation$ViewAdapter
+com.bumptech.glide.request.animation.GlideAnimation$ViewAdapter: android.view.View getView()
+com.bumptech.glide.request.animation.GlideAnimation$ViewAdapter: android.graphics.drawable.Drawable getCurrentDrawable()
+com.bumptech.glide.request.animation.GlideAnimation$ViewAdapter: void setDrawable(android.graphics.drawable.Drawable)
+com.bumptech.glide.request.target.BaseTarget
+com.bumptech.glide.request.target.BaseTarget: void setRequest(com.bumptech.glide.request.Request)
+com.bumptech.glide.request.target.BaseTarget: com.bumptech.glide.request.Request getRequest()
+com.bumptech.glide.request.target.ImageViewTarget
+com.bumptech.glide.request.target.ImageViewTarget: android.graphics.drawable.Drawable getCurrentDrawable()
+com.bumptech.glide.request.target.ImageViewTarget: void setDrawable(android.graphics.drawable.Drawable)
+com.bumptech.glide.request.target.ImageViewTarget: void setResource(java.lang.Object)
+com.bumptech.glide.request.target.SquaringDrawable
+com.bumptech.glide.request.target.SquaringDrawable: void setBounds(android.graphics.Rect)
+com.bumptech.glide.request.target.SquaringDrawable: void setChangingConfigurations(int)
+com.bumptech.glide.request.target.SquaringDrawable: int getChangingConfigurations()
+com.bumptech.glide.request.target.SquaringDrawable: void setDither(boolean)
+com.bumptech.glide.request.target.SquaringDrawable: void setFilterBitmap(boolean)
+com.bumptech.glide.request.target.SquaringDrawable: android.graphics.drawable.Drawable$Callback getCallback()
+com.bumptech.glide.request.target.SquaringDrawable: int getAlpha()
+com.bumptech.glide.request.target.SquaringDrawable: android.graphics.drawable.Drawable getCurrent()
+com.bumptech.glide.request.target.SquaringDrawable: int getIntrinsicWidth()
+com.bumptech.glide.request.target.SquaringDrawable: int getIntrinsicHeight()
+com.bumptech.glide.request.target.SquaringDrawable: int getMinimumWidth()
+com.bumptech.glide.request.target.SquaringDrawable: int getMinimumHeight()
+com.bumptech.glide.request.target.SquaringDrawable: void setAlpha(int)
+com.bumptech.glide.request.target.SquaringDrawable: void setColorFilter(android.graphics.ColorFilter)
+com.bumptech.glide.request.target.SquaringDrawable: int getOpacity()
+com.bumptech.glide.request.target.SquaringDrawable: void setLoopCount(int)
+com.bumptech.glide.request.target.SquaringDrawable: android.graphics.drawable.Drawable$ConstantState getConstantState()
+com.bumptech.glide.request.target.Target
+com.bumptech.glide.request.target.Target: void setRequest(com.bumptech.glide.request.Request)
+com.bumptech.glide.request.target.Target: com.bumptech.glide.request.Request getRequest()
+com.bumptech.glide.request.target.ViewTarget
+com.bumptech.glide.request.target.ViewTarget: void setTagId(int)
+com.bumptech.glide.request.target.ViewTarget: android.view.View getView()
+com.bumptech.glide.request.target.ViewTarget: void setRequest(com.bumptech.glide.request.Request)
+com.bumptech.glide.request.target.ViewTarget: com.bumptech.glide.request.Request getRequest()
+com.bumptech.glide.request.target.ViewTarget: void setTag(java.lang.Object)
+com.bumptech.glide.request.target.ViewTarget: java.lang.Object getTag()
+com.bumptech.glide.util.ExceptionCatchingInputStream
+com.bumptech.glide.util.ExceptionCatchingInputStream: void setInputStream(java.io.InputStream)
+com.bumptech.glide.util.ExceptionCatchingInputStream: java.io.IOException getException()
+com.bumptech.glide.util.LruCache
+com.bumptech.glide.util.LruCache: void setSizeMultiplier(float)
+com.bumptech.glide.util.LruCache: int getMaxSize()
+com.bumptech.glide.util.LruCache: int getCurrentSize()
 com.gc.materialdesign.R$anim: int dialog_main_hide_amination
 com.gc.materialdesign.R$anim: int dialog_main_show_amination
 com.gc.materialdesign.R$anim: int dialog_root_hide_amin
@@ -17981,10 +18180,15 @@ com.gdgl.activity.LinkageDevicesAddFragment$LinkageDevicesAddListAdapter: void s
 com.gdgl.activity.LoginActivity
 com.gdgl.activity.LoginActivity: LoginActivity()
 com.gdgl.activity.LoginActivity: void onClick(android.view.View)
+com.gdgl.activity.MessageIpcLinkageMediaActivity
+com.gdgl.activity.MessageIpcLinkageMediaActivity: MessageIpcLinkageMediaActivity()
 com.gdgl.activity.MyActionBarActivity
 com.gdgl.activity.MyActionBarActivity: MyActionBarActivity()
 com.gdgl.activity.RegionDevicesActivity
 com.gdgl.activity.RegionDevicesActivity: RegionDevicesActivity()
+com.gdgl.activity.RegionDevicesAddFragment$RegionDevicesAddListAdapter
+com.gdgl.activity.RegionDevicesAddFragment$RegionDevicesAddListAdapter: int getCount()
+com.gdgl.activity.RegionDevicesAddFragment$RegionDevicesAddListAdapter: void setList(java.util.List)
 com.gdgl.activity.RegionsFragment$CustomeAdapter
 com.gdgl.activity.RegionsFragment$CustomeAdapter: int getCount()
 com.gdgl.activity.RegionsFragment$CustomeAdapter: void setList(java.util.List)
@@ -18019,6 +18223,7 @@ com.gdgl.adapter.AllDevicesAdapter: void setIsSelected(java.util.HashMap)
 com.gdgl.adapter.DevicesBaseAdapter
 com.gdgl.adapter.DevicesBaseAdapter: int getCount()
 com.gdgl.adapter.DevicesBaseAdapter: void setList(java.util.List)
+com.gdgl.adapter.DevicesBaseAdapter: java.util.List getList()
 com.gdgl.adapter.LinkageAdapter
 com.gdgl.adapter.LinkageAdapter: void setList(java.util.List)
 com.gdgl.adapter.LinkageAdapter: void setVideoList(java.util.List)
@@ -18415,6 +18620,7 @@ com.gdgl.mydata.Callback.CallbackIpcLinkageColumns: java.lang.String PICCOUNT
 com.gdgl.mydata.Callback.CallbackIpcLinkageColumns: java.lang.String PICNAME
 com.gdgl.mydata.Callback.CallbackIpcLinkageColumns: java.lang.String DESCRIPTION
 com.gdgl.mydata.Callback.CallbackIpcLinkageMessage
+com.gdgl.mydata.Callback.CallbackIpcLinkageMessage: long serialVersionUID
 com.gdgl.mydata.Callback.CallbackIpcLinkageMessage: java.lang.String id
 com.gdgl.mydata.Callback.CallbackIpcLinkageMessage: int type
 com.gdgl.mydata.Callback.CallbackIpcLinkageMessage: java.lang.String ieee
@@ -18917,7 +19123,9 @@ com.gdgl.mydata.EventType: com.gdgl.mydata.EventType RF_CHANGEDEVICENAME
 com.gdgl.mydata.EventType: com.gdgl.mydata.EventType RF_DEVICE_ENABLE
 com.gdgl.mydata.EventType: com.gdgl.mydata.EventType RF_DEVICE_LIST_UPDATE
 com.gdgl.mydata.EventType: com.gdgl.mydata.EventType RF_DEVICE_ONLINE_STATUS
+com.gdgl.mydata.EventType: com.gdgl.mydata.EventType RF_GETEPBYROOMINDEX
 com.gdgl.mydata.EventType: com.gdgl.mydata.EventType CHANGEEMAILADDRESS
+com.gdgl.mydata.EventType: com.gdgl.mydata.EventType GETEMAILADDRESS
 com.gdgl.mydata.EventType: void <clinit>()
 com.gdgl.mydata.EventType: EventType(java.lang.String,int)
 com.gdgl.mydata.EventType: int nextId()
@@ -19398,11 +19606,18 @@ com.gdgl.mydata.getFromSharedPreferences: java.lang.String getGatewaycurrentVers
 com.gdgl.mydata.getFromSharedPreferences: boolean setGatewaycurrentVersion(java.lang.String)
 com.gdgl.mydata.getFromSharedPreferences: boolean getEnableIPC()
 com.gdgl.mydata.getFromSharedPreferences: boolean setEnableIPC(boolean)
+com.gdgl.mydata.getFromSharedPreferences: boolean setEmailVideoEnable(boolean)
+com.gdgl.mydata.getFromSharedPreferences: boolean getEmailVideoEnable()
+com.gdgl.mydata.getFromSharedPreferences: boolean setEmailPicEnable(boolean)
+com.gdgl.mydata.getFromSharedPreferences: boolean getEmailPicEnable()
+com.gdgl.mydata.getFromSharedPreferences: boolean setEmailEnable(boolean)
+com.gdgl.mydata.getFromSharedPreferences: boolean getEmailEnable()
 com.gdgl.mydata.getFromSharedPreferences: java.lang.String getPwd()
 com.gdgl.mydata.getFromSharedPreferences: java.lang.String getLoginName()
 com.gdgl.mydata.getFromSharedPreferences: java.lang.String getGatewayMAC()
 com.gdgl.mydata.getFromSharedPreferences: java.lang.String getAliasName()
 com.gdgl.mydata.getFromSharedPreferences: java.lang.String getEmailName()
+com.gdgl.mydata.getFromSharedPreferences: int getEmailFlag()
 com.gdgl.mydata.getFromSharedPreferences: int getGWayAuthState()
 com.gdgl.mydata.getFromSharedPreferences: java.lang.String getGWayAuthExpire()
 com.gdgl.mydata.getFromSharedPreferences: boolean getIsRemerber()
@@ -19414,6 +19629,7 @@ com.gdgl.mydata.getFromSharedPreferences: boolean setLoginName(java.lang.String)
 com.gdgl.mydata.getFromSharedPreferences: boolean setGatewayMAC(java.lang.String)
 com.gdgl.mydata.getFromSharedPreferences: boolean setAliasName(java.lang.String)
 com.gdgl.mydata.getFromSharedPreferences: boolean setEmailName(java.lang.String)
+com.gdgl.mydata.getFromSharedPreferences: boolean setEmailFlag(int)
 com.gdgl.mydata.getFromSharedPreferences: boolean setGWayAuthState(int)
 com.gdgl.mydata.getFromSharedPreferences: boolean setGWayAuthExpire(java.lang.String)
 com.gdgl.mydata.getFromSharedPreferences: java.lang.String getUUID()
@@ -21022,6 +21238,10 @@ com.gdgl.smarthome.R$drawable: int ui2_device_windowmagnetic_control_off
 com.gdgl.smarthome.R$drawable: int ui2_device_windowmagnetic_control_on
 com.gdgl.smarthome.R$drawable: int ui2_device_windowmagnetic_control_style
 com.gdgl.smarthome.R$drawable: int ui2_device_windowmagnetic_small
+com.gdgl.smarthome.R$drawable: int ui2_error404
+com.gdgl.smarthome.R$drawable: int ui2_error_video
+com.gdgl.smarthome.R$drawable: int ui2_image_loading_spinner
+com.gdgl.smarthome.R$drawable: int ui2_image_loading_spinner1
 com.gdgl.smarthome.R$drawable: int ui2_joinnet_circle
 com.gdgl.smarthome.R$drawable: int ui2_linkage_act
 com.gdgl.smarthome.R$drawable: int ui2_linkage_button_normal
@@ -21051,6 +21271,9 @@ com.gdgl.smarthome.R$drawable: int ui2_menu_warmingmessage
 com.gdgl.smarthome.R$drawable: int ui2_menu_warmingmessage_press
 com.gdgl.smarthome.R$drawable: int ui2_menu_warmingmessage_style
 com.gdgl.smarthome.R$drawable: int ui2_notification_icon
+com.gdgl.smarthome.R$drawable: int ui2_region
+com.gdgl.smarthome.R$drawable: int ui2_region_press
+com.gdgl.smarthome.R$drawable: int ui2_region_style
 com.gdgl.smarthome.R$drawable: int ui2_scene
 com.gdgl.smarthome.R$drawable: int ui2_scene_press
 com.gdgl.smarthome.R$drawable: int ui2_scene_style
@@ -21568,13 +21791,13 @@ com.gdgl.smarthome.R$id: int icon
 com.gdgl.smarthome.R$id: int identify_time
 com.gdgl.smarthome.R$id: int ifRoom
 com.gdgl.smarthome.R$id: int image
+com.gdgl.smarthome.R$id: int imageView
 com.gdgl.smarthome.R$id: int imageView1
 com.gdgl.smarthome.R$id: int imageView2
 com.gdgl.smarthome.R$id: int imageView3
 com.gdgl.smarthome.R$id: int imageView4
 com.gdgl.smarthome.R$id: int img
 com.gdgl.smarthome.R$id: int imgAvatar
-com.gdgl.smarthome.R$id: int img_big_pic
 com.gdgl.smarthome.R$id: int include1
 com.gdgl.smarthome.R$id: int item_name
 com.gdgl.smarthome.R$id: int join_net
@@ -21582,7 +21805,6 @@ com.gdgl.smarthome.R$id: int join_net_list
 com.gdgl.smarthome.R$id: int kongtiao_control
 com.gdgl.smarthome.R$id: int kongtiao_text
 com.gdgl.smarthome.R$id: int latestVersion
-com.gdgl.smarthome.R$id: int lay_big_pic
 com.gdgl.smarthome.R$id: int lay_pic
 com.gdgl.smarthome.R$id: int layout1
 com.gdgl.smarthome.R$id: int layout2
@@ -21882,6 +22104,7 @@ com.gdgl.smarthome.R$layout: int all_devices_expandablelist_withgroup
 com.gdgl.smarthome.R$layout: int all_devices_item
 com.gdgl.smarthome.R$layout: int all_devices_list
 com.gdgl.smarthome.R$layout: int all_devices_list_withgroup
+com.gdgl.smarthome.R$layout: int big_screenshot_dlg
 com.gdgl.smarthome.R$layout: int bind_control
 com.gdgl.smarthome.R$layout: int bind_control_item
 com.gdgl.smarthome.R$layout: int bind_item
@@ -21926,6 +22149,7 @@ com.gdgl.smarthome.R$layout: int gridview_item
 com.gdgl.smarthome.R$layout: int hik_activity
 com.gdgl.smarthome.R$layout: int history_fragment
 com.gdgl.smarthome.R$layout: int history_fragment_data_item
+com.gdgl.smarthome.R$layout: int ipc_linkage_media_fragment
 com.gdgl.smarthome.R$layout: int join_net_item
 com.gdgl.smarthome.R$layout: int join_net_list
 com.gdgl.smarthome.R$layout: int kongtiao_tv_control
@@ -21947,6 +22171,7 @@ com.gdgl.smarthome.R$layout: int number_indicator_spinner
 com.gdgl.smarthome.R$layout: int ok_cancle_dlg
 com.gdgl.smarthome.R$layout: int ok_only_dlg
 com.gdgl.smarthome.R$layout: int on_off_control
+com.gdgl.smarthome.R$layout: int pager_item
 com.gdgl.smarthome.R$layout: int process_dlg
 com.gdgl.smarthome.R$layout: int progress_dialog
 com.gdgl.smarthome.R$layout: int pull_to_refresh_header_horizontal
@@ -22202,6 +22427,7 @@ com.gdgl.smarthome.R$style: int CustomCheckboxTheme
 com.gdgl.smarthome.R$style: int DrawerArrowStyle
 com.gdgl.smarthome.R$style: int ExpandCheckboxTheme
 com.gdgl.smarthome.R$style: int MyDialog
+com.gdgl.smarthome.R$style: int MyDialog1
 com.gdgl.smarthome.R$style: int Platform_AppCompat
 com.gdgl.smarthome.R$style: int Platform_AppCompat_Dialog
 com.gdgl.smarthome.R$style: int Platform_AppCompat_Light
@@ -25056,11 +25282,6 @@ com.tencent.weibo.oauthv2.OAuthV2Request: com.tencent.weibo.utils.QHttpClient ge
 com.tencent.weibo.oauthv2.OAuthV2Request: void setqHttpClient(com.tencent.weibo.utils.QHttpClient)
 com.tencent.weibo.webview.OAuthV1AuthorizeWebView
 com.tencent.weibo.webview.OAuthV2AuthorizeWebView
-com.testin.agent.base.TestinGVariables
-com.testin.agent.nativecrash.NativeCrash
-com.testin.agent.nativecrash.NativeCrash: boolean registNativeCrash(java.lang.String)
-com.testin.agent.nativecrash.NativeCrashNdk
-com.testin.agent.nativecrash.NativeCrashNdk: boolean installNdk()
 h264.com.VView
 h264.com.VView: boolean getStartFlag()
 h264.com.VView: void setIsVideoRun(boolean)
@@ -25323,6 +25544,127 @@ org.apache.http.entity.mime.Header: java.util.List getFields()
 org.apache.http.entity.mime.Header: void setField(org.apache.http.entity.mime.MinimalField)
 org.apache.http.entity.mime.HttpMultipartMode: org.apache.http.entity.mime.HttpMultipartMode[] values()
 org.apache.http.entity.mime.HttpMultipartMode: org.apache.http.entity.mime.HttpMultipartMode valueOf(java.lang.String)
+uk.co.senab.photoview.IPhotoView
+uk.co.senab.photoview.IPhotoView: android.graphics.RectF getDisplayRect()
+uk.co.senab.photoview.IPhotoView: android.graphics.Matrix getDisplayMatrix()
+uk.co.senab.photoview.IPhotoView: float getMinScale()
+uk.co.senab.photoview.IPhotoView: float getMinimumScale()
+uk.co.senab.photoview.IPhotoView: float getMidScale()
+uk.co.senab.photoview.IPhotoView: float getMediumScale()
+uk.co.senab.photoview.IPhotoView: float getMaxScale()
+uk.co.senab.photoview.IPhotoView: float getMaximumScale()
+uk.co.senab.photoview.IPhotoView: float getScale()
+uk.co.senab.photoview.IPhotoView: android.widget.ImageView$ScaleType getScaleType()
+uk.co.senab.photoview.IPhotoView: void setAllowParentInterceptOnEdge(boolean)
+uk.co.senab.photoview.IPhotoView: void setMinScale(float)
+uk.co.senab.photoview.IPhotoView: void setMinimumScale(float)
+uk.co.senab.photoview.IPhotoView: void setMidScale(float)
+uk.co.senab.photoview.IPhotoView: void setMediumScale(float)
+uk.co.senab.photoview.IPhotoView: void setMaxScale(float)
+uk.co.senab.photoview.IPhotoView: void setMaximumScale(float)
+uk.co.senab.photoview.IPhotoView: void setOnLongClickListener(android.view.View$OnLongClickListener)
+uk.co.senab.photoview.IPhotoView: void setOnMatrixChangeListener(uk.co.senab.photoview.PhotoViewAttacher$OnMatrixChangedListener)
+uk.co.senab.photoview.IPhotoView: void setOnPhotoTapListener(uk.co.senab.photoview.PhotoViewAttacher$OnPhotoTapListener)
+uk.co.senab.photoview.IPhotoView: uk.co.senab.photoview.PhotoViewAttacher$OnPhotoTapListener getOnPhotoTapListener()
+uk.co.senab.photoview.IPhotoView: void setOnViewTapListener(uk.co.senab.photoview.PhotoViewAttacher$OnViewTapListener)
+uk.co.senab.photoview.IPhotoView: void setRotationTo(float)
+uk.co.senab.photoview.IPhotoView: void setRotationBy(float)
+uk.co.senab.photoview.IPhotoView: uk.co.senab.photoview.PhotoViewAttacher$OnViewTapListener getOnViewTapListener()
+uk.co.senab.photoview.IPhotoView: void setScale(float)
+uk.co.senab.photoview.IPhotoView: void setScaleType(android.widget.ImageView$ScaleType)
+uk.co.senab.photoview.IPhotoView: void setZoomable(boolean)
+uk.co.senab.photoview.IPhotoView: void setPhotoViewRotation(float)
+uk.co.senab.photoview.IPhotoView: android.graphics.Bitmap getVisibleRectangleBitmap()
+uk.co.senab.photoview.IPhotoView: void setZoomTransitionDuration(int)
+uk.co.senab.photoview.IPhotoView: uk.co.senab.photoview.IPhotoView getIPhotoViewImplementation()
+uk.co.senab.photoview.IPhotoView: void setOnDoubleTapListener(android.view.GestureDetector$OnDoubleTapListener)
+uk.co.senab.photoview.IPhotoView: void setOnScaleChangeListener(uk.co.senab.photoview.PhotoViewAttacher$OnScaleChangeListener)
+uk.co.senab.photoview.PhotoView
+uk.co.senab.photoview.PhotoView: PhotoView(android.content.Context)
+uk.co.senab.photoview.PhotoView: PhotoView(android.content.Context,android.util.AttributeSet)
+uk.co.senab.photoview.PhotoView: PhotoView(android.content.Context,android.util.AttributeSet,int)
+uk.co.senab.photoview.PhotoView: void setPhotoViewRotation(float)
+uk.co.senab.photoview.PhotoView: void setRotationTo(float)
+uk.co.senab.photoview.PhotoView: void setRotationBy(float)
+uk.co.senab.photoview.PhotoView: android.graphics.RectF getDisplayRect()
+uk.co.senab.photoview.PhotoView: android.graphics.Matrix getDisplayMatrix()
+uk.co.senab.photoview.PhotoView: float getMinScale()
+uk.co.senab.photoview.PhotoView: float getMinimumScale()
+uk.co.senab.photoview.PhotoView: float getMidScale()
+uk.co.senab.photoview.PhotoView: float getMediumScale()
+uk.co.senab.photoview.PhotoView: float getMaxScale()
+uk.co.senab.photoview.PhotoView: float getMaximumScale()
+uk.co.senab.photoview.PhotoView: float getScale()
+uk.co.senab.photoview.PhotoView: android.widget.ImageView$ScaleType getScaleType()
+uk.co.senab.photoview.PhotoView: void setAllowParentInterceptOnEdge(boolean)
+uk.co.senab.photoview.PhotoView: void setMinScale(float)
+uk.co.senab.photoview.PhotoView: void setMinimumScale(float)
+uk.co.senab.photoview.PhotoView: void setMidScale(float)
+uk.co.senab.photoview.PhotoView: void setMediumScale(float)
+uk.co.senab.photoview.PhotoView: void setMaxScale(float)
+uk.co.senab.photoview.PhotoView: void setMaximumScale(float)
+uk.co.senab.photoview.PhotoView: void setScaleLevels(float,float,float)
+uk.co.senab.photoview.PhotoView: void setImageDrawable(android.graphics.drawable.Drawable)
+uk.co.senab.photoview.PhotoView: void setImageResource(int)
+uk.co.senab.photoview.PhotoView: void setImageURI(android.net.Uri)
+uk.co.senab.photoview.PhotoView: void setOnMatrixChangeListener(uk.co.senab.photoview.PhotoViewAttacher$OnMatrixChangedListener)
+uk.co.senab.photoview.PhotoView: void setOnLongClickListener(android.view.View$OnLongClickListener)
+uk.co.senab.photoview.PhotoView: void setOnPhotoTapListener(uk.co.senab.photoview.PhotoViewAttacher$OnPhotoTapListener)
+uk.co.senab.photoview.PhotoView: uk.co.senab.photoview.PhotoViewAttacher$OnPhotoTapListener getOnPhotoTapListener()
+uk.co.senab.photoview.PhotoView: void setOnViewTapListener(uk.co.senab.photoview.PhotoViewAttacher$OnViewTapListener)
+uk.co.senab.photoview.PhotoView: uk.co.senab.photoview.PhotoViewAttacher$OnViewTapListener getOnViewTapListener()
+uk.co.senab.photoview.PhotoView: void setScale(float)
+uk.co.senab.photoview.PhotoView: void setScale(float,boolean)
+uk.co.senab.photoview.PhotoView: void setScale(float,float,float,boolean)
+uk.co.senab.photoview.PhotoView: void setScaleType(android.widget.ImageView$ScaleType)
+uk.co.senab.photoview.PhotoView: void setZoomable(boolean)
+uk.co.senab.photoview.PhotoView: android.graphics.Bitmap getVisibleRectangleBitmap()
+uk.co.senab.photoview.PhotoView: void setZoomTransitionDuration(int)
+uk.co.senab.photoview.PhotoView: uk.co.senab.photoview.IPhotoView getIPhotoViewImplementation()
+uk.co.senab.photoview.PhotoView: void setOnDoubleTapListener(android.view.GestureDetector$OnDoubleTapListener)
+uk.co.senab.photoview.PhotoView: void setOnScaleChangeListener(uk.co.senab.photoview.PhotoViewAttacher$OnScaleChangeListener)
+uk.co.senab.photoview.PhotoViewAttacher
+uk.co.senab.photoview.PhotoViewAttacher: void setImageViewScaleTypeMatrix(android.widget.ImageView)
+uk.co.senab.photoview.PhotoViewAttacher: void setOnDoubleTapListener(android.view.GestureDetector$OnDoubleTapListener)
+uk.co.senab.photoview.PhotoViewAttacher: void setOnScaleChangeListener(uk.co.senab.photoview.PhotoViewAttacher$OnScaleChangeListener)
+uk.co.senab.photoview.PhotoViewAttacher: android.graphics.RectF getDisplayRect()
+uk.co.senab.photoview.PhotoViewAttacher: void setPhotoViewRotation(float)
+uk.co.senab.photoview.PhotoViewAttacher: void setRotationTo(float)
+uk.co.senab.photoview.PhotoViewAttacher: void setRotationBy(float)
+uk.co.senab.photoview.PhotoViewAttacher: android.widget.ImageView getImageView()
+uk.co.senab.photoview.PhotoViewAttacher: float getMinScale()
+uk.co.senab.photoview.PhotoViewAttacher: float getMinimumScale()
+uk.co.senab.photoview.PhotoViewAttacher: float getMidScale()
+uk.co.senab.photoview.PhotoViewAttacher: float getMediumScale()
+uk.co.senab.photoview.PhotoViewAttacher: float getMaxScale()
+uk.co.senab.photoview.PhotoViewAttacher: float getMaximumScale()
+uk.co.senab.photoview.PhotoViewAttacher: float getScale()
+uk.co.senab.photoview.PhotoViewAttacher: android.widget.ImageView$ScaleType getScaleType()
+uk.co.senab.photoview.PhotoViewAttacher: void setAllowParentInterceptOnEdge(boolean)
+uk.co.senab.photoview.PhotoViewAttacher: void setMinScale(float)
+uk.co.senab.photoview.PhotoViewAttacher: void setMinimumScale(float)
+uk.co.senab.photoview.PhotoViewAttacher: void setMidScale(float)
+uk.co.senab.photoview.PhotoViewAttacher: void setMediumScale(float)
+uk.co.senab.photoview.PhotoViewAttacher: void setMaxScale(float)
+uk.co.senab.photoview.PhotoViewAttacher: void setMaximumScale(float)
+uk.co.senab.photoview.PhotoViewAttacher: void setOnLongClickListener(android.view.View$OnLongClickListener)
+uk.co.senab.photoview.PhotoViewAttacher: void setOnMatrixChangeListener(uk.co.senab.photoview.PhotoViewAttacher$OnMatrixChangedListener)
+uk.co.senab.photoview.PhotoViewAttacher: void setOnPhotoTapListener(uk.co.senab.photoview.PhotoViewAttacher$OnPhotoTapListener)
+uk.co.senab.photoview.PhotoViewAttacher: uk.co.senab.photoview.PhotoViewAttacher$OnPhotoTapListener getOnPhotoTapListener()
+uk.co.senab.photoview.PhotoViewAttacher: void setOnViewTapListener(uk.co.senab.photoview.PhotoViewAttacher$OnViewTapListener)
+uk.co.senab.photoview.PhotoViewAttacher: uk.co.senab.photoview.PhotoViewAttacher$OnViewTapListener getOnViewTapListener()
+uk.co.senab.photoview.PhotoViewAttacher: void setScale(float)
+uk.co.senab.photoview.PhotoViewAttacher: void setScaleType(android.widget.ImageView$ScaleType)
+uk.co.senab.photoview.PhotoViewAttacher: void setZoomable(boolean)
+uk.co.senab.photoview.PhotoViewAttacher: android.graphics.Matrix getDisplayMatrix()
+uk.co.senab.photoview.PhotoViewAttacher: android.graphics.Matrix getDrawMatrix()
+uk.co.senab.photoview.PhotoViewAttacher: android.graphics.Bitmap getVisibleRectangleBitmap()
+uk.co.senab.photoview.PhotoViewAttacher: void setZoomTransitionDuration(int)
+uk.co.senab.photoview.PhotoViewAttacher: uk.co.senab.photoview.IPhotoView getIPhotoViewImplementation()
+uk.co.senab.photoview.PhotoViewAttacher: void setImageViewMatrix(android.graphics.Matrix)
+uk.co.senab.photoview.log.LogManager
+uk.co.senab.photoview.log.LogManager: void setLogger(uk.co.senab.photoview.log.Logger)
+uk.co.senab.photoview.log.LogManager: uk.co.senab.photoview.log.Logger getLogger()
 video_decoder.H264
 video_decoder.H264: int Init_H264Decoder(int,int)
 video_decoder.H264: int Uninit_H264Decoder()

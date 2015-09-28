@@ -18,7 +18,6 @@ import android.net.Uri;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class AddDlg {
@@ -64,14 +63,14 @@ public class AddDlg {
 				String mN = mName.getText().toString();
 				if(mType==REGION){
 					if (null != mN && !mN.trim().equals("")) {
-						saveRegion(mN.trim());
+						mAddDialogcallback.refreshdata(saveRegion(mN.trim()));
 					}
 				}else if(mType==REMOTE_CONTROL){
 					if (null != mN && !mN.trim().equals("")) {
 						saveRemoteControl(mN.trim());
 					}
 				}
-				mAddDialogcallback.refreshdata();
+				
 				dismiss();
 			}
 		});
@@ -105,9 +104,10 @@ public class AddDlg {
 
 			@Override
 			public void onClick(View v) {
+				mRoom.setroom_name(mName.getText().toString());
 				String mN = Uri.encode(mName.getText().toString());
 				updateRegion(mRoom, mN);	
-				mAddDialogcallback.refreshdata();
+				mAddDialogcallback.refreshdata(mRoom);
 				dismiss();
 			}
 		});
@@ -141,7 +141,7 @@ public class AddDlg {
 		getFromSharedPreferences.addRemoteControlList(mControlList);
 	}
 
-	protected void saveRegion(String mN) {
+	protected Room saveRegion(String mN) {
 		// TODO Auto-generated method stub
 		List<Room> mList = new ArrayList<Room>();
 		
@@ -177,7 +177,7 @@ public class AddDlg {
 		addroomdata.setroom_pic("");
 		addList.add(addroomdata);
 		mDateHelper.insertAddRoomInfo(mSQLiteDatabase1, DataHelper.ROOMINFO_TABLE, null, addList);	
-		
+		return addroomdata;
 	}
 
 	public void setContent(String content) {
@@ -201,7 +201,7 @@ public class AddDlg {
 	}
 	
 	public interface AddDialogcallback {
-		public void refreshdata();
+		public void refreshdata(Room room);
 	}
 
 	public void setDialogCallback(AddDialogcallback dialogcallback) {

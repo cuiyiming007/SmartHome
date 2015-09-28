@@ -12,6 +12,7 @@ import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.getFromSharedPreferences;
+import com.gdgl.mydata.Region.Room;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.AddDlg.AddDialogcallback;
 import com.gdgl.util.CircleProgressBar;
@@ -252,7 +253,7 @@ public class JoinNetFragment extends Fragment implements UIListener,
 	}
 
 	@Override
-	public void refreshdata() {
+	public void refreshdata(Room room) {
 		// TODO Auto-generated method stub
 		JoinNetTimer=Integer.valueOf(getFromSharedPreferences
 				.getJoinNetTime());

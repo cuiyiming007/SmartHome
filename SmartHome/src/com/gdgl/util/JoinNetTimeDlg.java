@@ -1,6 +1,7 @@
 package com.gdgl.util;
 
 import com.gdgl.mydata.getFromSharedPreferences;
+import com.gdgl.mydata.Region.Room;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.AddDlg.AddDialogcallback;
 
@@ -43,8 +44,8 @@ public class JoinNetTimeDlg {
 					if (t > 59 && t < 251) {
 						getFromSharedPreferences.setsharedPreferences(mContext);
 						getFromSharedPreferences.setJoinNetTime(time);
-
-						mAddDialogcallback.refreshdata();
+						Room room = new Room();
+						mAddDialogcallback.refreshdata(room);
 					} else {
 						Toast.makeText(mContext, "请输入60~250",
 								Toast.LENGTH_SHORT).show();
