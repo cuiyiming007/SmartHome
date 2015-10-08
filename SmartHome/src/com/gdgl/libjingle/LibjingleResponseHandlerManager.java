@@ -320,6 +320,9 @@ public class LibjingleResponseHandlerManager extends Manger {
 			case LibjingleSendStructure.GETEPBYROOMINDEX:
 				new GetEPbyRoomIndexTask().execute(response);
 				break;
+			case LibjingleSendStructure.GETEPBYROOMINDEXINIT:
+				new GetEPbyRoomIndexInitTask().execute(response);
+				break;
 			case LibjingleSendStructure.ZBADDROOMDATAMAIN:
 				Gson gson93 = new Gson();
 				Log.i(TAG, "addroomdatamain" + response);
@@ -385,6 +388,12 @@ public class LibjingleResponseHandlerManager extends Manger {
 				break;
 			case LibjingleSendStructure.GETRFDEVICELIST:
 				new GetRFDevListTask().execute(response);
+				break;
+			case LibjingleSendStructure.GETRFDEVICEBYROOMID:
+				new GetRFDevByRoomIdTask().execute(response);
+				break;
+			case LibjingleSendStructure.GETRFDEVICEBYROOMIDINIT:
+				new GetRFDevByRoomIdInitTask().execute(response);
 				break;
 			case LibjingleSendStructure.GATEWAYAUTH:
 				getFromSharedPreferences.setsharedPreferences(ApplicationController.getInstance());
@@ -629,13 +638,34 @@ public class LibjingleResponseHandlerManager extends Manger {
 					.handleEndPointString(params[0]);
 			ArrayList<ResponseParamsEndPoint> devDataList = data
 					.getResponseparamList();
-
-			return devDataList;
+			List<DevicesModel> mDevicesList = DataHelper
+					.convertToDevicesModel(devDataList);
+			return mDevicesList;
 		}
 
 		@Override
 		protected void onPostExecute(Object result) {
 			Event event = new Event(EventType.GETEPBYROOMINDEX, true);
+			event.setData(result);
+			notifyObservers(event);
+		}
+
+	}
+	class GetEPbyRoomIndexInitTask extends AsyncTask<String, Object, Object> {
+		@Override
+		protected Object doInBackground(String... params) {
+			RespondDataEntity<ResponseParamsEndPoint> data = VolleyOperation
+					.handleEndPointString(params[0]);
+			ArrayList<ResponseParamsEndPoint> devDataList = data
+					.getResponseparamList();
+			List<DevicesModel> mDevicesList = DataHelper
+					.convertToDevicesModel(devDataList);
+			return mDevicesList;
+		}
+
+		@Override
+		protected void onPostExecute(Object result) {
+			Event event = new Event(EventType.GETEPBYROOMINDEXINIT, true);
 			event.setData(result);
 			notifyObservers(event);
 		}
@@ -832,5 +862,46 @@ public class LibjingleResponseHandlerManager extends Manger {
 			notifyObservers(event);
 			return devDataList;
 		}
+	}
+	
+	class GetRFDevByRoomIdTask extends AsyncTask<String, Object, Object> {
+		@Override
+		protected Object doInBackground(String... params) {
+			RespondDataEntity<ResponseParamsEndPoint> data = VolleyOperation
+					.handleEndPointString(params[0]);
+			ArrayList<ResponseParamsEndPoint> devDataList = data
+					.getResponseparamList();
+			List<DevicesModel> mDevicesList = DataHelper
+					.convertToDevicesModel(devDataList);
+			return mDevicesList;
+		}
+
+		@Override
+		protected void onPostExecute(Object result) {
+			Event event = new Event(EventType.RF_GETEPBYROOMINDEX, true);
+			event.setData(result);
+			notifyObservers(event);
+		}
+
+	}
+	class GetRFDevByRoomIdInitTask extends AsyncTask<String, Object, Object> {
+		@Override
+		protected Object doInBackground(String... params) {
+			RespondDataEntity<ResponseParamsEndPoint> data = VolleyOperation
+					.handleEndPointString(params[0]);
+			ArrayList<ResponseParamsEndPoint> devDataList = data
+					.getResponseparamList();
+			List<DevicesModel> mDevicesList = DataHelper
+					.convertToDevicesModel(devDataList);
+			return mDevicesList;
+		}
+
+		@Override
+		protected void onPostExecute(Object result) {
+			Event event = new Event(EventType.RF_GETEPBYROOMINDEXINIT, true);
+			event.setData(result);
+			notifyObservers(event);
+		}
+
 	}
 }

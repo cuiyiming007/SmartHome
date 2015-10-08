@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.gc.materialdesign.views.ButtonFloat;
 import com.gdgl.activity.SmartHome.refreshAdapter;
+import com.gdgl.libjingle.LibjingleResponseHandlerManager;
+import com.gdgl.libjingle.LibjingleSendManager;
 import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
@@ -54,8 +56,7 @@ import android.widget.GridView;
  * @author Trice
  * 
  */
-public class RegionsFragment extends Fragment implements refreshAdapter,
-		Dialogcallback, UIListener, AddDialogcallback {
+public class RegionsFragment extends Fragment implements refreshAdapter, Dialogcallback, UIListener, AddDialogcallback {
 
 	PullToRefreshGridView content_view;
 	// GridView content_view;
@@ -67,7 +68,7 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 	ButtonFloat mButtonFloat;
 
 	DataHelper mDateHelper;
-	
+
 	int menuIndex = 0;
 
 	@Override
@@ -75,6 +76,7 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		CGIManager.getInstance().addObserver(RegionsFragment.this);
+		LibjingleResponseHandlerManager.getInstance().addObserver(this);
 		initData();
 
 	}
@@ -83,9 +85,8 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 		mregions = new ArrayList<Room>();
 		mDateHelper = new DataHelper((Context) getActivity());
 		SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
-		mregions = mDateHelper.queryForRoomList(mSQLiteDatabase,
-				DataHelper.ROOMINFO_TABLE, null, null, null, null, null, null,
-				null);
+		mregions = mDateHelper.queryForRoomList(mSQLiteDatabase, DataHelper.ROOMINFO_TABLE, null, null, null, null,
+				null, null, null);
 		mDateHelper.close(mSQLiteDatabase);
 	}
 
@@ -95,19 +96,17 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 		if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
 			CGIManager.getInstance().GetAllRoomInfo();
 		} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
-
+			LibjingleSendManager.getInstance().GetAllRoomInfo();
 		}
 		mDateHelper = new DataHelper((Context) getActivity());
 		SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
-		mregions = mDateHelper.queryForRoomList(mSQLiteDatabase,
-				DataHelper.ROOMINFO_TABLE, null, null, null, null, null, null,
-				null);
+		mregions = mDateHelper.queryForRoomList(mSQLiteDatabase, DataHelper.ROOMINFO_TABLE, null, null, null, null,
+				null, null, null);
 		mDateHelper.close(mSQLiteDatabase);
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		mView = inflater.inflate(R.layout.devices_main_fragment_new, null);
 		initview();
@@ -117,8 +116,7 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 	private void initview() {
 		// TODO Auto-generated method stub
 		nodevices = (ViewGroup) mView.findViewById(R.id.nodevices);
-		content_view = (PullToRefreshGridView) mView
-				.findViewById(R.id.content_view);
+		content_view = (PullToRefreshGridView) mView.findViewById(R.id.content_view);
 		mButtonFloat = (ButtonFloat) mView.findViewById(R.id.buttonFloat);
 		mCustomeAdapter = new CustomeAdapter();
 		mCustomeAdapter.setList(mregions);
@@ -127,15 +125,11 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 		// .getAnimationController((Context) getActivity()));
 		content_view.setOnItemClickListener(new OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View view, int index,
-					long arg3) {
+			public void onItemClick(AdapterView<?> arg0, View view, int index, long arg3) {
 				// TODO Auto-generated method stub
-				Intent i = new Intent((Context) getActivity(),
-						RegionDevicesActivity.class);
-				i.putExtra(RegionDevicesActivity.REGION_NAME,
-						mregions.get(index).getroom_name());
-				i.putExtra(RegionDevicesActivity.REGION_ID, mregions.get(index)
-						.getroom_id());
+				Intent i = new Intent((Context) getActivity(), RegionDevicesActivity.class);
+				i.putExtra(RegionDevicesActivity.REGION_NAME, mregions.get(index).getroom_name());
+				i.putExtra(RegionDevicesActivity.REGION_ID, mregions.get(index).getroom_id());
 				startActivity(i);
 			}
 
@@ -145,10 +139,9 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 			@Override
 			public void onRefresh(PullToRefreshBase<GridView> refreshView) {
 				// TODO Auto-generated method stub
-				String label = DateUtils.formatDateTime(getActivity()
-						.getApplicationContext(), System.currentTimeMillis(),
-						DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE
-								| DateUtils.FORMAT_ABBREV_ALL);
+				String label = DateUtils.formatDateTime(getActivity().getApplicationContext(),
+						System.currentTimeMillis(),
+						DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_ALL);
 
 				// Update the LastUpdatedLabel
 				refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
@@ -161,11 +154,17 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				AddDlg mAddDlg = new AddDlg(getActivity(), AddDlg.REGION);
-				mAddDlg.setContent("添加区域");
-				mAddDlg.setType("区域名称");
-				mAddDlg.setDialogCallback(RegionsFragment.this);
-				mAddDlg.show();
+				if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+					AddDlg mAddDlg = new AddDlg(getActivity(), AddDlg.REGION);
+					mAddDlg.setContent("添加区域");
+					mAddDlg.setType("区域名称");
+					mAddDlg.setDialogCallback(RegionsFragment.this);
+					mAddDlg.show();
+				} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+					VersionDlg vd = new VersionDlg(getActivity());
+					vd.setContent(getResources().getString(R.string.Unable_In_InternetState));
+					vd.show();
+				}
 			}
 		});
 		if (null == mregions || mregions.size() == 0) {
@@ -177,30 +176,39 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 		if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
 			registerForContextMenu(content_view.getRefreshableView());
 		} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
-			content_view
-					.setOnItemLongClickListener(new OnItemLongClickListener() {
+			content_view.setOnItemLongClickListener(new OnItemLongClickListener() {
 
-						@Override
-						public boolean onItemLongClick(AdapterView<?> parent,
-								View view, int position, long id) {
-							// TODO Auto-generated method stub
-							VersionDlg vd = new VersionDlg(getActivity());
-							vd.setContent(getResources().getString(
-									R.string.Unable_In_InternetState));
-							vd.show();
-							return true;
-						}
+				@Override
+				public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+					// TODO Auto-generated method stub
+					VersionDlg vd = new VersionDlg(getActivity());
+					vd.setContent(getResources().getString(R.string.Unable_In_InternetState));
+					vd.show();
+					return true;
+				}
 
-					});
+			});
 		}
 	}
 
+	@Override
+	public void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		CGIManager.getInstance().deleteObserver(this);
+		LibjingleResponseHandlerManager.getInstance().deleteObserver(this);
+	}
+	
 	private class GetDataTask extends AsyncTask<Void, Void, String> {
 
 		@Override
 		protected String doInBackground(Void... params) {
 			// TODO Auto-generated method stub
-			CGIManager.getInstance().GetAllRoomInfo();
+			if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+				CGIManager.getInstance().GetAllRoomInfo();
+			} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+				LibjingleSendManager.getInstance().GetAllRoomInfo();
+			}
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
@@ -267,18 +275,14 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 			ViewHolder mViewHolder;
 			if (null == convertView) {
 				mViewHolder = new ViewHolder();
-				convertView = LayoutInflater.from((Context) getActivity())
-						.inflate(R.layout.gridview_card_item, null);
-				mViewHolder.funcImg = (ImageView) convertView
-						.findViewById(R.id.func_img);
-				mViewHolder.funcText = (TextView) convertView
-						.findViewById(R.id.func_name);
+				convertView = LayoutInflater.from((Context) getActivity()).inflate(R.layout.gridview_card_item, null);
+				mViewHolder.funcImg = (ImageView) convertView.findViewById(R.id.func_img);
+				mViewHolder.funcText = (TextView) convertView.findViewById(R.id.func_name);
 				convertView.setTag(mViewHolder);
 			} else {
 				mViewHolder = (ViewHolder) convertView.getTag();
 			}
-			mViewHolder.funcImg
-					.setImageResource(R.drawable.ui2_region_style);
+			mViewHolder.funcImg.setImageResource(R.drawable.ui2_region_style);
 			mViewHolder.funcText.setText(getItemName(position));
 			return convertView;
 		}
@@ -309,8 +313,7 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 	}
 
 	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v,
-			ContextMenuInfo menuInfo) {
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
 			menu.setHeaderTitle("编辑&删除");
 			menu.add(1, 1, 0, "编辑");
@@ -326,8 +329,7 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 		if (item.getGroupId() != 1) {
 			return false;
 		}
-		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
-				.getMenuInfo();
+		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 		int position = info.position;
 		currentRoom = mregions.get(position);
 		menuIndex = item.getItemId();
@@ -339,11 +341,9 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 			mEditDlg.show();
 		}
 		if (2 == menuIndex) {
-			MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
-					(Context) getActivity());
+			MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg((Context) getActivity());
 			mMyOkCancleDlg.setDialogCallback(this);
-			mMyOkCancleDlg.setContent("确定要删除区域  "
-					+ mregions.get(position).getroom_name() + " 吗?");
+			mMyOkCancleDlg.setContent("确定要删除区域  " + mregions.get(position).getroom_name() + " 吗?");
 			mMyOkCancleDlg.show();
 			menuIndex = 0;
 		}
@@ -377,7 +377,7 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 
 					@Override
 					public void run() {
-//						refreshFragment();
+						// refreshFragment();
 					}
 				});
 			}
@@ -394,14 +394,11 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 		ContentValues c = new ContentValues();
 		c.put(DevicesModel.DEVICE_REGION, "");
 		c.put(DevicesModel.R_ID, "-1");
-		mDateHelper.update(mSQLiteDatabase, DataHelper.DEVICES_TABLE, c, where,
-				ids);
-		mDateHelper.update(mSQLiteDatabase, DataHelper.RF_DEVICES_TABLE, c, where,
-				ids);
+		mDateHelper.update(mSQLiteDatabase, DataHelper.DEVICES_TABLE, c, where, ids);
+		mDateHelper.update(mSQLiteDatabase, DataHelper.RF_DEVICES_TABLE, c, where, ids);
 		// 删除所选区域
 		CGIManager.getInstance().ZBDeleteRoomDataMainByID(id);
-		int result = mDateHelper.delete(mSQLiteDatabase,
-				DataHelper.ROOMINFO_TABLE, " room_id = ? ", ids);
+		int result = mDateHelper.delete(mSQLiteDatabase, DataHelper.ROOMINFO_TABLE, " room_id = ? ", ids);
 		mSQLiteDatabase.close();
 		if (result == 1) {
 			// refreshFragment();
@@ -413,12 +410,12 @@ public class RegionsFragment extends Fragment implements refreshAdapter,
 	@Override
 	public void refreshdata(Room room) {
 		// TODO Auto-generated method stub
-		if(menuIndex == 0) {
+		if (menuIndex == 0) {
 			mregions.add(room);
 			mCustomeAdapter.notifyDataSetChanged();
 		} else if (menuIndex == 1) {
 			for (int i = 0; i < mregions.size(); i++) {
-				if(room.getroom_id() == mregions.get(i).getroom_id()) {
+				if (room.getroom_id() == mregions.get(i).getroom_id()) {
 					mregions.get(i).setroom_name(room.getroom_name());
 					break;
 				}

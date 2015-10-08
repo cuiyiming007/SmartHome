@@ -62,6 +62,7 @@ public class EventType {
 
 	public static final EventType GETALLROOM;
 	public static final EventType GETEPBYROOMINDEX;
+	public static final EventType GETEPBYROOMINDEXINIT;
 	public static final EventType ROOMDATAMAIN;
 	public static final EventType MODIFYDEVICEROOMID;
 	
@@ -102,6 +103,7 @@ public class EventType {
 	public static final EventType RF_DEVICE_LIST_UPDATE;
 	public static final EventType RF_DEVICE_ONLINE_STATUS;
 	public static final EventType RF_GETEPBYROOMINDEX;
+	public static final EventType RF_GETEPBYROOMINDEXINIT;
 	
 	public static final EventType CHANGEEMAILADDRESS;
 	public static final EventType GETEMAILADDRESS;
@@ -161,6 +163,7 @@ public class EventType {
 
 		GETALLROOM = new EventType("getAllRoomInfo", nextId());
 		GETEPBYROOMINDEX = new EventType("getEPByRoomIndex", nextId());
+		GETEPBYROOMINDEXINIT = new EventType("getEPByRoomIndexInit", nextId());
 		ROOMDATAMAIN = new EventType("roomDataMain", nextId());
 		MODIFYDEVICEROOMID = new EventType("modifyDeviceRoomId", nextId());
 		
@@ -200,6 +203,7 @@ public class EventType {
 		RF_DEVICE_LIST_UPDATE = new EventType("rfDeviceListUpdate", nextId());
 		RF_DEVICE_ONLINE_STATUS = new EventType("rfDeviceOnlineStatus", nextId());
 		RF_GETEPBYROOMINDEX = new EventType("rfGetEpByRoomIndex", nextId());
+		RF_GETEPBYROOMINDEXINIT = new EventType("rfGetEpByRoomIndexInit", nextId());
 		
 		CHANGEEMAILADDRESS = new EventType("changeEmailAddress", nextId());
 		GETEMAILADDRESS = new EventType("getEmailAddress", nextId());

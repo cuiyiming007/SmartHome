@@ -1,12 +1,16 @@
 package com.gdgl.activity;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import com.gdgl.activity.DevicesListFragment.ChangeFragment;
 import com.gdgl.activity.RegionDevicesAddFragment.AddChecked;
 import com.gdgl.activity.RegionDevicesAddFragment.RegionDevicesAddListAdapter;
 import com.gdgl.adapter.DevicesBaseAdapter;
+import com.gdgl.libjingle.LibjingleResponseHandlerManager;
+import com.gdgl.libjingle.LibjingleSendManager;
 import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.Manger;
@@ -18,8 +22,10 @@ import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.Callback.CallbackResponseType2;
+import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyApplicationFragment;
+import com.gdgl.util.VersionDlg;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -33,6 +39,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 
 /***
  * 区域设备列表
@@ -91,6 +100,8 @@ public class RegionDevicesActivity extends MyActionBarActivity implements
 
 		mcgiManager = CGIManager.getInstance();
 		mcgiManager.addObserver(this);
+		RfCGIManager.getInstance().addObserver(this);
+		LibjingleResponseHandlerManager.getInstance().addObserver(this);
 		CallbackManager.getInstance().addObserver(this);
 		initAddToRegionDevicesList();
 		initRegionDevicesList();
@@ -181,23 +192,30 @@ public class RegionDevicesActivity extends MyActionBarActivity implements
 		// TODO Auto-generated method stub
 		super.onDestroy();
 		mcgiManager.deleteObserver(this);
+		RfCGIManager.getInstance().deleteObserver(this);
+		LibjingleResponseHandlerManager.getInstance().deleteObserver(this);
 		CallbackManager.getInstance().deleteObserver(this);
 	}
 
 	private void initRegionDevicesList() {
-		mList = null;
-		String[] args = { mRoomid };
-		String where = " rid=? ";
-		if (!mRoomid.trim().equals("")) {
-			SQLiteDatabase db = mDataHelper.getSQLiteDatabase();
-			mList = mDataHelper.queryForDevicesList(db,
-					DataHelper.DEVICES_TABLE, null, where, args, null, null,
-					DevicesModel.DEVICE_PRIORITY, null);
-			mList.addAll(mDataHelper.queryForDevicesList(db,
-					DataHelper.RF_DEVICES_TABLE, null, where, args, null, null,
-					DevicesModel.DEVICE_PRIORITY, null));
-			db.close();
-		}
+		mList = new ArrayList<DevicesModel>();
+//		String[] args = { mRoomid };
+//		String where = " rid=? ";
+//		if (!mRoomid.trim().equals("")) {
+//			SQLiteDatabase db = mDataHelper.getSQLiteDatabase();
+//			mList = mDataHelper.queryForDevicesList(db,
+//					DataHelper.DEVICES_TABLE, null, where, args, null, null,
+//					DevicesModel.DEVICE_PRIORITY, null);
+//			mList.addAll(mDataHelper.queryForDevicesList(db,
+//					DataHelper.RF_DEVICES_TABLE, null, where, args, null, null,
+//					DevicesModel.DEVICE_PRIORITY, null));
+//			db.close();
+//		}
+//		if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+//			mcgiManager.GetEPByRoomIndexInit(mRoomid);
+//		} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+//			LibjingleSendManager.getInstance().GetEPByRoomIndexInit(mRoomid);
+//		}
 	}
 
 	private void initAddFragmentDevicesList() {
@@ -211,6 +229,11 @@ public class RegionDevicesActivity extends MyActionBarActivity implements
 		mAddList.addAll(mDataHelper.queryForDevicesList(db,
 				DataHelper.RF_DEVICES_TABLE, null, where, args, null, null,
 				DevicesModel.DEVICE_PRIORITY, null));
+//		if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+//			mcgiManager.GetEPByRoomIndexInit("-1");
+//		} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+//			LibjingleSendManager.getInstance().GetEPByRoomIndexInit("-1");
+//		}
 	}
 
 	private void initAddToRegionDevicesList() {
@@ -242,11 +265,11 @@ public class RegionDevicesActivity extends MyActionBarActivity implements
 		mSceneAddFragment.setAdapter(mRegionDevicesAddListAdapter);
 		FragmentTransaction fragmentTransaction = getSupportFragmentManager()
 				.beginTransaction();
-		fragmentTransaction.add(R.id.container, mFragment);
+		fragmentTransaction.add(R.id.container, mSceneAddFragment);
 		fragmentTransaction.commit();
 		fragment_flag = ADD_FRAGMENT;
 		invalidateOptionsMenu();
-		MyApplicationFragment.getInstance().addFragment(mFragment);
+		MyApplicationFragment.getInstance().addFragment(mSceneAddFragment);
 	}
 
 	public boolean updateDevices(DevicesModel sd, ContentValues c, String table) {
@@ -555,6 +578,52 @@ public class RegionDevicesActivity extends MyActionBarActivity implements
 			} else {
 				// if failed,prompt a Toast
 				// mError.setVisibility(View.VISIBLE);
+			}
+		} else if (EventType.GETEPBYROOMINDEXINIT == event.getType()) {
+			if (event.isSuccess() == true) {
+				List<DevicesModel> mDeviceList = (List<DevicesModel>) event.getData();
+				Collections.sort(mDeviceList, new Comparator<DevicesModel>() {
+
+					@Override
+					public int compare(DevicesModel lhs, DevicesModel rhs) {
+						// TODO Auto-generated method stub
+						return (lhs.getmDevicePriority()-rhs.getmDevicePriority());
+					}
+				});
+				if(mDeviceList.get(0).getmRid().equals("-1")) {
+					if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+						RfCGIManager.getInstance().GetRFDevByRoomIdInit("-1");
+					} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+						LibjingleSendManager.getInstance().GetRFDevByRoomIdInit("-1");
+					}
+					RfCGIManager.getInstance().GetRFDevByRoomIdInit("-1");
+					mAddList = mDeviceList;
+				} else {
+					if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+						RfCGIManager.getInstance().GetRFDevByRoomIdInit(mRoomid);
+					} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+						LibjingleSendManager.getInstance().GetRFDevByRoomIdInit(mRoomid);
+					}
+					mList = mDeviceList;
+				}
+
+			}
+		} else if (EventType.RF_GETEPBYROOMINDEXINIT == event.getType()) {
+			if (event.isSuccess() == true) {
+				List<DevicesModel> temp = (List<DevicesModel>) event.getData();
+				Collections.sort(temp, new Comparator<DevicesModel>() {
+
+					@Override
+					public int compare(DevicesModel lhs, DevicesModel rhs) {
+						// TODO Auto-generated method stub
+						return (lhs.getmDevicePriority()-rhs.getmDevicePriority());
+					}
+				});
+				if(temp.get(0).getmRid().equals("-1")) {
+					mAddList.addAll(temp);
+				} else {
+					mList.addAll(temp);
+				}
 			}
 		}
 	}

@@ -1243,6 +1243,41 @@ public class CGIManager extends Manger {
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
 
+	public void GetEPByRoomIndexInit(String rid) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("rid", rid);
+
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
+		String param = hashMap2ParamString(paraMap);
+
+		String url = NetUtil.getInstance().getCumstomURL(
+				NetUtil.getInstance().IP, "getEPByRoomIndex.cgi", param);
+
+		StringRequestChina req = new StringRequestChina(url,
+				new Response.Listener<String>() {
+					@Override
+					public void onResponse(String response) {
+						new GetEPbyRoomIndexInitTask().execute(response);
+					}
+				}, new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+						// String errorString = null;
+						// if (error != null && error.getMessage() != null) {
+						// VolleyLog.e("Error: ", error.getMessage());
+						// errorString = VolleyErrorHelper.getMessage(error,
+						// ApplicationController.getInstance());
+						// }
+						// Event event = new Event(EventType.DELETEIR, false);
+						// event.setData(errorString);
+						// notifyObservers(event);
+					}
+				});
+		// add the request object to the queue to be executed
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
 	/**
 	 * 添加房间
 	 * 
@@ -2179,6 +2214,38 @@ public class CGIManager extends Manger {
 
 	}
 
+	class GetEPbyRoomIndexInitTask extends AsyncTask<String, Object, Object> {
+		@Override
+		protected Object doInBackground(String... params) {
+			RespondDataEntity<ResponseParamsEndPoint> data = VolleyOperation
+					.handleEndPointString(params[0]);
+			ArrayList<ResponseParamsEndPoint> devDataList = data
+					.getResponseparamList();
+			List<DevicesModel> mDevicesList = DataHelper
+					.convertToDevicesModel(devDataList);
+//			DataHelper mDateHelper = new DataHelper(
+//					ApplicationController.getInstance());
+//			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
+//
+//			for (DevicesModel mDevices : mDevicesList) {
+//				ContentValues c = new ContentValues();
+//				c.put(DevicesModel.R_ID, mDevices.getmRid());
+//				mDateHelper.update(mSQLiteDatabase, DataHelper.DEVICES_TABLE,
+//						c, " ieee=? ", new String[] { mDevices.getmIeee() });
+//			}
+//			mSQLiteDatabase.close();
+			return mDevicesList;
+		}
+
+		@Override
+		protected void onPostExecute(Object result) {
+			Event event = new Event(EventType.RF_GETEPBYROOMINDEXINIT, true);
+			event.setData(result);
+			notifyObservers(event);
+		}
+
+	}
+	
 	class UpdateDeviceHeartTimeToDatabaseTask extends
 			AsyncTask<String, Bundle, Bundle> {
 

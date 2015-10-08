@@ -252,6 +252,30 @@ public class RfCGIManager extends Manger{
 		// add the request object to the queue to be executed
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
+	public void GetRFDevByRoomIdInit(String rid) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("roomid", rid);
+
+		String param = hashMap2ParamString(paraMap);
+
+		String url = NetUtil.getInstance().getCumstomURL(
+				NetUtil.getInstance().IP, "GetRFDevByRoomId.cgi", param);
+
+		StringRequestChina req = new StringRequestChina(url,
+				new Response.Listener<String>() {
+					@Override
+					public void onResponse(String response) {
+						new GetRFDevByRoomIdInitTask().execute(response);
+					}
+				}, new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+
+					}
+				});
+		// add the request object to the queue to be executed
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
 	
 	class GetRFDevListTask extends AsyncTask<String, Object, Object> {
 		@Override
@@ -301,6 +325,37 @@ public class RfCGIManager extends Manger{
 		@Override
 		protected void onPostExecute(Object result) {
 			Event event = new Event(EventType.RF_GETEPBYROOMINDEX, true);
+			event.setData(result);
+			notifyObservers(event);
+		}
+
+	}
+	class GetRFDevByRoomIdInitTask extends AsyncTask<String, Object, Object> {
+		@Override
+		protected Object doInBackground(String... params) {
+			RespondDataEntity<ResponseParamsEndPoint> data = VolleyOperation
+					.handleEndPointString(params[0]);
+			ArrayList<ResponseParamsEndPoint> devDataList = data
+					.getResponseparamList();
+			List<DevicesModel> mDevicesList = DataHelper
+					.convertToDevicesModel(devDataList);
+//			DataHelper mDateHelper = new DataHelper(
+//					ApplicationController.getInstance());
+//			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
+//
+//			for (DevicesModel mDevices : mDevicesList) {
+//				ContentValues c = new ContentValues();
+//				c.put(DevicesModel.R_ID, mDevices.getmRid());
+//				mDateHelper.update(mSQLiteDatabase, DataHelper.DEVICES_TABLE,
+//						c, " ieee=? ", new String[] { mDevices.getmIeee() });
+//			}
+//			mSQLiteDatabase.close();
+			return mDevicesList;
+		}
+
+		@Override
+		protected void onPostExecute(Object result) {
+			Event event = new Event(EventType.RF_GETEPBYROOMINDEXINIT, true);
 			event.setData(result);
 			notifyObservers(event);
 		}

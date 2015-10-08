@@ -11,6 +11,8 @@ import com.gc.materialdesign.views.ButtonFloat;
 import com.gdgl.activity.ShowDevicesGroupFragmentActivity.adapterSeter;
 import com.gdgl.adapter.DevicesBaseAdapter;
 import com.gdgl.app.ApplicationController;
+import com.gdgl.libjingle.LibjingleResponseHandlerManager;
+import com.gdgl.libjingle.LibjingleSendManager;
 import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.Manger;
@@ -23,6 +25,7 @@ import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.Callback.CallbackResponseType2;
+import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.VersionDlg;
 import com.gdgl.util.MyOkCancleDlg;
@@ -109,6 +112,12 @@ public class DevicesListFragment extends Fragment implements adapterSeter,
 		CGIManager.getInstance().addObserver(DevicesListFragment.this);
 		CallbackManager.getInstance().addObserver(DevicesListFragment.this);
 		RfCGIManager.getInstance().addObserver(DevicesListFragment.this);
+		LibjingleResponseHandlerManager.getInstance().addObserver(this);
+		if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+			CGIManager.getInstance().GetEPByRoomIndex(mRoomid);
+		} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+			LibjingleSendManager.getInstance().GetEPByRoomIndex(mRoomid);
+		}
 	}
 
 	@Override
@@ -328,6 +337,7 @@ public class DevicesListFragment extends Fragment implements adapterSeter,
 		CGIManager.getInstance().deleteObserver(DevicesListFragment.this);
 		CallbackManager.getInstance().deleteObserver(DevicesListFragment.this);
 		RfCGIManager.getInstance().deleteObserver(DevicesListFragment.this);
+		LibjingleResponseHandlerManager.getInstance().addObserver(this);
 	}
 
 	@Override
@@ -414,7 +424,11 @@ public class DevicesListFragment extends Fragment implements adapterSeter,
 			}
 		} else if (EventType.GETEPBYROOMINDEX == event.getType()) {
 			if (event.isSuccess() == true) {
-				RfCGIManager.getInstance().GetRFDevByRoomId(mRoomid);
+				if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+					RfCGIManager.getInstance().GetRFDevByRoomId(mRoomid);
+				} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+					LibjingleSendManager.getInstance().GetRFDevByRoomId(mRoomid);
+				}
 				mDeviceList = (List<DevicesModel>) event.getData();
 				Collections.sort(mDeviceList, new Comparator<DevicesModel>() {
 
@@ -490,7 +504,11 @@ public class DevicesListFragment extends Fragment implements adapterSeter,
 		@Override
 		protected String doInBackground(String... params) {
 			// TODO Auto-generated method stub
-			CGIManager.getInstance().GetEPByRoomIndex(params[0]);
+			if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+				CGIManager.getInstance().GetEPByRoomIndex(params[0]);
+			} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+				LibjingleSendManager.getInstance().GetEPByRoomIndex(params[0]);
+			}
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {

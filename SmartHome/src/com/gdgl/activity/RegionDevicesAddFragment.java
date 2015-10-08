@@ -1,5 +1,7 @@
 package com.gdgl.activity;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,24 +18,44 @@ import android.widget.TextView;
 
 import com.gc.materialdesign.views.CheckBox;
 import com.gc.materialdesign.views.CheckBox.OnCheckListener;
+import com.gdgl.libjingle.LibjingleResponseHandlerManager;
+import com.gdgl.libjingle.LibjingleSendManager;
+import com.gdgl.manager.CGIManager;
+import com.gdgl.manager.CallbackManager;
+import com.gdgl.manager.Manger;
+import com.gdgl.manager.RfCGIManager;
+import com.gdgl.manager.UIListener;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.DataUtil;
+import com.gdgl.mydata.Event;
+import com.gdgl.mydata.EventType;
+import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
 
-public class RegionDevicesAddFragment extends Fragment {
+public class RegionDevicesAddFragment extends Fragment implements UIListener {
 	private View mView;
 	// PullToRefreshListView devices_list_view;
 	ListView devices_list_view;
 	public List<DevicesModel> mRegionDevicesAddList;
 
-	BaseAdapter mBaseAdapter;
+	RegionDevicesAddListAdapter mBaseAdapter;
 
 	AddChecked mAddChecked;
+	
+	private Map<Integer, Boolean> isSelected;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		CGIManager.getInstance().addObserver(this);
+		RfCGIManager.getInstance().addObserver(this);
+		LibjingleResponseHandlerManager.getInstance().addObserver(this);
+		if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+			CGIManager.getInstance().GetEPByRoomIndex("-1");
+		} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+			LibjingleSendManager.getInstance().GetEPByRoomIndex("-1");
+		}
 	}
 
 	@Override
@@ -53,11 +75,18 @@ public class RegionDevicesAddFragment extends Fragment {
 
 	}
 
+	@Override
+	public void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		CGIManager.getInstance().deleteObserver(this);
+		RfCGIManager.getInstance().deleteObserver(this);
+		LibjingleResponseHandlerManager.getInstance().deleteObserver(this);
+	}
+	
 	public class RegionDevicesAddListAdapter extends BaseAdapter {
 
 		protected AddChecked mDevicesObserver;
-
-		private Map<Integer, Boolean> isSelected;
 
 		public RegionDevicesAddListAdapter(List<DevicesModel> list,
 				AddChecked mObserver) {
@@ -158,12 +187,61 @@ public class RegionDevicesAddFragment extends Fragment {
 	public void setAdapter(BaseAdapter mAdapter) {
 		// TODO Auto-generated method stub
 		mBaseAdapter = null;
-		mBaseAdapter = mAdapter;
+		mBaseAdapter = (RegionDevicesAddListAdapter)mAdapter;
 	}
 
 	public interface AddChecked {
 		public void AddCheckedDevices(DevicesModel model);
 
 		public void DeletedCheckedDevices(DevicesModel model);
+	}
+	
+	@Override
+	public void update(Manger observer, Object object) {
+		// TODO Auto-generated method stub
+		final Event event = (Event) object;
+		if (EventType.GETEPBYROOMINDEX == event.getType()) {
+			if (event.isSuccess() == true) {
+				if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+					RfCGIManager.getInstance().GetRFDevByRoomId("-1");
+				} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+					LibjingleSendManager.getInstance().GetRFDevByRoomId("-1");
+				}
+				mRegionDevicesAddList = (List<DevicesModel>) event.getData();
+				Collections.sort(mRegionDevicesAddList, new Comparator<DevicesModel>() {
+
+					@Override
+					public int compare(DevicesModel lhs, DevicesModel rhs) {
+						// TODO Auto-generated method stub
+						return (lhs.getmDevicePriority()-rhs.getmDevicePriority());
+					}
+				});
+
+			}
+		} else if (EventType.RF_GETEPBYROOMINDEX == event.getType()) {
+			if (event.isSuccess() == true) {
+				List<DevicesModel> temp = (List<DevicesModel>) event.getData();
+				Collections.sort(temp, new Comparator<DevicesModel>() {
+
+					@Override
+					public int compare(DevicesModel lhs, DevicesModel rhs) {
+						// TODO Auto-generated method stub
+						return (lhs.getmDevicePriority()-rhs.getmDevicePriority());
+					}
+				});
+				mRegionDevicesAddList.addAll(temp);
+				for (int i = 0; i < mRegionDevicesAddList.size(); i++) {
+					isSelected.put(i, false);
+				}
+				mBaseAdapter.setList(mRegionDevicesAddList);
+				mView.post(new Runnable() {
+					@Override
+					public void run() {
+						mBaseAdapter.notifyDataSetChanged();
+					}
+				});
+
+			}
+		}
 	}
 }

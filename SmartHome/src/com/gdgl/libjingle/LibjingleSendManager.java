@@ -1139,6 +1139,31 @@ public class LibjingleSendManager extends Manger {
 		mStructure.setAPI_type(LibjingleSendStructure.GETEPBYROOMINDEX);
 		sendList.add(mStructure);
 	}
+	public void GetEPByRoomIndexInit(String rid) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("rid", rid);
+
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
+		String param = hashMap2ParamString(paraMap);
+
+		String url = LibjingleNetUtil.getInstance().getLocalhostURL(
+				"getEPByRoomIndex.cgi", param);
+
+		String jid = LibjinglePackHandler.getJid();
+		int reqid = getReqID();
+
+		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
+		// Log.i(TAG, packag);
+		Libjingle.getInstance().sendToGateway(packag);
+
+		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
+		mStructure.setRequest_id(reqid);
+		mStructure.setGl_msgtype(LibjinglePackHandler.MT_URL);
+		mStructure.setAPI_type(LibjingleSendStructure.GETEPBYROOMINDEXINIT);
+		sendList.add(mStructure);
+	}
 
 	/**
 	 * 添加房间
@@ -1856,6 +1881,72 @@ public class LibjingleSendManager extends Manger {
 		mStructure.setRequest_id(reqid);
 		mStructure.setGl_msgtype(LibjinglePackHandler.MT_URL);
 		mStructure.setAPI_type(LibjingleSendStructure.DONOTCARE);
+		sendList.add(mStructure);
+	}
+	
+	public void ModifyRFDevRoomId(DevicesModel model, String new_roomid) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("rfid", model.getmIeee());
+		paraMap.put("new_roomid", new_roomid);
+		
+		String param = hashMap2ParamString(paraMap);
+
+		String url = LibjingleNetUtil.getInstance().getLocalhostURL("ModifyRFDevRoomId.cgi", param);
+
+		String jid = LibjinglePackHandler.getJid();
+		int reqid = getReqID();
+
+		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
+		// Log.i(TAG, packag);
+		Libjingle.getInstance().sendToGateway(packag);
+
+		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
+		mStructure.setRequest_id(reqid);
+		mStructure.setGl_msgtype(LibjinglePackHandler.MT_URL);
+		mStructure.setAPI_type(LibjingleSendStructure.DONOTCARE);
+		sendList.add(mStructure);
+	}
+	
+	public void GetRFDevByRoomId(String rid) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("roomid", rid);
+
+		String param = hashMap2ParamString(paraMap);
+
+		String url = LibjingleNetUtil.getInstance().getLocalhostURL("GetRFDevByRoomId.cgi", param);
+
+		String jid = LibjinglePackHandler.getJid();
+		int reqid = getReqID();
+
+		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
+		// Log.i(TAG, packag);
+		Libjingle.getInstance().sendToGateway(packag);
+
+		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
+		mStructure.setRequest_id(reqid);
+		mStructure.setGl_msgtype(LibjinglePackHandler.MT_URL);
+		mStructure.setAPI_type(LibjingleSendStructure.GETRFDEVICEBYROOMID);
+		sendList.add(mStructure);
+	}
+	public void GetRFDevByRoomIdInit(String rid) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("roomid", rid);
+
+		String param = hashMap2ParamString(paraMap);
+
+		String url = LibjingleNetUtil.getInstance().getLocalhostURL("GetRFDevByRoomId.cgi", param);
+
+		String jid = LibjinglePackHandler.getJid();
+		int reqid = getReqID();
+
+		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
+		// Log.i(TAG, packag);
+		Libjingle.getInstance().sendToGateway(packag);
+
+		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
+		mStructure.setRequest_id(reqid);
+		mStructure.setGl_msgtype(LibjinglePackHandler.MT_URL);
+		mStructure.setAPI_type(LibjingleSendStructure.GETRFDEVICEBYROOMIDINIT);
 		sendList.add(mStructure);
 	}
 

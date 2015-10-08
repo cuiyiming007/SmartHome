@@ -60,6 +60,7 @@ interface LibjingleSendColumns extends BaseColumns {
 	public static final int ZBADDROOMDATAMAIN = 93;
 	public static final int ZBDELETEROOMDATAMAINBYID = 94;
 	public static final int MODIFYDEVICEROOMID = 95;
+	public static final int GETEPBYROOMINDEXINIT = 96;
 
 	public static final int ADDDEVICECHECKMAINDATA = 101;
 	public static final int ADDDEVICECHECKSUBDATA = 102;
@@ -84,6 +85,9 @@ interface LibjingleSendColumns extends BaseColumns {
 	
 	
 	public static final int GETRFDEVICELIST = 220;
+	public static final int GETRFDEVICEBYROOMID = 221;
+	public static final int GETRFDEVICEBYROOMIDINIT = 222;
+	
 	public static final int GATEWAYAUTH = 230;
 
 }
