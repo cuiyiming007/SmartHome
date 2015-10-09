@@ -95,7 +95,7 @@ public class NavigationDrawerFragment extends Fragment implements
 
 		AccountInfo info = LoginActivity.loginAccountInfo;
 		name = info.getAccount();
-		if (null == name || name.trim().equals("")) {
+		if (null == name || name.equals("")) {
 			name = "Adminstartor";
 		}
 		String name1 = name

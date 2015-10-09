@@ -125,6 +125,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 				.getEnableIPC();
 
 		mName.setText(getFromSharedPreferences.getLoginName());
+		mName.setSelection(getFromSharedPreferences.getLoginName().length());
 		mPwd.setText("");
 		if (!getFromSharedPreferences.getCloud().equals("")) {
 			mCloud.setText(getFromSharedPreferences.getCloud());

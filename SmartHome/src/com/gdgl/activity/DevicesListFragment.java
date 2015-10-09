@@ -35,7 +35,6 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 
 import android.support.v4.app.Fragment;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -281,12 +280,6 @@ public class DevicesListFragment extends Fragment implements adapterSeter,
 			menu.add(0, 1, 0, "删除");
 		}
 		super.onCreateContextMenu(menu, v, menuInfo);
-	}
-
-	public void setLayout() {
-		// LayoutParams mLayoutParams = new LayoutParams(
-		// LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-		// list_root.setLayoutParams(mLayoutParams);
 	}
 
 	@Override

@@ -86,7 +86,7 @@ public class ChangePWDFragment extends Fragment implements UIListener {
 							Toast.makeText(getActivity(), "请再次输入新密码", Toast.LENGTH_SHORT).show();
 							new_again.requestFocus();
 							return;
-						} else if (!newagain.trim().equals(newpwd)) {
+						} else if (!newagain.equals(newpwd)) {
 							Toast.makeText(getActivity(), "两次输入密码不相符,请重新输入", Toast.LENGTH_SHORT).show();
 							new_again.requestFocus();
 							return;
