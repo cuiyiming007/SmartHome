@@ -150,7 +150,7 @@ public class DataUtil {
 		case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:
 			if (modelId.indexOf(DataHelper.Wireless_Intelligent_valve_switch) == 0) { // //
 																						// 无线智能阀门开关
-				result = R.drawable.ui_securitycontrol_valveswitch;
+				result = R.drawable.ui2_device_valveswitch;
 			}
 			if (modelId.indexOf(DataHelper.Switch_Module_Double) == 0) { // ZigBee开关模块（双路）
 				result = R.drawable.ui_lightmanage_switchmodule;
@@ -292,7 +292,7 @@ public class DataUtil {
 		case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:
 			if (modelId.indexOf(DataHelper.Wireless_Intelligent_valve_switch) == 0) { // //
 																						// 无线智能阀门开关
-				result = R.drawable.ui_securitycontrol_valveswitch;
+				result = R.drawable.ui2_device_valveswitch_small;
 			}
 			if (modelId.indexOf(DataHelper.Switch_Module_Double) == 0) { // ZigBee开关模块（双路）
 				result = R.drawable.ui_lightmanage_switchmodule;
@@ -435,7 +435,7 @@ public class DataUtil {
 		case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:
 			if (modelId.indexOf(DataHelper.Wireless_Intelligent_valve_switch) == 0) { // //
 																						// 无线智能阀门开关
-				result = R.drawable.ui_securitycontrol_valveswitch;
+				result = R.drawable.ui2_device_valveswitch_control_style;
 			}
 			if (modelId.indexOf(DataHelper.Switch_Module_Double) == 0) { // ZigBee开关模块（双路）
 				result = R.drawable.ui_lightmanage_switchmodule;
