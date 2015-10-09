@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.gc.materialdesign.views.CheckBox;
-import com.gc.materialdesign.views.CheckBox.OnCheckListener;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.DataUtil;
 import com.gdgl.smarthome.R;

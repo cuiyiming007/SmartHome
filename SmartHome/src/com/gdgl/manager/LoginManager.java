@@ -36,8 +36,8 @@ public class LoginManager extends Manger {
 
 	public void doLogin(AccountInfo accountInfo) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
-		paraMap.put("account", accountInfo.getAccount());
-		paraMap.put("password", accountInfo.getPassword());
+		paraMap.put("account", accountInfo.getAccount().replace(" ", "%20"));
+		paraMap.put("password", accountInfo.getPassword().replace(" ", "%20"));
 		String param = hashMap2ParamString(paraMap);
 
 		String url = NetUtil.getInstance().getCumstomURL(
@@ -74,13 +74,14 @@ public class LoginManager extends Manger {
 	public void ModifyPassword(AccountInfo accountInfo,String newPWD)
 	{
 		HashMap<String, String> paraMap = new HashMap<String, String>();
-		paraMap.put("account", accountInfo.getAccount());
-		paraMap.put("old_password", accountInfo.getPassword());
-		paraMap.put("new_password", newPWD);
+		paraMap.put("account", accountInfo.getAccount().replace(" ", "%20"));
+		paraMap.put("old_password", accountInfo.getPassword().replace(" ", "%20"));
+		paraMap.put("new_password", newPWD.replace(" ", "%20"));
 		String param = hashMap2ParamString(paraMap);
 
 		String url = NetUtil.getInstance().getCumstomURL(
 				NetUtil.getInstance().IP, "modifyPassword.cgi", param);
+		Log.i("", url);
 		JsonObjectRequest req = new JsonObjectRequest(url, null,
 				new Response.Listener<JSONObject>() {
 					@Override
@@ -113,10 +114,10 @@ public class LoginManager extends Manger {
 	public void modifyAlias(AccountInfo info,String new_alias)
 	{
 		HashMap<String, String> paraMap = new HashMap<String, String>();
-		paraMap.put("id", info.getId());
-		paraMap.put("password", info.getPassword());
-		paraMap.put("old_alias", info.getAlias());
-		paraMap.put("new_alias", new_alias);
+		paraMap.put("id", info.getId().replace(" ", "%20"));
+		paraMap.put("password", info.getPassword().replace(" ", "%20"));
+		paraMap.put("old_alias", info.getAlias().replace(" ", "%20"));
+		paraMap.put("new_alias", new_alias.replace(" ", "%20"));
 		String param = hashMap2ParamString(paraMap);
 
 		String url = NetUtil.getInstance().getCumstomURL(

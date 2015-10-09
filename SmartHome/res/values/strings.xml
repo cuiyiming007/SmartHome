@@ -80,7 +80,7 @@
 	<string name="ZB_Power_detect_socket">"ZB插座"</string>
 	<string name="ZB_Indoor_temperature_sensor">"ZB温湿度"</string>
 	
-	<string name="RF_Magnetic_Door">"rf门磁rf门磁rf门磁rf门磁rf门磁rf门磁"</string>
+	<string name="RF_Magnetic_Door">"门磁\n        rf门磁rf门磁rf门磁rf门磁rf门磁"</string>
 	<string name="RF_Magnetic_Door_Roll">"rf卷闸门次"</string>
 	<string name="RF_Emergency_Button">"rf紧急按钮"</string>
 	<string name="RF_Infrared_Motion_Sensor">"红外"</string>

@@ -1,6 +1,5 @@
 package com.gdgl.activity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.gdgl.activity.LinkageDevicesAddFragment.LinkageDevicesAddListAdapter;
@@ -22,12 +21,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.Toolbar.OnMenuItemClickListener;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -60,7 +57,6 @@ public class LinkageDetailActivity extends MyActionBarActivity implements
 	private Toolbar mToolbar;
 	private ActionBar mActionBar;
 
-	private String linkageName = "";
 	private int linkageId;
 	private int linkageIndex;
 
@@ -81,8 +77,6 @@ public class LinkageDetailActivity extends MyActionBarActivity implements
 
 	LinkageDevicesAddListAdapter mLinkageDevicesAddListAdapter;
 
-	EditText titleEditText;
-	
 	ImageView img_act_device, img_trg_device;
 	TextView txt_act_device, txt_trg_device;
 	Spinner spinner_trg_type, spinner_act_type;
@@ -105,33 +99,24 @@ public class LinkageDetailActivity extends MyActionBarActivity implements
 //		spinner_act_type = (Spinner)findViewById(R.id.spinner_act_type);
 //		edit_trg_data = (EditText)findViewById(R.id.edit_trg_data);
 
-		Bundle bundle = getIntent().getExtras();
 		Intent i = getIntent();
 		linkage_type = i.getIntExtra(TYPE, 2);
+		String titleName;
 		if (linkage_type == CREATE) {
 			linkageIndex = i.getIntExtra(LinkageDetailActivity.INDEX, 0);
-			linkageName = "联动" + (linkageIndex + 1);
 			mLinkage = new Linkage();
+			titleName = "添加联动";
 		} else {
 			mLinkage = (Linkage) i.getSerializableExtra(Constants.PASS_OBJECT);
-			linkageName = mLinkage.getLnkname();
+			titleName = "编辑联动";
 		}
 
-		titleEditText = new EditText(this);
-		Toolbar.LayoutParams toolbarParams = new Toolbar.LayoutParams(
-				Toolbar.LayoutParams.WRAP_CONTENT,
-				Toolbar.LayoutParams.WRAP_CONTENT, Gravity.LEFT);
-		toolbarParams.setMargins(5, 0, 5, 0);
-		titleEditText.setLayoutParams(toolbarParams);
-		titleEditText.setText(linkageName);
-
 		mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
-		mToolbar.addView(titleEditText);
 		setSupportActionBar(mToolbar);
 		mActionBar = getSupportActionBar();
 		mActionBar.setDisplayHomeAsUpEnabled(true);
-		mActionBar.setDisplayShowTitleEnabled(false);
-		// mActionBar.setCustomView(titleEditText);
+		mActionBar.setDisplayShowTitleEnabled(true);
+		mActionBar.setTitle(titleName);
 	
 		mToolbar.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 
@@ -143,16 +128,14 @@ public class LinkageDetailActivity extends MyActionBarActivity implements
 					if(mLinkageDetailFragment.updateLinkage()){
 						if (linkage_type == CREATE) {
 							if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
-								SceneLinkageManager.getInstance().AddLinkage(
-										Uri.encode(titleEditText.getText().toString()), 
+								SceneLinkageManager.getInstance().AddLinkage("", 
 										mLinkage.getTrgieee(), 
 										mLinkage.getTrgep(), 
 										mLinkage.getTrgcnd(), 
 										mLinkage.getLnkact(), 
 										mLinkage.getEnable());
 							} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
-								LibjingleSendManager.getInstance().AddLinkage(
-										Uri.encode(titleEditText.getText().toString()), 
+								LibjingleSendManager.getInstance().AddLinkage("", 
 										mLinkage.getTrgieee(), 
 										mLinkage.getTrgep(), 
 										mLinkage.getTrgcnd(), 
@@ -162,8 +145,7 @@ public class LinkageDetailActivity extends MyActionBarActivity implements
 							finish();
 						}else if(linkage_type == EDIT){
 							if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
-								SceneLinkageManager.getInstance().EditLinkage(
-										Uri.encode(titleEditText.getText().toString()), 
+								SceneLinkageManager.getInstance().EditLinkage("", 
 										mLinkage.getTrgieee(), 
 										mLinkage.getTrgep(), 
 										mLinkage.getTrgcnd(), 
@@ -171,8 +153,7 @@ public class LinkageDetailActivity extends MyActionBarActivity implements
 										mLinkage.getEnable(), 
 										mLinkage.getLid());	
 							} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
-								LibjingleSendManager.getInstance().EditLinkage(
-										Uri.encode(titleEditText.getText().toString()), 
+								LibjingleSendManager.getInstance().EditLinkage("", 
 										mLinkage.getTrgieee(), 
 										mLinkage.getTrgep(), 
 										mLinkage.getTrgcnd(), 

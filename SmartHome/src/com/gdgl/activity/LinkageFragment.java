@@ -160,8 +160,7 @@ public class LinkageFragment extends Fragment implements UIListener,
 			MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
 					(Context) getActivity());
 			mMyOkCancleDlg.setDialogCallback(this);
-			mMyOkCancleDlg.setContent("确定要删除  "
-					+ linkageList.get(position).getLnkname() + " 吗?");
+			mMyOkCancleDlg.setContent("确定要删除该联动吗?");
 			mMyOkCancleDlg.show();
 		}
 		return super.onContextItemSelected(item);

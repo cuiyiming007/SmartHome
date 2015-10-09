@@ -666,7 +666,6 @@ public class ShowDevicesGroupFragmentActivity extends FragmentActivity
 			mNoDevices.setVisibility(View.GONE);
 			mDevicesBaseAdapter.setList(list);
 			mDevicesListFragment.initList();
-			mDevicesListFragment.setLayout();
 			mDevicesBaseAdapter.notifyDataSetChanged();
 
 			int type = types[mListIndex];
