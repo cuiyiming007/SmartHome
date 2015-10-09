@@ -54,6 +54,7 @@ public class DeviceControlActivity extends MyActionBarActivity implements
 	private ActionBar mActionBar;
 	private DevicesModel mDevicesModel;
 	private ImageView downLoadView;
+	//private String modelID = "";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +66,8 @@ public class DeviceControlActivity extends MyActionBarActivity implements
 			mDevicesModel = (DevicesModel) mBundle
 					.getSerializable(Constants.PASS_OBJECT);
 			name = mDevicesModel.getmDefaultDeviceName();
+			//modelID = mDevicesModel.getmModelId();
+			//Log.i("modelID", modelID);
 		}
 
 		mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
@@ -157,6 +160,14 @@ public class DeviceControlActivity extends MyActionBarActivity implements
 						myOKOnlyDlg.show();
 					}
 					break;
+				case R.id.menu_document:	
+					MyOKOnlyDlg myOKOnlyDlg1 = new MyOKOnlyDlg(
+							DeviceControlActivity.this);
+					/*myOKOnlyDlg1.setContent(getResources().getString(
+							R.string.RF_Magnetic_Door));*/
+					myOKOnlyDlg1.setContent(deviceDocument());
+					myOKOnlyDlg1.show();
+					break;
 				case R.id.menu_deletedevice:
 					if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
 						MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(
@@ -197,6 +208,44 @@ public class DeviceControlActivity extends MyActionBarActivity implements
 				updateGatewayDlg.setContent("发现网关有新的可用固件,是否升级？");
 				updateGatewayDlg.show();
 			}
+		}
+	}
+	
+	private String deviceDocument(){
+		if (mDevicesModel.getmModelId().indexOf(DataHelper.RF_Magnetic_Door) == 0){
+			return getResources().getString(R.string.RF_Magnetic_Door);
+		}else if(mDevicesModel.getmModelId().indexOf(DataHelper.RF_Magnetic_Door_Roll) == 0){
+			return getResources().getString(R.string.RF_Magnetic_Door_Roll);
+		}else if(mDevicesModel.getmModelId().indexOf(DataHelper.RF_Emergency_Button) == 0){
+			return getResources().getString(R.string.RF_Emergency_Button);
+		}else if(mDevicesModel.getmModelId().indexOf(DataHelper.RF_Infrared_Motion_Sensor) == 0){
+			return getResources().getString(R.string.RF_Infrared_Motion_Sensor);
+		}else if(mDevicesModel.getmModelId().indexOf(DataHelper.RF_Smoke_Detectors) == 0){
+			return getResources().getString(R.string.RF_Smoke_Detectors);
+		}else if(mDevicesModel.getmModelId().indexOf(DataHelper.RF_Combustible_Gas_Detector) == 0){
+			return getResources().getString(R.string.RF_Combustible_Gas_Detector);
+		}else if(mDevicesModel.getmModelId().indexOf(DataHelper.RF_Siren) == 0){
+			return getResources().getString(R.string.RF_Siren);
+		}else if(mDevicesModel.getmModelId().indexOf(DataHelper.RF_Siren_Relay) == 0){
+			return getResources().getString(R.string.RF_Siren_Relay);
+		}else if(mDevicesModel.getmModelId().indexOf(DataHelper.RF_Siren_Outside) == 0){
+			return getResources().getString(R.string.RF_Siren_Outside);
+		}else if(mDevicesModel.getmModelId().indexOf(DataHelper.RF_remote_control) == 0){
+			return getResources().getString(R.string.RF_remote_control);
+		}else if(mDevicesModel.getmModelId().indexOf(DataHelper.One_key_operator) == 0){
+			return getResources().getString(R.string.gateWay);
+		}else if(mDevicesModel.getmModelId().indexOf(DataHelper.Siren) == 0){
+			return getResources().getString(R.string.ZB_Siren);
+		}else if(mDevicesModel.getmModelId().indexOf(DataHelper.Magnetic_Window) == 0){
+			return getResources().getString(R.string.ZB_Magnetic_Window);
+		}else if(mDevicesModel.getmModelId().indexOf(DataHelper.Wireless_Intelligent_valve_switch) == 0){
+			return getResources().getString(R.string.ZB_Wireless_Intelligent_valve_switch);
+		}else if(mDevicesModel.getmModelId().indexOf(DataHelper.Power_detect_socket) == 0){
+			return getResources().getString(R.string.ZB_Power_detect_socket);
+		}else if(mDevicesModel.getmModelId().indexOf(DataHelper.Indoor_temperature_sensor) == 0){
+			return getResources().getString(R.string.ZB_Indoor_temperature_sensor);
+		}else {
+			return null;
 		}
 	}
 

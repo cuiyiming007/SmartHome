@@ -65,6 +65,7 @@ public class SetEmailFragment extends Fragment implements UIListener {
 		getFromSharedPreferences.setsharedPreferences((Context) getActivity());
 		email_name = (EditText) mView.findViewById(R.id.email_name);
 		email_name.setText(emailAddress);
+		email_name.setSelection(email_name.getText().length());
 		/*
 		 * if (E_name != null){ email_name.setText(E_name); } else {
 		 * email_name.setHint("XXX@XXXX"); }
@@ -240,9 +241,14 @@ public class SetEmailFragment extends Fragment implements UIListener {
 				emailData = (String[]) event.getData();
 				sendEmailFLAG = Integer.parseInt(emailData [0]);
 				emailAddress = emailData [1];
-				Toast.makeText(getActivity(), "获取邮箱成功", Toast.LENGTH_SHORT)
-						.show();
-				
+				if(emailAddress == null||emailAddress.equals("")){
+					Toast.makeText(getActivity(), "请输入邮箱地址", Toast.LENGTH_SHORT)
+					.show();
+				}else{
+					Toast.makeText(getActivity(), "获取邮箱成功", Toast.LENGTH_SHORT)
+					.show();
+				}
+								
 				//MyApplicationFragment.getInstance().removeLastFragment();
 			} else {
 				// if failed,prompt a Toast

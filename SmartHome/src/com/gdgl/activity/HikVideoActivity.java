@@ -558,11 +558,13 @@ public class HikVideoActivity extends ActionBarActivity implements Callback {
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		initSurface();
-		if((BigScreenshotDialog.dialog).isShowing()){
-			Position = (BigScreenshotDialog.mViewPager).getCurrentItem();
-			BigScreenshotDialog.dialog.cancel();
-			BigScreenshotDialog bigPicDialog = new BigScreenshotDialog(HikVideoActivity.this,Position,width,height);
-			bigPicDialog.show();
+		if((BigScreenshotDialog.dialog)!= null){
+			if((BigScreenshotDialog.dialog).isShowing()){
+				Position = (BigScreenshotDialog.mViewPager).getCurrentItem();
+				BigScreenshotDialog.dialog.cancel();
+				BigScreenshotDialog bigPicDialog = new BigScreenshotDialog(HikVideoActivity.this,Position,width,height);
+				bigPicDialog.show();
+			}
 		}
 		//m_oPlayerSDK.play(m_iPort, m_osurfaceView.getHolder());
 	}

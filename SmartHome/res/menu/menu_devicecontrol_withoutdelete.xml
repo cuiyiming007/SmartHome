@@ -7,4 +7,9 @@
         android:orderInCategory="1"
         android:title="修改名称"
         app:showAsAction="never"/>
+<item
+        android:id="@+id/menu_document"
+        android:orderInCategory="1"
+        android:title="设备说明"
+        app:showAsAction="never"/>
 </menu>
