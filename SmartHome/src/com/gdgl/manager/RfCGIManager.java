@@ -236,7 +236,7 @@ public class RfCGIManager extends Manger{
 
 		String url = NetUtil.getInstance().getCumstomURL(
 				NetUtil.getInstance().IP, "GetRFDevByRoomId.cgi", param);
-
+		Log.i("GetRFDevByRoomId", url);
 		StringRequestChina req = new StringRequestChina(url,
 				new Response.Listener<String>() {
 					@Override
@@ -308,17 +308,17 @@ public class RfCGIManager extends Manger{
 					.getResponseparamList();
 			List<DevicesModel> mDevicesList = DataHelper
 					.convertToDevicesModel(devDataList);
-			DataHelper mDateHelper = new DataHelper(
-					ApplicationController.getInstance());
-			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
-
-			for (DevicesModel mDevices : mDevicesList) {
-				ContentValues c = new ContentValues();
-				c.put(DevicesModel.R_ID, mDevices.getmRid());
-				mDateHelper.update(mSQLiteDatabase, DataHelper.DEVICES_TABLE,
-						c, " ieee=? ", new String[] { mDevices.getmIeee() });
-			}
-			mSQLiteDatabase.close();
+//			DataHelper mDateHelper = new DataHelper(
+//					ApplicationController.getInstance());
+//			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
+//
+//			for (DevicesModel mDevices : mDevicesList) {
+//				ContentValues c = new ContentValues();
+//				c.put(DevicesModel.R_ID, mDevices.getmRid());
+//				mDateHelper.update(mSQLiteDatabase, DataHelper.DEVICES_TABLE,
+//						c, " ieee=? ", new String[] { mDevices.getmIeee() });
+//			}
+//			mSQLiteDatabase.close();
 			return mDevicesList;
 		}
 

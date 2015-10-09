@@ -15,7 +15,6 @@ import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.RfCGIManager;
-import com.gdgl.manager.UIListener;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.DataHelper;
@@ -25,7 +24,6 @@ import com.gdgl.mydata.Callback.CallbackResponseType2;
 import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyApplicationFragment;
-import com.gdgl.util.VersionDlg;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -36,12 +34,8 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemLongClickListener;
 
 /***
  * 区域设备列表
@@ -50,7 +44,7 @@ import android.widget.AdapterView.OnItemLongClickListener;
  * 
  */
 public class RegionDevicesActivity extends MyActionBarActivity implements
-		ChangeFragment, AddChecked, UIListener {
+		ChangeFragment, AddChecked {
 	public static final String REGION_NAME = "region_name";
 	public static final String REGION_ID = "region_id";
 
@@ -121,25 +115,38 @@ public class RegionDevicesActivity extends MyActionBarActivity implements
 				switch (item.getItemId()) {
 				case R.id.menu_ok:
 					if (mAddToRegionList.size() > 0) {
-						ContentValues c = new ContentValues();
-						c.put(DevicesModel.DEVICE_REGION, mRoomname);
-						c.put(DevicesModel.R_ID, mRoomid);
+//						ContentValues c = new ContentValues();
+//						c.put(DevicesModel.DEVICE_REGION, mRoomname);
+//						c.put(DevicesModel.R_ID, mRoomid);
 						for (DevicesModel s : mAddToRegionList) {
-							if (s.getmDeviceId() > 0) {
-								CGIManager.getInstance().ModifyDeviceRoomId(s,
-										mRoomid);
-								updateDevices(s, c, DataHelper.DEVICES_TABLE);
-							} else {
-								RfCGIManager.getInstance().ModifyRFDevRoomId(s,
-										mRoomid);
-								updateDevices(s, c, DataHelper.RF_DEVICES_TABLE);
+							if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+								if (s.getmDeviceId() > 0) {
+									CGIManager.getInstance().ModifyDeviceRoomId(s,
+											mRoomid);
+//									updateDevices(s, c, DataHelper.DEVICES_TABLE);
+								} else {
+									RfCGIManager.getInstance().ModifyRFDevRoomId(s,
+											mRoomid);
+//									updateDevices(s, c, DataHelper.RF_DEVICES_TABLE);
+								}
+							} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+								if (s.getmDeviceId() > 0) {
+									LibjingleSendManager.getInstance().ModifyDeviceRoomId(s,
+											mRoomid);
+//									updateDevices(s, c, DataHelper.DEVICES_TABLE);
+								} else {
+									LibjingleSendManager.getInstance().ModifyRFDevRoomId(s,
+											mRoomid);
+//									updateDevices(s, c, DataHelper.RF_DEVICES_TABLE);
+								}
 							}
-							s.setmDeviceRegion(mRoomname);
-							s.setmRid(mRoomid);
+//							s.setmDeviceRegion(mRoomname);
+//							s.setmRid(mRoomid);
 						}
-						mList.addAll(mAddToRegionList);
+//						mList.addAll(mAddToRegionList);
+						mDevicesBaseAdapter.addList(mAddToRegionList);
 						mAddToRegionList.clear();
-						mDevicesBaseAdapter.notifyDataSetChanged();
+//						mDevicesBaseAdapter.notifyDataSetChanged();
 					}
 					MyApplicationFragment.getInstance().removeLastFragment();
 					fragment_flag = CONTROL_FRAGMENT;
@@ -219,21 +226,17 @@ public class RegionDevicesActivity extends MyActionBarActivity implements
 	}
 
 	private void initAddFragmentDevicesList() {
-		SQLiteDatabase db = mDataHelper.getSQLiteDatabase();
-		// String where = "rid=? and device_sort!=?";
-		String where = "rid=?";
-		String[] args = { "-1" };
-		mAddList = mDataHelper.queryForDevicesList(db,
-				DataHelper.DEVICES_TABLE, null, where, args, null, null,
-				DevicesModel.DEVICE_PRIORITY, null);
-		mAddList.addAll(mDataHelper.queryForDevicesList(db,
-				DataHelper.RF_DEVICES_TABLE, null, where, args, null, null,
-				DevicesModel.DEVICE_PRIORITY, null));
-//		if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
-//			mcgiManager.GetEPByRoomIndexInit("-1");
-//		} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
-//			LibjingleSendManager.getInstance().GetEPByRoomIndexInit("-1");
-//		}
+		mAddList = new ArrayList<DevicesModel>();
+//		SQLiteDatabase db = mDataHelper.getSQLiteDatabase();
+//		// String where = "rid=? and device_sort!=?";
+//		String where = "rid=?";
+//		String[] args = { "-1" };
+//		mAddList = mDataHelper.queryForDevicesList(db,
+//				DataHelper.DEVICES_TABLE, null, where, args, null, null,
+//				DevicesModel.DEVICE_PRIORITY, null);
+//		mAddList.addAll(mDataHelper.queryForDevicesList(db,
+//				DataHelper.RF_DEVICES_TABLE, null, where, args, null, null,
+//				DevicesModel.DEVICE_PRIORITY, null));
 	}
 
 	private void initAddToRegionDevicesList() {
@@ -334,297 +337,151 @@ public class RegionDevicesActivity extends MyActionBarActivity implements
 		return position;
 	}
 
-	private int getSecurityPosition(List<DevicesModel> list) {
-		int position = -1;
-		for (int i = 0; i < list.size(); i++) {
-			if (list.get(i).getmModelId().indexOf(DataHelper.One_key_operator) == 0) {
-				return i;
-			}
-		}
-		return position;
-	}
-
-	public void update(Manger observer, Object object) {
-		// TODO Auto-generated method stub
-		final Event event = (Event) object;
-		if (EventType.LIGHTSENSOROPERATION == event.getType()) {
-			// data maybe null
-			if (event.isSuccess()) {
-				Bundle bundle = (Bundle) event.getData();
-				int m = getDevicesPostion(bundle.getString("IEEE"),
-						bundle.getString("EP"), mList);
-				if (m != -1) {
-					String light = bundle.getString("PARAM");
-					mList.get(m).setmBrightness(Integer.parseInt(light));
-					mToolbar.post(new Runnable() {
-						@Override
-						public void run() {
-							// setDataActivity.setdata(mDeviceList);
-							mDevicesBaseAdapter.notifyDataSetChanged();
-						}
-					});
-				}
-			}
-		} else if (EventType.TEMPERATURESENSOROPERATION == event.getType()) {
-			if (event.isSuccess()) {
-				Bundle bundle = (Bundle) event.getData();
-				int m = getDevicesPostion(bundle.getString("IEEE"),
-						bundle.getString("EP"), mList);
-				if (m != -1) {
-					String temperature = bundle.getString("PARAM");
-					mList.get(m).setmTemperature(Float.parseFloat(temperature));
-					mToolbar.post(new Runnable() {
-						@Override
-						public void run() {
-							// setDataActivity.setdata(mDeviceList);
-							mDevicesBaseAdapter.notifyDataSetChanged();
-						}
-					});
-				}
-			}
-		} else if (EventType.HUMIDITY == event.getType()) {
-			if (event.isSuccess()) {
-				Bundle bundle = (Bundle) event.getData();
-				int m = getDevicesPostion(bundle.getString("IEEE"),
-						bundle.getString("EP"), mList);
-				if (m != -1) {
-					String humidity = bundle.getString("PARAM");
-					mList.get(m).setmHumidity(Float.parseFloat(humidity));
-					mToolbar.post(new Runnable() {
-						@Override
-						public void run() {
-							// setDataActivity.setdata(mDeviceList);
-							mDevicesBaseAdapter.notifyDataSetChanged();
-						}
-					});
-				}
-			}
-		} else if (EventType.LOCALIASCIEBYPASSZONE == event.getType()) {
-			if (event.isSuccess()) {
-				Bundle bundle = (Bundle) event.getData();
-				int m = getDevicesPostion(bundle.getString("IEEE"),
-						bundle.getString("EP"), mList);
-				if (m != -1) {
-					mList.get(m).setmOnOffStatus(bundle.getString("PARAM"));
-					mToolbar.post(new Runnable() {
-						@Override
-						public void run() {
-							// setDataActivity.setdata(mDeviceList);
-							mDevicesBaseAdapter.notifyDataSetChanged();
-						}
-					});
-				}
-			}
-		} else if (EventType.LOCALIASCIEOPERATION == event.getType()) {
-			if (event.isSuccess() == true) {
-
-				int m = getSecurityPosition(mList);
-				Log.i("LOCALIASCIEOPERATION", "m = " + m);
-				if (m != -1) {
-					String status = (String) event.getData();
-					mList.get(m).setmOnOffStatus(status);
-					mToolbar.post(new Runnable() {
-						@Override
-						public void run() {
-							// setDataActivity.setdata(mDeviceList);
-							mDevicesBaseAdapter.notifyDataSetChanged();
-						}
-					});
-				}
-			}
-		} else if (EventType.ON_OFF_STATUS == event.getType()) {
-			if (event.isSuccess() == true) {
-				// data maybe null
-				CallbackResponseType2 data = (CallbackResponseType2) event
-						.getData();
-				int m = getDevicesPostion(data.getDeviceIeee(),
-						data.getDeviceEp(), mList);
-				Log.i("ON_OFF_STATUS", "m = " + m);
-				if (-1 != m) {
-					if (null != data.getValue()) {
-						mList.get(m).setmOnOffStatus(data.getValue());
-						mToolbar.post(new Runnable() {
-							@Override
-							public void run() {
-								// setDataActivity.setdata(mDeviceList);
-								mDevicesBaseAdapter.notifyDataSetChanged();
-							}
-						});
-					}
-				}
-			}
-		} else if (EventType.MOVE_TO_LEVEL == event.getType()) {
-			if (event.isSuccess() == true) {
-				// data maybe null
-				CallbackResponseType2 data = (CallbackResponseType2) event
-						.getData();
-				int m = getDevicesPostion(data.getDeviceIeee(),
-						data.getDeviceEp(), mList);
-				final String valueString = data.getValue();
-				if (-1 != m) {
-					if (null != data.getValue()) {
-						mList.get(m).setmLevel(valueString);
-						if (Integer.parseInt(valueString) < 7) {
-							mList.get(m).setmOnOffStatus("0");
-						} else {
-							mList.get(m).setmOnOffStatus("1");
-						}
-						mToolbar.post(new Runnable() {
-							@Override
-							public void run() {
-								// setDataActivity.setdata(mDeviceList);
-								mDevicesBaseAdapter.notifyDataSetChanged();
-							}
-						});
-					}
-				}
-			} else {
-				// if failed,prompt a Toast
-				// mError.setVisibility(View.VISIBLE);
-			}
-		} else if (EventType.CURRENT == event.getType()) {
-			if (event.isSuccess() == true) {
-				// data maybe null
-				CallbackResponseType2 data = (CallbackResponseType2) event
-						.getData();
-				int m = getDevicesPostion(data.getDeviceIeee(),
-						data.getDeviceEp(), mList);
-				final String valueString = data.getValue();
-				if (-1 != m) {
-					if (null != data.getValue()) {
-						mList.get(m).setmCurrent(valueString);
-						mToolbar.post(new Runnable() {
-							@Override
-							public void run() {
-								// setDataActivity.setdata(mDeviceList);
-								mDevicesBaseAdapter.notifyDataSetChanged();
-							}
-						});
-						// DeviceDtailFragment.getInstance().refreshCurrent(valueString);
-					}
-				}
-			} else {
-				// if failed,prompt a Toast
-				// mError.setVisibility(View.VISIBLE);
-			}
-		} else if (EventType.VOLTAGE == event.getType()) {
-			if (event.isSuccess() == true) {
-				// data maybe null
-				CallbackResponseType2 data = (CallbackResponseType2) event
-						.getData();
-				int m = getDevicesPostion(data.getDeviceIeee(),
-						data.getDeviceEp(), mList);
-				if (-1 != m) {
-					if (null != data.getValue()) {
-						mList.get(m).setmVoltage(data.getValue());
-						mToolbar.post(new Runnable() {
-							@Override
-							public void run() {
-								// setDataActivity.setdata(mDeviceList);
-								mDevicesBaseAdapter.notifyDataSetChanged();
-							}
-						});
-						// DeviceDtailFragment.getInstance().refreshVoltage(valueString);
-					}
-				}
-			} else {
-				// if failed,prompt a Toast
-				// mError.setVisibility(View.VISIBLE);
-			}
-		} else if (EventType.ENERGY == event.getType()) {
-			if (event.isSuccess() == true) {
-				// data maybe null
-				CallbackResponseType2 data = (CallbackResponseType2) event
-						.getData();
-				int m = getDevicesPostion(data.getDeviceIeee(),
-						data.getDeviceEp(), mList);
-				if (-1 != m) {
-					if (null != data.getValue()) {
-						mList.get(m).setmEnergy(data.getValue());
-						mToolbar.post(new Runnable() {
-							@Override
-							public void run() {
-								// setDataActivity.setdata(mDeviceList);
-								mDevicesBaseAdapter.notifyDataSetChanged();
-							}
-						});
-						// DeviceDtailFragment.getInstance().refreshEnergy(valueString);
-					}
-				}
-			} else {
-				// if failed,prompt a Toast
-				// mError.setVisibility(View.VISIBLE);
-			}
-		} else if (EventType.POWER == event.getType()) {
-			if (event.isSuccess() == true) {
-				// data maybe null
-				CallbackResponseType2 data = (CallbackResponseType2) event
-						.getData();
-				int m = getDevicesPostion(data.getDeviceIeee(),
-						data.getDeviceEp(), mList);
-				if (-1 != m) {
-					if (null != data.getValue()) {
-						mList.get(m).setmPower(data.getValue());
-						mToolbar.post(new Runnable() {
-							@Override
-							public void run() {
-								// setDataActivity.setdata(mDeviceList);
-								mDevicesBaseAdapter.notifyDataSetChanged();
-							}
-						});
-						// DeviceDtailFragment.getInstance().refreshPower(valueString);
-					}
-				}
-			} else {
-				// if failed,prompt a Toast
-				// mError.setVisibility(View.VISIBLE);
-			}
-		} else if (EventType.GETEPBYROOMINDEXINIT == event.getType()) {
-			if (event.isSuccess() == true) {
-				List<DevicesModel> mDeviceList = (List<DevicesModel>) event.getData();
-				Collections.sort(mDeviceList, new Comparator<DevicesModel>() {
-
-					@Override
-					public int compare(DevicesModel lhs, DevicesModel rhs) {
-						// TODO Auto-generated method stub
-						return (lhs.getmDevicePriority()-rhs.getmDevicePriority());
-					}
-				});
-				if(mDeviceList.get(0).getmRid().equals("-1")) {
-					if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
-						RfCGIManager.getInstance().GetRFDevByRoomIdInit("-1");
-					} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
-						LibjingleSendManager.getInstance().GetRFDevByRoomIdInit("-1");
-					}
-					RfCGIManager.getInstance().GetRFDevByRoomIdInit("-1");
-					mAddList = mDeviceList;
-				} else {
-					if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
-						RfCGIManager.getInstance().GetRFDevByRoomIdInit(mRoomid);
-					} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
-						LibjingleSendManager.getInstance().GetRFDevByRoomIdInit(mRoomid);
-					}
-					mList = mDeviceList;
-				}
-
-			}
-		} else if (EventType.RF_GETEPBYROOMINDEXINIT == event.getType()) {
-			if (event.isSuccess() == true) {
-				List<DevicesModel> temp = (List<DevicesModel>) event.getData();
-				Collections.sort(temp, new Comparator<DevicesModel>() {
-
-					@Override
-					public int compare(DevicesModel lhs, DevicesModel rhs) {
-						// TODO Auto-generated method stub
-						return (lhs.getmDevicePriority()-rhs.getmDevicePriority());
-					}
-				});
-				if(temp.get(0).getmRid().equals("-1")) {
-					mAddList.addAll(temp);
-				} else {
-					mList.addAll(temp);
-				}
-			}
-		}
-	}
+//	public void update(Manger observer, Object object) {
+//		// TODO Auto-generated method stub
+//		final Event event = (Event) object;
+//		if (EventType.CURRENT == event.getType()) {
+//			if (event.isSuccess() == true) {
+//				// data maybe null
+//				CallbackResponseType2 data = (CallbackResponseType2) event
+//						.getData();
+//				int m = getDevicesPostion(data.getDeviceIeee(),
+//						data.getDeviceEp(), mList);
+//				final String valueString = data.getValue();
+//				if (-1 != m) {
+//					if (null != data.getValue()) {
+//						mList.get(m).setmCurrent(valueString);
+//						mToolbar.post(new Runnable() {
+//							@Override
+//							public void run() {
+//								// setDataActivity.setdata(mDeviceList);
+//								mDevicesBaseAdapter.notifyDataSetChanged();
+//							}
+//						});
+//						// DeviceDtailFragment.getInstance().refreshCurrent(valueString);
+//					}
+//				}
+//			} else {
+//				// if failed,prompt a Toast
+//				// mError.setVisibility(View.VISIBLE);
+//			}
+//		} else if (EventType.VOLTAGE == event.getType()) {
+//			if (event.isSuccess() == true) {
+//				// data maybe null
+//				CallbackResponseType2 data = (CallbackResponseType2) event
+//						.getData();
+//				int m = getDevicesPostion(data.getDeviceIeee(),
+//						data.getDeviceEp(), mList);
+//				if (-1 != m) {
+//					if (null != data.getValue()) {
+//						mList.get(m).setmVoltage(data.getValue());
+//						mToolbar.post(new Runnable() {
+//							@Override
+//							public void run() {
+//								// setDataActivity.setdata(mDeviceList);
+//								mDevicesBaseAdapter.notifyDataSetChanged();
+//							}
+//						});
+//						// DeviceDtailFragment.getInstance().refreshVoltage(valueString);
+//					}
+//				}
+//			} else {
+//				// if failed,prompt a Toast
+//				// mError.setVisibility(View.VISIBLE);
+//			}
+//		} else if (EventType.ENERGY == event.getType()) {
+//			if (event.isSuccess() == true) {
+//				// data maybe null
+//				CallbackResponseType2 data = (CallbackResponseType2) event
+//						.getData();
+//				int m = getDevicesPostion(data.getDeviceIeee(),
+//						data.getDeviceEp(), mList);
+//				if (-1 != m) {
+//					if (null != data.getValue()) {
+//						mList.get(m).setmEnergy(data.getValue());
+//						mToolbar.post(new Runnable() {
+//							@Override
+//							public void run() {
+//								// setDataActivity.setdata(mDeviceList);
+//								mDevicesBaseAdapter.notifyDataSetChanged();
+//							}
+//						});
+//						// DeviceDtailFragment.getInstance().refreshEnergy(valueString);
+//					}
+//				}
+//			} else {
+//				// if failed,prompt a Toast
+//				// mError.setVisibility(View.VISIBLE);
+//			}
+//		} else if (EventType.POWER == event.getType()) {
+//			if (event.isSuccess() == true) {
+//				// data maybe null
+//				CallbackResponseType2 data = (CallbackResponseType2) event
+//						.getData();
+//				int m = getDevicesPostion(data.getDeviceIeee(),
+//						data.getDeviceEp(), mList);
+//				if (-1 != m) {
+//					if (null != data.getValue()) {
+//						mList.get(m).setmPower(data.getValue());
+//						mToolbar.post(new Runnable() {
+//							@Override
+//							public void run() {
+//								// setDataActivity.setdata(mDeviceList);
+//								mDevicesBaseAdapter.notifyDataSetChanged();
+//							}
+//						});
+//						// DeviceDtailFragment.getInstance().refreshPower(valueString);
+//					}
+//				}
+//			} else {
+//				// if failed,prompt a Toast
+//				// mError.setVisibility(View.VISIBLE);
+//			}
+//		} else if (EventType.GETEPBYROOMINDEXINIT == event.getType()) {
+//			if (event.isSuccess() == true) {
+//				List<DevicesModel> mDeviceList = (List<DevicesModel>) event.getData();
+//				Collections.sort(mDeviceList, new Comparator<DevicesModel>() {
+//
+//					@Override
+//					public int compare(DevicesModel lhs, DevicesModel rhs) {
+//						// TODO Auto-generated method stub
+//						return (lhs.getmDevicePriority()-rhs.getmDevicePriority());
+//					}
+//				});
+//				if(mDeviceList.get(0).getmRid().equals("-1")) {
+//					if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+//						RfCGIManager.getInstance().GetRFDevByRoomIdInit("-1");
+//					} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+//						LibjingleSendManager.getInstance().GetRFDevByRoomIdInit("-1");
+//					}
+//					mAddList = mDeviceList;
+//				} else {
+//					if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+//						RfCGIManager.getInstance().GetRFDevByRoomIdInit(mRoomid);
+//					} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+//						LibjingleSendManager.getInstance().GetRFDevByRoomIdInit(mRoomid);
+//					}
+//					mList = mDeviceList;
+//				}
+//
+//			}
+//		} else if (EventType.RF_GETEPBYROOMINDEXINIT == event.getType()) {
+//			if (event.isSuccess() == true) {
+//				List<DevicesModel> temp = (List<DevicesModel>) event.getData();
+//				Collections.sort(temp, new Comparator<DevicesModel>() {
+//
+//					@Override
+//					public int compare(DevicesModel lhs, DevicesModel rhs) {
+//						// TODO Auto-generated method stub
+//						return (lhs.getmDevicePriority()-rhs.getmDevicePriority());
+//					}
+//				});
+//				if(temp.get(0).getmRid().equals("-1")) {
+//					mAddList.addAll(temp);
+//				} else {
+//					mList.addAll(temp);
+//				}
+//			}
+//		}
+//	}
 }

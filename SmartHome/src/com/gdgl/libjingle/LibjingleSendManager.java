@@ -1125,12 +1125,11 @@ public class LibjingleSendManager extends Manger {
 
 		String url = LibjingleNetUtil.getInstance().getLocalhostURL(
 				"getEPByRoomIndex.cgi", param);
-
+		Log.i("getEPByRoomIndex_i", url);
 		String jid = LibjinglePackHandler.getJid();
 		int reqid = getReqID();
 
 		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
-		// Log.i(TAG, packag);
 		Libjingle.getInstance().sendToGateway(packag);
 
 		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
@@ -1914,12 +1913,11 @@ public class LibjingleSendManager extends Manger {
 		String param = hashMap2ParamString(paraMap);
 
 		String url = LibjingleNetUtil.getInstance().getLocalhostURL("GetRFDevByRoomId.cgi", param);
-
+		Log.i("GetRFDevByRoomId_i", url);
 		String jid = LibjinglePackHandler.getJid();
 		int reqid = getReqID();
 
 		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
-		// Log.i(TAG, packag);
 		Libjingle.getInstance().sendToGateway(packag);
 
 		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);

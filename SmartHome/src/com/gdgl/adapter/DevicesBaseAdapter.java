@@ -13,7 +13,9 @@ import com.gdgl.mydata.DataUtil;
 import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -42,7 +44,6 @@ public class DevicesBaseAdapter extends BaseAdapter {
 
 	protected Context mContext;
 	protected List<DevicesModel> mDevicesList;
-	DevicesModel oneKeyOperatorDevice;
 	CGIManager mcgiManager;
 	LibjingleSendManager libjingleSendManager;
 
@@ -147,7 +148,6 @@ public class DevicesBaseAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
-		new getOneKeyOperatorStatusTask().execute(0);
 
 		if (null == mDevicesList) {
 			return convertView;
@@ -189,14 +189,6 @@ public class DevicesBaseAdapter extends BaseAdapter {
 			break;
 		default:
 			break;
-		}
-
-		if (mDevices.getmDeviceId() == DataHelper.IAS_ZONE_DEVICETYPE
-				&& oneKeyOperatorDevice != null
-				&& oneKeyOperatorDevice.getmOnOffStatus().equals("0")) {
-			devices_switch.setClickable(false);
-		} else {
-			devices_switch.setClickable(true);
 		}
 
 		devices_name.setText(mDevices.getmDefaultDeviceName());
@@ -270,10 +262,10 @@ public class DevicesBaseAdapter extends BaseAdapter {
 					+ humidity + "%");
 		} else if (mDevices.getmModelId().indexOf(DataHelper.One_key_operator) == 0) {
 			if (mDevices.getmOnOffStatus().trim().equals("1")) {
-				devices_state.setText("开启");
+				devices_state.setText("布防");
 				devices_switch.setChecked(true);
 			} else {
-				devices_state.setText("关闭");
+				devices_state.setText("撤防");
 				devices_switch.setChecked(false);
 			}
 		} else if (mDevices.getmModelId().indexOf(
@@ -537,6 +529,12 @@ public class DevicesBaseAdapter extends BaseAdapter {
 	public void setList(List<DevicesModel> list) {
 		mDevicesList = null;
 		mDevicesList = list;
+		new getOneKeyOperatorStatusTask().execute(0);
+	}
+	
+	public void addList(List<DevicesModel> list) {
+		mDevicesList.addAll(list);
+		new getOneKeyOperatorStatusTask().execute(0);
 	}
 
 	public List<DevicesModel> getList() {
@@ -561,10 +559,31 @@ public class DevicesBaseAdapter extends BaseAdapter {
 		protected Object doInBackground(Object... params) {
 			DataHelper dh = new DataHelper(ApplicationController.getInstance());
 			SQLiteDatabase db = dh.getSQLiteDatabase();
-			oneKeyOperatorDevice = DataUtil.getDeviceModelByModelid(
-					DataHelper.One_key_operator, dh, db);
+			String where1 = " model_id like ? ";
+			String[] args1 = { DataHelper.One_key_operator + "%" };
+			String[] columns1 = { DevicesModel.ON_OFF_STATUS };
+			Cursor cursor1 = dh.query(db,
+					DataHelper.DEVICES_TABLE, columns1, where1, args1,
+					null, null, null, null);
+			String onOff = "1";
+			while (cursor1.moveToNext()) {
+				onOff = cursor1.getString(cursor1
+						.getColumnIndex(DevicesModel.ON_OFF_STATUS));
+			}
+			for (int m = 0; m < mDevicesList.size(); m++) {
+				if (mDevicesList.get(m).getmModelId()
+						.indexOf(DataHelper.One_key_operator) == 0) {
+					mDevicesList.get(m).setmOnOffStatus(onOff);
+				}
+			}
 			db.close();
 			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Object result) {
+			// TODO Auto-generated method stub
+			notifyDataSetChanged();
 		}
 	}
 

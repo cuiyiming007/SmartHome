@@ -21,7 +21,6 @@ import com.gc.materialdesign.views.CheckBox.OnCheckListener;
 import com.gdgl.libjingle.LibjingleResponseHandlerManager;
 import com.gdgl.libjingle.LibjingleSendManager;
 import com.gdgl.manager.CGIManager;
-import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.RfCGIManager;
 import com.gdgl.manager.UIListener;

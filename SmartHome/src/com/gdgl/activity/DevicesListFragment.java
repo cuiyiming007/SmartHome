@@ -80,7 +80,6 @@ public class DevicesListFragment extends Fragment implements adapterSeter,
 	public static final int WITH_OPERATE = 0;
 	public static final int WITHOUT_OPERATE = 2;
 
-
 	private int type = 1;
 	private String mRoomname = "";
 	private String mRoomid = "";
@@ -296,7 +295,7 @@ public class DevicesListFragment extends Fragment implements adapterSeter,
 		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
 				.getMenuInfo();
 		int position = info.position;
-		// mDevicesModel = mChangeFragment.getDeviceModle(position - 1);
+		mDeviceList = mBaseAdapter.getList();
 		mDevicesModel = mDeviceList.get(position - 1);
 		int menuIndex = item.getItemId();
 		Log.i(TAG, "tagzgs-> menuInfo.position=" + position
@@ -337,13 +336,7 @@ public class DevicesListFragment extends Fragment implements adapterSeter,
 		CGIManager.getInstance().deleteObserver(DevicesListFragment.this);
 		CallbackManager.getInstance().deleteObserver(DevicesListFragment.this);
 		RfCGIManager.getInstance().deleteObserver(DevicesListFragment.this);
-		LibjingleResponseHandlerManager.getInstance().addObserver(this);
-	}
-
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
+		LibjingleResponseHandlerManager.getInstance().deleteObserver(this);
 	}
 
 	@Override
@@ -368,7 +361,7 @@ public class DevicesListFragment extends Fragment implements adapterSeter,
 	}
 
 	public int isInList(String iee, String ep) {
-
+		initList();
 		if (null == mDeviceList || mDeviceList.size() == 0) {
 			return -1;
 		}
@@ -394,7 +387,59 @@ public class DevicesListFragment extends Fragment implements adapterSeter,
 	public void update(Manger observer, Object object) {
 		// TODO Auto-generated method stub
 		final Event event = (Event) object;
-		if (EventType.ON_OFF_STATUS == event.getType()) {
+		if (EventType.LIGHTSENSOROPERATION == event.getType()) {
+			// data maybe null
+			if (event.isSuccess()) {
+				Bundle bundle = (Bundle) event.getData();
+				int m = isInList(bundle.getString("IEEE"),
+						bundle.getString("EP"));
+				if (m != -1) {
+					String light = bundle.getString("PARAM");
+					mDeviceList.get(m).setmBrightness(Integer.parseInt(light));
+					mView.post(new Runnable() {
+						@Override
+						public void run() {
+							// setDataActivity.setdata(mDeviceList);
+							mBaseAdapter.notifyDataSetChanged();
+						}
+					});
+				}
+			}
+		} else if (EventType.TEMPERATURESENSOROPERATION == event.getType()) {
+			if (event.isSuccess()) {
+				Bundle bundle = (Bundle) event.getData();
+				int m = isInList(bundle.getString("IEEE"),
+						bundle.getString("EP"));
+				if (m != -1) {
+					String temperature = bundle.getString("PARAM");
+					mDeviceList.get(m).setmTemperature(Float.parseFloat(temperature));
+					mView.post(new Runnable() {
+						@Override
+						public void run() {
+							// setDataActivity.setdata(mDeviceList);
+							mBaseAdapter.notifyDataSetChanged();
+						}
+					});
+				}
+			}
+		} else if (EventType.HUMIDITY == event.getType()) {
+			if (event.isSuccess()) {
+				Bundle bundle = (Bundle) event.getData();
+				int m = isInList(bundle.getString("IEEE"),
+						bundle.getString("EP"));
+				if (m != -1) {
+					String humidity = bundle.getString("PARAM");
+					mDeviceList.get(m).setmHumidity(Float.parseFloat(humidity));
+					mView.post(new Runnable() {
+						@Override
+						public void run() {
+							// setDataActivity.setdata(mDeviceList);
+							mBaseAdapter.notifyDataSetChanged();
+						}
+					});
+				}
+			}
+		} else if (EventType.ON_OFF_STATUS == event.getType()) {
 			if (event.isSuccess() == true) {
 				// data maybe null
 				CallbackResponseType2 data = (CallbackResponseType2) event
@@ -417,30 +462,133 @@ public class DevicesListFragment extends Fragment implements adapterSeter,
 				// if failed,prompt a Toast
 				// mError.setVisibility(View.VISIBLE);
 			}
+		} else if (EventType.MOVE_TO_LEVEL == event.getType()) {
+			if (event.isSuccess() == true) {
+				// data maybe null
+				CallbackResponseType2 data = (CallbackResponseType2) event
+						.getData();
+				int m = isInList(data.getDeviceIeee(),
+						data.getDeviceEp());
+				final String valueString = data.getValue();
+				if (-1 != m) {
+					if (null != data.getValue()) {
+						mDeviceList.get(m).setmLevel(valueString);
+						if (Integer.parseInt(valueString) < 7) {
+							mDeviceList.get(m).setmOnOffStatus("0");
+						} else {
+							mDeviceList.get(m).setmOnOffStatus("1");
+						}
+						mView.post(new Runnable() {
+							@Override
+							public void run() {
+								// setDataActivity.setdata(mDeviceList);
+								mBaseAdapter.notifyDataSetChanged();
+							}
+						});
+					}
+				}
+			}
+		} else if (EventType.LOCALIASCIEBYPASSZONE == event.getType()) {
+			if (event.isSuccess()) {
+				Bundle bundle = (Bundle) event.getData();
+				int m = isInList(bundle.getString("IEEE"),
+						bundle.getString("EP"));
+				if (m != -1) {
+					mDeviceList.get(m).setmOnOffStatus(
+							bundle.getString("PARAM"));
+					mView.post(new Runnable() {
+						@Override
+						public void run() {
+							// setDataActivity.setdata(mDeviceList);
+							mBaseAdapter.notifyDataSetChanged();
+						}
+					});
+				}
+			}
+		} else if (EventType.RF_DEVICE_BYPASS == event.getType()) {
+			if (event.isSuccess()) {
+				Bundle bundle = (Bundle) event.getData();
+				int m = isInList(bundle.getString("IEEE"), "01");
+				if (m != -1) {
+					mDeviceList.get(m).setmOnOffStatus(
+							bundle.getString("PARAM"));
+					mView.post(new Runnable() {
+						@Override
+						public void run() {
+							// setDataActivity.setdata(mDeviceList);
+							mBaseAdapter.notifyDataSetChanged();
+						}
+					});
+				}
+			}
+		} else if (EventType.RF_DEVICE_ALL_BYPASS == event.getType()) {
+			if (event.isSuccess()) {
+				int status = (Integer) event.getData();
+				for (int i = 0; i < mDeviceList.size(); i++) {
+					if (mDeviceList.get(i).getmModelId()
+							.equals(DataHelper.RF_Magnetic_Door)
+							|| mDeviceList.get(i).getmModelId()
+									.equals(DataHelper.RF_Magnetic_Door_Roll)
+							|| mDeviceList
+									.get(i)
+									.getmModelId()
+									.equals(DataHelper.RF_Infrared_Motion_Sensor)) {
+						mDeviceList.get(i).setmOnOffStatus(
+								String.valueOf(status));
+					}
+				}
+				mView.post(new Runnable() {
+					@Override
+					public void run() {
+						// setDataActivity.setdata(mDeviceList);
+						mBaseAdapter.notifyDataSetChanged();
+					}
+				});
+			}
 		} else if (EventType.LOCALIASCIEOPERATION == event.getType()) {
 			if (event.isSuccess() == true) {
+
 				String status = (String) event.getData();
-				onekeyControlDevice.setmOnOffStatus(status);
+				if (null != mDeviceList && mDeviceList.size() > 0) {
+					for (int m = 0; m < mDeviceList.size(); m++) {
+						if (mDeviceList.get(m).getmModelId()
+								.indexOf(DataHelper.One_key_operator) == 0) {
+							mDeviceList.get(m).setmOnOffStatus(status);
+						}
+					}
+					mView.post(new Runnable() {
+						@Override
+						public void run() {
+							// setDataActivity.setdata(mDeviceList);
+							mBaseAdapter.notifyDataSetChanged();
+						}
+					});
+				}
 			}
 		} else if (EventType.GETEPBYROOMINDEX == event.getType()) {
 			if (event.isSuccess() == true) {
+				mDeviceList = (List<DevicesModel>) event.getData();
+				if (mDeviceList != null && mDeviceList.get(0).getmRid().equals("-1")) {
+						return;
+				}
 				if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
 					RfCGIManager.getInstance().GetRFDevByRoomId(mRoomid);
 				} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
-					LibjingleSendManager.getInstance().GetRFDevByRoomId(mRoomid);
+					LibjingleSendManager.getInstance()
+							.GetRFDevByRoomId(mRoomid);
 				}
-				mDeviceList = (List<DevicesModel>) event.getData();
 				Collections.sort(mDeviceList, new Comparator<DevicesModel>() {
 
 					@Override
 					public int compare(DevicesModel lhs, DevicesModel rhs) {
 						// TODO Auto-generated method stub
-						return (lhs.getmDevicePriority()-rhs.getmDevicePriority());
+						return (lhs.getmDevicePriority() - rhs
+								.getmDevicePriority());
 					}
 				});
-				for (DevicesModel mdevice : mDeviceList) {
-					mdevice.setmDeviceRegion(mRoomname);
-				}
+//				for (DevicesModel mdevice : mDeviceList) {
+//					mdevice.setmDeviceRegion(mRoomname);
+//				}
 
 			}
 		} else if (EventType.RF_DEVICE_BYPASS == event.getType()) {
@@ -462,17 +610,21 @@ public class DevicesListFragment extends Fragment implements adapterSeter,
 		} else if (EventType.RF_GETEPBYROOMINDEX == event.getType()) {
 			if (event.isSuccess() == true) {
 				List<DevicesModel> temp = (List<DevicesModel>) event.getData();
+				if (temp != null && temp.get(0).getmRid().equals("-1")) {
+					return;
+				}
 				Collections.sort(temp, new Comparator<DevicesModel>() {
 
 					@Override
 					public int compare(DevicesModel lhs, DevicesModel rhs) {
 						// TODO Auto-generated method stub
-						return (lhs.getmDevicePriority()-rhs.getmDevicePriority());
+						return (lhs.getmDevicePriority() - rhs
+								.getmDevicePriority());
 					}
 				});
-				for (DevicesModel mdevice : mDeviceList) {
-					mdevice.setmDeviceRegion(mRoomname);
-				}
+//				for (DevicesModel mdevice : mDeviceList) {
+//					mdevice.setmDeviceRegion(mRoomname);
+//				}
 				mDeviceList.addAll(temp);
 				mBaseAdapter.setList(mDeviceList);
 				mView.post(new Runnable() {
@@ -528,23 +680,36 @@ public class DevicesListFragment extends Fragment implements adapterSeter,
 	@Override
 	public void dialogdo() {
 		// TODO Auto-generated method stub
-		String where = " ieee = ? ";
-		String[] args = { mDevicesModel.getmIeee() };
-
-		ContentValues c = new ContentValues();
-		c.put(DevicesModel.DEVICE_REGION, "");
-		c.put(DevicesModel.R_ID, "-1");
-		SQLiteDatabase mSQLiteDatabase = mDataHelper.getSQLiteDatabase();
-		int result;
-		if (mDevicesModel.getmDeviceId() > 0) {
-			CGIManager.getInstance().ModifyDeviceRoomId(mDevicesModel, "-1");
-			result = mDataHelper.update(mSQLiteDatabase,
-					DataHelper.DEVICES_TABLE, c, where, args);
-		} else {
-			RfCGIManager.getInstance().ModifyRFDevRoomId(mDevicesModel, "-1");
-			result = mDataHelper.update(mSQLiteDatabase,
-					DataHelper.RF_DEVICES_TABLE, c, where, args);
+//		String where = " ieee = ? ";
+//		String[] args = { mDevicesModel.getmIeee() };
+//
+//		ContentValues c = new ContentValues();
+//		c.put(DevicesModel.DEVICE_REGION, "");
+//		c.put(DevicesModel.R_ID, "-1");
+//		SQLiteDatabase mSQLiteDatabase = mDataHelper.getSQLiteDatabase();
+		int result = 1;
+		if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+			if (mDevicesModel.getmDeviceId() > 0) {
+				CGIManager.getInstance().ModifyDeviceRoomId(mDevicesModel, "-1");
+//				result = mDataHelper.update(mSQLiteDatabase,
+//						DataHelper.DEVICES_TABLE, c, where, args);
+			} else {
+				RfCGIManager.getInstance().ModifyRFDevRoomId(mDevicesModel, "-1");
+//				result = mDataHelper.update(mSQLiteDatabase,
+//						DataHelper.RF_DEVICES_TABLE, c, where, args);
+			}
+		} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+			if (mDevicesModel.getmDeviceId() > 0) {
+				LibjingleSendManager.getInstance().ModifyDeviceRoomId(mDevicesModel, "-1");
+//				result = mDataHelper.update(mSQLiteDatabase,
+//						DataHelper.DEVICES_TABLE, c, where, args);
+			} else {
+				LibjingleSendManager.getInstance().ModifyRFDevRoomId(mDevicesModel, "-1");
+//				result = mDataHelper.update(mSQLiteDatabase,
+//						DataHelper.RF_DEVICES_TABLE, c, where, args);
+			}
 		}
+		
 		if (result >= 0) {
 			mDeviceList.remove(mDevicesModel);
 			mBaseAdapter.notifyDataSetChanged();

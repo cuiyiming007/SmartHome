@@ -1218,7 +1218,7 @@ public class CGIManager extends Manger {
 
 		String url = NetUtil.getInstance().getCumstomURL(
 				NetUtil.getInstance().IP, "getEPByRoomIndex.cgi", param);
-
+		Log.i("getEPByRoomIndex", url);
 		StringRequestChina req = new StringRequestChina(url,
 				new Response.Listener<String>() {
 					@Override
@@ -2156,15 +2156,15 @@ public class CGIManager extends Manger {
 					ApplicationController.getInstance());
 			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
 			for (GetRoomInfo_response info : roomInfoList) {
-				ContentValues c = new ContentValues();
-				c.put(DevicesModel.DEVICE_REGION, info.getroom().getroom_name());
-				String where = " rid = ? ";
-				int rid = info.getroom().getroom_id();
-				String[] args = { rid + "" };
-				mDateHelper.update(mSQLiteDatabase, DataHelper.DEVICES_TABLE,
-						c, where, args);
-				mDateHelper.update(mSQLiteDatabase, DataHelper.RF_DEVICES_TABLE,
-						c, where, args);
+//				ContentValues c = new ContentValues();
+//				c.put(DevicesModel.DEVICE_REGION, info.getroom().getroom_name());
+//				String where = " rid = ? ";
+//				int rid = info.getroom().getroom_id();
+//				String[] args = { rid + "" };
+//				mDateHelper.update(mSQLiteDatabase, DataHelper.DEVICES_TABLE,
+//						c, where, args);
+//				mDateHelper.update(mSQLiteDatabase, DataHelper.RF_DEVICES_TABLE,
+//						c, where, args);
 				roomList.add(info.getroom());
 			}
 			mDateHelper.emptyTable(mSQLiteDatabase, DataHelper.ROOMINFO_TABLE);
@@ -2191,17 +2191,17 @@ public class CGIManager extends Manger {
 					.getResponseparamList();
 			List<DevicesModel> mDevicesList = DataHelper
 					.convertToDevicesModel(devDataList);
-			DataHelper mDateHelper = new DataHelper(
-					ApplicationController.getInstance());
-			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
-
-			for (DevicesModel mDevices : mDevicesList) {
-				ContentValues c = new ContentValues();
-				c.put(DevicesModel.R_ID, mDevices.getmRid());
-				mDateHelper.update(mSQLiteDatabase, DataHelper.DEVICES_TABLE,
-						c, " ieee=? ", new String[] { mDevices.getmIeee() });
-			}
-			mSQLiteDatabase.close();
+//			DataHelper mDateHelper = new DataHelper(
+//					ApplicationController.getInstance());
+//			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
+//
+//			for (DevicesModel mDevices : mDevicesList) {
+//				ContentValues c = new ContentValues();
+//				c.put(DevicesModel.R_ID, mDevices.getmRid());
+//				mDateHelper.update(mSQLiteDatabase, DataHelper.DEVICES_TABLE,
+//						c, " ieee=? ", new String[] { mDevices.getmIeee() });
+//			}
+//			mSQLiteDatabase.close();
 			return mDevicesList;
 		}
 
@@ -2239,7 +2239,7 @@ public class CGIManager extends Manger {
 
 		@Override
 		protected void onPostExecute(Object result) {
-			Event event = new Event(EventType.RF_GETEPBYROOMINDEXINIT, true);
+			Event event = new Event(EventType.GETEPBYROOMINDEXINIT, true);
 			event.setData(result);
 			notifyObservers(event);
 		}

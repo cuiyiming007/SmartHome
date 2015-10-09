@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gc.materialdesign.views.ButtonFloat;
-import com.gdgl.activity.SmartHome.refreshAdapter;
 import com.gdgl.libjingle.LibjingleResponseHandlerManager;
 import com.gdgl.libjingle.LibjingleSendManager;
 import com.gdgl.manager.CGIManager;
@@ -19,8 +18,8 @@ import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.AddDlg;
 import com.gdgl.util.AddDlg.AddDialogcallback;
+import com.gdgl.util.MyOKOnlyDlg;
 import com.gdgl.util.MyOkCancleDlg;
-import com.gdgl.util.VersionDlg;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
@@ -47,7 +46,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.GridView;
 
 /***
@@ -56,7 +54,7 @@ import android.widget.GridView;
  * @author Trice
  * 
  */
-public class RegionsFragment extends Fragment implements refreshAdapter, Dialogcallback, UIListener, AddDialogcallback {
+public class RegionsFragment extends Fragment implements Dialogcallback, UIListener, AddDialogcallback {
 
 	PullToRefreshGridView content_view;
 	// GridView content_view;
@@ -77,32 +75,23 @@ public class RegionsFragment extends Fragment implements refreshAdapter, Dialogc
 		super.onCreate(savedInstanceState);
 		CGIManager.getInstance().addObserver(RegionsFragment.this);
 		LibjingleResponseHandlerManager.getInstance().addObserver(this);
+		mregions = new ArrayList<Room>();
 		initData();
 
 	}
 
-	private void refreshList() {
-		mregions = new ArrayList<Room>();
-		mDateHelper = new DataHelper((Context) getActivity());
-		SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
-		mregions = mDateHelper.queryForRoomList(mSQLiteDatabase, DataHelper.ROOMINFO_TABLE, null, null, null, null,
-				null, null, null);
-		mDateHelper.close(mSQLiteDatabase);
-	}
-
 	private void initData() {
 		// TODO Auto-generated method stub
-		mregions = new ArrayList<Room>();
 		if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
 			CGIManager.getInstance().GetAllRoomInfo();
 		} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
 			LibjingleSendManager.getInstance().GetAllRoomInfo();
 		}
-		mDateHelper = new DataHelper((Context) getActivity());
-		SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
-		mregions = mDateHelper.queryForRoomList(mSQLiteDatabase, DataHelper.ROOMINFO_TABLE, null, null, null, null,
-				null, null, null);
-		mDateHelper.close(mSQLiteDatabase);
+//		mDateHelper = new DataHelper((Context) getActivity());
+//		SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
+//		mregions = mDateHelper.queryForRoomList(mSQLiteDatabase, DataHelper.ROOMINFO_TABLE, null, null, null, null,
+//				null, null, null);
+//		mDateHelper.close(mSQLiteDatabase);
 	}
 
 	@Override
@@ -161,9 +150,10 @@ public class RegionsFragment extends Fragment implements refreshAdapter, Dialogc
 					mAddDlg.setDialogCallback(RegionsFragment.this);
 					mAddDlg.show();
 				} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
-					VersionDlg vd = new VersionDlg(getActivity());
-					vd.setContent(getResources().getString(R.string.Unable_In_InternetState));
-					vd.show();
+					MyOKOnlyDlg myOKOnlyDlg = new MyOKOnlyDlg(getActivity());
+					myOKOnlyDlg.setContent(getResources().getString(
+							R.string.Unable_In_InternetState));
+					myOKOnlyDlg.show();
 				}
 			}
 		});
@@ -173,22 +163,7 @@ public class RegionsFragment extends Fragment implements refreshAdapter, Dialogc
 			nodevices.setVisibility(View.GONE);
 		}
 
-		if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
-			registerForContextMenu(content_view.getRefreshableView());
-		} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
-			content_view.setOnItemLongClickListener(new OnItemLongClickListener() {
-
-				@Override
-				public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-					// TODO Auto-generated method stub
-					VersionDlg vd = new VersionDlg(getActivity());
-					vd.setContent(getResources().getString(R.string.Unable_In_InternetState));
-					vd.show();
-					return true;
-				}
-
-			});
-		}
+		registerForContextMenu(content_view.getRefreshableView());
 	}
 
 	@Override
@@ -236,7 +211,7 @@ public class RegionsFragment extends Fragment implements refreshAdapter, Dialogc
 	public void onResume() {
 		// TODO Auto-generated method stub
 		content_view.setVisibility(View.VISIBLE);
-		refreshFragment();
+		initData();
 		super.onResume();
 	}
 
@@ -299,26 +274,10 @@ public class RegionsFragment extends Fragment implements refreshAdapter, Dialogc
 	}
 
 	@Override
-	public void refreshFragment() {
-		initData();
-		// if (null == mregions || mregions.size() == 0) {
-		// nodevices.setVisibility(View.VISIBLE);
-		// } else {
-		// nodevices.setVisibility(View.GONE);
-		// }
-		// Log.i("zgs", "refreshFragment->mregions.size()=" + mregions.size());
-		// mCustomeAdapter.setList(mregions);
-		// // content_view.setAdapter(mCustomeAdapter);
-		// mCustomeAdapter.notifyDataSetChanged();
-	}
-
-	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-		if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
-			menu.setHeaderTitle("编辑&删除");
-			menu.add(1, 1, 0, "编辑");
-			menu.add(1, 2, 0, "删除");
-		}
+		menu.setHeaderTitle("编辑&删除");
+		menu.add(1, 1, 0, "编辑");
+		menu.add(1, 2, 0, "删除");
 		// TODO Auto-generated method stub
 		super.onCreateContextMenu(menu, v, menuInfo);
 	}
@@ -334,17 +293,32 @@ public class RegionsFragment extends Fragment implements refreshAdapter, Dialogc
 		currentRoom = mregions.get(position);
 		menuIndex = item.getItemId();
 		if (1 == menuIndex) {
-			AddDlg mEditDlg = new AddDlg(getActivity(), currentRoom);
-			mEditDlg.setContent("编辑区域");
-			mEditDlg.setType("区域名称");
-			mEditDlg.setDialogCallback(RegionsFragment.this);
-			mEditDlg.show();
+			if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+				AddDlg mEditDlg = new AddDlg(getActivity(), currentRoom);
+				mEditDlg.setContent("编辑区域");
+				mEditDlg.setType("区域名称");
+				mEditDlg.setDialogCallback(RegionsFragment.this);
+				mEditDlg.show();
+			} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+				MyOKOnlyDlg myOKOnlyDlg = new MyOKOnlyDlg(getActivity());
+				myOKOnlyDlg.setContent(getResources().getString(
+						R.string.Unable_In_InternetState));
+				myOKOnlyDlg.show();
+				menuIndex = 0;
+			}
 		}
 		if (2 == menuIndex) {
-			MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg((Context) getActivity());
-			mMyOkCancleDlg.setDialogCallback(this);
-			mMyOkCancleDlg.setContent("确定要删除区域  " + mregions.get(position).getroom_name() + " 吗?");
-			mMyOkCancleDlg.show();
+			if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+				MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg((Context) getActivity());
+				mMyOkCancleDlg.setDialogCallback(this);
+				mMyOkCancleDlg.setContent("确定要删除区域  " + mregions.get(position).getroom_name() + " 吗?");
+				mMyOkCancleDlg.show();
+			} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+				MyOKOnlyDlg myOKOnlyDlg = new MyOKOnlyDlg(getActivity());
+				myOKOnlyDlg.setContent(getResources().getString(
+						R.string.Unable_In_InternetState));
+				myOKOnlyDlg.show();
+			}
 			menuIndex = 0;
 		}
 		return super.onContextItemSelected(item);
@@ -420,6 +394,7 @@ public class RegionsFragment extends Fragment implements refreshAdapter, Dialogc
 					break;
 				}
 			}
+			mCustomeAdapter.notifyDataSetChanged();
 			menuIndex = 0;
 		}
 	}

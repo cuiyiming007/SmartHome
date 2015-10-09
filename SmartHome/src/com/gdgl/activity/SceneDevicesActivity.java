@@ -126,9 +126,9 @@ public class SceneDevicesActivity extends MyActionBarActivity implements
 				switch (item.getItemId()) {
 				case R.id.menu_ok:
 					if (fragment_flag == EDIT_FRAGMENT) {
-						sceneName = Uri.encode(titleEditText.getText()
-								.toString());
 						if (scene_type == CREATE) {
+							sceneName = Uri.encode(titleEditText.getText()
+									.toString());
 							if (mSceneDevicesList.size() < 1) {
 								Toast.makeText(SceneDevicesActivity.this,
 										"请至少包含一个设备", Toast.LENGTH_SHORT).show();
@@ -151,6 +151,8 @@ public class SceneDevicesActivity extends MyActionBarActivity implements
 										.equals(mSceneDevicesListBackup)) {
 									finish();
 								} else {
+									sceneName = Uri.encode(titleEditText.getText()
+											.toString());
 									if (mSceneDevicesList.size() < 1) {
 										Toast.makeText(
 												SceneDevicesActivity.this,
@@ -176,6 +178,13 @@ public class SceneDevicesActivity extends MyActionBarActivity implements
 							} else {
 								sceneName = Uri.encode(titleEditText.getText()
 										.toString());
+								if (mSceneDevicesList.size() < 1) {
+									Toast.makeText(
+											SceneDevicesActivity.this,
+											"请至少包含一个设备", Toast.LENGTH_SHORT)
+											.show();
+									break;
+								}
 								String sceneParams = createSceneParams();
 								if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
 									SceneLinkageManager.getInstance()
