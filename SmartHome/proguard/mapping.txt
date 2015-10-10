@@ -19606,67 +19606,90 @@ com.gdgl.activity.DevicesFragment$1 -> ra:
     64:71:void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
 com.gdgl.activity.DevicesListFragment -> rb:
     com.gdgl.mydata.DataHelper mDataHelper -> a
-    android.view.View mView -> j
+    android.view.View mView -> k
     com.handmark.pulltorefresh.library.PullToRefreshListView mPullToRefreshListView -> b
     com.gc.materialdesign.views.ButtonFloat mButtonFloat -> c
     com.gdgl.model.DevicesModel mDevicesModel -> d
     int refreshTag -> e
-    com.gdgl.adapter.DevicesBaseAdapter mBaseAdapter -> f
-    com.gdgl.activity.DevicesListFragment$ChangeFragment mChangeFragment -> k
-    android.widget.RelativeLayout list_root -> g
-    int type -> l
-    java.lang.String mRoomname -> m
-    java.lang.String mRoomid -> n
-    java.util.List mDeviceList -> h
-    com.gdgl.model.DevicesModel onekeyControlDevice -> i
-    93:112:void onCreate(android.os.Bundle) -> onCreate
-    118:120:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
-    262:265:void initList() -> b
-    271:276:void onCreateContextMenu(android.view.ContextMenu,android.view.View,android.view.ContextMenu$ContextMenuInfo) -> onCreateContextMenu
-    282:282:void setLayout() -> c
-    287:317:boolean onContextItemSelected(android.view.MenuItem) -> onContextItemSelected
-    327:331:void onDestroy() -> onDestroy
-    336:337:void onResume() -> onResume
-    342:345:void setAdapter(android.widget.BaseAdapter) -> a
-    356:358:void stopRefresh() -> d
-    362:376:int isInList(java.lang.String,java.lang.String) -> a
-    386:473:void update(com.gdgl.manager.Manger,java.lang.Object) -> update
-    513:535:void dialogdo() -> a
-    81:81:int access$0(com.gdgl.activity.DevicesListFragment) -> a
-    83:83:java.lang.String access$1(com.gdgl.activity.DevicesListFragment) -> b
-    74:74:com.gdgl.activity.DevicesListFragment$ChangeFragment access$2(com.gdgl.activity.DevicesListFragment) -> c
+    boolean readDeviceList -> f
+    com.gdgl.adapter.DevicesBaseAdapter mBaseAdapter -> g
+    com.gdgl.activity.DevicesListFragment$ChangeFragment mChangeFragment -> l
+    android.widget.RelativeLayout list_root -> h
+    int type -> m
+    java.lang.String mRoomname -> n
+    java.lang.String mRoomid -> o
+    java.util.List mDeviceList -> i
+    com.gdgl.model.DevicesModel onekeyControlDevice -> j
+    96:122:void onCreate(android.os.Bundle) -> onCreate
+    128:130:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
+    272:275:void initList() -> b
+    281:286:void onCreateContextMenu(android.view.ContextMenu,android.view.View,android.view.ContextMenu$ContextMenuInfo) -> onCreateContextMenu
+    291:321:boolean onContextItemSelected(android.view.MenuItem) -> onContextItemSelected
+    331:336:void onDestroy() -> onDestroy
+    341:344:void setAdapter(android.widget.BaseAdapter) -> a
+    355:357:void stopRefresh() -> c
+    360:375:int isInList(java.lang.String,java.lang.String) -> a
+    385:638:void update(com.gdgl.manager.Manger,java.lang.Object) -> update
+    690:718:void dialogdo() -> a
+    84:84:int access$0(com.gdgl.activity.DevicesListFragment) -> a
+    86:86:java.lang.String access$1(com.gdgl.activity.DevicesListFragment) -> b
+    78:78:com.gdgl.activity.DevicesListFragment$ChangeFragment access$2(com.gdgl.activity.DevicesListFragment) -> c
 com.gdgl.activity.DevicesListFragment$1 -> rc:
     com.gdgl.activity.DevicesListFragment this$0 -> a
-    142:144:void onClick(android.view.View) -> onClick
-com.gdgl.activity.DevicesListFragment$2 -> rd:
+    152:154:void onClick(android.view.View) -> onClick
+com.gdgl.activity.DevicesListFragment$10 -> rd:
     com.gdgl.activity.DevicesListFragment this$0 -> a
-    172:191:void onRefresh(com.handmark.pulltorefresh.library.PullToRefreshBase) -> a
-com.gdgl.activity.DevicesListFragment$3 -> re:
+    515:516:void run() -> run
+com.gdgl.activity.DevicesListFragment$11 -> re:
     com.gdgl.activity.DevicesListFragment this$0 -> a
-    200:252:void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
-com.gdgl.activity.DevicesListFragment$4 -> rf:
+    540:541:void run() -> run
+com.gdgl.activity.DevicesListFragment$12 -> rf:
     com.gdgl.activity.DevicesListFragment this$0 -> a
-    400:401:void run() -> run
-com.gdgl.activity.DevicesListFragment$5 -> rg:
-    com.gdgl.activity.DevicesListFragment this$0 -> a
-    1:1:int compare(java.lang.Object,java.lang.Object) -> compare
-com.gdgl.activity.DevicesListFragment$6 -> rh:
-    com.gdgl.activity.DevicesListFragment this$0 -> a
-    443:444:void run() -> run
-com.gdgl.activity.DevicesListFragment$7 -> ri:
+    559:560:void run() -> run
+com.gdgl.activity.DevicesListFragment$13 -> rg:
     com.gdgl.activity.DevicesListFragment this$0 -> a
     1:1:int compare(java.lang.Object,java.lang.Object) -> compare
-com.gdgl.activity.DevicesListFragment$8 -> rj:
+com.gdgl.activity.DevicesListFragment$14 -> rh:
     com.gdgl.activity.DevicesListFragment this$0 -> a
-    467:468:void run() -> run
-com.gdgl.activity.DevicesListFragment$ChangeFragment -> rk:
+    602:603:void run() -> run
+com.gdgl.activity.DevicesListFragment$15 -> ri:
+    com.gdgl.activity.DevicesListFragment this$0 -> a
+    1:1:int compare(java.lang.Object,java.lang.Object) -> compare
+com.gdgl.activity.DevicesListFragment$16 -> rj:
+    com.gdgl.activity.DevicesListFragment this$0 -> a
+    632:633:void run() -> run
+com.gdgl.activity.DevicesListFragment$2 -> rk:
+    com.gdgl.activity.DevicesListFragment this$0 -> a
+    182:201:void onRefresh(com.handmark.pulltorefresh.library.PullToRefreshBase) -> a
+com.gdgl.activity.DevicesListFragment$3 -> rl:
+    com.gdgl.activity.DevicesListFragment this$0 -> a
+    210:262:void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
+com.gdgl.activity.DevicesListFragment$4 -> rm:
+    com.gdgl.activity.DevicesListFragment this$0 -> a
+    399:400:void run() -> run
+com.gdgl.activity.DevicesListFragment$5 -> rn:
+    com.gdgl.activity.DevicesListFragment this$0 -> a
+    416:417:void run() -> run
+com.gdgl.activity.DevicesListFragment$6 -> ro:
+    com.gdgl.activity.DevicesListFragment this$0 -> a
+    433:434:void run() -> run
+com.gdgl.activity.DevicesListFragment$7 -> rp:
+    com.gdgl.activity.DevicesListFragment this$0 -> a
+    451:452:void run() -> run
+com.gdgl.activity.DevicesListFragment$8 -> rq:
+    com.gdgl.activity.DevicesListFragment this$0 -> a
+    481:482:void run() -> run
+com.gdgl.activity.DevicesListFragment$9 -> rr:
+    com.gdgl.activity.DevicesListFragment this$0 -> a
+    499:500:void run() -> run
+com.gdgl.activity.DevicesListFragment$ChangeFragment -> rs:
     void setFragment(android.support.v4.app.Fragment) -> a
-com.gdgl.activity.DevicesListFragment$GetDataByRoomTask -> rl:
+com.gdgl.activity.DevicesListFragment$GetDataByRoomTask -> rt:
     com.gdgl.activity.DevicesListFragment this$0 -> a
-    493:500:java.lang.String doInBackground(java.lang.String[]) -> a
+    658:670:java.lang.String doInBackground(java.lang.String[]) -> a
     1:1:void onPostExecute(java.lang.Object) -> onPostExecute
     1:1:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.gdgl.activity.FeedbackFragment -> rm:
+com.gdgl.activity.FeedbackFragment -> ru:
     android.view.View mView -> a
     android.widget.EditText feedbackEditText -> b
     android.widget.TextView feedbackTextView -> c
@@ -19677,15 +19700,15 @@ com.gdgl.activity.FeedbackFragment -> rm:
     101:114:void update(com.gdgl.manager.Manger,java.lang.Object) -> update
     27:27:android.widget.TextView access$0(com.gdgl.activity.FeedbackFragment) -> a
     26:26:android.widget.EditText access$1(com.gdgl.activity.FeedbackFragment) -> b
-com.gdgl.activity.FeedbackFragment$1 -> rn:
+com.gdgl.activity.FeedbackFragment$1 -> rv:
     com.gdgl.activity.FeedbackFragment this$0 -> a
     57:58:void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
     65:65:void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
     71:71:void afterTextChanged(android.text.Editable) -> afterTextChanged
-com.gdgl.activity.FeedbackFragment$2 -> ro:
+com.gdgl.activity.FeedbackFragment$2 -> rw:
     com.gdgl.activity.FeedbackFragment this$0 -> a
     79:87:void onClick(android.view.View) -> onClick
-com.gdgl.activity.GatewayUpdateDetailDlgFragment -> rp:
+com.gdgl.activity.GatewayUpdateDetailDlgFragment -> rx:
     boolean UpdateSelf -> a
     android.view.View mView -> b
     android.widget.LinearLayout layout1 -> c
@@ -19713,17 +19736,17 @@ com.gdgl.activity.GatewayUpdateDetailDlgFragment -> rp:
     38:38:android.widget.TextView access$6(com.gdgl.activity.GatewayUpdateDetailDlgFragment) -> g
     38:38:android.widget.TextView access$7(com.gdgl.activity.GatewayUpdateDetailDlgFragment) -> h
     38:38:android.widget.TextView access$8(com.gdgl.activity.GatewayUpdateDetailDlgFragment) -> i
-com.gdgl.activity.GatewayUpdateDetailDlgFragment$1 -> rq:
+com.gdgl.activity.GatewayUpdateDetailDlgFragment$1 -> ry:
     com.gdgl.activity.GatewayUpdateDetailDlgFragment this$0 -> a
     91:95:void onClick(android.view.View) -> onClick
-com.gdgl.activity.GatewayUpdateDetailDlgFragment$2 -> rr:
+com.gdgl.activity.GatewayUpdateDetailDlgFragment$2 -> rz:
     com.gdgl.activity.GatewayUpdateDetailDlgFragment this$0 -> a
     109:115:void onClick(android.view.View) -> onClick
-com.gdgl.activity.GatewayUpdateDetailDlgFragment$3 -> rs:
+com.gdgl.activity.GatewayUpdateDetailDlgFragment$3 -> sa:
     com.gdgl.activity.GatewayUpdateDetailDlgFragment this$0 -> a
     java.lang.String val$version -> b
     141:150:void run() -> run
-com.gdgl.activity.GatewayUpdateDetailDlgFragment$4 -> rt:
+com.gdgl.activity.GatewayUpdateDetailDlgFragment$4 -> sb:
     com.gdgl.activity.GatewayUpdateDetailDlgFragment this$0 -> a
     161:165:void run() -> run
 com.gdgl.activity.HikVideoActivity -> com.gdgl.activity.HikVideoActivity:
@@ -19796,15 +19819,15 @@ com.gdgl.activity.HikVideoActivity -> com.gdgl.activity.HikVideoActivity:
     429:432:void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
     436:439:void onRestoreInstanceState(android.os.Bundle) -> onRestoreInstanceState
     506:556:void initSurface() -> b
-    559:568:void onConfigurationChanged(android.content.res.Configuration) -> onConfigurationChanged
-    1041:1070:void stopPlay() -> c
-    1184:1189:com.hikvision.netsdk.ExceptionCallBack getExceptiongCbf() -> d
-    1203:1213:com.hikvision.netsdk.RealPlayCallBack getRealPlayerCbf() -> e
-    1261:1318:void processRealData$7e9b5f7c(int,byte[],int,int) -> a
-    1333:1338:void Cleanup() -> f
-    1342:1343:boolean onCreateOptionsMenu(android.view.Menu) -> onCreateOptionsMenu
-    1348:1355:boolean onKeyDown(int,android.view.KeyEvent) -> onKeyDown
-    1366:1369:boolean onSupportNavigateUp() -> onSupportNavigateUp
+    559:570:void onConfigurationChanged(android.content.res.Configuration) -> onConfigurationChanged
+    1043:1072:void stopPlay() -> c
+    1186:1191:com.hikvision.netsdk.ExceptionCallBack getExceptiongCbf() -> d
+    1205:1215:com.hikvision.netsdk.RealPlayCallBack getRealPlayerCbf() -> e
+    1263:1320:void processRealData$7e9b5f7c(int,byte[],int,int) -> a
+    1335:1340:void Cleanup() -> f
+    1344:1345:boolean onCreateOptionsMenu(android.view.Menu) -> onCreateOptionsMenu
+    1350:1357:boolean onKeyDown(int,android.view.KeyEvent) -> onKeyDown
+    1368:1371:boolean onSupportNavigateUp() -> onSupportNavigateUp
     110:110:int access$0(com.gdgl.activity.HikVideoActivity) -> a
     124:124:boolean access$1(com.gdgl.activity.HikVideoActivity) -> b
     109:109:int access$2(com.gdgl.activity.HikVideoActivity) -> c
@@ -19825,19 +19848,19 @@ com.gdgl.activity.HikVideoActivity -> com.gdgl.activity.HikVideoActivity:
     129:129:java.lang.String access$17(com.gdgl.activity.HikVideoActivity) -> n
     202:202:void access$18(com.gdgl.activity.HikVideoActivity) -> o
     112:112:int access$19(com.gdgl.activity.HikVideoActivity) -> p
-    1226:1226:com.hikvision.netsdk.PlaybackCallBack access$20(com.gdgl.activity.HikVideoActivity) -> q
+    1228:1228:com.hikvision.netsdk.PlaybackCallBack access$20(com.gdgl.activity.HikVideoActivity) -> q
     112:112:void access$21(com.gdgl.activity.HikVideoActivity,int) -> a
     86:86:android.widget.Button access$22(com.gdgl.activity.HikVideoActivity) -> r
     113:113:void access$23$b7817c0(com.gdgl.activity.HikVideoActivity) -> s
-    1183:1183:com.hikvision.netsdk.ExceptionCallBack access$24(com.gdgl.activity.HikVideoActivity) -> t
+    1185:1185:com.hikvision.netsdk.ExceptionCallBack access$24(com.gdgl.activity.HikVideoActivity) -> t
     84:84:android.widget.Button access$25(com.gdgl.activity.HikVideoActivity) -> u
     110:110:void access$26$b7817c0(com.gdgl.activity.HikVideoActivity) -> v
-    1202:1202:com.hikvision.netsdk.RealPlayCallBack access$27(com.gdgl.activity.HikVideoActivity) -> w
+    1204:1204:com.hikvision.netsdk.RealPlayCallBack access$27(com.gdgl.activity.HikVideoActivity) -> w
     109:109:void access$28(com.gdgl.activity.HikVideoActivity,int) -> b
     111:111:void access$29(com.gdgl.activity.HikVideoActivity,int) -> c
     85:85:android.widget.Button access$30(com.gdgl.activity.HikVideoActivity) -> x
-    1040:1040:void access$31(com.gdgl.activity.HikVideoActivity) -> y
-    1145:1145:void access$32(com.gdgl.activity.HikVideoActivity,int) -> d
+    1042:1042:void access$31(com.gdgl.activity.HikVideoActivity) -> y
+    1147:1147:void access$32(com.gdgl.activity.HikVideoActivity,int) -> d
     257:257:android.graphics.Bitmap access$33$1119ec25(java.lang.String) -> a
     114:114:int access$34(com.gdgl.activity.HikVideoActivity) -> z
     114:114:int access$35(com.gdgl.activity.HikVideoActivity) -> A
@@ -19845,57 +19868,57 @@ com.gdgl.activity.HikVideoActivity -> com.gdgl.activity.HikVideoActivity:
     98:98:android.widget.Gallery access$37(com.gdgl.activity.HikVideoActivity) -> C
     103:103:java.util.ArrayList access$38(com.gdgl.activity.HikVideoActivity) -> D
     140:140:android.os.Handler access$39(com.gdgl.activity.HikVideoActivity) -> E
-com.gdgl.activity.HikVideoActivity$1 -> ru:
+com.gdgl.activity.HikVideoActivity$1 -> sc:
     com.gdgl.activity.HikVideoActivity this$0 -> a
-    622:681:boolean onTouch(android.view.View,android.view.MotionEvent) -> onTouch
-com.gdgl.activity.HikVideoActivity$10 -> rv:
+    624:683:boolean onTouch(android.view.View,android.view.MotionEvent) -> onTouch
+com.gdgl.activity.HikVideoActivity$10 -> sd:
     com.gdgl.activity.HikVideoActivity this$0 -> a
     165:170:void handleMessage(android.os.Message) -> handleMessage
-com.gdgl.activity.HikVideoActivity$11 -> rw:
+com.gdgl.activity.HikVideoActivity$11 -> se:
     com.gdgl.activity.HikVideoActivity this$0 -> a
     310:316:void run() -> run
-com.gdgl.activity.HikVideoActivity$12 -> rx:
+com.gdgl.activity.HikVideoActivity$12 -> sf:
     com.gdgl.activity.HikVideoActivity this$0 -> a
-    598:601:void onClick(android.view.View) -> onClick
-com.gdgl.activity.HikVideoActivity$13 -> ry:
+    600:603:void onClick(android.view.View) -> onClick
+com.gdgl.activity.HikVideoActivity$13 -> sg:
     com.gdgl.activity.HikVideoActivity this$0 -> a
-    608:611:void onClick(android.view.View) -> onClick
-com.gdgl.activity.HikVideoActivity$14 -> rz:
+    610:613:void onClick(android.view.View) -> onClick
+com.gdgl.activity.HikVideoActivity$14 -> sh:
     com.gdgl.activity.HikVideoActivity this$0 -> a
-    1187:1187:void fExceptionCallBack(int,int,int) -> fExceptionCallBack
-com.gdgl.activity.HikVideoActivity$15 -> sa:
+    1189:1189:void fExceptionCallBack(int,int,int) -> fExceptionCallBack
+com.gdgl.activity.HikVideoActivity$15 -> si:
     com.gdgl.activity.HikVideoActivity this$0 -> a
-    1209:1211:void fRealDataCallBack(int,int,byte[],int) -> fRealDataCallBack
-com.gdgl.activity.HikVideoActivity$16 -> sb:
+    1211:1213:void fRealDataCallBack(int,int,byte[],int) -> fRealDataCallBack
+com.gdgl.activity.HikVideoActivity$16 -> sj:
     com.gdgl.activity.HikVideoActivity this$0 -> a
-    1232:1234:void fPlayDataCallBack(int,int,byte[],int) -> fPlayDataCallBack
-com.gdgl.activity.HikVideoActivity$17 -> sc:
+    1234:1236:void fPlayDataCallBack(int,int,byte[],int) -> fPlayDataCallBack
+com.gdgl.activity.HikVideoActivity$17 -> sk:
     com.gdgl.activity.HikVideoActivity this$0 -> a
-    1303:1306:void run() -> run
-com.gdgl.activity.HikVideoActivity$2 -> sd:
+    1305:1308:void run() -> run
+com.gdgl.activity.HikVideoActivity$2 -> sl:
     com.gdgl.activity.HikVideoActivity this$0 -> a
-    689:717:void onClick(android.view.View) -> onClick
-com.gdgl.activity.HikVideoActivity$3 -> se:
+    691:719:void onClick(android.view.View) -> onClick
+com.gdgl.activity.HikVideoActivity$3 -> sm:
     com.gdgl.activity.HikVideoActivity this$0 -> a
-    723:745:void onClick(android.view.View) -> onClick
-com.gdgl.activity.HikVideoActivity$4 -> sf:
+    725:747:void onClick(android.view.View) -> onClick
+com.gdgl.activity.HikVideoActivity$4 -> sn:
     com.gdgl.activity.HikVideoActivity this$0 -> a
-    751:777:void onClick(android.view.View) -> onClick
-com.gdgl.activity.HikVideoActivity$5 -> sg:
+    753:779:void onClick(android.view.View) -> onClick
+com.gdgl.activity.HikVideoActivity$5 -> so:
     com.gdgl.activity.HikVideoActivity this$0 -> a
-    783:820:void onClick(android.view.View) -> onClick
-com.gdgl.activity.HikVideoActivity$6 -> sh:
+    785:822:void onClick(android.view.View) -> onClick
+com.gdgl.activity.HikVideoActivity$6 -> sp:
     com.gdgl.activity.HikVideoActivity this$0 -> a
-    827:908:void onClick(android.view.View) -> onClick
-com.gdgl.activity.HikVideoActivity$7 -> si:
+    829:910:void onClick(android.view.View) -> onClick
+com.gdgl.activity.HikVideoActivity$7 -> sq:
     com.gdgl.activity.HikVideoActivity this$0 -> a
-    915:949:void onClick(android.view.View) -> onClick
-com.gdgl.activity.HikVideoActivity$8 -> sj:
+    917:951:void onClick(android.view.View) -> onClick
+com.gdgl.activity.HikVideoActivity$8 -> sr:
     com.gdgl.activity.HikVideoActivity this$0 -> a
-    956:1016:void onClick(android.view.View) -> onClick
-com.gdgl.activity.HikVideoActivity$9 -> sk:
+    958:1018:void onClick(android.view.View) -> onClick
+com.gdgl.activity.HikVideoActivity$9 -> ss:
     com.gdgl.activity.HikVideoActivity this$0 -> a
-    1023:1027:void onClick(android.view.View) -> onClick
+    1025:1029:void onClick(android.view.View) -> onClick
 com.gdgl.activity.HikVideoActivity$ImageAdapter -> com.gdgl.activity.HikVideoActivity$ImageAdapter:
     android.content.Context context -> b
     java.util.ArrayList mList -> c
@@ -19906,7 +19929,7 @@ com.gdgl.activity.HikVideoActivity$ImageAdapter -> com.gdgl.activity.HikVideoAct
     234:234:long getItemId(int) -> getItemId
     238:253:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     210:210:com.gdgl.activity.HikVideoActivity access$0(com.gdgl.activity.HikVideoActivity$ImageAdapter) -> a
-com.gdgl.activity.HikVideoActivity$ImageAdapter$1 -> sl:
+com.gdgl.activity.HikVideoActivity$ImageAdapter$1 -> st:
     com.gdgl.activity.HikVideoActivity$ImageAdapter this$1 -> a
     int val$position -> b
     249:251:void onClick(android.view.View) -> onClick
@@ -19926,7 +19949,7 @@ com.gdgl.activity.JoinNetDevicesListFragment -> com.gdgl.activity.JoinNetDevices
     72:74:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
     78:83:void setList(java.util.List) -> a
     126:127:void onDestroy() -> onDestroy
-com.gdgl.activity.JoinNetDevicesListFragment$1 -> sm:
+com.gdgl.activity.JoinNetDevicesListFragment$1 -> su:
     com.gdgl.activity.JoinNetDevicesListFragment this$0 -> a
     150:158:void handleMessage(android.os.Message) -> handleMessage
 com.gdgl.activity.JoinNetDevicesListFragment$JoinNetAdapter -> com.gdgl.activity.JoinNetDevicesListFragment$JoinNetAdapter:
@@ -19937,13 +19960,13 @@ com.gdgl.activity.JoinNetDevicesListFragment$JoinNetAdapter -> com.gdgl.activity
     190:193:long getItemId(int) -> getItemId
     197:199:void setList(java.util.List) -> setList
     204:237:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
-com.gdgl.activity.JoinNetDevicesListFragment$JoinNetAdapter$ViewHolder -> sn:
+com.gdgl.activity.JoinNetDevicesListFragment$JoinNetAdapter$ViewHolder -> sv:
     android.widget.ImageView devices_img -> a
     android.widget.TextView devices_name -> b
     com.gc.materialdesign.views.CheckBox selected -> c
     android.view.View custom_divider -> d
     com.gdgl.activity.JoinNetDevicesListFragment$JoinNetAdapter this$1 -> e
-com.gdgl.activity.JoinNetFragment -> so:
+com.gdgl.activity.JoinNetFragment -> sw:
     android.view.View mView -> l
     android.widget.RelativeLayout join_netLayout -> a
     com.gdgl.util.CircleProgressBar circleProgressBar -> b
@@ -19961,22 +19984,22 @@ com.gdgl.activity.JoinNetFragment -> so:
     184:187:void onDestroy() -> onDestroy
     258:265:void refreshdata(com.gdgl.mydata.Region.Room) -> a
     270:286:void update(com.gdgl.manager.Manger,java.lang.Object) -> update
-com.gdgl.activity.JoinNetFragment$1 -> sp:
+com.gdgl.activity.JoinNetFragment$1 -> sx:
     com.gdgl.activity.JoinNetFragment this$0 -> a
     191:216:void handleMessage(android.os.Message) -> handleMessage
-com.gdgl.activity.JoinNetFragment$2 -> sq:
+com.gdgl.activity.JoinNetFragment$2 -> sy:
     com.gdgl.activity.JoinNetFragment this$0 -> a
     105:111:void onClick(android.view.View) -> onClick
-com.gdgl.activity.JoinNetFragment$3 -> sr:
+com.gdgl.activity.JoinNetFragment$3 -> sz:
     com.gdgl.activity.JoinNetFragment this$0 -> a
     140:151:void onClick(android.view.View) -> onClick
-com.gdgl.activity.JoinNetFragment$4 -> ss:
+com.gdgl.activity.JoinNetFragment$4 -> ta:
     com.gdgl.activity.JoinNetFragment this$0 -> a
     159:162:void onClick(android.view.View) -> onClick
-com.gdgl.activity.JoinNetFragment$5 -> st:
+com.gdgl.activity.JoinNetFragment$5 -> tb:
     com.gdgl.activity.JoinNetFragment this$0 -> a
     171:177:void onClick(android.view.View) -> onClick
-com.gdgl.activity.JoinNetFragment$ChangeFragment -> su:
+com.gdgl.activity.JoinNetFragment$ChangeFragment -> tc:
     void setFragment(android.support.v4.app.Fragment) -> a
 com.gdgl.activity.KongtiaoTvControlActivity -> com.gdgl.activity.KongtiaoTvControlActivity:
     android.widget.TextView kongtiao -> a
@@ -20036,83 +20059,81 @@ com.gdgl.activity.KongtiaoTvControlActivity -> com.gdgl.activity.KongtiaoTvContr
     883:898:void showImageButton(android.widget.ImageButton,int,int,int,int) -> a
     128:128:void access$0(com.gdgl.activity.KongtiaoTvControlActivity) -> a
     492:492:void access$1(com.gdgl.activity.KongtiaoTvControlActivity) -> b
-com.gdgl.activity.KongtiaoTvControlActivity$1 -> sv:
+com.gdgl.activity.KongtiaoTvControlActivity$1 -> td:
     com.gdgl.activity.KongtiaoTvControlActivity this$0 -> a
     215:231:void handleMessage(android.os.Message) -> handleMessage
-com.gdgl.activity.KongtiaoTvControlActivity$2 -> sw:
+com.gdgl.activity.KongtiaoTvControlActivity$2 -> te:
     com.gdgl.activity.KongtiaoTvControlActivity this$0 -> a
     176:177:void onClick(android.view.View) -> onClick
-com.gdgl.activity.KongtiaoTvControlActivity$3 -> sx:
+com.gdgl.activity.KongtiaoTvControlActivity$3 -> tf:
     com.gdgl.activity.KongtiaoTvControlActivity this$0 -> a
     185:191:void onClick(android.view.View) -> onClick
-com.gdgl.activity.KongtiaoTvControlActivity$4 -> sy:
+com.gdgl.activity.KongtiaoTvControlActivity$4 -> tg:
     com.gdgl.activity.KongtiaoTvControlActivity this$0 -> a
     199:205:void onClick(android.view.View) -> onClick
-com.gdgl.activity.KongtiaoTvControlActivity$5 -> sz:
+com.gdgl.activity.KongtiaoTvControlActivity$5 -> th:
     com.gdgl.activity.KongtiaoTvControlActivity this$0 -> a
     253:286:void onClick(android.view.View) -> onClick
-com.gdgl.activity.KongtiaoTvControlActivity$6 -> ta:
+com.gdgl.activity.KongtiaoTvControlActivity$6 -> ti:
     com.gdgl.activity.KongtiaoTvControlActivity this$0 -> a
     295:310:boolean onLongClick(android.view.View) -> onLongClick
-com.gdgl.activity.KongtiaoTvControlActivity$TouchDelayShow -> tb:
+com.gdgl.activity.KongtiaoTvControlActivity$TouchDelayShow -> tj:
     android.view.View view -> a
     int name -> b
     com.gdgl.activity.KongtiaoTvControlActivity this$0 -> c
     874:875:void Show() -> a
-com.gdgl.activity.KongtiaoTvControlActivity$buttonLearnedOnTouchListenner -> tc:
+com.gdgl.activity.KongtiaoTvControlActivity$buttonLearnedOnTouchListenner -> tk:
     int picname -> a
     int picname_down -> b
     com.gdgl.activity.KongtiaoTvControlActivity this$0 -> c
     814:828:boolean onTouch(android.view.View,android.view.MotionEvent) -> onTouch
     801:801:com.gdgl.activity.KongtiaoTvControlActivity access$0(com.gdgl.activity.KongtiaoTvControlActivity$buttonLearnedOnTouchListenner) -> a
-com.gdgl.activity.KongtiaoTvControlActivity$buttonLearnedOnTouchListenner$1 -> td:
+com.gdgl.activity.KongtiaoTvControlActivity$buttonLearnedOnTouchListenner$1 -> tl:
     com.gdgl.activity.KongtiaoTvControlActivity$buttonLearnedOnTouchListenner this$1 -> a
     823:824:void run() -> run
-com.gdgl.activity.KongtiaoTvControlActivity$buttonNotLearnedOnTouchListenner -> te:
+com.gdgl.activity.KongtiaoTvControlActivity$buttonNotLearnedOnTouchListenner -> tm:
     int picname_notlearned -> a
     int picname_notlearnd_down -> b
     com.gdgl.activity.KongtiaoTvControlActivity this$0 -> c
     845:860:boolean onTouch(android.view.View,android.view.MotionEvent) -> onTouch
     832:832:com.gdgl.activity.KongtiaoTvControlActivity access$0(com.gdgl.activity.KongtiaoTvControlActivity$buttonNotLearnedOnTouchListenner) -> a
-com.gdgl.activity.KongtiaoTvControlActivity$buttonNotLearnedOnTouchListenner$1 -> tf:
+com.gdgl.activity.KongtiaoTvControlActivity$buttonNotLearnedOnTouchListenner$1 -> tn:
     com.gdgl.activity.KongtiaoTvControlActivity$buttonNotLearnedOnTouchListenner this$1 -> a
     855:856:void run() -> run
-com.gdgl.activity.KongtiaoTvControlActivity$cleanLearnedListener -> tg:
+com.gdgl.activity.KongtiaoTvControlActivity$cleanLearnedListener -> to:
     java.lang.String Index -> a
     java.lang.String Name -> b
     com.gdgl.activity.KongtiaoTvControlActivity this$0 -> c
     431:446:boolean onLongClick(android.view.View) -> onLongClick
-com.gdgl.activity.KongtiaoTvControlActivity$learnListeners -> th:
+com.gdgl.activity.KongtiaoTvControlActivity$learnListeners -> tp:
     java.lang.String Index -> a
     java.lang.String Name -> b
     com.gdgl.activity.KongtiaoTvControlActivity this$0 -> c
     464:488:void onClick(android.view.View) -> onClick
 com.gdgl.activity.LinkageDetailActivity -> com.gdgl.activity.LinkageDetailActivity:
-    java.lang.String[] SPINNER_ONOFF_STRING -> g
-    java.lang.String[] SPINNER_ONOFF_DATA -> h
-    java.lang.String[] SPINNER_SIGN_STRING -> i
-    java.lang.String[] SPINNER_SIGN_DATA -> j
-    java.lang.String[] SPINNER_TRG_STRING -> k
+    java.lang.String[] SPINNER_ONOFF_STRING -> f
+    java.lang.String[] SPINNER_ONOFF_DATA -> g
+    java.lang.String[] SPINNER_SIGN_STRING -> h
+    java.lang.String[] SPINNER_SIGN_DATA -> i
+    java.lang.String[] SPINNER_TRG_STRING -> j
     int linkage_type -> a
     int fragment_flag -> b
-    android.support.v7.widget.Toolbar mToolbar -> l
-    android.support.v7.app.ActionBar mActionBar -> m
-    java.lang.String linkageName -> n
-    int linkageIndex -> o
-    com.gdgl.mydata.Linkage mLinkage -> p
+    android.support.v7.widget.Toolbar mToolbar -> k
+    android.support.v7.app.ActionBar mActionBar -> l
+    int linkageIndex -> m
+    com.gdgl.mydata.Linkage mLinkage -> n
     com.gdgl.mydata.DataHelper mDataHelper -> c
     com.gdgl.activity.LinkageDetailFragment mLinkageDetailFragment -> d
-    android.widget.EditText titleEditText -> e
-    95:204:void onCreate(android.os.Bundle) -> onCreate
-    208:209:boolean onCreateOptionsMenu(android.view.Menu) -> onCreateOptionsMenu
-    255:255:void setFragment(android.support.v4.app.Fragment) -> setFragment
-    260:270:void onBackPressed() -> onBackPressed
-    275:285:boolean onSupportNavigateUp() -> onSupportNavigateUp
-    291:292:void dialogdo() -> a
-    67:67:com.gdgl.mydata.Linkage access$0(com.gdgl.activity.LinkageDetailActivity) -> a
-com.gdgl.activity.LinkageDetailActivity$1 -> ti:
+    89:185:void onCreate(android.os.Bundle) -> onCreate
+    189:190:boolean onCreateOptionsMenu(android.view.Menu) -> onCreateOptionsMenu
+    236:236:void setFragment(android.support.v4.app.Fragment) -> setFragment
+    241:251:void onBackPressed() -> onBackPressed
+    256:266:boolean onSupportNavigateUp() -> onSupportNavigateUp
+    272:273:void dialogdo() -> a
+    63:63:com.gdgl.mydata.Linkage access$0(com.gdgl.activity.LinkageDetailActivity) -> a
+com.gdgl.activity.LinkageDetailActivity$1 -> tq:
     com.gdgl.activity.LinkageDetailActivity this$0 -> a
-    141:186:boolean onMenuItemClick(android.view.MenuItem) -> onMenuItemClick
+    126:167:boolean onMenuItemClick(android.view.MenuItem) -> onMenuItemClick
 com.gdgl.activity.LinkageDetailFragment -> com.gdgl.activity.LinkageDetailFragment:
     java.lang.String[] SPINNER_ONOFF_STRING -> S
     java.lang.String[] SPINNER_ONOFF_DATA -> T
@@ -20166,64 +20187,64 @@ com.gdgl.activity.LinkageDetailFragment -> com.gdgl.activity.LinkageDetailFragme
     com.gdgl.activity.LinkageDevicesAddFragment$LinkageDevicesAddListAdapter mLinkageDevicesAddListAdapter -> P
     android.view.View mView -> Q
     com.gdgl.mydata.DataHelper mDataHelper -> R
-    81:83:void onCreate(android.os.Bundle) -> onCreate
-    89:91:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
-    399:400:void setLinkage(com.gdgl.mydata.Linkage) -> setLinkage
-    403:425:boolean updateLinkage() -> a
-    429:451:java.lang.String getTrgcnd() -> getTrgcnd
-    455:502:java.lang.String getLnkact() -> getLnkact
-    577:579:void AddActCheckedDevices(com.gdgl.model.DevicesModel) -> a
-    582:710:void updateActDevices() -> b
-    713:715:void AddTrgCheckedDevices(com.gdgl.model.DevicesModel) -> b
-    718:772:void updatetrgDevices() -> c
-    777:778:void onPause() -> onPause
-    783:784:void onResume() -> onResume
-    790:790:void setFragment(android.support.v4.app.Fragment) -> setFragment
-    505:505:void access$0(com.gdgl.activity.LinkageDetailFragment) -> a
-    542:542:void access$1(com.gdgl.activity.LinkageDetailFragment) -> b
-com.gdgl.activity.LinkageDetailFragment$1 -> tj:
+    80:82:void onCreate(android.os.Bundle) -> onCreate
+    88:90:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
+    398:399:void setLinkage(com.gdgl.mydata.Linkage) -> setLinkage
+    402:424:boolean updateLinkage() -> a
+    428:450:java.lang.String getTrgcnd() -> getTrgcnd
+    454:501:java.lang.String getLnkact() -> getLnkact
+    576:578:void AddActCheckedDevices(com.gdgl.model.DevicesModel) -> a
+    581:709:void updateActDevices() -> b
+    712:714:void AddTrgCheckedDevices(com.gdgl.model.DevicesModel) -> b
+    717:771:void updatetrgDevices() -> c
+    776:777:void onPause() -> onPause
+    782:783:void onResume() -> onResume
+    789:789:void setFragment(android.support.v4.app.Fragment) -> setFragment
+    504:504:void access$0(com.gdgl.activity.LinkageDetailFragment) -> a
+    541:541:void access$1(com.gdgl.activity.LinkageDetailFragment) -> b
+com.gdgl.activity.LinkageDetailFragment$1 -> tr:
     com.gdgl.activity.LinkageDetailFragment this$0 -> a
-    169:184:void onClick(android.view.View) -> onClick
-com.gdgl.activity.LinkageDetailFragment$10 -> tk:
+    168:183:void onClick(android.view.View) -> onClick
+com.gdgl.activity.LinkageDetailFragment$10 -> ts:
     com.gdgl.activity.LinkageDetailFragment this$0 -> a
-    318:323:void onClick(android.view.View) -> onClick
-com.gdgl.activity.LinkageDetailFragment$11 -> tl:
+    317:322:void onClick(android.view.View) -> onClick
+com.gdgl.activity.LinkageDetailFragment$11 -> tt:
     com.gdgl.activity.LinkageDetailFragment this$0 -> a
-    330:335:void onClick(android.view.View) -> onClick
-com.gdgl.activity.LinkageDetailFragment$12 -> tm:
+    329:334:void onClick(android.view.View) -> onClick
+com.gdgl.activity.LinkageDetailFragment$12 -> tu:
     com.gdgl.activity.LinkageDetailFragment this$0 -> a
-    344:355:void onClick(android.view.View) -> onClick
-com.gdgl.activity.LinkageDetailFragment$13 -> tn:
+    343:354:void onClick(android.view.View) -> onClick
+com.gdgl.activity.LinkageDetailFragment$13 -> tv:
     com.gdgl.activity.LinkageDetailFragment this$0 -> a
-    363:374:void onClick(android.view.View) -> onClick
-com.gdgl.activity.LinkageDetailFragment$14 -> to:
+    362:373:void onClick(android.view.View) -> onClick
+com.gdgl.activity.LinkageDetailFragment$14 -> tw:
     com.gdgl.activity.LinkageDetailFragment this$0 -> a
-    382:393:void onClick(android.view.View) -> onClick
-com.gdgl.activity.LinkageDetailFragment$2 -> tp:
+    381:392:void onClick(android.view.View) -> onClick
+com.gdgl.activity.LinkageDetailFragment$2 -> tx:
     com.gdgl.activity.LinkageDetailFragment this$0 -> a
-    192:207:void onClick(android.view.View) -> onClick
-com.gdgl.activity.LinkageDetailFragment$3 -> tq:
+    191:206:void onClick(android.view.View) -> onClick
+com.gdgl.activity.LinkageDetailFragment$3 -> ty:
     com.gdgl.activity.LinkageDetailFragment this$0 -> a
-    215:221:void onClick(android.view.View) -> onClick
-com.gdgl.activity.LinkageDetailFragment$4 -> tr:
+    214:220:void onClick(android.view.View) -> onClick
+com.gdgl.activity.LinkageDetailFragment$4 -> tz:
     com.gdgl.activity.LinkageDetailFragment this$0 -> a
-    228:234:void onClick(android.view.View) -> onClick
-com.gdgl.activity.LinkageDetailFragment$5 -> ts:
+    227:233:void onClick(android.view.View) -> onClick
+com.gdgl.activity.LinkageDetailFragment$5 -> ua:
     com.gdgl.activity.LinkageDetailFragment this$0 -> a
-    242:249:void onClick(android.view.View) -> onClick
-com.gdgl.activity.LinkageDetailFragment$6 -> tt:
+    241:248:void onClick(android.view.View) -> onClick
+com.gdgl.activity.LinkageDetailFragment$6 -> ub:
     com.gdgl.activity.LinkageDetailFragment this$0 -> a
-    256:263:void onClick(android.view.View) -> onClick
-com.gdgl.activity.LinkageDetailFragment$7 -> tu:
+    255:262:void onClick(android.view.View) -> onClick
+com.gdgl.activity.LinkageDetailFragment$7 -> uc:
     com.gdgl.activity.LinkageDetailFragment this$0 -> a
-    270:277:void onClick(android.view.View) -> onClick
-com.gdgl.activity.LinkageDetailFragment$8 -> tv:
+    269:276:void onClick(android.view.View) -> onClick
+com.gdgl.activity.LinkageDetailFragment$8 -> ud:
     com.gdgl.activity.LinkageDetailFragment this$0 -> a
-    284:294:void onClick(android.view.View) -> onClick
-com.gdgl.activity.LinkageDetailFragment$9 -> tw:
+    283:293:void onClick(android.view.View) -> onClick
+com.gdgl.activity.LinkageDetailFragment$9 -> ue:
     com.gdgl.activity.LinkageDetailFragment this$0 -> a
-    301:311:void onClick(android.view.View) -> onClick
-com.gdgl.activity.LinkageDevicesAddFragment -> tx:
+    300:310:void onClick(android.view.View) -> onClick
+com.gdgl.activity.LinkageDevicesAddFragment -> uf:
     int AddType -> f
     android.view.View mView -> g
     android.widget.ListView devices_list_view -> a
@@ -20231,28 +20252,28 @@ com.gdgl.activity.LinkageDevicesAddFragment -> tx:
     int refreshTag -> c
     android.widget.BaseAdapter mBaseAdapter -> d
     com.gdgl.activity.LinkageDevicesAddFragment$AddChecked mAddChecked -> e
-    43:44:void onCreate(android.os.Bundle) -> onCreate
-    50:55:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
-    83:84:void setAddChecked(com.gdgl.activity.LinkageDevicesAddFragment$AddChecked) -> a
-    182:184:void setAdapter(android.widget.BaseAdapter) -> a
-    28:28:int access$0(com.gdgl.activity.LinkageDevicesAddFragment) -> a
-com.gdgl.activity.LinkageDevicesAddFragment$1 -> ty:
+    41:42:void onCreate(android.os.Bundle) -> onCreate
+    48:53:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
+    81:82:void setAddChecked(com.gdgl.activity.LinkageDevicesAddFragment$AddChecked) -> a
+    180:182:void setAdapter(android.widget.BaseAdapter) -> a
+    26:26:int access$0(com.gdgl.activity.LinkageDevicesAddFragment) -> a
+com.gdgl.activity.LinkageDevicesAddFragment$1 -> ug:
     com.gdgl.activity.LinkageDevicesAddFragment this$0 -> a
-    69:77:void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
-com.gdgl.activity.LinkageDevicesAddFragment$AddChecked -> tz:
+    67:75:void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
+com.gdgl.activity.LinkageDevicesAddFragment$AddChecked -> uh:
     void AddActCheckedDevices(com.gdgl.model.DevicesModel) -> a
     void AddTrgCheckedDevices(com.gdgl.model.DevicesModel) -> b
-com.gdgl.activity.LinkageDevicesAddFragment$LinkageDevicesAddListAdapter -> ua:
+com.gdgl.activity.LinkageDevicesAddFragment$LinkageDevicesAddListAdapter -> ui:
     com.gdgl.activity.LinkageDevicesAddFragment this$0 -> a
-    109:112:int getCount() -> getCount
-    118:121:java.lang.Object getItem(int) -> getItem
-    127:130:long getItemId(int) -> getItemId
-    137:166:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
-com.gdgl.activity.LinkageDevicesAddFragment$LinkageDevicesAddListAdapter$ViewHolder -> ub:
+    107:110:int getCount() -> getCount
+    116:119:java.lang.Object getItem(int) -> getItem
+    125:128:long getItemId(int) -> getItemId
+    135:164:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
+com.gdgl.activity.LinkageDevicesAddFragment$LinkageDevicesAddListAdapter$ViewHolder -> uj:
     android.widget.ImageView devices_img -> a
     android.widget.TextView devices_name -> b
     com.gdgl.activity.LinkageDevicesAddFragment$LinkageDevicesAddListAdapter this$1 -> c
-com.gdgl.activity.LinkageFragment -> uc:
+com.gdgl.activity.LinkageFragment -> uk:
     java.util.List linkageList -> a
     java.util.List videoList -> b
     android.view.View mView -> c
@@ -20265,29 +20286,29 @@ com.gdgl.activity.LinkageFragment -> uc:
     63:66:void onCreate(android.os.Bundle) -> onCreate
     72:74:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
     146:149:void onCreateContextMenu(android.view.ContextMenu,android.view.View,android.view.ContextMenu$ContextMenuInfo) -> onCreateContextMenu
-    154:167:boolean onContextItemSelected(android.view.MenuItem) -> onContextItemSelected
-    173:174:void onPause() -> onPause
-    179:181:void onResume() -> onResume
-    186:257:void update(com.gdgl.manager.Manger,java.lang.Object) -> update
-    262:269:void dialogdo() -> a
-com.gdgl.activity.LinkageFragment$1 -> ud:
+    154:166:boolean onContextItemSelected(android.view.MenuItem) -> onContextItemSelected
+    172:173:void onPause() -> onPause
+    178:180:void onResume() -> onResume
+    185:256:void update(com.gdgl.manager.Manger,java.lang.Object) -> update
+    261:268:void dialogdo() -> a
+com.gdgl.activity.LinkageFragment$1 -> ul:
     com.gdgl.activity.LinkageFragment this$0 -> a
     112:122:void onClick(android.view.View) -> onClick
-com.gdgl.activity.LinkageFragment$2 -> ue:
+com.gdgl.activity.LinkageFragment$2 -> um:
     com.gdgl.activity.LinkageFragment this$0 -> a
     130:138:void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
-com.gdgl.activity.LinkageFragment$3 -> uf:
+com.gdgl.activity.LinkageFragment$3 -> un:
     com.gdgl.activity.LinkageFragment this$0 -> a
-    196:197:void run() -> run
-com.gdgl.activity.LinkageFragment$4 -> ug:
+    195:196:void run() -> run
+com.gdgl.activity.LinkageFragment$4 -> uo:
     com.gdgl.activity.LinkageFragment this$0 -> a
-    214:215:void run() -> run
-com.gdgl.activity.LinkageFragment$5 -> uh:
+    213:214:void run() -> run
+com.gdgl.activity.LinkageFragment$5 -> up:
     com.gdgl.activity.LinkageFragment this$0 -> a
-    232:233:void run() -> run
-com.gdgl.activity.LinkageFragment$6 -> ui:
+    231:232:void run() -> run
+com.gdgl.activity.LinkageFragment$6 -> uq:
     com.gdgl.activity.LinkageFragment this$0 -> a
-    252:253:void run() -> run
+    251:252:void run() -> run
 com.gdgl.activity.LoginActivity -> com.gdgl.activity.LoginActivity:
     com.gdgl.reciever.NetWorkChangeReciever netWorkChangeReciever -> a
     android.widget.EditText mName -> c
@@ -20311,46 +20332,46 @@ com.gdgl.activity.LoginActivity -> com.gdgl.activity.LoginActivity:
     com.gdgl.mydata.AccountInfo loginAccountInfo -> b
     boolean exitDlgFlag -> u
     90:103:void onCreate(android.os.Bundle) -> onCreate
-    166:253:void onClick(android.view.View) -> onClick
-    319:325:void onDestroy() -> onDestroy
-    329:485:void update(com.gdgl.manager.Manger,java.lang.Object) -> update
-    589:592:void onBackPressed() -> onBackPressed
-    747:752:void dialogdo() -> a
-    757:759:void dialogokdo() -> b
+    167:254:void onClick(android.view.View) -> onClick
+    320:326:void onDestroy() -> onDestroy
+    330:486:void update(com.gdgl.manager.Manger,java.lang.Object) -> update
+    590:593:void onBackPressed() -> onBackPressed
+    748:753:void dialogdo() -> a
+    758:760:void dialogokdo() -> b
     68:68:android.widget.EditText access$0(com.gdgl.activity.LoginActivity) -> a
     68:68:android.widget.EditText access$1(com.gdgl.activity.LoginActivity) -> b
     75:75:android.widget.PopupWindow access$2(com.gdgl.activity.LoginActivity) -> c
     68:68:android.widget.EditText access$3(com.gdgl.activity.LoginActivity) -> d
     75:75:android.widget.PopupWindow access$4(com.gdgl.activity.LoginActivity) -> e
     73:73:android.view.ViewGroup access$5(com.gdgl.activity.LoginActivity) -> f
-com.gdgl.activity.LoginActivity$1 -> uj:
+com.gdgl.activity.LoginActivity$1 -> ur:
     com.gdgl.activity.LoginActivity this$0 -> a
-    145:159:void handleMessage(android.os.Message) -> handleMessage
-com.gdgl.activity.LoginActivity$2 -> uk:
+    146:160:void handleMessage(android.os.Message) -> handleMessage
+com.gdgl.activity.LoginActivity$2 -> us:
     com.gdgl.activity.LoginActivity this$0 -> a
-    342:343:void run() -> run
-com.gdgl.activity.LoginActivity$3 -> ul:
+    343:344:void run() -> run
+com.gdgl.activity.LoginActivity$3 -> ut:
     com.gdgl.activity.LoginActivity this$0 -> a
-    387:391:void run() -> run
-com.gdgl.activity.LoginActivity$4 -> um:
+    388:392:void run() -> run
+com.gdgl.activity.LoginActivity$4 -> uu:
     com.gdgl.activity.LoginActivity this$0 -> a
-    400:404:void run() -> run
-com.gdgl.activity.LoginActivity$5 -> un:
+    401:405:void run() -> run
+com.gdgl.activity.LoginActivity$5 -> uv:
     com.gdgl.activity.LoginActivity this$0 -> a
-    414:417:void run() -> run
-com.gdgl.activity.LoginActivity$6 -> uo:
+    415:418:void run() -> run
+com.gdgl.activity.LoginActivity$6 -> uw:
     com.gdgl.activity.LoginActivity this$0 -> a
-    447:468:void run() -> run
-com.gdgl.activity.LoginActivity$7 -> up:
+    448:469:void run() -> run
+com.gdgl.activity.LoginActivity$7 -> ux:
     com.gdgl.activity.LoginActivity this$0 -> a
-    503:504:void run() -> run
-com.gdgl.activity.LoginActivity$8 -> uq:
+    504:505:void run() -> run
+com.gdgl.activity.LoginActivity$8 -> uy:
     com.gdgl.activity.LoginActivity this$0 -> a
-    515:516:void run() -> run
-com.gdgl.activity.LoginActivity$9 -> ur:
+    516:517:void run() -> run
+com.gdgl.activity.LoginActivity$9 -> uz:
     com.gdgl.activity.LoginActivity this$0 -> a
-    539:540:void run() -> run
-com.gdgl.activity.LoginActivity$MyAdapter -> us:
+    540:541:void run() -> run
+com.gdgl.activity.LoginActivity$MyAdapter -> va:
     java.lang.String useCur -> a
     java.lang.String pwdCur -> b
     java.lang.String cloudCur -> c
@@ -20360,39 +20381,39 @@ com.gdgl.activity.LoginActivity$MyAdapter -> us:
     int logoResource -> h
     java.lang.String tag -> i
     com.gdgl.activity.LoginActivity this$0 -> e
-    615:615:int getCount() -> getCount
-    621:621:java.lang.Object getItem(int) -> getItem
-    627:627:long getItemId(int) -> getItemId
-    635:700:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
-    710:714:void showOkCancelDialog() -> b
-    719:741:void dialogdo() -> a
-    594:594:com.gdgl.activity.LoginActivity access$0(com.gdgl.activity.LoginActivity$MyAdapter) -> a
-com.gdgl.activity.LoginActivity$MyAdapter$1 -> ut:
+    616:616:int getCount() -> getCount
+    622:622:java.lang.Object getItem(int) -> getItem
+    628:628:long getItemId(int) -> getItemId
+    636:701:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
+    711:715:void showOkCancelDialog() -> b
+    720:742:void dialogdo() -> a
+    595:595:com.gdgl.activity.LoginActivity access$0(com.gdgl.activity.LoginActivity$MyAdapter) -> a
+com.gdgl.activity.LoginActivity$MyAdapter$1 -> vb:
     com.gdgl.activity.LoginActivity$MyAdapter this$1 -> a
     java.lang.String val$use -> b
     java.lang.String val$pwd -> c
-    658:661:void onClick(android.view.View) -> onClick
-com.gdgl.activity.LoginActivity$MyAdapter$2 -> uu:
+    659:662:void onClick(android.view.View) -> onClick
+com.gdgl.activity.LoginActivity$MyAdapter$2 -> vc:
     com.gdgl.activity.LoginActivity$MyAdapter this$1 -> a
     java.lang.String val$use -> b
     java.lang.String val$pwd -> c
     int val$position -> d
-    668:673:void onClick(android.view.View) -> onClick
-com.gdgl.activity.LoginActivity$MyAdapter$3 -> uv:
+    669:674:void onClick(android.view.View) -> onClick
+com.gdgl.activity.LoginActivity$MyAdapter$3 -> vd:
     com.gdgl.activity.LoginActivity$MyAdapter this$1 -> a
     java.lang.String val$cloud -> b
-    684:686:void onClick(android.view.View) -> onClick
-com.gdgl.activity.LoginActivity$MyAdapter$4 -> uw:
+    685:687:void onClick(android.view.View) -> onClick
+com.gdgl.activity.LoginActivity$MyAdapter$4 -> ve:
     com.gdgl.activity.LoginActivity$MyAdapter this$1 -> a
     java.lang.String val$cloud -> b
     int val$position -> c
-    693:696:void onClick(android.view.View) -> onClick
-com.gdgl.activity.LoginActivity$MyAdapter$ViewHolder -> ux:
+    694:697:void onClick(android.view.View) -> onClick
+com.gdgl.activity.LoginActivity$MyAdapter$ViewHolder -> vf:
     android.widget.ImageView img -> a
     android.widget.TextView tv -> b
     android.widget.ImageButton btn -> c
     com.gdgl.activity.LoginActivity$MyAdapter this$1 -> d
-com.gdgl.activity.MessageIpcLinkageFragment -> uy:
+com.gdgl.activity.MessageIpcLinkageFragment -> vg:
     android.view.View mView -> o
     int width -> a
     int height -> b
@@ -20425,28 +20446,28 @@ com.gdgl.activity.MessageIpcLinkageFragment -> uy:
     145:145:void access$0(com.gdgl.activity.MessageIpcLinkageFragment) -> a
     78:78:void access$1$1af8c1c7(com.gdgl.activity.MessageIpcLinkageFragment) -> b
     58:58:boolean access$2(com.gdgl.activity.MessageIpcLinkageFragment) -> c
-com.gdgl.activity.MessageIpcLinkageFragment$1 -> uz:
+com.gdgl.activity.MessageIpcLinkageFragment$1 -> vh:
     com.gdgl.activity.MessageIpcLinkageFragment this$0 -> a
     106:112:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.gdgl.activity.MessageIpcLinkageFragment$2 -> va:
+com.gdgl.activity.MessageIpcLinkageFragment$2 -> vi:
     com.gdgl.activity.MessageIpcLinkageFragment this$0 -> a
     176:180:void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
-com.gdgl.activity.MessageIpcLinkageFragment$3 -> vb:
+com.gdgl.activity.MessageIpcLinkageFragment$3 -> vj:
     com.gdgl.activity.MessageIpcLinkageFragment this$0 -> a
     303:305:void run() -> run
-com.gdgl.activity.MessageIpcLinkageFragment$MessageAdapter -> vc:
+com.gdgl.activity.MessageIpcLinkageFragment$MessageAdapter -> vk:
     com.gdgl.activity.MessageIpcLinkageFragment this$0 -> a
     196:199:int getCount() -> getCount
     205:208:java.lang.Object getItem(int) -> getItem
     214:217:long getItemId(int) -> getItemId
     224:273:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     187:187:com.gdgl.activity.MessageIpcLinkageFragment access$0(com.gdgl.activity.MessageIpcLinkageFragment$MessageAdapter) -> a
-com.gdgl.activity.MessageIpcLinkageFragment$MessageAdapter$1 -> vd:
+com.gdgl.activity.MessageIpcLinkageFragment$MessageAdapter$1 -> vl:
     com.gdgl.activity.MessageIpcLinkageFragment$MessageAdapter this$1 -> a
     com.gdgl.mydata.Callback.CallbackIpcLinkageMessage val$message -> b
     android.widget.CheckBox val$cb -> c
     263:265:void onClick(android.view.View) -> onClick
-com.gdgl.activity.MessageIpcLinkageFragment$MessageAdapter$ViewHolder -> ve:
+com.gdgl.activity.MessageIpcLinkageFragment$MessageAdapter$ViewHolder -> vm:
     android.widget.ImageView warn_img -> a
     android.widget.TextView warn_name -> b
     android.widget.TextView warn_state -> c
@@ -20454,7 +20475,7 @@ com.gdgl.activity.MessageIpcLinkageFragment$MessageAdapter$ViewHolder -> ve:
     android.widget.CheckBox warn_check -> e
     android.widget.ImageView warm_point -> f
     com.gdgl.activity.MessageIpcLinkageFragment$MessageAdapter this$1 -> g
-com.gdgl.activity.MessageIpcLinkageFragment$getDataTask -> vf:
+com.gdgl.activity.MessageIpcLinkageFragment$getDataTask -> vn:
     com.gdgl.activity.MessageIpcLinkageFragment this$0 -> a
     1:1:void onPostExecute(java.lang.Object) -> onPostExecute
     1:1:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
@@ -20479,13 +20500,13 @@ com.gdgl.activity.MessageIpcLinkageMediaActivity -> com.gdgl.activity.MessageIpc
     52:52:java.util.List access$0(com.gdgl.activity.MessageIpcLinkageMediaActivity) -> a
     54:54:java.lang.String access$1(com.gdgl.activity.MessageIpcLinkageMediaActivity) -> b
     46:46:android.widget.ImageView access$2(com.gdgl.activity.MessageIpcLinkageMediaActivity) -> c
-com.gdgl.activity.MessageIpcLinkageMediaActivity$1 -> vg:
+com.gdgl.activity.MessageIpcLinkageMediaActivity$1 -> vo:
     com.gdgl.activity.MessageIpcLinkageMediaActivity this$0 -> a
     118:135:void onClick(android.view.View) -> onClick
-com.gdgl.activity.MessageIpcLinkageMediaActivity$2 -> vh:
+com.gdgl.activity.MessageIpcLinkageMediaActivity$2 -> vp:
     com.gdgl.activity.MessageIpcLinkageMediaActivity this$0 -> a
     168:173:void handleMessage(android.os.Message) -> handleMessage
-com.gdgl.activity.MessageIpcLinkageMediaActivity$CustomPagerAdapter -> vi:
+com.gdgl.activity.MessageIpcLinkageMediaActivity$CustomPagerAdapter -> vq:
     android.content.Context mContext -> a
     android.view.LayoutInflater mLayoutInflater -> b
     com.gdgl.activity.MessageIpcLinkageMediaActivity this$0 -> c
@@ -20493,14 +20514,14 @@ com.gdgl.activity.MessageIpcLinkageMediaActivity$CustomPagerAdapter -> vi:
     205:205:boolean isViewFromObject(android.view.View,java.lang.Object) -> isViewFromObject
     210:237:java.lang.Object instantiateItem(android.view.ViewGroup,int) -> instantiateItem
     242:243:void destroyItem(android.view.ViewGroup,int,java.lang.Object) -> destroyItem
-com.gdgl.activity.MessageIpcLinkageMediaActivity$DownloadCompleteReceiver -> vj:
+com.gdgl.activity.MessageIpcLinkageMediaActivity$DownloadCompleteReceiver -> vr:
     com.gdgl.activity.MessageIpcLinkageMediaActivity this$0 -> a
     249:285:void onReceive(android.content.Context,android.content.Intent) -> onReceive
     246:246:com.gdgl.activity.MessageIpcLinkageMediaActivity access$0(com.gdgl.activity.MessageIpcLinkageMediaActivity$DownloadCompleteReceiver) -> a
-com.gdgl.activity.MessageIpcLinkageMediaActivity$DownloadCompleteReceiver$1 -> vk:
+com.gdgl.activity.MessageIpcLinkageMediaActivity$DownloadCompleteReceiver$1 -> vs:
     com.gdgl.activity.MessageIpcLinkageMediaActivity$DownloadCompleteReceiver this$1 -> a
     264:281:void onClick(android.view.View) -> onClick
-com.gdgl.activity.MessageListFragment -> vl:
+com.gdgl.activity.MessageListFragment -> vt:
     android.view.View mView -> n
     java.util.List mList -> b
     java.util.HashMap mCheckHashMap -> c
@@ -20531,28 +20552,28 @@ com.gdgl.activity.MessageListFragment -> vl:
     143:143:void access$0(com.gdgl.activity.MessageListFragment) -> a
     76:76:void access$1$80ffd5c(com.gdgl.activity.MessageListFragment) -> b
     58:58:boolean access$2(com.gdgl.activity.MessageListFragment) -> c
-com.gdgl.activity.MessageListFragment$1 -> vm:
+com.gdgl.activity.MessageListFragment$1 -> vu:
     com.gdgl.activity.MessageListFragment this$0 -> a
     104:110:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.gdgl.activity.MessageListFragment$2 -> vn:
+com.gdgl.activity.MessageListFragment$2 -> vv:
     com.gdgl.activity.MessageListFragment this$0 -> a
     171:171:void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
-com.gdgl.activity.MessageListFragment$3 -> vo:
+com.gdgl.activity.MessageListFragment$3 -> vw:
     com.gdgl.activity.MessageListFragment this$0 -> a
     356:360:void run() -> run
-com.gdgl.activity.MessageListFragment$MessageAdapter -> vp:
+com.gdgl.activity.MessageListFragment$MessageAdapter -> vx:
     com.gdgl.activity.MessageListFragment this$0 -> a
     187:190:int getCount() -> getCount
     196:199:java.lang.Object getItem(int) -> getItem
     205:208:long getItemId(int) -> getItemId
     215:268:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     178:178:com.gdgl.activity.MessageListFragment access$0(com.gdgl.activity.MessageListFragment$MessageAdapter) -> a
-com.gdgl.activity.MessageListFragment$MessageAdapter$1 -> vq:
+com.gdgl.activity.MessageListFragment$MessageAdapter$1 -> vy:
     com.gdgl.activity.MessageListFragment$MessageAdapter this$1 -> a
     com.gdgl.mydata.Callback.CallbackWarnMessage val$message -> b
     android.widget.CheckBox val$cb -> c
     257:259:void onClick(android.view.View) -> onClick
-com.gdgl.activity.MessageListFragment$MessageAdapter$ViewHolder -> vr:
+com.gdgl.activity.MessageListFragment$MessageAdapter$ViewHolder -> vz:
     android.widget.ImageView warn_img -> a
     android.widget.TextView warn_name -> b
     android.widget.TextView warn_state -> c
@@ -20560,11 +20581,11 @@ com.gdgl.activity.MessageListFragment$MessageAdapter$ViewHolder -> vr:
     android.widget.CheckBox warn_check -> e
     android.widget.ImageView warm_point -> f
     com.gdgl.activity.MessageListFragment$MessageAdapter this$1 -> g
-com.gdgl.activity.MessageListFragment$getDataTask -> vs:
+com.gdgl.activity.MessageListFragment$getDataTask -> wa:
     com.gdgl.activity.MessageListFragment this$0 -> a
     1:1:void onPostExecute(java.lang.Object) -> onPostExecute
     1:1:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.gdgl.activity.MessageTabFragment -> vt:
+com.gdgl.activity.MessageTabFragment -> wb:
     android.view.View mView -> a
     com.gdgl.widgets.PagerSlidingTabStrip tabs -> e
     android.support.v4.view.ViewPager pager -> f
@@ -20576,7 +20597,7 @@ com.gdgl.activity.MessageTabFragment -> vt:
     32:37:void onCreate(android.os.Bundle) -> onCreate
     42:46:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
     71:76:void clickDelete() -> a
-com.gdgl.activity.MessageTabFragment$MyPagerAdapter -> vu:
+com.gdgl.activity.MessageTabFragment$MyPagerAdapter -> wc:
     java.lang.String[] TITLES -> b
     java.util.ArrayList fragments -> c
     com.gdgl.activity.MessageTabFragment this$0 -> a
@@ -20584,32 +20605,32 @@ com.gdgl.activity.MessageTabFragment$MyPagerAdapter -> vu:
     96:96:java.lang.CharSequence getPageTitle(int) -> getPageTitle
     101:101:int getCount() -> getCount
 com.gdgl.activity.MyActionBarActivity -> com.gdgl.activity.MyActionBarActivity:
-    android.widget.TextView tipsWithoutNet -> f
+    android.widget.TextView tipsWithoutNet -> e
     31:40:void onCreate(android.os.Bundle) -> onCreate
     43:48:void setTipText() -> c
     53:58:void onDestroy() -> onDestroy
     63:192:void update(com.gdgl.manager.Manger,java.lang.Object) -> update
     197:198:void dialogokdo() -> b
-com.gdgl.activity.MyActionBarActivity$1 -> vv:
+com.gdgl.activity.MyActionBarActivity$1 -> wd:
     com.gdgl.activity.MyActionBarActivity this$0 -> a
     72:73:void run() -> run
-com.gdgl.activity.MyActionBarActivity$2 -> vw:
+com.gdgl.activity.MyActionBarActivity$2 -> we:
     com.gdgl.activity.MyActionBarActivity this$0 -> a
     86:93:void run() -> run
-com.gdgl.activity.MyActionBarActivity$3 -> vx:
+com.gdgl.activity.MyActionBarActivity$3 -> wf:
     com.gdgl.activity.MyActionBarActivity this$0 -> a
     108:117:void run() -> run
-com.gdgl.activity.MyActionBarActivity$4 -> vy:
+com.gdgl.activity.MyActionBarActivity$4 -> wg:
     com.gdgl.activity.MyActionBarActivity this$0 -> a
     131:136:void run() -> run
-com.gdgl.activity.MyActionBarActivity$5 -> vz:
+com.gdgl.activity.MyActionBarActivity$5 -> wh:
     com.gdgl.activity.MyActionBarActivity this$0 -> a
     144:149:void run() -> run
-com.gdgl.activity.MyActionBarActivity$6 -> wa:
+com.gdgl.activity.MyActionBarActivity$6 -> wi:
     com.gdgl.activity.MyActionBarActivity this$0 -> a
     java.lang.String val$expire -> b
     170:173:void run() -> run
-com.gdgl.activity.MyActionBarActivity$7 -> wb:
+com.gdgl.activity.MyActionBarActivity$7 -> wj:
     com.gdgl.activity.MyActionBarActivity this$0 -> a
     181:187:void run() -> run
 com.gdgl.activity.RegionDevicesActivity -> com.gdgl.activity.RegionDevicesActivity:
@@ -20621,87 +20642,64 @@ com.gdgl.activity.RegionDevicesActivity -> com.gdgl.activity.RegionDevicesActivi
     java.util.List mList -> b
     java.util.List mAddList -> c
     java.util.List mAddToRegionList -> d
-    com.gdgl.activity.DevicesListFragment mDevicesListFragment -> e
+    com.gdgl.activity.DevicesListFragment mDevicesListFragment -> f
     com.gdgl.adapter.DevicesBaseAdapter mDevicesBaseAdapter -> g
     com.gdgl.activity.RegionDevicesAddFragment$RegionDevicesAddListAdapter mRegionDevicesAddListAdapter -> h
     com.gdgl.manager.CGIManager mcgiManager -> i
     int fragment_flag -> n
-    80:157:void onCreate(android.os.Bundle) -> onCreate
-    170:176:boolean onPrepareOptionsMenu(android.view.Menu) -> onPrepareOptionsMenu
-    182:185:void onDestroy() -> onDestroy
-    223:226:void AddCheckedDevices(com.gdgl.model.DevicesModel) -> a
-    231:234:void DeletedCheckedDevices(com.gdgl.model.DevicesModel) -> b
-    238:250:void setFragment(android.support.v4.app.Fragment) -> a
-    254:264:boolean updateDevices(com.gdgl.model.DevicesModel,android.content.ContentValues,java.lang.String) -> a
-    270:282:void onBackPressed() -> onBackPressed
-    287:299:boolean onSupportNavigateUp() -> onSupportNavigateUp
-    304:311:int getDevicesPostion(java.lang.String,java.lang.String,java.util.List) -> a
-    326:560:void update(com.gdgl.manager.Manger,java.lang.Object) -> update
-    51:51:java.lang.String access$0(com.gdgl.activity.RegionDevicesActivity) -> a
-    52:52:java.lang.String access$1(com.gdgl.activity.RegionDevicesActivity) -> b
-    75:75:void access$2$7daa300e(com.gdgl.activity.RegionDevicesActivity) -> c
-com.gdgl.activity.RegionDevicesActivity$1 -> wc:
+    83:175:void onCreate(android.os.Bundle) -> onCreate
+    188:194:boolean onPrepareOptionsMenu(android.view.Menu) -> onPrepareOptionsMenu
+    200:205:void onDestroy() -> onDestroy
+    249:252:void AddCheckedDevices(com.gdgl.model.DevicesModel) -> a
+    257:260:void DeletedCheckedDevices(com.gdgl.model.DevicesModel) -> b
+    264:276:void setFragment(android.support.v4.app.Fragment) -> a
+    296:308:void onBackPressed() -> onBackPressed
+    313:325:boolean onSupportNavigateUp() -> onSupportNavigateUp
+    55:55:java.lang.String access$0(com.gdgl.activity.RegionDevicesActivity) -> a
+    78:78:void access$1$7daa300e(com.gdgl.activity.RegionDevicesActivity) -> b
+com.gdgl.activity.RegionDevicesActivity$1 -> wk:
     com.gdgl.activity.RegionDevicesActivity this$0 -> a
-    110:136:boolean onMenuItemClick(android.view.MenuItem) -> onMenuItemClick
-com.gdgl.activity.RegionDevicesActivity$10 -> wd:
-    com.gdgl.activity.RegionDevicesActivity this$0 -> a
-    501:502:void run() -> run
-com.gdgl.activity.RegionDevicesActivity$11 -> we:
-    com.gdgl.activity.RegionDevicesActivity this$0 -> a
-    525:526:void run() -> run
-com.gdgl.activity.RegionDevicesActivity$12 -> wf:
-    com.gdgl.activity.RegionDevicesActivity this$0 -> a
-    549:550:void run() -> run
-com.gdgl.activity.RegionDevicesActivity$2 -> wg:
-    com.gdgl.activity.RegionDevicesActivity this$0 -> a
-    340:341:void run() -> run
-com.gdgl.activity.RegionDevicesActivity$3 -> wh:
-    com.gdgl.activity.RegionDevicesActivity this$0 -> a
-    357:358:void run() -> run
-com.gdgl.activity.RegionDevicesActivity$4 -> wi:
-    com.gdgl.activity.RegionDevicesActivity this$0 -> a
-    374:375:void run() -> run
-com.gdgl.activity.RegionDevicesActivity$5 -> wj:
-    com.gdgl.activity.RegionDevicesActivity this$0 -> a
-    390:391:void run() -> run
-com.gdgl.activity.RegionDevicesActivity$6 -> wk:
-    com.gdgl.activity.RegionDevicesActivity this$0 -> a
-    407:408:void run() -> run
-com.gdgl.activity.RegionDevicesActivity$7 -> wl:
-    com.gdgl.activity.RegionDevicesActivity this$0 -> a
-    427:428:void run() -> run
-com.gdgl.activity.RegionDevicesActivity$8 -> wm:
-    com.gdgl.activity.RegionDevicesActivity this$0 -> a
-    453:454:void run() -> run
-com.gdgl.activity.RegionDevicesActivity$9 -> wn:
-    com.gdgl.activity.RegionDevicesActivity this$0 -> a
-    477:478:void run() -> run
-com.gdgl.activity.RegionDevicesAddFragment -> wo:
+    115:154:boolean onMenuItemClick(android.view.MenuItem) -> onMenuItemClick
+com.gdgl.activity.RegionDevicesAddFragment -> com.gdgl.activity.RegionDevicesAddFragment:
     android.view.View mView -> d
     android.widget.ListView devices_list_view -> a
     java.util.List mRegionDevicesAddList -> b
-    android.widget.BaseAdapter mBaseAdapter -> c
-    36:37:void onCreate(android.os.Bundle) -> onCreate
-    43:45:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
-    160:162:void setAdapter(android.widget.BaseAdapter) -> a
-com.gdgl.activity.RegionDevicesAddFragment$AddChecked -> wp:
+    com.gdgl.activity.RegionDevicesAddFragment$RegionDevicesAddListAdapter mBaseAdapter -> c
+    java.util.Map isSelected -> e
+    49:58:void onCreate(android.os.Bundle) -> onCreate
+    64:66:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
+    80:84:void onDestroy() -> onDestroy
+    188:190:void setAdapter(android.widget.BaseAdapter) -> a
+    201:245:void update(com.gdgl.manager.Manger,java.lang.Object) -> update
+    44:44:void access$0(com.gdgl.activity.RegionDevicesAddFragment,java.util.Map) -> a
+    44:44:java.util.Map access$1(com.gdgl.activity.RegionDevicesAddFragment) -> a
+com.gdgl.activity.RegionDevicesAddFragment$1 -> wl:
+    com.gdgl.activity.RegionDevicesAddFragment this$0 -> a
+    1:1:int compare(java.lang.Object,java.lang.Object) -> compare
+com.gdgl.activity.RegionDevicesAddFragment$2 -> wm:
+    com.gdgl.activity.RegionDevicesAddFragment this$0 -> a
+    1:1:int compare(java.lang.Object,java.lang.Object) -> compare
+com.gdgl.activity.RegionDevicesAddFragment$3 -> wn:
+    com.gdgl.activity.RegionDevicesAddFragment this$0 -> a
+    239:240:void run() -> run
+com.gdgl.activity.RegionDevicesAddFragment$AddChecked -> wo:
     void AddCheckedDevices(com.gdgl.model.DevicesModel) -> a
     void DeletedCheckedDevices(com.gdgl.model.DevicesModel) -> b
-com.gdgl.activity.RegionDevicesAddFragment$RegionDevicesAddListAdapter -> wq:
+com.gdgl.activity.RegionDevicesAddFragment$RegionDevicesAddListAdapter -> com.gdgl.activity.RegionDevicesAddFragment$RegionDevicesAddListAdapter:
     com.gdgl.activity.RegionDevicesAddFragment$AddChecked mDevicesObserver -> a
-    java.util.Map isSelected -> c
     com.gdgl.activity.RegionDevicesAddFragment this$0 -> b
-    75:78:int getCount() -> getCount
-    84:87:java.lang.Object getItem(int) -> getItem
-    93:96:long getItemId(int) -> getItemId
-    103:143:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
-    60:60:java.util.Map access$0(com.gdgl.activity.RegionDevicesAddFragment$RegionDevicesAddListAdapter) -> a
-com.gdgl.activity.RegionDevicesAddFragment$RegionDevicesAddListAdapter$1 -> wr:
+    103:106:int getCount() -> getCount
+    112:115:java.lang.Object getItem(int) -> getItem
+    121:124:long getItemId(int) -> getItemId
+    131:171:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
+    181:183:void setList(java.util.List) -> setList
+    86:86:com.gdgl.activity.RegionDevicesAddFragment access$0(com.gdgl.activity.RegionDevicesAddFragment$RegionDevicesAddListAdapter) -> a
+com.gdgl.activity.RegionDevicesAddFragment$RegionDevicesAddListAdapter$1 -> wp:
     com.gdgl.activity.RegionDevicesAddFragment$RegionDevicesAddListAdapter this$1 -> a
     int val$position -> b
     com.gdgl.model.DevicesModel val$mDevices -> c
-    134:140:void onCheck(boolean) -> a
-com.gdgl.activity.RegionDevicesAddFragment$RegionDevicesAddListAdapter$ViewHolder -> ws:
+    162:168:void onCheck(boolean) -> a
+com.gdgl.activity.RegionDevicesAddFragment$RegionDevicesAddListAdapter$ViewHolder -> wq:
     android.widget.ImageView devices_img -> a
     android.widget.TextView devices_name -> b
     com.gc.materialdesign.views.CheckBox selected -> c
@@ -20714,52 +20712,48 @@ com.gdgl.activity.RegionsFragment -> com.gdgl.activity.RegionsFragment:
     com.gdgl.activity.RegionsFragment$CustomeAdapter mCustomeAdapter -> e
     android.view.ViewGroup nodevices -> f
     com.gc.materialdesign.views.ButtonFloat mButtonFloat -> g
-    com.gdgl.mydata.DataHelper mDateHelper -> h
-    int menuIndex -> i
-    76:80:void onCreate(android.os.Bundle) -> onCreate
-    94:106:void initData() -> c
-    112:114:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
-    223:225:void onPause() -> onPause
-    230:233:void onResume() -> onResume
-    299:309:void refreshFragment() -> b
-    314:321:void onCreateContextMenu(android.view.ContextMenu,android.view.View,android.view.ContextMenu$ContextMenuInfo) -> onCreateContextMenu
-    326:350:boolean onContextItemSelected(android.view.MenuItem) -> onContextItemSelected
-    356:385:void update(com.gdgl.manager.Manger,java.lang.Object) -> update
-    390:411:void dialogdo() -> a
-    416:428:void refreshdata(com.gdgl.mydata.Region.Room) -> a
-com.gdgl.activity.RegionsFragment$1 -> wt:
+    int menuIndex -> h
+    75:81:void onCreate(android.os.Bundle) -> onCreate
+    85:95:void initData() -> b
+    100:102:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
+    172:175:void onDestroy() -> onDestroy
+    206:208:void onPause() -> onPause
+    213:216:void onResume() -> onResume
+    278:283:void onCreateContextMenu(android.view.ContextMenu,android.view.View,android.view.ContextMenu$ContextMenuInfo) -> onCreateContextMenu
+    288:324:boolean onContextItemSelected(android.view.MenuItem) -> onContextItemSelected
+    330:359:void update(com.gdgl.manager.Manger,java.lang.Object) -> update
+    364:382:void dialogdo() -> a
+    387:400:void refreshdata(com.gdgl.mydata.Region.Room) -> a
+com.gdgl.activity.RegionsFragment$1 -> wr:
     com.gdgl.activity.RegionsFragment this$0 -> a
-    133:140:void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
-com.gdgl.activity.RegionsFragment$2 -> wu:
+    119:123:void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
+com.gdgl.activity.RegionsFragment$2 -> ws:
     com.gdgl.activity.RegionsFragment this$0 -> a
-    148:157:void onRefresh(com.handmark.pulltorefresh.library.PullToRefreshBase) -> a
-com.gdgl.activity.RegionsFragment$3 -> wv:
+    131:139:void onRefresh(com.handmark.pulltorefresh.library.PullToRefreshBase) -> a
+com.gdgl.activity.RegionsFragment$3 -> wt:
     com.gdgl.activity.RegionsFragment this$0 -> a
-    164:169:void onClick(android.view.View) -> onClick
-com.gdgl.activity.RegionsFragment$4 -> ww:
+    146:158:void onClick(android.view.View) -> onClick
+com.gdgl.activity.RegionsFragment$4 -> wu:
     com.gdgl.activity.RegionsFragment this$0 -> a
-    187:191:boolean onItemLongClick(android.widget.AdapterView,android.view.View,int,long) -> onItemLongClick
-com.gdgl.activity.RegionsFragment$5 -> wx:
+    338:345:void run() -> run
+com.gdgl.activity.RegionsFragment$5 -> wv:
     com.gdgl.activity.RegionsFragment this$0 -> a
-    364:371:void run() -> run
-com.gdgl.activity.RegionsFragment$6 -> wy:
-    com.gdgl.activity.RegionsFragment this$0 -> a
-    381:381:void run() -> run
+    355:355:void run() -> run
 com.gdgl.activity.RegionsFragment$CustomeAdapter -> com.gdgl.activity.RegionsFragment$CustomeAdapter:
     java.util.List mRoomList -> b
     com.gdgl.activity.RegionsFragment this$0 -> a
-    245:245:int getCount() -> getCount
-    251:251:java.lang.Object getItem(int) -> getItem
-    261:261:long getItemId(int) -> getItemId
-    268:283:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
-    292:294:void setList(java.util.List) -> setList
-com.gdgl.activity.RegionsFragment$CustomeAdapter$ViewHolder -> wz:
+    228:228:int getCount() -> getCount
+    234:234:java.lang.Object getItem(int) -> getItem
+    244:244:long getItemId(int) -> getItemId
+    251:262:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
+    271:273:void setList(java.util.List) -> setList
+com.gdgl.activity.RegionsFragment$CustomeAdapter$ViewHolder -> ww:
     android.widget.ImageView funcImg -> a
     android.widget.TextView funcText -> b
     com.gdgl.activity.RegionsFragment$CustomeAdapter this$1 -> c
-com.gdgl.activity.RegionsFragment$GetDataTask -> xa:
+com.gdgl.activity.RegionsFragment$GetDataTask -> wx:
     com.gdgl.activity.RegionsFragment this$0 -> a
-    203:210:java.lang.String doInBackground$606be067() -> a
+    182:193:java.lang.String doInBackground$606be067() -> a
     1:1:void onPostExecute(java.lang.Object) -> onPostExecute
     1:1:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 com.gdgl.activity.SceneDevicesActivity -> com.gdgl.activity.SceneDevicesActivity:
@@ -20772,30 +20766,30 @@ com.gdgl.activity.SceneDevicesActivity -> com.gdgl.activity.SceneDevicesActivity
     int sceneIndex -> p
     java.util.List mSceneDevicesList -> c
     java.util.List mSceneDevicesListBackup -> d
-    java.util.List mAddList -> e
+    java.util.List mAddList -> f
     java.util.List mAddToSceneList -> g
     com.gdgl.mydata.DataHelper mDataHelper -> h
     com.gdgl.activity.SceneDevicesFragment$SceneDevicesListAdapter mSceneDevicesListAdapter -> i
     com.gdgl.activity.SceneDevicesAddFragment$SceneDevicesAddListAdapter mSceneDevicesAddListAdapter -> j
     android.widget.EditText titleEditText -> k
-    82:223:void onCreate(android.os.Bundle) -> onCreate
-    227:228:boolean onCreateOptionsMenu(android.view.Menu) -> onCreateOptionsMenu
-    232:248:void initSceneDevicesList() -> d
-    318:321:void AddCheckedDevices(com.gdgl.mydata.scene.SceneDevice) -> a
-    327:330:void DeletedCheckedDevices(com.gdgl.mydata.scene.SceneDevice) -> b
-    334:346:void setFragment(android.support.v4.app.Fragment) -> setFragment
-    351:361:void onBackPressed() -> onBackPressed
-    366:376:boolean onSupportNavigateUp() -> onSupportNavigateUp
-    382:383:void dialogdo() -> a
+    82:232:void onCreate(android.os.Bundle) -> onCreate
+    236:237:boolean onCreateOptionsMenu(android.view.Menu) -> onCreateOptionsMenu
+    241:257:void initSceneDevicesList() -> d
+    327:330:void AddCheckedDevices(com.gdgl.mydata.scene.SceneDevice) -> a
+    336:339:void DeletedCheckedDevices(com.gdgl.mydata.scene.SceneDevice) -> b
+    343:355:void setFragment(android.support.v4.app.Fragment) -> setFragment
+    360:370:void onBackPressed() -> onBackPressed
+    375:385:boolean onSupportNavigateUp() -> onSupportNavigateUp
+    391:392:void dialogdo() -> a
     55:55:void access$0(com.gdgl.activity.SceneDevicesActivity,java.lang.String) -> a
-    304:304:java.lang.String access$1(com.gdgl.activity.SceneDevicesActivity) -> a
+    313:313:java.lang.String access$1(com.gdgl.activity.SceneDevicesActivity) -> a
     55:55:java.lang.String access$2(com.gdgl.activity.SceneDevicesActivity) -> b
     57:57:int access$3(com.gdgl.activity.SceneDevicesActivity) -> c
     56:56:int access$4(com.gdgl.activity.SceneDevicesActivity) -> d
-com.gdgl.activity.SceneDevicesActivity$1 -> xb:
+com.gdgl.activity.SceneDevicesActivity$1 -> wy:
     com.gdgl.activity.SceneDevicesActivity this$0 -> a
-    126:203:boolean onMenuItemClick(android.view.MenuItem) -> onMenuItemClick
-com.gdgl.activity.SceneDevicesAddFragment -> xc:
+    126:212:boolean onMenuItemClick(android.view.MenuItem) -> onMenuItemClick
+com.gdgl.activity.SceneDevicesAddFragment -> wz:
     android.view.View mView -> e
     android.widget.ListView devices_list_view -> a
     java.util.List mSceneDevicesAddList -> b
@@ -20804,10 +20798,10 @@ com.gdgl.activity.SceneDevicesAddFragment -> xc:
     40:41:void onCreate(android.os.Bundle) -> onCreate
     47:49:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
     172:174:void setAdapter(android.widget.BaseAdapter) -> a
-com.gdgl.activity.SceneDevicesAddFragment$AddChecked -> xd:
+com.gdgl.activity.SceneDevicesAddFragment$AddChecked -> xa:
     void AddCheckedDevices(com.gdgl.mydata.scene.SceneDevice) -> a
     void DeletedCheckedDevices(com.gdgl.mydata.scene.SceneDevice) -> b
-com.gdgl.activity.SceneDevicesAddFragment$SceneDevicesAddListAdapter -> xe:
+com.gdgl.activity.SceneDevicesAddFragment$SceneDevicesAddListAdapter -> xb:
     com.gdgl.activity.SceneDevicesAddFragment$AddChecked mDevicesObserver -> a
     java.util.Map isSelected -> c
     com.gdgl.activity.SceneDevicesAddFragment this$0 -> b
@@ -20816,18 +20810,18 @@ com.gdgl.activity.SceneDevicesAddFragment$SceneDevicesAddListAdapter -> xe:
     97:100:long getItemId(int) -> getItemId
     107:155:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     64:64:java.util.Map access$0(com.gdgl.activity.SceneDevicesAddFragment$SceneDevicesAddListAdapter) -> a
-com.gdgl.activity.SceneDevicesAddFragment$SceneDevicesAddListAdapter$1 -> xf:
+com.gdgl.activity.SceneDevicesAddFragment$SceneDevicesAddListAdapter$1 -> xc:
     com.gdgl.activity.SceneDevicesAddFragment$SceneDevicesAddListAdapter this$1 -> a
     int val$position -> b
     com.gdgl.model.DevicesModel val$mDevices -> c
     com.gdgl.mydata.scene.SceneDevice val$mAddSceneDevice -> d
     139:152:void onCheck(boolean) -> a
-com.gdgl.activity.SceneDevicesAddFragment$SceneDevicesAddListAdapter$ViewHolder -> xg:
+com.gdgl.activity.SceneDevicesAddFragment$SceneDevicesAddListAdapter$ViewHolder -> xd:
     android.widget.ImageView devices_img -> a
     android.widget.TextView devices_name -> b
     com.gc.materialdesign.views.CheckBox selected -> c
     com.gdgl.activity.SceneDevicesAddFragment$SceneDevicesAddListAdapter this$1 -> d
-com.gdgl.activity.SceneDevicesFragment -> xh:
+com.gdgl.activity.SceneDevicesFragment -> xe:
     android.view.View mView -> f
     android.widget.ListView devices_list_view -> a
     com.gc.materialdesign.views.ButtonFloat mButtonFloat -> b
@@ -20839,24 +20833,24 @@ com.gdgl.activity.SceneDevicesFragment -> xh:
     83:86:void onCreateContextMenu(android.view.ContextMenu,android.view.View,android.view.ContextMenu$ContextMenuInfo) -> onCreateContextMenu
     91:99:boolean onContextItemSelected(android.view.MenuItem) -> onContextItemSelected
     305:307:void setAdapter(android.widget.BaseAdapter) -> a
-com.gdgl.activity.SceneDevicesFragment$1 -> xi:
+com.gdgl.activity.SceneDevicesFragment$1 -> xf:
     com.gdgl.activity.SceneDevicesFragment this$0 -> a
     72:74:void onClick(android.view.View) -> onClick
-com.gdgl.activity.SceneDevicesFragment$ChangeFragment -> xj:
+com.gdgl.activity.SceneDevicesFragment$ChangeFragment -> xg:
     void setFragment(android.support.v4.app.Fragment) -> setFragment
-com.gdgl.activity.SceneDevicesFragment$SceneDevicesListAdapter -> xk:
+com.gdgl.activity.SceneDevicesFragment$SceneDevicesListAdapter -> xh:
     com.gdgl.activity.SceneDevicesFragment this$0 -> a
     111:114:int getCount() -> getCount
     120:123:java.lang.Object getItem(int) -> getItem
     129:132:long getItemId(int) -> getItemId
     139:287:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
-com.gdgl.activity.SceneDevicesFragment$SceneDevicesListAdapter$1 -> xl:
+com.gdgl.activity.SceneDevicesFragment$SceneDevicesListAdapter$1 -> xi:
     com.gdgl.activity.SceneDevicesFragment$SceneDevicesListAdapter this$1 -> a
     int val$deviceid -> b
     com.gdgl.activity.SceneDevicesFragment$SceneDevicesListAdapter$ViewHolder val$mHolder -> c
     com.gdgl.mydata.scene.SceneDevice val$mDevices -> d
     243:284:void onCheckedChanged(android.widget.CompoundButton,boolean) -> onCheckedChanged
-com.gdgl.activity.SceneDevicesFragment$SceneDevicesListAdapter$ViewHolder -> xm:
+com.gdgl.activity.SceneDevicesFragment$SceneDevicesListAdapter$ViewHolder -> xj:
     android.widget.ImageView devices_img -> a
     android.widget.TextView devices_name -> b
     android.widget.TextView devices_state -> c
@@ -20886,35 +20880,35 @@ com.gdgl.activity.ScenesFragment -> com.gdgl.activity.ScenesFragment:
     299:301:void onDestroy() -> onDestroy
     306:388:void update(com.gdgl.manager.Manger,java.lang.Object) -> update
     393:400:void dialogdo() -> a
-com.gdgl.activity.ScenesFragment$1 -> xn:
+com.gdgl.activity.ScenesFragment$1 -> xk:
     com.gdgl.activity.ScenesFragment this$0 -> a
     110:115:void onClick(android.view.View) -> onClick
-com.gdgl.activity.ScenesFragment$10 -> xo:
+com.gdgl.activity.ScenesFragment$10 -> xl:
     com.gdgl.activity.ScenesFragment this$0 -> a
     int val$sid -> b
     365:384:void run() -> run
-com.gdgl.activity.ScenesFragment$2 -> xp:
+com.gdgl.activity.ScenesFragment$2 -> xm:
     com.gdgl.activity.ScenesFragment this$0 -> a
     122:124:boolean onLongClick(android.view.View) -> onLongClick
-com.gdgl.activity.ScenesFragment$3 -> xq:
+com.gdgl.activity.ScenesFragment$3 -> xn:
     com.gdgl.activity.ScenesFragment this$0 -> a
     132:134:boolean onLongClick(android.view.View) -> onLongClick
-com.gdgl.activity.ScenesFragment$4 -> xr:
+com.gdgl.activity.ScenesFragment$4 -> xo:
     com.gdgl.activity.ScenesFragment this$0 -> a
     142:147:void onClick(android.view.View) -> onClick
-com.gdgl.activity.ScenesFragment$5 -> xs:
+com.gdgl.activity.ScenesFragment$5 -> xp:
     com.gdgl.activity.ScenesFragment this$0 -> a
     161:168:void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
-com.gdgl.activity.ScenesFragment$6 -> xt:
+com.gdgl.activity.ScenesFragment$6 -> xq:
     com.gdgl.activity.ScenesFragment this$0 -> a
     175:180:void onClick(android.view.View) -> onClick
-com.gdgl.activity.ScenesFragment$7 -> xu:
+com.gdgl.activity.ScenesFragment$7 -> xr:
     com.gdgl.activity.ScenesFragment this$0 -> a
     315:316:void run() -> run
-com.gdgl.activity.ScenesFragment$8 -> xv:
+com.gdgl.activity.ScenesFragment$8 -> xs:
     com.gdgl.activity.ScenesFragment this$0 -> a
     334:335:void run() -> run
-com.gdgl.activity.ScenesFragment$9 -> xw:
+com.gdgl.activity.ScenesFragment$9 -> xt:
     com.gdgl.activity.ScenesFragment this$0 -> a
     352:353:void run() -> run
 com.gdgl.activity.ScenesFragment$CustomeAdapter -> com.gdgl.activity.ScenesFragment$CustomeAdapter:
@@ -20925,11 +20919,11 @@ com.gdgl.activity.ScenesFragment$CustomeAdapter -> com.gdgl.activity.ScenesFragm
     244:244:long getItemId(int) -> getItemId
     251:265:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     274:276:void setList(java.util.List) -> setList
-com.gdgl.activity.ScenesFragment$CustomeAdapter$ViewHolder -> xx:
+com.gdgl.activity.ScenesFragment$CustomeAdapter$ViewHolder -> xu:
     android.widget.ImageView funcImg -> a
     android.widget.TextView funcText -> b
     com.gdgl.activity.ScenesFragment$CustomeAdapter this$1 -> c
-com.gdgl.activity.SetEmailFragment -> xy:
+com.gdgl.activity.SetEmailFragment -> xv:
     android.view.View mView -> h
     boolean ENABLE_EMAIL_TXT -> a
     boolean ENABLE__EMAIL_VEDIO -> b
@@ -20944,37 +20938,37 @@ com.gdgl.activity.SetEmailFragment -> xy:
     java.lang.String gateway_MAC -> g
     45:49:void onCreate(android.os.Bundle) -> onCreate
     56:59:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
-    65:213:void initView() -> a
-    218:220:void onDestroy() -> onDestroy
-    225:256:void update(com.gdgl.manager.Manger,java.lang.Object) -> update
+    65:214:void initView() -> a
+    219:221:void onDestroy() -> onDestroy
+    226:262:void update(com.gdgl.manager.Manger,java.lang.Object) -> update
     32:32:void access$0(com.gdgl.activity.SetEmailFragment,int) -> a
     32:32:int access$1(com.gdgl.activity.SetEmailFragment) -> a
     35:35:java.lang.String access$2(com.gdgl.activity.SetEmailFragment) -> b
-com.gdgl.activity.SetEmailFragment$1 -> xz:
+com.gdgl.activity.SetEmailFragment$1 -> xw:
     com.gdgl.activity.SetEmailFragment this$0 -> a
     com.gc.materialdesign.views.CheckBox val$enableSendVideo -> b
     com.gc.materialdesign.views.CheckBox val$enableSendPic -> c
-    121:126:void onCheck(boolean) -> a
-com.gdgl.activity.SetEmailFragment$2 -> ya:
+    122:127:void onCheck(boolean) -> a
+com.gdgl.activity.SetEmailFragment$2 -> xx:
     com.gdgl.activity.SetEmailFragment this$0 -> a
-    132:132:void run() -> run
-com.gdgl.activity.SetEmailFragment$3 -> yb:
+    133:133:void run() -> run
+com.gdgl.activity.SetEmailFragment$3 -> xy:
     com.gdgl.activity.SetEmailFragment this$0 -> a
     com.gc.materialdesign.views.CheckBox val$enableSendVideo -> b
-    141:147:void onCheck(boolean) -> a
-com.gdgl.activity.SetEmailFragment$4 -> yc:
+    142:148:void onCheck(boolean) -> a
+com.gdgl.activity.SetEmailFragment$4 -> xz:
     com.gdgl.activity.SetEmailFragment this$0 -> a
-    153:153:void run() -> run
-com.gdgl.activity.SetEmailFragment$5 -> yd:
+    154:154:void run() -> run
+com.gdgl.activity.SetEmailFragment$5 -> ya:
     com.gdgl.activity.SetEmailFragment this$0 -> a
     com.gc.materialdesign.views.CheckBox val$enableSendPic -> b
-    162:168:void onCheck(boolean) -> a
-com.gdgl.activity.SetEmailFragment$6 -> ye:
+    163:169:void onCheck(boolean) -> a
+com.gdgl.activity.SetEmailFragment$6 -> yb:
     com.gdgl.activity.SetEmailFragment this$0 -> a
-    174:174:void run() -> run
-com.gdgl.activity.SetEmailFragment$7 -> yf:
+    175:175:void run() -> run
+com.gdgl.activity.SetEmailFragment$7 -> yc:
     com.gdgl.activity.SetEmailFragment this$0 -> a
-    182:210:void onClick(android.view.View) -> onClick
+    183:211:void onClick(android.view.View) -> onClick
 com.gdgl.activity.ShowDevicesGroupFragmentActivity -> com.gdgl.activity.ShowDevicesGroupFragmentActivity:
     android.widget.LinearLayout mBack -> a
     java.util.List mCurrentList -> b
@@ -21015,74 +21009,74 @@ com.gdgl.activity.ShowDevicesGroupFragmentActivity -> com.gdgl.activity.ShowDevi
     556:559:void initTitleByTag(int) -> c
     568:569:void onBackPressed() -> onBackPressed
     639:654:void saveedit(com.gdgl.model.DevicesModel,java.lang.String) -> a
-    663:676:void setdata(java.util.List) -> a
-    681:1190:void update(com.gdgl.manager.Manger,java.lang.Object) -> update
-    1260:1275:int getDevicesPostion(java.lang.String,java.lang.String,java.util.List) -> b
-    1280:1288:void updateMessageNum() -> d
+    663:675:void setdata(java.util.List) -> a
+    680:1189:void update(com.gdgl.manager.Manger,java.lang.Object) -> update
+    1259:1274:int getDevicesPostion(java.lang.String,java.lang.String,java.util.List) -> b
+    1279:1287:void updateMessageNum() -> d
     84:84:int access$0(com.gdgl.activity.ShowDevicesGroupFragmentActivity) -> a
     280:280:void access$1(com.gdgl.activity.ShowDevicesGroupFragmentActivity) -> b
     444:444:void access$2(com.gdgl.activity.ShowDevicesGroupFragmentActivity) -> c
-    1258:1258:int access$3$8309bc3(java.lang.String,java.lang.String,java.util.List) -> a
+    1257:1257:int access$3$8309bc3(java.lang.String,java.lang.String,java.util.List) -> a
     402:402:void access$4(com.gdgl.activity.ShowDevicesGroupFragmentActivity,int) -> a
     387:387:void access$5(com.gdgl.activity.ShowDevicesGroupFragmentActivity) -> d
     65:65:int access$6(com.gdgl.activity.ShowDevicesGroupFragmentActivity) -> e
     420:420:void access$7(com.gdgl.activity.ShowDevicesGroupFragmentActivity) -> f
-    1279:1279:void access$8(com.gdgl.activity.ShowDevicesGroupFragmentActivity) -> g
-com.gdgl.activity.ShowDevicesGroupFragmentActivity$1 -> yg:
+    1278:1278:void access$8(com.gdgl.activity.ShowDevicesGroupFragmentActivity) -> g
+com.gdgl.activity.ShowDevicesGroupFragmentActivity$1 -> yd:
     com.gdgl.activity.ShowDevicesGroupFragmentActivity this$0 -> a
     361:362:void onClick(android.view.View) -> onClick
-com.gdgl.activity.ShowDevicesGroupFragmentActivity$10 -> yh:
+com.gdgl.activity.ShowDevicesGroupFragmentActivity$10 -> ye:
     com.gdgl.activity.ShowDevicesGroupFragmentActivity this$0 -> a
-    805:806:void run() -> run
-com.gdgl.activity.ShowDevicesGroupFragmentActivity$11 -> yi:
+    804:805:void run() -> run
+com.gdgl.activity.ShowDevicesGroupFragmentActivity$11 -> yf:
     com.gdgl.activity.ShowDevicesGroupFragmentActivity this$0 -> a
-    829:830:void run() -> run
-com.gdgl.activity.ShowDevicesGroupFragmentActivity$12 -> yj:
+    828:829:void run() -> run
+com.gdgl.activity.ShowDevicesGroupFragmentActivity$12 -> yg:
     com.gdgl.activity.ShowDevicesGroupFragmentActivity this$0 -> a
     java.lang.String val$status -> b
-    853:856:void run() -> run
-com.gdgl.activity.ShowDevicesGroupFragmentActivity$13 -> yk:
+    852:855:void run() -> run
+com.gdgl.activity.ShowDevicesGroupFragmentActivity$13 -> yh:
     com.gdgl.activity.ShowDevicesGroupFragmentActivity this$0 -> a
-    873:874:void run() -> run
-com.gdgl.activity.ShowDevicesGroupFragmentActivity$14 -> yl:
+    872:873:void run() -> run
+com.gdgl.activity.ShowDevicesGroupFragmentActivity$14 -> yi:
     com.gdgl.activity.ShowDevicesGroupFragmentActivity this$0 -> a
     com.gdgl.mydata.Callback.CallbackResponseType2 val$detaildata -> b
-    894:897:void run() -> run
-com.gdgl.activity.ShowDevicesGroupFragmentActivity$15 -> ym:
+    893:896:void run() -> run
+com.gdgl.activity.ShowDevicesGroupFragmentActivity$15 -> yj:
     com.gdgl.activity.ShowDevicesGroupFragmentActivity this$0 -> a
-    934:941:void run() -> run
-com.gdgl.activity.ShowDevicesGroupFragmentActivity$16 -> yn:
+    933:940:void run() -> run
+com.gdgl.activity.ShowDevicesGroupFragmentActivity$16 -> yk:
     com.gdgl.activity.ShowDevicesGroupFragmentActivity this$0 -> a
-    1105:1107:void run() -> run
-com.gdgl.activity.ShowDevicesGroupFragmentActivity$17 -> yo:
+    1104:1106:void run() -> run
+com.gdgl.activity.ShowDevicesGroupFragmentActivity$17 -> yl:
     com.gdgl.activity.ShowDevicesGroupFragmentActivity this$0 -> a
-    1185:1186:void run() -> run
-com.gdgl.activity.ShowDevicesGroupFragmentActivity$2 -> yp:
+    1184:1185:void run() -> run
+com.gdgl.activity.ShowDevicesGroupFragmentActivity$2 -> ym:
     com.gdgl.activity.ShowDevicesGroupFragmentActivity this$0 -> a
     301:302:void onClick(android.view.View) -> onClick
-com.gdgl.activity.ShowDevicesGroupFragmentActivity$3 -> yq:
+com.gdgl.activity.ShowDevicesGroupFragmentActivity$3 -> yn:
     com.gdgl.activity.ShowDevicesGroupFragmentActivity this$0 -> a
     311:316:void onClick(android.view.View) -> onClick
-com.gdgl.activity.ShowDevicesGroupFragmentActivity$4 -> yr:
+com.gdgl.activity.ShowDevicesGroupFragmentActivity$4 -> yo:
     com.gdgl.activity.ShowDevicesGroupFragmentActivity this$0 -> a
     325:326:void onClick(android.view.View) -> onClick
-com.gdgl.activity.ShowDevicesGroupFragmentActivity$5 -> ys:
+com.gdgl.activity.ShowDevicesGroupFragmentActivity$5 -> yp:
     com.gdgl.activity.ShowDevicesGroupFragmentActivity this$0 -> a
     461:462:void onItemSelected(android.widget.AdapterView,android.view.View,int,long) -> onItemSelected
     468:468:void onNothingSelected(android.widget.AdapterView) -> onNothingSelected
-com.gdgl.activity.ShowDevicesGroupFragmentActivity$6 -> yt:
+com.gdgl.activity.ShowDevicesGroupFragmentActivity$6 -> yq:
     com.gdgl.activity.ShowDevicesGroupFragmentActivity this$0 -> a
     476:477:void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
-com.gdgl.activity.ShowDevicesGroupFragmentActivity$7 -> yu:
+com.gdgl.activity.ShowDevicesGroupFragmentActivity$7 -> yr:
     com.gdgl.activity.ShowDevicesGroupFragmentActivity this$0 -> a
-    706:707:void run() -> run
-com.gdgl.activity.ShowDevicesGroupFragmentActivity$8 -> yv:
+    705:706:void run() -> run
+com.gdgl.activity.ShowDevicesGroupFragmentActivity$8 -> ys:
     com.gdgl.activity.ShowDevicesGroupFragmentActivity this$0 -> a
-    738:739:void run() -> run
-com.gdgl.activity.ShowDevicesGroupFragmentActivity$9 -> yw:
+    737:738:void run() -> run
+com.gdgl.activity.ShowDevicesGroupFragmentActivity$9 -> yt:
     com.gdgl.activity.ShowDevicesGroupFragmentActivity this$0 -> a
-    767:768:void run() -> run
-com.gdgl.activity.ShowDevicesGroupFragmentActivity$GetDevicesInSortTask -> yx:
+    766:767:void run() -> run
+com.gdgl.activity.ShowDevicesGroupFragmentActivity$GetDevicesInSortTask -> yu:
     com.gdgl.activity.ShowDevicesGroupFragmentActivity this$0 -> a
     1:1:void onPostExecute(java.lang.Object) -> onPostExecute
     1:1:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
@@ -21127,41 +21121,40 @@ com.gdgl.activity.SmartHome -> com.gdgl.activity.SmartHome:
     250:250:int[] access$0() -> b
     249:249:java.lang.String[] access$1() -> c
     320:320:void access$2(com.gdgl.activity.SmartHome) -> a
-com.gdgl.activity.SmartHome$1 -> yy:
+com.gdgl.activity.SmartHome$1 -> yv:
     com.gdgl.activity.SmartHome this$0 -> a
     286:287:void onClick(android.view.View) -> onClick
-com.gdgl.activity.SmartHome$2 -> yz:
+com.gdgl.activity.SmartHome$2 -> yw:
     com.gdgl.activity.SmartHome this$0 -> a
     128:129:void onClick(android.view.View) -> onClick
-com.gdgl.activity.SmartHome$3 -> za:
+com.gdgl.activity.SmartHome$3 -> yx:
     com.gdgl.activity.SmartHome this$0 -> a
     170:197:void onClick(android.view.View) -> onClick
-com.gdgl.activity.SmartHome$4 -> zb:
+com.gdgl.activity.SmartHome$4 -> yy:
     com.gdgl.activity.SmartHome this$0 -> a
     204:207:void onClick(android.view.View) -> onClick
-com.gdgl.activity.SmartHome$5 -> zc:
+com.gdgl.activity.SmartHome$5 -> yz:
     com.gdgl.activity.SmartHome this$0 -> a
     214:218:void onClick(android.view.View) -> onClick
-com.gdgl.activity.SmartHome$6 -> zd:
+com.gdgl.activity.SmartHome$6 -> za:
     com.gdgl.activity.SmartHome this$0 -> a
     435:436:void run() -> run
-com.gdgl.activity.SmartHome$GetDataTask -> ze:
+com.gdgl.activity.SmartHome$GetDataTask -> zb:
     com.gdgl.activity.SmartHome this$0 -> a
     364:367:java.lang.Void doInBackground$10299ca() -> a
     1:1:void onPostExecute(java.lang.Object) -> onPostExecute
     1:1:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.gdgl.activity.SmartHome$TitleClickLister -> zf:
+com.gdgl.activity.SmartHome$TitleClickLister -> zc:
     int index -> a
     com.gdgl.activity.SmartHome this$0 -> b
     234:246:void onClick(android.view.View) -> onClick
-com.gdgl.activity.SmartHome$refreshAdapter -> zg:
-    void refreshFragment() -> b
+com.gdgl.activity.SmartHome$refreshAdapter -> zd:
 com.gdgl.activity.StartActivity -> com.gdgl.activity.StartActivity:
     boolean mIsRem -> a
     boolean mIsAuto -> b
     24:30:void onCreate(android.os.Bundle) -> onCreate
     40:40:android.content.Intent access$0(com.gdgl.activity.StartActivity) -> a
-com.gdgl.activity.StartActivity$1 -> zh:
+com.gdgl.activity.StartActivity$1 -> ze:
     com.gdgl.activity.StartActivity this$0 -> a
     66:69:void run() -> run
 com.gdgl.activity.StartAnimationActivity -> com.gdgl.activity.StartAnimationActivity:
@@ -21172,15 +21165,15 @@ com.gdgl.activity.StartAnimationActivity -> com.gdgl.activity.StartAnimationActi
     101:102:void onResume() -> onResume
     107:108:void onPause() -> onPause
     109:109:void access$0(com.gdgl.activity.StartAnimationActivity) -> a
-com.gdgl.activity.StartAnimationActivity$1 -> zi:
+com.gdgl.activity.StartAnimationActivity$1 -> zf:
     com.gdgl.activity.StartAnimationActivity this$0 -> a
     71:75:void run() -> run
-com.gdgl.activity.StartAnimationActivity$2 -> zj:
+com.gdgl.activity.StartAnimationActivity$2 -> zg:
     com.gdgl.activity.StartAnimationActivity this$0 -> a
     86:87:void run() -> run
 com.gdgl.activity.TimingAddActivity -> com.gdgl.activity.TimingAddActivity:
     android.support.v7.widget.Toolbar mToolbar -> d
-    android.support.v7.app.ActionBar mActionBar -> e
+    android.support.v7.app.ActionBar mActionBar -> f
     com.gdgl.mydata.timing.TimingAction mTimingAction -> a
     com.gdgl.mydata.DataHelper mDataHelper -> b
     int timing_type -> c
@@ -21189,33 +21182,33 @@ com.gdgl.activity.TimingAddActivity -> com.gdgl.activity.TimingAddActivity:
     137:142:boolean onSupportNavigateUp() -> onSupportNavigateUp
     148:153:void onBackPressed() -> onBackPressed
     159:160:void dialogdo() -> a
-com.gdgl.activity.TimingAddActivity$1 -> zk:
+com.gdgl.activity.TimingAddActivity$1 -> zh:
     com.gdgl.activity.TimingAddActivity this$0 -> a
     69:110:boolean onMenuItemClick(android.view.MenuItem) -> onMenuItemClick
-com.gdgl.activity.TimingAddDeviceDialog -> zl:
+com.gdgl.activity.TimingAddDeviceDialog -> zi:
     android.view.View mView -> d
     android.widget.ListView devices_list_view -> a
     java.util.List mAddDevicesList -> b
     com.gdgl.activity.TimingAddDeviceDialog$DeviceSelected deviceSelected -> c
     41:47:android.app.Dialog onCreateDialog(android.os.Bundle) -> onCreateDialog
-com.gdgl.activity.TimingAddDeviceDialog$1 -> zm:
+com.gdgl.activity.TimingAddDeviceDialog$1 -> zj:
     com.gdgl.activity.TimingAddDeviceDialog this$0 -> a
     71:73:void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
-com.gdgl.activity.TimingAddDeviceDialog$DeviceSelected -> zn:
+com.gdgl.activity.TimingAddDeviceDialog$DeviceSelected -> zk:
     void deviceSelectedByDialog(int) -> a
-com.gdgl.activity.TimingAddDeviceDialog$TimingAddDeviceListAdapter -> zo:
+com.gdgl.activity.TimingAddDeviceDialog$TimingAddDeviceListAdapter -> zl:
     com.gdgl.activity.TimingAddDeviceDialog this$0 -> a
     83:86:int getCount() -> getCount
     92:95:java.lang.Object getItem(int) -> getItem
     101:104:long getItemId(int) -> getItemId
     111:140:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
-com.gdgl.activity.TimingAddDeviceDialog$TimingAddDeviceListAdapter$ViewHolder -> zp:
+com.gdgl.activity.TimingAddDeviceDialog$TimingAddDeviceListAdapter$ViewHolder -> zm:
     android.widget.ImageView devices_img -> a
     android.widget.TextView devices_name -> b
     com.gc.materialdesign.views.CheckBox selected -> c
     android.view.View custom_divider -> d
     com.gdgl.activity.TimingAddDeviceDialog$TimingAddDeviceListAdapter this$1 -> e
-com.gdgl.activity.TimingAddFragment -> zq:
+com.gdgl.activity.TimingAddFragment -> zn:
     com.gdgl.mydata.timing.TimingAction mTimingAction -> a
     java.util.List mAddDevicesList -> b
     com.gdgl.model.DevicesModel mDevicesSelected -> c
@@ -21260,22 +21253,22 @@ com.gdgl.activity.TimingAddFragment -> zq:
     58:58:int access$10(com.gdgl.activity.TimingAddFragment) -> h
     57:57:void access$11(com.gdgl.activity.TimingAddFragment,int) -> d
     58:58:void access$12(com.gdgl.activity.TimingAddFragment,int) -> e
-com.gdgl.activity.TimingAddFragment$1 -> zr:
+com.gdgl.activity.TimingAddFragment$1 -> zo:
     com.gdgl.activity.TimingAddFragment this$0 -> a
     154:157:void onClick(android.view.View) -> onClick
-com.gdgl.activity.TimingAddFragment$2 -> zs:
+com.gdgl.activity.TimingAddFragment$2 -> zp:
     com.gdgl.activity.TimingAddFragment this$0 -> a
     182:185:void onCheckedChanged(android.widget.CompoundButton,boolean) -> onCheckedChanged
-com.gdgl.activity.TimingAddFragment$3 -> zt:
+com.gdgl.activity.TimingAddFragment$3 -> zq:
     com.gdgl.activity.TimingAddFragment this$0 -> a
     203:212:void onCheckedChanged(android.widget.CompoundButton,boolean) -> onCheckedChanged
-com.gdgl.activity.TimingAddFragment$4 -> zu:
+com.gdgl.activity.TimingAddFragment$4 -> zr:
     com.gdgl.activity.TimingAddFragment this$0 -> a
     226:232:void onDateChanged(android.widget.DatePicker,int,int,int) -> onDateChanged
-com.gdgl.activity.TimingAddFragment$5 -> zv:
+com.gdgl.activity.TimingAddFragment$5 -> zs:
     com.gdgl.activity.TimingAddFragment this$0 -> a
     243:248:void onTimeChanged(android.widget.TimePicker,int,int) -> onTimeChanged
-com.gdgl.activity.TimingFragment -> zw:
+com.gdgl.activity.TimingFragment -> zt:
     java.lang.String[] WEEKS -> a
     android.view.View mView -> h
     android.widget.ListView devices_list_view -> b
@@ -21291,36 +21284,36 @@ com.gdgl.activity.TimingFragment -> zw:
     143:145:void onDestroy() -> onDestroy
     337:409:void update(com.gdgl.manager.Manger,java.lang.Object) -> update
     414:421:void dialogdo() -> a
-com.gdgl.activity.TimingFragment$1 -> zx:
+com.gdgl.activity.TimingFragment$1 -> zu:
     com.gdgl.activity.TimingFragment this$0 -> a
     93:98:void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
-com.gdgl.activity.TimingFragment$2 -> zy:
+com.gdgl.activity.TimingFragment$2 -> zv:
     com.gdgl.activity.TimingFragment this$0 -> a
     106:109:void onClick(android.view.View) -> onClick
-com.gdgl.activity.TimingFragment$3 -> zz:
+com.gdgl.activity.TimingFragment$3 -> zw:
     com.gdgl.activity.TimingFragment this$0 -> a
     346:347:void run() -> run
-com.gdgl.activity.TimingFragment$4 -> aaa:
+com.gdgl.activity.TimingFragment$4 -> zx:
     com.gdgl.activity.TimingFragment this$0 -> a
     366:367:void run() -> run
-com.gdgl.activity.TimingFragment$5 -> aab:
+com.gdgl.activity.TimingFragment$5 -> zy:
     com.gdgl.activity.TimingFragment this$0 -> a
     384:385:void run() -> run
-com.gdgl.activity.TimingFragment$6 -> aac:
+com.gdgl.activity.TimingFragment$6 -> zz:
     com.gdgl.activity.TimingFragment this$0 -> a
     404:405:void run() -> run
-com.gdgl.activity.TimingFragment$TimingActionListAdapter -> aad:
+com.gdgl.activity.TimingFragment$TimingActionListAdapter -> aaa:
     com.gdgl.activity.TimingFragment this$0 -> a
     152:155:int getCount() -> getCount
     161:164:java.lang.Object getItem(int) -> getItem
     170:173:long getItemId(int) -> getItemId
     180:316:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
-com.gdgl.activity.TimingFragment$TimingActionListAdapter$1 -> aae:
+com.gdgl.activity.TimingFragment$TimingActionListAdapter$1 -> aab:
     com.gdgl.activity.TimingFragment$TimingActionListAdapter this$1 -> a
     com.gdgl.activity.TimingFragment$TimingActionListAdapter$ViewHolder val$mHolder -> b
     com.gdgl.mydata.timing.TimingAction val$mTimingAction -> c
     292:313:void onClick(android.view.View) -> onClick
-com.gdgl.activity.TimingFragment$TimingActionListAdapter$ViewHolder -> aaf:
+com.gdgl.activity.TimingFragment$TimingActionListAdapter$ViewHolder -> aac:
     android.widget.ImageView devices_img -> a
     android.widget.TextView devices_name -> b
     android.widget.TextView timing_date -> c
@@ -21328,7 +21321,7 @@ com.gdgl.activity.TimingFragment$TimingActionListAdapter$ViewHolder -> aaf:
     android.widget.TextView timing_state -> e
     android.widget.Switch devices_switch -> f
     com.gdgl.activity.TimingFragment$TimingActionListAdapter this$1 -> g
-com.gdgl.activity.VideoFragment -> aag:
+com.gdgl.activity.VideoFragment -> aad:
     android.widget.GridView content_view -> a
     android.view.View mView -> b
     android.view.ViewGroup nodevices -> c
@@ -21343,44 +21336,44 @@ com.gdgl.activity.VideoFragment -> aag:
     230:266:boolean onContextItemSelected(android.view.MenuItem) -> onContextItemSelected
     271:377:void update(com.gdgl.manager.Manger,java.lang.Object) -> update
     381:382:void dialogdo() -> a
-com.gdgl.activity.VideoFragment$1 -> aah:
+com.gdgl.activity.VideoFragment$1 -> aae:
     com.gdgl.activity.VideoFragment this$0 -> a
     103:116:void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
-com.gdgl.activity.VideoFragment$2 -> aai:
+com.gdgl.activity.VideoFragment$2 -> aaf:
     com.gdgl.activity.VideoFragment this$0 -> a
     123:135:void onClick(android.view.View) -> onClick
-com.gdgl.activity.VideoFragment$3 -> aaj:
+com.gdgl.activity.VideoFragment$3 -> aag:
     com.gdgl.activity.VideoFragment this$0 -> a
     281:282:void run() -> run
-com.gdgl.activity.VideoFragment$4 -> aak:
+com.gdgl.activity.VideoFragment$4 -> aah:
     com.gdgl.activity.VideoFragment this$0 -> a
     290:292:void run() -> run
-com.gdgl.activity.VideoFragment$5 -> aal:
+com.gdgl.activity.VideoFragment$5 -> aai:
     com.gdgl.activity.VideoFragment this$0 -> a
     312:313:void run() -> run
-com.gdgl.activity.VideoFragment$6 -> aam:
+com.gdgl.activity.VideoFragment$6 -> aaj:
     com.gdgl.activity.VideoFragment this$0 -> a
     321:323:void run() -> run
-com.gdgl.activity.VideoFragment$7 -> aan:
+com.gdgl.activity.VideoFragment$7 -> aak:
     com.gdgl.activity.VideoFragment this$0 -> a
     341:342:void run() -> run
-com.gdgl.activity.VideoFragment$8 -> aao:
+com.gdgl.activity.VideoFragment$8 -> aal:
     com.gdgl.activity.VideoFragment this$0 -> a
     350:352:void run() -> run
-com.gdgl.activity.VideoFragment$9 -> aap:
+com.gdgl.activity.VideoFragment$9 -> aam:
     com.gdgl.activity.VideoFragment this$0 -> a
     373:374:void run() -> run
-com.gdgl.activity.VideoFragment$CustomeAdapter -> aaq:
+com.gdgl.activity.VideoFragment$CustomeAdapter -> aan:
     com.gdgl.activity.VideoFragment this$0 -> a
     157:160:int getCount() -> getCount
     166:169:java.lang.Object getItem(int) -> getItem
     175:179:long getItemId(int) -> getItemId
     185:208:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
-com.gdgl.activity.VideoFragment$CustomeAdapter$ViewHolder -> aar:
+com.gdgl.activity.VideoFragment$CustomeAdapter$ViewHolder -> aao:
     android.widget.ImageView funcImg -> a
     android.widget.TextView funcText -> b
     com.gdgl.activity.VideoFragment$CustomeAdapter this$1 -> c
-com.gdgl.adapter.CustomViewGroup -> aas:
+com.gdgl.adapter.CustomViewGroup -> aap:
     android.widget.TextView textView -> a
     android.widget.ImageView imageView -> b
     167:167:android.widget.TextView getTextView() -> a
@@ -21388,52 +21381,53 @@ com.gdgl.adapter.CustomViewGroup -> aas:
 com.gdgl.adapter.DevicesBaseAdapter -> com.gdgl.adapter.DevicesBaseAdapter:
     android.content.Context mContext -> a
     java.util.List mDevicesList -> b
-    com.gdgl.model.DevicesModel oneKeyOperatorDevice -> c
-    com.gdgl.manager.CGIManager mcgiManager -> d
-    com.gdgl.libjingle.LibjingleSendManager libjingleSendManager -> e
-    android.widget.ImageView devices_img -> f
-    android.widget.TextView devices_name -> g
-    android.widget.TextView warn_state -> h
-    android.widget.TextView devices_region -> i
-    android.widget.TextView devices_state -> j
-    android.widget.LinearLayout seekbar_statelayout -> k
-    android.widget.SeekBar devices_seek_bar -> l
-    android.widget.LinearLayout switchlayout -> m
-    android.widget.Switch devices_switch -> n
-    android.widget.LinearLayout btn_layout -> o
-    android.widget.Button devices_button -> p
-    74:77:int getCount() -> getCount
-    83:86:java.lang.Object getItem(int) -> getItem
-    92:95:long getItemId(int) -> getItemId
-    100:144:int getItemViewType(int) -> getItemViewType
-    150:534:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
-    538:540:void setList(java.util.List) -> setList
-    543:543:java.util.List getList() -> getList
-com.gdgl.adapter.DevicesBaseAdapter$1 -> aat:
+    com.gdgl.manager.CGIManager mcgiManager -> c
+    com.gdgl.libjingle.LibjingleSendManager libjingleSendManager -> d
+    android.widget.ImageView devices_img -> e
+    android.widget.TextView devices_name -> f
+    android.widget.TextView warn_state -> g
+    android.widget.TextView devices_region -> h
+    android.widget.TextView devices_state -> i
+    android.widget.LinearLayout seekbar_statelayout -> j
+    android.widget.SeekBar devices_seek_bar -> k
+    android.widget.LinearLayout switchlayout -> l
+    android.widget.Switch devices_switch -> m
+    android.widget.LinearLayout btn_layout -> n
+    android.widget.Button devices_button -> o
+    75:78:int getCount() -> getCount
+    84:87:java.lang.Object getItem(int) -> getItem
+    93:96:long getItemId(int) -> getItemId
+    101:145:int getItemViewType(int) -> getItemViewType
+    152:526:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
+    530:533:void setList(java.util.List) -> setList
+    536:538:void addList(java.util.List) -> a
+    541:541:java.util.List getList() -> getList
+com.gdgl.adapter.DevicesBaseAdapter$1 -> aaq:
     int currentLevel -> a
     com.gdgl.adapter.DevicesBaseAdapter this$0 -> b
     com.gdgl.model.DevicesModel val$mDevices -> c
-    300:308:void onStopTrackingTouch(android.widget.SeekBar) -> onStopTrackingTouch
-    314:314:void onStartTrackingTouch(android.widget.SeekBar) -> onStartTrackingTouch
-    320:322:void onProgressChanged(android.widget.SeekBar,int,boolean) -> onProgressChanged
-com.gdgl.adapter.DevicesBaseAdapter$2 -> aau:
+    292:300:void onStopTrackingTouch(android.widget.SeekBar) -> onStopTrackingTouch
+    306:306:void onStartTrackingTouch(android.widget.SeekBar) -> onStartTrackingTouch
+    312:314:void onProgressChanged(android.widget.SeekBar,int,boolean) -> onProgressChanged
+com.gdgl.adapter.DevicesBaseAdapter$2 -> aar:
     com.gdgl.adapter.DevicesBaseAdapter this$0 -> a
     com.gdgl.model.DevicesModel val$mDevices -> b
-    335:345:void onClick(android.view.View) -> onClick
-com.gdgl.adapter.DevicesBaseAdapter$3 -> aav:
+    327:337:void onClick(android.view.View) -> onClick
+com.gdgl.adapter.DevicesBaseAdapter$3 -> aas:
     com.gdgl.adapter.DevicesBaseAdapter this$0 -> a
-    371:376:void onClick(android.view.View) -> onClick
-com.gdgl.adapter.DevicesBaseAdapter$4 -> aaw:
+    363:368:void onClick(android.view.View) -> onClick
+com.gdgl.adapter.DevicesBaseAdapter$4 -> aat:
     com.gdgl.adapter.DevicesBaseAdapter this$0 -> a
     com.gdgl.model.DevicesModel val$mDevices -> b
-    402:532:void onCheckedChanged(android.widget.CompoundButton,boolean) -> onCheckedChanged
-com.gdgl.adapter.DevicesBaseAdapter$getOneKeyOperatorStatusTask -> aax:
+    394:524:void onCheckedChanged(android.widget.CompoundButton,boolean) -> onCheckedChanged
+com.gdgl.adapter.DevicesBaseAdapter$getOneKeyOperatorStatusTask -> aau:
     com.gdgl.adapter.DevicesBaseAdapter this$0 -> a
-    562:567:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.gdgl.adapter.FancyCoverFlowAdapter -> aay:
+    560:580:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
+    586:587:void onPostExecute(java.lang.Object) -> onPostExecute
+com.gdgl.adapter.FancyCoverFlowAdapter -> aav:
     35:66:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     android.view.View getCoverFlowItem$4e45925b(int,android.view.View) -> a
-com.gdgl.adapter.GridviewAdapter -> aaz:
+com.gdgl.adapter.GridviewAdapter -> aaw:
     int[] images -> a
     java.lang.String[] tags -> b
     int mType -> c
@@ -21442,7 +21436,7 @@ com.gdgl.adapter.GridviewAdapter -> aaz:
     45:48:java.lang.Object getItem(int) -> getItem
     54:54:long getItemId(int) -> getItemId
     61:75:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
-com.gdgl.adapter.GridviewAdapter$ViewHolder -> aba:
+com.gdgl.adapter.GridviewAdapter$ViewHolder -> aax:
     android.widget.ImageView funcImg -> a
     android.widget.TextView funcText -> b
     com.gdgl.adapter.GridviewAdapter this$0 -> c
@@ -21456,11 +21450,11 @@ com.gdgl.adapter.LinkageAdapter -> com.gdgl.adapter.LinkageAdapter:
     68:71:java.lang.Object getItem(int) -> getItem
     77:77:long getItemId(int) -> getItemId
     83:153:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
-com.gdgl.adapter.LinkageAdapter$1 -> abb:
+com.gdgl.adapter.LinkageAdapter$1 -> aay:
     com.gdgl.adapter.LinkageAdapter this$0 -> a
     com.gdgl.mydata.Linkage val$linkage -> b
     136:150:void onClick(android.view.View) -> onClick
-com.gdgl.adapter.LinkageAdapter$ViewHolder -> abc:
+com.gdgl.adapter.LinkageAdapter$ViewHolder -> aaz:
     android.widget.ImageView devices_img -> a
     android.widget.TextView devices_name -> b
     android.widget.TextView devices_state -> c
@@ -21469,7 +21463,7 @@ com.gdgl.adapter.LinkageAdapter$ViewHolder -> abc:
     android.widget.TextView act_state -> f
     android.widget.Switch switch_btn -> g
     com.gdgl.adapter.LinkageAdapter this$0 -> h
-com.gdgl.adapter.ViewGroupAdapter -> abd:
+com.gdgl.adapter.ViewGroupAdapter -> aba:
     android.content.Context mContext -> a
     int[] mImageIds -> b
     android.widget.ImageView[] mImages -> c
@@ -21484,7 +21478,7 @@ com.gdgl.adapter.ViewGroupAdapter -> abd:
     77:77:long getItemId(int) -> getItemId
     84:111:android.view.View getCoverFlowItem$4e45925b(int,android.view.View) -> a
     1:1:java.lang.Object getItem(int) -> getItem
-com.gdgl.adapter.ViewPagerAdapter -> abe:
+com.gdgl.adapter.ViewPagerAdapter -> abb:
     java.util.ArrayList tabs -> a
     android.content.Context mContext -> b
     31:39:android.support.v4.app.Fragment getItem(int) -> getItem
@@ -21501,7 +21495,7 @@ com.gdgl.app.ApplicationController -> com.gdgl.app.ApplicationController:
     94:97:void addToRequestQueue(com.android.volley.Request) -> a
     126:127:void setIsDragSlidMenu(boolean) -> setIsDragSlidMenu
     130:130:boolean getIsDragSlidMenu() -> getIsDragSlidMenu
-com.gdgl.app.CrashHandler -> abf:
+com.gdgl.app.CrashHandler -> abc:
     java.lang.String PATH -> a
     com.gdgl.app.CrashHandler sInstance -> b
     java.lang.Thread$UncaughtExceptionHandler mDefaultCrashHandler -> c
@@ -21515,7 +21509,7 @@ com.gdgl.drawer.AlarmMessageActivity -> com.gdgl.drawer.AlarmMessageActivity:
     24:65:void onCreate(android.os.Bundle) -> onCreate
     69:70:boolean onCreateOptionsMenu(android.view.Menu) -> onCreateOptionsMenu
     76:77:boolean onSupportNavigateUp() -> onSupportNavigateUp
-com.gdgl.drawer.AlarmMessageActivity$1 -> abg:
+com.gdgl.drawer.AlarmMessageActivity$1 -> abd:
     com.gdgl.drawer.AlarmMessageActivity this$0 -> a
     com.gdgl.activity.MessageTabFragment val$mfragent -> b
     40:50:boolean onMenuItemClick(android.view.MenuItem) -> onMenuItemClick
@@ -21524,62 +21518,63 @@ com.gdgl.drawer.DeviceControlActivity -> com.gdgl.drawer.DeviceControlActivity:
     boolean GATEWAYUPDATE_FIRSTTIME -> b
     android.support.v7.widget.Toolbar mToolbar -> c
     android.support.v7.app.ActionBar mActionBar -> d
-    com.gdgl.model.DevicesModel mDevicesModel -> e
+    com.gdgl.model.DevicesModel mDevicesModel -> f
     android.widget.ImageView downLoadView -> g
-    60:201:void onCreate(android.os.Bundle) -> onCreate
-    206:207:boolean onCreateOptionsMenu(android.view.Menu) -> onCreateOptionsMenu
-    213:214:boolean onSupportNavigateUp() -> onSupportNavigateUp
-    220:222:void onDestroy() -> onDestroy
-    227:235:void saveedit(com.gdgl.model.DevicesModel,java.lang.String) -> a
-    240:241:void dialogdo() -> a
-    246:247:void dialogokdo() -> b
-    252:425:void update(com.gdgl.manager.Manger,java.lang.Object) -> update
+    61:212:void onCreate(android.os.Bundle) -> onCreate
+    255:256:boolean onCreateOptionsMenu(android.view.Menu) -> onCreateOptionsMenu
+    262:263:boolean onSupportNavigateUp() -> onSupportNavigateUp
+    269:271:void onDestroy() -> onDestroy
+    276:284:void saveedit(com.gdgl.model.DevicesModel,java.lang.String) -> a
+    289:290:void dialogdo() -> a
+    295:296:void dialogokdo() -> b
+    301:474:void update(com.gdgl.manager.Manger,java.lang.Object) -> update
     56:56:android.widget.ImageView access$0(com.gdgl.drawer.DeviceControlActivity) -> a
     55:55:com.gdgl.model.DevicesModel access$1(com.gdgl.drawer.DeviceControlActivity) -> b
-    54:54:android.support.v7.app.ActionBar access$2(com.gdgl.drawer.DeviceControlActivity) -> c
-    1:1:void access$3(com.gdgl.drawer.DeviceControlActivity) -> d
-    53:53:android.support.v7.widget.Toolbar access$4(com.gdgl.drawer.DeviceControlActivity) -> e
-com.gdgl.drawer.DeviceControlActivity$1 -> abh:
+    214:214:java.lang.String access$2(com.gdgl.drawer.DeviceControlActivity) -> c
+    54:54:android.support.v7.app.ActionBar access$3(com.gdgl.drawer.DeviceControlActivity) -> d
+    1:1:void access$4(com.gdgl.drawer.DeviceControlActivity) -> e
+    53:53:android.support.v7.widget.Toolbar access$5(com.gdgl.drawer.DeviceControlActivity) -> f
+com.gdgl.drawer.DeviceControlActivity$1 -> abe:
     com.gdgl.drawer.DeviceControlActivity this$0 -> a
-    87:100:void onClick(android.view.View) -> onClick
-com.gdgl.drawer.DeviceControlActivity$10 -> abi:
+    90:103:void onClick(android.view.View) -> onClick
+com.gdgl.drawer.DeviceControlActivity$10 -> abf:
     com.gdgl.drawer.DeviceControlActivity this$0 -> a
-    364:371:void run() -> run
-com.gdgl.drawer.DeviceControlActivity$11 -> abj:
+    413:420:void run() -> run
+com.gdgl.drawer.DeviceControlActivity$11 -> abg:
     com.gdgl.drawer.DeviceControlActivity this$0 -> a
-    388:389:void run() -> run
-com.gdgl.drawer.DeviceControlActivity$12 -> abk:
+    437:438:void run() -> run
+com.gdgl.drawer.DeviceControlActivity$12 -> abh:
     com.gdgl.drawer.DeviceControlActivity this$0 -> a
     java.lang.String val$expire -> b
-    403:406:void run() -> run
-com.gdgl.drawer.DeviceControlActivity$13 -> abl:
+    452:455:void run() -> run
+com.gdgl.drawer.DeviceControlActivity$13 -> abi:
     com.gdgl.drawer.DeviceControlActivity this$0 -> a
-    414:420:void run() -> run
-com.gdgl.drawer.DeviceControlActivity$2 -> abm:
+    463:469:void run() -> run
+com.gdgl.drawer.DeviceControlActivity$2 -> abj:
     com.gdgl.drawer.DeviceControlActivity this$0 -> a
-    107:122:boolean onTouch(android.view.View,android.view.MotionEvent) -> onTouch
-com.gdgl.drawer.DeviceControlActivity$3 -> abn:
+    110:125:boolean onTouch(android.view.View,android.view.MotionEvent) -> onTouch
+com.gdgl.drawer.DeviceControlActivity$3 -> abk:
     com.gdgl.drawer.DeviceControlActivity this$0 -> a
-    141:177:boolean onMenuItemClick(android.view.MenuItem) -> onMenuItemClick
-com.gdgl.drawer.DeviceControlActivity$4 -> abo:
+    144:188:boolean onMenuItemClick(android.view.MenuItem) -> onMenuItemClick
+com.gdgl.drawer.DeviceControlActivity$4 -> abl:
     com.gdgl.drawer.DeviceControlActivity this$0 -> a
     java.lang.String val$name -> b
-    263:264:void run() -> run
-com.gdgl.drawer.DeviceControlActivity$5 -> abp:
+    312:313:void run() -> run
+com.gdgl.drawer.DeviceControlActivity$5 -> abm:
     com.gdgl.drawer.DeviceControlActivity this$0 -> a
-    276:277:void run() -> run
-com.gdgl.drawer.DeviceControlActivity$6 -> abq:
+    325:326:void run() -> run
+com.gdgl.drawer.DeviceControlActivity$6 -> abn:
     com.gdgl.drawer.DeviceControlActivity this$0 -> a
-    290:291:void run() -> run
-com.gdgl.drawer.DeviceControlActivity$7 -> abr:
+    339:340:void run() -> run
+com.gdgl.drawer.DeviceControlActivity$7 -> abo:
     com.gdgl.drawer.DeviceControlActivity this$0 -> a
-    304:311:void run() -> run
-com.gdgl.drawer.DeviceControlActivity$8 -> abs:
+    353:360:void run() -> run
+com.gdgl.drawer.DeviceControlActivity$8 -> abp:
     com.gdgl.drawer.DeviceControlActivity this$0 -> a
-    326:335:void run() -> run
-com.gdgl.drawer.DeviceControlActivity$9 -> abt:
+    375:384:void run() -> run
+com.gdgl.drawer.DeviceControlActivity$9 -> abq:
     com.gdgl.drawer.DeviceControlActivity this$0 -> a
-    349:356:void run() -> run
+    398:405:void run() -> run
 com.gdgl.drawer.DeviceControlFragment -> com.gdgl.drawer.DeviceControlFragment:
     int ON -> a
     int OFF -> b
@@ -21607,59 +21602,59 @@ com.gdgl.drawer.DeviceControlFragment -> com.gdgl.drawer.DeviceControlFragment:
     633:757:void DeviceContorlOnOffClickDo_Internet(int) -> b
     799:802:void onDestroy() -> onDestroy
     839:1001:void update(com.gdgl.manager.Manger,java.lang.Object) -> update
-com.gdgl.drawer.DeviceControlFragment$1 -> abu:
+com.gdgl.drawer.DeviceControlFragment$1 -> abr:
     com.gdgl.drawer.DeviceControlFragment this$0 -> a
     146:160:void onClick(android.view.View) -> onClick
-com.gdgl.drawer.DeviceControlFragment$10 -> abv:
+com.gdgl.drawer.DeviceControlFragment$10 -> abs:
     com.gdgl.drawer.DeviceControlFragment this$0 -> a
     java.lang.String val$humidity -> b
     957:958:void run() -> run
-com.gdgl.drawer.DeviceControlFragment$11 -> abw:
+com.gdgl.drawer.DeviceControlFragment$11 -> abt:
     com.gdgl.drawer.DeviceControlFragment this$0 -> a
     971:976:void run() -> run
-com.gdgl.drawer.DeviceControlFragment$12 -> abx:
+com.gdgl.drawer.DeviceControlFragment$12 -> abu:
     com.gdgl.drawer.DeviceControlFragment this$0 -> a
     991:996:void run() -> run
-com.gdgl.drawer.DeviceControlFragment$2 -> aby:
+com.gdgl.drawer.DeviceControlFragment$2 -> abv:
     com.gdgl.drawer.DeviceControlFragment this$0 -> a
     167:184:boolean onTouch(android.view.View,android.view.MotionEvent) -> onTouch
-com.gdgl.drawer.DeviceControlFragment$3 -> abz:
+com.gdgl.drawer.DeviceControlFragment$3 -> abw:
     int currentLevel -> a
     com.gdgl.drawer.DeviceControlFragment this$0 -> b
     201:209:void onStopTrackingTouch(android.widget.SeekBar) -> onStopTrackingTouch
     214:215:void onStartTrackingTouch(android.widget.SeekBar) -> onStartTrackingTouch
     221:224:void onProgressChanged(android.widget.SeekBar,int,boolean) -> onProgressChanged
-com.gdgl.drawer.DeviceControlFragment$4 -> aca:
+com.gdgl.drawer.DeviceControlFragment$4 -> abx:
     int currentLevel -> a
     com.gdgl.drawer.DeviceControlFragment this$0 -> b
     239:246:void onStopTrackingTouch(android.widget.SeekBar) -> onStopTrackingTouch
     252:252:void onStartTrackingTouch(android.widget.SeekBar) -> onStartTrackingTouch
     258:260:void onProgressChanged(android.widget.SeekBar,int,boolean) -> onProgressChanged
-com.gdgl.drawer.DeviceControlFragment$5 -> acb:
+com.gdgl.drawer.DeviceControlFragment$5 -> aby:
     com.gdgl.drawer.DeviceControlFragment this$0 -> a
     850:855:void run() -> run
-com.gdgl.drawer.DeviceControlFragment$6 -> acc:
+com.gdgl.drawer.DeviceControlFragment$6 -> abz:
     com.gdgl.drawer.DeviceControlFragment this$0 -> a
     869:874:void run() -> run
-com.gdgl.drawer.DeviceControlFragment$7 -> acd:
+com.gdgl.drawer.DeviceControlFragment$7 -> aca:
     com.gdgl.drawer.DeviceControlFragment this$0 -> a
     891:896:void run() -> run
-com.gdgl.drawer.DeviceControlFragment$8 -> ace:
+com.gdgl.drawer.DeviceControlFragment$8 -> acb:
     com.gdgl.drawer.DeviceControlFragment this$0 -> a
     int val$state -> b
     922:924:void run() -> run
-com.gdgl.drawer.DeviceControlFragment$9 -> acf:
+com.gdgl.drawer.DeviceControlFragment$9 -> acc:
     com.gdgl.drawer.DeviceControlFragment this$0 -> a
     java.lang.String val$temperature -> b
     940:942:void run() -> run
-com.gdgl.drawer.DeviceControlFragment$MyPagerAdapter -> acg:
+com.gdgl.drawer.DeviceControlFragment$MyPagerAdapter -> acd:
     java.lang.String[] TITLES -> b
     java.util.ArrayList fragments -> c
     com.gdgl.drawer.DeviceControlFragment this$0 -> a
     781:781:android.support.v4.app.Fragment getItem(int) -> getItem
     786:786:java.lang.CharSequence getPageTitle(int) -> getPageTitle
     791:791:int getCount() -> getCount
-com.gdgl.drawer.DeviceDetailFragment_new -> ach:
+com.gdgl.drawer.DeviceDetailFragment_new -> ace:
     android.view.View mView -> a
     com.gdgl.model.DevicesModel mDevices -> b
     android.widget.TextView device_currentTextView -> c
@@ -21696,40 +21691,40 @@ com.gdgl.drawer.DeviceDetailFragment_new -> ach:
     303:421:void update(com.gdgl.manager.Manger,java.lang.Object) -> update
     424:446:java.lang.String secToTime(int) -> a
     450:455:java.lang.String unitFormat(int) -> b
-com.gdgl.drawer.DeviceDetailFragment_new$1 -> aci:
+com.gdgl.drawer.DeviceDetailFragment_new$1 -> acf:
     com.gdgl.drawer.DeviceDetailFragment_new this$0 -> a
     132:140:void onClick(android.view.View) -> onClick
-com.gdgl.drawer.DeviceDetailFragment_new$2 -> acj:
+com.gdgl.drawer.DeviceDetailFragment_new$2 -> acg:
     com.gdgl.drawer.DeviceDetailFragment_new this$0 -> a
     149:159:void onClick(android.view.View) -> onClick
-com.gdgl.drawer.DeviceDetailFragment_new$3 -> ack:
+com.gdgl.drawer.DeviceDetailFragment_new$3 -> ach:
     com.gdgl.drawer.DeviceDetailFragment_new this$0 -> a
     168:184:void onClick(android.view.View) -> onClick
-com.gdgl.drawer.DeviceDetailFragment_new$4 -> acl:
+com.gdgl.drawer.DeviceDetailFragment_new$4 -> aci:
     com.gdgl.drawer.DeviceDetailFragment_new this$0 -> a
     android.os.Bundle val$data -> b
     315:317:void run() -> run
-com.gdgl.drawer.DeviceDetailFragment_new$5 -> acm:
+com.gdgl.drawer.DeviceDetailFragment_new$5 -> acj:
     com.gdgl.drawer.DeviceDetailFragment_new this$0 -> a
     com.gdgl.mydata.Callback.CallbackResponseCommon val$data -> b
     333:335:void run() -> run
-com.gdgl.drawer.DeviceDetailFragment_new$6 -> acn:
+com.gdgl.drawer.DeviceDetailFragment_new$6 -> ack:
     com.gdgl.drawer.DeviceDetailFragment_new this$0 -> a
     java.lang.String val$valueString -> b
     355:356:void run() -> run
-com.gdgl.drawer.DeviceDetailFragment_new$7 -> aco:
+com.gdgl.drawer.DeviceDetailFragment_new$7 -> acl:
     com.gdgl.drawer.DeviceDetailFragment_new this$0 -> a
     java.lang.String val$valueString -> b
     375:376:void run() -> run
-com.gdgl.drawer.DeviceDetailFragment_new$8 -> acp:
+com.gdgl.drawer.DeviceDetailFragment_new$8 -> acm:
     com.gdgl.drawer.DeviceDetailFragment_new this$0 -> a
     java.lang.String val$valueString -> b
     395:396:void run() -> run
-com.gdgl.drawer.DeviceDetailFragment_new$9 -> acq:
+com.gdgl.drawer.DeviceDetailFragment_new$9 -> acn:
     com.gdgl.drawer.DeviceDetailFragment_new this$0 -> a
     java.lang.String val$valueString -> b
     415:416:void run() -> run
-com.gdgl.drawer.DeviceTabFragment -> acr:
+com.gdgl.drawer.DeviceTabFragment -> aco:
     boolean ENABLE_VEDIO -> a
     boolean lasttime_enablevedio -> c
     android.view.View mView -> b
@@ -21741,7 +21736,7 @@ com.gdgl.drawer.DeviceTabFragment -> acr:
     40:44:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
     48:68:void initView() -> a
     73:78:void onResume() -> onResume
-com.gdgl.drawer.DeviceTabFragment$MyPagerAdapter -> acs:
+com.gdgl.drawer.DeviceTabFragment$MyPagerAdapter -> acp:
     java.lang.String[] TITLES -> b
     java.util.ArrayList fragments -> c
     com.gdgl.drawer.DeviceTabFragment this$0 -> a
@@ -21777,29 +21772,29 @@ com.gdgl.drawer.MainActivity -> com.gdgl.drawer.MainActivity:
     200:326:void update(com.gdgl.manager.Manger,java.lang.Object) -> update
     331:332:void dialogokdo() -> b
     106:106:void access$0(com.gdgl.drawer.MainActivity) -> a
-com.gdgl.drawer.MainActivity$1 -> act:
+com.gdgl.drawer.MainActivity$1 -> acq:
     com.gdgl.drawer.MainActivity this$0 -> a
     75:80:boolean onMenuItemClick(android.view.MenuItem) -> onMenuItemClick
-com.gdgl.drawer.MainActivity$2 -> acu:
+com.gdgl.drawer.MainActivity$2 -> acr:
     com.gdgl.drawer.MainActivity this$0 -> a
     208:209:void run() -> run
-com.gdgl.drawer.MainActivity$3 -> acv:
+com.gdgl.drawer.MainActivity$3 -> acs:
     com.gdgl.drawer.MainActivity this$0 -> a
     222:228:void run() -> run
-com.gdgl.drawer.MainActivity$4 -> acw:
+com.gdgl.drawer.MainActivity$4 -> act:
     com.gdgl.drawer.MainActivity this$0 -> a
     243:251:void run() -> run
-com.gdgl.drawer.MainActivity$5 -> acx:
+com.gdgl.drawer.MainActivity$5 -> acu:
     com.gdgl.drawer.MainActivity this$0 -> a
     265:270:void run() -> run
-com.gdgl.drawer.MainActivity$6 -> acy:
+com.gdgl.drawer.MainActivity$6 -> acv:
     com.gdgl.drawer.MainActivity this$0 -> a
     278:283:void run() -> run
-com.gdgl.drawer.MainActivity$7 -> acz:
+com.gdgl.drawer.MainActivity$7 -> acw:
     com.gdgl.drawer.MainActivity this$0 -> a
     java.lang.String val$expire -> b
     304:307:void run() -> run
-com.gdgl.drawer.MainActivity$8 -> ada:
+com.gdgl.drawer.MainActivity$8 -> acx:
     com.gdgl.drawer.MainActivity this$0 -> a
     315:321:void run() -> run
 com.gdgl.drawer.NavigationDrawerAdapter -> com.gdgl.drawer.NavigationDrawerAdapter:
@@ -21814,17 +21809,17 @@ com.gdgl.drawer.NavigationDrawerAdapter -> com.gdgl.drawer.NavigationDrawerAdapt
     1:1:void onBindViewHolder(android.support.v7.widget.RecyclerView$ViewHolder,int) -> onBindViewHolder
     90:90:void access$2(com.gdgl.drawer.NavigationDrawerAdapter,int) -> a
     21:21:com.gdgl.drawer.NavigationDrawerCallbacks access$3(com.gdgl.drawer.NavigationDrawerAdapter) -> a
-com.gdgl.drawer.NavigationDrawerAdapter$1 -> adb:
+com.gdgl.drawer.NavigationDrawerAdapter$1 -> acy:
     com.gdgl.drawer.NavigationDrawerAdapter this$0 -> a
     com.gdgl.drawer.NavigationDrawerAdapter$ViewHolder val$viewholder -> b
     45:58:boolean onTouch(android.view.View,android.view.MotionEvent) -> onTouch
-com.gdgl.drawer.NavigationDrawerAdapter$2 -> adc:
+com.gdgl.drawer.NavigationDrawerAdapter$2 -> acz:
     com.gdgl.drawer.NavigationDrawerAdapter this$0 -> a
     com.gdgl.drawer.NavigationDrawerAdapter$ViewHolder val$viewholder -> b
     65:67:void onClick(android.view.View) -> onClick
-com.gdgl.drawer.NavigationDrawerAdapter$ViewHolder -> add:
+com.gdgl.drawer.NavigationDrawerAdapter$ViewHolder -> ada:
     android.widget.TextView textView -> a
-com.gdgl.drawer.NavigationDrawerCallbacks -> ade:
+com.gdgl.drawer.NavigationDrawerCallbacks -> adb:
     void onNavigationDrawerItemSelected(int) -> a
 com.gdgl.drawer.NavigationDrawerFragment -> com.gdgl.drawer.NavigationDrawerFragment:
     com.gdgl.drawer.NavigationDrawerCallbacks mCallbacks -> a
@@ -21866,31 +21861,31 @@ com.gdgl.drawer.NavigationDrawerFragment -> com.gdgl.drawer.NavigationDrawerFrag
     68:68:android.widget.TextView access$7(com.gdgl.drawer.NavigationDrawerFragment) -> h
     71:71:java.lang.String access$8(com.gdgl.drawer.NavigationDrawerFragment) -> i
     68:68:android.widget.TextView access$9(com.gdgl.drawer.NavigationDrawerFragment) -> j
-com.gdgl.drawer.NavigationDrawerFragment$1 -> adf:
+com.gdgl.drawer.NavigationDrawerFragment$1 -> adc:
     com.gdgl.drawer.NavigationDrawerFragment this$0 -> a
     120:123:void onClick(android.view.View) -> onClick
-com.gdgl.drawer.NavigationDrawerFragment$2 -> adg:
+com.gdgl.drawer.NavigationDrawerFragment$2 -> add:
     com.gdgl.drawer.NavigationDrawerFragment this$0 -> a
     129:150:boolean onTouch(android.view.View,android.view.MotionEvent) -> onTouch
-com.gdgl.drawer.NavigationDrawerFragment$3 -> adh:
+com.gdgl.drawer.NavigationDrawerFragment$3 -> ade:
     com.gdgl.drawer.NavigationDrawerFragment this$0 -> a
     163:168:void onClick(android.view.View) -> onClick
-com.gdgl.drawer.NavigationDrawerFragment$4 -> adi:
+com.gdgl.drawer.NavigationDrawerFragment$4 -> adf:
     com.gdgl.drawer.NavigationDrawerFragment this$0 -> a
     174:195:boolean onTouch(android.view.View,android.view.MotionEvent) -> onTouch
-com.gdgl.drawer.NavigationDrawerFragment$5 -> adj:
+com.gdgl.drawer.NavigationDrawerFragment$5 -> adg:
     com.gdgl.drawer.NavigationDrawerFragment this$0 -> a
     251:258:void onDrawerClosed(android.view.View) -> onDrawerClosed
     262:273:void onDrawerOpened(android.view.View) -> onDrawerOpened
-com.gdgl.drawer.NavigationDrawerFragment$6 -> adk:
+com.gdgl.drawer.NavigationDrawerFragment$6 -> adh:
     com.gdgl.drawer.NavigationDrawerFragment this$0 -> a
     282:283:void run() -> run
-com.gdgl.drawer.NavigationDrawerFragment$7 -> adl:
+com.gdgl.drawer.NavigationDrawerFragment$7 -> adi:
     com.gdgl.drawer.NavigationDrawerFragment this$0 -> a
     int val$state -> b
     java.lang.String val$expire -> c
     427:430:void run() -> run
-com.gdgl.drawer.NavigationItem -> adm:
+com.gdgl.drawer.NavigationItem -> adj:
     java.lang.String mText -> a
     android.graphics.drawable.Drawable mDrawable -> b
     android.graphics.drawable.Drawable mDrawable_pressed -> c
@@ -21905,7 +21900,7 @@ com.gdgl.drawer.ScrimInsetsFrameLayout -> com.gdgl.drawer.ScrimInsetsFrameLayout
     100:104:void onAttachedToWindow() -> onAttachedToWindow
     108:112:void onDetachedFromWindow() -> onDetachedFromWindow
     121:122:void setOnInsetsCallback(com.gdgl.drawer.ScrimInsetsFrameLayout$OnInsetsCallback) -> setOnInsetsCallback
-com.gdgl.drawer.ScrimInsetsFrameLayout$OnInsetsCallback -> adn:
+com.gdgl.drawer.ScrimInsetsFrameLayout$OnInsetsCallback -> adk:
 com.gdgl.drawer.TestFragment -> com.gdgl.drawer.TestFragment:
     android.widget.GridView content_view -> a
     java.util.List mDeviceList -> b
@@ -21920,22 +21915,22 @@ com.gdgl.drawer.TestFragment -> com.gdgl.drawer.TestFragment:
     250:256:void onDestroy() -> onDestroy
     261:513:void update(com.gdgl.manager.Manger,java.lang.Object) -> update
     517:532:int getDevicesPostion(java.lang.String,java.lang.String,java.util.List) -> a
-com.gdgl.drawer.TestFragment$1 -> ado:
+com.gdgl.drawer.TestFragment$1 -> adl:
     com.gdgl.drawer.TestFragment this$0 -> a
     133:143:void onClick(android.view.View) -> onClick
-com.gdgl.drawer.TestFragment$2 -> adp:
+com.gdgl.drawer.TestFragment$2 -> adm:
     com.gdgl.drawer.TestFragment this$0 -> a
     443:444:void run() -> run
-com.gdgl.drawer.TestFragment$3 -> adq:
+com.gdgl.drawer.TestFragment$3 -> adn:
     com.gdgl.drawer.TestFragment this$0 -> a
     465:466:void run() -> run
-com.gdgl.drawer.TestFragment$4 -> adr:
+com.gdgl.drawer.TestFragment$4 -> ado:
     com.gdgl.drawer.TestFragment this$0 -> a
     482:483:void run() -> run
-com.gdgl.drawer.TestFragment$5 -> ads:
+com.gdgl.drawer.TestFragment$5 -> adp:
     com.gdgl.drawer.TestFragment this$0 -> a
     492:493:void run() -> run
-com.gdgl.drawer.TestFragment$6 -> adt:
+com.gdgl.drawer.TestFragment$6 -> adq:
     com.gdgl.drawer.TestFragment this$0 -> a
     504:508:void run() -> run
 com.gdgl.drawer.TestFragment$CustomeAdapter -> com.gdgl.drawer.TestFragment$CustomeAdapter:
@@ -21947,16 +21942,16 @@ com.gdgl.drawer.TestFragment$CustomeAdapter -> com.gdgl.drawer.TestFragment$Cust
     171:232:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     241:243:void setList(java.util.List) -> setList
     147:147:com.gdgl.drawer.TestFragment access$1(com.gdgl.drawer.TestFragment$CustomeAdapter) -> a
-com.gdgl.drawer.TestFragment$CustomeAdapter$1 -> adu:
+com.gdgl.drawer.TestFragment$CustomeAdapter$1 -> adr:
     com.gdgl.drawer.TestFragment$CustomeAdapter this$1 -> a
     com.gdgl.drawer.TestFragment$CustomeAdapter$ViewHolder val$mViewHolder -> b
     com.gdgl.model.DevicesModel val$mAdapeterDevicesModel -> c
     206:227:boolean onTouch(android.view.View,android.view.MotionEvent) -> onTouch
-com.gdgl.drawer.TestFragment$CustomeAdapter$ViewHolder -> adv:
+com.gdgl.drawer.TestFragment$CustomeAdapter$ViewHolder -> ads:
     android.widget.ImageView funcImg -> a
     android.widget.TextView funcText -> b
     com.gdgl.drawer.TestFragment$CustomeAdapter this$1 -> c
-com.gdgl.drawer.TestFragment$getDataInBackgroundTask -> adw:
+com.gdgl.drawer.TestFragment$getDataInBackgroundTask -> adt:
     com.gdgl.drawer.TestFragment this$0 -> a
     1:1:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 com.gdgl.libjingle.Libjingle -> com.gdgl.libjingle.Libjingle:
@@ -21974,7 +21969,7 @@ com.gdgl.libjingle.Libjingle -> com.gdgl.libjingle.Libjingle:
     184:209:void onGatewayStateChange(int,java.lang.String) -> onGatewayStateChange
     217:220:void onMsgFromGateway(java.lang.String) -> onMsgFromGateway
     224:226:void onMsgFromServer(java.lang.String) -> onMsgFromServer
-com.gdgl.libjingle.LibjingleNetUtil -> adx:
+com.gdgl.libjingle.LibjingleNetUtil -> adu:
     com.gdgl.libjingle.LibjingleNetUtil instance -> e
     java.net.Socket tcpSocket -> a
     java.io.InputStream inputStream -> b
@@ -21983,7 +21978,7 @@ com.gdgl.libjingle.LibjingleNetUtil -> adx:
     25:28:com.gdgl.libjingle.LibjingleNetUtil getInstance() -> a
     32:33:java.lang.String getLocalhostURL(java.lang.String,java.lang.String) -> a
     37:38:java.lang.String getVideoURL(java.lang.String) -> a
-com.gdgl.libjingle.LibjinglePackHandler -> ady:
+com.gdgl.libjingle.LibjinglePackHandler -> adv:
     int request_id -> a
     int gl_status -> b
     int gl_msgtype -> c
@@ -22000,32 +21995,44 @@ com.gdgl.libjingle.LibjingleResponseHandlerManager -> com.gdgl.libjingle.Libjing
     com.gdgl.libjingle.LibjinglePackHandler packHandler -> d
     74:77:com.gdgl.libjingle.LibjingleResponseHandlerManager getInstance() -> a
     200:206:void handle_Json(java.lang.String) -> a
-com.gdgl.libjingle.LibjingleResponseHandlerManager$GetAllRoomInfoTask -> adz:
+com.gdgl.libjingle.LibjingleResponseHandlerManager$GetAllRoomInfoTask -> adw:
     com.gdgl.libjingle.LibjingleResponseHandlerManager this$0 -> a
     1:1:void onPostExecute(java.lang.Object) -> onPostExecute
     1:1:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.gdgl.libjingle.LibjingleResponseHandlerManager$GetBindingTask -> aea:
+com.gdgl.libjingle.LibjingleResponseHandlerManager$GetBindingTask -> adx:
     com.gdgl.libjingle.LibjingleResponseHandlerManager this$0 -> a
-    445:490:java.lang.Object doInBackground(java.lang.String[]) -> a
-    496:496:void onPostExecute(java.lang.Object) -> onPostExecute
+    454:499:java.lang.Object doInBackground(java.lang.String[]) -> a
+    505:505:void onPostExecute(java.lang.Object) -> onPostExecute
     1:1:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.gdgl.libjingle.LibjingleResponseHandlerManager$GetDeviceLearnedTask -> aeb:
+com.gdgl.libjingle.LibjingleResponseHandlerManager$GetDeviceLearnedTask -> ady:
     com.gdgl.libjingle.LibjingleResponseHandlerManager this$0 -> a
-    589:592:void onPostExecute(java.lang.Object) -> onPostExecute
+    598:601:void onPostExecute(java.lang.Object) -> onPostExecute
     1:1:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.gdgl.libjingle.LibjingleResponseHandlerManager$GetEPbyRoomIndexTask -> aec:
+com.gdgl.libjingle.LibjingleResponseHandlerManager$GetEPbyRoomIndexInitTask -> adz:
     com.gdgl.libjingle.LibjingleResponseHandlerManager this$0 -> a
-    638:641:void onPostExecute(java.lang.Object) -> onPostExecute
+    668:671:void onPostExecute(java.lang.Object) -> onPostExecute
     1:1:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.gdgl.libjingle.LibjingleResponseHandlerManager$GetEndPointTask -> aed:
+com.gdgl.libjingle.LibjingleResponseHandlerManager$GetEPbyRoomIndexTask -> aea:
     com.gdgl.libjingle.LibjingleResponseHandlerManager this$0 -> a
-    435:438:void onPostExecute(java.lang.Object) -> onPostExecute
+    648:651:void onPostExecute(java.lang.Object) -> onPostExecute
     1:1:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.gdgl.libjingle.LibjingleResponseHandlerManager$GetLinkageListTask -> aee:
+com.gdgl.libjingle.LibjingleResponseHandlerManager$GetEndPointTask -> aeb:
+    com.gdgl.libjingle.LibjingleResponseHandlerManager this$0 -> a
+    444:447:void onPostExecute(java.lang.Object) -> onPostExecute
+    1:1:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
+com.gdgl.libjingle.LibjingleResponseHandlerManager$GetLinkageListTask -> aec:
     com.gdgl.libjingle.LibjingleResponseHandlerManager this$0 -> a
     1:1:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.gdgl.libjingle.LibjingleResponseHandlerManager$GetLocalIASCIETask -> aef:
+com.gdgl.libjingle.LibjingleResponseHandlerManager$GetLocalIASCIETask -> aed:
     com.gdgl.libjingle.LibjingleResponseHandlerManager this$0 -> a
+    1:1:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
+com.gdgl.libjingle.LibjingleResponseHandlerManager$GetRFDevByRoomIdInitTask -> aee:
+    com.gdgl.libjingle.LibjingleResponseHandlerManager this$0 -> a
+    901:904:void onPostExecute(java.lang.Object) -> onPostExecute
+    1:1:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
+com.gdgl.libjingle.LibjingleResponseHandlerManager$GetRFDevByRoomIdTask -> aef:
+    com.gdgl.libjingle.LibjingleResponseHandlerManager this$0 -> a
+    881:884:void onPostExecute(java.lang.Object) -> onPostExecute
     1:1:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 com.gdgl.libjingle.LibjingleResponseHandlerManager$GetRFDevListTask -> aeg:
     com.gdgl.libjingle.LibjingleResponseHandlerManager this$0 -> a
@@ -22038,7 +22045,7 @@ com.gdgl.libjingle.LibjingleResponseHandlerManager$GetTimingActionListTask -> ae
     1:1:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 com.gdgl.libjingle.LibjingleResponseHandlerManager$GetVideoListTast -> aej:
     com.gdgl.libjingle.LibjingleResponseHandlerManager this$0 -> a
-    708:721:java.util.ArrayList decodeAlias2Chinese(com.gdgl.mydata.video.VideoResponse) -> a
+    738:751:java.util.ArrayList decodeAlias2Chinese(com.gdgl.mydata.video.VideoResponse) -> a
     1:1:void onPostExecute(java.lang.Object) -> onPostExecute
     1:1:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 com.gdgl.libjingle.LibjingleResponseHandlerManager$InitialCIETask -> aek:
@@ -22046,7 +22053,7 @@ com.gdgl.libjingle.LibjingleResponseHandlerManager$InitialCIETask -> aek:
     1:1:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 com.gdgl.libjingle.LibjingleResponseHandlerManager$UpdateDeviceHeartTime -> ael:
     com.gdgl.libjingle.LibjingleResponseHandlerManager this$0 -> a
-    649:674:android.os.Bundle doInBackground(java.lang.String[]) -> a
+    679:704:android.os.Bundle doInBackground(java.lang.String[]) -> a
     1:1:void onPostExecute(java.lang.Object) -> onPostExecute
     1:1:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 com.gdgl.libjingle.LibjingleSendManager -> com.gdgl.libjingle.LibjingleSendManager:
@@ -22054,7 +22061,7 @@ com.gdgl.libjingle.LibjingleSendManager -> com.gdgl.libjingle.LibjingleSendManag
     com.gdgl.libjingle.LibjingleSendManager instance -> b
     int reqID -> c
     25:28:com.gdgl.libjingle.LibjingleSendManager getInstance() -> a
-    34:35:int getReqID() -> l
+    34:35:int getReqID() -> m
     45:66:void getDeviceEndPoint() -> b
     261:289:void MainsOutLetOperation(com.gdgl.model.DevicesModel,int) -> a
     303:331:void dimmableLightOperation(com.gdgl.model.DevicesModel,int,int) -> a
@@ -22066,29 +22073,34 @@ com.gdgl.libjingle.LibjingleSendManager -> com.gdgl.libjingle.LibjingleSendManag
     656:680:void LocalIASCIEByPassZone(com.gdgl.model.DevicesModel) -> b
     687:711:void LocalIASCIEUnByPassZone(com.gdgl.model.DevicesModel) -> c
     714:735:void getLocalCIEList() -> d
-    1249:1273:void IdentifyDevice(com.gdgl.model.DevicesModel,java.lang.String) -> a
-    1279:1294:void stopAlarm() -> e
-    1297:1324:void getHeartTime(com.gdgl.model.DevicesModel) -> d
-    1333:1348:void getIPClist() -> f
-    1352:1374:void sendVideoReq(int) -> b
-    1382:1397:void GetSceneList() -> g
-    1400:1421:void AddScene(java.lang.String,java.lang.String,int) -> a
-    1425:1447:void EditScene(java.lang.String,java.lang.String,int,int) -> a
-    1450:1469:void DelScene(int) -> c
-    1472:1491:void DoScene(int) -> d
-    1499:1514:void GetLinkageList() -> h
-    1518:1543:void AddLinkage(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,int) -> a
-    1547:1572:void EditLinkage(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,int,int) -> a
-    1575:1594:void DeleteLinkage(int) -> e
-    1597:1617:void EnableLinkage(int,int) -> a
-    1625:1640:void GetTimeActionList() -> i
-    1644:1669:void AddTimeAction$30d9606(java.lang.String,java.lang.String,java.lang.String,int,java.lang.String) -> a
-    1673:1699:void EditTimeAction$5ea4b7b7(java.lang.String,java.lang.String,java.lang.String,int,java.lang.String,int) -> a
-    1702:1721:void DelTimeAction(int) -> f
-    1724:1744:void EnableTimeAction(int,int) -> b
-    1752:1767:void GetRFDevList() -> j
-    1793:1813:void ChangeRFDevArmState(java.lang.String,int) -> a
-    1863:1878:void getGateWayAuthState() -> k
+    1088:1110:void GetAllRoomInfo() -> e
+    1118:1140:void GetEPByRoomIndex(java.lang.String) -> a
+    1239:1264:void ModifyDeviceRoomId(com.gdgl.model.DevicesModel,java.lang.String) -> a
+    1273:1297:void IdentifyDevice(com.gdgl.model.DevicesModel,java.lang.String) -> b
+    1303:1318:void stopAlarm() -> f
+    1321:1348:void getHeartTime(com.gdgl.model.DevicesModel) -> d
+    1357:1372:void getIPClist() -> g
+    1376:1398:void sendVideoReq(int) -> b
+    1406:1421:void GetSceneList() -> h
+    1424:1445:void AddScene(java.lang.String,java.lang.String,int) -> a
+    1449:1471:void EditScene(java.lang.String,java.lang.String,int,int) -> a
+    1474:1493:void DelScene(int) -> c
+    1496:1515:void DoScene(int) -> d
+    1523:1538:void GetLinkageList() -> i
+    1542:1567:void AddLinkage(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,int) -> a
+    1571:1596:void EditLinkage(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,int,int) -> a
+    1599:1618:void DeleteLinkage(int) -> e
+    1621:1641:void EnableLinkage(int,int) -> a
+    1649:1664:void GetTimeActionList() -> j
+    1668:1693:void AddTimeAction$30d9606(java.lang.String,java.lang.String,java.lang.String,int,java.lang.String) -> a
+    1697:1723:void EditTimeAction$5ea4b7b7(java.lang.String,java.lang.String,java.lang.String,int,java.lang.String,int) -> a
+    1726:1745:void DelTimeAction(int) -> f
+    1748:1768:void EnableTimeAction(int,int) -> b
+    1776:1791:void GetRFDevList() -> k
+    1817:1837:void ChangeRFDevArmState(java.lang.String,int) -> a
+    1887:1907:void ModifyRFDevRoomId(com.gdgl.model.DevicesModel,java.lang.String) -> c
+    1910:1928:void GetRFDevByRoomId(java.lang.String) -> b
+    1952:1967:void getGateWayAuthState() -> l
 com.gdgl.libjingle.LibjingleVideoSocket -> aem:
     java.net.Socket videosocket -> a
     int reqID -> b
@@ -22118,23 +22130,23 @@ com.gdgl.manager.CGIManager -> com.gdgl.manager.CGIManager:
     1125:1164:void getDeviceLearnedIRDataInformation(com.gdgl.model.DevicesModel) -> e
     1170:1203:void GetAllRoomInfo() -> b
     1211:1244:void GetEPByRoomIndex(java.lang.String) -> b
-    1254:1308:void ZBAddRoomDataMain(java.lang.String,java.lang.String,java.lang.String) -> a
-    1316:1361:void ZBDeleteRoomDataMainByID(java.lang.String) -> c
-    1370:1417:void ModifyDeviceRoomId(com.gdgl.model.DevicesModel,java.lang.String) -> a
-    1424:1448:void NotifyRoomIdHasBeenDeleted(java.lang.String) -> d
-    1457:1490:void IdentifyDevice(com.gdgl.model.DevicesModel,java.lang.String) -> b
-    1499:1535:void ChangeDeviceName(com.gdgl.model.DevicesModel,java.lang.String) -> c
-    1539:1575:void ChangeDeviceName(java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> a
-    1581:1596:void stopAlarm() -> c
-    1603:1639:void getHeartTime(com.gdgl.model.DevicesModel) -> f
-    1648:1681:void setHeartTime(com.gdgl.model.DevicesModel,int) -> f
-    1735:1779:void getHistoryDataNum$78a4d1d0(java.lang.String,java.lang.String,java.lang.String) -> b
-    1782:1824:void getGateWayAuthState() -> getGateWayAuthState
-    1827:1873:void getGatewaySwVersion() -> getGatewaySwVersion
-    1876:1895:void gatewayDoUpdate() -> d
-    1898:1940:void feedbackToServer(java.lang.String,java.lang.String) -> a
-    1944:1983:void changeEmailAddress(java.lang.String,java.lang.String,int) -> a
-    1987:2033:void getEmailAddrStatus(java.lang.String) -> e
+    1289:1343:void ZBAddRoomDataMain(java.lang.String,java.lang.String,java.lang.String) -> a
+    1351:1396:void ZBDeleteRoomDataMainByID(java.lang.String) -> c
+    1405:1452:void ModifyDeviceRoomId(com.gdgl.model.DevicesModel,java.lang.String) -> a
+    1459:1483:void NotifyRoomIdHasBeenDeleted(java.lang.String) -> d
+    1492:1525:void IdentifyDevice(com.gdgl.model.DevicesModel,java.lang.String) -> b
+    1534:1570:void ChangeDeviceName(com.gdgl.model.DevicesModel,java.lang.String) -> c
+    1574:1610:void ChangeDeviceName(java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> a
+    1616:1631:void stopAlarm() -> c
+    1638:1674:void getHeartTime(com.gdgl.model.DevicesModel) -> f
+    1683:1716:void setHeartTime(com.gdgl.model.DevicesModel,int) -> f
+    1770:1814:void getHistoryDataNum$78a4d1d0(java.lang.String,java.lang.String,java.lang.String) -> b
+    1817:1859:void getGateWayAuthState() -> getGateWayAuthState
+    1862:1908:void getGatewaySwVersion() -> getGatewaySwVersion
+    1911:1930:void gatewayDoUpdate() -> d
+    1933:1975:void feedbackToServer(java.lang.String,java.lang.String) -> a
+    1979:2018:void changeEmailAddress(java.lang.String,java.lang.String,int) -> a
+    2022:2068:void getEmailAddrStatus(java.lang.String) -> e
 com.gdgl.manager.CGIManager$1 -> aen:
     com.gdgl.manager.CGIManager this$0 -> a
     1:1:void onResponse(java.lang.Object) -> a
@@ -22195,118 +22207,118 @@ com.gdgl.manager.CGIManager$27 -> afe:
 com.gdgl.manager.CGIManager$28 -> aff:
     com.gdgl.manager.CGIManager this$0 -> a
     1240:1240:void onErrorResponse(com.android.volley.VolleyError) -> a
-com.gdgl.manager.CGIManager$29 -> afg:
+com.gdgl.manager.CGIManager$31 -> afg:
     com.gdgl.manager.CGIManager this$0 -> a
     1:1:void onResponse(java.lang.Object) -> a
-com.gdgl.manager.CGIManager$30 -> afh:
+com.gdgl.manager.CGIManager$32 -> afh:
     com.gdgl.manager.CGIManager this$0 -> a
-    1284:1293:void onErrorResponse(com.android.volley.VolleyError) -> a
-com.gdgl.manager.CGIManager$31 -> afi:
+    1319:1328:void onErrorResponse(com.android.volley.VolleyError) -> a
+com.gdgl.manager.CGIManager$33 -> afi:
     com.gdgl.manager.CGIManager this$0 -> c
-    1298:1303:java.util.Map getHeaders() -> h
-com.gdgl.manager.CGIManager$32 -> afj:
+    1333:1338:java.util.Map getHeaders() -> h
+com.gdgl.manager.CGIManager$34 -> afj:
     com.gdgl.manager.CGIManager this$0 -> a
     java.lang.String val$rid -> b
     1:1:void onResponse(java.lang.Object) -> a
-com.gdgl.manager.CGIManager$33 -> afk:
+com.gdgl.manager.CGIManager$35 -> afk:
     com.gdgl.manager.CGIManager this$0 -> a
-    1348:1357:void onErrorResponse(com.android.volley.VolleyError) -> a
-com.gdgl.manager.CGIManager$34 -> afl:
-    com.gdgl.manager.CGIManager this$0 -> a
-    1:1:void onResponse(java.lang.Object) -> a
-com.gdgl.manager.CGIManager$35 -> afm:
-    com.gdgl.manager.CGIManager this$0 -> a
-    1403:1413:void onErrorResponse(com.android.volley.VolleyError) -> a
-com.gdgl.manager.CGIManager$36 -> afn:
+    1383:1392:void onErrorResponse(com.android.volley.VolleyError) -> a
+com.gdgl.manager.CGIManager$36 -> afl:
     com.gdgl.manager.CGIManager this$0 -> a
     1:1:void onResponse(java.lang.Object) -> a
-com.gdgl.manager.CGIManager$37 -> afo:
+com.gdgl.manager.CGIManager$37 -> afm:
     com.gdgl.manager.CGIManager this$0 -> a
-    1444:1444:void onErrorResponse(com.android.volley.VolleyError) -> a
-com.gdgl.manager.CGIManager$38 -> afp:
-    com.gdgl.manager.CGIManager this$0 -> a
-    1:1:void onResponse(java.lang.Object) -> a
-com.gdgl.manager.CGIManager$39 -> afq:
-    com.gdgl.manager.CGIManager this$0 -> a
-    1481:1486:void onErrorResponse(com.android.volley.VolleyError) -> a
-com.gdgl.manager.CGIManager$40 -> afr:
+    1438:1448:void onErrorResponse(com.android.volley.VolleyError) -> a
+com.gdgl.manager.CGIManager$38 -> afn:
     com.gdgl.manager.CGIManager this$0 -> a
     1:1:void onResponse(java.lang.Object) -> a
-com.gdgl.manager.CGIManager$41 -> afs:
+com.gdgl.manager.CGIManager$39 -> afo:
     com.gdgl.manager.CGIManager this$0 -> a
-    1526:1531:void onErrorResponse(com.android.volley.VolleyError) -> a
-com.gdgl.manager.CGIManager$42 -> aft:
-    com.gdgl.manager.CGIManager this$0 -> a
-    1:1:void onResponse(java.lang.Object) -> a
-com.gdgl.manager.CGIManager$43 -> afu:
-    com.gdgl.manager.CGIManager this$0 -> a
-    1566:1571:void onErrorResponse(com.android.volley.VolleyError) -> a
-com.gdgl.manager.CGIManager$44 -> afv:
+    1479:1479:void onErrorResponse(com.android.volley.VolleyError) -> a
+com.gdgl.manager.CGIManager$40 -> afp:
     com.gdgl.manager.CGIManager this$0 -> a
     1:1:void onResponse(java.lang.Object) -> a
-com.gdgl.manager.CGIManager$45 -> afw:
+com.gdgl.manager.CGIManager$41 -> afq:
     com.gdgl.manager.CGIManager this$0 -> a
-    1593:1593:void onErrorResponse(com.android.volley.VolleyError) -> a
-com.gdgl.manager.CGIManager$46 -> afx:
-    com.gdgl.manager.CGIManager this$0 -> a
-    1:1:void onResponse(java.lang.Object) -> a
-com.gdgl.manager.CGIManager$47 -> afy:
-    com.gdgl.manager.CGIManager this$0 -> a
-    1630:1635:void onErrorResponse(com.android.volley.VolleyError) -> a
-com.gdgl.manager.CGIManager$48 -> afz:
+    1516:1521:void onErrorResponse(com.android.volley.VolleyError) -> a
+com.gdgl.manager.CGIManager$42 -> afr:
     com.gdgl.manager.CGIManager this$0 -> a
     1:1:void onResponse(java.lang.Object) -> a
-com.gdgl.manager.CGIManager$49 -> aga:
+com.gdgl.manager.CGIManager$43 -> afs:
     com.gdgl.manager.CGIManager this$0 -> a
-    1672:1677:void onErrorResponse(com.android.volley.VolleyError) -> a
-com.gdgl.manager.CGIManager$5 -> agb:
-    com.gdgl.manager.CGIManager this$0 -> a
-    1:1:void onResponse(java.lang.Object) -> a
-com.gdgl.manager.CGIManager$52 -> agc:
+    1561:1566:void onErrorResponse(com.android.volley.VolleyError) -> a
+com.gdgl.manager.CGIManager$44 -> aft:
     com.gdgl.manager.CGIManager this$0 -> a
     1:1:void onResponse(java.lang.Object) -> a
-com.gdgl.manager.CGIManager$53 -> agd:
+com.gdgl.manager.CGIManager$45 -> afu:
     com.gdgl.manager.CGIManager this$0 -> a
-    1772:1776:void onErrorResponse(com.android.volley.VolleyError) -> a
-com.gdgl.manager.CGIManager$54 -> age:
-    com.gdgl.manager.CGIManager this$0 -> a
-    1:1:void onResponse(java.lang.Object) -> a
-com.gdgl.manager.CGIManager$55 -> agf:
-    com.gdgl.manager.CGIManager this$0 -> a
-    1819:1821:void onErrorResponse(com.android.volley.VolleyError) -> a
-com.gdgl.manager.CGIManager$56 -> agg:
+    1601:1606:void onErrorResponse(com.android.volley.VolleyError) -> a
+com.gdgl.manager.CGIManager$46 -> afv:
     com.gdgl.manager.CGIManager this$0 -> a
     1:1:void onResponse(java.lang.Object) -> a
-com.gdgl.manager.CGIManager$57 -> agh:
+com.gdgl.manager.CGIManager$47 -> afw:
     com.gdgl.manager.CGIManager this$0 -> a
-    1870:1870:void onErrorResponse(com.android.volley.VolleyError) -> a
-com.gdgl.manager.CGIManager$58 -> agi:
+    1628:1628:void onErrorResponse(com.android.volley.VolleyError) -> a
+com.gdgl.manager.CGIManager$48 -> afx:
     com.gdgl.manager.CGIManager this$0 -> a
     1:1:void onResponse(java.lang.Object) -> a
-com.gdgl.manager.CGIManager$59 -> agj:
+com.gdgl.manager.CGIManager$49 -> afy:
     com.gdgl.manager.CGIManager this$0 -> a
-    1892:1892:void onErrorResponse(com.android.volley.VolleyError) -> a
-com.gdgl.manager.CGIManager$6 -> agk:
+    1665:1670:void onErrorResponse(com.android.volley.VolleyError) -> a
+com.gdgl.manager.CGIManager$5 -> afz:
+    com.gdgl.manager.CGIManager this$0 -> a
+    1:1:void onResponse(java.lang.Object) -> a
+com.gdgl.manager.CGIManager$50 -> aga:
+    com.gdgl.manager.CGIManager this$0 -> a
+    1:1:void onResponse(java.lang.Object) -> a
+com.gdgl.manager.CGIManager$51 -> agb:
+    com.gdgl.manager.CGIManager this$0 -> a
+    1707:1712:void onErrorResponse(com.android.volley.VolleyError) -> a
+com.gdgl.manager.CGIManager$54 -> agc:
+    com.gdgl.manager.CGIManager this$0 -> a
+    1:1:void onResponse(java.lang.Object) -> a
+com.gdgl.manager.CGIManager$55 -> agd:
+    com.gdgl.manager.CGIManager this$0 -> a
+    1807:1811:void onErrorResponse(com.android.volley.VolleyError) -> a
+com.gdgl.manager.CGIManager$56 -> age:
+    com.gdgl.manager.CGIManager this$0 -> a
+    1:1:void onResponse(java.lang.Object) -> a
+com.gdgl.manager.CGIManager$57 -> agf:
+    com.gdgl.manager.CGIManager this$0 -> a
+    1854:1856:void onErrorResponse(com.android.volley.VolleyError) -> a
+com.gdgl.manager.CGIManager$58 -> agg:
+    com.gdgl.manager.CGIManager this$0 -> a
+    1:1:void onResponse(java.lang.Object) -> a
+com.gdgl.manager.CGIManager$59 -> agh:
+    com.gdgl.manager.CGIManager this$0 -> a
+    1905:1905:void onErrorResponse(com.android.volley.VolleyError) -> a
+com.gdgl.manager.CGIManager$6 -> agi:
     com.gdgl.manager.CGIManager this$0 -> a
     239:239:void onErrorResponse(com.android.volley.VolleyError) -> a
-com.gdgl.manager.CGIManager$60 -> agl:
+com.gdgl.manager.CGIManager$60 -> agj:
     com.gdgl.manager.CGIManager this$0 -> a
     1:1:void onResponse(java.lang.Object) -> a
-com.gdgl.manager.CGIManager$61 -> agm:
+com.gdgl.manager.CGIManager$61 -> agk:
     com.gdgl.manager.CGIManager this$0 -> a
-    1930:1937:void onErrorResponse(com.android.volley.VolleyError) -> a
-com.gdgl.manager.CGIManager$62 -> agn:
-    com.gdgl.manager.CGIManager this$0 -> a
-    1:1:void onResponse(java.lang.Object) -> a
-com.gdgl.manager.CGIManager$63 -> ago:
-    com.gdgl.manager.CGIManager this$0 -> a
-    1979:1979:void onErrorResponse(com.android.volley.VolleyError) -> a
-com.gdgl.manager.CGIManager$64 -> agp:
+    1927:1927:void onErrorResponse(com.android.volley.VolleyError) -> a
+com.gdgl.manager.CGIManager$62 -> agl:
     com.gdgl.manager.CGIManager this$0 -> a
     1:1:void onResponse(java.lang.Object) -> a
-com.gdgl.manager.CGIManager$65 -> agq:
+com.gdgl.manager.CGIManager$63 -> agm:
     com.gdgl.manager.CGIManager this$0 -> a
-    2026:2029:void onErrorResponse(com.android.volley.VolleyError) -> a
+    1965:1972:void onErrorResponse(com.android.volley.VolleyError) -> a
+com.gdgl.manager.CGIManager$64 -> agn:
+    com.gdgl.manager.CGIManager this$0 -> a
+    1:1:void onResponse(java.lang.Object) -> a
+com.gdgl.manager.CGIManager$65 -> ago:
+    com.gdgl.manager.CGIManager this$0 -> a
+    2014:2014:void onErrorResponse(com.android.volley.VolleyError) -> a
+com.gdgl.manager.CGIManager$66 -> agp:
+    com.gdgl.manager.CGIManager this$0 -> a
+    1:1:void onResponse(java.lang.Object) -> a
+com.gdgl.manager.CGIManager$67 -> agq:
+    com.gdgl.manager.CGIManager this$0 -> a
+    2061:2064:void onErrorResponse(com.android.volley.VolleyError) -> a
 com.gdgl.manager.CGIManager$7 -> agr:
     com.gdgl.manager.CGIManager this$0 -> a
     1:1:void onResponse(java.lang.Object) -> a
@@ -22322,15 +22334,15 @@ com.gdgl.manager.CGIManager$GetAllRoomInfoTask -> agu:
     1:1:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 com.gdgl.manager.CGIManager$GetDeviceLearnedTask -> agv:
     com.gdgl.manager.CGIManager this$0 -> a
-    2105:2108:void onPostExecute(java.lang.Object) -> onPostExecute
+    2140:2143:void onPostExecute(java.lang.Object) -> onPostExecute
     1:1:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 com.gdgl.manager.CGIManager$GetEPbyRoomIndexTask -> agw:
     com.gdgl.manager.CGIManager this$0 -> a
-    2175:2178:void onPostExecute(java.lang.Object) -> onPostExecute
+    2210:2213:void onPostExecute(java.lang.Object) -> onPostExecute
     1:1:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 com.gdgl.manager.CGIManager$UpdateDeviceHeartTimeToDatabaseTask -> agx:
     com.gdgl.manager.CGIManager this$0 -> a
-    2188:2213:android.os.Bundle doInBackground(java.lang.String[]) -> a
+    2255:2280:android.os.Bundle doInBackground(java.lang.String[]) -> a
     1:1:void onPostExecute(java.lang.Object) -> onPostExecute
     1:1:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 com.gdgl.manager.CallbackManager -> com.gdgl.manager.CallbackManager:
@@ -22415,8 +22427,8 @@ com.gdgl.manager.LoginManager -> com.gdgl.manager.LoginManager:
     com.gdgl.manager.LoginManager instance -> a
     31:34:com.gdgl.manager.LoginManager getInstance() -> a
     38:73:void doLogin(com.gdgl.mydata.AccountInfo) -> a
-    76:112:void ModifyPassword(com.gdgl.mydata.AccountInfo,java.lang.String) -> a
-    115:152:void modifyAlias(com.gdgl.mydata.AccountInfo,java.lang.String) -> b
+    76:113:void ModifyPassword(com.gdgl.mydata.AccountInfo,java.lang.String) -> a
+    116:153:void modifyAlias(com.gdgl.mydata.AccountInfo,java.lang.String) -> b
 com.gdgl.manager.LoginManager$1 -> ahp:
     com.gdgl.manager.LoginManager this$0 -> a
     1:1:void onResponse(java.lang.Object) -> a
@@ -22428,13 +22440,13 @@ com.gdgl.manager.LoginManager$3 -> ahr:
     1:1:void onResponse(java.lang.Object) -> a
 com.gdgl.manager.LoginManager$4 -> ahs:
     com.gdgl.manager.LoginManager this$0 -> a
-    102:108:void onErrorResponse(com.android.volley.VolleyError) -> a
+    103:109:void onErrorResponse(com.android.volley.VolleyError) -> a
 com.gdgl.manager.LoginManager$5 -> aht:
     com.gdgl.manager.LoginManager this$0 -> a
     1:1:void onResponse(java.lang.Object) -> a
 com.gdgl.manager.LoginManager$6 -> ahu:
     com.gdgl.manager.LoginManager this$0 -> a
-    142:148:void onErrorResponse(com.android.volley.VolleyError) -> a
+    143:149:void onErrorResponse(com.android.volley.VolleyError) -> a
 com.gdgl.manager.Manger -> com.gdgl.manager.Manger:
     boolean changed -> changed
     java.util.Vector observers -> observers
@@ -22504,7 +22516,7 @@ com.gdgl.manager.RfCGIManager$8 -> aii:
     136:136:void onErrorResponse(com.android.volley.VolleyError) -> a
 com.gdgl.manager.RfCGIManager$GetRFDevByRoomIdTask -> aij:
     com.gdgl.manager.RfCGIManager this$0 -> a
-    303:306:void onPostExecute(java.lang.Object) -> onPostExecute
+    327:330:void onPostExecute(java.lang.Object) -> onPostExecute
     1:1:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 com.gdgl.manager.RfCGIManager$GetRFDevListTask -> aik:
     com.gdgl.manager.RfCGIManager this$0 -> a
@@ -22742,7 +22754,6 @@ com.gdgl.model.DevicesModel -> com.gdgl.model.DevicesModel:
     165:166:void setmCurCount(java.lang.String) -> setmCurCount
     169:169:int getmDeviceId() -> getmDeviceId
     173:174:void setmDeviceId(int) -> setmDeviceId
-    177:177:java.lang.String getmRid() -> getmRid
     181:182:void setmRid(java.lang.String) -> setmRid
     185:185:java.lang.String getmPicName() -> getmPicName
     189:190:void setmPicName(java.lang.String) -> setmPicName
@@ -22822,21 +22833,21 @@ com.gdgl.model.LibjingleSendStructure -> com.gdgl.model.LibjingleSendStructure:
     int api_type -> c
     com.gdgl.model.LibjingleSendStructure$RequestTimer mRequestTimer -> d
     java.util.ArrayList mList -> e
-    145:145:int getRequest_id() -> getRequest_id
-    148:149:void setRequest_id(int) -> setRequest_id
-    154:155:void setGl_msgtype(int) -> setGl_msgtype
-    157:157:int getAPI_type() -> getAPI_type
-    160:161:void setAPI_type(int) -> setAPI_type
-    169:171:void removeLibjingleSendStructure() -> a
+    149:149:int getRequest_id() -> getRequest_id
+    152:153:void setRequest_id(int) -> setRequest_id
+    158:159:void setGl_msgtype(int) -> setGl_msgtype
+    161:161:int getAPI_type() -> getAPI_type
+    164:165:void setAPI_type(int) -> setAPI_type
+    173:175:void removeLibjingleSendStructure() -> a
 com.gdgl.model.LibjingleSendStructure$RequestTimer -> ake:
     java.lang.String RequestTimerTag -> c
     int SEC -> d
     java.util.Timer mTimer -> a
     com.gdgl.model.LibjingleSendStructure this$0 -> b
-    137:139:void stopTimer() -> a
+    141:143:void stopTimer() -> a
 com.gdgl.model.LibjingleSendStructure$RequestTimer$RequestTimerTask -> akf:
     com.gdgl.model.LibjingleSendStructure$RequestTimer this$1 -> a
-    125:126:void run() -> run
+    129:130:void run() -> run
 com.gdgl.model.RemoteControl -> akg:
     java.lang.String Index -> a
     java.lang.String Name -> b
@@ -23464,6 +23475,7 @@ com.gdgl.mydata.EventType -> com.gdgl.mydata.EventType:
     com.gdgl.mydata.EventType SCAPEDDEVICE -> SCAPEDDEVICE
     com.gdgl.mydata.EventType GETALLROOM -> GETALLROOM
     com.gdgl.mydata.EventType GETEPBYROOMINDEX -> GETEPBYROOMINDEX
+    com.gdgl.mydata.EventType GETEPBYROOMINDEXINIT -> GETEPBYROOMINDEXINIT
     com.gdgl.mydata.EventType ROOMDATAMAIN -> ROOMDATAMAIN
     com.gdgl.mydata.EventType MODIFYDEVICEROOMID -> MODIFYDEVICEROOMID
     com.gdgl.mydata.EventType ADDTIMINGACTION -> ADDTIMINGACTION
@@ -23496,9 +23508,10 @@ com.gdgl.mydata.EventType -> com.gdgl.mydata.EventType:
     com.gdgl.mydata.EventType RF_DEVICE_LIST_UPDATE -> RF_DEVICE_LIST_UPDATE
     com.gdgl.mydata.EventType RF_DEVICE_ONLINE_STATUS -> RF_DEVICE_ONLINE_STATUS
     com.gdgl.mydata.EventType RF_GETEPBYROOMINDEX -> RF_GETEPBYROOMINDEX
+    com.gdgl.mydata.EventType RF_GETEPBYROOMINDEXINIT -> RF_GETEPBYROOMINDEXINIT
     com.gdgl.mydata.EventType CHANGEEMAILADDRESS -> CHANGEEMAILADDRESS
     com.gdgl.mydata.EventType GETEMAILADDRESS -> GETEMAILADDRESS
-    209:209:int nextId() -> nextId
+    213:213:int nextId() -> nextId
 com.gdgl.mydata.Linkage -> com.gdgl.mydata.Linkage:
     long serialVersionUID -> serialVersionUID
     int lid -> lid

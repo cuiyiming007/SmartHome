@@ -851,7 +851,7 @@ com.gdgl.activity.DevicesListFragment:
     com.gdgl.model.DevicesModel onekeyopratorModel
     public static final int WITH_OPERATE
     public static final int WITHOUT_OPERATE
-    350:351:public void setSelectedPostion(int)
+    349:350:public void setSelectedPostion(int)
 com.gdgl.activity.DevicesListFragment$intialDataTask
 com.gdgl.activity.DevicesListFragment$setData
 com.gdgl.activity.DoorBellFragment
@@ -907,13 +907,13 @@ com.gdgl.activity.LinkageDetailActivity:
     android.widget.Spinner spinner_act_type
     android.widget.Switch switch_act_type
     android.widget.EditText edit_trg_data
-    213:238:private boolean checkLinkageData()
+    194:219:private boolean checkLinkageData()
 com.gdgl.activity.LinkageDevicesAddFragment$ChangeFragment
 com.gdgl.activity.LinkageDevicesAddFragment$LinkageDevicesAddListAdapter:
     protected com.gdgl.activity.LinkageDevicesAddFragment$AddChecked mDevicesObserver
     private java.util.Map isSelected
-    93:100:public LinkageDevicesAddFragment$LinkageDevicesAddListAdapter(com.gdgl.activity.LinkageDevicesAddFragment,java.util.List,com.gdgl.activity.LinkageDevicesAddFragment$AddChecked)
-    175:177:public void setList(java.util.List)
+    91:98:public LinkageDevicesAddFragment$LinkageDevicesAddListAdapter(com.gdgl.activity.LinkageDevicesAddFragment,java.util.List,com.gdgl.activity.LinkageDevicesAddFragment$AddChecked)
+    173:175:public void setList(java.util.List)
 com.gdgl.activity.LockFragment
 com.gdgl.activity.LockFragment$1
 com.gdgl.activity.LockFragment$2
@@ -950,12 +950,12 @@ com.gdgl.activity.RegionDevicesActivity:
     public static final int CONTROL_FRAGMENT
     public static final int ADD_FRAGMENT
     com.gdgl.activity.AllDevicesFragment mAllDevicesFragment
+    280:290:public boolean updateDevices(com.gdgl.model.DevicesModel,android.content.ContentValues,java.lang.String)
+    330:337:private int getDevicesPostion(java.lang.String,java.lang.String,java.util.List)
 com.gdgl.activity.RegionDevicesAddFragment:
     com.gdgl.activity.RegionDevicesAddFragment$AddChecked mAddChecked
-com.gdgl.activity.RegionDevicesAddFragment$RegionDevicesAddListAdapter:
-    153:155:public void setList(java.util.List)
 com.gdgl.activity.RegionsFragment:
-    83:90:private void refreshList()
+    com.gdgl.mydata.DataHelper mDateHelper
 com.gdgl.activity.SafeSimpleOperation
 com.gdgl.activity.SafeSimpleOperation$1
 com.gdgl.activity.SafeSimpleOperation$2
@@ -1118,14 +1118,13 @@ com.gdgl.libjingle.LibjingleSendManager:
     1002:1027:public void beginApplyIR(com.gdgl.model.DevicesModel,int)
     1030:1054:public void DeleteIR(com.gdgl.model.DevicesModel,int)
     1057:1082:public void getDeviceLearnedIRDataInformation(com.gdgl.model.DevicesModel)
-    1088:1110:public void GetAllRoomInfo()
-    1118:1141:public void GetEPByRoomIndex(java.lang.String)
-    1151:1175:public void ZBAddRoomDataMain(java.lang.String,java.lang.String,java.lang.String)
-    1183:1206:public void ZBDeleteRoomDataMainByID(java.lang.String)
-    1215:1240:public void ModifyDeviceRoomId(com.gdgl.model.DevicesModel,java.lang.String)
-    1770:1790:public void ChangeRFDevName(java.lang.String,java.lang.String)
-    1816:1837:public void RFWarningDevOperation(java.lang.String,int,int)
-    1840:1860:public void ChangeRFDevActivationState(java.lang.String,int)
+    1142:1165:public void GetEPByRoomIndexInit(java.lang.String)
+    1175:1199:public void ZBAddRoomDataMain(java.lang.String,java.lang.String,java.lang.String)
+    1207:1230:public void ZBDeleteRoomDataMainByID(java.lang.String)
+    1794:1814:public void ChangeRFDevName(java.lang.String,java.lang.String)
+    1840:1861:public void RFWarningDevOperation(java.lang.String,int,int)
+    1864:1884:public void ChangeRFDevActivationState(java.lang.String,int)
+    1930:1949:public void GetRFDevByRoomIdInit(java.lang.String)
 com.gdgl.libjingle.LibjingleVideoSocket:
     private static final java.lang.String TAG
     14:14:public LibjingleVideoSocket()
@@ -1140,14 +1139,18 @@ com.gdgl.manager.CGIManager:
     772:820:public void iASZoneOperationCommon(com.gdgl.model.DevicesModel,int,int)
     918:935:public void rangeExtenderOperation(com.gdgl.model.DevicesModel,int)
     949:966:public void iASACE(com.gdgl.model.SimpleDevicesModel,int)
-    1686:1731:public void getHistoryDataByTime(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String)
+    1247:1280:public void GetEPByRoomIndexInit(java.lang.String)
+    1721:1766:public void getHistoryDataByTime(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String)
 com.gdgl.manager.CGIManager$13
 com.gdgl.manager.CGIManager$14
+com.gdgl.manager.CGIManager$29
 com.gdgl.manager.CGIManager$3
+com.gdgl.manager.CGIManager$30
 com.gdgl.manager.CGIManager$4
-com.gdgl.manager.CGIManager$50
-com.gdgl.manager.CGIManager$51
+com.gdgl.manager.CGIManager$52
+com.gdgl.manager.CGIManager$53
 com.gdgl.manager.CGIManager$GetBindingTask
+com.gdgl.manager.CGIManager$GetEPbyRoomIndexInitTask
 com.gdgl.manager.CallbackManager:
     private static final java.lang.String TAG
     78:79:public void stopConnectServerByTCPTask()
@@ -1163,10 +1166,14 @@ com.gdgl.manager.RfCGIManager:
     private static final java.lang.String TAG
     142:163:public void ChangeRFDevActivationState(java.lang.String,int)
     166:186:public void ChangeAllRFDevArmState(int)
+    256:278:public void GetRFDevByRoomIdInit(java.lang.String)
 com.gdgl.manager.RfCGIManager$10
 com.gdgl.manager.RfCGIManager$11
 com.gdgl.manager.RfCGIManager$12
+com.gdgl.manager.RfCGIManager$17
+com.gdgl.manager.RfCGIManager$18
 com.gdgl.manager.RfCGIManager$9
+com.gdgl.manager.RfCGIManager$GetRFDevByRoomIdInitTask
 com.gdgl.manager.SceneLinkageManager:
     private static final java.lang.String TAG
 com.gdgl.manager.VideoManager:
@@ -1228,6 +1235,7 @@ com.gdgl.model.DevicesModel:
     public static final int DEVICE_OFF_LINE
     153:153:public java.lang.String getmAllCount()
     161:161:public java.lang.String getmCurCount()
+    177:177:public java.lang.String getmRid()
     193:193:public java.lang.String getmProfileId()
     201:201:public java.lang.String getmPowerResource()
     217:217:public java.lang.String getCurpowersourcelevel()
@@ -1294,6 +1302,7 @@ com.gdgl.model.LibjingleSendColumns:
     public static final int ZBADDROOMDATAMAIN
     public static final int ZBDELETEROOMDATAMAINBYID
     public static final int MODIFYDEVICEROOMID
+    public static final int GETEPBYROOMINDEXINIT
     public static final int ADDDEVICECHECKMAINDATA
     public static final int ADDDEVICECHECKSUBDATA
     public static final int DELDEVICECHECKMAINDATA
@@ -1312,9 +1321,11 @@ com.gdgl.model.LibjingleSendColumns:
     public static final int GETLINKAGELIST
     public static final int GETTIMEACTIONLIST
     public static final int GETRFDEVICELIST
+    public static final int GETRFDEVICEBYROOMID
+    public static final int GETRFDEVICEBYROOMIDINIT
     public static final int GATEWAYAUTH
 com.gdgl.model.LibjingleSendStructure:
-    151:151:public int getGl_msgtype()
+    155:155:public int getGl_msgtype()
 com.gdgl.model.SimpleDevicesModel:
     31:31:public int getID()
     39:39:public int getmDeviceId()
@@ -1385,7 +1396,7 @@ com.gdgl.smarthome.R$menu
 com.gdgl.smarthome.R$string
 com.gdgl.smarthome.R$style
 com.gdgl.smarthome.R$styleable:
-    5176:5176:public R$styleable()
+    5198:5198:public R$styleable()
 com.gdgl.util.AddDlg:
     public static final int REGION
     public static final int SCENE
