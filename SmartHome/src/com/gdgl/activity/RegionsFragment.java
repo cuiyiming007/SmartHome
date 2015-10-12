@@ -201,16 +201,8 @@ public class RegionsFragment extends Fragment implements Dialogcallback, UIListe
 	}
 
 	@Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		content_view.setVisibility(View.GONE);
-	}
-
-	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
-		content_view.setVisibility(View.VISIBLE);
 		initData();
 		super.onResume();
 	}

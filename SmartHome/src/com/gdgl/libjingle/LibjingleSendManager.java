@@ -65,6 +65,30 @@ public class LibjingleSendManager extends Manger {
 		sendList.add(mStructure);
 	}
 
+	public void GetEndpointByIeee(String ieee, String ep) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("ieee", ieee);
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
+		String param = hashMap2ParamString(paraMap);
+		
+		String url = LibjingleNetUtil.getInstance().getLocalhostURL(
+				"GetEndpointByIeee.cgi", param);
+		String jid = LibjinglePackHandler.getJid();
+		int reqid = getReqID();
+
+		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
+		// LibjingleNetUtil.getInstance().sendMsgToLibjingleSocket(packag);
+		Libjingle.getInstance().sendToGateway(packag);
+
+		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
+		mStructure.setRequest_id(reqid);
+		mStructure.setGl_msgtype(LibjinglePackHandler.MT_URL);
+		mStructure.setAPI_type(LibjingleSendStructure.ZBGETENDPOINTBYINDEX);
+		sendList.add(mStructure);
+	}
+	
 	/***
 	 * addBindData
 	 * 
