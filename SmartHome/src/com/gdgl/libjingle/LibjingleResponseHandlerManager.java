@@ -254,6 +254,9 @@ public class LibjingleResponseHandlerManager extends Manger {
 			case LibjingleSendStructure.GETENDPOINT:
 				new GetEndPointTask().execute(response);
 				break;
+			case LibjingleSendStructure.ZBGETENDPOINTBYINDEX:
+				new GetEndpointByIeeeTask().execute(response);
+				break;
 			case LibjingleSendStructure.ADDBINDDATA:
 				Gson gson42 = new Gson();
 				BindResponseData statusData42 = gson42.fromJson(
@@ -442,6 +445,32 @@ public class LibjingleResponseHandlerManager extends Manger {
 		@Override
 		protected void onPostExecute(Object result) {
 			Event event = new Event(EventType.INTITIALDVIVCEDATA, true);
+			event.setData(result);
+			notifyObservers(event);
+		}
+	}
+	
+	class GetEndpointByIeeeTask extends AsyncTask<String, Object, ArrayList<DevicesModel>> {
+		@Override
+		protected ArrayList<DevicesModel> doInBackground(String... params) {
+			RespondDataEntity<ResponseParamsEndPoint> data = VolleyOperation
+					.handleEndPointString(params[0]);
+			ArrayList<ResponseParamsEndPoint> devDataList = data
+					.getResponseparamList();
+
+			DataHelper mDateHelper = new DataHelper(
+					ApplicationController.getInstance());
+			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
+
+			mDateHelper.insertEndPointList(mSQLiteDatabase,DataHelper.DEVICES_TABLE, null, devDataList);
+			mSQLiteDatabase.close();
+			List<DevicesModel> devModelList = DataHelper.convertToDevicesModel(devDataList);
+			return (ArrayList<DevicesModel>)devModelList;
+		}
+
+		@Override
+		protected void onPostExecute(ArrayList<DevicesModel> result) {
+			Event event = new Event(EventType.SCAPEDDEVICE, true);
 			event.setData(result);
 			notifyObservers(event);
 		}

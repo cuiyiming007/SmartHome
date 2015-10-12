@@ -472,16 +472,28 @@ public class TestFragment extends Fragment implements UIListener {
 		} else if (EventType.SCAPEDDEVICE == event.getType()) {
 			ArrayList<DevicesModel> scapedList = (ArrayList<DevicesModel>) event
 					.getData();
-			for (DevicesModel mDevicesModel : scapedList) {
-				mDeviceList.add(mDevicesModel);
-			}
-			mView.post(new Runnable() {
+//			for (DevicesModel mDevicesModel : scapedList) {
+//				mDeviceList.add(mDevicesModel);
+//			}
+//			mView.post(new Runnable() {
+//
+//				@Override
+//				public void run() {
+//					mCustomeAdapter.notifyDataSetChanged();
+//				}
+//			});
+			new getDataInBackgroundTask().execute(1);
+			mView.postDelayed(new Runnable() {
 
 				@Override
 				public void run() {
+					// TODO Auto-generated method stub
+					Log.i("RF_DEVICE_LIST_UPDATE",
+							"=====================>Runnable begin");
+					mCustomeAdapter.setList(mDeviceList);
 					mCustomeAdapter.notifyDataSetChanged();
 				}
-			});
+			}, 500);
 		} else if (EventType.GATEWAYUPDATECOMPLETE == event.getType()) {
 			if (event.isSuccess()) {
 				mView.postDelayed(new Runnable() {

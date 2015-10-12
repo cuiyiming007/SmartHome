@@ -73,7 +73,7 @@
 	<string name="Power_detect_socket"> "Mains Power Outlet**插座"</string> 
 	<string name="One_key_operator"> "Combined Interface**网关"</string>
 	
-	<string name="gateWay">"网关"</string>
+	<string name="gateWay">"网关\n        安防控制中心，保存系统配置信息及用户数据。"</string>
 	<string name="ZB_Siren">"ZB报警器"</string>
 	<string name="ZB_Magnetic_Window">"ZB窗磁"</string>
 	<string name="ZB_Wireless_Intelligent_valve_switch">"ZB阀门开关"</string>
@@ -83,7 +83,7 @@
 	<string name="RF_Magnetic_Door">"Rf门/窗磁\n        可安装在门窗，在布防状态下开门或开窗即触发报警。"</string>
 	<string name="RF_Magnetic_Door_Roll">"Rf卷闸门磁\n        可安装在卷闸，在布防状态下开闸即触发报警。"</string>
 	<string name="RF_Emergency_Button">"Rf紧急按钮\n        可随身携带，按下按钮（须在信号覆盖范围内）即触发报警。"</string>
-	<string name="RF_Infrared_Motion_Sensor">"Rf红外探测器\n        布防状态下，探测到物体运动即触发报警。探测距离为8-10米，报警时间间隔可设置为5秒或5分钟。"</string>
+	<string name="RF_Infrared_Motion_Sensor">"Rf红外探测器\n        布防状态下，探测到物体运动即触发报警。探测距离为8~10米，报警时间间隔可设置为5秒或5分钟。"</string>
 	<string name="RF_Smoke_Detectors">"Rf烟雾探测器\n        探测到烟雾浓度大于阈值即触发警报器报警，同时自身开始报警。自身报警只有在烟雾浓度恢复到正常水平时才会停止。"</string>
 	<string name="RF_Combustible_Gas_Detector">"Rf燃气探测器\n        探测到燃气（煤气、天然气或液化石油气）浓度大于阈值即触发报警，同时自身开始报警。自身报警只有在燃气浓度恢复到正常水平时才会停止。"</string>
 	<string name="RF_Siren">"Rf警报器\n        系统中任一设备触发报警都会使其开始声光报警。可通过APP停止报警功能或网关的消警键停止警报器声光报警。"</string>

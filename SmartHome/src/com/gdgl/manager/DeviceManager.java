@@ -135,6 +135,48 @@ public class DeviceManager extends Manger {
 		// add the request object to the queue to be executed
 		ApplicationController.getInstance().addToRequestQueue(req);
 	}
+	
+	public void GetEndpointByIeee(final String ieee, final String ep) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("ieee", ieee);
+		paraMap.put("callback", "1234");
+		paraMap.put("encodemethod", "NONE");
+		paraMap.put("sign", "AAA");
+		String param = hashMap2ParamString(paraMap);
+		
+		String url = NetUtil.getInstance().getCumstomURL(
+				NetUtil.getInstance().IP, "GetEndpointByIeee.cgi",param);
+		
+		Listener<String> responseListener = new Listener<String>() {
+			@Override
+			public void onResponse(String response) {
+				// Time-consuming operation need to use AsyncTask
+				Bundle bundle=new Bundle();
+				bundle.putString("devicelist", response);
+				bundle.putString("newdeviceieee", ieee);
+				bundle.putString("newdeviceep", ep);
+				new GetJoinNetDeviceTask().execute(bundle);
+			}
+		};
+		
+		ErrorListener errorListener = new ErrorListener() {
+
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				if (error != null && error.getMessage() != null) {
+					Log.e("ResponseError: ", error.getMessage());
+					VolleyErrorHelper.getMessage(error,
+							ApplicationController.getInstance());
+				}
+			}
+		};
+		
+		StringRequestChina req = new StringRequestChina(url,responseListener, errorListener);
+
+		// add the request object to the queue to be executed
+		ApplicationController.getInstance().addToRequestQueue(req);
+	}
+	
 	//组网管理得到新入网的设备
 	public void getNewJoinNetDevice(CallbackJoinNetMessage joinNetMessage) {
 		// callback listener29
@@ -210,6 +252,32 @@ public class DeviceManager extends Manger {
 			notifyObservers(event);
 		}
 
+	}
+	
+	class GetEndpointByIeeeTask extends AsyncTask<String, Object, ArrayList<DevicesModel>> {
+		@Override
+		protected ArrayList<DevicesModel> doInBackground(String... params) {
+			RespondDataEntity<ResponseParamsEndPoint> data = VolleyOperation
+					.handleEndPointString(params[0]);
+			ArrayList<ResponseParamsEndPoint> devDataList = data
+					.getResponseparamList();
+
+			DataHelper mDateHelper = new DataHelper(
+					ApplicationController.getInstance());
+			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
+
+			mDateHelper.insertEndPointList(mSQLiteDatabase,DataHelper.DEVICES_TABLE, null, devDataList);
+			mSQLiteDatabase.close();
+			List<DevicesModel> devModelList = DataHelper.convertToDevicesModel(devDataList);
+			return (ArrayList<DevicesModel>)devModelList;
+		}
+
+		@Override
+		protected void onPostExecute(ArrayList<DevicesModel> result) {
+			Event event = new Event(EventType.SCAPEDDEVICE, true);
+			event.setData(result);
+			notifyObservers(event);
+		}
 	}
 	
 	class GetJoinNetDeviceTask extends AsyncTask<Bundle, Object, ArrayList<DevicesModel>> {

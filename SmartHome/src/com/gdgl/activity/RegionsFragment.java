@@ -201,16 +201,8 @@ public class RegionsFragment extends Fragment implements Dialogcallback, UIListe
 	}
 
 	@Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		content_view.setVisibility(View.GONE);
-	}
-
-	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
-		content_view.setVisibility(View.VISIBLE);
 		initData();
 		super.onResume();
 	}
@@ -362,21 +354,21 @@ public class RegionsFragment extends Fragment implements Dialogcallback, UIListe
 	public void dialogdo() {
 		// TODO Auto-generated method stub
 		String id = String.valueOf(currentRoom.getroom_id());
-		String[] ids = new String[] { id };
-		String where = " rid = ? ";
-		SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
-		ContentValues c = new ContentValues();
-		c.put(DevicesModel.DEVICE_REGION, "");
-		c.put(DevicesModel.R_ID, "-1");
-		mDateHelper.update(mSQLiteDatabase, DataHelper.DEVICES_TABLE, c, where, ids);
-		mDateHelper.update(mSQLiteDatabase, DataHelper.RF_DEVICES_TABLE, c, where, ids);
+//		String[] ids = new String[] { id };
+//		String where = " rid = ? ";
+//		SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
+//		ContentValues c = new ContentValues();
+//		c.put(DevicesModel.DEVICE_REGION, "");
+//		c.put(DevicesModel.R_ID, "-1");
+//		mDateHelper.update(mSQLiteDatabase, DataHelper.DEVICES_TABLE, c, where, ids);
+//		mDateHelper.update(mSQLiteDatabase, DataHelper.RF_DEVICES_TABLE, c, where, ids);
 		// 删除所选区域
 		CGIManager.getInstance().ZBDeleteRoomDataMainByID(id);
-		int result = mDateHelper.delete(mSQLiteDatabase, DataHelper.ROOMINFO_TABLE, " room_id = ? ", ids);
-		mSQLiteDatabase.close();
-		if (result == 1) {
+//		int result = mDateHelper.delete(mSQLiteDatabase, DataHelper.ROOMINFO_TABLE, " room_id = ? ", ids);
+//		mSQLiteDatabase.close();
+//		if (result == 1) {
 			// refreshFragment();
-		}
+//		}
 		mregions.remove(currentRoom);
 		mCustomeAdapter.notifyDataSetChanged();
 	}

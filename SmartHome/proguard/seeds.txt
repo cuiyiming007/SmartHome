@@ -19092,6 +19092,7 @@ com.gdgl.mydata.EventType: com.gdgl.mydata.EventType GETDEVICELEARNED
 com.gdgl.mydata.EventType: com.gdgl.mydata.EventType SCAPEDDEVICE
 com.gdgl.mydata.EventType: com.gdgl.mydata.EventType GETALLROOM
 com.gdgl.mydata.EventType: com.gdgl.mydata.EventType GETEPBYROOMINDEX
+com.gdgl.mydata.EventType: com.gdgl.mydata.EventType GETEPBYROOMINDEXINIT
 com.gdgl.mydata.EventType: com.gdgl.mydata.EventType ROOMDATAMAIN
 com.gdgl.mydata.EventType: com.gdgl.mydata.EventType MODIFYDEVICEROOMID
 com.gdgl.mydata.EventType: com.gdgl.mydata.EventType ADDTIMINGACTION
@@ -19124,6 +19125,7 @@ com.gdgl.mydata.EventType: com.gdgl.mydata.EventType RF_DEVICE_ENABLE
 com.gdgl.mydata.EventType: com.gdgl.mydata.EventType RF_DEVICE_LIST_UPDATE
 com.gdgl.mydata.EventType: com.gdgl.mydata.EventType RF_DEVICE_ONLINE_STATUS
 com.gdgl.mydata.EventType: com.gdgl.mydata.EventType RF_GETEPBYROOMINDEX
+com.gdgl.mydata.EventType: com.gdgl.mydata.EventType RF_GETEPBYROOMINDEXINIT
 com.gdgl.mydata.EventType: com.gdgl.mydata.EventType CHANGEEMAILADDRESS
 com.gdgl.mydata.EventType: com.gdgl.mydata.EventType GETEMAILADDRESS
 com.gdgl.mydata.EventType: void <clinit>()
@@ -21228,6 +21230,11 @@ com.gdgl.smarthome.R$drawable: int ui2_device_temperaturesensor_control_off
 com.gdgl.smarthome.R$drawable: int ui2_device_temperaturesensor_control_on
 com.gdgl.smarthome.R$drawable: int ui2_device_temperaturesensor_control_style
 com.gdgl.smarthome.R$drawable: int ui2_device_temperaturesensor_small
+com.gdgl.smarthome.R$drawable: int ui2_device_valveswitch
+com.gdgl.smarthome.R$drawable: int ui2_device_valveswitch_control_off
+com.gdgl.smarthome.R$drawable: int ui2_device_valveswitch_control_on
+com.gdgl.smarthome.R$drawable: int ui2_device_valveswitch_control_style
+com.gdgl.smarthome.R$drawable: int ui2_device_valveswitch_small
 com.gdgl.smarthome.R$drawable: int ui2_device_video
 com.gdgl.smarthome.R$drawable: int ui2_device_video_off
 com.gdgl.smarthome.R$drawable: int ui2_device_video_press
@@ -21836,6 +21843,7 @@ com.gdgl.smarthome.R$id: int menu_alarm
 com.gdgl.smarthome.R$id: int menu_changename
 com.gdgl.smarthome.R$id: int menu_delete
 com.gdgl.smarthome.R$id: int menu_deletedevice
+com.gdgl.smarthome.R$id: int menu_document
 com.gdgl.smarthome.R$id: int menu_ok
 com.gdgl.smarthome.R$id: int menu_search
 com.gdgl.smarthome.R$id: int menu_stop_alarm
@@ -22234,6 +22242,16 @@ com.gdgl.smarthome.R$string: int One_key_operator
 com.gdgl.smarthome.R$string: int Power_detect_socket
 com.gdgl.smarthome.R$string: int Power_detect_wall
 com.gdgl.smarthome.R$string: int Pro_RF
+com.gdgl.smarthome.R$string: int RF_Combustible_Gas_Detector
+com.gdgl.smarthome.R$string: int RF_Emergency_Button
+com.gdgl.smarthome.R$string: int RF_Infrared_Motion_Sensor
+com.gdgl.smarthome.R$string: int RF_Magnetic_Door
+com.gdgl.smarthome.R$string: int RF_Magnetic_Door_Roll
+com.gdgl.smarthome.R$string: int RF_Siren
+com.gdgl.smarthome.R$string: int RF_Siren_Outside
+com.gdgl.smarthome.R$string: int RF_Siren_Relay
+com.gdgl.smarthome.R$string: int RF_Smoke_Detectors
+com.gdgl.smarthome.R$string: int RF_remote_control
 com.gdgl.smarthome.R$string: int RS232_adapter
 com.gdgl.smarthome.R$string: int Siren
 com.gdgl.smarthome.R$string: int Smoke_Detectors
@@ -22253,6 +22271,11 @@ com.gdgl.smarthome.R$string: int Wall_switch_triple_L
 com.gdgl.smarthome.R$string: int Wall_switch_triple_M
 com.gdgl.smarthome.R$string: int Wall_switch_triple_R
 com.gdgl.smarthome.R$string: int Wireless_Intelligent_valve_switch
+com.gdgl.smarthome.R$string: int ZB_Indoor_temperature_sensor
+com.gdgl.smarthome.R$string: int ZB_Magnetic_Window
+com.gdgl.smarthome.R$string: int ZB_Power_detect_socket
+com.gdgl.smarthome.R$string: int ZB_Siren
+com.gdgl.smarthome.R$string: int ZB_Wireless_Intelligent_valve_switch
 com.gdgl.smarthome.R$string: int abc_action_bar_home_description
 com.gdgl.smarthome.R$string: int abc_action_bar_home_description_format
 com.gdgl.smarthome.R$string: int abc_action_bar_home_subtitle_description_format
@@ -22279,6 +22302,7 @@ com.gdgl.smarthome.R$string: int drawer_close
 com.gdgl.smarthome.R$string: int drawer_open
 com.gdgl.smarthome.R$string: int errorisnull
 com.gdgl.smarthome.R$string: int faile
+com.gdgl.smarthome.R$string: int gateWay
 com.gdgl.smarthome.R$string: int generic_error
 com.gdgl.smarthome.R$string: int generic_server_down
 com.gdgl.smarthome.R$string: int hello_world

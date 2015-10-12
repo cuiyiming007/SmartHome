@@ -68,6 +68,8 @@ public class DevicesListFragment extends Fragment implements adapterSeter,
 	DevicesModel mDevicesModel;
 	DevicesModel onekeyopratorModel;
 	int refreshTag = 0;
+	
+	boolean readDeviceList = false;
 	/***
 	 * 列表上的ui的adapter
 	 * 跟ShowDevicesGroupFragmentActivity的DevicesBaseAdapter对应，父类引用指向子类对象
@@ -111,6 +113,7 @@ public class DevicesListFragment extends Fragment implements adapterSeter,
 		CallbackManager.getInstance().addObserver(DevicesListFragment.this);
 		RfCGIManager.getInstance().addObserver(DevicesListFragment.this);
 		LibjingleResponseHandlerManager.getInstance().addObserver(this);
+		readDeviceList = true;
 		if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
 			CGIManager.getInstance().GetEPByRoomIndex(mRoomid);
 		} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
@@ -561,8 +564,9 @@ public class DevicesListFragment extends Fragment implements adapterSeter,
 		} else if (EventType.GETEPBYROOMINDEX == event.getType()) {
 			if (event.isSuccess() == true) {
 				mDeviceList = (List<DevicesModel>) event.getData();
-				if (mDeviceList != null && mDeviceList.get(0).getmRid().equals("-1")) {
-						return;
+//				if (mDeviceList.size() > 0 && mDeviceList.get(0).getmRid().equals("-1")) {
+				if (!readDeviceList) {
+					return;
 				}
 				if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
 					RfCGIManager.getInstance().GetRFDevByRoomId(mRoomid);
@@ -603,7 +607,8 @@ public class DevicesListFragment extends Fragment implements adapterSeter,
 		} else if (EventType.RF_GETEPBYROOMINDEX == event.getType()) {
 			if (event.isSuccess() == true) {
 				List<DevicesModel> temp = (List<DevicesModel>) event.getData();
-				if (temp != null && temp.get(0).getmRid().equals("-1")) {
+//				if (temp.size() > 0 && temp.get(0).getmRid().equals("-1")) {
+				if (!readDeviceList) {
 					return;
 				}
 				Collections.sort(temp, new Comparator<DevicesModel>() {
@@ -618,6 +623,7 @@ public class DevicesListFragment extends Fragment implements adapterSeter,
 //				for (DevicesModel mdevice : mDeviceList) {
 //					mdevice.setmDeviceRegion(mRoomname);
 //				}
+				readDeviceList = false;
 				mDeviceList.addAll(temp);
 				mBaseAdapter.setList(mDeviceList);
 				mView.post(new Runnable() {
@@ -649,6 +655,7 @@ public class DevicesListFragment extends Fragment implements adapterSeter,
 		@Override
 		protected String doInBackground(String... params) {
 			// TODO Auto-generated method stub
+			readDeviceList = true;
 			if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
 				CGIManager.getInstance().GetEPByRoomIndex(params[0]);
 			} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
