@@ -173,6 +173,15 @@
             android:name="com.gdgl.activity.MessageIpcLinkageMediaActivity"
             android:screenOrientation="portrait" >
         </activity>
+        
+        <activity
+            android:name="com.gdgl.activity.SplashActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.gdgl.activity.GuideActivity"
+            android:screenOrientation="portrait" >
+        </activity>
 
         <service android:name="com.gdgl.service.SmartService" >
         </service>

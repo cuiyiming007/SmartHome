@@ -108,7 +108,7 @@ public class StartAnimationActivity extends Activity {
 	}
 	private void goLogin() {
 		Intent intent = new Intent(StartAnimationActivity.this,
-				LoginActivity.class);
+				SplashActivity.class);
 //		intent.putExtra("networkStatus", NetworkConnectivity.networkStatus);
 		StartAnimationActivity.this.startActivity(intent);
 		StartAnimationActivity.this.finish();

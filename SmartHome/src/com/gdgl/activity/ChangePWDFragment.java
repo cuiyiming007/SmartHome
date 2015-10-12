@@ -71,7 +71,7 @@ public class ChangePWDFragment extends Fragment implements UIListener {
 				oldpwd = old_pwd.getText().toString();
 				newpwd = new_pwd.getText().toString();
 				newagain = new_again.getText().toString();
-
+				boolean decide = false;
 				if (null == oldpwd || oldpwd.length()<=0) {
 					Toast.makeText(getActivity(), "请输入原密码", Toast.LENGTH_SHORT).show();
 					old_pwd.requestFocus();
@@ -82,21 +82,37 @@ public class ChangePWDFragment extends Fragment implements UIListener {
 						new_pwd.requestFocus();
 						return;
 					} else if (newpwd.length()>5 && newpwd.length()<17) {
-						if (null == newagain || newagain.length()<=0) {
-							Toast.makeText(getActivity(), "请再次输入新密码", Toast.LENGTH_SHORT).show();
-							new_again.requestFocus();
-							return;
-						} else if (!newagain.equals(newpwd)) {
-							Toast.makeText(getActivity(), "两次输入密码不相符,请重新输入", Toast.LENGTH_SHORT).show();
-							new_again.requestFocus();
-							return;
-						} else {
-							AccountInfo account = new AccountInfo();
-							account.setAccount(name);
-							account.setPassword(oldpwd);
-							mLoginManager.ModifyPassword(account, newpwd);
+						for(int i= 0;i<newpwd.length();i++){
+							if('a'<= newpwd.charAt(i) &&newpwd.charAt(i)<='z'||'A'<=newpwd.charAt(i)&&newpwd.charAt(i)<='Z'
+									||'0'<=newpwd.charAt(i)&&newpwd.charAt(i)<='9'){
+								decide = true;
+							}else {
+								decide = false;
+								break;
+							}
 						}
-					} else {
+						if(decide){
+							if (null == newagain || newagain.length()<=0) {
+								Toast.makeText(getActivity(), "请再次输入新密码", Toast.LENGTH_SHORT).show();
+								new_again.requestFocus();
+								return;
+							} else if (!newagain.equals(newpwd)) {
+								Toast.makeText(getActivity(), "两次输入密码不相符,请重新输入", Toast.LENGTH_SHORT).show();
+								new_again.requestFocus();
+								return;
+							} else {
+								AccountInfo account = new AccountInfo();
+								account.setAccount(name);
+								account.setPassword(oldpwd);
+								mLoginManager.ModifyPassword(account, newpwd);
+							}
+						}else {
+							Toast.makeText(getActivity(), "密码只能是数字和字母",
+									Toast.LENGTH_SHORT).show();
+							new_pwd.requestFocus();
+							return;
+						}
+					}else {
 						Toast.makeText(getActivity(), "新密码应为6-16字符", Toast.LENGTH_SHORT).show();
 						new_pwd.requestFocus();
 						return;

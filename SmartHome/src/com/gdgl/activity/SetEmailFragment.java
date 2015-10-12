@@ -12,6 +12,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.gc.materialdesign.views.CheckBox;
 import com.gc.materialdesign.views.CheckBox.OnCheckListener;
 import com.gdgl.drawer.DeviceTabFragment;
@@ -187,7 +190,12 @@ public class SetEmailFragment extends Fragment implements UIListener {
 							.show();
 					email_name.requestFocus();
 					return;
-				} else {
+				}else if(!isEmail(E_name)){
+					Toast.makeText(getActivity(), "邮箱格式错误", Toast.LENGTH_SHORT)
+					.show();
+					email_name.requestFocus();
+					return;
+				}else {
 					if (ENABLE_EMAIL_TXT  && ENABLE__EMAIL_VEDIO && ENABLE_EMAIL_PIC ){
 						sendEmailContentFlag = 4;
 					}else if(ENABLE_EMAIL_TXT  && ENABLE__EMAIL_VEDIO && !ENABLE_EMAIL_PIC ){
@@ -212,7 +220,17 @@ public class SetEmailFragment extends Fragment implements UIListener {
 		});
 
 	}
+	public boolean isEmail(String email) {
 
+		String str = "^([a-zA-Z0-9_\\-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9\\-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$";
+
+		Pattern p = Pattern.compile(str);
+
+		Matcher m = p.matcher(email);
+
+		return m.matches();
+
+		}
 	@Override
 	public void onDestroy() {
 		// TODO Auto-generated method stub

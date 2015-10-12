@@ -80,7 +80,7 @@ public class ChangeNameFragment extends Fragment implements UIListener {
 				oldName = old_name.getText().toString();
 				newName = new_name.getText().toString();
 				passWord = password.getText().toString();
-
+				boolean decide = false;
 				if (null == oldName || oldName.length() <= 0) {
 					Toast.makeText(getActivity(), "请输入旧别名", Toast.LENGTH_SHORT)
 							.show();
@@ -95,22 +95,38 @@ public class ChangeNameFragment extends Fragment implements UIListener {
 						return;
 					} else if (newName.length() > 5 && newName.length() < 17) {
 						
-						if (null == passWord || passWord.length() <= 0) {
-							Toast.makeText(getActivity(), "请输入密码",
+						for(int i= 0;i<newName.length();i++){
+							if('a'<= newName.charAt(i) &&newName.charAt(i)<='z'||'A'<=newName.charAt(i)&&newName.charAt(i)<='Z'
+									||'0'<=newName.charAt(i)&&newName.charAt(i)<='9'){
+								decide = true;
+							}else {
+								decide = false;
+								break;
+							}
+						}
+						if(decide){
+							if (null == passWord || passWord.length() <= 0) {
+								Toast.makeText(getActivity(), "请输入密码",
+										Toast.LENGTH_SHORT).show();
+								password.requestFocus();
+								return;
+							} else if (passWord.length() > 5 && passWord.length() < 17) {
+								AccountInfo account = new AccountInfo();
+								account.setAccount(oldName);
+								account.setPassword(passWord);
+								account.setId(id);
+								account.setAlias(oldName);
+								mLoginManager.modifyAlias(account, newName);
+							} else {
+								Toast.makeText(getActivity(), "密码应为6-16字符",
+										Toast.LENGTH_SHORT).show();
+								password.requestFocus();
+								return;
+							}
+						}else {
+							Toast.makeText(getActivity(), "别名只能是数字和字母",
 									Toast.LENGTH_SHORT).show();
-							password.requestFocus();
-							return;
-						} else if (passWord.length() > 5 && passWord.length() < 17) {
-							AccountInfo account = new AccountInfo();
-							account.setAccount(oldName);
-							account.setPassword(passWord);
-							account.setId(id);
-							account.setAlias(oldName);
-							mLoginManager.modifyAlias(account, newName);
-						} else {
-							Toast.makeText(getActivity(), "密码应为6-16字符",
-									Toast.LENGTH_SHORT).show();
-							password.requestFocus();
+							new_name.requestFocus();
 							return;
 						}
 					} else {
