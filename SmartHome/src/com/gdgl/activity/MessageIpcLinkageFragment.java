@@ -86,12 +86,15 @@ public class MessageIpcLinkageFragment extends Fragment implements UIListener,
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
 		menu.setHeaderTitle("删除");
-		menu.add(0, 1, 0, "删除");
+		menu.add(1, 1, 0, "删除");
 		super.onCreateContextMenu(menu, v, menuInfo);
 	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
+		if (item.getGroupId() != 1) {
+			return false;
+		}
 		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
 				.getMenuInfo();
 		final int position = info.position;

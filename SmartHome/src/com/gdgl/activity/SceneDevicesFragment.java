@@ -20,8 +20,6 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -233,56 +231,20 @@ public class SceneDevicesFragment extends Fragment {
 					break;
 				}
 			}
-			mHolder.devices_switch
-					.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-						@Override
-						public void onCheckedChanged(CompoundButton buttonView,
-								boolean isChecked) {
-							// TODO Auto-generated method stub
-							if (isChecked) {
-								switch (deviceid) {
-								case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:
-								case DataHelper.MAINS_POWER_OUTLET_DEVICETYPE:
-								case DataHelper.ON_OFF_LIGHT_DEVICETYPE:
-								case DataHelper.DIMEN_LIGHTS_DEVICETYPE:
-								case DataHelper.SHADE_DEVICETYPE:
-									mHolder.devices_state.setText("打开");
-									break;
-								case DataHelper.COMBINED_INTERFACE_DEVICETYPE:
-								case DataHelper.IAS_ZONE_DEVICETYPE:
-								case DataHelper.RF_DEVICE:
-									mHolder.devices_state.setText("布防");
-									break;
-								default:
-									mHolder.devices_state.setText("打开");
-									break;
-								}
-								mDevices.setDevicesStatus(1);
-								// notifyDataSetChanged();
-							} else {
-								switch (deviceid) {
-								case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:
-								case DataHelper.MAINS_POWER_OUTLET_DEVICETYPE:
-								case DataHelper.ON_OFF_LIGHT_DEVICETYPE:
-								case DataHelper.DIMEN_LIGHTS_DEVICETYPE:
-								case DataHelper.SHADE_DEVICETYPE:
-									mHolder.devices_state.setText("关闭");
-									break;
-								case DataHelper.COMBINED_INTERFACE_DEVICETYPE:
-								case DataHelper.IAS_ZONE_DEVICETYPE:
-								case DataHelper.RF_DEVICE:
-									mHolder.devices_state.setText("撤防");
-									break;
-								default:
-									mHolder.devices_state.setText("关闭");
-									break;
-								}
-								mDevices.setDevicesStatus(0);
-								// notifyDataSetChanged();
-							}
-						}
-					});
+			mHolder.devices_switch.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					if(mHolder.devices_switch.isChecked()) {
+						mDevices.setDevicesStatus(1);
+						notifyDataSetChanged();
+					} else {
+						mDevices.setDevicesStatus(0);
+						notifyDataSetChanged();
+					}
+				}
+			});
 
 			return mView;
 		}

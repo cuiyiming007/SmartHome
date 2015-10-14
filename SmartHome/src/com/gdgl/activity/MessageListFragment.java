@@ -90,6 +90,9 @@ public class MessageListFragment extends BaseFragment implements UIListener,andr
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
+		if (item.getGroupId() != 0) {
+			return false;
+		}
 		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
 				.getMenuInfo();
 		final int position = info.position;
@@ -236,7 +239,11 @@ public class MessageListFragment extends BaseFragment implements UIListener,andr
 				mHolder = (ViewHolder) mView.getTag();
 				mHolder.warn_check.setChecked(mCheckHashMap.get(message.getId()));
 			}
-			mHolder.warn_img.setImageResource(Integer.parseInt(message.getHome_id()));
+			if(message.getHome_id().equals("")) {
+				mHolder.warn_img.setImageResource(R.drawable.ui2_device_alarm_samll);
+			} else {
+				mHolder.warn_img.setImageResource(Integer.parseInt(message.getHome_id()));
+			}
 			
 			if(message.getDetailmessage().indexOf("提示") != -1){
 				mHolder.warm_point.setBackgroundResource(R.drawable.ui_toptitle_alarm_message_new_y);
