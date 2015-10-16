@@ -1,5 +1,8 @@
 package com.gdgl.activity;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import com.gdgl.libjingle.LibjingleSendManager;
 import com.gdgl.manager.SceneLinkageManager;
 import com.gdgl.mydata.Constants;
@@ -16,6 +19,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.Toolbar.OnMenuItemClickListener;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -33,6 +37,8 @@ public class TimingAddActivity extends MyActionBarActivity implements Dialogcall
 	DataHelper mDataHelper;
 
 	int timing_type;
+	
+	boolean backOff = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +80,19 @@ public class TimingAddActivity extends MyActionBarActivity implements Dialogcall
 									Toast.LENGTH_SHORT).show();
 							break;
 						}
+						if(mTimingAction.getPara2() == 0) {
+							backOff = false;
+							SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+							String time_now = format.format(new Date());
+							if(Long.parseLong(time_now) > Long.parseLong(mTimingAction.getPara1())) {
+								MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(TimingAddActivity.this);
+								mMyOkCancleDlg
+										.setDialogCallback((Dialogcallback) TimingAddActivity.this);
+								mMyOkCancleDlg.setContent("定时时间已过,是否仍要保存?");
+								mMyOkCancleDlg.show();
+								break;
+							}
+						}
 						if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
 							SceneLinkageManager.getInstance().AddTimeAction("",
 									mTimingAction.combine2Actpara(), 1,
@@ -90,6 +109,21 @@ public class TimingAddActivity extends MyActionBarActivity implements Dialogcall
 						finish();
 					}
 					if (timing_type == EDIT) {
+						if(mTimingAction.getPara2() == 0) {
+							backOff = false;
+							SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+							String time_now = format.format(new Date());
+							Log.i("time_now", time_now);
+							Log.i("getPara1", mTimingAction.getPara1());
+							if(Long.parseLong(time_now) > Long.parseLong(mTimingAction.getPara1())) {
+								MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(TimingAddActivity.this);
+								mMyOkCancleDlg
+										.setDialogCallback((Dialogcallback) TimingAddActivity.this);
+								mMyOkCancleDlg.setContent("定时时间已过,是否仍要保存?");
+								mMyOkCancleDlg.show();
+								break;
+							}
+						}
 						if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
 							SceneLinkageManager.getInstance().EditTimeAction("",
 									mTimingAction.combine2Actpara(), 1,
@@ -134,6 +168,7 @@ public class TimingAddActivity extends MyActionBarActivity implements Dialogcall
 	@Override
 	public boolean onSupportNavigateUp() {
 		// TODO Auto-generated method stub
+		backOff = true;
 		MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(this);
 		mMyOkCancleDlg
 				.setDialogCallback((Dialogcallback) this);
@@ -145,6 +180,7 @@ public class TimingAddActivity extends MyActionBarActivity implements Dialogcall
 	@Override
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
+		backOff = true;
 		MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(this);
 		mMyOkCancleDlg
 				.setDialogCallback((Dialogcallback) this);
@@ -156,6 +192,42 @@ public class TimingAddActivity extends MyActionBarActivity implements Dialogcall
 	@Override
 	public void dialogdo() {
 		// TODO Auto-generated method stub
-		finish();
+		if(backOff) {
+			finish();
+		} else {
+			if (timing_type == CREATE) {
+				if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+					SceneLinkageManager.getInstance().AddTimeAction("",
+							mTimingAction.combine2Actpara(), 1,
+							mTimingAction.getPara1(),
+							mTimingAction.getPara2(),
+							mTimingAction.boolean2String(), 0);
+				} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+					LibjingleSendManager.getInstance().AddTimeAction("",
+							mTimingAction.combine2Actpara(), 1,
+							mTimingAction.getPara1(),
+							mTimingAction.getPara2(),
+							mTimingAction.boolean2String(), 0);
+				}
+			}
+			if (timing_type == EDIT) {
+				if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+					SceneLinkageManager.getInstance().EditTimeAction("",
+							mTimingAction.combine2Actpara(), 1,
+							mTimingAction.getPara1(),
+							mTimingAction.getPara2(),
+							mTimingAction.boolean2String(), 0,
+							mTimingAction.getTid());
+				} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+					LibjingleSendManager.getInstance().EditTimeAction("",
+							mTimingAction.combine2Actpara(), 1,
+							mTimingAction.getPara1(),
+							mTimingAction.getPara2(),
+							mTimingAction.boolean2String(), 0,
+							mTimingAction.getTid());
+				}
+			}
+			finish();
+		}
 	}
 }

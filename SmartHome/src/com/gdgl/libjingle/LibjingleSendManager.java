@@ -1246,6 +1246,8 @@ public class LibjingleSendManager extends Manger {
 		// Log.i(TAG, packag);
 		Libjingle.getInstance().sendToGateway(packag);
 
+		NotifyRoomIdHasBeenDeleted(rid);
+		
 		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
 		mStructure.setRequest_id(reqid);
 		mStructure.setGl_msgtype(LibjinglePackHandler.MT_URL);
@@ -1287,6 +1289,32 @@ public class LibjingleSendManager extends Manger {
 		sendList.add(mStructure);
 	}
 
+	/**
+	 * 通知网关某个房间已被删除。
+	 * @param roomid
+	 */
+	public void NotifyRoomIdHasBeenDeleted(String roomid) {
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("roomid", roomid);
+
+		String param = hashMap2ParamString(paraMap);
+
+		String url = LibjingleNetUtil.getInstance().getLocalhostURL(
+				"NotifyRoomIdHasBeenDeleted.cgi", param);
+		String jid = LibjinglePackHandler.getJid();
+		int reqid = getReqID();
+
+		String packag = LibjinglePackHandler.packUrl(reqid, jid, url);
+		// Log.i(TAG, packag);
+		Libjingle.getInstance().sendToGateway(packag);
+
+		LibjingleSendStructure mStructure = new LibjingleSendStructure(sendList);
+		mStructure.setRequest_id(reqid);
+		mStructure.setGl_msgtype(LibjinglePackHandler.MT_URL);
+		mStructure.setAPI_type(LibjingleSendStructure.DONOTCARE);
+		sendList.add(mStructure);
+	}
+	
 	/***
 	 * 设备识别 识别某个设备，即让某个设备的指示灯闪烁指定的时间。
 	 * 

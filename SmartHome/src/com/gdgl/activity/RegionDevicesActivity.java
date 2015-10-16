@@ -1,8 +1,6 @@
 package com.gdgl.activity;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import com.gdgl.activity.DevicesListFragment.ChangeFragment;
@@ -13,17 +11,15 @@ import com.gdgl.libjingle.LibjingleResponseHandlerManager;
 import com.gdgl.libjingle.LibjingleSendManager;
 import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.CallbackManager;
-import com.gdgl.manager.Manger;
 import com.gdgl.manager.RfCGIManager;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.DataHelper;
-import com.gdgl.mydata.Event;
-import com.gdgl.mydata.EventType;
-import com.gdgl.mydata.Callback.CallbackResponseType2;
 import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyApplicationFragment;
+import com.gdgl.util.MyOkCancleDlg;
+import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -44,7 +40,7 @@ import android.view.MenuItem;
  * 
  */
 public class RegionDevicesActivity extends MyActionBarActivity implements
-		ChangeFragment, AddChecked {
+		ChangeFragment, AddChecked, Dialogcallback {
 	public static final String REGION_NAME = "region_name";
 	public static final String REGION_ID = "region_id";
 
@@ -294,15 +290,11 @@ public class RegionDevicesActivity extends MyActionBarActivity implements
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
 		if (MyApplicationFragment.getInstance().getFragmentListSize() > 1) {
-			MyApplicationFragment.getInstance().removeLastFragment();
-			fragment_flag = CONTROL_FRAGMENT;
-			invalidateOptionsMenu();
-			mAddToRegionList.clear();
+			MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(this);
+			mMyOkCancleDlg.setDialogCallback((Dialogcallback) this);
+			mMyOkCancleDlg.setContent("确定要放弃本次编辑?");
+			mMyOkCancleDlg.show();
 		} else {
-			// MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(this);
-			// mMyOkCancleDlg.setDialogCallback((Dialogcallback) this);
-			// mMyOkCancleDlg.setContent("确定要放弃本次编辑?");
-			// mMyOkCancleDlg.show();
 			finish();
 		}
 	}
@@ -311,16 +303,12 @@ public class RegionDevicesActivity extends MyActionBarActivity implements
 	public boolean onSupportNavigateUp() {
 		// TODO Auto-generated method stub
 		if (MyApplicationFragment.getInstance().getFragmentListSize() > 1) {
-			MyApplicationFragment.getInstance().removeLastFragment();
-			fragment_flag = CONTROL_FRAGMENT;
-			invalidateOptionsMenu();
-			mAddToRegionList.clear();
+			MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(this);
+			mMyOkCancleDlg.setDialogCallback((Dialogcallback) this);
+			mMyOkCancleDlg.setContent("确定要放弃本次编辑?");
+			mMyOkCancleDlg.show();
 			return super.onSupportNavigateUp();
 		}
-		// MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(this);
-		// mMyOkCancleDlg.setDialogCallback((Dialogcallback) this);
-		// mMyOkCancleDlg.setContent("确定要放弃本次编辑?");
-		// mMyOkCancleDlg.show();
 		finish();
 		return super.onSupportNavigateUp();
 	}
@@ -335,6 +323,15 @@ public class RegionDevicesActivity extends MyActionBarActivity implements
 			}
 		}
 		return position;
+	}
+
+	@Override
+	public void dialogdo() {
+		// TODO Auto-generated method stub
+		MyApplicationFragment.getInstance().removeLastFragment();
+		fragment_flag = CONTROL_FRAGMENT;
+		invalidateOptionsMenu();
+		mAddToRegionList.clear();
 	}
 
 //	public void update(Manger observer, Object object) {

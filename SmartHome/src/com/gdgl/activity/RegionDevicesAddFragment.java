@@ -51,9 +51,9 @@ public class RegionDevicesAddFragment extends Fragment implements UIListener {
 		RfCGIManager.getInstance().addObserver(this);
 		LibjingleResponseHandlerManager.getInstance().addObserver(this);
 		if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
-			CGIManager.getInstance().GetEPByRoomIndex("-1");
+			CGIManager.getInstance().GetEPByRoomIndexInit("-1");
 		} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
-			LibjingleSendManager.getInstance().GetEPByRoomIndex("-1");
+			LibjingleSendManager.getInstance().GetEPByRoomIndexInit("-1");
 		}
 	}
 
@@ -199,12 +199,12 @@ public class RegionDevicesAddFragment extends Fragment implements UIListener {
 	public void update(Manger observer, Object object) {
 		// TODO Auto-generated method stub
 		final Event event = (Event) object;
-		if (EventType.GETEPBYROOMINDEX == event.getType()) {
+		if (EventType.GETEPBYROOMINDEXINIT == event.getType()) {
 			if (event.isSuccess() == true) {
 				if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
-					RfCGIManager.getInstance().GetRFDevByRoomId("-1");
+					RfCGIManager.getInstance().GetRFDevByRoomIdInit("-1");
 				} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
-					LibjingleSendManager.getInstance().GetRFDevByRoomId("-1");
+					LibjingleSendManager.getInstance().GetRFDevByRoomIdInit("-1");
 				}
 				mRegionDevicesAddList = (List<DevicesModel>) event.getData();
 				Collections.sort(mRegionDevicesAddList, new Comparator<DevicesModel>() {
@@ -217,7 +217,7 @@ public class RegionDevicesAddFragment extends Fragment implements UIListener {
 				});
 
 			}
-		} else if (EventType.RF_GETEPBYROOMINDEX == event.getType()) {
+		} else if (EventType.RF_GETEPBYROOMINDEXINIT == event.getType()) {
 			if (event.isSuccess() == true) {
 				List<DevicesModel> temp = (List<DevicesModel>) event.getData();
 				Collections.sort(temp, new Comparator<DevicesModel>() {

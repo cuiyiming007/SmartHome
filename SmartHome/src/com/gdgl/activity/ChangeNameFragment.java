@@ -12,8 +12,10 @@ import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.smarthome.R;
+import com.gdgl.util.MyDlg;
 
 import android.support.v4.app.Fragment;
+import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -40,6 +42,8 @@ public class ChangeNameFragment extends Fragment implements UIListener {
 	LoginManager mLoginManager;
 
 	RelativeLayout ch_name;
+	
+	Dialog waitingDlg;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -117,6 +121,11 @@ public class ChangeNameFragment extends Fragment implements UIListener {
 								account.setId(id);
 								account.setAlias(oldName);
 								mLoginManager.modifyAlias(account, newName);
+								if(waitingDlg != null) {
+									waitingDlg.show();
+								} else {
+									waitingDlg = MyDlg.createLoadingDialog(getActivity(), "提交中，请稍后...");
+								}
 							} else {
 								Toast.makeText(getActivity(), "密码应为6-16字符",
 										Toast.LENGTH_SHORT).show();
@@ -160,7 +169,7 @@ public class ChangeNameFragment extends Fragment implements UIListener {
 
 		final Event event = (Event) object;
 		if (EventType.MODIFYALIAS == event.getType()) {
-
+			waitingDlg.dismiss();
 			if (event.isSuccess() == true) {
 				// data maybe null
 //				LoginResponse response = (LoginResponse) event.getData();

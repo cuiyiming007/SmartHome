@@ -18157,6 +18157,9 @@ com.gdgl.activity.ConfigDevicesListWithGroup$CustomeAdapter: int getCount()
 com.gdgl.activity.ConfigDevicesListWithGroup$CustomeAdapter: void setList(java.util.List)
 com.gdgl.activity.ConfigurationActivity_New
 com.gdgl.activity.ConfigurationActivity_New: ConfigurationActivity_New()
+com.gdgl.activity.GuideActivity
+com.gdgl.activity.GuideActivity: GuideActivity()
+com.gdgl.activity.GuideActivity: void onClick(android.view.View)
 com.gdgl.activity.HikVideoActivity
 com.gdgl.activity.HikVideoActivity: HikVideoActivity()
 com.gdgl.activity.HikVideoActivity$ImageAdapter
@@ -18182,6 +18185,8 @@ com.gdgl.activity.LoginActivity: LoginActivity()
 com.gdgl.activity.LoginActivity: void onClick(android.view.View)
 com.gdgl.activity.MessageIpcLinkageMediaActivity
 com.gdgl.activity.MessageIpcLinkageMediaActivity: MessageIpcLinkageMediaActivity()
+com.gdgl.activity.MessageIpcLinkageVideoPlayer
+com.gdgl.activity.MessageIpcLinkageVideoPlayer: MessageIpcLinkageVideoPlayer()
 com.gdgl.activity.MyActionBarActivity
 com.gdgl.activity.MyActionBarActivity: MyActionBarActivity()
 com.gdgl.activity.RegionDevicesActivity
@@ -18207,6 +18212,8 @@ com.gdgl.activity.ShowDevicesGroupFragmentActivity
 com.gdgl.activity.ShowDevicesGroupFragmentActivity: ShowDevicesGroupFragmentActivity()
 com.gdgl.activity.SmartHome
 com.gdgl.activity.SmartHome: SmartHome()
+com.gdgl.activity.SplashActivity
+com.gdgl.activity.SplashActivity: SplashActivity()
 com.gdgl.activity.StartActivity
 com.gdgl.activity.StartAnimationActivity
 com.gdgl.activity.StartAnimationActivity: StartAnimationActivity()
@@ -20722,6 +20729,8 @@ com.gdgl.smarthome.R$drawable: int btn_pressed
 com.gdgl.smarthome.R$drawable: int btn_unpressed
 com.gdgl.smarthome.R$drawable: int bufang_on
 com.gdgl.smarthome.R$drawable: int button_bc
+com.gdgl.smarthome.R$drawable: int button_enter
+com.gdgl.smarthome.R$drawable: int button_rounded_background
 com.gdgl.smarthome.R$drawable: int change_error
 com.gdgl.smarthome.R$drawable: int changjing
 com.gdgl.smarthome.R$drawable: int checkbox_selected
@@ -21482,7 +21491,13 @@ com.gdgl.smarthome.R$drawable: int wall_socket
 com.gdgl.smarthome.R$drawable: int wallpaper
 com.gdgl.smarthome.R$drawable: int warn
 com.gdgl.smarthome.R$drawable: int warnning
+com.gdgl.smarthome.R$drawable: int welcom1
+com.gdgl.smarthome.R$drawable: int welcom2
+com.gdgl.smarthome.R$drawable: int welcom3
+com.gdgl.smarthome.R$drawable: int welcom4
 com.gdgl.smarthome.R$drawable: int welcome_bg
+com.gdgl.smarthome.R$drawable: int welcome_button
+com.gdgl.smarthome.R$drawable: int welcome_end
 com.gdgl.smarthome.R$drawable: int whi
 com.gdgl.smarthome.R$drawable: int white
 com.gdgl.smarthome.R$drawable: int white_bc
@@ -21795,6 +21810,7 @@ com.gdgl.smarthome.R$id: int homeAsUp
 com.gdgl.smarthome.R$id: int horizontal
 com.gdgl.smarthome.R$id: int hum_btn
 com.gdgl.smarthome.R$id: int icon
+com.gdgl.smarthome.R$id: int id_viewpager
 com.gdgl.smarthome.R$id: int identify_time
 com.gdgl.smarthome.R$id: int ifRoom
 com.gdgl.smarthome.R$id: int image
@@ -21805,6 +21821,7 @@ com.gdgl.smarthome.R$id: int imageView3
 com.gdgl.smarthome.R$id: int imageView4
 com.gdgl.smarthome.R$id: int img
 com.gdgl.smarthome.R$id: int imgAvatar
+com.gdgl.smarthome.R$id: int imgbtn_enter
 com.gdgl.smarthome.R$id: int include1
 com.gdgl.smarthome.R$id: int item_name
 com.gdgl.smarthome.R$id: int join_net
@@ -22060,6 +22077,7 @@ com.gdgl.smarthome.R$id: int user_name
 com.gdgl.smarthome.R$id: int version
 com.gdgl.smarthome.R$id: int version_now
 com.gdgl.smarthome.R$id: int vertical
+com.gdgl.smarthome.R$id: int videoView
 com.gdgl.smarthome.R$id: int video_urveillance_btn
 com.gdgl.smarthome.R$id: int viewColor
 com.gdgl.smarthome.R$id: int viewpager
@@ -22096,6 +22114,7 @@ com.gdgl.smarthome.R$layout: int abc_screen_toolbar
 com.gdgl.smarthome.R$layout: int abc_search_dropdown_item_icons_2line
 com.gdgl.smarthome.R$layout: int abc_search_view
 com.gdgl.smarthome.R$layout: int abc_simple_dropdown_hint
+com.gdgl.smarthome.R$layout: int activity_guide
 com.gdgl.smarthome.R$layout: int activity_main
 com.gdgl.smarthome.R$layout: int activity_myvolley
 com.gdgl.smarthome.R$layout: int activity_slidemenu
@@ -22158,6 +22177,7 @@ com.gdgl.smarthome.R$layout: int hik_activity
 com.gdgl.smarthome.R$layout: int history_fragment
 com.gdgl.smarthome.R$layout: int history_fragment_data_item
 com.gdgl.smarthome.R$layout: int ipc_linkage_media_fragment
+com.gdgl.smarthome.R$layout: int ipc_linkage_video_player
 com.gdgl.smarthome.R$layout: int join_net_item
 com.gdgl.smarthome.R$layout: int join_net_list
 com.gdgl.smarthome.R$layout: int kongtiao_tv_control
@@ -22203,6 +22223,10 @@ com.gdgl.smarthome.R$layout: int start
 com.gdgl.smarthome.R$layout: int startanimation
 com.gdgl.smarthome.R$layout: int support_simple_spinner_dropdown_item
 com.gdgl.smarthome.R$layout: int switch_control
+com.gdgl.smarthome.R$layout: int tab01
+com.gdgl.smarthome.R$layout: int tab02
+com.gdgl.smarthome.R$layout: int tab03
+com.gdgl.smarthome.R$layout: int tab04
 com.gdgl.smarthome.R$layout: int tab_title
 com.gdgl.smarthome.R$layout: int test_fragment
 com.gdgl.smarthome.R$layout: int time_dlg

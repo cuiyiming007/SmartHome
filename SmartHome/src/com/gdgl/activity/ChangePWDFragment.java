@@ -11,8 +11,10 @@ import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.smarthome.R;
+import com.gdgl.util.MyDlg;
 
 import android.support.v4.app.Fragment;
+import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -33,6 +35,8 @@ public class ChangePWDFragment extends Fragment implements UIListener {
 	String odlPwd, name;
 	String oldpwd, newpwd, newagain;
 	LoginManager mLoginManager;
+	
+	Dialog waitingDlg;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -105,6 +109,12 @@ public class ChangePWDFragment extends Fragment implements UIListener {
 								account.setAccount(name);
 								account.setPassword(oldpwd);
 								mLoginManager.ModifyPassword(account, newpwd);
+								
+								if(waitingDlg != null) {
+									waitingDlg.show();
+								} else {
+									waitingDlg = MyDlg.createLoadingDialog(getActivity(), "提交中，请稍后...");
+								}
 							}
 						}else {
 							Toast.makeText(getActivity(), "密码只能是数字和字母",
@@ -136,7 +146,7 @@ public class ChangePWDFragment extends Fragment implements UIListener {
 
 		final Event event = (Event) object;
 		if (EventType.MODIFYPASSWORD == event.getType()) {
-
+			waitingDlg.dismiss();
 			if (event.isSuccess() == true) {
 				// data maybe null
 //				LoginResponse response=(LoginResponse) event.getData();

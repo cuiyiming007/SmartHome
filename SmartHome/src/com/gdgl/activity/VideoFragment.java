@@ -110,7 +110,7 @@ public class VideoFragment extends Fragment implements UIListener,
 					intent.putExtras(extras);
 					startActivity(intent);
 				} else {
-					Toast.makeText(getActivity(), "摄像头不在线", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getActivity(), "摄像机不在线", Toast.LENGTH_SHORT).show();
 				}
 				
 			}

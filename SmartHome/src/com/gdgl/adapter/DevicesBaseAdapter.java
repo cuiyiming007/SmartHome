@@ -368,6 +368,10 @@ public class DevicesBaseAdapter extends BaseAdapter {
 					}
 				});
 			}
+			if (mDevices.getmModelId().equals(DataHelper.RF_remote_control)
+					|| mDevices.getmModelId().equals(DataHelper.RF_Emergency_Button)) {
+				devices_state.setVisibility(View.GONE);
+			}
 			if (mDevices.getmOnOffStatus().trim().equals("0")) {
 				devices_state.setText("撤防");
 				devices_switch.setChecked(false);
