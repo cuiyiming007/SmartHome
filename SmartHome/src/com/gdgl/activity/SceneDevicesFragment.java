@@ -61,6 +61,7 @@ public class SceneDevicesFragment extends Fragment {
 		mButtonFloat = (ButtonFloat) mView.findViewById(R.id.buttonFloat);
 		mButtonFloat.setVisibility(View.VISIBLE);
 		devices_list_view.setAdapter(mBaseAdapter);
+		mButtonFloat.attachToListView(devices_list_view);
 
 		mButtonFloat.setOnClickListener(new OnClickListener() {
 

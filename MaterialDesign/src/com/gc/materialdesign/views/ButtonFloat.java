@@ -16,10 +16,14 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.Bitmap.Config;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
+import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.BounceInterpolator;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
+import android.widget.AbsListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -202,4 +206,88 @@ public class ButtonFloat extends Button{
 	public boolean isShow(){
 		return isShow;
 	}
+	
+	/***
+	 * add by trice
+	 * begin
+	 */
+	public void onScrollDown(){
+		ObjectAnimator animator = ObjectAnimator.ofFloat(ButtonFloat.this, "y", showPosition);
+		animator.setInterpolator(new AccelerateDecelerateInterpolator());
+		animator.setDuration(200);
+		animator.start();
+		isShow = true;
+	}
+	
+	public void onScrollUp(){
+		
+		ObjectAnimator animator = ObjectAnimator.ofFloat(ButtonFloat.this, "y", hidePosition);
+		animator.setInterpolator(new AccelerateDecelerateInterpolator());
+		animator.setDuration(200);
+		animator.start();
+		
+		isShow = false;
+	}
+	
+	public void attachToListView(@NonNull AbsListView listView) {
+		AbsListViewScrollDetector scrollDetector = new AbsListViewScrollDetector();
+		scrollDetector.setListView(listView);
+		listView.setOnScrollListener(scrollDetector);
+	}
+	
+	class AbsListViewScrollDetector implements AbsListView.OnScrollListener {
+	    private int mLastScrollY;
+	    private int mPreviousFirstVisibleItem;
+	    private AbsListView mListView;
+	    private int mScrollThreshold = (int)(getResources().getDisplayMetrics().density*4 + 0.5f);
+
+	    @Override
+	    public void onScrollStateChanged(AbsListView view, int scrollState) {
+	    }
+
+	    @Override
+	    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+	        if(totalItemCount == 0) return;
+	        if (isSameRow(firstVisibleItem)) {
+	            int newScrollY = getTopItemScrollY();
+	            boolean isSignificantDelta = Math.abs(mLastScrollY - newScrollY) > mScrollThreshold;
+	            if (isSignificantDelta) {
+	                if (mLastScrollY > newScrollY) {
+	                    onScrollUp();
+	                } else {
+	                    onScrollDown();
+	                }
+	            }
+	            mLastScrollY = newScrollY;
+	        } else {
+	            if (firstVisibleItem > mPreviousFirstVisibleItem) {
+	                onScrollUp();
+	            } else {
+	                onScrollDown();
+	            }
+
+	            mLastScrollY = getTopItemScrollY();
+	            mPreviousFirstVisibleItem = firstVisibleItem;
+	        }
+	    }
+
+	    public void setScrollThreshold(int scrollThreshold) {
+	        mScrollThreshold = scrollThreshold;
+	    }
+
+	    public void setListView(@NonNull AbsListView listView) {
+	        mListView = listView;
+	    }
+
+	    private boolean isSameRow(int firstVisibleItem) {
+	        return firstVisibleItem == mPreviousFirstVisibleItem;
+	    }
+
+	    private int getTopItemScrollY() {
+	        if (mListView == null || mListView.getChildAt(0) == null) return 0;
+	        View topChild = mListView.getChildAt(0);
+	        return topChild.getTop();
+	    }
+	}
+	//end
 }

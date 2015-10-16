@@ -84,6 +84,7 @@ public class TimingFragment extends Fragment implements UIListener,
 		mButtonFloat.setVisibility(View.VISIBLE);
 		mTimingActionListAdapter = new TimingActionListAdapter();
 		devices_list_view.setAdapter(mTimingActionListAdapter);
+		mButtonFloat.attachToListView(devices_list_view);
 		devices_list_view.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override

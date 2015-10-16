@@ -92,6 +92,12 @@ public class ScenesFragment extends Fragment implements UIListener,
 		defaultScene2 = (LinearLayout) mView.findViewById(R.id.default2);
 		content_view = (GridView) mView.findViewById(R.id.content_view);
 		mButtonFloat = (ButtonFloat) mView.findViewById(R.id.buttonFloat);
+		
+		mCustomeAdapter = new CustomeAdapter();
+		mCustomeAdapter.setList(mScenes);
+		content_view.setAdapter(mCustomeAdapter);
+		// content_view.setLayoutAnimation(UiUtils.getAnimationController((Context)getActivity()));
+		mButtonFloat.attachToListView(content_view);
 
 		defaultScene1Img = (ImageView) defaultScene1.getChildAt(0);
 		defaultScene1Text = (TextView) defaultScene1.getChildAt(1);
@@ -147,10 +153,6 @@ public class ScenesFragment extends Fragment implements UIListener,
 			}
 		});
 
-		mCustomeAdapter = new CustomeAdapter();
-		mCustomeAdapter.setList(mScenes);
-		content_view.setAdapter(mCustomeAdapter);
-		// content_view.setLayoutAnimation(UiUtils.getAnimationController((Context)getActivity()));
 		content_view.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override

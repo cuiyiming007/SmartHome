@@ -82,6 +82,7 @@ public class LinkageFragment extends Fragment implements UIListener,
 		linkage_list = (ListView) mView.findViewById(R.id.linkage_list);
 		linkageAdapter = new LinkageAdapter(getActivity());
 		linkage_list.setAdapter(linkageAdapter);
+		buttonFloat.attachToListView(linkage_list);
 		setListeners();
 		registerForContextMenu(linkage_list);
 	}

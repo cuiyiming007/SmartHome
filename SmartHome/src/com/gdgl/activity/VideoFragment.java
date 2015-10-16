@@ -94,6 +94,7 @@ public class VideoFragment extends Fragment implements UIListener,
 		mButtonFloat = (ButtonFloat) mView.findViewById(R.id.buttonFloat);
 		adapter = new CustomeAdapter();
 		content_view.setAdapter(adapter);
+		mButtonFloat.attachToListView(content_view);
 		content_view.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override

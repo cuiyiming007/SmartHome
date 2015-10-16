@@ -106,6 +106,7 @@ public class TestFragment extends Fragment implements UIListener {
 		// .getAnimationController((Context) getActivity()));
 		mCustomeAdapter = new CustomeAdapter();
 		mCustomeAdapter.setList(mDeviceList);
+		mButtonFloat.attachToListView(content_view);
 		content_view.setAdapter(mCustomeAdapter);
 		// content_view.setOnItemClickListener(new OnItemClickListener() {
 		//
