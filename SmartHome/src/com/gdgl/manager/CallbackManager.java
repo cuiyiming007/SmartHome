@@ -1552,9 +1552,9 @@ public class CallbackManager extends Manger {
 			cursor1.close();
 			message.setIpcName(ipc_name);
 			if (message.getType() == 1) {
-				message.setDescription("联动摄像头 " + ipc_name + " 截图.");
+				message.setDescription("联动摄像机 " + ipc_name + " 截图.");
 			} else {
-				message.setDescription("联动摄像头 " + ipc_name + " 录像.");
+				message.setDescription("联动摄像机 " + ipc_name + " 录像.");
 			}
 
 			long id = db.insert(DataHelper.IPC_LINKAGE_TABLE, null,

@@ -296,8 +296,8 @@
     <color name="myPrimaryDarkColor">#3F51B5</color>
     <color name="myAccentColor">#3F51B5</color>
     <color name="myDrawerBackground">#F2F2F2</color>
-    <color name="myWindowBackground">#DEDEDE</color>
-    <color name="myTextPrimaryColor">#000000</color>
+    <color name="myWindowBackground">@android:color/white</color>
+    <color name="myTextPrimaryColor">@color/text_gray</color>
     <color name="myNavigationColor">#000000</color>
 
     <color name="selected_gray">#ffdbdbdb</color>  

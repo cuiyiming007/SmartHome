@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.gdgl.smarthome"
     android:versionCode="1"
-    android:versionName="1.2.2.151010_Beta" >
+    android:versionName="1.2.3.151014_Alpha" >
 
     <supports-screens
         android:anyDensity="true"
@@ -172,6 +172,11 @@
         <activity
             android:name="com.gdgl.activity.MessageIpcLinkageMediaActivity"
             android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.gdgl.activity.MessageIpcLinkageVideoPlayer"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensor" >
         </activity>
         
         <activity

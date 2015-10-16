@@ -3,12 +3,14 @@ package com.gdgl.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gdgl.libjingle.LibjingleSendManager;
 import com.gdgl.manager.CGIManager;
 import com.gdgl.model.RemoteControl;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.mydata.Region.GetRoomInfo_response;
 import com.gdgl.mydata.Region.Room;
+import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
 
 import android.app.Dialog;
@@ -123,7 +125,11 @@ public class AddDlg {
 	}
 	
 	protected void updateRegion(Room room, String name){
-		CGIManager.getInstance().ZBAddRoomDataMain(""+room.getroom_id(), name, room.getroompic());
+		if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+			CGIManager.getInstance().ZBAddRoomDataMain(""+room.getroom_id(), name, room.getroompic());
+		} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+			LibjingleSendManager.getInstance().ZBAddRoomDataMain(""+room.getroom_id(), name, room.getroompic());
+		}
 	}
 
 	protected void saveRemoteControl(String trim) {
@@ -168,8 +174,13 @@ public class AddDlg {
 				}
 			}
 		}
+		if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
+			CGIManager.getInstance().ZBAddRoomDataMain(Integer.toString(roomid), name, "");
+		} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
+			LibjingleSendManager.getInstance().ZBAddRoomDataMain(Integer.toString(roomid), name, "");
+		}
+		
 		SQLiteDatabase mSQLiteDatabase1 = mDateHelper.getSQLiteDatabase();
-		CGIManager.getInstance().ZBAddRoomDataMain(Integer.toString(roomid), name, "");
 		ArrayList<Room> addList=new ArrayList<Room>();
 		Room addroomdata=new Room();
 		addroomdata.setroom_id(roomid);

@@ -857,6 +857,11 @@ com.gdgl.activity.DevicesListFragment$setData
 com.gdgl.activity.DoorBellFragment
 com.gdgl.activity.DoorBellFragment$1
 com.gdgl.activity.DoorBellFragment$2
+com.gdgl.activity.GuideActivity:
+    private android.widget.LinearLayout mTabWeixin
+    private android.widget.LinearLayout mTabFrd
+    private android.widget.LinearLayout mTabAddress
+    private android.widget.LinearLayout mTabSetting
 com.gdgl.activity.HikVideoActivity:
     org.MediaPlayer.PlayM4.Player$MPInteger StWidth
     org.MediaPlayer.PlayM4.Player$MPInteger StHeight
@@ -934,8 +939,8 @@ com.gdgl.activity.MessageIpcLinkageMediaDlg$CustomPagerAdapter
 com.gdgl.activity.MessageIpcLinkageMediaDlg$DownloadCompleteReceiver
 com.gdgl.activity.MessageListFragment:
     android.widget.Button mBack
-    328:333:private void clearAllMessage()
-    375:375:public void stopRefresh()
+    335:340:private void clearAllMessage()
+    382:382:public void stopRefresh()
 com.gdgl.activity.OutLetControlFragment
 com.gdgl.activity.OutLetControlFragment$1
 com.gdgl.activity.OutLetControlFragment$2
@@ -950,12 +955,10 @@ com.gdgl.activity.RegionDevicesActivity:
     public static final int CONTROL_FRAGMENT
     public static final int ADD_FRAGMENT
     com.gdgl.activity.AllDevicesFragment mAllDevicesFragment
-    280:290:public boolean updateDevices(com.gdgl.model.DevicesModel,android.content.ContentValues,java.lang.String)
-    330:337:private int getDevicesPostion(java.lang.String,java.lang.String,java.util.List)
+    276:286:public boolean updateDevices(com.gdgl.model.DevicesModel,android.content.ContentValues,java.lang.String)
+    318:325:private int getDevicesPostion(java.lang.String,java.lang.String,java.util.List)
 com.gdgl.activity.RegionDevicesAddFragment:
     com.gdgl.activity.RegionDevicesAddFragment$AddChecked mAddChecked
-com.gdgl.activity.RegionsFragment:
-    com.gdgl.mydata.DataHelper mDateHelper
 com.gdgl.activity.SafeSimpleOperation
 com.gdgl.activity.SafeSimpleOperation$1
 com.gdgl.activity.SafeSimpleOperation$2
@@ -975,7 +978,7 @@ com.gdgl.activity.SceneDevicesAddFragment:
 com.gdgl.activity.SceneDevicesAddFragment$SceneDevicesAddListAdapter:
     165:167:public void setList(java.util.List)
 com.gdgl.activity.SceneDevicesFragment$SceneDevicesListAdapter:
-    291:293:public void setList(java.util.List)
+    253:255:public void setList(java.util.List)
 com.gdgl.activity.SeekLightsControlFragment
 com.gdgl.activity.SeekLightsControlFragment$1
 com.gdgl.activity.SeekLightsControlFragment$operatortype
@@ -992,6 +995,12 @@ com.gdgl.activity.ShowTemptureFragment
 com.gdgl.activity.SmartHome:
     private static final java.lang.String TAG
     278:281:public void showSetWindow()
+com.gdgl.activity.SplashActivity:
+    private static final java.lang.String SHAREDPREFERENCES_NAME
+    private static final java.lang.String KEY_GUIDE_ACTIVITY
+    private static final int SWITCH_MAINACTIVITY
+    private static final int SWITCH_GUIDACTIVITY
+    49:55:private boolean isFirstEnter(android.content.Context,java.lang.String)
 com.gdgl.activity.StartAnimationActivity:
     private static final long SPLASH_DELAY_MILLIS
 com.gdgl.activity.SwitchControlFragment
@@ -1101,30 +1110,26 @@ com.gdgl.libjingle.LibjingleResponseHandlerManager:
     179:195:public static void add_Data(java.lang.String)
 com.gdgl.libjingle.LibjingleSendManager:
     private static final java.lang.String TAG
-    80:109:public void addBindData(java.lang.String,java.lang.String,java.lang.String,com.gdgl.model.DevicesModel,java.lang.String)
-    113:142:public void delBindData(java.lang.String,java.lang.String,java.lang.String,com.gdgl.model.DevicesModel,java.lang.String)
-    145:165:public void GetAllBindList()
-    173:196:public void deleteNode(java.lang.String)
-    205:229:public void setPermitJoinOn(java.lang.String,int)
-    232:255:public void setAllPermitJoinOn(int)
-    355:384:public void doorLockOperationCommon(com.gdgl.model.DevicesModel,int)
-    521:550:public void lightSensorOperation(com.gdgl.model.DevicesModel,int)
-    760:787:public void iASZoneOperationCommon(com.gdgl.model.DevicesModel,int,int)
-    818:846:public void humiditySensorOperation(com.gdgl.model.DevicesModel)
-    849:878:public void temperatureSensorOperation(com.gdgl.model.DevicesModel)
-    886:914:public void rangeExtenderOperation(com.gdgl.model.DevicesModel,int)
-    928:956:public void iASACE(com.gdgl.model.DevicesModel,int)
-    966:992:public void beginLearnIR(com.gdgl.model.DevicesModel,int,java.lang.String)
-    1002:1027:public void beginApplyIR(com.gdgl.model.DevicesModel,int)
-    1030:1054:public void DeleteIR(com.gdgl.model.DevicesModel,int)
-    1057:1082:public void getDeviceLearnedIRDataInformation(com.gdgl.model.DevicesModel)
-    1142:1165:public void GetEPByRoomIndexInit(java.lang.String)
-    1175:1199:public void ZBAddRoomDataMain(java.lang.String,java.lang.String,java.lang.String)
-    1207:1230:public void ZBDeleteRoomDataMainByID(java.lang.String)
-    1794:1814:public void ChangeRFDevName(java.lang.String,java.lang.String)
-    1840:1861:public void RFWarningDevOperation(java.lang.String,int,int)
-    1864:1884:public void ChangeRFDevActivationState(java.lang.String,int)
-    1930:1949:public void GetRFDevByRoomIdInit(java.lang.String)
+    104:133:public void addBindData(java.lang.String,java.lang.String,java.lang.String,com.gdgl.model.DevicesModel,java.lang.String)
+    137:166:public void delBindData(java.lang.String,java.lang.String,java.lang.String,com.gdgl.model.DevicesModel,java.lang.String)
+    169:189:public void GetAllBindList()
+    197:220:public void deleteNode(java.lang.String)
+    229:253:public void setPermitJoinOn(java.lang.String,int)
+    256:279:public void setAllPermitJoinOn(int)
+    379:408:public void doorLockOperationCommon(com.gdgl.model.DevicesModel,int)
+    545:574:public void lightSensorOperation(com.gdgl.model.DevicesModel,int)
+    784:811:public void iASZoneOperationCommon(com.gdgl.model.DevicesModel,int,int)
+    842:870:public void humiditySensorOperation(com.gdgl.model.DevicesModel)
+    873:902:public void temperatureSensorOperation(com.gdgl.model.DevicesModel)
+    910:938:public void rangeExtenderOperation(com.gdgl.model.DevicesModel,int)
+    952:980:public void iASACE(com.gdgl.model.DevicesModel,int)
+    990:1016:public void beginLearnIR(com.gdgl.model.DevicesModel,int,java.lang.String)
+    1026:1051:public void beginApplyIR(com.gdgl.model.DevicesModel,int)
+    1054:1078:public void DeleteIR(com.gdgl.model.DevicesModel,int)
+    1081:1106:public void getDeviceLearnedIRDataInformation(com.gdgl.model.DevicesModel)
+    1846:1866:public void ChangeRFDevName(java.lang.String,java.lang.String)
+    1892:1913:public void RFWarningDevOperation(java.lang.String,int,int)
+    1916:1936:public void ChangeRFDevActivationState(java.lang.String,int)
 com.gdgl.libjingle.LibjingleVideoSocket:
     private static final java.lang.String TAG
     14:14:public LibjingleVideoSocket()
@@ -1139,41 +1144,37 @@ com.gdgl.manager.CGIManager:
     772:820:public void iASZoneOperationCommon(com.gdgl.model.DevicesModel,int,int)
     918:935:public void rangeExtenderOperation(com.gdgl.model.DevicesModel,int)
     949:966:public void iASACE(com.gdgl.model.SimpleDevicesModel,int)
-    1247:1280:public void GetEPByRoomIndexInit(java.lang.String)
     1721:1766:public void getHistoryDataByTime(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String)
 com.gdgl.manager.CGIManager$13
 com.gdgl.manager.CGIManager$14
-com.gdgl.manager.CGIManager$29
 com.gdgl.manager.CGIManager$3
-com.gdgl.manager.CGIManager$30
 com.gdgl.manager.CGIManager$4
 com.gdgl.manager.CGIManager$52
 com.gdgl.manager.CGIManager$53
 com.gdgl.manager.CGIManager$GetBindingTask
-com.gdgl.manager.CGIManager$GetEPbyRoomIndexInitTask
 com.gdgl.manager.CallbackManager:
     private static final java.lang.String TAG
     78:79:public void stopConnectServerByTCPTask()
-    1449:1467:void makeWarmNotify(android.content.Intent,com.gdgl.mydata.Callback.CallbackWarnMessage)
+    1461:1479:void makeWarmNotify(android.content.Intent,com.gdgl.mydata.Callback.CallbackWarnMessage)
 com.gdgl.manager.CallbackManager$UpdateDBTask
 com.gdgl.manager.DeviceManager:
     java.util.ArrayList allList
     java.util.List mDevList
     56:60:public java.util.ArrayList getDeviceListFromLocalString()
+    183:228:public void getNewJoinNetDevice(com.gdgl.mydata.Callback.CallbackJoinNetMessage)
+com.gdgl.manager.DeviceManager$7
+com.gdgl.manager.DeviceManager$8
+com.gdgl.manager.DeviceManager$GetEndpointByIeeeTask
 com.gdgl.manager.LoginManager:
     public static final java.lang.String TAG
 com.gdgl.manager.RfCGIManager:
     private static final java.lang.String TAG
     142:163:public void ChangeRFDevActivationState(java.lang.String,int)
     166:186:public void ChangeAllRFDevArmState(int)
-    256:278:public void GetRFDevByRoomIdInit(java.lang.String)
 com.gdgl.manager.RfCGIManager$10
 com.gdgl.manager.RfCGIManager$11
 com.gdgl.manager.RfCGIManager$12
-com.gdgl.manager.RfCGIManager$17
-com.gdgl.manager.RfCGIManager$18
 com.gdgl.manager.RfCGIManager$9
-com.gdgl.manager.RfCGIManager$GetRFDevByRoomIdInitTask
 com.gdgl.manager.SceneLinkageManager:
     private static final java.lang.String TAG
 com.gdgl.manager.VideoManager:
@@ -1396,28 +1397,28 @@ com.gdgl.smarthome.R$menu
 com.gdgl.smarthome.R$string
 com.gdgl.smarthome.R$style
 com.gdgl.smarthome.R$styleable:
-    5198:5198:public R$styleable()
+    5215:5215:public R$styleable()
 com.gdgl.util.AddDlg:
     public static final int REGION
     public static final int SCENE
     public static final int REMOTE_CONTROL
     public static final java.lang.String ADD
     public static final java.lang.String Edit
-    196:197:public void hide()
+    207:208:public void hide()
 com.gdgl.util.BitmapUtil
 com.gdgl.util.ComUtil:
     private static final java.lang.String TAG
     public static java.io.FileOutputStream fileOutputStream
-    22:22:public ComUtil()
-    32:37:public byte[] intToByte(int)
-    41:45:public int bytesToInt(byte[])
-    49:55:public java.lang.String getByteToString(byte[])
-    60:64:public byte[] getStringToByte(java.lang.String)
-    68:84:public int findHeader(byte[])
-    89:121:public int findPackHead(java.io.DataInputStream)
-    131:146:public static byte[] ObjectToByte(java.lang.Object)
-    181:193:public static void writeToFileFromByte(byte[],java.lang.String)
-    229:229:public static java.lang.String getFilePath()
+    24:24:public ComUtil()
+    34:39:public byte[] intToByte(int)
+    43:47:public int bytesToInt(byte[])
+    51:57:public java.lang.String getByteToString(byte[])
+    62:66:public byte[] getStringToByte(java.lang.String)
+    70:86:public int findHeader(byte[])
+    91:123:public int findPackHead(java.io.DataInputStream)
+    133:148:public static byte[] ObjectToByte(java.lang.Object)
+    183:195:public static void writeToFileFromByte(byte[],java.lang.String)
+    231:231:public static java.lang.String getFilePath()
 com.gdgl.util.CustomDrawable
 com.gdgl.util.CustomDrawable$CustomSharp
 com.gdgl.util.EditDevicesDlg:

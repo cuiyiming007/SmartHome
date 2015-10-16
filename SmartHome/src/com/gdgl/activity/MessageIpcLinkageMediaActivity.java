@@ -16,8 +16,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -28,7 +26,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.gdgl.mydata.getFromSharedPreferences;
@@ -52,9 +49,6 @@ public class MessageIpcLinkageMediaActivity extends Activity {
 	private List<String> urlList = new ArrayList<String>();
 	private String httpUrlHead = "http://121.199.21.14:8888/ipc_capture/";
 	private String fileAddress = "";
-
-	private Handler mHandler;
-	// public ArrayList<Bitmap> screenshots = HikVideoActivity.screenPictures;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -115,23 +109,27 @@ public class MessageIpcLinkageMediaActivity extends Activity {
 					@Override
 					public void onClick(View v) {
 						// TODO Auto-generated method stub
-						Intent intent = new Intent(Intent.ACTION_VIEW);
-						intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-						intent.putExtra("oneshot", 0);
-				        intent.putExtra("configchange", 0);
+//						Intent intent = new Intent(Intent.ACTION_VIEW);
+//						intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//						intent.putExtra("oneshot", 0);
+//				        intent.putExtra("configchange", 0);
 				        Uri data = Uri.parse(fileAddress);
 //				        Uri data = Uri.parse(Environment.getExternalStorageDirectory()+"/Movies/Glory_Of_Nature.mp4");
-				        intent.setDataAndType(data, "video/*");
+//				        intent.setDataAndType(data, "video/*");
 //						Uri data = Uri.parse("http://www.baidu.com");
 //				        intent.setData(data);
-				        if (intent.resolveActivity(getPackageManager()) != null) {
-				            startActivity(intent);
-				        } else {
-//				        	Message msg = new Message();
-//							msg.what = 1;
-//							mHandler.sendMessage(msg);
-							Toast.makeText(MessageIpcLinkageMediaActivity.this, "cannot find player to handle video!",Toast.LENGTH_SHORT).show();
-						}
+//				        if (intent.resolveActivity(getPackageManager()) != null) {
+//				            startActivity(intent);
+//				        } else {
+//							Toast.makeText(MessageIpcLinkageMediaActivity.this, "cannot find player to handle video!",Toast.LENGTH_SHORT).show();
+							Intent intent2 = new Intent();
+							intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+							intent2.setData(data);
+							intent2.setClass(MessageIpcLinkageMediaActivity.this, MessageIpcLinkageVideoPlayer.class);
+							startActivity(intent2);
+							overridePendingTransition(android.R.anim.fade_in,
+									android.R.anim.fade_out);
+//						}
 					}
 				});
 			} else {
@@ -162,17 +160,6 @@ public class MessageIpcLinkageMediaActivity extends Activity {
 						DownloadManager.ACTION_DOWNLOAD_COMPLETE));
 			}
 		}
-		
-		mHandler = new Handler(){
-			public void handleMessage(Message msg){
-				switch(msg.what){
-				case 1:
-					Toast.makeText(MessageIpcLinkageMediaActivity.this, "cannot find player to handle video!",Toast.LENGTH_SHORT).show();
-					break;
-				}
-			}
-		};
-
 	}
 
 	@Override
@@ -261,23 +248,27 @@ public class MessageIpcLinkageMediaActivity extends Activity {
 						@Override
 						public void onClick(View v) {
 							// TODO Auto-generated method stub
-							Intent intent = new Intent(Intent.ACTION_VIEW);
-							intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-							intent.putExtra("oneshot", 0);
-					        intent.putExtra("configchange", 0);
+//							Intent intent = new Intent(Intent.ACTION_VIEW);
+//							intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//							intent.putExtra("oneshot", 0);
+//					        intent.putExtra("configchange", 0);
 					        Uri data = Uri.parse(fileAddress);
 //					        Uri data = Uri.parse(Environment.getExternalStorageDirectory()+"/Movies/Glory_Of_Nature.mp4");
-					        intent.setDataAndType(data, "video/*");
+//					        intent.setDataAndType(data, "video/*");
 //							Uri data = Uri.parse("http://www.baidu.com");
 //					        intent.setData(data);
-					        if (intent.resolveActivity(getPackageManager()) != null) {
-					            startActivity(intent);
-					        } else {
-//					        	Message msg = new Message();
-//								msg.what = 1;
-//								mHandler.sendMessage(msg);
-								Toast.makeText(MessageIpcLinkageMediaActivity.this, "cannot find player to handle video!",Toast.LENGTH_SHORT).show();
-							}
+//					        if (intent.resolveActivity(getPackageManager()) != null) {
+//					        	startActivity(intent);
+//					        } else {
+//								Toast.makeText(MessageIpcLinkageMediaActivity.this, "cannot find player to handle video!",Toast.LENGTH_SHORT).show();
+								Intent intent2 = new Intent();
+								intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+								intent2.setData(data);
+								intent2.setClass(MessageIpcLinkageMediaActivity.this, MessageIpcLinkageVideoPlayer.class);
+								startActivity(intent2);
+								overridePendingTransition(android.R.anim.fade_in,
+										android.R.anim.fade_out);
+//							}
 						}
 					});
 				}
