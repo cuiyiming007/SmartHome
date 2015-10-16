@@ -270,9 +270,11 @@ public class SetEmailFragment extends Fragment implements UIListener {
 				//MyApplicationFragment.getInstance().removeLastFragment();
 			} else {
 				// if failed,prompt a Toast
-				sendEmailFLAG = getFromSharedPreferences.getEmailFlag();
-				emailAddress = getFromSharedPreferences.getEmailName();
-				Toast.makeText(getActivity(), "获取邮箱失败，请稍后重新绑定", Toast.LENGTH_SHORT)
+				//sendEmailFLAG = getFromSharedPreferences.getEmailFlag();
+				//emailAddress = getFromSharedPreferences.getEmailName();
+				sendEmailFLAG = 0;
+				emailAddress =	null;	
+				Toast.makeText(getActivity(), "获取邮箱失败，请稍后重新获取", Toast.LENGTH_SHORT)
 						.show();
 			}
 			initView();

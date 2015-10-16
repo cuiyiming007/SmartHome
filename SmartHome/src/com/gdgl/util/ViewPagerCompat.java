@@ -48,7 +48,7 @@ public class ViewPagerCompat extends ViewPager {
 			return false;
 		}
 	}
-
+ 
 	@Override
 	public boolean arrowScroll(int direction) {
 		if (mViewTouchMode)
