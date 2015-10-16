@@ -2,6 +2,7 @@ package h264.com;
 
 import java.util.ArrayList;
 
+import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 import android.app.Dialog;
 import android.content.Context;
@@ -31,7 +32,8 @@ public class BigScreenshotDialog  {
 		dialog = new Dialog(c, R.style.MyDialog1);
 		dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 		WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		dialog.setContentView(R.layout.big_screenshot_dlg);
+		//dialog.setContentView(R.layout.big_screenshot_dlg);  
+		dialog.setContentView(R.layout.activity_view_pager);
 		dialog.setCanceledOnTouchOutside(false);
 		
 		Window dialogWindow = dialog.getWindow();
@@ -40,7 +42,7 @@ public class BigScreenshotDialog  {
         lp.height = dialogheight;
         dialogWindow.setAttributes(lp);
         
-		mViewPager = (ViewPager) dialog.findViewById(R.id.pager);
+		mViewPager = (ViewPager) dialog.findViewById(R.id.view_pager);
 		mCustomPagerAdapter = new CustomPagerAdapter(c);
         mViewPager.setAdapter(mCustomPagerAdapter);
         mViewPager.setCurrentItem(k);
@@ -67,18 +69,25 @@ public class BigScreenshotDialog  {
 	 
 	    @Override
 	    public boolean isViewFromObject(View view, Object object) {
-	        return view == ((LinearLayout) object);
+	        return view == object;
 	    }
 	 
 	    @Override
 	    public Object instantiateItem(ViewGroup container, int position) {
-	        View itemView = mLayoutInflater.inflate(R.layout.pager_item, container, false);
+	        /*View itemView = mLayoutInflater.inflate(R.layout.pager_item, container, false);
 	        ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView);
 	        imageView.setImageBitmap(screenshots.get(position));
 	        attacher = new PhotoViewAttacher(imageView);
 	        container.addView(itemView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 	        //shotview = imageView;
-	        return itemView;
+	        return itemView;*/
+	    	PhotoView photoView = new PhotoView(mContext);
+			photoView.setImageBitmap(screenshots.get(position));
+
+			// Now just add PhotoView to ViewPager and return it
+			container.addView(photoView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+
+			return photoView;
 	    }
 	 
 	    @Override
