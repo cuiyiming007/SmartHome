@@ -286,6 +286,13 @@ public class LinkageDetailFragment extends Fragment implements ChangeFragment,
 						act_record_btn
 								.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
 						picture_count_lay.setVisibility(View.VISIBLE);
+						picture_three_btn
+						.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
+						picture_five_btn
+								.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
+						picture_one_btn
+								.setBackgroundResource(R.drawable.ui2_linkage_button_press);
+						picture_count = 1;
 						picture_one_btn.setText("1张");//==
 						picture_three_btn.setText("3张");//==
 						picture_five_btn.setText("5张");//==
@@ -306,6 +313,13 @@ public class LinkageDetailFragment extends Fragment implements ChangeFragment,
 						picture_one_btn.setText("10秒");//==
 						picture_three_btn.setText("30秒");//==
 						picture_five_btn.setText("60秒");//==
+						picture_three_btn
+						.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
+						picture_five_btn
+								.setBackgroundResource(R.drawable.ui2_linkage_button_normal);
+						picture_one_btn
+								.setBackgroundResource(R.drawable.ui2_linkage_button_press);
+						record_time = 10;
 						//record_time_lay.setVisibility(View.VISIBLE);
 					}
 				});
