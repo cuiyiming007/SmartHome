@@ -186,7 +186,8 @@ public class TimingAddFragment extends Fragment implements DeviceSelected {
 		});
 
 		weekGroup = (LinearLayout) mView.findViewById(R.id.weekGroup);
-		String[] dayOfWeekString = new DateFormatSymbols().getShortWeekdays();
+//		String[] dayOfWeekString = new DateFormatSymbols().getShortWeekdays();
+		String[] dayOfWeekString = {"","周日","周一","周二","周三","周四","周五","周六"};
 		for (int i = 0; i < 7; i++) {
 
 			weekByDayButtons[i] = (ToggleButton) weekGroup.getChildAt(i);

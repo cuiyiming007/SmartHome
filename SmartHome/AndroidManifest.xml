@@ -171,7 +171,8 @@
         </activity>
         <activity
             android:name="com.gdgl.activity.MessageIpcLinkageMediaActivity"
-            android:screenOrientation="portrait" >
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensor" >
         </activity>
         <activity
             android:name="com.gdgl.activity.MessageIpcLinkageVideoPlayer"

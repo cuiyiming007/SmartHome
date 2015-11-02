@@ -424,17 +424,24 @@ public class LoginActivity extends Activity implements OnClickListener,
 			}
 		} else if (EventType.GATEWAYAUTH == event.getType()) {
 			if (event.isSuccess() == true) {
-				int[] data = (int[]) event.getData();
+				final int[] data = (int[]) event.getData();
 				if (data[0] < 0 && data[1] < 1) {
 					// dialog
-					MyOKOnlyDlg myOKOnlyDlg = new MyOKOnlyDlg(
-							LoginActivity.this);
-					myOKOnlyDlg.setContent("您的网关处于"
-							+ UiUtils.getGatewayAuthState(data[0])
-							+ "状态，暂不能使用！");
-					myOKOnlyDlg.setCannotCanceled();
-					myOKOnlyDlg.setDialogCallback(LoginActivity.this);
-					myOKOnlyDlg.show();
+					mLogin.post(new Runnable() {
+						
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							MyOKOnlyDlg myOKOnlyDlg = new MyOKOnlyDlg(
+									LoginActivity.this);
+							myOKOnlyDlg.setContent("        您的网关处于"
+									+ UiUtils.getGatewayAuthState(data[0])
+									+ "状态，暂不能使用！");
+							myOKOnlyDlg.setCannotCanceled();
+							myOKOnlyDlg.setDialogCallback(LoginActivity.this);
+							myOKOnlyDlg.show();
+						}
+					});
 				} else {
 					if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
 						Intent serviceIntent = new Intent(this,

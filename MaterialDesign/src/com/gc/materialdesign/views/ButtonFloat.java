@@ -214,7 +214,7 @@ public class ButtonFloat extends Button{
 	public void onScrollDown(){
 		ObjectAnimator animator = ObjectAnimator.ofFloat(ButtonFloat.this, "y", showPosition);
 		animator.setInterpolator(new AccelerateDecelerateInterpolator());
-		animator.setDuration(200);
+		animator.setDuration(300);
 		animator.start();
 		isShow = true;
 	}
@@ -223,7 +223,7 @@ public class ButtonFloat extends Button{
 		
 		ObjectAnimator animator = ObjectAnimator.ofFloat(ButtonFloat.this, "y", hidePosition);
 		animator.setInterpolator(new AccelerateDecelerateInterpolator());
-		animator.setDuration(200);
+		animator.setDuration(300);
 		animator.start();
 		
 		isShow = false;

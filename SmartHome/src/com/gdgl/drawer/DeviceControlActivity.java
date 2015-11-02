@@ -224,11 +224,11 @@ public class DeviceControlActivity extends MyActionBarActivity implements
 			return getResources().getString(R.string.RF_Smoke_Detectors);
 		}else if(mDevicesModel.getmModelId().indexOf(DataHelper.RF_Combustible_Gas_Detector) == 0){
 			return getResources().getString(R.string.RF_Combustible_Gas_Detector);
-		}else if(mDevicesModel.getmModelId().indexOf(DataHelper.RF_Siren) == 0){
+		}else if(mDevicesModel.getmModelId().equals(DataHelper.RF_Siren)){
 			return getResources().getString(R.string.RF_Siren);
-		}else if(mDevicesModel.getmModelId().indexOf(DataHelper.RF_Siren_Relay) == 0){
+		}else if(mDevicesModel.getmModelId().equals(DataHelper.RF_Siren_Relay) ){
 			return getResources().getString(R.string.RF_Siren_Relay);
-		}else if(mDevicesModel.getmModelId().indexOf(DataHelper.RF_Siren_Outside) == 0){
+		}else if(mDevicesModel.getmModelId().equals(DataHelper.RF_Siren_Outside)){
 			return getResources().getString(R.string.RF_Siren_Outside);
 		}else if(mDevicesModel.getmModelId().indexOf(DataHelper.RF_remote_control) == 0){
 			return getResources().getString(R.string.RF_remote_control);

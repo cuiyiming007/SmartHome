@@ -12,8 +12,7 @@
         android:id="@+id/navigationHeader"
         android:layout_width="match_parent"
         android:layout_height="140dp"
-        android:background="@drawable/ui2_config_bg"
-        android:paddingTop="24dp" >
+        android:background="@drawable/ui2_config_bg" >
 
         <ImageView
             android:id="@+id/imgAvatar"
@@ -24,40 +23,44 @@
             android:layout_alignParentTop="true"
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="1dp"
+            android:layout_marginTop="16dp"
             android:src="@drawable/ui2_config_administrator" />
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+        <ScrollView
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/imgAvatar"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:orientation="vertical" >
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imgAvatar" >
 
-            <TextView
-                android:id="@+id/txtUsername"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="ID:123456ABCDEF"
-                android:textColor="@android:color/white"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+            	android:layout_marginRight="16dp"
+                android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/txtUserEmail"
-                android:layout_width="match_parent"
-                android:layout_marginTop="2dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:textSize="13sp"
-                android:text="到期日期："
-                android:textColor="@android:color/white" />
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/txtUsername"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="ID:123456ABCDEF"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtUserEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_weight="1"
+                    android:text="到期日期："
+                    android:textColor="@android:color/white"
+                    android:textSize="13sp" />
+            </LinearLayout>
+        </ScrollView>
     </RelativeLayout>
 
     <View
@@ -85,11 +88,11 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_above="@+id/exit_app"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
         android:alpha="0.87"
         android:drawablePadding="16dp"
         android:gravity="center_vertical"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
         android:textColor="#3d3d3d"
         android:textSize="14sp" />
 
@@ -99,11 +102,11 @@
         android:layout_height="48dp"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="16dp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
         android:alpha="0.87"
         android:drawablePadding="16dp"
         android:gravity="center_vertical"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
         android:textColor="#3d3d3d"
         android:textSize="14sp" />
 

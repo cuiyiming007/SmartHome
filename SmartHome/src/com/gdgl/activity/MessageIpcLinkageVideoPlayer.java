@@ -20,6 +20,13 @@ public class MessageIpcLinkageVideoPlayer extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ipc_linkage_video_player);
+        
+        int ori = getResources().getConfiguration().orientation ; //获取屏幕方向
+        if(ori == Configuration.ORIENTATION_LANDSCAPE){
+        	getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN); 
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN); 
+        }
+        
         Intent intent = getIntent();
         Uri videoUri = intent.getData();
         videoView = (VideoView) findViewById(R.id.videoView);
