@@ -8,8 +8,6 @@
  */
 package com.gdgl.activity;
 
-import h264.com.BigScreenshotDialog;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
@@ -17,8 +15,30 @@ import java.util.ArrayList;
 
 import org.MediaPlayer.PlayM4.Player;
 
+import com.gdgl.mydata.video.VideoNode;
+import com.gdgl.network.NetworkConnectivity;
+import com.gdgl.smarthome.R;
+import com.gdgl.util.ComUtil;
+import com.gdgl.util.MyOkCancleDlg;
+import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
+import com.hikvision.netsdk.ExceptionCallBack;
+import com.hikvision.netsdk.HCNetSDK;
+import com.hikvision.netsdk.NET_DVR_CHANNELSTATE_V30;
+import com.hikvision.netsdk.NET_DVR_CLIENTINFO;
+import com.hikvision.netsdk.NET_DVR_COMPRESSIONCFG_V30;
+import com.hikvision.netsdk.NET_DVR_DEVICEINFO_V30;
+import com.hikvision.netsdk.NET_DVR_IPPARACFG_V40;
+import com.hikvision.netsdk.NET_DVR_PLAYBACK_INFO;
+import com.hikvision.netsdk.NET_DVR_RESOLVE_DEVICEINFO;
+import com.hikvision.netsdk.NET_DVR_TIME;
+import com.hikvision.netsdk.NET_DVR_WORKSTATE_V30;
+import com.hikvision.netsdk.PTZCommand;
+import com.hikvision.netsdk.PTZPresetCmd;
+import com.hikvision.netsdk.PlaybackCallBack;
+import com.hikvision.netsdk.PlaybackControlCommand;
+import com.hikvision.netsdk.RealPlayCallBack;
+
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -38,36 +58,19 @@ import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
-
-import com.gdgl.mydata.video.VideoNode;
-import com.gdgl.network.NetworkConnectivity;
-import com.gdgl.smarthome.R;
-import com.gdgl.util.ComUtil;
-import com.hikvision.netsdk.ExceptionCallBack;
-import com.hikvision.netsdk.HCNetSDK;
-import com.hikvision.netsdk.NET_DVR_CHANNELSTATE_V30;
-import com.hikvision.netsdk.NET_DVR_CLIENTINFO;
-import com.hikvision.netsdk.NET_DVR_COMPRESSIONCFG_V30;
-import com.hikvision.netsdk.NET_DVR_DEVICEINFO_V30;
-import com.hikvision.netsdk.NET_DVR_IPPARACFG_V40;
-import com.hikvision.netsdk.NET_DVR_PLAYBACK_INFO;
-import com.hikvision.netsdk.NET_DVR_RESOLVE_DEVICEINFO;
-import com.hikvision.netsdk.NET_DVR_TIME;
-import com.hikvision.netsdk.NET_DVR_WORKSTATE_V30;
-import com.hikvision.netsdk.PTZCommand;
-import com.hikvision.netsdk.PTZPresetCmd;
-import com.hikvision.netsdk.PlaybackCallBack;
-import com.hikvision.netsdk.PlaybackControlCommand;
-import com.hikvision.netsdk.RealPlayCallBack;
+import h264.com.BigScreenshotDialog;
 //import com.hikvision.netsdk.NET_DVR_PREVIEWINFO;
 
 /**
@@ -79,7 +82,7 @@ import com.hikvision.netsdk.RealPlayCallBack;
  * @version V1.0
  * @modificationHistory
  */
-public class HikVideoActivity extends ActionBarActivity implements Callback {
+public class HikVideoActivity extends ActionBarActivity implements Callback, Dialogcallback {
 	private Player m_oPlayerSDK = null;
 	private Button m_oLoginBtn = null;
 	private Button m_oPreviewBtn = null;
@@ -113,6 +116,8 @@ public class HikVideoActivity extends ActionBarActivity implements Callback {
 	private int m_iPort = -1; // play port
 	private int width,height,Position;
 	private float height_to_width,width_to_height;
+	
+	private int pic_position;
 	
 	private final String TAG = "HikVideoActivity";
 
@@ -204,7 +209,7 @@ public class HikVideoActivity extends ActionBarActivity implements Callback {
 		lay_pic.setVisibility(View.VISIBLE);
 		mImageAdapter.setList(mListPic);
 		mImageAdapter.notifyDataSetChanged();
-		gallery_pic.setSelection(0);
+		//gallery_pic.setSelection(0);
 	}
 	
 	private class ImageAdapter extends BaseAdapter{
@@ -250,6 +255,21 @@ public class HikVideoActivity extends ActionBarActivity implements Callback {
 					bigPicDialog.show();
 				}
 			});
+	       
+	        imageView.setOnLongClickListener(new OnLongClickListener() {
+				
+				@Override
+				public boolean onLongClick(View v) {
+					// TODO Auto-generated method stub
+					pic_position=position;
+					MyOkCancleDlg mMyOkCancleDlg = new MyOkCancleDlg(HikVideoActivity.this);
+					mMyOkCancleDlg.setDialogCallback(HikVideoActivity.this);
+					mMyOkCancleDlg.setContent("确定要删除该图片吗?");
+					mMyOkCancleDlg.show();
+					return false;
+				}
+			});
+	        
 	        return imageView;
 	    }
 	}
@@ -530,7 +550,9 @@ public class HikVideoActivity extends ActionBarActivity implements Callback {
 			this.getWindow().setFlags(0, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 			m_oCaptureBtn.setVisibility(View.VISIBLE);
 			if(mListPic.size() > 0){
-				lay_pic.setVisibility(View.VISIBLE);	
+				lay_pic.setVisibility(View.VISIBLE);
+				//TODO
+				setSelect();
 			}
 			toolbar_card.setVisibility(View.VISIBLE);
 			//play_main_lay.setBackgroundColor(getResources().getColor(R.color.white));
@@ -590,6 +612,50 @@ public class HikVideoActivity extends ActionBarActivity implements Callback {
 
 	}
 
+	@Override
+	public void dialogdo() {
+		File file = new File(ComUtil.picturePath + "/" + m_DVRSerialNumber + "/");
+		File[] files = file.listFiles();
+		File fil = new File(mListPic.get(pic_position));//******
+		fil.delete();//********
+		updateGallery();
+		if(files.length>=4){
+			if(pic_position==0){
+				gallery_pic.setSelection(1);
+			}else if(pic_position==files.length-1||pic_position==files.length-2){
+				gallery_pic.setSelection(files.length-3);
+			}else {
+				gallery_pic.setSelection(pic_position);
+			}
+		}else if(files.length==3){
+			gallery_pic.setSelection(1);
+		}else{
+			gallery_pic.setSelection(0);
+		}
+	}
+	
+	//设置截图显示焦点---初始焦点
+	public void setSelect(){
+		File file = new File(ComUtil.picturePath + "/" + m_DVRSerialNumber + "/");
+		File[] files = file.listFiles();
+		if(files.length>=2){
+			gallery_pic.setSelection(1);
+		}else{
+			gallery_pic.setSelection(0);
+		}
+	}
+	
+	//设置添加截图之后的焦点
+	public void setAdd(){
+		File file = new File(ComUtil.picturePath + "/" + m_DVRSerialNumber + "/");
+		File[] files = file.listFiles();
+		 if(files.length==1){
+			gallery_pic.setSelection(0);
+		}else {
+			gallery_pic.setSelection(1);
+		}
+	}
+	
 	// listen
 	private void setListeners() {
 		btn_last.setOnClickListener(new OnClickListener() {
@@ -816,6 +882,8 @@ public class HikVideoActivity extends ActionBarActivity implements Callback {
 				file.write(picBuf, 0, stSize.value);
 				file.close();
 				updateGallery();
+				//TODO
+				setAdd();
 			} catch (Exception err) {
 				Log.e(TAG, "error: " + err.toString());
 			}
