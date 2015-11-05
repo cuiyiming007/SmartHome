@@ -1,5 +1,6 @@
 package com.gdgl.activity;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -19,6 +20,7 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -62,7 +64,8 @@ public class MessageIpcLinkageFragment extends Fragment implements UIListener,
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		WindowManager wm = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
+		WindowManager wm = (WindowManager) getActivity().getSystemService(
+				Context.WINDOW_SERVICE);
 		width = wm.getDefaultDisplay().getWidth();
 		height = wm.getDefaultDisplay().getHeight();
 		CallbackManager.getInstance().addObserver(this);
@@ -116,9 +119,19 @@ public class MessageIpcLinkageFragment extends Fragment implements UIListener,
 				}
 
 			}.execute(currentMessage);
-
+			String fileAddress = getActivity().getExternalFilesDir(
+					Environment.DIRECTORY_MOVIES).toString()
+					+ "/" + currentMessage.getPicName();
+			deleteFile(fileAddress);
 		}
 		return super.onContextItemSelected(item);
+	}
+
+	private void deleteFile(String address) {
+		File f = new File(address);
+		if (f.exists()) {
+			f.delete();
+		}
 	}
 
 	public class getDataTask extends AsyncTask<Integer, Integer, Integer> {
@@ -173,12 +186,15 @@ public class MessageIpcLinkageFragment extends Fragment implements UIListener,
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view,
 						int position, long id) {
-//					MessageIpcLinkageMediaDlg ipcLinkageMediaDlg = new MessageIpcLinkageMediaDlg(
-//							getActivity(), mList.get(position), width, height);
-//					ipcLinkageMediaDlg.show();
+					// MessageIpcLinkageMediaDlg ipcLinkageMediaDlg = new
+					// MessageIpcLinkageMediaDlg(
+					// getActivity(), mList.get(position), width, height);
+					// ipcLinkageMediaDlg.show();
 					Intent intent = new Intent();
-					intent.putExtra("CallbackIpcLinkageMessage", mList.get(position));
-					intent.setClass(getActivity(), MessageIpcLinkageMediaActivity.class);
+					intent.putExtra("CallbackIpcLinkageMessage",
+							mList.get(position));
+					intent.setClass(getActivity(),
+							MessageIpcLinkageMediaActivity.class);
 					startActivity(intent);
 				}
 			});

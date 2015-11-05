@@ -14,6 +14,7 @@ import java.io.UnsupportedEncodingException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 
+import com.gdgl.app.ApplicationController;
 import com.gdgl.mydata.getFromSharedPreferences;
 
 import android.R.string;
@@ -24,9 +25,11 @@ import android.util.Log;
 public class ComUtil {
 	private final static String TAG = "ComUtil";
 	// Ӧ�ó����Ŀ¼
-	private static String rootPath = Environment.getExternalStorageDirectory()
-			.toString() + "/gdgl"+getFromSharedPreferences.getGatewayMAC();
-	public static String picturePath = rootPath+"/PictureShot";
+//	private static String rootPath = Environment.getExternalStorageDirectory()
+//			.toString() + "/gdgl";
+	private static String rootPath = ApplicationController.getInstance().getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString();
+//	public static String picturePath = rootPath+"/PictureShot/"+getFromSharedPreferences.getGatewayMAC();
+	public static String picturePath = rootPath+"/"+getFromSharedPreferences.getGatewayMAC();
 	public static String fileName;
 	public static FileOutputStream fileOutputStream ;
 

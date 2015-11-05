@@ -722,8 +722,10 @@ com.gc.materialdesign.views.Button:
 com.gc.materialdesign.views.ButtonFloat:
     java.lang.Integer height
     java.lang.Integer width
-    194:200:public void hide()
-    203:203:public boolean isShow()
+    198:204:public void hide()
+    207:207:public boolean isShow()
+com.gc.materialdesign.views.ButtonFloat$AbsListViewScrollDetector:
+    275:276:public void setScrollThreshold(int)
 com.gc.materialdesign.views.ButtonRectangle:
     int paddingTop
     int paddingBottom
@@ -779,10 +781,6 @@ com.gdgl.GalleryFlow.FancyCoverFlow:
     public static final float SCALEDOWN_GRAVITY_BOTTOM
 com.gdgl.GalleryFlow.FancyCoverFlow$LayoutParams:
     380:381:public FancyCoverFlow$LayoutParams(android.view.ViewGroup$LayoutParams)
-com.gdgl.activity.AddCommonUsedActivity:
-    public static final int REGION
-    public static final int SCENE
-    public static final int DEVICES
 com.gdgl.activity.AllDevicesFragment
 com.gdgl.activity.AllDevicesFragment$1
 com.gdgl.activity.AllDevicesFragment$2
@@ -934,9 +932,6 @@ com.gdgl.activity.MessageIpcLinkageFragment:
 com.gdgl.activity.MessageIpcLinkageMediaActivity:
     android.graphics.Bitmap bitMap
     uk.co.senab.photoview.PhotoViewAttacher attacher
-com.gdgl.activity.MessageIpcLinkageMediaDlg
-com.gdgl.activity.MessageIpcLinkageMediaDlg$CustomPagerAdapter
-com.gdgl.activity.MessageIpcLinkageMediaDlg$DownloadCompleteReceiver
 com.gdgl.activity.MessageListFragment:
     android.widget.Button mBack
     335:340:private void clearAllMessage()
@@ -978,7 +973,7 @@ com.gdgl.activity.SceneDevicesAddFragment:
 com.gdgl.activity.SceneDevicesAddFragment$SceneDevicesAddListAdapter:
     165:167:public void setList(java.util.List)
 com.gdgl.activity.SceneDevicesFragment$SceneDevicesListAdapter:
-    253:255:public void setList(java.util.List)
+    254:256:public void setList(java.util.List)
 com.gdgl.activity.SeekLightsControlFragment
 com.gdgl.activity.SeekLightsControlFragment$1
 com.gdgl.activity.SeekLightsControlFragment$operatortype
@@ -1011,7 +1006,7 @@ com.gdgl.activity.TimingAddActivity:
     public static final int CREATE
     public static final int EDIT
 com.gdgl.activity.TimingFragment$TimingActionListAdapter:
-    320:322:public void setList(java.util.List)
+    321:323:public void setList(java.util.List)
 com.gdgl.activity.UIinterface.IFragmentCallbak
 com.gdgl.activity.VideoFragment:
     public static final java.lang.String PASS_OBJECT
@@ -1397,7 +1392,7 @@ com.gdgl.smarthome.R$menu
 com.gdgl.smarthome.R$string
 com.gdgl.smarthome.R$style
 com.gdgl.smarthome.R$styleable:
-    5215:5215:public R$styleable()
+    5209:5209:public R$styleable()
 com.gdgl.util.AddDlg:
     public static final int REGION
     public static final int SCENE
@@ -1499,9 +1494,7 @@ com.gdgl.util.UiUtils:
     public static final java.lang.String ALIAS
     public static final java.lang.String EMAIL_NAME
     public static final java.lang.String SEND_EMAIL_FLAG
-    public static final java.lang.String EMAIL_VIDEO_ENABLE
-    public static final java.lang.String EMAIL_PIC_ENABLE
-    public static final java.lang.String EMAIL_ENABLE
+    public static final java.lang.String HIK_VIDEO_INTERNET_IP
     public static final java.lang.String GATE_WAY_AUTH_STATE
     public static final java.lang.String GATE_WAY_AUTH_EXPIRE
     public static final java.lang.String IS_REMERBER_PWD
@@ -1509,9 +1502,7 @@ com.gdgl.util.UiUtils:
     public static final java.lang.String REMOTE_CONTROL
     public static final java.lang.String KONGTIAO
     public static final java.lang.String TV
-    public static final java.lang.String REGION
     public static final java.lang.String SCENE
-    public static final java.lang.String COMMONUSED
     public static final java.lang.String REGION_FLAG
     public static final java.lang.String SCENE_FLAG
     public static final java.lang.String DEVICES_FLAG
@@ -1542,10 +1533,10 @@ com.gdgl.util.UiUtils:
     public static final java.lang.String CLOUDLIST
     public static final java.lang.String USERLIST
     29:29:public UiUtils()
-    246:264:public static int getSceneItemType(int)
-    317:349:public static android.app.Fragment getDeviceDetailFragment(int)
-    386:393:public static android.widget.Toast getToast(android.content.Context)
-    397:411:public static android.view.animation.LayoutAnimationController getAnimationController(android.content.Context)
+    242:260:public static int getSceneItemType(int)
+    313:345:public static android.app.Fragment getDeviceDetailFragment(int)
+    382:389:public static android.widget.Toast getToast(android.content.Context)
+    393:407:public static android.view.animation.LayoutAnimationController getAnimationController(android.content.Context)
 com.gdgl.util.VersionDlg:
     54:55:public void hide()
 com.gdgl.util.WrapperListAdapterImpl
@@ -2150,6 +2141,7 @@ com.tencent.weibo.webview.OAuthV2AuthorizeWebView:
     private static final java.lang.String TAG
 h264.com.BigScreenshotDialog:
     android.graphics.Bitmap bitMap
+    uk.co.senab.photoview.PhotoViewAttacher attacher
 h264.com.Network:
     private static final java.lang.String TAG
     public static java.util.Timer timer

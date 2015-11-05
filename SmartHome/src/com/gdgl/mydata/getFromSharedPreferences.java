@@ -25,109 +25,24 @@ public class getFromSharedPreferences {
 		mSharedPreferences = context.getSharedPreferences(
 				UiUtils.SharedPreferences_SETTING_INFOS, context.MODE_PRIVATE);
 	}
-
-	public static String getGatewaylatestVersion() {
-		return mSharedPreferences.getString(UiUtils.GATEWAY_LATEST_VERSION
-				+ getGatewayMAC(), UiUtils.EMPTY_STR);
+	
+	//===============================通道=================================
+	// 通道模块uuid
+	public static String getUUID() {
+		return mSharedPreferences.getString(UiUtils.UUID, UiUtils.EMPTY_STR);
 	}
-
-	public static boolean setGatewaylatestVersion(String gatewayversion) {
+	public static boolean setUUID(String uuid) {
 		mEditor = mSharedPreferences.edit();
-		mEditor.putString(UiUtils.GATEWAY_LATEST_VERSION + getGatewayMAC(), gatewayversion);
-		return mEditor.commit();
-	}
+		mEditor.putString(UiUtils.UUID, uuid);
 
-	public static String getGatewaycurrentVersion() {
-		return mSharedPreferences.getString(UiUtils.GATEWAY_CURRENT_VERSION, UiUtils.EMPTY_STR);
-	}
-
-	public static boolean setGatewaycurrentVersion(String gatewayversion) {
-		mEditor = mSharedPreferences.edit();
-		mEditor.putString(UiUtils.GATEWAY_CURRENT_VERSION, gatewayversion);
 		return mEditor.commit();
 	}
 	
-	public static boolean getEnableIPC() {
-		return mSharedPreferences.getBoolean(UiUtils.ENABLE_IPC, true);
-	}
-
-	public static boolean setEnableIPC(boolean enableIPC) {
-		mEditor = mSharedPreferences.edit();
-		mEditor.putBoolean(UiUtils.ENABLE_IPC, enableIPC);
-		return mEditor.commit();
-	}
-	//邮件发送视频
-	public static boolean setEmailVideoEnable(boolean emailVideoEnable) {
-		mEditor = mSharedPreferences.edit();
-		mEditor.putBoolean(UiUtils.EMAIL_VIDEO_ENABLE, emailVideoEnable);
-		return mEditor.commit();
-	}
-	public static boolean getEmailVideoEnable() {
-		return mSharedPreferences.getBoolean(UiUtils.EMAIL_VIDEO_ENABLE, true);
-	}
-	
-	//邮件发送图片
-	public static boolean setEmailPicEnable(boolean emailPicEnable) {
-		mEditor = mSharedPreferences.edit();
-		mEditor.putBoolean(UiUtils.EMAIL_PIC_ENABLE, emailPicEnable);
-		return mEditor.commit();
-	}
-	public static boolean getEmailPicEnable() {
-		return mSharedPreferences.getBoolean(UiUtils.EMAIL_PIC_ENABLE, true);
-	}
-	
-	//邮箱启用
-	public static boolean setEmailEnable(boolean emailEnable) {
-		mEditor = mSharedPreferences.edit();
-		mEditor.putBoolean(UiUtils.EMAIL_ENABLE, emailEnable);
-		return mEditor.commit();
-	}
-	public static boolean getEmailEnable() {
-		return mSharedPreferences.getBoolean(UiUtils.EMAIL_ENABLE, true);
-	}
-
-	public static String getPwd() {
-		return mSharedPreferences.getString(UiUtils.PWD, UiUtils.EMPTY_STR);
-	}
-
-	public static String getLoginName() {
-		return mSharedPreferences.getString(UiUtils.LOGIN_NAME,
-				UiUtils.EMPTY_STR);
-	}
-
-	public static String getGatewayMAC() {
-		return mSharedPreferences.getString(UiUtils.GATEWAY_MAC,
-				UiUtils.EMPTY_STR);
-	}
-
-	public static String getAliasName() {
-		return mSharedPreferences.getString(UiUtils.ALIAS, UiUtils.EMPTY_STR);
-	}
-	public static String getEmailName() {//======王晓飞===获取邮箱名
-		return mSharedPreferences.getString(UiUtils.EMAIL_NAME, UiUtils.EMPTY_STR);
-	}
-	public static int getEmailFlag() {//======王晓飞===获取发送邮件内容
-		return mSharedPreferences.getInt(UiUtils.SEND_EMAIL_FLAG, UiUtils.ILLEGAI_UID);
-	}
-	public static int getGWayAuthState() {
-		return mSharedPreferences.getInt(UiUtils.GATE_WAY_AUTH_STATE, -1);//==-1是未激活状态
-	}
-	public static String getGWayAuthExpire() {
-		return mSharedPreferences.getString(UiUtils.GATE_WAY_AUTH_EXPIRE, "");
-	}
-
-	public static boolean getIsRemerber() {
-		return mSharedPreferences.getBoolean(UiUtils.IS_REMERBER_PWD, false);
-	}
-
-	public static boolean getIsAutoLoging() {
-		return mSharedPreferences.getBoolean(UiUtils.IS_AUTO_LOGIN, false);
-	}
-
+	//===============================用户名密码===============================
+	// 保存登录名和密码
 	public static boolean setLogin(AccountInfo accountInfo, boolean isRemerber,
 			boolean isAuto) {
 		mEditor = mSharedPreferences.edit();
-
 		mEditor.putString(UiUtils.GATEWAY_MAC, accountInfo.getId());
 		mEditor.putString(UiUtils.LOGIN_NAME, accountInfo.getAlias());
 		if (isRemerber) {
@@ -140,68 +55,162 @@ public class getFromSharedPreferences {
 
 		return mEditor.commit();
 	}
-
 	public static boolean setLogin(String name, String pwd, boolean isRemerber) {
 		mEditor = mSharedPreferences.edit();
 		mEditor.putString(UiUtils.LOGIN_NAME, name);
 		mEditor.putString(UiUtils.PWD, pwd);
-
 		mEditor.putBoolean(UiUtils.IS_REMERBER_PWD, isRemerber);
+		
 		return mEditor.commit();
 	}
-
+	
+	// 记住密码和自动登录
+	public static boolean getIsRemerber() {
+		return mSharedPreferences.getBoolean(UiUtils.IS_REMERBER_PWD, false);
+	}
+	public static boolean getIsAutoLoging() {
+		return mSharedPreferences.getBoolean(UiUtils.IS_AUTO_LOGIN, false);
+	}
+	
+	// 登录密码
+	public static String getPwd() {
+		return mSharedPreferences.getString(UiUtils.PWD, UiUtils.EMPTY_STR);
+	}
 	public static boolean setPwd(String pwd) {
 		mEditor = mSharedPreferences.edit();
-
 		mEditor.putString(UiUtils.PWD, pwd);
 
 		return mEditor.commit();
 	}
-
+	
+	// 登录用户名
+	public static String getLoginName() {
+		return mSharedPreferences.getString(UiUtils.LOGIN_NAME,
+				UiUtils.EMPTY_STR);
+	}
 	public static boolean setLoginName(String name) {
 		mEditor = mSharedPreferences.edit();
-
 		mEditor.putString(UiUtils.LOGIN_NAME, name);
 
 		return mEditor.commit();
 	}
-
+	
+	// 网关Mac地址
+	public static String getGatewayMAC() {
+		return mSharedPreferences.getString(UiUtils.GATEWAY_MAC,
+				UiUtils.EMPTY_STR);
+	}
 	public static boolean setGatewayMAC(String uid) {
 		mEditor = mSharedPreferences.edit();
-
 		mEditor.putString(UiUtils.GATEWAY_MAC, uid);
 
 		return mEditor.commit();
 	}
-
+	
+	// 用户别名
+	public static String getAliasName() {
+		return mSharedPreferences.getString(UiUtils.ALIAS, UiUtils.EMPTY_STR);
+	}
 	public static boolean setAliasName(String alias) {
 		mEditor = mSharedPreferences.edit();
-
 		mEditor.putString(UiUtils.ALIAS, alias);
 
 		return mEditor.commit();
 	}
+	
+	//===============================系统配置===============================
+	// 网关最新版本
+	public static String getGatewaylatestVersion() {
+		return mSharedPreferences.getString(UiUtils.GATEWAY_LATEST_VERSION
+				+ getGatewayMAC(), UiUtils.EMPTY_STR);
+	}
+	public static boolean setGatewaylatestVersion(String gatewayversion) {
+		mEditor = mSharedPreferences.edit();
+		mEditor.putString(UiUtils.GATEWAY_LATEST_VERSION + getGatewayMAC(), gatewayversion);
+		
+		return mEditor.commit();
+	}
+	
+	// 网关当前版本
+	public static String getGatewaycurrentVersion() {
+		return mSharedPreferences.getString(UiUtils.GATEWAY_CURRENT_VERSION, UiUtils.EMPTY_STR);
+	}
+	public static boolean setGatewaycurrentVersion(String gatewayversion) {
+		mEditor = mSharedPreferences.edit();
+		mEditor.putString(UiUtils.GATEWAY_CURRENT_VERSION, gatewayversion);
+		
+		return mEditor.commit();
+	}
+	
+	// 启用IPC
+	public static boolean getEnableIPC() {
+		return mSharedPreferences.getBoolean(UiUtils.ENABLE_IPC, true);
+	}
+	public static boolean setEnableIPC(boolean enableIPC) {
+		mEditor = mSharedPreferences.edit();
+		mEditor.putBoolean(UiUtils.ENABLE_IPC, enableIPC);
+	
+		return mEditor.commit();
+	}
+	
+	// 组网时间
+	public static String getJoinNetTime() {
+		return mSharedPreferences.getString(UiUtils.JOINNETTIME,
+				UiUtils.EMPTY_STR);
+	}
+	public static boolean setJoinNetTime(String time) {
+		mEditor = mSharedPreferences.edit();
+		mEditor.putString(UiUtils.JOINNETTIME, time);
+
+		return mEditor.commit();
+	}
+	
+	// 告警邮箱
+	public static String getEmailName() {//======王晓飞===获取邮箱名
+		return mSharedPreferences.getString(UiUtils.EMAIL_NAME, UiUtils.EMPTY_STR);
+	}
 	public static boolean setEmailName(String emailName) {//==王晓飞====设置邮箱名
 		mEditor = mSharedPreferences.edit();
-
 		mEditor.putString(UiUtils.EMAIL_NAME, emailName);
 
 		return mEditor.commit();
 	}
+	
+	// 告警邮箱设置
+	public static int getEmailFlag() {//======王晓飞===获取发送邮件内容
+		return mSharedPreferences.getInt(UiUtils.SEND_EMAIL_FLAG, UiUtils.ILLEGAI_UID);
+	}
 	public static boolean setEmailFlag(int sendMailFlag) {//==王晓飞====设置发送邮件内容
 		mEditor = mSharedPreferences.edit();
-
 		mEditor.putInt(UiUtils.SEND_EMAIL_FLAG, sendMailFlag);
 
 		return mEditor.commit();
 	}
 	
+	// 海康摄像头外网IP缓存
+	public static String getHikVideoInternetIP() {
+		return mSharedPreferences.getString(UiUtils.HIK_VIDEO_INTERNET_IP
+				+ getGatewayMAC(), UiUtils.EMPTY_STR);
+	}
+	public static boolean setHikVidoInternetIP(String ip) {
+		mEditor = mSharedPreferences.edit();
+		mEditor.putString(UiUtils.HIK_VIDEO_INTERNET_IP + getGatewayMAC(), ip);
+		
+		return mEditor.commit();
+	}
+	//===============================广电相关===============================
+	public static int getGWayAuthState() {
+		return mSharedPreferences.getInt(UiUtils.GATE_WAY_AUTH_STATE, -1);//==-1是未激活状态
+	}
 	public static boolean setGWayAuthState(int state) {//==王晓飞====设置网关授权state
 		mEditor = mSharedPreferences.edit();
-
 		mEditor.putInt(UiUtils.GATE_WAY_AUTH_STATE, state);
 
 		return mEditor.commit();
+	}
+	
+	public static String getGWayAuthExpire() {
+		return mSharedPreferences.getString(UiUtils.GATE_WAY_AUTH_EXPIRE, "");
 	}
 	public static boolean setGWayAuthExpire(String expire) {//设置网关授权expire
 		mEditor = mSharedPreferences.edit();
@@ -211,61 +220,7 @@ public class getFromSharedPreferences {
 		return mEditor.commit();
 	}
 
-	public static String getUUID() {
-		return mSharedPreferences.getString(UiUtils.UUID, UiUtils.EMPTY_STR);
-	}
-
-	public static boolean setUUID(String uuid) {
-		mEditor = mSharedPreferences.edit();
-		mEditor.putString(UiUtils.UUID, uuid);
-
-		return mEditor.commit();
-	}
-
-	public static String getJoinNetTime() {
-		return mSharedPreferences.getString(UiUtils.JOINNETTIME,
-				UiUtils.EMPTY_STR);
-	}
-
-	public static boolean setJoinNetTime(String time) {
-		mEditor = mSharedPreferences.edit();
-		mEditor.putString(UiUtils.JOINNETTIME, time);
-
-		return mEditor.commit();
-	}
-
-	public static boolean setRegion(String mSet) {
-		mEditor = mSharedPreferences.edit();
-		mEditor.putString(UiUtils.REGION, mSet);
-		return mEditor.commit();
-	}
-
-	public static String getRegion() {
-		String region = mSharedPreferences.getString(UiUtils.REGION, null);
-		return region;
-	}
-
-	public static String getCommonUsed() {
-		String commonused = mSharedPreferences.getString(UiUtils.COMMONUSED,
-				null);
-		return commonused;
-	}
-
-	public static boolean setCommonUsed(String comm) {
-		mEditor = mSharedPreferences.edit();
-		mEditor.putString(UiUtils.COMMONUSED, comm);
-		return mEditor.commit();
-	}
-
-	public static int getSceneId() {
-		int sceneId = mSharedPreferences.getInt(UiUtils.SCENE, 0);
-
-		mEditor = mSharedPreferences.edit();
-		mEditor.putInt(UiUtils.SCENE, sceneId + 1);
-		mEditor.commit();
-		return sceneId + 1;
-	}
-
+	//============================红外控制器学习============================
 	public static List<RemoteControl> getRemoteControl() {
 		List<RemoteControl> mList = new ArrayList<RemoteControl>();
 		RemoteControl rc;
@@ -371,7 +326,8 @@ public class getFromSharedPreferences {
 		mEditor.putString(UiUtils.REMOTE_CONTROL, controls);
 		mEditor.commit();
 	}
-
+	
+	//===================================登录界面用户列表========================================
 	public static ArrayList<HashMap<String, String>> getUserList() {
 		ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
 		String userListString = mSharedPreferences.getString(UiUtils.USERLIST,

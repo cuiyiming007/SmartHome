@@ -3,7 +3,6 @@ package com.gdgl.activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,6 @@ import java.util.regex.Pattern;
 
 import com.gc.materialdesign.views.CheckBox;
 import com.gc.materialdesign.views.CheckBox.OnCheckListener;
-import com.gdgl.drawer.DeviceTabFragment;
 import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
@@ -25,7 +23,6 @@ import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.smarthome.R;
-import com.gdgl.util.MyApplicationFragment;
 
 public class SetEmailFragment extends Fragment implements UIListener {
 	private View mView;
@@ -65,7 +62,7 @@ public class SetEmailFragment extends Fragment implements UIListener {
 	private void initView() {
 		// TODO Auto-generated method stub
 
-		getFromSharedPreferences.setsharedPreferences((Context) getActivity());
+//		getFromSharedPreferences.setsharedPreferences((Context) getActivity());
 		email_name = (EditText) mView.findViewById(R.id.email_name);
 		email_name.setText(emailAddress);
 		email_name.setSelection(email_name.getText().length());
@@ -207,14 +204,14 @@ public class SetEmailFragment extends Fragment implements UIListener {
 					} else {
 						sendEmailContentFlag = 0;
 					}
-					getFromSharedPreferences.setEmailEnable(ENABLE_EMAIL_TXT);
-					getFromSharedPreferences.setEmailVideoEnable(ENABLE__EMAIL_VEDIO);
-					getFromSharedPreferences.setEmailPicEnable(ENABLE_EMAIL_PIC);
-					getFromSharedPreferences.setEmailFlag(sendEmailContentFlag);
-					getFromSharedPreferences.setEmailName(emailAddress);
+//					getFromSharedPreferences.setEmailEnable(ENABLE_EMAIL_TXT);
+//					getFromSharedPreferences.setEmailVideoEnable(ENABLE__EMAIL_VEDIO);
+//					getFromSharedPreferences.setEmailPicEnable(ENABLE_EMAIL_PIC);
+//					getFromSharedPreferences.setEmailFlag(sendEmailContentFlag);
+//					getFromSharedPreferences.setEmailName(emailAddress);
+//					getFromSharedPreferences.setEmailName(E_name.trim());
 					CGIManager.getInstance().changeEmailAddress(gateway_MAC,
 							E_name, sendEmailContentFlag);
-					getFromSharedPreferences.setEmailName(E_name.trim());
 				}
 			}
 		});

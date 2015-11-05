@@ -18007,6 +18007,10 @@ com.gc.materialdesign.views.ButtonFloat: android.graphics.drawable.Drawable getD
 com.gc.materialdesign.views.ButtonFloat: void setDrawableIcon(android.graphics.drawable.Drawable)
 com.gc.materialdesign.views.ButtonFloat: android.widget.TextView getTextView()
 com.gc.materialdesign.views.ButtonFloat: void setRippleColor(int)
+com.gc.materialdesign.views.ButtonFloat$AbsListViewScrollDetector
+com.gc.materialdesign.views.ButtonFloat$AbsListViewScrollDetector: void setScrollThreshold(int)
+com.gc.materialdesign.views.ButtonFloat$AbsListViewScrollDetector: void setListView(android.widget.AbsListView)
+com.gc.materialdesign.views.ButtonFloat$AbsListViewScrollDetector: int getTopItemScrollY()
 com.gc.materialdesign.views.ButtonFloatSmall
 com.gc.materialdesign.views.ButtonFloatSmall: ButtonFloatSmall(android.content.Context,android.util.AttributeSet)
 com.gc.materialdesign.views.ButtonIcon
@@ -18138,11 +18142,6 @@ com.gdgl.GalleryFlow.FancyCoverFlowItemWrapper: void setReflectionEnabled(boolea
 com.gdgl.GalleryFlow.FancyCoverFlowItemWrapper: void setReflectionRatio(float)
 com.gdgl.GalleryFlow.FancyCoverFlowItemWrapper: void setReflectionGap(int)
 com.gdgl.GalleryFlow.FancyCoverFlowItemWrapper: void setSaturation(float)
-com.gdgl.activity.AddCommonUsedActivity
-com.gdgl.activity.AddCommonUsedActivity: AddCommonUsedActivity()
-com.gdgl.activity.AddCommonUsedActivity$CommonUsedAdapter
-com.gdgl.activity.AddCommonUsedActivity$CommonUsedAdapter: void setList(java.util.List)
-com.gdgl.activity.AddCommonUsedActivity$CommonUsedAdapter: int getCount()
 com.gdgl.activity.AllDevicesListFragment$DevicesAdapter
 com.gdgl.activity.AllDevicesListFragment$DevicesAdapter: int getCount()
 com.gdgl.activity.AllDevicesListFragment$DevicesAdapter: void setList(java.util.List)
@@ -19609,46 +19608,38 @@ com.gdgl.mydata.getFromSharedPreferences: android.content.SharedPreferences$Edit
 com.gdgl.mydata.getFromSharedPreferences: void <clinit>()
 com.gdgl.mydata.getFromSharedPreferences: getFromSharedPreferences()
 com.gdgl.mydata.getFromSharedPreferences: void setsharedPreferences(android.content.Context)
+com.gdgl.mydata.getFromSharedPreferences: java.lang.String getUUID()
+com.gdgl.mydata.getFromSharedPreferences: boolean setUUID(java.lang.String)
+com.gdgl.mydata.getFromSharedPreferences: boolean setLogin(com.gdgl.mydata.AccountInfo,boolean,boolean)
+com.gdgl.mydata.getFromSharedPreferences: boolean setLogin(java.lang.String,java.lang.String,boolean)
+com.gdgl.mydata.getFromSharedPreferences: boolean getIsRemerber()
+com.gdgl.mydata.getFromSharedPreferences: boolean getIsAutoLoging()
+com.gdgl.mydata.getFromSharedPreferences: java.lang.String getPwd()
+com.gdgl.mydata.getFromSharedPreferences: boolean setPwd(java.lang.String)
+com.gdgl.mydata.getFromSharedPreferences: java.lang.String getLoginName()
+com.gdgl.mydata.getFromSharedPreferences: boolean setLoginName(java.lang.String)
+com.gdgl.mydata.getFromSharedPreferences: java.lang.String getGatewayMAC()
+com.gdgl.mydata.getFromSharedPreferences: boolean setGatewayMAC(java.lang.String)
+com.gdgl.mydata.getFromSharedPreferences: java.lang.String getAliasName()
+com.gdgl.mydata.getFromSharedPreferences: boolean setAliasName(java.lang.String)
 com.gdgl.mydata.getFromSharedPreferences: java.lang.String getGatewaylatestVersion()
 com.gdgl.mydata.getFromSharedPreferences: boolean setGatewaylatestVersion(java.lang.String)
 com.gdgl.mydata.getFromSharedPreferences: java.lang.String getGatewaycurrentVersion()
 com.gdgl.mydata.getFromSharedPreferences: boolean setGatewaycurrentVersion(java.lang.String)
 com.gdgl.mydata.getFromSharedPreferences: boolean getEnableIPC()
 com.gdgl.mydata.getFromSharedPreferences: boolean setEnableIPC(boolean)
-com.gdgl.mydata.getFromSharedPreferences: boolean setEmailVideoEnable(boolean)
-com.gdgl.mydata.getFromSharedPreferences: boolean getEmailVideoEnable()
-com.gdgl.mydata.getFromSharedPreferences: boolean setEmailPicEnable(boolean)
-com.gdgl.mydata.getFromSharedPreferences: boolean getEmailPicEnable()
-com.gdgl.mydata.getFromSharedPreferences: boolean setEmailEnable(boolean)
-com.gdgl.mydata.getFromSharedPreferences: boolean getEmailEnable()
-com.gdgl.mydata.getFromSharedPreferences: java.lang.String getPwd()
-com.gdgl.mydata.getFromSharedPreferences: java.lang.String getLoginName()
-com.gdgl.mydata.getFromSharedPreferences: java.lang.String getGatewayMAC()
-com.gdgl.mydata.getFromSharedPreferences: java.lang.String getAliasName()
-com.gdgl.mydata.getFromSharedPreferences: java.lang.String getEmailName()
-com.gdgl.mydata.getFromSharedPreferences: int getEmailFlag()
-com.gdgl.mydata.getFromSharedPreferences: int getGWayAuthState()
-com.gdgl.mydata.getFromSharedPreferences: java.lang.String getGWayAuthExpire()
-com.gdgl.mydata.getFromSharedPreferences: boolean getIsRemerber()
-com.gdgl.mydata.getFromSharedPreferences: boolean getIsAutoLoging()
-com.gdgl.mydata.getFromSharedPreferences: boolean setLogin(com.gdgl.mydata.AccountInfo,boolean,boolean)
-com.gdgl.mydata.getFromSharedPreferences: boolean setLogin(java.lang.String,java.lang.String,boolean)
-com.gdgl.mydata.getFromSharedPreferences: boolean setPwd(java.lang.String)
-com.gdgl.mydata.getFromSharedPreferences: boolean setLoginName(java.lang.String)
-com.gdgl.mydata.getFromSharedPreferences: boolean setGatewayMAC(java.lang.String)
-com.gdgl.mydata.getFromSharedPreferences: boolean setAliasName(java.lang.String)
-com.gdgl.mydata.getFromSharedPreferences: boolean setEmailName(java.lang.String)
-com.gdgl.mydata.getFromSharedPreferences: boolean setEmailFlag(int)
-com.gdgl.mydata.getFromSharedPreferences: boolean setGWayAuthState(int)
-com.gdgl.mydata.getFromSharedPreferences: boolean setGWayAuthExpire(java.lang.String)
-com.gdgl.mydata.getFromSharedPreferences: java.lang.String getUUID()
-com.gdgl.mydata.getFromSharedPreferences: boolean setUUID(java.lang.String)
 com.gdgl.mydata.getFromSharedPreferences: java.lang.String getJoinNetTime()
 com.gdgl.mydata.getFromSharedPreferences: boolean setJoinNetTime(java.lang.String)
-com.gdgl.mydata.getFromSharedPreferences: boolean setRegion(java.lang.String)
-com.gdgl.mydata.getFromSharedPreferences: java.lang.String getRegion()
-com.gdgl.mydata.getFromSharedPreferences: java.lang.String getCommonUsed()
-com.gdgl.mydata.getFromSharedPreferences: boolean setCommonUsed(java.lang.String)
+com.gdgl.mydata.getFromSharedPreferences: java.lang.String getEmailName()
+com.gdgl.mydata.getFromSharedPreferences: boolean setEmailName(java.lang.String)
+com.gdgl.mydata.getFromSharedPreferences: int getEmailFlag()
+com.gdgl.mydata.getFromSharedPreferences: boolean setEmailFlag(int)
+com.gdgl.mydata.getFromSharedPreferences: java.lang.String getHikVideoInternetIP()
+com.gdgl.mydata.getFromSharedPreferences: boolean setHikVidoInternetIP(java.lang.String)
+com.gdgl.mydata.getFromSharedPreferences: int getGWayAuthState()
+com.gdgl.mydata.getFromSharedPreferences: boolean setGWayAuthState(int)
+com.gdgl.mydata.getFromSharedPreferences: java.lang.String getGWayAuthExpire()
+com.gdgl.mydata.getFromSharedPreferences: boolean setGWayAuthExpire(java.lang.String)
 com.gdgl.mydata.getFromSharedPreferences: int getSceneId()
 com.gdgl.mydata.getFromSharedPreferences: java.util.List getRemoteControl()
 com.gdgl.mydata.getFromSharedPreferences: java.util.List getTvKongtiaoRemoteControl(int)
@@ -21543,7 +21534,6 @@ com.gdgl.smarthome.R$id: int add
 com.gdgl.smarthome.R$id: int add_device
 com.gdgl.smarthome.R$id: int add_devices
 com.gdgl.smarthome.R$id: int add_to_net
-com.gdgl.smarthome.R$id: int add_use
 com.gdgl.smarthome.R$id: int alarm
 com.gdgl.smarthome.R$id: int alarm_btn
 com.gdgl.smarthome.R$id: int alarm_btn_rt
@@ -21727,7 +21717,6 @@ com.gdgl.smarthome.R$id: int devices_seek
 com.gdgl.smarthome.R$id: int devices_seek_bar
 com.gdgl.smarthome.R$id: int devices_state
 com.gdgl.smarthome.R$id: int devices_temp_lay
-com.gdgl.smarthome.R$id: int devices_text
 com.gdgl.smarthome.R$id: int devices_title
 com.gdgl.smarthome.R$id: int devices_trg_btn
 com.gdgl.smarthome.R$id: int devices_trg_lay
@@ -21936,10 +21925,8 @@ com.gdgl.smarthome.R$id: int refresh_img
 com.gdgl.smarthome.R$id: int region
 com.gdgl.smarthome.R$id: int region_btn
 com.gdgl.smarthome.R$id: int region_content
-com.gdgl.smarthome.R$id: int region_lay
 com.gdgl.smarthome.R$id: int region_list
 com.gdgl.smarthome.R$id: int region_name
-com.gdgl.smarthome.R$id: int region_text
 com.gdgl.smarthome.R$id: int relativeLayout3
 com.gdgl.smarthome.R$id: int repeat_status
 com.gdgl.smarthome.R$id: int rf_device_about_content
@@ -21952,10 +21939,8 @@ com.gdgl.smarthome.R$id: int scape
 com.gdgl.smarthome.R$id: int scence_btn
 com.gdgl.smarthome.R$id: int scene
 com.gdgl.smarthome.R$id: int scene_content
-com.gdgl.smarthome.R$id: int scene_lay
 com.gdgl.smarthome.R$id: int scene_list
 com.gdgl.smarthome.R$id: int scene_stste
-com.gdgl.smarthome.R$id: int scene_text
 com.gdgl.smarthome.R$id: int scrollview
 com.gdgl.smarthome.R$id: int search_badge
 com.gdgl.smarthome.R$id: int search_bar
@@ -22080,6 +22065,7 @@ com.gdgl.smarthome.R$id: int vertical
 com.gdgl.smarthome.R$id: int videoView
 com.gdgl.smarthome.R$id: int video_urveillance_btn
 com.gdgl.smarthome.R$id: int viewColor
+com.gdgl.smarthome.R$id: int view_pager
 com.gdgl.smarthome.R$id: int viewpager
 com.gdgl.smarthome.R$id: int warm_img
 com.gdgl.smarthome.R$id: int warm_img_layout
@@ -22119,9 +22105,9 @@ com.gdgl.smarthome.R$layout: int activity_main
 com.gdgl.smarthome.R$layout: int activity_myvolley
 com.gdgl.smarthome.R$layout: int activity_slidemenu
 com.gdgl.smarthome.R$layout: int activity_videolist
+com.gdgl.smarthome.R$layout: int activity_view_pager
 com.gdgl.smarthome.R$layout: int add
 com.gdgl.smarthome.R$layout: int add_button_item
-com.gdgl.smarthome.R$layout: int add_commonused
 com.gdgl.smarthome.R$layout: int add_dlg
 com.gdgl.smarthome.R$layout: int add_region
 com.gdgl.smarthome.R$layout: int add_scene
@@ -22131,7 +22117,6 @@ com.gdgl.smarthome.R$layout: int all_devices_expandablelist_withgroup
 com.gdgl.smarthome.R$layout: int all_devices_item
 com.gdgl.smarthome.R$layout: int all_devices_list
 com.gdgl.smarthome.R$layout: int all_devices_list_withgroup
-com.gdgl.smarthome.R$layout: int big_screenshot_dlg
 com.gdgl.smarthome.R$layout: int bind_control
 com.gdgl.smarthome.R$layout: int bind_control_item
 com.gdgl.smarthome.R$layout: int bind_item
@@ -23055,6 +23040,9 @@ com.gdgl.util.ViewPagerCompat
 com.gdgl.util.ViewPagerCompat: ViewPagerCompat(android.content.Context)
 com.gdgl.util.ViewPagerCompat: ViewPagerCompat(android.content.Context,android.util.AttributeSet)
 com.gdgl.util.ViewPagerCompat: void setViewTouchMode(boolean)
+com.gdgl.widgets.HackyViewPager
+com.gdgl.widgets.HackyViewPager: HackyViewPager(android.content.Context)
+com.gdgl.widgets.HackyViewPager: HackyViewPager(android.content.Context,android.util.AttributeSet)
 com.gdgl.widgets.PagerSlidingTabStrip
 com.gdgl.widgets.PagerSlidingTabStrip: PagerSlidingTabStrip(android.content.Context)
 com.gdgl.widgets.PagerSlidingTabStrip: PagerSlidingTabStrip(android.content.Context,android.util.AttributeSet)

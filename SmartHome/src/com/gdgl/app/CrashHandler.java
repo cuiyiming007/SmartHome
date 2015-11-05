@@ -22,13 +22,12 @@ public class CrashHandler implements UncaughtExceptionHandler {
     private static final String TAG = "CrashHandler";
     private static final boolean DEBUG = true;
 
-    private static final String PATH = Environment.getExternalStorageDirectory().getPath() + "/gdgl/log/";
     private static final String FILE_NAME = "crash";
 
     //log文件的后缀名
     private static final String FILE_NAME_SUFFIX = ".txt";
 
-    private static CrashHandler sInstance = new CrashHandler();
+    private static CrashHandler sInstance;
 
     //系统默认的异常处理（默认情况下，系统会终止当前的异常程序）
     private UncaughtExceptionHandler mDefaultCrashHandler;
@@ -40,6 +39,9 @@ public class CrashHandler implements UncaughtExceptionHandler {
     }
 
     public static CrashHandler getInstance() {
+    	if(sInstance == null) {
+    		sInstance = new CrashHandler();
+    	}
         return sInstance;
     }
 
@@ -89,6 +91,8 @@ public class CrashHandler implements UncaughtExceptionHandler {
             }
         }
 
+        final String PATH = mContext.getExternalCacheDir()+ "/log/";
+        
         File dir = new File(PATH);
         if (!dir.exists()) {
             dir.mkdirs();

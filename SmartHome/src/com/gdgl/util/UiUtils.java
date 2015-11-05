@@ -3,7 +3,6 @@ package com.gdgl.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -15,14 +14,6 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.Toast;
 
-import com.gdgl.activity.LockFragment;
-import com.gdgl.activity.CurtainControlFragment;
-import com.gdgl.activity.OutLetControlFragment;
-import com.gdgl.activity.SeekLightsControlFragment;
-import com.gdgl.activity.SwitchControlFragment;
-import com.gdgl.activity.WarnningControlFragment;
-import com.gdgl.adapter.SceneDevicesAdapter;
-import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.scene.SceneDevice;
 import com.gdgl.smarthome.R;
 
@@ -41,9 +32,7 @@ public class UiUtils {
 	public static final String ALIAS = "alias";
 	public static final String EMAIL_NAME = "Email_Name";//=====王晓飞====设置邮箱
 	public static final String SEND_EMAIL_FLAG = "sendMailFlag";//====发送邮件内容标志
-	public static final String EMAIL_VIDEO_ENABLE= "emailVideoEnable";
-	public static final String EMAIL_PIC_ENABLE = "emailPicEnable";
-	public static final String EMAIL_ENABLE = "sendEnable";
+	public static final String HIK_VIDEO_INTERNET_IP = "hikVideoInternet_IP";
 	public static final String GATE_WAY_AUTH_STATE = "Gate_Way_Auth_State";//网关授权state
 	public static final String GATE_WAY_AUTH_EXPIRE = "Gate_Way_Auth_Expire";//网关授权time
 	public static final String IS_REMERBER_PWD = "RemerberPwd";
@@ -53,13 +42,6 @@ public class UiUtils {
 
 	public static final String KONGTIAO = "kongtiao";
 	public static final String TV = "tv";
-
-	public static final String REGION = "RegionName";
-	public static final String SCENE = "SceneId";
-	public static final String COMMONUSED = "common_used";
-	public static final String REGION_FLAG = "REGION";
-	public static final String SCENE_FLAG = "SCENE";
-	public static final String DEVICES_FLAG = "DEVICE";
 
 	public static final String JOINNETTIME = "Joinnettime";
 
@@ -241,29 +223,6 @@ public class UiUtils {
 		return imgs;
 	}
 
-	public static int getSceneItemType(int devicesid) {
-
-		int LIGHT = DataHelper.ON_OFF_SWITCH_DEVICETYPE;
-		int[] NOOPER = { DataHelper.LIGHT_SENSOR_DEVICETYPE,
-				DataHelper.TEMPTURE_SENSOR_DEVICETYPE };
-		int[] WITH_VALUE = { DataHelper.DIMEN_SWITCH_DEVICETYPE,
-				DataHelper.DIMEN_LIGHTS_DEVICETYPE, DataHelper.SHADE_DEVICETYPE };
-		for (int i : WITH_VALUE) {
-			if (i == devicesid) {
-				return SceneDevicesAdapter.WITH_VALUE;
-			}
-		}
-		if (devicesid == LIGHT) {
-			return SceneDevicesAdapter.LIGHT;
-		}
-		for (int i : NOOPER) {
-			if (i == devicesid) {
-				return SceneDevicesAdapter.NO_OPERATOR;
-			}
-		}
-		return SceneDevicesAdapter.ON_OFF;
-	}
-
 	public static int[] DEVICES_MANAGER_IMAGES = {
 			R.drawable.ui_devices_lightmanage_style,
 			R.drawable.ui_devices_electricalcontrol_style,
@@ -310,44 +269,6 @@ public class UiUtils {
 			break;
 		}
 		return mresult;
-	}
-
-	public static Fragment getDeviceDetailFragment(int type) {
-
-		Fragment mFragment = null;
-		switch (type) {
-		case DataHelper.ON_OFF_SWITCH_DEVICETYPE:
-			mFragment = new SwitchControlFragment();
-			break;
-		case DataHelper.TEMPTURE_SENSOR_DEVICETYPE:
-			mFragment = null;
-			break;
-		case DataHelper.LIGHT_SENSOR_DEVICETYPE:
-			mFragment = null;
-			break;
-		case DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE:
-			mFragment = new WarnningControlFragment();
-			break;
-		case DataHelper.MAINS_POWER_OUTLET_DEVICETYPE:
-			mFragment = new OutLetControlFragment();
-			break;
-		case DataHelper.IAS_ZONE_DEVICETYPE:
-			mFragment = new LockFragment();
-			break;
-		case DataHelper.DIMEN_SWITCH_DEVICETYPE:
-
-		case DataHelper.DIMEN_LIGHTS_DEVICETYPE:
-			mFragment = new SeekLightsControlFragment();
-			break;
-		case DataHelper.SHADE_DEVICETYPE:
-			mFragment = new CurtainControlFragment();
-			break;
-
-		default:
-			break;
-		}
-		return mFragment;
-
 	}
 
 	public static String formatResponseString(String response) {

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import org.MediaPlayer.PlayM4.Player;
 
+import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.mydata.video.VideoNode;
 import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
@@ -62,8 +63,6 @@ import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.Gallery;
@@ -515,6 +514,7 @@ public class HikVideoActivity extends ActionBarActivity implements Callback, Dia
 	// GUI init
 	private boolean initeActivity() {
 		findViews();
+		setSelect();
 		setListeners();
 		initSurface();
 		m_osurfaceView.getHolder().addCallback(this);
@@ -552,7 +552,6 @@ public class HikVideoActivity extends ActionBarActivity implements Callback, Dia
 			if(mListPic.size() > 0){
 				lay_pic.setVisibility(View.VISIBLE);
 				//TODO
-				setSelect();
 			}
 			toolbar_card.setVisibility(View.VISIBLE);
 			//play_main_lay.setBackgroundColor(getResources().getColor(R.color.white));
@@ -1169,13 +1168,18 @@ public class HikVideoActivity extends ActionBarActivity implements Callback, Dia
 							m_DVRSerialNumber,
 							(short) m_DVRSerialNumber.length(),
 							m_oNetDvrResolveDeviceInfo);
+			getFromSharedPreferences.setsharedPreferences(this);
 			if (isGetDeviceInfo) {
 				Log.i("m_oNetDvrResolveDeviceInfo", "设备信息读取成功！");
+				sGetIP = new String(m_oNetDvrResolveDeviceInfo.sGetIP).trim();
+				dwPort = m_oNetDvrResolveDeviceInfo.dwPort;
+				getFromSharedPreferences.setHikVidoInternetIP(sGetIP);
 			} else {
-				Log.i("m_oNetDvrResolveDeviceInfo", "设备信息读取失败！");
+				Log.e("m_oNetDvrResolveDeviceInfo", "设备信息读取失败！");
+				sGetIP = getFromSharedPreferences.getHikVideoInternetIP();
+				dwPort = Integer.parseInt(mVideoNode.getHttpport());
 			}
-			sGetIP = new String(m_oNetDvrResolveDeviceInfo.sGetIP).trim();
-			dwPort = m_oNetDvrResolveDeviceInfo.dwPort;
+			
 		}
 		Log.i("m_oNetDvrResolveDeviceInfo", "sGetIP = " + sGetIP);
 		Log.i("m_oNetDvrResolveDeviceInfo", "dwPort = " + dwPort);
