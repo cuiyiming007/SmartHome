@@ -10,7 +10,6 @@ import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
 import com.gdgl.manager.WarnManager;
 import com.gdgl.model.DevicesModel;
-import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
@@ -640,7 +639,7 @@ public class ConfigDevicesListWithGroup extends BaseFragment implements
 							.getmModelId().trim()));
 
 			mViewHolder.devAlarm.setVisibility(View.GONE);
-			SimpleDevicesModel simpleDevicesModel = new SimpleDevicesModel();
+			DevicesModel simpleDevicesModel = new DevicesModel();
 			simpleDevicesModel.setmIeee(ds.getmIeee());
 			simpleDevicesModel.setmEP(ds.getmEP());
 			if (expan_postion == 2

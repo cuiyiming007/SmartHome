@@ -25,7 +25,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.gdgl.app.ApplicationController;
 import com.gdgl.drawer.DeviceControlActivity;
 import com.gdgl.model.DevicesModel;
-import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.model.historydata.HistoryData;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DeviceLearnedParam;
@@ -356,7 +355,7 @@ public class CGIManager extends Manger {
 	 * 
 	 * UnLockDoor 8
 	 */
-	public void doorLockOperationCommon(SimpleDevicesModel model,
+	public void doorLockOperationCommon(DevicesModel model,
 			int operationType) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", model.getmIeee());
@@ -945,7 +944,7 @@ public class CGIManager extends Manger {
 	 * 
 	 * RefreshDeviceCIEAddr 3
 	 */
-	public void iASACE(SimpleDevicesModel model, int operationType) {
+	public void iASACE(DevicesModel model, int operationType) {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", model.getmIeee());
 		paraMap.put("ep", model.getmEP());

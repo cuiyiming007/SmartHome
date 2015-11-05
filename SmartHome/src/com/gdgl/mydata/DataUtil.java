@@ -11,7 +11,6 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.gdgl.app.ApplicationController;
 import com.gdgl.model.DevicesModel;
-import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.Callback.CallbackIpcLinkageMessage;
 import com.gdgl.mydata.Callback.CallbackWarnMessage;
 import com.gdgl.mydata.Region.Room;
@@ -884,58 +883,6 @@ public class DataUtil {
 		// }
 		dh.getSQLiteDatabase().close();
 		return listDevicesModel;
-	}
-
-	public static List<SimpleDevicesModel> getSortManagementDevices(Context c,
-			DataHelper dh, SQLiteDatabase db, int type) {
-
-		String where = " device_sort=? ";
-		String[] args = { Integer.toString(type) };
-
-		SimpleDevicesModel mSimpleDevicesModel;
-		List<DevicesModel> listDevicesModel = new ArrayList<DevicesModel>();
-		List<SimpleDevicesModel> list = new ArrayList<SimpleDevicesModel>();
-
-		listDevicesModel = dh.queryForDevicesList(db, DataHelper.DEVICES_TABLE,
-				null, where, args, null, null, null, null);
-		DevicesModel mDevicesModel;
-		for (int m = 0; m < listDevicesModel.size(); m++) {
-			mDevicesModel = listDevicesModel.get(m);
-			mSimpleDevicesModel = new SimpleDevicesModel();
-			mSimpleDevicesModel.setID(mDevicesModel.getID());
-			mSimpleDevicesModel.setmDeviceId(mDevicesModel.getmDeviceId());
-			mSimpleDevicesModel.setmDeviceRegion(mDevicesModel
-					.getmDeviceRegion());
-			mSimpleDevicesModel.setmEP(mDevicesModel.getmEP());
-			mSimpleDevicesModel.setmIeee(mDevicesModel.getmIeee());
-			mSimpleDevicesModel.setmLastDateTime(mDevicesModel
-					.getmLastDateTime());
-			mSimpleDevicesModel.setmModelId(mDevicesModel.getmModelId());
-			mSimpleDevicesModel.setmName(mDevicesModel.getmName());
-			mSimpleDevicesModel.setmNodeENNAme(mDevicesModel.getmNodeENNAme());
-			mSimpleDevicesModel.setmOnOffLine(mDevicesModel.getmOnOffLine());
-			mSimpleDevicesModel
-					.setmOnOffStatus(mDevicesModel.getmOnOffStatus());
-			if (mDevicesModel.getmDefaultDeviceName() == null
-					|| mDevicesModel.getmDefaultDeviceName().trim().equals("")) {
-				mSimpleDevicesModel
-						.setmDefaultDeviceName(getDefaultDevicesName(c,
-								mSimpleDevicesModel.getmModelId(),
-								mSimpleDevicesModel.getmEP()));
-			} else {
-				mSimpleDevicesModel.setmDefaultDeviceName(mDevicesModel
-						.getmDefaultDeviceName());
-			}
-
-			if (mDevicesModel.getmCurrent() != null
-					&& !mDevicesModel.getmCurrent().trim().equals("")) {
-				mSimpleDevicesModel.setmValue(mDevicesModel.getmCurrent()
-						.trim());
-			}
-
-			list.add(mSimpleDevicesModel);
-		}
-		return list;
 	}
 
 	public static List<DevicesModel> getBindDevices(Context c, DataHelper dh) {

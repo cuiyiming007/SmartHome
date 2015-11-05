@@ -1,7 +1,6 @@
 package com.gdgl.manager;
 
 import com.gdgl.model.DevicesModel;
-import com.gdgl.model.SimpleDevicesModel;
 import com.gdgl.mydata.Callback.CallbackWarnMessage;
 
 public class WarnManager {
@@ -32,13 +31,6 @@ public class WarnManager {
 		isWarnning=true;
 		setCurrentWarmmessage(currentWarmmessage);
 		
-	}
-	public boolean isDeviceWarning(SimpleDevicesModel model)
-	{
-		if (isWarnning&&currentWarmmessage.getZone_ieee().equals(model.getmIeee())) {
-			return true;
-		}else
-			return false;
 	}
 	public boolean isDeviceWarning(DevicesModel model)
 	{
