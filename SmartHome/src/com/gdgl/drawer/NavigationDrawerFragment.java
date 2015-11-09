@@ -25,7 +25,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gdgl.activity.ConfigurationActivity_New;
+import com.gdgl.activity.ConfigurationActivity;
 import com.gdgl.activity.LoginActivity;
 import com.gdgl.app.ApplicationController;
 import com.gdgl.manager.CallbackManager;
@@ -118,7 +118,7 @@ public class NavigationDrawerFragment extends Fragment implements
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent();
-				intent.setClass(getActivity(), ConfigurationActivity_New.class);
+				intent.setClass(getActivity(), ConfigurationActivity.class);
 				startActivity(intent);
 			}
 		});

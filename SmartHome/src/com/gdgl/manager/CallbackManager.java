@@ -23,7 +23,6 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
 
-import com.gdgl.activity.ShowDevicesGroupFragmentActivity;
 import com.gdgl.app.ApplicationController;
 import com.gdgl.drawer.AlarmMessageActivity;
 import com.gdgl.libjingle.LibjingleSendManager;
@@ -170,17 +169,10 @@ public class CallbackManager extends Manger {
 				Log.i(TAG, "Callback msgType=" + msgType + "doorlock");
 				break;
 			case 5:
-				CallbackResponseCommon iasZone = gson.fromJson(response,
-						CallbackResponseCommon.class);
+//				CallbackResponseCommon iasZone = gson.fromJson(response,
+//						CallbackResponseCommon.class);
 				Log.i(TAG,
-						"Callback msgType=" + msgType + "IASZONE"
-								+ iasZone.toString());
-				Intent i5 = new Intent(ApplicationController.getInstance(),
-						ShowDevicesGroupFragmentActivity.class);
-				i5.putExtra(
-						ShowDevicesGroupFragmentActivity.ACTIVITY_SHOW_DEVICES_TYPE,
-						UiUtils.SECURITY_CONTROL);
-				makeNotify(i5, iasZone.getValue(), iasZone.toString(), true);
+						"Callback msgType=" + msgType + "IASZONE");
 				break;
 			case 6:
 				Log.i(TAG, "Callback msgType=" + msgType + "DimmerSwitch");
@@ -212,18 +204,9 @@ public class CallbackManager extends Manger {
 				break;
 			// need to distinguish with type 5
 			case 11:
-				CallbackResponseCommon iasZone11 = gson.fromJson(response,
-						CallbackResponseCommon.class);
-				Log.i(TAG, "Callback msgType=" + msgType + "IASZONE"
-						+ iasZone11.toString());
-				Intent i11 = new Intent(ApplicationController.getInstance(),
-						ShowDevicesGroupFragmentActivity.class);
-				i11.putExtra(
-						ShowDevicesGroupFragmentActivity.ACTIVITY_SHOW_DEVICES_TYPE,
-						UiUtils.SECURITY_CONTROL);
-				makeNotify(i11, iasZone11.getValue(), iasZone11.toString(),
-						true);
-
+//				CallbackResponseCommon iasZone11 = gson.fromJson(response,
+//						CallbackResponseCommon.class);
+				Log.i(TAG, "Callback msgType=" + msgType + "IASZONE");
 				break;
 			case 12:
 				CallbackBeginLearnIRMessage learnIR = gson.fromJson(response,

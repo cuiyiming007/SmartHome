@@ -8,6 +8,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -25,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
 import com.gdgl.manager.WarnManager;
@@ -35,7 +37,7 @@ import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.Callback.CallbackWarnMessage;
 import com.gdgl.smarthome.R;
 
-public class MessageListFragment extends BaseFragment implements UIListener,android.view.View.OnClickListener{
+public class MessageListFragment extends Fragment implements UIListener,android.view.View.OnClickListener{
 
 	private View mView;
 	List<CallbackWarnMessage> mList;
@@ -63,6 +65,7 @@ public class MessageListFragment extends BaseFragment implements UIListener,andr
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		CallbackManager.getInstance().addObserver(this);
 		initData();
 		//initCheckHashMap(false);
 	}
@@ -373,12 +376,7 @@ public class MessageListFragment extends BaseFragment implements UIListener,andr
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-	}
-
-	@Override
-	public void stopRefresh() {
-		// TODO Auto-generated method stub
-		
+		CallbackManager.getInstance().deleteObserver(this);
 	}
 	
 	// show delete tools

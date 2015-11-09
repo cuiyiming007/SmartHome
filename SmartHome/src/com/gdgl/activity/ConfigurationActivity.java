@@ -11,7 +11,7 @@ import com.gdgl.activity.JoinNetFragment.ChangeFragment;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyApplicationFragment;
 
-public class ConfigurationActivity_New extends MyActionBarActivity implements
+public class ConfigurationActivity extends MyActionBarActivity implements
 		ChangeFragment {
 	private Toolbar mToolbar;
 	private ActionBar mActionBar;

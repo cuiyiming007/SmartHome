@@ -1,6 +1,5 @@
 package com.gdgl.activity;
 
-import com.gdgl.activity.ShowDevicesGroupFragmentActivity.adapterSeter;
 import com.gdgl.adapter.AllDevicesAdapter;
 import com.gdgl.adapter.AllDevicesAdapter.AddChecked;
 import com.gdgl.adapter.AllDevicesAdapter.ViewHolder;
@@ -24,7 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.LinearLayout.LayoutParams;
 
-public class AllDevicesFragment extends Fragment implements adapterSeter {
+public class AllDevicesFragment extends Fragment {
 
 	private View mView;
 	PullToRefreshListView devices_list;
@@ -117,23 +116,9 @@ public class AllDevicesFragment extends Fragment implements adapterSeter {
 		list_root.setLayoutParams(mLayoutParams);
 	}
 
-	@Override
 	public void setAdapter(BaseAdapter mAdapter) {
 		// TODO Auto-generated method stub
 		mBaseAdapter = null;
 		mBaseAdapter = mAdapter;
-	}
-
-	@Override
-	public void stopRefresh() {
-		// TODO Auto-generated method stub
-		devices_list.onRefreshComplete();
-		refreshTag = 0;
-	}
-
-	@Override
-	public void setSelectedPostion(int postion) {
-		// TODO Auto-generated method stub
-		devices_list.getRefreshableView().setSelection(postion);
 	}
 }

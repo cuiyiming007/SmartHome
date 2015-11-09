@@ -106,31 +106,6 @@ public class UiUtils {
 		return describe;
 	}
 	
-	public static String[] getTagsByType(int type) {
-		String[] tags = null;
-		switch (type) {
-		case LIGHTS_MANAGER:
-			tags = new String[] { "电器控制", "安全防护", "照明管理", "环境监测", "节能", "其它" };
-			break;
-		case ELECTRICAL_MANAGER:
-			tags = new String[] { "照明管理", "安全防护", "电器控制", "环境监测", "节能", "其它" };
-			break;
-		case SECURITY_CONTROL:
-			tags = new String[] { "安全防护", "电器控制", "环境监测", "节能", "其它" };
-			break;
-		case ENVIRONMENTAL_CONTROL:
-			tags = new String[] { "照明管理", "电器控制", "环境监测", "安全防护", "节能", "其它" };
-			break;
-		case ENERGY_CONSERVATION:
-			tags = new String[] { "照明管理", "电器控制", "节能", "安全防护", "环境监测", "其它" };
-			break;
-		case OTHER:
-			tags = new String[] { "照明管理", "电器控制", "其它", "节能", "安全防护", "环境监测" };
-			break;
-		}
-		return tags;
-	}
-
 	public static int[] getImgByType(int type) {
 		int[] imgs = null;
 		switch (type) {
@@ -222,55 +197,7 @@ public class UiUtils {
 		}
 		return imgs;
 	}
-
-	public static int[] DEVICES_MANAGER_IMAGES = {
-			R.drawable.ui_devices_lightmanage_style,
-			R.drawable.ui_devices_electricalcontrol_style,
-			R.drawable.ui_devices_securitycontrol_style,
-			R.drawable.ui_devices_environmentalcontrol_style,
-			R.drawable.ui_devices_energyconservation_style,
-			R.drawable.ui_devices_others_style };
-	public static int[] DEVICES_MANAGER_IMAGES_NEW = {
-			R.drawable.ui_devices_securitycontrol_style,
-			R.drawable.ui_devices_electricalcontrol_style,
-			R.drawable.ui_devices_environmentalcontrol_style,
-			R.drawable.ui_devices_energyconservation_style,
-			R.drawable.ui_devices_others_style };
-	public static String[] DEVICES_MANAGER_TAGS = { "照明管理", "电器控制", "安全防护",
-			"环境监测", "节能", "其它" };
-	public static String[] DEVICES_MANAGER_TAGS_NEW = { "安全防护", "电器控制", "环境监测",
-			"节能", "其它" };
-
-	public static int[] getImagResource(int type) {
-		int[] mresult = null;
-		switch (type) {
-		case 0:
-			mresult = DEVICES_MANAGER_IMAGES_NEW;
-			break;
-		case 1:
-			mresult = DEVICES_MANAGER_IMAGES;
-			break;
-		default:
-			break;
-		}
-		return mresult;
-	}
-
-	public static String[] getTagResource(int type) {
-		String[] mresult = null;
-		switch (type) {
-		case 0:
-			mresult = DEVICES_MANAGER_TAGS_NEW;
-			break;
-		case 1:
-			mresult = DEVICES_MANAGER_TAGS;
-			break;
-		default:
-			break;
-		}
-		return mresult;
-	}
-
+	
 	public static String formatResponseString(String response) {
 		response = response.replaceAll("\n", "");
 		response = response.replaceAll("\t", "");

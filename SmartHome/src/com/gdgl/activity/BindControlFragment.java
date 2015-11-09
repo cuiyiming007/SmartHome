@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gdgl.manager.CGIManager;
+import com.gdgl.manager.CallbackManager;
 import com.gdgl.manager.Manger;
 import com.gdgl.manager.UIListener;
 import com.gdgl.model.DevicesModel;
@@ -21,6 +22,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -37,7 +39,7 @@ import android.widget.TextView;
  * @author Trice
  *
  */
-public class BindControlFragment extends BaseFragment implements UIListener {
+public class BindControlFragment extends Fragment implements UIListener {
 
 	public static final String DevicesId = "devices_id";
 	public static final String BindId = "bind_id";
@@ -75,6 +77,7 @@ public class BindControlFragment extends BaseFragment implements UIListener {
 		super.onCreate(savedInstanceState);
 		cgiManager = CGIManager.getInstance();
 		cgiManager.addObserver(this);
+		CallbackManager.getInstance().addObserver(this);
 		initData();
 	}
 
@@ -104,6 +107,7 @@ public class BindControlFragment extends BaseFragment implements UIListener {
 		// TODO Auto-generated method stub
 		super.onDestroy();
 		cgiManager.deleteObserver(this);
+		CallbackManager.getInstance().deleteObserver(this);
 	}
 
 
@@ -354,12 +358,6 @@ public class BindControlFragment extends BaseFragment implements UIListener {
 
 	public interface updateList {
 		public void upList(DevicesModel dm, String id);
-	}
-
-	@Override
-	public void stopRefresh() {
-		// TODO Auto-generated method stub
-
 	}
 
 }

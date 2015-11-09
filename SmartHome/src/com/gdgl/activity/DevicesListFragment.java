@@ -8,7 +8,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import com.gc.materialdesign.views.ButtonFloat;
-import com.gdgl.activity.ShowDevicesGroupFragmentActivity.adapterSeter;
 import com.gdgl.adapter.DevicesBaseAdapter;
 import com.gdgl.app.ApplicationController;
 import com.gdgl.libjingle.LibjingleResponseHandlerManager;
@@ -27,7 +26,6 @@ import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.Callback.CallbackResponseType2;
 import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
-import com.gdgl.util.VersionDlg;
 import com.gdgl.util.MyOkCancleDlg;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -36,7 +34,6 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 
 import android.support.v4.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -50,12 +47,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
-public class DevicesListFragment extends Fragment implements adapterSeter,
+public class DevicesListFragment extends Fragment implements
 		UIListener, Dialogcallback {
 
 	private static final String TAG = "DevicesListFragment";
@@ -200,70 +196,70 @@ public class DevicesListFragment extends Fragment implements adapterSeter,
 						// }
 					}
 				});
-		if (type == WITHOUT_OPERATE) {
-			mPullToRefreshListView
-					.setOnItemClickListener(new OnItemClickListener() {
-						@Override
-						public void onItemClick(AdapterView<?> parent,
-								View view, int position, long id) {
-							// TODO Auto-generated method stub
-							Log.i(TAG, "tagzgs->position=" + position);
-
-							// 判断是除气体感应器及紧急按钮以外的安防设备，且安防控制中心状态是关闭的
-							if (mDevicesModel.getmModelId().indexOf("ZA01") != 0
-									&& mDevicesModel.getmModelId().indexOf(
-											DataHelper.Emergency_Button) != 0
-									&& mDevicesModel
-											.getmModelId()
-											.indexOf(
-													DataHelper.Emergency_Button_On_Wall) != 0
-									&& mDevicesModel.getmDeviceId() == DataHelper.IAS_ZONE_DEVICETYPE
-									&& onekeyControlDevice != null
-									&& onekeyControlDevice.getmOnOffStatus()
-											.equals("0")) {
-								VersionDlg vd = new VersionDlg(
-										(Context) getActivity());
-								vd.setContent("安防控制中心已关闭");
-								vd.show();
-							} else {
-								if (mDevicesModel.getmModelId().indexOf(
-										DataHelper.Infrared_controller) == 0) { // 红外遥控器
-									Intent intent = new Intent();
-									intent.setClass((Context) getActivity(),
-											KongtiaoTvControlActivity.class);
-									intent.putExtra(Constants.PASS_OBJECT,
-											mDevicesModel);
-									startActivity(intent);
-								} else {
-									Log.i("mDevicesModel outside",
-											mDevicesModel.getmOnOffStatus()
-													+ " :　"
-													+ mDevicesModel.getmLevel());
-									Fragment mFragment = null;
-									if (mDevicesModel.getmDeviceId() == DataHelper.SHADE_DEVICETYPE
-											|| mDevicesModel.getmDeviceId() == DataHelper.DIMEN_LIGHTS_DEVICETYPE) {
-										mFragment = new DeviceDtailFragment();
-									} else {
-										mFragment = DeviceDtailFragment
-												.getInstance();
-									}
-
-									Bundle extras = new Bundle();
-									extras.putSerializable(
-											Constants.PASS_OBJECT,
-											mDevicesModel);
-									extras.putInt(
-											Constants.PASS_DEVICE_ABOUT,
-											DeviceDtailFragment.WITHOUT_DEVICE_ABOUT);
-									mFragment.setArguments(extras);
-									mChangeFragment.setFragment(mFragment);
-								}
-							}
-						}
-
-					});
-
-		}
+//		if (type == WITHOUT_OPERATE) {
+//			mPullToRefreshListView
+//					.setOnItemClickListener(new OnItemClickListener() {
+//						@Override
+//						public void onItemClick(AdapterView<?> parent,
+//								View view, int position, long id) {
+//							// TODO Auto-generated method stub
+//							Log.i(TAG, "tagzgs->position=" + position);
+//
+//							// 判断是除气体感应器及紧急按钮以外的安防设备，且安防控制中心状态是关闭的
+//							if (mDevicesModel.getmModelId().indexOf("ZA01") != 0
+//									&& mDevicesModel.getmModelId().indexOf(
+//											DataHelper.Emergency_Button) != 0
+//									&& mDevicesModel
+//											.getmModelId()
+//											.indexOf(
+//													DataHelper.Emergency_Button_On_Wall) != 0
+//									&& mDevicesModel.getmDeviceId() == DataHelper.IAS_ZONE_DEVICETYPE
+//									&& onekeyControlDevice != null
+//									&& onekeyControlDevice.getmOnOffStatus()
+//											.equals("0")) {
+//								VersionDlg vd = new VersionDlg(
+//										(Context) getActivity());
+//								vd.setContent("安防控制中心已关闭");
+//								vd.show();
+//							} else {
+//								if (mDevicesModel.getmModelId().indexOf(
+//										DataHelper.Infrared_controller) == 0) { // 红外遥控器
+//									Intent intent = new Intent();
+//									intent.setClass((Context) getActivity(),
+//											KongtiaoTvControlActivity.class);
+//									intent.putExtra(Constants.PASS_OBJECT,
+//											mDevicesModel);
+//									startActivity(intent);
+//								} else {
+//									Log.i("mDevicesModel outside",
+//											mDevicesModel.getmOnOffStatus()
+//													+ " :　"
+//													+ mDevicesModel.getmLevel());
+//									Fragment mFragment = null;
+//									if (mDevicesModel.getmDeviceId() == DataHelper.SHADE_DEVICETYPE
+//											|| mDevicesModel.getmDeviceId() == DataHelper.DIMEN_LIGHTS_DEVICETYPE) {
+//										mFragment = new DeviceDtailFragment();
+//									} else {
+//										mFragment = DeviceDtailFragment
+//												.getInstance();
+//									}
+//
+//									Bundle extras = new Bundle();
+//									extras.putSerializable(
+//											Constants.PASS_OBJECT,
+//											mDevicesModel);
+//									extras.putInt(
+//											Constants.PASS_DEVICE_ABOUT,
+//											DeviceDtailFragment.WITHOUT_DEVICE_ABOUT);
+//									mFragment.setArguments(extras);
+//									mChangeFragment.setFragment(mFragment);
+//								}
+//							}
+//						}
+//
+//					});
+//
+//		}
 	}
 
 	public void initList() {
@@ -335,25 +331,11 @@ public class DevicesListFragment extends Fragment implements adapterSeter,
 		LibjingleResponseHandlerManager.getInstance().deleteObserver(this);
 	}
 
-	@Override
 	public void setAdapter(BaseAdapter mAdapter) {
 		// TODO Auto-generated method stub
 		mBaseAdapter = null;
 		mBaseAdapter = (DevicesBaseAdapter) mAdapter;
 		mDeviceList = mBaseAdapter.getList();
-	}
-
-	@Override
-	public void setSelectedPostion(int postion) {
-		// TODO Auto-generated method stub
-		mPullToRefreshListView.getRefreshableView().setSelection(postion);
-	}
-
-	@Override
-	public void stopRefresh() {
-		// TODO Auto-generated method stub
-		mPullToRefreshListView.onRefreshComplete();
-		refreshTag = 0;
 	}
 
 	public int isInList(String iee, String ep) {
@@ -672,7 +654,8 @@ public class DevicesListFragment extends Fragment implements adapterSeter,
 
 		@Override
 		protected void onPostExecute(String result) {
-			stopRefresh();
+			mPullToRefreshListView.onRefreshComplete();
+			refreshTag = 0;
 		}
 
 	}

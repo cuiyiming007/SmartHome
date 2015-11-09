@@ -27,7 +27,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.gdgl.activity.ConfigActivity;
 import com.gdgl.activity.VideoFragment;
 import com.gdgl.libjingle.LibjingleResponseHandlerManager;
 import com.gdgl.libjingle.LibjingleSendManager;
@@ -167,16 +166,16 @@ public class VideoActivity extends FragmentActivity implements UIListener {
 		setButton.setVisibility(View.GONE);
 		notifyButton = (Button) findViewById(R.id.alarm_btn_rt);
 		unreadMessageView = (TextView) findViewById(R.id.unread_ms_rt);
-		notifyButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				Intent i = new Intent(VideoActivity.this, ConfigActivity.class);
-				i.putExtra("fragid", 1);
-				startActivity(i);
-				WarnManager.getInstance().intilMessageNum();
-			}
-		});
+//		notifyButton.setOnClickListener(new OnClickListener() {
+//
+//			@Override
+//			public void onClick(View v) {
+//				Intent i = new Intent(VideoActivity.this, ConfigActivity.class);
+//				i.putExtra("fragid", 1);
+//				startActivity(i);
+//				WarnManager.getInstance().intilMessageNum();
+//			}
+//		});
 	}
 
 	private FrameLayout.LayoutParams setPortrait() {
