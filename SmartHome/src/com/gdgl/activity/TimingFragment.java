@@ -229,7 +229,7 @@ public class TimingFragment extends Fragment implements UIListener,
 			}
 			int deviceId = 0;
 			String picSource = Integer
-					.toString(R.drawable.ui_securitycontrol_alarm);
+					.toString(R.drawable.ui2_device_alarm);
 			String deviceName = "";
 			while (cursor.moveToNext()) {
 				deviceId = cursor.getInt(cursor

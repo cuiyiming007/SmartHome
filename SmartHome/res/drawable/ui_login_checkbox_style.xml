@@ -3,6 +3,6 @@
 
     <item android:drawable="@drawable/ui_login_check_b" android:state_checked="true"/>
     <item android:drawable="@drawable/ui_login_check_a" android:state_checked="false"/>
-    <item android:drawable="@drawable/ui_login_button_a"/>
+    <item android:drawable="@drawable/ui_login_check_a"/>
 
 </selector>

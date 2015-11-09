@@ -11,20 +11,6 @@
         android:layout_height="match_parent"
         layout="@layout/no_devices" />
 
-    <!-- <com.handmark.pulltorefresh.library.PullToRefreshGridView -->
-    <!-- xmlns:ptr="http://schemas.android.com/apk/res-auto" -->
-    <!-- android:id="@+id/content_view" -->
-    <!-- android:layout_width="match_parent" -->
-    <!-- android:layout_height="match_parent" -->
-    <!-- android:gravity="center" -->
-    <!-- android:horizontalSpacing="0dp" -->
-    <!-- android:verticalSpacing="5dp" -->
-    <!-- android:listSelector="#ffffff" -->
-    <!-- android:numColumns="2" -->
-    <!-- android:stretchMode="columnWidth" -->
-    <!-- ptr:ptrMode="both" -->
-    <!-- /> -->
-
     <GridView
         android:id="@+id/content_view"
         android:layout_width="match_parent"

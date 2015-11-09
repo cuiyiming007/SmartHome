@@ -143,7 +143,7 @@ public class DataUtil {
 				result = R.drawable.ui_others_triplekeystroke;
 			}
 			if (modelId.indexOf(DataHelper.Doors_and_windows_sensor_switch) == 0) { // 门窗感应开关
-				result = R.drawable.ui_securitycontrol_doormagnetic;
+				result = R.drawable.ui2_device_windowmagnetic;
 			}
 			break;
 		case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:
@@ -194,7 +194,7 @@ public class DataUtil {
 			result = R.drawable.ui2_device_temperaturesensor;
 			break;
 		case DataHelper.IAS_ACE_DEVICETYPE:
-			result = R.drawable.ui_others_doorbell;
+			result = R.drawable.ui2_device_alarm;
 			break;
 		case DataHelper.IAS_ZONE_DEVICETYPE:
 			if (modelId.indexOf(DataHelper.Motion_Sensor) == 0) { // ZigBee动作感应器
@@ -204,11 +204,11 @@ public class DataUtil {
 				result = R.drawable.ui2_device_windowmagnetic;
 			}
 			if (modelId.indexOf(DataHelper.Doors_and_windows_sensor_switch) == 0) { // 门窗感应开关
-				result = R.drawable.ui_securitycontrol_doormagnetic;
+				result = R.drawable.ui2_device_windowmagnetic;
 			}
 			if (modelId.startsWith(DataHelper.Emergency_Button) // ZigBee紧急按钮
 					|| modelId.startsWith(DataHelper.Emergency_Button_On_Wall)) { // ZigBee墙面紧急按钮
-				result = R.drawable.ui_securitycontrol_emergencybutton;
+				result = R.drawable.ui2_device_rf_emergencybutton;
 			}
 			if (modelId.indexOf(DataHelper.Smoke_Detectors) == 0) { // 烟雾感应器
 				result = R.drawable.ui2_device_detectorsmoke;
@@ -265,7 +265,7 @@ public class DataUtil {
 			break;
 		}
 		if (result == 0) {
-			result = R.drawable.ui_securitycontrol_alarm;
+			result = R.drawable.ui2_device_alarm;
 		}
 		return result;
 	}
@@ -285,7 +285,7 @@ public class DataUtil {
 				result = R.drawable.ui_others_triplekeystroke;
 			}
 			if (modelId.indexOf(DataHelper.Doors_and_windows_sensor_switch) == 0) { // 门窗感应开关
-				result = R.drawable.ui_securitycontrol_doormagnetic;
+				result = R.drawable.ui2_device_windowmagnetic_small;
 			}
 			break;
 		case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:
@@ -336,7 +336,7 @@ public class DataUtil {
 			result = R.drawable.ui2_device_temperaturesensor_small;
 			break;
 		case DataHelper.IAS_ACE_DEVICETYPE:
-			result = R.drawable.ui_others_doorbell;
+			result = R.drawable.ui2_device_alarm_samll;
 			break;
 		case DataHelper.IAS_ZONE_DEVICETYPE:
 			if (modelId.indexOf(DataHelper.Motion_Sensor) == 0) { // ZigBee动作感应器
@@ -346,11 +346,11 @@ public class DataUtil {
 				result = R.drawable.ui2_device_windowmagnetic_small;
 			}
 			if (modelId.indexOf(DataHelper.Doors_and_windows_sensor_switch) == 0) { // 门窗感应开关
-				result = R.drawable.ui_securitycontrol_doormagnetic;
+				result = R.drawable.ui2_device_windowmagnetic_small;
 			}
 			if (modelId.startsWith(DataHelper.Emergency_Button) // ZigBee紧急按钮
 					|| modelId.startsWith(DataHelper.Emergency_Button_On_Wall)) { // ZigBee墙面紧急按钮
-				result = R.drawable.ui_securitycontrol_emergencybutton;
+				result = R.drawable.ui2_device_rf_emergencybutton_small;
 			}
 			if (modelId.indexOf(DataHelper.Smoke_Detectors) == 0) { // 烟雾感应器
 				result = R.drawable.ui2_device_detectorsmoke_small;
@@ -408,7 +408,7 @@ public class DataUtil {
 			break;
 		}
 		if (result == 0) {
-			result = R.drawable.ui_securitycontrol_alarm;
+			result = R.drawable.ui2_device_alarm_samll;
 		}
 		return result;
 	}
@@ -428,7 +428,7 @@ public class DataUtil {
 				result = R.drawable.ui_others_triplekeystroke;
 			}
 			if (modelId.indexOf(DataHelper.Doors_and_windows_sensor_switch) == 0) { // 门窗感应开关
-				result = R.drawable.ui_securitycontrol_doormagnetic;
+				result = R.drawable.ui2_device_windowmagnetic_control_style;
 			}
 			break;
 		case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:
@@ -479,7 +479,7 @@ public class DataUtil {
 			result = R.drawable.ui2_device_temperaturesensor_control_style;
 			break;
 		case DataHelper.IAS_ACE_DEVICETYPE:
-			result = R.drawable.ui_others_doorbell;
+			result = R.drawable.ui2_device_alarm_control_style;
 			break;
 		case DataHelper.IAS_ZONE_DEVICETYPE:
 			if (modelId.indexOf(DataHelper.Motion_Sensor) == 0) { // ZigBee动作感应器
@@ -489,11 +489,11 @@ public class DataUtil {
 				result = R.drawable.ui2_device_windowmagnetic_control_style;
 			}
 			if (modelId.indexOf(DataHelper.Doors_and_windows_sensor_switch) == 0) { // 门窗感应开关
-				result = R.drawable.ui_securitycontrol_doormagnetic;
+				result = R.drawable.ui2_device_windowmagnetic_control_style;
 			}
 			if (modelId.startsWith(DataHelper.Emergency_Button) // ZigBee紧急按钮
 					|| modelId.startsWith(DataHelper.Emergency_Button_On_Wall)) { // ZigBee墙面紧急按钮
-				result = R.drawable.ui_securitycontrol_emergencybutton;
+				result = R.drawable.ui2_device_rf_emergencybutton_control_style;
 			}
 			if (modelId.indexOf(DataHelper.Smoke_Detectors) == 0) { // 烟雾感应器
 				result = R.drawable.ui2_device_detectorsmoke_control_style;
@@ -550,7 +550,7 @@ public class DataUtil {
 			break;
 		}
 		if (result == 0) {
-			result = R.drawable.ui_securitycontrol_alarm;
+			result = R.drawable.ui2_device_alarm_control_style;
 		}
 		return result;
 	}

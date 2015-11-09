@@ -151,21 +151,21 @@ public class VideoActivity extends FragmentActivity implements UIListener {
 	}
 
 	private void addTitle() {
-		LayoutInflater layoutInflater = LayoutInflater.from(this);
-		viewTitle = layoutInflater.inflate(R.layout.toptitle_with_return,
-				null);
-		TextView title = (TextView) viewTitle.findViewById(R.id.title);
-		if (flag == 0)
-			viewTitle.setVisibility(View.GONE);
-		String name = "";
-		name = mVideoNode.getAliases();
-		title.setText(name);
-		LinearLayout.LayoutParams params = setTitlePortrait();
-		addContentView(viewTitle, params);
-		setButton = (Button) findViewById(R.id.set);
-		setButton.setVisibility(View.GONE);
-		notifyButton = (Button) findViewById(R.id.alarm_btn_rt);
-		unreadMessageView = (TextView) findViewById(R.id.unread_ms_rt);
+//		LayoutInflater layoutInflater = LayoutInflater.from(this);
+//		viewTitle = layoutInflater.inflate(R.layout.toptitle_with_return,
+//				null);
+//		TextView title = (TextView) viewTitle.findViewById(R.id.title);
+//		if (flag == 0)
+//			viewTitle.setVisibility(View.GONE);
+//		String name = "";
+//		name = mVideoNode.getAliases();
+//		title.setText(name);
+//		LinearLayout.LayoutParams params = setTitlePortrait();
+//		addContentView(viewTitle, params);
+//		setButton = (Button) findViewById(R.id.set);
+//		setButton.setVisibility(View.GONE);
+//		notifyButton = (Button) findViewById(R.id.alarm_btn_rt);
+//		unreadMessageView = (TextView) findViewById(R.id.unread_ms_rt);
 //		notifyButton.setOnClickListener(new OnClickListener() {
 //
 //			@Override

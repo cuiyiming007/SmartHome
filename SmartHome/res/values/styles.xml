@@ -72,28 +72,6 @@
         <item name="android:button">@drawable/ui_login_checkbox_style</item>
     </style>
 
-    <style name="AddCustomCheckboxTheme" parent="@android:style/Widget.CompoundButton.CheckBox">
-        <item name="android:button">@drawable/add_checkbox_bg</item>
-    </style>
-
-    <style name="ExpandCheckboxTheme" parent="@android:style/Widget.CompoundButton.CheckBox">
-        <item name="android:button">@drawable/expand_style</item>
-    </style>
-
-    <style name="light_control_style" parent="@android:style/Widget.CompoundButton.CheckBox">
-        <item name="android:button">@drawable/lights_control_checkbox</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="android:gravity">center</item>
-    </style>
-
-    <style name="switch_checkbox_style" parent="@android:style/Widget.CompoundButton.CheckBox">
-        <item name="android:button">@drawable/switch_frg_style</item>
-    </style>
-
-    <style name="curtain_checkbox_style" parent="@android:style/Widget.CompoundButton.CheckBox">
-        <item name="android:button">@drawable/curtain_style</item>
-    </style>
-
     <style name="MyDialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsFloating">true</item>
@@ -116,14 +94,6 @@
     <style name="dialogWindowAnim" parent="android:Animation">
         <item name="android:windowEnterAnimation">@anim/slide_left_in</item>
         <item name="android:windowExitAnimation">@anim/slide_right_out</item>
-    </style>
-
-    <style name="scene_light_checkbox_style" parent="@android:style/Widget.CompoundButton.CheckBox">
-        <item name="android:button">@drawable/scene_light_checkbox_bg</item>
-    </style>
-
-    <style name="scene_anfang_checkbox_style" parent="@android:style/Widget.CompoundButton.CheckBox">
-        <item name="android:button">@drawable/scene_bufang_checkbox_bg</item>
     </style>
 
 </resources>

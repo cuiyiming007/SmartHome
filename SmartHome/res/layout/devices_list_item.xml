@@ -19,7 +19,7 @@
             android:layout_height="60dp"
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
-            android:src="@drawable/ui_environmentalcontrol_lightsensor" />
+            android:src="@drawable/ui2_device_alarm_samll" />
 
         <LinearLayout
             android:layout_width="wrap_content"

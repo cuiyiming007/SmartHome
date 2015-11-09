@@ -22,7 +22,6 @@
             android:fastScrollEnabled="false"
             android:footerDividersEnabled="false"
             android:headerDividersEnabled="false"
-            android:listSelector="@drawable/ui_devices_devicelist_bgwithcorners_style"
             android:scrollbars="none"
             android:smoothScrollbar="true" >
         </ListView>

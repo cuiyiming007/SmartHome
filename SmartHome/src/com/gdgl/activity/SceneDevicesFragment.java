@@ -175,7 +175,7 @@ public class SceneDevicesFragment extends Fragment {
 			}
 			int deivceID = 0;
 			String picSource = Integer
-					.toString(R.drawable.ui_securitycontrol_alarm);
+					.toString(R.drawable.ui2_device_alarm);
 			String deviceName = "";
 			while (cursor.moveToNext()) {
 				deivceID = cursor.getInt(cursor
