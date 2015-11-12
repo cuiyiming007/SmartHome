@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.gc.materialdesign.views.CheckBox;
@@ -34,13 +36,14 @@ import com.gdgl.smarthome.R;
 public class RegionDevicesAddFragment extends Fragment implements UIListener {
 	private View mView;
 	// PullToRefreshListView devices_list_view;
+	RelativeLayout relativeLayout;
 	ListView devices_list_view;
 	public List<DevicesModel> mRegionDevicesAddList;
 
 	RegionDevicesAddListAdapter mBaseAdapter;
 
 	AddChecked mAddChecked;
-	
+
 	private Map<Integer, Boolean> isSelected;
 
 	@Override
@@ -68,7 +71,7 @@ public class RegionDevicesAddFragment extends Fragment implements UIListener {
 
 	private void initView() {
 		// TODO Auto-generated method stub
-
+		relativeLayout = (RelativeLayout) mView.findViewById(R.id.list_root);
 		devices_list_view = (ListView) mView.findViewById(R.id.devices_list);
 		devices_list_view.setAdapter(mBaseAdapter);
 
@@ -82,7 +85,7 @@ public class RegionDevicesAddFragment extends Fragment implements UIListener {
 		RfCGIManager.getInstance().deleteObserver(this);
 		LibjingleResponseHandlerManager.getInstance().deleteObserver(this);
 	}
-	
+
 	public class RegionDevicesAddListAdapter extends BaseAdapter {
 
 		protected AddChecked mDevicesObserver;
@@ -186,7 +189,7 @@ public class RegionDevicesAddFragment extends Fragment implements UIListener {
 	public void setAdapter(BaseAdapter mAdapter) {
 		// TODO Auto-generated method stub
 		mBaseAdapter = null;
-		mBaseAdapter = (RegionDevicesAddListAdapter)mAdapter;
+		mBaseAdapter = (RegionDevicesAddListAdapter) mAdapter;
 	}
 
 	public interface AddChecked {
@@ -194,7 +197,7 @@ public class RegionDevicesAddFragment extends Fragment implements UIListener {
 
 		public void DeletedCheckedDevices(DevicesModel model);
 	}
-	
+
 	@Override
 	public void update(Manger observer, Object object) {
 		// TODO Auto-generated method stub
@@ -204,17 +207,21 @@ public class RegionDevicesAddFragment extends Fragment implements UIListener {
 				if (NetworkConnectivity.networkStatus == NetworkConnectivity.LAN) {
 					RfCGIManager.getInstance().GetRFDevByRoomIdInit("-1");
 				} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
-					LibjingleSendManager.getInstance().GetRFDevByRoomIdInit("-1");
+					LibjingleSendManager.getInstance().GetRFDevByRoomIdInit(
+							"-1");
 				}
 				mRegionDevicesAddList = (List<DevicesModel>) event.getData();
-				Collections.sort(mRegionDevicesAddList, new Comparator<DevicesModel>() {
+				Collections.sort(mRegionDevicesAddList,
+						new Comparator<DevicesModel>() {
 
-					@Override
-					public int compare(DevicesModel lhs, DevicesModel rhs) {
-						// TODO Auto-generated method stub
-						return (lhs.getmDevicePriority()-rhs.getmDevicePriority());
-					}
-				});
+							@Override
+							public int compare(DevicesModel lhs,
+									DevicesModel rhs) {
+								// TODO Auto-generated method stub
+								return (lhs.getmDevicePriority() - rhs
+										.getmDevicePriority());
+							}
+						});
 
 			}
 		} else if (EventType.RF_GETEPBYROOMINDEXINIT == event.getType()) {
@@ -225,7 +232,8 @@ public class RegionDevicesAddFragment extends Fragment implements UIListener {
 					@Override
 					public int compare(DevicesModel lhs, DevicesModel rhs) {
 						// TODO Auto-generated method stub
-						return (lhs.getmDevicePriority()-rhs.getmDevicePriority());
+						return (lhs.getmDevicePriority() - rhs
+								.getmDevicePriority());
 					}
 				});
 				mRegionDevicesAddList.addAll(temp);
@@ -237,6 +245,20 @@ public class RegionDevicesAddFragment extends Fragment implements UIListener {
 					@Override
 					public void run() {
 						mBaseAdapter.notifyDataSetChanged();
+
+						if (mRegionDevicesAddList.size() == 0) {
+							devices_list_view.setVisibility(View.GONE);
+							TextView textView = new TextView(getActivity());
+							textView.setText("没有可添加的设备...");
+							textView.setTextColor(getActivity().getResources().getColor(R.color.text_gray));
+							textView.setTextSize(25);
+							RelativeLayout.LayoutParams params = new LayoutParams(
+									RelativeLayout.LayoutParams.WRAP_CONTENT,
+									RelativeLayout.LayoutParams.WRAP_CONTENT);
+							params.addRule(RelativeLayout.CENTER_HORIZONTAL);
+							params.setMargins(0, 200, 0, 0);
+							relativeLayout.addView(textView, params);
+						}
 					}
 				});
 

@@ -736,7 +736,7 @@ public class LibjingleResponseHandlerManager extends Manger {
 		@Override
 		protected void onPostExecute(Bundle bundle) {
 			// TODO Auto-generated method stub
-			Event event = new Event(EventType.READHEARTTIME, true);
+			Event event = new Event(EventType.HEARTTIME, true);
 			event.setData(bundle);
 			notifyObservers(event);
 			super.onPostExecute(bundle);

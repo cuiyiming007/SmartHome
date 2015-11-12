@@ -169,10 +169,9 @@ public class CallbackManager extends Manger {
 				Log.i(TAG, "Callback msgType=" + msgType + "doorlock");
 				break;
 			case 5:
-//				CallbackResponseCommon iasZone = gson.fromJson(response,
-//						CallbackResponseCommon.class);
-				Log.i(TAG,
-						"Callback msgType=" + msgType + "IASZONE");
+				// CallbackResponseCommon iasZone = gson.fromJson(response,
+				// CallbackResponseCommon.class);
+				Log.i(TAG, "Callback msgType=" + msgType + "IASZONE");
 				break;
 			case 6:
 				Log.i(TAG, "Callback msgType=" + msgType + "DimmerSwitch");
@@ -180,12 +179,8 @@ public class CallbackManager extends Manger {
 			case 7:
 				// Log.i(TAG, "Callback msgType=" + msgType +
 				// "OnOffLightSwitch");
-				JSONObject json = new JSONObject(response);
-				if (json.getInt("callbackType") == 3) {
-					CallbackResponseCommon iasZone7 = gson.fromJson(response,
-							CallbackResponseCommon.class);
-					handlerCallbackResponseCommon(iasZone7);
-				}
+				// CallbackResponseCommon iasZone7 = gson.fromJson(response,
+				// CallbackResponseCommon.class);
 				break;
 			case 8:
 				CallbackResponseCommon IASWarmingDevice = gson.fromJson(
@@ -204,8 +199,8 @@ public class CallbackManager extends Manger {
 				break;
 			// need to distinguish with type 5
 			case 11:
-//				CallbackResponseCommon iasZone11 = gson.fromJson(response,
-//						CallbackResponseCommon.class);
+				// CallbackResponseCommon iasZone11 = gson.fromJson(response,
+				// CallbackResponseCommon.class);
 				Log.i(TAG, "Callback msgType=" + msgType + "IASZONE");
 				break;
 			case 12:
@@ -1051,28 +1046,6 @@ public class CallbackManager extends Manger {
 		}
 	}
 
-	private void handlerCallbackResponseCommon(CallbackResponseCommon response) {
-		int callbackType = Integer.parseInt(response.getCallbackType());
-		switch (callbackType) {
-		case 3:
-			Log.i(TAG, "HEART_TIME " + response.getValue());
-			ContentValues c = new ContentValues();
-			c.put(DevicesModel.HEART_TIME, response.getValue());
-			ParemetersResponse p = new ParemetersResponse();
-			p.response = response;
-			p.c = c;
-			Event event = new Event(EventType.HEARTTIME, true);
-			event.setData(response);
-			notifyObservers(event);
-
-			new UpdateDeviceHeartTimeToDatabaseTask().execute(p);
-
-			break;
-		default:
-			break;
-		}
-	}
-
 	private void handlerWarnMessage(CallbackWarnMessage warnmessage,
 			boolean notWarnMessage) {
 		if (!getSecurityControlState() && getIsRightModelID(warnmessage)
@@ -1209,7 +1182,23 @@ public class CallbackManager extends Manger {
 
 			break;
 		case 3:
-
+			if (clusterId == 65088) { // FE40
+				int hearbeat = Integer.parseInt(common.getValue(), 16);
+				Log.i(TAG, "Callback msgType=" + 2 + "heartbeat" + hearbeat);
+				ContentValues c = new ContentValues();
+				c.put(DevicesModel.HEART_TIME, hearbeat);
+				Paremeters p = new Paremeters();
+				p.callbackmsg2 = common;
+				p.c = c;
+				new UpdateDeviceStatusToDatabaseTask().execute(p);
+				Bundle bundle = new Bundle();
+				bundle.putString("ieee", common.getDeviceIeee());
+				bundle.putString("ep", common.getDeviceEp());
+				bundle.putInt("time", Integer.parseInt(common.getValue(), 16));
+				Event event = new Event(EventType.HEARTTIME, true);
+				event.setData(bundle);
+				notifyObservers(event);
+			}
 			break;
 		case 57344:// E000
 			if (clusterId == 1794) {
@@ -1348,11 +1337,6 @@ public class CallbackManager extends Manger {
 		public ContentValues c;
 	}
 
-	class ParemetersResponse {
-		public CallbackResponseCommon response;
-		public ContentValues c;
-	}
-
 	public class UpdateDeviceStatusToDatabaseTask extends
 			AsyncTask<Paremeters, Integer, Integer> {
 
@@ -1366,29 +1350,6 @@ public class CallbackManager extends Manger {
 			String where = " ieee = ? and ep = ?";
 			String ieee = callbackmsg.getDeviceIeee();
 			String ep = callbackmsg.getDeviceEp();
-			String[] args = { ieee, ep };
-			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
-			int result = mDateHelper.update(mSQLiteDatabase,
-					DataHelper.DEVICES_TABLE, c, where, args);
-			mDateHelper.close(mSQLiteDatabase);
-			return result;
-		}
-
-	}
-
-	public class UpdateDeviceHeartTimeToDatabaseTask extends
-			AsyncTask<ParemetersResponse, Integer, Integer> {
-
-		@Override
-		protected Integer doInBackground(ParemetersResponse... params) {
-			// TODO Auto-generated method stub
-			ParemetersResponse par = params[0];
-			CallbackResponseCommon response = par.response;
-			ContentValues c = par.c;
-
-			String where = " ieee = ? and ep = ?";
-			String ieee = response.getIEEE();
-			String ep = response.getEP();
 			String[] args = { ieee, ep };
 			SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
 			int result = mDateHelper.update(mSQLiteDatabase,
@@ -1535,9 +1496,11 @@ public class CallbackManager extends Manger {
 			cursor1.close();
 			message.setIpcName(ipc_name);
 			if (message.getType() == 1) {
-				message.setDescription("联动摄像机 " + ipc_name + " 截图" + message.getPicCount() + "张.");
+				message.setDescription("联动摄像机 " + ipc_name + " 截图"
+						+ message.getPicCount() + "张.");
 			} else {
-				message.setDescription("联动摄像机 " + ipc_name + " 录像" + message.getPicCount() + "秒.");
+				message.setDescription("联动摄像机 " + ipc_name + " 录像"
+						+ message.getPicCount() + "秒.");
 			}
 
 			long id = db.insert(DataHelper.IPC_LINKAGE_TABLE, null,

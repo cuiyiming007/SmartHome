@@ -1682,7 +1682,11 @@ public class CGIManager extends Manger {
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("ieee", mDevices.getmIeee());
 		paraMap.put("ep", mDevices.getmEP());
-		paraMap.put("operatortype", "1");
+		if(mDevices.getmDeviceId() == DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE) {
+			paraMap.put("operatortype", "15");
+		} else {
+			paraMap.put("operatortype", "1");
+		}
 		paraMap.put("param1", "" + time);
 		paraMap.put("param2", "");
 		paraMap.put("param3", "");
@@ -1691,14 +1695,19 @@ public class CGIManager extends Manger {
 		paraMap.put("encodemethod", "NONE");
 		paraMap.put("sign", "AAA");
 		String param = hashMap2ParamString(paraMap);
-		String url = NetUtil.getInstance().getCumstomURL(
-				NetUtil.getInstance().IP, "iasZoneOperation.cgi", param);
+		String url = "";
+		if(mDevices.getmDeviceId() == DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE) {
+			url = NetUtil.getInstance().getCumstomURL(
+					NetUtil.getInstance().IP, "iasWarningDeviceOperation.cgi", param);
+		} else {
+			url = NetUtil.getInstance().getCumstomURL(
+					NetUtil.getInstance().IP, "iasZoneOperation.cgi", param);
+		}
 		Log.i("CGIManager setHeartTime Request:%n %s", url);
 		StringRequest req = new StringRequest(url,
 				new Response.Listener<String>() {
 					@Override
 					public void onResponse(String response) {
-						response = UiUtils.formatResponseString(response);
 					}
 				}, new Response.ErrorListener() {
 					@Override
@@ -2282,7 +2291,7 @@ public class CGIManager extends Manger {
 		@Override
 		protected void onPostExecute(Bundle result) {
 			// TODO Auto-generated method stub
-			Event event = new Event(EventType.READHEARTTIME, true);
+			Event event = new Event(EventType.HEARTTIME, true);
 			event.setData(result);
 			notifyObservers(event);
 			super.onPostExecute(result);

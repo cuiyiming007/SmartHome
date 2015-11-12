@@ -19,12 +19,15 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.RelativeLayout.LayoutParams;
 
 public class SceneDevicesAddFragment extends Fragment {
 
 	private View mView;
 	// PullToRefreshListView devices_list_view;
+	RelativeLayout relativeLayout;
 	ListView devices_list_view;
 	public List<DevicesModel> mSceneDevicesAddList;
 
@@ -51,10 +54,23 @@ public class SceneDevicesAddFragment extends Fragment {
 
 	private void initView() {
 		// TODO Auto-generated method stub
-
+		relativeLayout = (RelativeLayout) mView.findViewById(R.id.list_root);
 		devices_list_view = (ListView) mView.findViewById(R.id.devices_list);
 		devices_list_view.setAdapter(mBaseAdapter);
 
+		if(mSceneDevicesAddList.size() == 0) {
+			devices_list_view.setVisibility(View.GONE);
+			TextView textView = new TextView(getActivity());
+			textView.setText("没有可添加的设备...");
+			textView.setTextColor(getActivity().getResources().getColor(R.color.text_gray));
+			textView.setTextSize(25);
+			RelativeLayout.LayoutParams params = new LayoutParams(
+					RelativeLayout.LayoutParams.WRAP_CONTENT,
+					RelativeLayout.LayoutParams.WRAP_CONTENT);
+			params.addRule(RelativeLayout.CENTER_HORIZONTAL);
+			params.setMargins(0, 200, 0, 0);
+			relativeLayout.addView(textView, params);
+		}
 	}
 
 	public class SceneDevicesAddListAdapter extends BaseAdapter {

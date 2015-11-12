@@ -446,7 +446,18 @@ public class TestFragment extends Fragment implements UIListener {
 						});
 					}
 				}
-			}
+			} 
+		} else if (EventType.HEARTTIME == event.getType()) {
+				if (event.isSuccess() == true) {
+					Bundle data = (Bundle) event.getData();
+					int m = getDevicesPostion(data.getString("ieee"),
+							data.getString("ep"), mDeviceList);
+					if (-1 != m) {
+						if (data.getInt("time") != 0) {
+							mDeviceList.get(m).setmHeartTime(data.getInt("time"));
+						}
+					}
+				}
 		} else if (EventType.CHANGEDEVICENAME == event.getType()) {
 			if (event.isSuccess()) {
 				String[] changeName = (String[]) event.getData();

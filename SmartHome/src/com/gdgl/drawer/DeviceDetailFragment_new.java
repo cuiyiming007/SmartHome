@@ -10,7 +10,6 @@ import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
-import com.gdgl.mydata.Callback.CallbackResponseCommon;
 import com.gdgl.mydata.Callback.CallbackResponseType2;
 import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
@@ -301,7 +300,7 @@ public class DeviceDetailFragment_new extends Fragment implements UIListener {
 	@Override
 	public void update(Manger observer, Object object) {
 		final Event event = (Event) object;
-		if (EventType.READHEARTTIME == event.getType()) {
+		if (EventType.HEARTTIME == event.getType()) {
 			if (event.isSuccess() == true) {
 				final Bundle data = (Bundle) event.getData();
 				if (data.getString("ieee").equals(mDevices.getmIeee())
@@ -309,6 +308,7 @@ public class DeviceDetailFragment_new extends Fragment implements UIListener {
 					if (data.getInt("time") == 0) {
 						return;
 					}
+					mDevices.setmHeartTime(data.getInt("time"));
 					device_heartButton.post(new Runnable() {
 						@Override
 						public void run() {
@@ -316,25 +316,6 @@ public class DeviceDetailFragment_new extends Fragment implements UIListener {
 									.getInt("time")));
 						}
 					});
-				}
-			}
-		} else if (EventType.HEARTTIME == event.getType()) {
-			if (event.isSuccess() == true) {
-				final CallbackResponseCommon data = (CallbackResponseCommon) event
-						.getData();
-				if (data.getIEEE().equals(mDevices.getmIeee())
-						&& data.getEP().equals(mDevices.getmEP())) {
-					if (data.getValue().equals("")) {
-						return;
-					}
-					device_heartButton.post(new Runnable() {
-						@Override
-						public void run() {
-							device_heartButton.setText(secToTime(Integer
-									.parseInt(data.getValue())));
-						}
-					});
-
 				}
 			}
 		} else if (EventType.CURRENT == event.getType()) {
