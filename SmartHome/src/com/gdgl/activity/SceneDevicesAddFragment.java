@@ -47,7 +47,7 @@ public class SceneDevicesAddFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		mView = inflater.inflate(R.layout.scene_devices_fragment, null);
+		mView = inflater.inflate(R.layout.devices_list_fragment, null);
 		initView();
 		return mView;
 	}

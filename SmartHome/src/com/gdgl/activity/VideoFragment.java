@@ -67,7 +67,7 @@ public class VideoFragment extends Fragment implements UIListener,
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		mView = inflater.inflate(R.layout.devices_main_fragment, null);
+		mView = inflater.inflate(R.layout.devices_grid_fragment, null);
 		initview();
 		CallbackManager.getInstance().addObserver(this);
 		return mView;

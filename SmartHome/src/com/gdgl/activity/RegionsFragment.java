@@ -19,9 +19,6 @@ import com.gdgl.util.AddDlg;
 import com.gdgl.util.AddDlg.AddDialogcallback;
 import com.gdgl.util.MyOkCancleDlg;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
-import com.handmark.pulltorefresh.library.PullToRefreshGridView;
 
 import android.content.Context;
 import android.content.Intent;
@@ -29,8 +26,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.format.DateUtils;
-import android.util.Log;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -53,15 +50,16 @@ import android.widget.GridView;
  */
 public class RegionsFragment extends Fragment implements Dialogcallback, UIListener, AddDialogcallback {
 
-	PullToRefreshGridView content_view;
-	// GridView content_view;
+	SwipeRefreshLayout swipeRefreshLayout;
+	GridView content_view;
 	View mView;
-	List<Room> mregions;
-	Room currentRoom;
-	CustomeAdapter mCustomeAdapter;
 	ViewGroup nodevices;
 	ButtonFloat mButtonFloat;
 
+	List<Room> mregions;
+	Room currentRoom;
+	CustomeAdapter mCustomeAdapter;
+	
 	DataHelper mDateHelper;
 
 	int menuIndex = 0;
@@ -94,15 +92,16 @@ public class RegionsFragment extends Fragment implements Dialogcallback, UIListe
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		mView = inflater.inflate(R.layout.devices_main_fragment_new, null);
+		mView = inflater.inflate(R.layout.devices_grid_swiperefresh_fragment, null);
 		initview();
 		return mView;
 	}
 
 	private void initview() {
 		// TODO Auto-generated method stub
+		swipeRefreshLayout = (SwipeRefreshLayout) mView.findViewById(R.id.swipe_container);
 		nodevices = (ViewGroup) mView.findViewById(R.id.nodevices);
-		content_view = (PullToRefreshGridView) mView.findViewById(R.id.content_view);
+		content_view = (GridView) mView.findViewById(R.id.content_view);
 		mButtonFloat = (ButtonFloat) mView.findViewById(R.id.buttonFloat);
 		mCustomeAdapter = new CustomeAdapter();
 		mCustomeAdapter.setList(mregions);
@@ -120,21 +119,16 @@ public class RegionsFragment extends Fragment implements Dialogcallback, UIListe
 			}
 
 		});
-		content_view.setOnRefreshListener(new OnRefreshListener<GridView>() {
-
+		swipeRefreshLayout.setColorSchemeResources(R.color.blue_default);
+		swipeRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+			
 			@Override
-			public void onRefresh(PullToRefreshBase<GridView> refreshView) {
+			public void onRefresh() {
 				// TODO Auto-generated method stub
-				String label = DateUtils.formatDateTime(getActivity().getApplicationContext(),
-						System.currentTimeMillis(),
-						DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_ALL);
-
-				// Update the LastUpdatedLabel
-				refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
-				Log.i("setOnRefreshListener", "setOnRefreshListener");
 				new GetDataTask().execute();
 			}
 		});
+		mButtonFloat.attachToListView(content_view);
 		mButtonFloat.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -153,7 +147,7 @@ public class RegionsFragment extends Fragment implements Dialogcallback, UIListe
 			nodevices.setVisibility(View.GONE);
 		}
 
-		registerForContextMenu(content_view.getRefreshableView());
+		registerForContextMenu(content_view);
 	}
 
 	@Override
@@ -174,18 +168,12 @@ public class RegionsFragment extends Fragment implements Dialogcallback, UIListe
 			} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
 				LibjingleSendManager.getInstance().GetAllRoomInfo();
 			}
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 			return null;
 		}
 
 		@Override
 		protected void onPostExecute(String result) {
-			content_view.onRefreshComplete();
+//			swipeRefreshLayout.setRefreshing(false);
 		}
 
 	}
@@ -310,6 +298,7 @@ public class RegionsFragment extends Fragment implements Dialogcallback, UIListe
 						}
 						mCustomeAdapter.setList(mregions);
 						mCustomeAdapter.notifyDataSetChanged();
+						swipeRefreshLayout.setRefreshing(false);
 					}
 				});
 			}

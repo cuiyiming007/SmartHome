@@ -63,8 +63,6 @@ public class RegionDevicesActivity extends MyActionBarActivity implements
 
 	DevicesListFragment mDevicesListFragment;
 
-	AllDevicesFragment mAllDevicesFragment;
-
 	DevicesBaseAdapter mDevicesBaseAdapter;
 
 	RegionDevicesAddListAdapter mRegionDevicesAddListAdapter;

@@ -9,7 +9,6 @@ import java.util.List;
 
 import com.gc.materialdesign.views.ButtonFloat;
 import com.gdgl.adapter.DevicesBaseAdapter;
-import com.gdgl.app.ApplicationController;
 import com.gdgl.libjingle.LibjingleResponseHandlerManager;
 import com.gdgl.libjingle.LibjingleSendManager;
 import com.gdgl.manager.CGIManager;
@@ -20,7 +19,6 @@ import com.gdgl.manager.UIListener;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.Constants;
 import com.gdgl.mydata.DataHelper;
-import com.gdgl.mydata.DataUtil;
 import com.gdgl.mydata.Event;
 import com.gdgl.mydata.EventType;
 import com.gdgl.mydata.Callback.CallbackResponseType2;
@@ -28,16 +26,13 @@ import com.gdgl.network.NetworkConnectivity;
 import com.gdgl.smarthome.R;
 import com.gdgl.util.MyOkCancleDlg;
 import com.gdgl.util.MyOkCancleDlg.Dialogcallback;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -58,7 +53,9 @@ public class DevicesListFragment extends Fragment implements
 
 	DataHelper mDataHelper;
 	private View mView;
-	PullToRefreshListView mPullToRefreshListView;
+	SwipeRefreshLayout swipeRefreshLayout;
+	ListView mListView;
+//	PullToRefreshListView mListView;
 	ButtonFloat mButtonFloat;
 
 	DevicesModel mDevicesModel;
@@ -71,7 +68,6 @@ public class DevicesListFragment extends Fragment implements
 	 * 跟ShowDevicesGroupFragmentActivity的DevicesBaseAdapter对应，父类引用指向子类对象
 	 */
 	DevicesBaseAdapter mBaseAdapter;
-	private ChangeFragment mChangeFragment;
 	RelativeLayout list_root;
 
 	public static final int WITH_OPERATE = 0;
@@ -121,25 +117,32 @@ public class DevicesListFragment extends Fragment implements
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		mView = inflater.inflate(R.layout.devices_list_fragment, null);
+		mView = inflater.inflate(R.layout.devices_list_swiperefresh_fragment, null);
 		initView();
 		return mView;
 	}
 
 	private void initView() {
 		// TODO Auto-generated method stub
-
+		swipeRefreshLayout = (SwipeRefreshLayout) mView.findViewById(R.id.swipe_container);
 		list_root = (RelativeLayout) mView.findViewById(R.id.list_root);
-		mPullToRefreshListView = (PullToRefreshListView) mView
-				.findViewById(R.id.devices_list);
+		mListView = (ListView) mView.findViewById(R.id.devices_list);
 		initList();
-		setListeners();
-		registerForContextMenu(mPullToRefreshListView.getRefreshableView());
-		mPullToRefreshListView.setAdapter(mBaseAdapter);
-		initPosition();
+		mListView.setAdapter(mBaseAdapter);
 
+		swipeRefreshLayout.setColorSchemeResources(R.color.blue_default);
+		swipeRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+			
+			@Override
+			public void onRefresh() {
+				// TODO Auto-generated method stub
+				new GetDataByRoomTask().execute(mRoomid);
+			}
+		});
+		
 		mButtonFloat = (ButtonFloat) mView.findViewById(R.id.buttonFloat);
 		mButtonFloat.setVisibility(View.VISIBLE);
+		mButtonFloat.attachToListView(mListView);
 		mButtonFloat.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -149,117 +152,8 @@ public class DevicesListFragment extends Fragment implements
 				changeFragment.setFragment(new RegionDevicesAddFragment());
 			}
 		});
-	}
-
-	private void initPosition() {
-		Bundle bundle = getArguments();
-		if (bundle != null) {
-			int position = 0;
-			position = bundle.getInt("position");
-			if (position > 0) {
-				mPullToRefreshListView.getRefreshableView().setSelection(
-						position - 1);
-			}
-		}
-
-	}
-
-	private void setListeners() {
-		// TODO Auto-generated method stub
-		mPullToRefreshListView
-				.setOnRefreshListener(new OnRefreshListener<ListView>() {
-
-					@Override
-					public void onRefresh(
-							PullToRefreshBase<ListView> refreshView) {
-						// TODO Auto-generated method stub
-						// if (1 == refreshTag) {
-						// } else {
-						refreshTag = 1;
-						String label = DateUtils.formatDateTime(getActivity(),
-								System.currentTimeMillis(),
-								DateUtils.FORMAT_SHOW_TIME
-										| DateUtils.FORMAT_SHOW_DATE
-										| DateUtils.FORMAT_ABBREV_ALL);
-
-						// Update the LastUpdatedLabel
-						refreshView.getLoadingLayoutProxy()
-								.setLastUpdatedLabel(label);
-
-						if (type == WITH_OPERATE) {
-							if (!mRoomid.equals("")) {
-								new GetDataByRoomTask().execute(mRoomid);
-								return;
-							}
-						}
-						// Do work to refresh the list here.
-						// }
-					}
-				});
-//		if (type == WITHOUT_OPERATE) {
-//			mPullToRefreshListView
-//					.setOnItemClickListener(new OnItemClickListener() {
-//						@Override
-//						public void onItemClick(AdapterView<?> parent,
-//								View view, int position, long id) {
-//							// TODO Auto-generated method stub
-//							Log.i(TAG, "tagzgs->position=" + position);
-//
-//							// 判断是除气体感应器及紧急按钮以外的安防设备，且安防控制中心状态是关闭的
-//							if (mDevicesModel.getmModelId().indexOf("ZA01") != 0
-//									&& mDevicesModel.getmModelId().indexOf(
-//											DataHelper.Emergency_Button) != 0
-//									&& mDevicesModel
-//											.getmModelId()
-//											.indexOf(
-//													DataHelper.Emergency_Button_On_Wall) != 0
-//									&& mDevicesModel.getmDeviceId() == DataHelper.IAS_ZONE_DEVICETYPE
-//									&& onekeyControlDevice != null
-//									&& onekeyControlDevice.getmOnOffStatus()
-//											.equals("0")) {
-//								VersionDlg vd = new VersionDlg(
-//										(Context) getActivity());
-//								vd.setContent("安防控制中心已关闭");
-//								vd.show();
-//							} else {
-//								if (mDevicesModel.getmModelId().indexOf(
-//										DataHelper.Infrared_controller) == 0) { // 红外遥控器
-//									Intent intent = new Intent();
-//									intent.setClass((Context) getActivity(),
-//											KongtiaoTvControlActivity.class);
-//									intent.putExtra(Constants.PASS_OBJECT,
-//											mDevicesModel);
-//									startActivity(intent);
-//								} else {
-//									Log.i("mDevicesModel outside",
-//											mDevicesModel.getmOnOffStatus()
-//													+ " :　"
-//													+ mDevicesModel.getmLevel());
-//									Fragment mFragment = null;
-//									if (mDevicesModel.getmDeviceId() == DataHelper.SHADE_DEVICETYPE
-//											|| mDevicesModel.getmDeviceId() == DataHelper.DIMEN_LIGHTS_DEVICETYPE) {
-//										mFragment = new DeviceDtailFragment();
-//									} else {
-//										mFragment = DeviceDtailFragment
-//												.getInstance();
-//									}
-//
-//									Bundle extras = new Bundle();
-//									extras.putSerializable(
-//											Constants.PASS_OBJECT,
-//											mDevicesModel);
-//									extras.putInt(
-//											Constants.PASS_DEVICE_ABOUT,
-//											DeviceDtailFragment.WITHOUT_DEVICE_ABOUT);
-//									mFragment.setArguments(extras);
-//									mChangeFragment.setFragment(mFragment);
-//								}
-//							}
-//						}
-//
-//					});
-//
-//		}
+		
+		registerForContextMenu(mListView);
 	}
 
 	public void initList() {
@@ -288,7 +182,7 @@ public class DevicesListFragment extends Fragment implements
 				.getMenuInfo();
 		int position = info.position;
 		mDeviceList = mBaseAdapter.getList();
-		mDevicesModel = mDeviceList.get(position - 1);
+		mDevicesModel = mDeviceList.get(position);
 		int menuIndex = item.getItemId();
 		Log.i(TAG, "tagzgs-> menuInfo.position=" + position
 				+ " item.getItemId()" + item.getItemId());
@@ -357,10 +251,6 @@ public class DevicesListFragment extends Fragment implements
 		return -1;
 	}
 
-	public interface setData {
-		public void setdata(List<DevicesModel> list);
-	}
-
 	@Override
 	public void update(Manger observer, Object object) {
 		// TODO Auto-generated method stub
@@ -377,7 +267,6 @@ public class DevicesListFragment extends Fragment implements
 					mView.post(new Runnable() {
 						@Override
 						public void run() {
-							// setDataActivity.setdata(mDeviceList);
 							mBaseAdapter.notifyDataSetChanged();
 						}
 					});
@@ -394,7 +283,6 @@ public class DevicesListFragment extends Fragment implements
 					mView.post(new Runnable() {
 						@Override
 						public void run() {
-							// setDataActivity.setdata(mDeviceList);
 							mBaseAdapter.notifyDataSetChanged();
 						}
 					});
@@ -411,7 +299,6 @@ public class DevicesListFragment extends Fragment implements
 					mView.post(new Runnable() {
 						@Override
 						public void run() {
-							// setDataActivity.setdata(mDeviceList);
 							mBaseAdapter.notifyDataSetChanged();
 						}
 					});
@@ -429,13 +316,11 @@ public class DevicesListFragment extends Fragment implements
 						mView.post(new Runnable() {
 							@Override
 							public void run() {
-								// setDataActivity.setdata(mDeviceList);
 								mBaseAdapter.notifyDataSetChanged();
 							}
 						});
 					}
 				}
-				// ProcessUpdate(data);
 			} else {
 				// if failed,prompt a Toast
 				// mError.setVisibility(View.VISIBLE);
@@ -459,7 +344,6 @@ public class DevicesListFragment extends Fragment implements
 						mView.post(new Runnable() {
 							@Override
 							public void run() {
-								// setDataActivity.setdata(mDeviceList);
 								mBaseAdapter.notifyDataSetChanged();
 							}
 						});
@@ -477,7 +361,6 @@ public class DevicesListFragment extends Fragment implements
 					mView.post(new Runnable() {
 						@Override
 						public void run() {
-							// setDataActivity.setdata(mDeviceList);
 							mBaseAdapter.notifyDataSetChanged();
 						}
 					});
@@ -493,7 +376,6 @@ public class DevicesListFragment extends Fragment implements
 					mView.post(new Runnable() {
 						@Override
 						public void run() {
-							// setDataActivity.setdata(mDeviceList);
 							mBaseAdapter.notifyDataSetChanged();
 						}
 					});
@@ -518,7 +400,6 @@ public class DevicesListFragment extends Fragment implements
 				mView.post(new Runnable() {
 					@Override
 					public void run() {
-						// setDataActivity.setdata(mDeviceList);
 						mBaseAdapter.notifyDataSetChanged();
 					}
 				});
@@ -537,7 +418,6 @@ public class DevicesListFragment extends Fragment implements
 					mView.post(new Runnable() {
 						@Override
 						public void run() {
-							// setDataActivity.setdata(mDeviceList);
 							mBaseAdapter.notifyDataSetChanged();
 						}
 					});
@@ -546,7 +426,6 @@ public class DevicesListFragment extends Fragment implements
 		} else if (EventType.GETEPBYROOMINDEX == event.getType()) {
 			if (event.isSuccess() == true) {
 				mDeviceList = (List<DevicesModel>) event.getData();
-//				if (mDeviceList.size() > 0 && mDeviceList.get(0).getmRid().equals("-1")) {
 				if (!readDeviceList) {
 					return;
 				}
@@ -570,26 +449,9 @@ public class DevicesListFragment extends Fragment implements
 //				}
 
 			}
-		} else if (EventType.RF_DEVICE_BYPASS == event.getType()) {
-			if (event.isSuccess()) {
-				Bundle bundle = (Bundle) event.getData();
-				int m = isInList(bundle.getString("IEEE"), "01");
-				if (-1 != m) {
-					mDeviceList.get(m).setmOnOffStatus(
-							bundle.getString("PARAM"));
-					mView.post(new Runnable() {
-						@Override
-						public void run() {
-							// setDataActivity.setdata(mDeviceList);
-							mBaseAdapter.notifyDataSetChanged();
-						}
-					});
-				}
-			}
 		} else if (EventType.RF_GETEPBYROOMINDEX == event.getType()) {
 			if (event.isSuccess() == true) {
 				List<DevicesModel> temp = (List<DevicesModel>) event.getData();
-//				if (temp.size() > 0 && temp.get(0).getmRid().equals("-1")) {
 				if (!readDeviceList) {
 					return;
 				}
@@ -612,23 +474,11 @@ public class DevicesListFragment extends Fragment implements
 					@Override
 					public void run() {
 						mBaseAdapter.notifyDataSetChanged();
+						swipeRefreshLayout.setRefreshing(false);
 					}
 				});
 
 			}
-		}
-	}
-
-	class intialDataTask extends AsyncTask<Object, Object, Object> {
-
-		@Override
-		protected Object doInBackground(Object... params) {
-			DataHelper dh = new DataHelper(ApplicationController.getInstance());
-			SQLiteDatabase db = dh.getSQLiteDatabase();
-			onekeyControlDevice = DataUtil.getDeviceModelByModelid(
-					DataHelper.One_key_operator, dh, db);
-			db.close();
-			return null;
 		}
 	}
 
@@ -643,19 +493,11 @@ public class DevicesListFragment extends Fragment implements
 			} else if (NetworkConnectivity.networkStatus == NetworkConnectivity.INTERNET) {
 				LibjingleSendManager.getInstance().GetEPByRoomIndex(params[0]);
 			}
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 			return null;
 		}
 
 		@Override
 		protected void onPostExecute(String result) {
-			mPullToRefreshListView.onRefreshComplete();
-			refreshTag = 0;
 		}
 
 	}

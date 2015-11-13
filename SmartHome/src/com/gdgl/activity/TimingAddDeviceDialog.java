@@ -41,7 +41,7 @@ public class TimingAddDeviceDialog extends DialogFragment {
 		Builder builder = new AlertDialog.Builder(getActivity());
 		
 		LayoutInflater inflater = getActivity().getLayoutInflater();
-        mView = inflater.inflate(R.layout.scene_devices_fragment, null);
+        mView = inflater.inflate(R.layout.devices_list_fragment, null);
         initView();
         builder.setView(mView).setTitle("选择设备");
 		return builder.create();
