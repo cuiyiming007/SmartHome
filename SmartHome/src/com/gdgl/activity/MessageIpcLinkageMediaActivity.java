@@ -29,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
+import com.gdgl.libjingle.LibjingleNetUtil;
 import com.gdgl.mydata.getFromSharedPreferences;
 import com.gdgl.mydata.Callback.CallbackIpcLinkageMessage;
 import com.gdgl.smarthome.R;
@@ -48,7 +49,7 @@ public class MessageIpcLinkageMediaActivity extends Activity {
 	int mwidth, mheight;
 	PhotoViewAttacher attacher;
 	private List<String> urlList = new ArrayList<String>();
-	private String httpUrlHead = "http://121.199.21.14:8888/ipc_capture/";
+	private String httpUrlHead = LibjingleNetUtil.IP_WithHttpHeader + ":8888/ipc_capture/";
 	private String fileAddress = "";
 
 	@Override

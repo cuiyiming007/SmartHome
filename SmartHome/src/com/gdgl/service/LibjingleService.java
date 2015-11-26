@@ -64,7 +64,7 @@ public class LibjingleService extends Service {
 						e.printStackTrace();
 					} 
 					Log.i("LibjingleService", "LibjingleLogin starts!");
-					String cloudip = "121.199.21.14:5222";
+					String cloudip = LibjingleNetUtil.IP_Server + ":5222";
 					getFromSharedPreferences
 							.setsharedPreferences(ApplicationController
 									.getInstance());
@@ -86,13 +86,6 @@ public class LibjingleService extends Service {
 							+ NetworkConnectivity.networkStatus);
 					libjingle.login(LibjinglePackHandler.getJid(), name
 							+ passwd, cloudip);
-					// libjingle.libjinglInit(LibjinglePackHandler.getJid(),
-					// name + passwd, NetworkConnectivity.networkStatus,
-					// cloudip);
-					// libjingleInit
-					// .libjinglInit(
-					// "ffeeddccbbaa@121.199.21.14/Cabcdefg123456",
-					// "FFEEDDCCBBAACCBBAA", 2, "121.199.21.14");
 					Log.i("LibjingleService", "LibjingleLogin done!");
 				}
 			}).start();

@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import com.gdgl.drawer.MainActivity;
 import com.gdgl.libjingle.Libjingle;
+import com.gdgl.libjingle.LibjingleNetUtil;
 import com.gdgl.libjingle.LibjinglePackHandler;
 import com.gdgl.manager.CGIManager;
 import com.gdgl.manager.UIListener;
@@ -105,7 +106,7 @@ public class NetWorkChangeReciever extends BroadcastReceiver {
 						String pwd = getFromSharedPreferences.getPwd();
 						Libjingle.getInstance().login(
 								LibjinglePackHandler.getJid(), name + pwd,
-								"121.199.21.14:5222");
+								LibjingleNetUtil.IP_Server + ":5222");
 					} else {
 						Intent smartServiceIntent = new Intent(context,
 								SmartService.class);

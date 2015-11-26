@@ -14,6 +14,9 @@ public class LibjingleNetUtil {
 	private final static String TAG = "LibjingleNetUtil";
 
 	private static LibjingleNetUtil instance;
+	
+	public final static String IP_Server = "121.199.21.14";
+	public final static String IP_WithHttpHeader = "http://" + IP_Server;
 
 	public static Socket tcpSocket;
 	public InputStream inputStream;

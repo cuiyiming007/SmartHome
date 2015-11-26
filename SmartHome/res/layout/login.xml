@@ -114,7 +114,8 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="35dp"
                 android:gravity="center_vertical"
-                android:orientation="horizontal" >
+                android:orientation="horizontal"
+                android:visibility="gone" >
                 
                 <TextView
                     android:id="@+id/gaoji_text"
@@ -217,7 +218,7 @@
         android:textSize="25dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="50dp"
         android:background="@drawable/ui_login_loginbutton_selector" />
 
     <RelativeLayout

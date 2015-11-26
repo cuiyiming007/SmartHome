@@ -24,6 +24,7 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.gdgl.app.ApplicationController;
 import com.gdgl.drawer.DeviceControlActivity;
+import com.gdgl.libjingle.LibjingleNetUtil;
 import com.gdgl.model.DevicesModel;
 import com.gdgl.model.historydata.HistoryData;
 import com.gdgl.mydata.DataHelper;
@@ -1734,7 +1735,7 @@ public class CGIManager extends Manger {
 		paraMap.put("endTime", endTime);
 		String param = hashMap2ParamString(paraMap);
 
-		String url = "http://121.199.21.14:8888/SmartHome/getdata_byDate?"
+		String url = LibjingleNetUtil.IP_WithHttpHeader + ":8888/SmartHome/getdata_byDate?"
 				+ param;
 		StringRequest req = new StringRequest(url,
 				new Response.Listener<String>() {
@@ -1782,7 +1783,7 @@ public class CGIManager extends Manger {
 		paraMap.put("dataPointNum", number + "");
 		String param = hashMap2ParamString(paraMap);
 
-		String url = "http://121.199.21.14:8888/SmartHome/getdata_byNum?"
+		String url = LibjingleNetUtil.IP_WithHttpHeader + ":8888/SmartHome/getdata_byNum?"
 				+ param;
 		Log.i("", url);
 		StringRequest req = new StringRequest(url,
@@ -1945,7 +1946,7 @@ public class CGIManager extends Manger {
 		String param = hashMap2ParamString(paraMap);
 
 		// String url = "http://192.168.1.149:8888/SmartHome/feedback?" + param;
-		String url = "http://121.199.21.14:8888/SmartHome/feedback?" + param;
+		String url = LibjingleNetUtil.IP_WithHttpHeader + ":8888/SmartHome/feedback?" + param;
 		Log.i("feedbackToServer", url);
 		StringRequest req = new StringRequest(url,
 				new Response.Listener<String>() {
@@ -1990,7 +1991,7 @@ public class CGIManager extends Manger {
 		paraMap.put("sendMailFlag", enable + "");
 		String param = hashMap2ParamString(paraMap);
 
-		String url = "http://121.199.21.14:8888/GLSmartHome/userinfo_changeEmailAddr?"
+		String url = LibjingleNetUtil.IP_WithHttpHeader + ":8888/GLSmartHome/userinfo_changeEmailAddr?"
 				+ param;
 		Log.i("changeEmailAddress", url);
 		StringRequest req = new StringRequest(url,
@@ -2031,7 +2032,7 @@ public class CGIManager extends Manger {
 		paraMap.put("gateId", mac);
 		String param = hashMap2ParamString(paraMap);
 
-		String url = "http://121.199.21.14:8888/GLSmartHome/userinfo_getEmailAddrStatus?"
+		String url = LibjingleNetUtil.IP_WithHttpHeader + ":8888/GLSmartHome/userinfo_getEmailAddrStatus?"
 				+ param;
 		Log.i("EmailAddrStatus", url);
 		StringRequest req = new StringRequest(url,

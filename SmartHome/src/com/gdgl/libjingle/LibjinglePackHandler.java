@@ -9,8 +9,8 @@
   1. reqId鍙栧�艰寖鍥达細0锝�65535
   2. jid鏍煎紡锛� <account>@<server_ip>/<resource_id>
       鍏朵腑<account>蹇呴』鍏ㄩ儴灏忓啓锛�<resource_id>蹇呴』娣诲姞鈥淐鈥濅綔涓哄墠缂�锛屽悎娉曠殑绀轰緥濡備笅锛�
-      bc6a2987d431@121.199.21.14/C08002786F712
-      guanglian@121.199.21.14/Cd16ff382-d4f3-43b1-91bc-afadd21bb143
+      bc6a2987d431@121.199.21.1/C08002786F712
+      guanglian@121.199.21.1/Cd16ff382-d4f3-43b1-91bc-afadd21bb143
   3. chId鍙栧�艰寖鍥达細0锝�9
   4. 瀵逛簬鍝嶅簲鏁版嵁鍖咃紝鍙湁褰� status > 0 鏃讹紝other涓墠鏈夋暟鎹��
   History:        
@@ -127,7 +127,7 @@ public class LibjinglePackHandler {
 //			user = getFromSharedPreferences.getName();
 //		}
 		user = LoginActivity.loginAccountInfo.getAccount();
-		server = "121.199.21.14";
+		server = LibjingleNetUtil.IP_Server;
 		uuid = getUUID();
 
 		return user.toLowerCase() + "@" + server + "/C" + uuid;
