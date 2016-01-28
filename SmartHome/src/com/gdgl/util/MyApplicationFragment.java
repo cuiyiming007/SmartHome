@@ -82,6 +82,7 @@ public class MyApplicationFragment extends Application{
 	
 	public void updateFragmentListSize(){
 		mFragmentListSize = mFragmentList.size();
+		
 	}
 	
 	public int getFragmentListSize(){

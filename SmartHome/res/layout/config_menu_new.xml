@@ -269,7 +269,7 @@
                 android:layout_height="fill_parent"
                 android:layout_marginLeft="10dp"
                 android:gravity="center"
-                android:text="退出登陆"
+                android:text="退出登录"
                 android:textColor="#ffffff"
                 android:textSize="15dip" />
         </LinearLayout>

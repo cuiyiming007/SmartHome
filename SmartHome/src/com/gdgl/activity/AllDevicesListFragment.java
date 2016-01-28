@@ -167,6 +167,7 @@ public class AllDevicesListFragment extends BaseFragment {
 			mHolder.devices_img.setImageResource(DataUtil
 					.getDefaultDevicesSmallIcon(mDevices.getmDeviceId(),
 							mDevices.getmModelId().trim()));
+			
 
 			if (mDevices.getmDeviceId() == DataHelper.ON_OFF_SWITCH_DEVICETYPE) {
 				String state = "";

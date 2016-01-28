@@ -7,6 +7,7 @@ import com.gdgl.model.DevicesModel;
 import com.gdgl.mydata.DataHelper;
 import com.gdgl.mydata.DataUtil;
 import com.gdgl.smarthome.R;
+import com.gdgl.util.MyApplicationFragment;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
@@ -135,8 +136,13 @@ public class JoinNetDevicesListFragment extends BaseFragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				FragmentManager fm = getActivity().getFragmentManager();
-				fm.popBackStack();
+//				FragmentManager fm = getActivity().getFragmentManager();
+//				fm.popBackStack();
+				if (MyApplicationFragment.getInstance().getFragmentListSize() > 1) {
+					MyApplicationFragment.getInstance().removeLastFragment();
+					return;
+				}
+				
 			}
 		});
 

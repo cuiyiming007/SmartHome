@@ -198,21 +198,18 @@ public class DevicesListFragment extends BaseFragment implements adapterSeter,
 
 							// 判断是除气体感应器及紧急按钮以外的安防设备，且安防控制中心状态是关闭的
 							if (mDevicesModel.getmModelId().indexOf("ZA01") != 0
-									&& mDevicesModel.getmModelId().indexOf(
-											DataHelper.Emergency_Button) != 0
-									&& mDevicesModel
-											.getmModelId()
-											.indexOf(
-													DataHelper.Emergency_Button_On_Wall) != 0
-									&& mDevicesModel.getmDeviceId() == DataHelper.IAS_ZONE_DEVICETYPE
+									&& mDevicesModel.getmModelId().indexOf(DataHelper.Emergency_Button) != 0
+									&& mDevicesModel.getmModelId().indexOf(DataHelper.Emergency_Button_On_Wall) != 0
+									&& (mDevicesModel.getmDeviceId() == DataHelper.IAS_ZONE_DEVICETYPE||mDevicesModel.getmDeviceId() == DataHelper.ON_OFF_OUTPUT_DEVICETYPE)
 									&& onekeyControlDevice != null
 									&& onekeyControlDevice.getmOnOffStatus()
 											.equals("0")) {
+								
 								VersionDlg vd = new VersionDlg(
 										(Context) getActivity());
 								vd.setContent("安防控制中心已关闭");
 								vd.show();
-							} else {
+							}else {
 								if (mDevicesModel.getmModelId().indexOf(
 										DataHelper.Infrared_controller) == 0) { // 红外遥控器
 									Intent intent = new Intent();

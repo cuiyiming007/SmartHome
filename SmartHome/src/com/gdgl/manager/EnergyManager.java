@@ -199,7 +199,7 @@ public class EnergyManager extends Manger{
 					Date date = new Date();
 					SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 					CallbackWarnMessage warnMessage = new CallbackWarnMessage();
-					warnMessage.setDetailmessage(mList.get(0).getInfo()+"(In_"+SecurityNodeID1.substring(SecurityNodeID1.length()-4)+")");
+					warnMessage.setDetailmessage(mList.get(0).getInfo()+"(In_"+SecurityNodeID1.substring(SecurityNodeID1.length()-4)+")告警");
 					warnMessage.setMsgtype("energy");
 					warnMessage.setTime(df.format(date));
 					warnMessage.setCie_ieee(mDevice.getmIeee());

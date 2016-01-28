@@ -171,8 +171,7 @@ public class DataUtil {
 			}
 			break;
 		case DataHelper.ON_OFF_OUTPUT_DEVICETYPE:
-			if (modelId.indexOf(DataHelper.Wireless_Intelligent_valve_switch) == 0) { // //
-																						// 无线智能阀门开关
+			if (modelId.indexOf(DataHelper.Wireless_Intelligent_valve_switch) == 0) { // 无线智能阀门开关
 				result = R.drawable.ui_securitycontrol_valveswitch;
 			}
 			if (modelId.indexOf(DataHelper.Switch_Module_Double) == 0) { // ZigBee开关模块（双路）
@@ -199,7 +198,7 @@ public class DataUtil {
 			result = R.drawable.ui_lightmanage_switchmodule;
 			break;
 		case DataHelper.DIMEN_LIGHTS_DEVICETYPE:
-			result = R.drawable.ui_lightmanage_lightdimming;
+			result = R.drawable.ui_environmentalcontrol_lightsensor;
 			break;
 		case DataHelper.DIMEN_SWITCH_DEVICETYPE:
 			result = R.drawable.ui_others_slidingblock;

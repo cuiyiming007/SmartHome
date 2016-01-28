@@ -5,6 +5,23 @@ package com.gdgl.activity;
  */
 import java.util.List;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.animation.DecelerateInterpolator;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.gdgl.activity.BindControlFragment.backAction;
 import com.gdgl.activity.ConfigDevicesExpandableList.IntoDeviceDetailFragment;
 import com.gdgl.activity.JoinNetDevicesListFragment.refreshData;
@@ -24,24 +41,6 @@ import com.gdgl.util.MyLogoutDlg.DialogCheckBoxcallback;
 import com.gdgl.util.MyLogoutDlg.Dialogcallback;
 import com.gdgl.util.SlideMenu;
 import com.gdgl.util.VersionDlg;
-
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.content.Context;
-import android.content.Intent;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.animation.DecelerateInterpolator;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
 public class ConfigActivity extends BaseSlideMenuActivity implements
 		ChangeFragment, refreshData, backAction, IntoDeviceDetailFragment,
 		Dialogcallback, DialogCheckBoxcallback {
@@ -248,9 +247,11 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 		initFragment();
 
 		mHandler.sendEmptyMessageDelayed(1, 150);
-		fragmentManager = getFragmentManager();
-		Log.i("FragmentManager Count", fragmentManager.getBackStackEntryCount()
-				+ "");
+//		if (null == fragmentManager) {
+//			fragmentManager = this.getFragmentManager();
+//		}
+//		Log.i("FragmentManager Count", fragmentManager.getBackStackEntryCount()
+//				+ "");
 	}
 
 	private void initFragment() {
@@ -432,10 +433,22 @@ public class ConfigActivity extends BaseSlideMenuActivity implements
 	}
 
 	public void onBackPressed() {
+		Log.i("mFragmentList.size()", ""+MyApplicationFragment.getInstance().getFragmentListSize());
 		if (MyApplicationFragment.getInstance().getFragmentListSize() > 1) {
 			MyApplicationFragment.getInstance().removeLastFragment();
 			return;
 		}
 		super.onBackPressed();
 	}
+	
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+	}
+	@Override
+	public void onPause() {
+		super.onPause();
+	}
+	
 }

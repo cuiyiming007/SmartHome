@@ -669,6 +669,7 @@ public class DevicesModel implements DevicesBaseColumns, Serializable {
 		mCurrent = (d.getCurrent());
 		mEnergy = (d.getEnergy() == null ? null : String.valueOf(Float
 				.parseFloat(d.getEnergy()) / 10000));
+		
 		mPower = (d.getPower());
 		mVoltage = (d.getVoltage());
 		mlevel = (d.getLevel());

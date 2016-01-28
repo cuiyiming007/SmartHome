@@ -203,7 +203,7 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 			break;
 		}
 
-		if (mDevices.getmDeviceId() == DataHelper.IAS_ZONE_DEVICETYPE
+		if ((mDevices.getmDeviceId() == DataHelper.IAS_ZONE_DEVICETYPE||mDevices.getmDeviceId() == DataHelper.ON_OFF_OUTPUT_DEVICETYPE)
 				&& oneKeyOperatorDevice != null
 				&& oneKeyOperatorDevice.getmOnOffStatus().equals("0")) {
 			devices_switch.setClickable(false);
@@ -231,7 +231,7 @@ public class DevicesBaseAdapter extends BaseAdapter implements Dialogcallback {
 			}
 		}
 
-		if(mDevices.getmEnergy() == null){
+		if(mDevices.getmEnergy() == null || !mDevices.getmEnergy().equals("1")){
 			devices_img.setImageResource(DataUtil.getDefaultDevicesSmallIcon(
 					mDevices.getmDeviceId(), mDevices.getmModelId().trim()));
 		}else{

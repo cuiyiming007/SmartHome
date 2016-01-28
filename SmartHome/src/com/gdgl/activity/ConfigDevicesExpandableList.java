@@ -45,6 +45,7 @@ import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /***
  * 设置菜单，设备列表NEW
@@ -85,7 +86,6 @@ public class ConfigDevicesExpandableList extends BaseFragment implements
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		initData();
-
 	}
 
 	private void initData() {
@@ -160,8 +160,15 @@ public class ConfigDevicesExpandableList extends BaseFragment implements
 						DevicesModel mDevicesModel = (DevicesModel) mDeviceSort_ChildList
 								.get(groupPosition).get(childPosition);
 
-						if(mDevicesModel.getmModelId().indexOf(DataHelper.Power_detect_wall) < 0 && mDevicesModel.getmEnergy() != null){
-							return true;
+//						if(mDevicesModel.getmModelId().indexOf(DataHelper.Power_detect_wall) < 0 && mDevicesModel.getmEnergy() != null){
+//							if(mDevicesModel.getmEnergy().equals("1")){
+//								return true;	
+//							}
+//						}
+						if(mDevicesModel.getmEnergy() != null){
+							if(mDevicesModel.getmEnergy().equals("1")){
+								return true;	
+							}
 						}
 						Log.i("Other_list", ""+mDevicesModel.getmModelId());
 						if(mDevicesModel.getmModelId().indexOf(DataHelper.RS232_adapter) != -1){
@@ -231,8 +238,13 @@ public class ConfigDevicesExpandableList extends BaseFragment implements
 		DevicesModel mDevicesModel = (DevicesModel) mDeviceSort_ChildList.get(
 				groupPos).get(childPos);
 		
-		if(mDevicesModel.getmModelId().indexOf(DataHelper.Power_detect_wall) < 0 && mDevicesModel.getmEnergy() != null){
-			return;
+//		if(mDevicesModel.getmModelId().indexOf(DataHelper.Power_detect_wall) < 0 && mDevicesModel.getmEnergy() != null){
+//			return;
+//		}
+		if(mDevicesModel.getmEnergy() != null){
+			if(mDevicesModel.getmEnergy().equals("1")){
+				return;	
+			}
 		}
 //		int type = ExpandableListView
 //				.getPackedPositionType(info.packedPosition);
@@ -292,15 +304,17 @@ public class ConfigDevicesExpandableList extends BaseFragment implements
 		}
 		return super.onContextItemSelected(item);
 	}
-
+	
+	
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
-		Log.i("onResume", "onResume");
-
 		super.onResume();
 	}
-
+	@Override
+	public void onPause() {
+		super.onPause();
+	}
 	private class ExpandableAdapter extends BaseExpandableListAdapter {
 		private Context mContext;
 
@@ -352,7 +366,7 @@ public class ConfigDevicesExpandableList extends BaseFragment implements
 //				mViewHolder.devRegion.setVisibility(View.GONE);
 //			}
 
-			if(ds.getmEnergy() == null){
+			if(ds.getmEnergy() == null || !ds.getmEnergy().equals("1") ){
 				mViewHolder.devImg.setImageResource(DataUtil.getDefaultDevicesSmallIcon(
 						ds.getmDeviceId(), ds.getmModelId().trim()));
 			}else{

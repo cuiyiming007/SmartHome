@@ -23,6 +23,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -219,6 +220,7 @@ public class JoinNetFragment extends Fragment implements UIListener,
 	};
 
 	private void updateScapeSuccessful(ArrayList<DevicesModel> newscapedList) {
+		scapedDeviveList.clear();
 		for (DevicesModel devicesModel : newscapedList) {
 			scapedDeviveList.add(devicesModel);
 		}
