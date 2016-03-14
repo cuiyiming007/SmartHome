@@ -215,6 +215,9 @@ public class DeviceDetailFragment_new extends Fragment implements UIListener {
 		int deviceId = mDevices.getmDeviceId();
 		String modelId = mDevices.getmModelId();
 		switch (deviceId) {
+		case DataHelper.COMBINED_INTERFACE_DEVICETYPE:
+			device_identifyLayout.setVisibility(View.GONE);
+			break;
 		case DataHelper.IAS_ACE_DEVICETYPE:
 		case DataHelper.IAS_ZONE_DEVICETYPE:
 		case DataHelper.IAS_WARNNING_DEVICE_DEVICETYPE:
@@ -398,6 +401,23 @@ public class DeviceDetailFragment_new extends Fragment implements UIListener {
 					});
 				}
 			}
+//		} else if (EventType.POWER_SOURCE == event.getType()) {
+//			if (event.isSuccess() == true) {
+//				String[] data = (String[]) event.getData();
+//				String ieee = data[0];
+//				if (!ieee.equals(mDevices.getmIeee())) {
+//					return;
+//				}
+//				final String powerSource = data[2];
+//				mDevices.setmPower(powerSource);
+//
+//				device_currentTextView.post(new Runnable() {
+//					@Override
+//					public void run() {
+//						device_powersourceTextView.setText(DevicePowersourceSwitch(powerSource));
+//					}
+//				});
+//			}
 		}
 	}
 

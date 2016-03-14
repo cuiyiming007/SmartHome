@@ -39,6 +39,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 
@@ -134,11 +135,15 @@ public class RegionsFragment extends Fragment implements Dialogcallback, UIListe
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				AddDlg mAddDlg = new AddDlg(getActivity(), AddDlg.REGION);
-				mAddDlg.setContent("添加区域");
-				mAddDlg.setType("区域名称");
-				mAddDlg.setDialogCallback(RegionsFragment.this);
-				mAddDlg.show();
+				if(mregions.size()<30) {
+					AddDlg mAddDlg = new AddDlg(getActivity(), AddDlg.REGION, mregions);
+					mAddDlg.setContent("添加区域");
+					mAddDlg.setType("区域名称");
+					mAddDlg.setDialogCallback(RegionsFragment.this);
+					mAddDlg.show();
+				} else {
+					Toast.makeText(getActivity(), "只能添加30个区域。", Toast.LENGTH_SHORT).show();
+				}
 			}
 		});
 		if (null == mregions || mregions.size() == 0) {

@@ -45,9 +45,21 @@ public class TimeDlg {
 
 			@Override
 			public void onClick(View v) {
-				int newTime = Integer.parseInt(editHour.getText().toString()) * 3600
-							+ Integer.parseInt(editMinute.getText().toString()) * 60
-							+ Integer.parseInt(editSecond.getText().toString());
+				String hour = editHour.getText().toString();
+				String minute = editMinute.getText().toString();
+				String second = editSecond.getText().toString();
+				if( hour == null || hour.equals("")) {
+					hour = "0";
+				}
+				if( minute == null || minute.equals("")) {
+					minute = "0";
+				}
+				if( second == null || second.equals("")) {
+					second = "0";
+				}
+				int newTime = Integer.parseInt(hour) * 3600
+							+ Integer.parseInt(minute) * 60
+							+ Integer.parseInt(second);
 				if(newTime < 30){
 					Toast.makeText(mContext, "心跳周期不能低于30秒,请重新设置!",Toast.LENGTH_SHORT).show();
 					return;

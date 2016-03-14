@@ -1482,6 +1482,7 @@ public class LibjingleSendManager extends Manger {
 		String url = LibjingleNetUtil.getInstance().getLocalhostURL(
 				"AddScene.cgi", param);
 
+		Log.i(TAG, url);
 		String jid = LibjinglePackHandler.getJid();
 		int reqid = getReqID();
 

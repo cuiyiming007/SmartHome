@@ -220,7 +220,7 @@ public class TimingFragment extends Fragment implements UIListener,
 			String[] args = { mTimingAction.getIeee(), mTimingAction.getEp() };
 
 			Cursor cursor;
-			if(mTimingAction.getIeee().length()<16) {
+			if(mTimingAction.getIeee().length()<10) {
 				cursor = mDataHelper.query(db, DataHelper.RF_DEVICES_TABLE,
 						columns, where, args, null, null, null, null);
 			} else {

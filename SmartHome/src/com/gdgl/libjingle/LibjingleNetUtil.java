@@ -15,7 +15,8 @@ public class LibjingleNetUtil {
 
 	private static LibjingleNetUtil instance;
 	
-	public final static String IP_Server = "121.199.21.14";
+//	public final static String IP_Server = "121.199.21.14"; //测试服务器
+	public final static String IP_Server = "120.25.206.170"; //正式服务器
 	public final static String IP_WithHttpHeader = "http://" + IP_Server;
 
 	public static Socket tcpSocket;

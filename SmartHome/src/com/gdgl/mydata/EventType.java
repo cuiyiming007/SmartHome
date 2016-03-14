@@ -59,6 +59,7 @@ public class EventType {
 	public static final EventType IPC_LINKAGE_MSG;
 	public static final EventType GETDEVICELEARNED;
 	public static final EventType SCAPEDDEVICE;
+	public static final EventType POWER_SOURCE;
 
 	public static final EventType GETALLROOM;
 	public static final EventType GETEPBYROOMINDEX;
@@ -159,6 +160,7 @@ public class EventType {
 		IPC_LINKAGE_MSG = new EventType("ipc_linkage_msg", nextId());
 		GETDEVICELEARNED = new EventType("GetDeviceLearned", nextId());
 		SCAPEDDEVICE = new EventType("ScapedDevice", nextId());
+		POWER_SOURCE = new EventType("PowerSource", nextId());
 
 		GETALLROOM = new EventType("getAllRoomInfo", nextId());
 		GETEPBYROOMINDEX = new EventType("getEPByRoomIndex", nextId());

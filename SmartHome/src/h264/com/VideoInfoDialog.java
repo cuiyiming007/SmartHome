@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.gdgl.manager.VideoManager;
 import com.gdgl.mydata.video.VideoNode;
 import com.gdgl.smarthome.R;
+import com.gdgl.util.MyOKOnlyDlg;
 
 public class VideoInfoDialog {
 	private Context mContext;
@@ -55,7 +56,7 @@ public class VideoInfoDialog {
 
 		videoNode = new VideoNode();
 		videoNode.setIndex(index);
-		
+
 		String port = "554";
 		String httpport = "8000";
 		String nameString = "admin";
@@ -91,13 +92,19 @@ public class VideoInfoDialog {
 
 			@Override
 			public void onClick(View v) {
-				videoNode = getVideoNode();
-				if (mType == Add) {
-					VideoManager.getInstance().addIPC(videoNode);
-				} else if (mType == Edit) {
-					VideoManager.getInstance().editIPC(videoNode);
+				if (getVideoNode()) {
+					if (mType == Add) {
+						VideoManager.getInstance().addIPC(videoNode);
+					} else if (mType == Edit) {
+						VideoManager.getInstance().editIPC(videoNode);
+					}
+					dismiss();
+				} else {
+					MyOKOnlyDlg myOKOnlyDlg = new MyOKOnlyDlg(mContext);
+					myOKOnlyDlg.setContent("请输入完整信息.");
+					myOKOnlyDlg.show();
 				}
-				dismiss();
+
 			}
 		});
 
@@ -111,7 +118,7 @@ public class VideoInfoDialog {
 		});
 	}
 
-	private VideoNode getVideoNode() {
+	private boolean getVideoNode() {
 		String ipString = ipEditText.getText().toString();
 		String port = portEditText.getText().toString();
 		String httpport = httpportEditText.getText().toString();
@@ -120,6 +127,14 @@ public class VideoInfoDialog {
 		String aliase = aliasEditText.getText().toString();
 		String serial = serialEditText.getText().toString();
 
+		if (ipString == null || ipString.isEmpty() || port == null
+				|| port.isEmpty() || httpport == null || httpport.isEmpty()
+				|| nameString == null || nameString.isEmpty()
+				|| passwordString == null || passwordString.isEmpty()
+				|| aliase == null || aliase.isEmpty() || serial == null
+				|| serial.isEmpty()) {
+			return false;
+		}
 		videoNode.setAliases(aliase);
 		videoNode.setHttpport(httpport);
 		videoNode.setRtspport(port);
@@ -128,7 +143,7 @@ public class VideoInfoDialog {
 		videoNode.setPassword(passwordString);
 		videoNode.setSerialNum(serial);
 		videoNode.setDomainName("");
-		return videoNode;
+		return true;
 	}
 
 	public void setContent(String content) {

@@ -43,10 +43,12 @@ public class AddDlg {
 	public static final String Edit = "edit";
 
 	int mType;
+	List<Room> roomlist;
 
-	public AddDlg(Context c, int type) {
+	public AddDlg(Context c, int type, List<Room> mroomlist) {
 		mContext = c;
 		mType = type;
+		roomlist = mroomlist;
 		dialog = new Dialog(mContext, R.style.MyDialog);
 		dialog.setContentView(R.layout.add_dlg);
 		textView = (TextView) dialog.findViewById(R.id.txt_title);
@@ -149,27 +151,37 @@ public class AddDlg {
 
 	protected Room saveRegion(String mN) {
 		// TODO Auto-generated method stub
-		List<Room> mList = new ArrayList<Room>();
+//		List<Room> roomlist = new ArrayList<Room>();
 		
 		DataHelper mDateHelper = new DataHelper(mContext);
-		SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
-		mList=mDateHelper.queryForRoomList(mSQLiteDatabase, DataHelper.ROOMINFO_TABLE, null, null, null, null, null, GetRoomInfo_response.ROOM_ID, null);
+//		SQLiteDatabase mSQLiteDatabase = mDateHelper.getSQLiteDatabase();
+//		roomlist=mDateHelper.queryForRoomList(mSQLiteDatabase, DataHelper.ROOMINFO_TABLE, null, null, null, null, null, GetRoomInfo_response.ROOM_ID, null);
 		
 		//加入新的roomid
 		int roomid=1;
 		String name=Uri.encode(mN);
-		if (mList.size()>0) {
-			while(true) {
-				int i=0;
-				for (;i<mList.size();) {
-					if(roomid==mList.get(i).getroom_id()) {
-						roomid++;
-						i++;
-						continue;
-					}
-					i++;
-				}
-				if(i==mList.size()) {
+		if (roomlist.size()>0) {
+//			while(true) {
+//				int i=0;
+//				for (;i<roomlist.size();) {
+//					if(roomid==roomlist.get(i).getroom_id()) {
+//						roomid++;
+//						i++;
+//						continue;
+//					}
+//					i++;
+//				}
+//				if(i==roomlist.size()) {
+//					break;
+//				}
+//			}
+			int[] temp = new int[30];
+			for (int i = 0; i<roomlist.size(); i++) {
+				temp[roomlist.get(i).getroom_id()-1] = 1;
+			}
+			for (int i = 0; i < temp.length; i++) {
+				if(temp[i] == 0) {
+					roomid = i+1;
 					break;
 				}
 			}

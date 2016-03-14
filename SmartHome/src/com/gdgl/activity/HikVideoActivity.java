@@ -54,6 +54,7 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MotionEvent;
+import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
@@ -410,8 +411,8 @@ public class HikVideoActivity extends ActionBarActivity implements Callback, Dia
 	}
 
 	// @Override
-	public void surfaceCreated(SurfaceHolder holder) {//=====20150909====不确定有什么作用、何时调用
-		/*Log.i(TAG, "surface is created" + m_iPort);
+	public void surfaceCreated(SurfaceHolder holder) {
+		Log.i(TAG, "surface is created" + m_iPort);
 		
 		if (-1 == m_iPort) {
 			return;
@@ -422,7 +423,7 @@ public class HikVideoActivity extends ActionBarActivity implements Callback, Dia
 			if (false == m_oPlayerSDK.setVideoWindow(m_iPort, 0, holder)) {
 				Log.e(TAG, "Player setVideoWindow failed!");
 			}
-		}*/
+		}
 	}
 
 	// @Override

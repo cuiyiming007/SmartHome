@@ -166,7 +166,7 @@ public class SceneDevicesFragment extends Fragment {
 			String[] args = { mDevices.getIeee(), mDevices.getEp() };
 
 			Cursor cursor;
-			if(mDevices.getIeee().length()<16) {
+			if(mDevices.getIeee().length()<10) {
 				cursor = mDataHelper.query(db, DataHelper.RF_DEVICES_TABLE,
 						columns, where, args, null, null, null, null);
 			} else {

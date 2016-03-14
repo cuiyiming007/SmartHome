@@ -183,10 +183,37 @@ public class CallbackManager extends Manger {
 				// CallbackResponseCommon.class);
 				break;
 			case 8:
-				CallbackResponseCommon IASWarmingDevice = gson.fromJson(
-						response, CallbackResponseCommon.class);
-				Log.i(TAG, "Callback msgType=" + msgType + "IASWarmingDevice"
-						+ IASWarmingDevice.toString());
+//				int callbackType = (Integer) jsonRsponse.get("callbackType");
+//				if (callbackType == 9) {
+//					String ieee8 = (String) jsonRsponse.get("IEEE");
+//					String ep8 = (String) jsonRsponse.get("EP");
+//					int batteryLevel = (Integer) jsonRsponse.get("BatteryLevel");
+//					String powrSource ="";
+//					if (batteryLevel == 0) {
+//						powrSource = "1";
+//					} else {
+//						powrSource = "4";
+//					}
+//					String[] powerSourceStrings = { ieee8, ep8, powrSource };
+//					Event event8 = new Event(EventType.POWER_SOURCE, true);
+//					event8.setData(powerSourceStrings);
+//					notifyObservers(event8);
+//					
+//					String where8 = " ieee = ? and ep = ?";
+//					String[] args8 = { ieee8, ep8 };
+//					ContentValues c8 = new ContentValues();
+//					c8.put(DevicesModel.CUR_POWER_RESOURCE, powrSource);
+//					SQLiteDatabase mSQLiteDatabase8 = mDateHelper
+//							.getSQLiteDatabase();
+//					mDateHelper.update(mSQLiteDatabase8, DataHelper.DEVICES_TABLE,
+//							c8, where8, args8);
+//					mDateHelper.close(mSQLiteDatabase8);
+//				}
+				
+//				CallbackResponseCommon IASWarmingDevice = gson.fromJson(
+//						response, CallbackResponseCommon.class);
+//				Log.i(TAG, "Callback msgType=" + msgType + "IASWarmingDevice"
+//						+ IASWarmingDevice.toString());
 				break;
 			case 9:
 				Log.i(TAG, "Callback msgType=" + msgType + "OnOffSwitch");
